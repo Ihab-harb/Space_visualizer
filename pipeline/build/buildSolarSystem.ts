@@ -1,5 +1,5 @@
 import type { FactKey } from '../../src/core/catalog/facts';
-import type { ApproxTable, Body, BodiesFile, PlanetApproxOrbit, Region, Render, RegionsFile, SourcedValue, SourcesFile } from '../../src/core/catalog/schema';
+import type { ApproxTable, Body, BodiesFile, ImageryFile, PlanetApproxOrbit, Region, Render, RegionsFile, SourcedValue, SourcesFile } from '../../src/core/catalog/schema';
 import { planetApproxState, selectTable } from '../../src/core/ephemeris/planetApprox';
 import { ARCSEC } from '../../src/core/math/angles';
 import { angleBetween, length, type Vec3 } from '../../src/core/math/vec3';
@@ -21,6 +21,7 @@ export interface PipelineInputs {
   pck: FetchedText;
   descriptions: Record<DescribedBody, FetchedText>;
   horizons: HorizonsReference;
+  imagery: ImageryFile;
 }
 
 export interface PipelineOutput {
@@ -200,7 +201,7 @@ export function buildSolarSystem(inputs: PipelineInputs, generatedAt: string): P
     rotation: { sourceId: pckId, ...rotationModelFor(pck, 10) },
     shape: { ...radiiFor(pck, 10), sourceId: pckId },
     description: description('sun'),
-    imagery: null,
+    imagery: inputs.imagery.bodies.sun ?? null,
     render: { shader: 'sun', atmosphere: null, lommelSeeliger: 0, normalStrength: 0, bandFlow: false },
     display: { color: '#ffd27a', note: 'illustrative' },
   };
@@ -217,7 +218,7 @@ export function buildSolarSystem(inputs: PipelineInputs, generatedAt: string): P
     rotation: { sourceId: pckId, ...rotationModelFor(pck, spec.naifId) },
     shape: { ...radiiFor(pck, spec.naifId), sourceId: pckId },
     description: description(spec.id),
-    imagery: null,
+    imagery: inputs.imagery.bodies[spec.id] ?? null,
     render: spec.render,
     display: { color: spec.color, note: 'illustrative' },
   }));
@@ -233,6 +234,8 @@ export function buildSolarSystem(inputs: PipelineInputs, generatedAt: string): P
       toSource(nasaScienceSpec(spec.id, spec.id === 'earth' ? 'Earth Facts' : spec.name, DESCRIPTION_PAGES[spec.id]), inputs.descriptions[spec.id].retrievedAt),
     ),
   ];
+
+  for (const s of inputs.imagery.sources) if (!sources.some((x) => x.id === s.id)) sources.push(s);
 
   return {
     regions: { schemaVersion: 1, regions: [SOLAR_SYSTEM_REGION] },
