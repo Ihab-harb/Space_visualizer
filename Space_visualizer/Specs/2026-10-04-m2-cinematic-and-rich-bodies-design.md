@@ -1,7 +1,7 @@
 ---
 title: M2 Cinematic Graphics and Rich Bodies — Design Spec
 date: 2026-10-04
-status: draft — awaiting review
+status: approved
 amends: "[[2026-10-04-solar-system-visualizer-design]]"
 tags: [spec, m2, graphics]
 ---
