@@ -1,7 +1,7 @@
 ---
 title: M1 Foundation — Implementation Plan
 date: 2026-10-04
-status: awaiting review
+status: implemented — final review pending
 milestone: M1
 tags: [plan, m1]
 ---

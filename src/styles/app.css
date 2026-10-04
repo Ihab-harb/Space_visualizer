@@ -64,6 +64,7 @@ button[aria-pressed='true'] {
   position: absolute;
   inset: 0;
   touch-action: none;
+  isolation: isolate; /* keeps label z-indexes inside the scene, below the panels */
 }
 
 /* Labels sit above the canvas; the layer itself lets pointer input through to the canvas. */
