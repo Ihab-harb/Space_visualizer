@@ -11,6 +11,11 @@ import { MIN_PIXELS, pixelsPerRadian, renderRadiusKm } from './scaleMode';
 import { writeMatrix4 } from './threeMath';
 
 const CLICK_DRAG_TOLERANCE_PX = 4;
+/**
+ * After CameraSystem (-1), before drei <Html> labels (0). drei caches the first projected label position;
+ * if it runs while this group is still at the origin (= camera position) it caches NaN and never moves the label.
+ */
+const POSITION_PRIORITY = -0.5;
 
 export function BodyMesh({ body }: { body: Body }) {
   const frame = useFrameState();
@@ -45,7 +50,7 @@ export function BodyMesh({ body }: { body: Body }) {
     mesh.current.scale.set(equatorialRadiusKm * k, equatorialRadiusKm * k, polarRadiusKm * k);
     const orientation = frame.bodyOrientation.get(body.id);
     if (orientation) mesh.current.quaternion.setFromRotationMatrix(writeMatrix4(orientation, matrix));
-  });
+  }, POSITION_PRIORITY);
 
   const onClick = (e: ThreeEvent<MouseEvent>) => {
     e.stopPropagation();
