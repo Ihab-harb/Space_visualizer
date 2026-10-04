@@ -1,5 +1,5 @@
 import type { FactKey } from '../../src/core/catalog/facts';
-import type { ApproxTable, Body, BodiesFile, PlanetApproxOrbit, Region, RegionsFile, SourcedValue, SourcesFile } from '../../src/core/catalog/schema';
+import type { ApproxTable, Body, BodiesFile, PlanetApproxOrbit, Region, Render, RegionsFile, SourcedValue, SourcesFile } from '../../src/core/catalog/schema';
 import { planetApproxState, selectTable } from '../../src/core/ephemeris/planetApprox';
 import { ARCSEC } from '../../src/core/math/angles';
 import { angleBetween, length, type Vec3 } from '../../src/core/math/vec3';
@@ -37,18 +37,19 @@ interface PlanetSpec {
   approxRow: ApproxRow;
   color: string;
   represents: PlanetApproxOrbit['represents'];
+  render: Render;
 }
 
 /** Display colours are illustrative only (no official surface maps in M1). */
 export const PLANET_SPECS: PlanetSpec[] = [
-  { id: 'mercury', name: 'Mercury', naifId: 199, column: 'MERCURY', approxRow: 'Mercury', color: '#9a9894', represents: 'planet' },
-  { id: 'venus', name: 'Venus', naifId: 299, column: 'VENUS', approxRow: 'Venus', color: '#e2c48e', represents: 'planet' },
-  { id: 'earth', name: 'Earth', naifId: 399, column: 'EARTH', approxRow: 'EM Bary', color: '#4c7bd0', represents: 'earth-moon-barycenter' },
-  { id: 'mars', name: 'Mars', naifId: 499, column: 'MARS', approxRow: 'Mars', color: '#c4673d', represents: 'planet' },
-  { id: 'jupiter', name: 'Jupiter', naifId: 599, column: 'JUPITER', approxRow: 'Jupiter', color: '#d6b48a', represents: 'planet' },
-  { id: 'saturn', name: 'Saturn', naifId: 699, column: 'SATURN', approxRow: 'Saturn', color: '#e5d09c', represents: 'planet' },
-  { id: 'uranus', name: 'Uranus', naifId: 799, column: 'URANUS', approxRow: 'Uranus', color: '#a3dbe2', represents: 'planet' },
-  { id: 'neptune', name: 'Neptune', naifId: 899, column: 'NEPTUNE', approxRow: 'Neptune', color: '#4b70d8', represents: 'planet' },
+  { id: 'mercury', name: 'Mercury', naifId: 199, column: 'MERCURY', approxRow: 'Mercury', color: '#9a9894', represents: 'planet', render: { shader: 'rocky', atmosphere: null, lommelSeeliger: 0.85, normalStrength: 1, bandFlow: false } },
+  { id: 'venus', name: 'Venus', naifId: 299, column: 'VENUS', approxRow: 'Venus', color: '#e2c48e', represents: 'planet', render: { shader: 'venus', atmosphere: 'venus', lommelSeeliger: 0, normalStrength: 0, bandFlow: false } },
+  { id: 'earth', name: 'Earth', naifId: 399, column: 'EARTH', approxRow: 'EM Bary', color: '#4c7bd0', represents: 'earth-moon-barycenter', render: { shader: 'earth', atmosphere: 'earth', lommelSeeliger: 0, normalStrength: 1, bandFlow: false } },
+  { id: 'mars', name: 'Mars', naifId: 499, column: 'MARS', approxRow: 'Mars', color: '#c4673d', represents: 'planet', render: { shader: 'rocky', atmosphere: 'mars', lommelSeeliger: 0.4, normalStrength: 1, bandFlow: false } },
+  { id: 'jupiter', name: 'Jupiter', naifId: 599, column: 'JUPITER', approxRow: 'Jupiter', color: '#d6b48a', represents: 'planet', render: { shader: 'giant', atmosphere: null, lommelSeeliger: 0, normalStrength: 0, bandFlow: true } },
+  { id: 'saturn', name: 'Saturn', naifId: 699, column: 'SATURN', approxRow: 'Saturn', color: '#e5d09c', represents: 'planet', render: { shader: 'giant', atmosphere: null, lommelSeeliger: 0, normalStrength: 0, bandFlow: true } },
+  { id: 'uranus', name: 'Uranus', naifId: 799, column: 'URANUS', approxRow: 'Uranus', color: '#a3dbe2', represents: 'planet', render: { shader: 'giant', atmosphere: null, lommelSeeliger: 0, normalStrength: 0, bandFlow: true } },
+  { id: 'neptune', name: 'Neptune', naifId: 899, column: 'NEPTUNE', approxRow: 'Neptune', color: '#4b70d8', represents: 'planet', render: { shader: 'giant', atmosphere: null, lommelSeeliger: 0, normalStrength: 0, bandFlow: true } },
 ];
 
 export const SOLAR_SYSTEM_REGION: Region = {
@@ -199,7 +200,8 @@ export function buildSolarSystem(inputs: PipelineInputs, generatedAt: string): P
     rotation: { sourceId: pckId, ...rotationModelFor(pck, 10) },
     shape: { ...radiiFor(pck, 10), sourceId: pckId },
     description: description('sun'),
-    texture: null,
+    imagery: null,
+    render: { shader: 'sun', atmosphere: null, lommelSeeliger: 0, normalStrength: 0, bandFlow: false },
     display: { color: '#ffd27a', note: 'illustrative' },
   };
 
@@ -215,7 +217,8 @@ export function buildSolarSystem(inputs: PipelineInputs, generatedAt: string): P
     rotation: { sourceId: pckId, ...rotationModelFor(pck, spec.naifId) },
     shape: { ...radiiFor(pck, spec.naifId), sourceId: pckId },
     description: description(spec.id),
-    texture: null,
+    imagery: null,
+    render: spec.render,
     display: { color: spec.color, note: 'illustrative' },
   }));
 

@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "regionId": "solar-system",
-  "generatedAt": "2026-10-04T17:15:59.042Z",
+  "generatedAt": "2026-10-04T21:25:39.112Z",
   "bodies": [
     {
       "id": "sun",
@@ -95,7 +95,14 @@
         "text": "The Sun is the star at the heart of our solar system. Its gravity holds the solar system together, keeping everything – from the biggest planets to the smallest bits of debris – in its orbit.",
         "sourceId": "nasa-science-sun"
       },
-      "texture": null,
+      "imagery": null,
+      "render": {
+        "shader": "sun",
+        "atmosphere": null,
+        "lommelSeeliger": 0,
+        "normalStrength": 0,
+        "bandFlow": false
+      },
       "display": {
         "color": "#ffd27a",
         "note": "illustrative"
@@ -342,7 +349,14 @@
         "text": "Mercury is the closest planet to the Sun, and the smallest planet in our solar system - only slightly larger than Earth's Moon.",
         "sourceId": "nasa-science-mercury"
       },
-      "texture": null,
+      "imagery": null,
+      "render": {
+        "shader": "rocky",
+        "atmosphere": null,
+        "lommelSeeliger": 0.85,
+        "normalStrength": 1,
+        "bandFlow": false
+      },
       "display": {
         "color": "#9a9894",
         "note": "illustrative"
@@ -545,7 +559,14 @@
         "text": "Venus is the second planet from the Sun, and the sixth largest planet. It’s the hottest planet in our solar system.",
         "sourceId": "nasa-science-venus"
       },
-      "texture": null,
+      "imagery": null,
+      "render": {
+        "shader": "venus",
+        "atmosphere": "venus",
+        "lommelSeeliger": 0,
+        "normalStrength": 0,
+        "bandFlow": false
+      },
       "display": {
         "color": "#e2c48e",
         "note": "illustrative"
@@ -748,7 +769,14 @@
         "text": "Earth is the third planet from the Sun, and the fifth largest planet. It's the only place we know of inhabited by living things.",
         "sourceId": "nasa-science-earth"
       },
-      "texture": null,
+      "imagery": null,
+      "render": {
+        "shader": "earth",
+        "atmosphere": "earth",
+        "lommelSeeliger": 0,
+        "normalStrength": 1,
+        "bandFlow": false
+      },
       "display": {
         "color": "#4c7bd0",
         "note": "illustrative"
@@ -1146,7 +1174,14 @@
         "text": "Mars is the fourth planet from the Sun, and the seventh largest. It’s the only planet we know of inhabited entirely by robots.",
         "sourceId": "nasa-science-mars"
       },
-      "texture": null,
+      "imagery": null,
+      "render": {
+        "shader": "rocky",
+        "atmosphere": "mars",
+        "lommelSeeliger": 0.4,
+        "normalStrength": 1,
+        "bandFlow": false
+      },
       "display": {
         "color": "#c4673d",
         "note": "illustrative"
@@ -1475,7 +1510,14 @@
         "text": "Jupiter is the fifth planet from the Sun, and the largest in the solar system – more than twice as massive as the other planets combined.",
         "sourceId": "nasa-science-jupiter"
       },
-      "texture": null,
+      "imagery": null,
+      "render": {
+        "shader": "giant",
+        "atmosphere": null,
+        "lommelSeeliger": 0,
+        "normalStrength": 0,
+        "bandFlow": true
+      },
       "display": {
         "color": "#d6b48a",
         "note": "illustrative"
@@ -1680,7 +1722,14 @@
         "text": "Saturn is the sixth planet from the Sun, and the second largest in the solar system. It’s surrounded by beautiful rings.",
         "sourceId": "nasa-science-saturn"
       },
-      "texture": null,
+      "imagery": null,
+      "render": {
+        "shader": "giant",
+        "atmosphere": null,
+        "lommelSeeliger": 0,
+        "normalStrength": 0,
+        "bandFlow": true
+      },
       "display": {
         "color": "#e5d09c",
         "note": "illustrative"
@@ -1885,7 +1934,14 @@
         "text": "Uranus is the seventh planet from the Sun, and the third largest planet in our solar system. It appears to spin sideways.",
         "sourceId": "nasa-science-uranus"
       },
-      "texture": null,
+      "imagery": null,
+      "render": {
+        "shader": "giant",
+        "atmosphere": null,
+        "lommelSeeliger": 0,
+        "normalStrength": 0,
+        "bandFlow": true
+      },
       "display": {
         "color": "#a3dbe2",
         "note": "illustrative"
@@ -2203,7 +2259,14 @@
         "text": "Neptune is the eighth and most distant planet from the Sun. It’s the fourth largest, and the first planet discovered with math.",
         "sourceId": "nasa-science-neptune"
       },
-      "texture": null,
+      "imagery": null,
+      "render": {
+        "shader": "giant",
+        "atmosphere": null,
+        "lommelSeeliger": 0,
+        "normalStrength": 0,
+        "bandFlow": true
+      },
       "display": {
         "color": "#4b70d8",
         "note": "illustrative"

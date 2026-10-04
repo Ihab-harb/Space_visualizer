@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { makeCatalogFiles } from '../../test/fixtures';
-import { BodiesFileSchema, RegionsFileSchema, SourcesFileSchema } from './schema';
+import { BodiesFileSchema, ImageryFileSchema, RegionsFileSchema, SourcesFileSchema, TextureRefSchema } from './schema';
 import { collectSourceIds, findUnresolvedSources, formatIssues } from './references';
 
 describe('catalogue schema', () => {
@@ -56,5 +56,36 @@ describe('source references', () => {
     expect(findUnresolvedSources(files.bodies, known)).toEqual([
       'bodies.2.description.sourceId: unknown sourceId "nasa-science-jupiter"',
     ]);
+  });
+});
+
+describe('imagery schema', () => {
+  it('accepts tiered textures with a source and rejects empty ones', () => {
+    expect(TextureRefSchema.safeParse({ tiers: { '1k': 'textures/earth/color_1k.webp' }, sourceId: 'nasa-blue-marble-ng' }).success).toBe(true);
+    expect(TextureRefSchema.safeParse({ tiers: {}, sourceId: 'x' }).success).toBe(false);
+    expect(TextureRefSchema.safeParse({ tiers: { '16k': 'a' }, sourceId: 'x' }).success).toBe(false);
+  });
+  it('validates an imagery file with rings', () => {
+    const file = {
+      schemaVersion: 1,
+      generatedAt: '2026-10-04T12:00:00.000Z',
+      sources: [],
+      bodies: {
+        saturn: {
+          color: { tiers: { '2k': 'textures/saturn/color_2k.webp' }, sourceId: 'stsci-opal' },
+          rings: {
+            texture: { tiers: { '2k': 'textures/saturn/rings_2k.webp' }, sourceId: 'nssdca-saturn-rings', illustrative: true },
+            innerKm: { value: 74658, sourceId: 'nssdca-saturn-rings' },
+            outerKm: { value: 139851, sourceId: 'nssdca-saturn-rings' },
+          },
+        },
+      },
+    };
+    expect(ImageryFileSchema.safeParse(file).success).toBe(true);
+  });
+  it('requires render settings on every body', () => {
+    const f = makeCatalogFiles();
+    delete (f.bodies.bodies[0] as { render?: unknown }).render;
+    expect(BodiesFileSchema.safeParse(f.bodies).success).toBe(false);
   });
 });
