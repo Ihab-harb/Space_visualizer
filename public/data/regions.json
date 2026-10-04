@@ -1,0 +1,22 @@
+{
+  "schemaVersion": 1,
+  "regions": [
+    {
+      "id": "solar-system",
+      "name": "Solar System",
+      "parentId": null,
+      "frame": "heliocentric-ecliptic-j2000",
+      "unit": "km",
+      "originInParentKm": [
+        0,
+        0,
+        0
+      ],
+      "activeRangeKm": [
+        0,
+        10000000000000
+      ],
+      "dataManifest": "solar-system/bodies.json"
+    }
+  ]
+}

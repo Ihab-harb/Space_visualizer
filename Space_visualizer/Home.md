@@ -11,16 +11,31 @@ A 3D, time-accurate solar system in the browser — every fact cited to an offic
 - [[2026-10-04-solar-system-visualizer-design|Design spec (2026-10-04)]] — approved
 
 ## Plans
-- [[2026-10-04-m1-foundation|M1 Foundation]] — awaiting review
+- [[2026-10-04-m1-foundation|M1 Foundation]] — complete
 
 ## Architecture
-_One note per module (`core`, `state`, `scene`, `camera`, `ui`, `pipeline`), added during implementation._
+- [[Overview]]
+- [[core]]
+- [[state]]
+- [[scene]]
+- [[camera]]
+- [[ui]]
+- [[pipeline]]
 
 ## Data Sources
-_One note per official source: what it provides, accuracy, license._
+- [[JPL Approximate Positions of the Planets]]
+- [[JPL Horizons]]
+- [[NSSDCA Planetary Fact Sheet]]
+- [[NSSDCA Sun Fact Sheet]]
+- [[NAIF PCK00011]]
+- [[NASA Science pages]]
+- [[IERS leap seconds]]
+- [[NASA Delta T polynomials]]
 
 ## Decisions
-_Short decision records._
+- [[0002-react-three-fiber]]
+- [[0003-floating-origin-and-log-depth]]
+- [[0004-measured-accuracy]]
 
 ## Log
 - [[Changelog]]

@@ -1,0 +1,117 @@
+{
+  "schemaVersion": 1,
+  "sources": [
+    {
+      "id": "jpl-approx-pos",
+      "title": "Approximate Positions of the Planets (E. M. Standish and J. G. Williams)",
+      "publisher": "NASA/JPL Solar System Dynamics",
+      "url": "https://ssd.jpl.nasa.gov/planets/approx_pos.html",
+      "license": "NASA/JPL public web content (JPL Image Use Policy, https://www.jpl.nasa.gov/jpl-image-use-policy)",
+      "retrievedAt": "2026-10-04"
+    },
+    {
+      "id": "jpl-horizons",
+      "title": "Horizons System reference vectors (system barycentres, ecliptic J2000)",
+      "publisher": "NASA/JPL Solar System Dynamics",
+      "url": "https://ssd.jpl.nasa.gov/horizons/",
+      "license": "NASA/JPL public web content (JPL Image Use Policy, https://www.jpl.nasa.gov/jpl-image-use-policy)",
+      "retrievedAt": "2026-10-04"
+    },
+    {
+      "id": "nssdca-planetary-fact-sheet",
+      "title": "Planetary Fact Sheet - Metric (D. R. Williams)",
+      "publisher": "NASA Goddard Space Flight Center, NSSDCA",
+      "url": "https://nssdc.gsfc.nasa.gov/planetary/factsheet/",
+      "license": "NASA public domain (NASA media usage guidelines)",
+      "retrievedAt": "2026-10-04"
+    },
+    {
+      "id": "nssdca-sun-fact-sheet",
+      "title": "Sun Fact Sheet (D. R. Williams)",
+      "publisher": "NASA Goddard Space Flight Center, NSSDCA",
+      "url": "https://nssdc.gsfc.nasa.gov/planetary/factsheet/sunfact.html",
+      "license": "NASA public domain (NASA media usage guidelines)",
+      "retrievedAt": "2026-10-04"
+    },
+    {
+      "id": "naif-pck00011",
+      "title": "PCK00011 planetary constants kernel (IAU WGCCRE 2015 report values)",
+      "publisher": "NASA/JPL Navigation and Ancillary Information Facility (NAIF)",
+      "url": "https://naif.jpl.nasa.gov/pub/naif/generic_kernels/pck/pck00011.tpc",
+      "license": "NASA public domain (NASA media usage guidelines)",
+      "retrievedAt": "2026-10-04"
+    },
+    {
+      "id": "nasa-science-sun",
+      "title": "The Sun - NASA Science",
+      "publisher": "NASA",
+      "url": "https://science.nasa.gov/sun/",
+      "license": "NASA public domain (NASA media usage guidelines)",
+      "retrievedAt": "2026-10-04"
+    },
+    {
+      "id": "nasa-science-mercury",
+      "title": "Mercury - NASA Science",
+      "publisher": "NASA",
+      "url": "https://science.nasa.gov/mercury/",
+      "license": "NASA public domain (NASA media usage guidelines)",
+      "retrievedAt": "2026-10-04"
+    },
+    {
+      "id": "nasa-science-venus",
+      "title": "Venus - NASA Science",
+      "publisher": "NASA",
+      "url": "https://science.nasa.gov/venus/",
+      "license": "NASA public domain (NASA media usage guidelines)",
+      "retrievedAt": "2026-10-04"
+    },
+    {
+      "id": "nasa-science-earth",
+      "title": "Earth Facts - NASA Science",
+      "publisher": "NASA",
+      "url": "https://science.nasa.gov/earth/facts/",
+      "license": "NASA public domain (NASA media usage guidelines)",
+      "retrievedAt": "2026-10-04"
+    },
+    {
+      "id": "nasa-science-mars",
+      "title": "Mars - NASA Science",
+      "publisher": "NASA",
+      "url": "https://science.nasa.gov/mars/",
+      "license": "NASA public domain (NASA media usage guidelines)",
+      "retrievedAt": "2026-10-04"
+    },
+    {
+      "id": "nasa-science-jupiter",
+      "title": "Jupiter - NASA Science",
+      "publisher": "NASA",
+      "url": "https://science.nasa.gov/jupiter/",
+      "license": "NASA public domain (NASA media usage guidelines)",
+      "retrievedAt": "2026-10-04"
+    },
+    {
+      "id": "nasa-science-saturn",
+      "title": "Saturn - NASA Science",
+      "publisher": "NASA",
+      "url": "https://science.nasa.gov/saturn/",
+      "license": "NASA public domain (NASA media usage guidelines)",
+      "retrievedAt": "2026-10-04"
+    },
+    {
+      "id": "nasa-science-uranus",
+      "title": "Uranus - NASA Science",
+      "publisher": "NASA",
+      "url": "https://science.nasa.gov/uranus/",
+      "license": "NASA public domain (NASA media usage guidelines)",
+      "retrievedAt": "2026-10-04"
+    },
+    {
+      "id": "nasa-science-neptune",
+      "title": "Neptune - NASA Science",
+      "publisher": "NASA",
+      "url": "https://science.nasa.gov/neptune/",
+      "license": "NASA public domain (NASA media usage guidelines)",
+      "retrievedAt": "2026-10-04"
+    }
+  ]
+}
