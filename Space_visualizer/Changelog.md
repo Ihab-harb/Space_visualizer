@@ -27,3 +27,7 @@ Back to [[Home]]
 
 ## 2026-10-04 — Repository docs
 - Added `README.md` (project description, quick start, data sources) and `docs/SETUP.md` (requirements, running, testing, refreshing data, troubleshooting). Set the GitHub repository description and topics.
+
+## 2026-10-04 — M2 design
+- Feedback after M1: richer per-body detail first, and much more advanced graphics (reference: sael.net and advanced Opus 5.5 projects).
+- Brainstormed and drafted [[2026-10-04-m2-cinematic-and-rich-bodies-design]]: M2a cinematic graphics and Realistic mode, M2b rich body detail, M2c Exhibit mode; later milestones renumbered M3–M7.
