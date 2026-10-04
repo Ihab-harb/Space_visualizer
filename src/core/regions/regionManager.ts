@@ -14,7 +14,7 @@ export function regionOpacity(region: Region, cameraDistanceKm: number): number 
 }
 
 export function regionOriginInRootKm(region: Region, byId: ReadonlyMap<string, Region>): Vec3 {
-  let origin = region.originInParentKm;
+  let origin: Vec3 = region.originInParentKm;
   let parentId = region.parentId;
   while (parentId) {
     const parent = byId.get(parentId);
