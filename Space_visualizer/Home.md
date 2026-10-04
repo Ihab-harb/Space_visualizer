@@ -17,7 +17,14 @@ A 3D, time-accurate solar system in the browser — every fact cited to an offic
 _One note per module (`core`, `state`, `scene`, `camera`, `ui`, `pipeline`), added during implementation._
 
 ## Data Sources
-_One note per official source: what it provides, accuracy, license._
+- [[JPL Approximate Positions of the Planets]]
+- [[JPL Horizons]]
+- [[NSSDCA Planetary Fact Sheet]]
+- [[NSSDCA Sun Fact Sheet]]
+- [[NAIF PCK00011]]
+- [[NASA Science pages]]
+- [[IERS leap seconds]]
+- [[NASA Delta T polynomials]]
 
 ## Decisions
 _Short decision records._
