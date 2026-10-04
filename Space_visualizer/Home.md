@@ -11,7 +11,7 @@ A 3D, time-accurate solar system in the browser — every fact cited to an offic
 - [[2026-10-04-solar-system-visualizer-design|Design spec (2026-10-04)]] — approved
 
 ## Plans
-_One plan per milestone, added as each starts._
+- [[2026-10-04-m1-foundation|M1 Foundation]] — awaiting review
 
 ## Architecture
 _One note per module (`core`, `state`, `scene`, `camera`, `ui`, `pipeline`), added during implementation._

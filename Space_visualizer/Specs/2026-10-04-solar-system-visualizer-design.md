@@ -24,7 +24,7 @@ Back to [[Home]]
 - Architecture must support future expansion to galaxy scales without a rewrite.
 
 **Success criteria:**
-- Planet positions match JPL Horizons within the documented accuracy of the model used, for any date in the model's valid range.
+- Planet positions match JPL Horizons within the documented accuracy of the model used, for any date in the model's valid range. Where a source's published nominal accuracy proves optimistic (found during M1 planning: JPL's 1800–2050 Neptune figures are exceeded by up to ~7×), the pipeline measures the real error against Horizons and the app shows the measured figure.
 - Every displayed value links to its source; the data build fails if any value lacks one.
 - All five camera views are usable and switchable; all five filter kinds work.
 - 60 fps on a mid-range laptop with the full catalogue (including 100k+ small-body points in M4).
@@ -133,7 +133,7 @@ Units: km, s, kg internally; angles stored in degrees in data, radians in `core`
 | Moon orbits & physical data | JPL SSD Planetary Satellite Mean Elements & Physical Parameters |
 | Dwarf planets, asteroids, comets | JPL Small-Body Database API (single objects); SBDB Query API (bulk populations) |
 | Spacecraft & high-accuracy tables | JPL Horizons API |
-| Rotation & pole orientation | IAU WGCCRE report (Archinal et al.) |
+| Rotation & pole orientation | IAU WGCCRE 2015 report (Archinal et al.), machine-readable via NASA/JPL NAIF `pck00011.tpc` (which also supplies IAU shape radii) |
 | Names & classifications | IAU / Minor Planet Center |
 | Leap seconds / ΔT | IERS |
 | Star field | ESA Hipparcos catalogue |
@@ -175,7 +175,7 @@ Simulation time is a float64 Julian Date in TDB. UTC ↔ TT conversion uses the 
 
 ### 4.5 Accuracy transparency
 
-Each body's info panel shows its orbit model's accuracy note. When simulation time leaves a model's valid range, the time bar shows a warning and affected bodies are marked approximate; `table` bodies outside their range are hidden with a note.
+Each body's info panel shows its orbit model's accuracy note: the source's published nominal error plus the maximum error measured against committed JPL Horizons reference positions. When simulation time leaves a model's valid range, the time bar shows a warning and affected bodies are marked approximate; `table` bodies outside their range are hidden with a note.
 
 ## 5. Rendering and scale
 
