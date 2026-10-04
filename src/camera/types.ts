@@ -6,7 +6,11 @@ export type { ViewId } from '../state/viewStore';
 export interface CameraPose {
   positionKm: Vec3;
   lookAtKm: Vec3;
+  /** Screen-up direction: ecliptic north, or the body's pole when co-rotating. */
+  up: Vec3;
 }
+
+export const ECLIPTIC_NORTH: Vec3 = [0, 0, 1];
 
 /** Accumulated pointer input since the last frame, in CSS pixels; zoom > 0 moves away. */
 export interface InputDeltas {

@@ -35,7 +35,12 @@ export function InfoPanel({ catalog }: { catalog: Catalog }) {
   const body = selectedId ? catalog.bodyById.get(selectedId) : undefined;
   if (!body) return null;
 
+  const earth = catalog.bodyById.get('earth');
+  // Live distances come from the selected body's position model, or Earth's when the body is fixed (the Sun).
+  const liveSource =
+    body.orbit.type === 'planet-approx' ? body.orbit.sourceId : earth?.orbit.type === 'planet-approx' ? earth.orbit.sourceId : null;
   const order = citationOrder(body);
+  if (liveSource && !order.includes(liveSource)) order.push(liveSource);
   const numbers = citationNumbers(order);
   const cite = (sourceId: string) => (
     <sup className="cite">
@@ -46,7 +51,6 @@ export function InfoPanel({ catalog }: { catalog: Catalog }) {
   );
   const parent = body.parentId ? catalog.bodyById.get(body.parentId) : undefined;
   const live = liveDistances(catalog, body, jdTdb);
-  const positionSource = body.orbit.type === 'planet-approx' ? body.orbit.sourceId : null;
 
   return (
     <aside className="panel info-panel" aria-label="Body information">
@@ -102,7 +106,7 @@ export function InfoPanel({ catalog }: { catalog: Catalog }) {
         );
       })}
 
-      {positionSource && (live.fromSunKm !== null || live.fromEarthKm !== null) && (
+      {liveSource && (live.fromSunKm !== null || live.fromEarthKm !== null) && (
         <section>
           <h3>At the simulation time</h3>
           <dl className="facts">
@@ -111,7 +115,7 @@ export function InfoPanel({ catalog }: { catalog: Catalog }) {
                 <dt>Distance from the Sun</dt>
                 <dd>
                   {formatDistanceKm(live.fromSunKm)}
-                  {cite(positionSource)}
+                  {cite(liveSource)}
                 </dd>
               </div>
             )}
@@ -121,12 +125,16 @@ export function InfoPanel({ catalog }: { catalog: Catalog }) {
                   <dt>Distance from Earth</dt>
                   <dd>
                     {formatDistanceKm(live.fromEarthKm)}
-                    {cite(positionSource)}
+                    {cite(liveSource)}
                   </dd>
                 </div>
                 <div className="facts__row">
                   <dt>Light travel time from Earth</dt>
-                  <dd>{formatLightTime(live.fromEarthKm / SPEED_OF_LIGHT_KM_S)}</dd>
+                  <dd>
+                    {formatLightTime(live.fromEarthKm / SPEED_OF_LIGHT_KM_S)}
+                    {cite(liveSource)}
+                    <span className="facts__note">Distance ÷ speed of light (299,792.458 km/s, exact SI value).</span>
+                  </dd>
                 </div>
               </>
             )}
@@ -138,7 +146,12 @@ export function InfoPanel({ catalog }: { catalog: Catalog }) {
         <h3>Position accuracy</h3>
         <ul className="info-panel__accuracy">
           {accuracyLines(body).map((line) => (
-            <li key={line}>{line}</li>
+            <li key={line.text}>
+              {line.text}
+              {line.sourceIds.map((id) => (
+                <span key={id}>{cite(id)}</span>
+              ))}
+            </li>
           ))}
         </ul>
       </section>

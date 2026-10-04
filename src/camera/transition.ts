@@ -22,5 +22,6 @@ export function interpolatePose(from: CameraPose, to: CameraPose, s: number): Ca
   return {
     positionKm: t >= 1 ? to.positionKm : add(to.lookAtKm, scale(direction, distance)),
     lookAtKm: lerp(from.lookAtKm, to.lookAtKm, Math.min(1, 2 * t)),
+    up: t >= 1 ? to.up : slerpDirection(normalize(from.up), normalize(to.up), t),
   };
 }

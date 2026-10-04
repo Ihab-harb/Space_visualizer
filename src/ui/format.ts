@@ -27,8 +27,11 @@ export function formatDistanceKm(km: number): string {
   return `${formatNumber(km)} km (${(km / AU_KM).toFixed(4)} AU)`;
 }
 
+/** Rounds to the displayed unit first, then splits, so a value never reads "8 min 60 s". */
 export function formatLightTime(seconds: number): string {
-  if (seconds < 60) return `${seconds.toFixed(1)} s`;
-  if (seconds < 3600) return `${Math.floor(seconds / 60)} min ${Math.round(seconds % 60)} s`;
-  return `${Math.floor(seconds / 3600)} h ${Math.round((seconds % 3600) / 60)} min`;
+  if (seconds < 59.95) return `${seconds.toFixed(1)} s`;
+  const wholeSeconds = Math.round(seconds);
+  if (wholeSeconds < 3600) return `${Math.floor(wholeSeconds / 60)} min ${wholeSeconds % 60} s`;
+  const wholeMinutes = Math.round(seconds / 60);
+  return `${Math.floor(wholeMinutes / 60)} h ${wholeMinutes % 60} min`;
 }

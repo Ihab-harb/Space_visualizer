@@ -36,4 +36,10 @@ describe('distances and light time', () => {
     expect(formatLightTime(499)).toBe('8 min 19 s');
     expect(formatLightTime(15_000)).toBe('4 h 10 min');
   });
+  it('never shows 60 of a smaller unit after rounding', () => {
+    expect(formatLightTime(59.97)).toBe('1 min 0 s');
+    expect(formatLightTime(539.6)).toBe('9 min 0 s');
+    expect(formatLightTime(14_370)).toBe('4 h 0 min');
+    expect(formatLightTime(3599.6)).toBe('1 h 0 min');
+  });
 });

@@ -1,13 +1,34 @@
 import { expect, test } from '@playwright/test';
 
+let pageErrors: string[] = [];
+
 test.beforeEach(async ({ page }) => {
-  const errors: string[] = [];
-  page.on('pageerror', (error) => errors.push(error.message));
+  pageErrors = [];
+  page.on('pageerror', (error) => pageErrors.push(error.message));
   await page.goto('/');
   await expect(page.locator('canvas')).toBeVisible();
-  // Let a few frames render, then confirm nothing threw.
-  await page.waitForTimeout(1500);
-  expect(errors).toEqual([]);
+  await page.waitForTimeout(1500); // let a few frames render
+});
+
+// Checked after every test, so errors caused by interactions are caught too.
+test.afterEach(() => {
+  expect(pageErrors).toEqual([]);
+});
+
+test('follows a planet with co-rotation while time runs', async ({ page }) => {
+  await page.getByRole('button', { name: 'Jupiter', exact: true }).dispatchEvent('click');
+  await page.keyboard.press('2');
+  await page.getByLabel('Rotate with body').check();
+  await page.getByLabel('Speed').selectOption({ label: '1 hour/s' });
+  await page.waitForTimeout(2500); // transition plus a few seconds of rotation
+  const box = await page.getByRole('button', { name: 'Jupiter', exact: true }).boundingBox();
+  // The followed body stays centred in the view.
+  expect(Math.abs(box!.x + box!.width / 2 - 640)).toBeLessThan(80);
+  await page.keyboard.press('Escape');
+  await page.waitForTimeout(2000);
+  // Back in Orbit view the pivot stays on Jupiter instead of swinging back to the Sun.
+  const after = await page.getByRole('button', { name: 'Jupiter', exact: true }).boundingBox();
+  expect(Math.abs(after!.x + after!.width / 2 - 640)).toBeLessThan(80);
 });
 
 test('places labels next to their bodies, not stacked in a corner', async ({ page }) => {

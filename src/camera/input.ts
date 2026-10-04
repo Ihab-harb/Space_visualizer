@@ -57,20 +57,24 @@ export function createPointerInput() {
   const onContextMenu = (e: Event) => e.preventDefault();
 
   return {
-    attach(el: HTMLElement): () => void {
+    /**
+     * Drags are read from `el` (the canvas). The wheel is read from `wheelEl` (the scene wrapper),
+     * so zooming also works while the pointer is over a label drawn on top of the canvas.
+     */
+    attach(el: HTMLElement, wheelEl: HTMLElement = el): () => void {
       el.addEventListener('pointerdown', onPointerDown);
       el.addEventListener('pointermove', onPointerMove);
       el.addEventListener('pointerup', onPointerUp);
       el.addEventListener('pointercancel', onPointerUp);
-      el.addEventListener('wheel', onWheel, { passive: false });
       el.addEventListener('contextmenu', onContextMenu);
+      wheelEl.addEventListener('wheel', onWheel, { passive: false });
       return () => {
         el.removeEventListener('pointerdown', onPointerDown);
         el.removeEventListener('pointermove', onPointerMove);
         el.removeEventListener('pointerup', onPointerUp);
         el.removeEventListener('pointercancel', onPointerUp);
-        el.removeEventListener('wheel', onWheel);
         el.removeEventListener('contextmenu', onContextMenu);
+        wheelEl.removeEventListener('wheel', onWheel);
       };
     },
     consume(): InputDeltas {

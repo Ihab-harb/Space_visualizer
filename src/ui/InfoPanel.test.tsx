@@ -68,6 +68,28 @@ describe('InfoPanel', () => {
     expect(panel()).not.toHaveTextContent('Distance from the Sun');
   });
 
+  it("gives the Sun's distance and light time from Earth, cited to Earth's position model", () => {
+    useSelectionStore.setState({ selectedId: 'sun' });
+    render(<InfoPanel catalog={catalog} />);
+    const row = within(panel()).getByText('Distance from Earth').closest('.facts__row') as HTMLElement;
+    expect(row).toHaveTextContent('AU');
+    expect(within(row).getByRole('link').getAttribute('href')).toBe('#source-jpl-approx-pos');
+    expect(panel()).toHaveTextContent('Light travel time from Earth');
+    expect(within(panel()).getByRole('link', { name: 'Approximate Positions of the Planets' })).toBeInTheDocument();
+    expect(panel().textContent).not.toMatch(/undefined|NaN/);
+  });
+
+  it('cites the light travel time and every sourced accuracy figure', () => {
+    render(<InfoPanel catalog={catalog} />);
+    const light = within(panel()).getByText('Light travel time from Earth').closest('.facts__row') as HTMLElement;
+    expect(within(light).getByRole('link').getAttribute('href')).toBe('#source-jpl-approx-pos');
+    expect(light).toHaveTextContent('299,792.458 km/s');
+    const accuracy = panel().querySelector('.info-panel__accuracy') as HTMLElement;
+    const hrefs = within(accuracy).getAllByRole('link').map((a) => a.getAttribute('href'));
+    expect(hrefs).toContain('#source-jpl-approx-pos');
+    expect(hrefs).toContain('#source-jpl-horizons');
+  });
+
   it('explains that Earth is drawn at the Earth–Moon barycentre', () => {
     useSelectionStore.setState({ selectedId: 'earth' });
     render(<InfoPanel catalog={catalog} />);

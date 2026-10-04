@@ -1,7 +1,7 @@
 import { DEG } from '../core/math/angles';
 import { add, length, scale, sub, ZERO, type Vec3 } from '../core/math/vec3';
 import { keepOutside } from './rig';
-import type { CameraPose, ControllerContext, InputDeltas } from './types';
+import { ECLIPTIC_NORTH, type CameraPose, type ControllerContext, type InputDeltas } from './types';
 
 export const ROTATE_RAD_PER_PX = 0.005;
 export const ZOOM_PER_UNIT = 0.0015;
@@ -50,7 +50,11 @@ export function applyOrbitInput(state: OrbitState, input: InputDeltas, targetRad
 
 export function orbitPose(state: OrbitState, targetPositionKm: Vec3): CameraPose {
   const lookAtKm = add(targetPositionKm, state.panOffsetKm);
-  return { positionKm: add(lookAtKm, scale(offsetDirection(state.azimuthRad, state.elevationRad), state.distanceKm)), lookAtKm };
+  return {
+    positionKm: add(lookAtKm, scale(offsetDirection(state.azimuthRad, state.elevationRad), state.distanceKm)),
+    lookAtKm,
+    up: ECLIPTIC_NORTH,
+  };
 }
 
 export function createOrbitController(initial: OrbitState) {
@@ -59,7 +63,9 @@ export function createOrbitController(initial: OrbitState) {
   return {
     id: 'orbit' as const,
     getState: () => state,
-    enter(from: CameraPose | null, ctx: ControllerContext) {
+    /** Take over from another view; pass targetId to pivot on the body that view was showing. */
+    enter(from: CameraPose | null, ctx: ControllerContext, targetId?: string) {
+      if (targetId) state = { ...state, targetId, panOffsetKm: ZERO };
       if (!from) return;
       const spherical = sphericalFromOffset(sub(from.positionKm, add(target(ctx), state.panOffsetKm)));
       if (spherical.distanceKm > 0) state = { ...state, ...spherical };

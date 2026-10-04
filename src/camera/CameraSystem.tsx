@@ -43,7 +43,7 @@ export function CameraSystem({ catalog }: { catalog: Catalog }) {
   const gl = useThree((s) => s.gl);
   const input = useMemo(() => createPointerInput(), []);
   const matrix = useMemo(() => new Matrix4(), []);
-  useEffect(() => input.attach(gl.domElement), [gl, input]);
+  useEffect(() => input.attach(gl.domElement, gl.domElement.closest<HTMLElement>('.scene') ?? gl.domElement), [gl, input]);
 
   const rig = useRef<Rig | null>(null);
   if (!rig.current) {
@@ -72,7 +72,7 @@ export function CameraSystem({ catalog }: { catalog: Catalog }) {
 
     if (view !== r.activeView) {
       if (view === 'follow') r.follow.enter(r.lastPose, ctx, selectedId ?? r.orbit.getState().targetId);
-      else r.orbit.enter(r.lastPose, ctx);
+      else r.orbit.enter(r.lastPose, ctx, r.follow.getState().targetId);
       r.activeView = view;
       startTransition();
     }
@@ -104,7 +104,7 @@ export function CameraSystem({ catalog }: { catalog: Catalog }) {
     r.lastPose = pose;
     frame.cameraPositionKm = pose.positionKm;
     camera.position.set(0, 0, 0);
-    camera.quaternion.setFromRotationMatrix(writeMatrix4(lookRotation(pose.positionKm, pose.lookAtKm), matrix));
+    camera.quaternion.setFromRotationMatrix(writeMatrix4(lookRotation(pose.positionKm, pose.lookAtKm, pose.up), matrix));
   }, -1);
 
   return null;

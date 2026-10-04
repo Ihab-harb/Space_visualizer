@@ -1,8 +1,8 @@
-import { apply, transpose, type Mat3 } from '../core/math/mat3';
+import { apply, column, transpose, type Mat3 } from '../core/math/mat3';
 import { add, normalize, scale, sub, ZERO, type Vec3 } from '../core/math/vec3';
 import { applyOrbitInput, MIN_SURFACE_FACTOR, offsetDirection, sphericalFromOffset } from './orbitController';
 import { keepOutside } from './rig';
-import type { CameraPose, ControllerContext, InputDeltas } from './types';
+import { ECLIPTIC_NORTH, type CameraPose, type ControllerContext, type InputDeltas } from './types';
 
 export const FOLLOW_DISTANCE_RADII = 4;
 
@@ -21,7 +21,12 @@ function worldDirection(state: FollowState, orientation: Mat3 | undefined): Vec3
 }
 
 export function followPose(state: FollowState, targetPositionKm: Vec3, orientation?: Mat3): CameraPose {
-  return { positionKm: add(targetPositionKm, scale(worldDirection(state, orientation), state.distanceKm)), lookAtKm: targetPositionKm };
+  return {
+    positionKm: add(targetPositionKm, scale(worldDirection(state, orientation), state.distanceKm)),
+    lookAtKm: targetPositionKm,
+    // Co-rotating: the body's pole is "up", so the body stays upright instead of rocking by its axial tilt.
+    up: state.coRotate && orientation ? column(orientation, 2) : ECLIPTIC_NORTH,
+  };
 }
 
 export function createFollowController(initial: FollowState) {
