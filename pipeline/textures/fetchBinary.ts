@@ -27,14 +27,20 @@ interface Meta {
 
 async function readCompleteCache(file: string, metaFile: string): Promise<FetchedFile | null> {
   if (!existsSync(file) || !existsSync(metaFile)) return null;
-  const meta = JSON.parse(await readFile(metaFile, 'utf8')) as Meta;
-  if (statSync(file).size !== meta.bytes) return null;
-  return { path: file, retrievedAt: meta.retrievedAt, fromCache: true, bytes: meta.bytes };
+  try {
+    const meta = JSON.parse(await readFile(metaFile, 'utf8')) as Meta;
+    if (typeof meta.bytes !== 'number') return null;
+    if (statSync(file).size !== meta.bytes) return null;
+    return { path: file, retrievedAt: meta.retrievedAt, fromCache: true, bytes: meta.bytes };
+  } catch {
+    return null;
+  }
 }
 
 export async function fetchBinaryCached(url: string, cacheName: string, options: BinaryFetchOptions): Promise<FetchedFile> {
   const file = path.join(options.rawDir, cacheName);
   const metaFile = `${file}.meta.json`;
+  const metaPartFile = `${metaFile}.part`;
   const partFile = `${file}.part`;
 
   const cached = await readCompleteCache(file, metaFile);
@@ -52,10 +58,12 @@ export async function fetchBinaryCached(url: string, cacheName: string, options:
     if (expected !== null && Number(expected) !== bytes) throw new Error(`Download of ${url} incomplete: expected ${expected} bytes, got ${bytes}`);
     await rename(partFile, file);
     const retrievedAt = (options.now ?? (() => new Date()))().toISOString().slice(0, 10);
-    await writeFile(metaFile, JSON.stringify({ url, retrievedAt, bytes } satisfies Meta, null, 2), 'utf8');
+    await writeFile(metaPartFile, JSON.stringify({ url, retrievedAt, bytes } satisfies Meta, null, 2), 'utf8');
+    await rename(metaPartFile, metaFile);
     return { path: file, retrievedAt, fromCache: false, bytes };
   } catch (error) {
     await rm(partFile, { force: true });
+    await rm(metaPartFile, { force: true });
     throw error;
   }
 }
