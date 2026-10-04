@@ -1,0 +1,295 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-10-04T23:32:06.866Z",
+  "sources": [
+    {
+      "id": "nasa-blue-marble-ng",
+      "title": "Blue Marble: Next Generation, July 2004 (R. Stöckli)",
+      "publisher": "NASA Earth Observatory / Visible Earth",
+      "url": "https://visibleearth.nasa.gov/images/74092",
+      "license": "NASA public domain (NASA media usage guidelines)",
+      "retrievedAt": "2026-10-04"
+    },
+    {
+      "id": "nasa-black-marble-2016",
+      "title": "Earth at Night (Black Marble) 2016",
+      "publisher": "NASA Earth Observatory / Visible Earth",
+      "url": "https://visibleearth.nasa.gov/images/144898",
+      "license": "NASA public domain (NASA media usage guidelines)",
+      "retrievedAt": "2026-10-04"
+    },
+    {
+      "id": "nasa-blue-marble-clouds",
+      "title": "Blue Marble: Clouds",
+      "publisher": "NASA Earth Observatory / Visible Earth",
+      "url": "https://visibleearth.nasa.gov/images/57747",
+      "license": "NASA public domain (NASA media usage guidelines)",
+      "retrievedAt": "2026-10-04"
+    },
+    {
+      "id": "nasa-topography",
+      "title": "Topography (GEBCO 2008 data)",
+      "publisher": "NASA Earth Observatory / Visible Earth",
+      "url": "https://visibleearth.nasa.gov/images/73934",
+      "license": "NASA public domain (NASA media usage guidelines)",
+      "retrievedAt": "2026-10-04"
+    },
+    {
+      "id": "nasa-bathymetry",
+      "title": "Bathymetry (GEBCO 2008 data)",
+      "publisher": "NASA Earth Observatory / Visible Earth",
+      "url": "https://visibleearth.nasa.gov/images/73963",
+      "license": "NASA public domain (NASA media usage guidelines)",
+      "retrievedAt": "2026-10-04"
+    },
+    {
+      "id": "usgs-mars-viking-color",
+      "title": "Mars Viking Global Color Mosaic 925 m",
+      "publisher": "USGS Astrogeology Science Center",
+      "url": "https://astrogeology.usgs.gov/search/map/mars_viking_global_color_mosaic_925m",
+      "license": "USGS public domain (U.S. Government work)",
+      "retrievedAt": "2026-10-04"
+    },
+    {
+      "id": "usgs-mars-mola-dem",
+      "title": "Mars MGS MOLA DEM 463 m",
+      "publisher": "USGS Astrogeology Science Center (NASA MGS MOLA team data)",
+      "url": "https://planetarymaps.usgs.gov/mosaic/Mars_MGS_MOLA_DEM_mosaic_global_463m.tif",
+      "license": "USGS public domain (U.S. Government work)",
+      "retrievedAt": "2026-10-04"
+    },
+    {
+      "id": "usgs-mercury-md3-color",
+      "title": "Mercury MESSENGER MDIS Basemap MD3 Color Mosaic 665 m",
+      "publisher": "USGS Astrogeology Science Center (NASA MESSENGER data)",
+      "url": "https://planetarymaps.usgs.gov/mosaic/Mercury_MESSENGER_MDIS_Basemap_MD3Color_Mosaic_Global_665m.tif",
+      "license": "USGS public domain (U.S. Government work)",
+      "retrievedAt": "2026-10-04"
+    },
+    {
+      "id": "usgs-mercury-dem",
+      "title": "Mercury MESSENGER USGS DEM 665 m",
+      "publisher": "USGS Astrogeology Science Center (NASA MESSENGER data)",
+      "url": "https://planetarymaps.usgs.gov/mosaic/Mercury_Messenger_USGS_DEM_Global_665m_v2.tif",
+      "license": "USGS public domain (U.S. Government work)",
+      "retrievedAt": "2026-10-04"
+    },
+    {
+      "id": "stsci-opal",
+      "title": "Outer Planet Atmospheres Legacy (OPAL) global maps",
+      "publisher": "NASA/ESA Hubble Space Telescope via STScI MAST (OPAL program, PI A. Simon)",
+      "url": "https://doi.org/10.17909/T9G593",
+      "license": "Public HLSP data; acknowledge NASA/ESA HST OPAL program (PI: Simon, GO13937), archived by STScI",
+      "retrievedAt": "2026-10-04"
+    },
+    {
+      "id": "nssdca-saturn-rings",
+      "title": "Saturnian Rings Fact Sheet (D. R. Williams)",
+      "publisher": "NASA Goddard Space Flight Center, NSSDCA",
+      "url": "https://nssdc.gsfc.nasa.gov/planetary/factsheet/satringfact.html",
+      "license": "NASA public domain (NASA media usage guidelines)",
+      "retrievedAt": "2026-10-04"
+    },
+    {
+      "id": "nssdca-uranus-rings",
+      "title": "Uranus Rings Fact Sheet (D. R. Williams)",
+      "publisher": "NASA Goddard Space Flight Center, NSSDCA",
+      "url": "https://nssdc.gsfc.nasa.gov/planetary/factsheet/uranringfact.html",
+      "license": "NASA public domain (NASA media usage guidelines)",
+      "retrievedAt": "2026-10-04"
+    },
+    {
+      "id": "nasa-svs-deep-star-maps",
+      "title": "Deep Star Maps 2020",
+      "publisher": "NASA Goddard Scientific Visualization Studio",
+      "url": "https://svs.gsfc.nasa.gov/4851",
+      "license": "NASA public domain (credit NASA/Goddard SVS; Gaia DR2: ESA/Gaia/DPAC)",
+      "retrievedAt": "2026-10-04"
+    }
+  ],
+  "bodies": {
+    "earth": {
+      "color": {
+        "tiers": {
+          "1k": "textures/earth/color_1k.webp",
+          "2k": "textures/earth/color_2k.webp",
+          "4k": "textures/earth/color_4k.webp",
+          "8k": "textures/earth/color_8k.webp"
+        },
+        "sourceId": "nasa-blue-marble-ng"
+      },
+      "night": {
+        "tiers": {
+          "1k": "textures/earth/night_1k.webp",
+          "2k": "textures/earth/night_2k.webp",
+          "4k": "textures/earth/night_4k.webp",
+          "8k": "textures/earth/night_8k.webp"
+        },
+        "sourceId": "nasa-black-marble-2016"
+      },
+      "clouds": {
+        "tiers": {
+          "1k": "textures/earth/clouds_1k.webp",
+          "2k": "textures/earth/clouds_2k.webp",
+          "4k": "textures/earth/clouds_4k.webp",
+          "8k": "textures/earth/clouds_8k.webp"
+        },
+        "sourceId": "nasa-blue-marble-clouds",
+        "derivation": "Static cloud composite; its slow drift in the app is illustrative."
+      },
+      "normal": {
+        "tiers": {
+          "1k": "textures/earth/normal_1k.webp",
+          "2k": "textures/earth/normal_2k.webp",
+          "4k": "textures/earth/normal_4k.webp"
+        },
+        "sourceId": "nasa-topography",
+        "derivation": "Normal map derived from GEBCO topography; relief exaggerated ×8 for visibility."
+      },
+      "specular": {
+        "tiers": {
+          "1k": "textures/earth/specular_1k.webp",
+          "2k": "textures/earth/specular_2k.webp",
+          "4k": "textures/earth/specular_4k.webp"
+        },
+        "sourceId": "nasa-bathymetry",
+        "derivation": "Ocean mask derived from GEBCO bathymetry (water = 1); drives sun glint."
+      }
+    },
+    "mars": {
+      "color": {
+        "tiers": {
+          "1k": "textures/mars/color_1k.webp",
+          "2k": "textures/mars/color_2k.webp",
+          "4k": "textures/mars/color_4k.webp",
+          "8k": "textures/mars/color_8k.webp"
+        },
+        "sourceId": "usgs-mars-viking-color"
+      },
+      "normal": {
+        "tiers": {
+          "1k": "textures/mars/normal_1k.webp",
+          "2k": "textures/mars/normal_2k.webp",
+          "4k": "textures/mars/normal_4k.webp"
+        },
+        "sourceId": "usgs-mars-mola-dem",
+        "derivation": "Normal map derived from MOLA elevation; relief exaggerated ×3."
+      }
+    },
+    "mercury": {
+      "color": {
+        "tiers": {
+          "1k": "textures/mercury/color_1k.webp",
+          "2k": "textures/mercury/color_2k.webp",
+          "4k": "textures/mercury/color_4k.webp",
+          "8k": "textures/mercury/color_8k.webp"
+        },
+        "sourceId": "usgs-mercury-md3-color",
+        "derivation": "MDIS 3-colour mosaic desaturated 80% toward Mercury’s natural grey-brown."
+      },
+      "normal": {
+        "tiers": {
+          "1k": "textures/mercury/normal_1k.webp",
+          "2k": "textures/mercury/normal_2k.webp",
+          "4k": "textures/mercury/normal_4k.webp"
+        },
+        "sourceId": "usgs-mercury-dem",
+        "derivation": "Normal map derived from the MESSENGER DEM; relief exaggerated ×3."
+      }
+    },
+    "jupiter": {
+      "color": {
+        "tiers": {
+          "1k": "textures/jupiter/color_1k.webp",
+          "2k": "textures/jupiter/color_2k.webp",
+          "4k": "textures/jupiter/color_4k.webp"
+        },
+        "sourceId": "stsci-opal",
+        "derivation": "Hubble OPAL 2024 global map (F395N/F502N/F631N composite); longitude alignment approximate."
+      }
+    },
+    "saturn": {
+      "color": {
+        "tiers": {
+          "1k": "textures/saturn/color_1k.webp",
+          "2k": "textures/saturn/color_2k.webp",
+          "4k": "textures/saturn/color_4k.webp"
+        },
+        "sourceId": "stsci-opal",
+        "derivation": "Hubble OPAL 2024 global map (F395N/F502N/F631N composite); longitude alignment approximate."
+      },
+      "rings": {
+        "texture": {
+          "tiers": {
+            "2k": "textures/saturn/rings_2k.webp"
+          },
+          "sourceId": "nssdca-saturn-rings",
+          "derivation": "Radial profile built from the NSSDCA ring table (radii, optical depth, albedo); colour tint is illustrative.",
+          "illustrative": true
+        },
+        "innerKm": {
+          "value": 74658,
+          "unit": "km",
+          "sourceId": "nssdca-saturn-rings"
+        },
+        "outerKm": {
+          "value": 139851,
+          "unit": "km",
+          "sourceId": "nssdca-saturn-rings"
+        }
+      }
+    },
+    "uranus": {
+      "color": {
+        "tiers": {
+          "1k": "textures/uranus/color_1k.webp",
+          "2k": "textures/uranus/color_2k.webp",
+          "4k": "textures/uranus/color_4k.webp"
+        },
+        "sourceId": "stsci-opal",
+        "derivation": "Hubble OPAL 2023 global map (F467M/F547M/F657N composite); longitude alignment approximate."
+      },
+      "rings": {
+        "texture": {
+          "tiers": {
+            "2k": "textures/uranus/rings_2k.webp"
+          },
+          "sourceId": "nssdca-uranus-rings",
+          "derivation": "Radial profile built from the NSSDCA ring table (radii, optical depth, albedo); colour tint is illustrative.",
+          "illustrative": true
+        },
+        "innerKm": {
+          "value": 41836,
+          "unit": "km",
+          "sourceId": "nssdca-uranus-rings"
+        },
+        "outerKm": {
+          "value": 51178,
+          "unit": "km",
+          "sourceId": "nssdca-uranus-rings"
+        }
+      }
+    },
+    "neptune": {
+      "color": {
+        "tiers": {
+          "1k": "textures/neptune/color_1k.webp",
+          "2k": "textures/neptune/color_2k.webp",
+          "4k": "textures/neptune/color_4k.webp"
+        },
+        "sourceId": "stsci-opal",
+        "derivation": "Hubble OPAL 2025 global map (F467M/F547M/F657N composite); longitude alignment approximate."
+      }
+    },
+    "sky": {
+      "color": {
+        "tiers": {
+          "2k": "textures/sky/color_2k.webp",
+          "4k": "textures/sky/color_4k.webp",
+          "8k": "textures/sky/color_8k.webp"
+        },
+        "sourceId": "nasa-svs-deep-star-maps"
+      }
+    }
+  }
+}

@@ -1,4 +1,4 @@
-import { mkdtemp } from 'node:fs/promises';
+import { mkdtemp, writeFile } from 'node:fs/promises';
 import os from 'node:os';
 import path from 'node:path';
 import sharp from 'sharp';
@@ -14,7 +14,57 @@ async function gradientPng(dir: string): Promise<string> {
   return file;
 }
 
+/** Minimal uncompressed little-endian TIFF with one row per strip and one signed 16-bit band. */
+async function signedTiff(dir: string, w: number, h: number, values: number[]): Promise<string> {
+  const entries = 11;
+  const ifdOffset = 8;
+  const ifdSize = 2 + entries * 12 + 4;
+  const arraysAt = ifdOffset + ifdSize;
+  const stripOffsetsAt = arraysAt;
+  const stripCountsAt = arraysAt + h * 4;
+  const dataAt = stripCountsAt + h * 4;
+  const buf = Buffer.alloc(dataAt + w * h * 2);
+  buf.write('II', 0, 'ascii');
+  buf.writeUInt16LE(42, 2);
+  buf.writeUInt32LE(ifdOffset, 4);
+  buf.writeUInt16LE(entries, ifdOffset);
+  let o = ifdOffset + 2;
+  const tag = (id: number, type: number, count: number, value: number) => {
+    buf.writeUInt16LE(id, o);
+    buf.writeUInt16LE(type, o + 2);
+    buf.writeUInt32LE(count, o + 4);
+    if (type === 3 && count === 1) buf.writeUInt16LE(value, o + 8);
+    else buf.writeUInt32LE(value, o + 8);
+    o += 12;
+  };
+  tag(256, 3, 1, w);
+  tag(257, 3, 1, h);
+  tag(258, 3, 1, 16);
+  tag(259, 3, 1, 1);
+  tag(262, 3, 1, 1);
+  tag(273, 4, h, stripOffsetsAt);
+  tag(277, 3, 1, 1);
+  tag(278, 3, 1, 1);
+  tag(279, 4, h, stripCountsAt);
+  tag(284, 3, 1, 1);
+  tag(339, 3, 1, 2);
+  for (let y = 0; y < h; y++) {
+    buf.writeUInt32LE(dataAt + y * w * 2, stripOffsetsAt + y * 4);
+    buf.writeUInt32LE(w * 2, stripCountsAt + y * 4);
+  }
+  for (let i = 0; i < w * h; i++) buf.writeInt16LE(values[i]!, dataAt + i * 2);
+  const file = path.join(dir, 'signed.tif');
+  await writeFile(file, buf);
+  return file;
+}
+
 describe('rasters', () => {
+  it('keeps the sign of signed 16-bit TIFF elevations when averaging down', async () => {
+    const file = await signedTiff(await mkdtemp(path.join(os.tmpdir(), 'ssv-r-')), 4, 2, [-8000, -6000, 100, 200, -4000, -2000, 300, 400]);
+    const v = await readBandFloat(file, 2, 1);
+    expect(Array.from(v)).toEqual([-5000, 250]);
+  });
+
   it('reads one band as floats at the requested size', async () => {
     const file = await gradientPng(await mkdtemp(path.join(os.tmpdir(), 'ssv-r-')));
     const v = await readBandFloat(file, 4, 2);

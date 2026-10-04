@@ -17,8 +17,8 @@
     "data": "tsx pipeline/run.ts",
     "data:offline": "tsx pipeline/run.ts --offline",
     "horizons:reference": "tsx pipeline/scripts/fetchHorizonsReference.ts",
-    "textures": "tsx pipeline/textures/run.ts",
-    "textures:hd": "tsx pipeline/textures/run.ts --hd",
+    "textures": "node --max-old-space-size=8192 --import tsx pipeline/textures/run.ts",
+    "textures:hd": "node --max-old-space-size=8192 --import tsx pipeline/textures/run.ts --hd",
     "textures:verify": "tsx pipeline/textures/verifySources.ts"
   },
   "dependencies": {
