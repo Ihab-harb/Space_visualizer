@@ -24,3 +24,6 @@ Back to [[Home]]
 ## 2026-10-04 — M1 final review
 - Independent review: ready with fixes, no critical issues. Fixed: co-rotating Follow kept the body upright (it used to rock by its axial tilt), the Sun's panel now shows distance and light time from Earth, light time never reads `8 min 60 s`, light time and accuracy figures carry citations, leaving Follow keeps orbiting the followed body, scrolling over labels zooms.
 - Deferred minor items are listed in the M1 execution ledger and should be picked up in M2 planning.
+
+## 2026-10-04 — Repository docs
+- Added `README.md` (project description, quick start, data sources) and `docs/SETUP.md` (requirements, running, testing, refreshing data, troubleshooting). Set the GitHub repository description and topics.
