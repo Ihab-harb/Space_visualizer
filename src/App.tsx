@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { SceneRoot } from './scene/SceneRoot';
 import { useCatalogStore } from './state/catalogStore';
+import { applyUrlOverrides, parseUrlOverrides } from './state/urlParams';
 import { InfoPanel } from './ui/InfoPanel';
 import { ErrorScreen, LoadingScreen, WebGLUnavailable } from './ui/StatusScreens';
 import { TimeBar } from './ui/TimeBar';
@@ -17,6 +18,10 @@ export function App() {
   useEffect(() => {
     if (webgl && status === 'idle') void load();
   }, [webgl, status, load]);
+
+  useEffect(() => {
+    if (status === 'ready' && catalog) applyUrlOverrides(parseUrlOverrides(window.location.search), catalog);
+  }, [status, catalog]);
 
   if (!webgl) return <WebGLUnavailable />;
   if (status === 'error') return <ErrorScreen message={error ?? 'Unknown error'} onRetry={() => void load()} />;

@@ -10,14 +10,16 @@ import { FrameStateProvider } from './FrameStateContext';
 import { LabelLayerContext } from './LabelLayerContext';
 import { OrbitLine } from './OrbitLine';
 import { SunLight } from './SunLight';
+import { TextureReadiness } from './TextureReadiness';
 
 const hasApproxOrbit = (b: Body): b is Body & { orbit: PlanetApproxOrbit } => b.orbit.type === 'planet-approx';
 
 export function SceneRoot({ catalog }: { catalog: Catalog }) {
   const star = catalog.bodies.find((b) => b.category === 'star');
   const labelLayer = useRef<HTMLDivElement>(null);
+  const sceneRef = useRef<HTMLDivElement>(null);
   return (
-    <div className="scene">
+    <div className="scene" ref={sceneRef}>
       <Canvas
         gl={{ logarithmicDepthBuffer: true, antialias: true }}
         camera={{ fov: 50, near: 0.001, far: 1e13, position: [0, 0, 0] }}
@@ -40,6 +42,7 @@ export function SceneRoot({ catalog }: { catalog: Catalog }) {
           </FrameStateProvider>
         </LabelLayerContext.Provider>
       </Canvas>
+      <TextureReadiness target={sceneRef} />
       <div className="label-layer" ref={labelLayer} />
     </div>
   );
