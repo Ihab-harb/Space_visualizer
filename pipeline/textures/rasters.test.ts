@@ -15,7 +15,7 @@ async function gradientPng(dir: string): Promise<string> {
 }
 
 /** Minimal uncompressed little-endian TIFF with one row per strip and one signed 16-bit band. */
-async function signedTiff(dir: string, w: number, h: number, values: number[]): Promise<string> {
+async function signedTiff(dir: string, w: number, h: number, values: number[], opts: { truncateBytes?: number; sampleFormat?: number; magic?: number } = {}): Promise<string> {
   const entries = 11;
   const ifdOffset = 8;
   const ifdSize = 2 + entries * 12 + 4;
@@ -25,7 +25,7 @@ async function signedTiff(dir: string, w: number, h: number, values: number[]): 
   const dataAt = stripCountsAt + h * 4;
   const buf = Buffer.alloc(dataAt + w * h * 2);
   buf.write('II', 0, 'ascii');
-  buf.writeUInt16LE(42, 2);
+  buf.writeUInt16LE(opts.magic ?? 42, 2);
   buf.writeUInt32LE(ifdOffset, 4);
   buf.writeUInt16LE(entries, ifdOffset);
   let o = ifdOffset + 2;
@@ -54,11 +54,29 @@ async function signedTiff(dir: string, w: number, h: number, values: number[]): 
   }
   for (let i = 0; i < w * h; i++) buf.writeInt16LE(values[i]!, dataAt + i * 2);
   const file = path.join(dir, 'signed.tif');
-  await writeFile(file, buf);
+  await writeFile(file, opts.truncateBytes ? buf.subarray(0, buf.length - opts.truncateBytes) : buf);
   return file;
 }
 
 describe('rasters', () => {
+  const dir = () => mkdtemp(path.join(os.tmpdir(), 'ssv-r-'));
+  const values8 = [-8000, -6000, 100, 200, -4000, -2000, 300, 400];
+
+  it('throws when a signed TIFF is truncated mid-strip instead of reusing stale rows', async () => {
+    const file = await signedTiff(await dir(), 4, 2, values8, { truncateBytes: 4 });
+    await expect(readBandFloat(file, 2, 1)).rejects.toThrow(/strip|truncated|file/i);
+  });
+
+  it('throws when the target is larger than the signed source (no upsampling)', async () => {
+    const file = await signedTiff(await dir(), 4, 2, values8);
+    await expect(readBandFloat(file, 8, 4)).rejects.toThrow(/larger than the source|upsampl/i);
+  });
+
+  it('throws for a BigTIFF header rather than letting sharp drop the sign', async () => {
+    const file = await signedTiff(await dir(), 4, 2, values8, { magic: 43 });
+    await expect(readBandFloat(file, 2, 1)).rejects.toThrow(/BigTIFF/);
+  });
+
   it('keeps the sign of signed 16-bit TIFF elevations when averaging down', async () => {
     const file = await signedTiff(await mkdtemp(path.join(os.tmpdir(), 'ssv-r-')), 4, 2, [-8000, -6000, 100, 200, -4000, -2000, 300, 400]);
     const v = await readBandFloat(file, 2, 1);

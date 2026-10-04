@@ -28,7 +28,9 @@ async function probeSignedTiff(file: string): Promise<SignedTiff | null> {
     const le = mark === 'II';
     const u16 = (b: Buffer, o: number) => (le ? b.readUInt16LE(o) : b.readUInt16BE(o));
     const u32 = (b: Buffer, o: number) => (le ? b.readUInt32LE(o) : b.readUInt32BE(o));
-    if (u16(head, 2) !== 42) return null;
+    const version = u16(head, 2);
+    if (version === 43) throw new Error(`${file}: BigTIFF is not supported by the signed-elevation reader; sharp would silently drop the sign`);
+    if (version !== 42) throw new Error(`${file}: unrecognised TIFF version ${version}`);
     const ifd = u32(head, 4);
     const countBuf = Buffer.alloc(2);
     await fh.read(countBuf, 0, 2, ifd);
@@ -42,7 +44,9 @@ async function probeSignedTiff(file: string): Promise<SignedTiff | null> {
       if (!t) return fallback;
       return t.type === 3 ? u16(entries, t.valueAt) : u32(entries, t.valueAt);
     };
-    if (scalar(339, 1) !== 2 || scalar(258, 8) !== 16) return null;
+    // SampleFormat absent or 1 (unsigned), 3 (float) etc. is positively not signed integer data: sharp handles it.
+    if (scalar(339, 1) !== 2) return null;
+    if (scalar(258, 8) !== 16) throw new Error(`${file}: signed TIFF with ${scalar(258, 8)} bits per sample is not supported`);
     if (scalar(259, 1) !== 1 || scalar(277, 1) !== 1 || tags.has(322)) {
       throw new Error(`${file}: signed 16-bit TIFF is compressed, multi-band or tiled; add a reader before using it`);
     }
@@ -60,6 +64,9 @@ async function probeSignedTiff(file: string): Promise<SignedTiff | null> {
       await fh.read(arr, 0, arr.length, u32(entries, offsetsTag.valueAt));
       for (let i = 0; i < offsetsTag.count; i++) stripOffsets.push(size === 2 ? u16(arr, i * 2) : u32(arr, i * 4));
     }
+    if (width <= 0 || height <= 0 || rowsPerStrip <= 0) throw new Error(`${file}: TIFF has invalid dimensions`);
+    const expectedStrips = Math.ceil(height / rowsPerStrip);
+    if (stripOffsets.length !== expectedStrips) throw new Error(`${file}: TIFF has ${stripOffsets.length} strips, expected ${expectedStrips}`);
     return { width, height, rowsPerStrip, littleEndian: le, stripOffsets };
   } finally {
     await fh.close();
@@ -68,16 +75,24 @@ async function probeSignedTiff(file: string): Promise<SignedTiff | null> {
 
 /** Area-average (box filter) of a signed 16-bit TIFF to width x height, keeping negative values. Rows stream one strip at a time. */
 async function readSignedTiffFloat(file: string, tiff: SignedTiff, width: number, height: number): Promise<Float32Array> {
+  if (width > tiff.width || height > tiff.height) {
+    throw new Error(`${file}: requested ${width}x${height} is larger than the source ${tiff.width}x${tiff.height}; the box filter does not upsample`);
+  }
   const sum = new Float64Array(width * height);
   const count = new Uint32Array(width * height);
   const colBin = new Uint32Array(tiff.width);
   for (let x = 0; x < tiff.width; x++) colBin[x] = Math.min(width - 1, Math.floor((x * width) / tiff.width));
   const fh = await openFile(file, 'r');
   try {
+    const fileSize = (await fh.stat()).size;
     const buf = Buffer.alloc(tiff.width * tiff.rowsPerStrip * 2);
     for (let s = 0; s < tiff.stripOffsets.length; s++) {
       const rows = Math.min(tiff.rowsPerStrip, tiff.height - s * tiff.rowsPerStrip);
-      await fh.read(buf, 0, tiff.width * rows * 2, tiff.stripOffsets[s]!);
+      const wanted = tiff.width * rows * 2;
+      const at = tiff.stripOffsets[s]!;
+      if (at + wanted > fileSize) throw new Error(`${file}: strip ${s} (${at}+${wanted} bytes) lies beyond the end of the file (${fileSize} bytes); the download is truncated`);
+      const { bytesRead } = await fh.read(buf, 0, wanted, at);
+      if (bytesRead !== wanted) throw new Error(`${file}: short read on strip ${s}: ${bytesRead} of ${wanted} bytes`);
       for (let r = 0; r < rows; r++) {
         const y = s * tiff.rowsPerStrip + r;
         const rowBase = Math.min(height - 1, Math.floor((y * height) / tiff.height)) * width;
@@ -94,7 +109,10 @@ async function readSignedTiffFloat(file: string, tiff: SignedTiff, width: number
     await fh.close();
   }
   const out = new Float32Array(width * height);
-  for (let i = 0; i < out.length; i++) out[i] = count[i] ? sum[i]! / count[i]! : 0;
+  for (let i = 0; i < out.length; i++) {
+    if (!count[i]) throw new Error(`${file}: output cell ${i} received no source samples`);
+    out[i] = sum[i]! / count[i]!;
+  }
   return out;
 }
 
