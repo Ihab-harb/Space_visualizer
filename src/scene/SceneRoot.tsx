@@ -1,0 +1,39 @@
+import { Canvas } from '@react-three/fiber';
+import { CameraSystem } from '../camera/CameraSystem';
+import type { Catalog } from '../core/catalog/catalog';
+import type { Body, PlanetApproxOrbit } from '../core/catalog/schema';
+import { BodyMesh } from './BodyMesh';
+import { Effects } from './Effects';
+import { FrameDriver } from './FrameDriver';
+import { FrameStateProvider } from './FrameStateContext';
+import { OrbitLine } from './OrbitLine';
+import { SunLight } from './SunLight';
+
+const hasApproxOrbit = (b: Body): b is Body & { orbit: PlanetApproxOrbit } => b.orbit.type === 'planet-approx';
+
+export function SceneRoot({ catalog }: { catalog: Catalog }) {
+  const star = catalog.bodies.find((b) => b.category === 'star');
+  return (
+    <Canvas
+      className="scene"
+      gl={{ logarithmicDepthBuffer: true, antialias: true }}
+      camera={{ fov: 50, near: 0.001, far: 1e13, position: [0, 0, 0] }}
+      dpr={[1, 2]}
+    >
+      <color attach="background" args={['#03050b']} />
+      <FrameStateProvider>
+        <FrameDriver bodies={catalog.bodies} />
+        <CameraSystem catalog={catalog} />
+        <ambientLight intensity={0.035} />
+        {star && <SunLight bodyId={star.id} />}
+        {catalog.bodies.map((body) => (
+          <BodyMesh key={body.id} body={body} />
+        ))}
+        {catalog.bodies.filter(hasApproxOrbit).map((body) => (
+          <OrbitLine key={`orbit-${body.id}`} body={body} />
+        ))}
+        <Effects />
+      </FrameStateProvider>
+    </Canvas>
+  );
+}
