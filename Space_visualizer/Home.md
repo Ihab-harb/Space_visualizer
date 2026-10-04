@@ -13,6 +13,8 @@ A 3D, time-accurate solar system in the browser — every fact cited to an offic
 
 ## Plans
 - [[2026-10-04-m1-foundation|M1 Foundation]] — complete
+- [[2026-10-04-m2a1-imagery-and-shading|M2a.1 Imagery and Realistic shading]] — awaiting review
+- M2a.2 Cinematic effects, quality and interface — to be planned after M2a.1
 
 ## Architecture
 - [[Overview]]

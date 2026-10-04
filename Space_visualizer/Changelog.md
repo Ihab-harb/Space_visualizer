@@ -31,3 +31,16 @@ Back to [[Home]]
 ## 2026-10-04 — M2 design
 - Feedback after M1: richer per-body detail first, and much more advanced graphics (reference: sael.net and advanced Opus 5.5 projects).
 - Brainstormed and drafted [[2026-10-04-m2-cinematic-and-rich-bodies-design]]: M2a cinematic graphics and Realistic mode, M2b rich body detail, M2c Exhibit mode; later milestones renumbered M3–M7.
+- M2 spec approved.
+
+## 2026-10-05 — M2a.1 plan
+- Wrote [[2026-10-04-m2a1-imagery-and-shading]] (18 tasks). M2a is split in two: M2a.1 covers imagery and Realistic shading; M2a.2 will cover effects, adaptive quality and the new interface.
+- Planning research:
+  - verified every imagery source URL and size (Blue Marble, Black Marble, GEBCO, USGS Mars Viking/MOLA and Mercury MESSENGER, Hubble OPAL, NASA SVS Deep Star Maps);
+  - worked out the star map's orientation from catalogue stars;
+  - confirmed that three's EXR loader runs in Node;
+  - confirmed that the NSSDCA ring fact sheets give official ring radii, optical depth and albedo.
+- Scope rulings, recorded in the plan:
+  - one Blue Marble month and the latest OPAL map per planet;
+  - Moon imagery moves to M2b and the Venus radar view to M2a.2;
+  - KTX2 is deferred (WebP tiers are used instead).
