@@ -1,0 +1,15 @@
+node_modules/
+dist/
+coverage/
+playwright-report/
+test-results/
+pipeline/raw/
+.env
+.env.*
+*.log
+.DS_Store
+
+# Obsidian per-device UI state
+Space_visualizer/.obsidian/workspace.json
+Space_visualizer/.obsidian/workspace-mobile.json
+Space_visualizer/.trash/
