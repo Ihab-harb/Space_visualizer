@@ -1,4 +1,4 @@
-import { useFrame } from '@react-three/fiber';
+import { useFrame, useThree } from '@react-three/fiber';
 import { useEffect, useRef } from 'react';
 import { useRenderStore } from '../state/renderStore';
 import { createAutoQuality } from './autoQuality';
@@ -10,11 +10,24 @@ import { createAutoQuality } from './autoQuality';
 export function QualityGovernor() {
   const level = useRenderStore((s) => s.level);
   const mode = useRenderStore((s) => s.mode);
+  const gl = useThree((s) => s.gl);
   const controller = useRef(createAutoQuality(level));
 
   useEffect(() => {
     if (mode === 'auto') controller.current = createAutoQuality(useRenderStore.getState().level);
   }, [mode]);
+
+  useEffect(() => {
+    if (!import.meta.env.DEV) return;
+    window.__svRenderInfo = () => ({
+      textures: gl.info.memory.textures,
+      geometries: gl.info.memory.geometries,
+      programs: gl.info.programs?.length ?? 0,
+    });
+    return () => {
+      delete window.__svRenderInfo;
+    };
+  }, [gl]);
 
   useFrame((_, delta) => {
     if (useRenderStore.getState().mode !== 'auto') return;

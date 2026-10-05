@@ -98,3 +98,33 @@ test('High with a focused body runs the full stack', async ({ page }) => {
   console.log('composer passes: ' + JSON.stringify(passes));
   await page.waitForTimeout(1500);
 });
+
+test('Q cycles quality and E toggles camera effects', async ({ page }) => {
+  await page.goto('/?pause=1&quality=low');
+  await expect(page.locator('.scene[data-quality-mode="low"]')).toBeAttached();
+  await page.keyboard.press('q');
+  await expect(page.locator('.scene[data-quality-mode="auto"]')).toBeAttached();
+  await page.keyboard.press('e');
+  await expect(page.locator('.scene')).toHaveAttribute('data-fx', 'bloom,tonemap');
+});
+
+test('toggling quality and effects repeatedly does not leak GPU resources', async ({ page }) => {
+  await page.goto('/?pause=1&quality=low&target=earth');
+  await page.waitForSelector('.scene[data-textures-ready="true"]', { timeout: 30_000 });
+  await page.waitForTimeout(1500);
+  const info = () => page.evaluate(() => window.__svRenderInfo!());
+  const baseline = await info();
+  for (let i = 0; i < 8; i++) {
+    await page.keyboard.press('q');
+    await page.waitForTimeout(400);
+    await page.keyboard.press('e');
+    await page.waitForTimeout(400);
+  }
+  // Eight presses of each return to the start: quality Low, effects on.
+  await expect(page.locator('.scene[data-quality-mode="low"]')).toBeAttached();
+  await page.waitForTimeout(2000);
+  const after = await info();
+  console.log(`render info baseline=${JSON.stringify(baseline)} after=${JSON.stringify(after)}`);
+  expect(after.textures).toBeLessThanOrEqual(baseline.textures + 4);
+  expect(after.geometries).toBeLessThanOrEqual(baseline.geometries + 4);
+});
