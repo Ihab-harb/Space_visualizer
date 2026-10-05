@@ -5,6 +5,18 @@ export const LIMB_DARKENING_U = 0.6;
 /** The cloud tops circle Venus in about four Earth days (NASA Science, Venus). */
 export const VENUS_CLOUD_PERIOD_DAYS = 4;
 export const CORONA_SCALE = 4;
+/** Corona glow: A * exp(-K * (b - 1)) + C / b^2, faded to exactly 0 between CORONA_FADE_START and CORONA_SCALE. */
+export const CORONA_A = 0.6;
+export const CORONA_K = 3;
+export const CORONA_C = 0.12;
+export const CORONA_FADE_START = 2;
+/** Sun granulation (illustrative): fine cells, a faint close-zoom octave and a broad supergranulation modulation. */
+export const GRAN_FREQ = 40;
+export const GRAN_AMP = 0.11;
+export const GRAN_FINE_FREQ = 140;
+export const GRAN_FINE_AMP = 0.03;
+export const SUPERGRAN_FREQ = 12;
+export const SUPERGRAN_AMP = 0.08;
 
 export function limbDarkening(mu: number, u = LIMB_DARKENING_U): number {
   return 1 - u * (1 - Math.min(1, Math.max(0, mu)));
@@ -18,5 +30,7 @@ export function venusCloudAngle(jdTdb: number): number {
 
 export function coronaProfile(b: number): number {
   if (b < 1) return 0;
-  return 0.6 * Math.exp(-3 * (b - 1)) + 0.12 / (b * b);
+  const t = Math.min(1, Math.max(0, (b - CORONA_FADE_START) / (CORONA_SCALE - CORONA_FADE_START)));
+  const window = 1 - t * t * (3 - 2 * t);
+  return (CORONA_A * Math.exp(-CORONA_K * (b - 1)) + CORONA_C / (b * b)) * window;
 }

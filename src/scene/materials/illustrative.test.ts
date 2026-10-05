@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { J2000_JD } from '../../core/units';
-import { coronaProfile, LIMB_DARKENING_U, limbDarkening, venusCloudAngle } from './illustrative';
+import { CORONA_SCALE, coronaProfile, LIMB_DARKENING_U, limbDarkening, venusCloudAngle } from './illustrative';
 
 describe('illustrative profiles', () => {
   it('darkens the solar limb linearly', () => {
@@ -19,5 +19,16 @@ describe('illustrative profiles', () => {
     expect(coronaProfile(1)).toBeGreaterThan(coronaProfile(1.5));
     expect(coronaProfile(1.5)).toBeGreaterThan(coronaProfile(3));
     expect(coronaProfile(3)).toBeGreaterThan(0);
+  });
+  it('fades the corona to exactly zero at the shell edge, smoothly and monotonically', () => {
+    expect(coronaProfile(CORONA_SCALE)).toBe(0);
+    expect(coronaProfile(CORONA_SCALE - 0.01)).toBeGreaterThan(0);
+    expect(coronaProfile(CORONA_SCALE - 0.01)).toBeLessThan(1e-4);
+    let prev = coronaProfile(1);
+    for (let b = 1.01; b <= CORONA_SCALE; b += 0.01) {
+      const v = coronaProfile(b);
+      expect(v).toBeLessThanOrEqual(prev + 1e-12);
+      prev = v;
+    }
   });
 });
