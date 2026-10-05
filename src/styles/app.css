@@ -364,3 +364,12 @@ button[aria-pressed='true'] {
   text-transform: uppercase;
   letter-spacing: 0.04em;
 }
+
+/* On phones the info panel is a bottom sheet; keep the sky credit clear of it, just below the top bar. */
+@media (max-width: 720px) {
+  .sky-credit {
+    bottom: auto;
+    top: 128px;
+    max-width: calc(100% - 2 * var(--gutter));
+  }
+}

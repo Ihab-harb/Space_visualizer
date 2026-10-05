@@ -34,6 +34,6 @@ See [[0006-webp-tiers-ktx2-deferred]] and the M2 spec [[2026-10-04-m2-cinematic-
 
 **Validations:** Earth Sahara versus Pacific brightness, Mars and Mercury DEM elevation ranges, Olympus Mons peak, sky orientation. A failed validation stops the build.
 
-**Output:** `public/data/imagery.json` attaches `imagery` to each body; `npm run data:offline` still writes 9 bodies and 27 sources.
+**Output:** `public/textures/imagery.json` (written by `build.ts`) is merged into `public/data` by `pipeline/run.ts` and attaches `imagery` to each body; `npm run data:offline` still writes 9 bodies and 27 sources.
 
 **Sources:** [[NASA Blue Marble Next Generation]] · [[NASA Black Marble]] · [[NASA Blue Marble Clouds]] · [[NASA GEBCO Topography and Bathymetry]] · [[USGS Mars Viking Color Mosaic]] · [[USGS Mars MOLA DEM]] · [[USGS Mercury MESSENGER Mosaics]] · [[Hubble OPAL Global Maps]] · [[NASA SVS Deep Star Maps 2020]] · [[NSSDCA Ring Fact Sheets]]
