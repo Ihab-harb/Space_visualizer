@@ -1,6 +1,9 @@
+import { useFrame } from '@react-three/fiber';
 import { useEffect, useMemo } from 'react';
 import { BackSide, Matrix3, ShaderMaterial, SphereGeometry } from 'three';
+import { useRenderStore } from '../../state/renderStore';
 import { useSkyStore } from '../../state/skyStore';
+import { useFrameState } from '../FrameStateContext';
 import { useMaxTier } from '../../render/useMaxTier';
 import { useTieredTexture } from '../textures/useTieredTexture';
 import { eclipticToEquatorialColumns, skyTier } from './skyMath';
@@ -35,6 +38,7 @@ void main() {
 }`;
 
 export function SkyBackground() {
+  const frame = useFrameState();
   const ref = useSkyStore((s) => s.ref);
   const tier = useMaxTier();
   const texture = useTieredTexture(ref ?? undefined, { maxTier: skyTier(tier), srgb: true, mipmaps: false });
@@ -54,6 +58,10 @@ export function SkyBackground() {
   }, []);
   useEffect(() => () => geometry.dispose(), [geometry]);
   useEffect(() => () => material.dispose(), [material]);
+  useFrame(() => {
+    // Stars dim when the Sun fills the frame; with camera effects off the sky stays at its base exposure.
+    material.uniforms.uExposure!.value = SKY_EXPOSURE * (useRenderStore.getState().effects ? frame.fx.skyDim : 1);
+  });
   material.uniforms.uSky!.value = texture;
   if (!texture) return null;
   return <mesh geometry={geometry} material={material} frustumCulled={false} renderOrder={-1000} raycast={() => null} />;
