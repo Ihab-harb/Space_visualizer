@@ -109,22 +109,51 @@ test('Q cycles quality and E toggles camera effects', async ({ page }) => {
 });
 
 test('toggling quality and effects repeatedly does not leak GPU resources', async ({ page }) => {
+  test.setTimeout(240_000);
   await page.goto('/?pause=1&quality=low&target=earth');
   await page.waitForSelector('.scene[data-textures-ready="true"]', { timeout: 30_000 });
   await page.waitForTimeout(1500);
   const info = () => page.evaluate(() => window.__svRenderInfo!());
+  const frames = () => page.evaluate(() => new Promise((r) => requestAnimationFrame(() => requestAnimationFrame(r))));
   const baseline = await info();
+  // Each iteration presses q (low > auto > high > medium > low) then e (effects flip, starting from on). Over 8 iterations the
+  // loop visits High with effects on at iterations 2 and 6 (and Low with effects on at 4 and 8). Every state waits for its data-fx.
+  const modes = ['auto', 'high', 'medium', 'low'] as const;
+  const peaks: { textures: number; geometries: number; programs: number }[] = [];
+  let peak = baseline;
+  let highWithEffectsVisits = 0;
+  const programsAfterCycle: number[] = [];
   for (let i = 0; i < 8; i++) {
+    const mode = modes[i % 4];
+    const effectsOn = i % 2 === 1;
     await page.keyboard.press('q');
-    await page.waitForTimeout(400);
+    await expect(page.locator(`.scene[data-quality-mode="${mode}"]`)).toBeAttached();
     await page.keyboard.press('e');
-    await page.waitForTimeout(400);
+    if (effectsOn) {
+      if (mode === 'high') {
+        await expect(page.locator('.scene')).toHaveAttribute('data-fx', /dof/, { timeout: 30_000 });
+        highWithEffectsVisits++;
+      }
+    } else {
+      await expect(page.locator('.scene')).toHaveAttribute('data-fx', 'bloom,tonemap');
+    }
+    await frames();
+    await page.waitForTimeout(600);
+    await frames();
+    const now = await info();
+    if (mode === 'high' && effectsOn) peaks.push(now);
+    peak = { textures: Math.max(peak.textures, now.textures), geometries: Math.max(peak.geometries, now.geometries), programs: Math.max(peak.programs, now.programs) };
+    if (i % 4 === 3) programsAfterCycle.push(now.programs);
   }
-  // Eight presses of each return to the start: quality Low, effects on.
+  expect(highWithEffectsVisits).toBe(2);
   await expect(page.locator('.scene[data-quality-mode="low"]')).toBeAttached();
   await page.waitForTimeout(2000);
   const after = await info();
-  console.log(`render info baseline=${JSON.stringify(baseline)} after=${JSON.stringify(after)}`);
+  console.log(`render info baseline=${JSON.stringify(baseline)} highPeaks=${JSON.stringify(peaks)} peak=${JSON.stringify(peak)} programsAfterCycles=${JSON.stringify(programsAfterCycle)} after=${JSON.stringify(after)}`);
+  // High with effects built its passes (render targets) on top of the Low baseline.
+  expect(peaks[0].textures).toBeGreaterThan(baseline.textures);
   expect(after.textures).toBeLessThanOrEqual(baseline.textures + 4);
   expect(after.geometries).toBeLessThanOrEqual(baseline.geometries + 4);
+  expect(after.programs).toBeLessThanOrEqual(peak.programs);
+  expect(programsAfterCycle[1]).toBeLessThanOrEqual(programsAfterCycle[0]);
 });
