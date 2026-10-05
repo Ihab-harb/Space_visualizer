@@ -52,7 +52,7 @@ void main() {
 export function GiantMaterial({ body, bodies }: { body: Body; bodies: readonly Body[] }) {
   const tier = useViewStore((s) => s.textureTier);
   const color = useTieredTexture(body.imagery?.color, { maxTier: tier, srgb: true });
-  const rings = useTieredTexture(body.imagery?.rings?.texture, { maxTier: '2k', srgb: true });
+  const rings = useTieredTexture(body.imagery?.rings?.texture, { maxTier: '2k', srgb: true, mipmaps: false });
   const radii = ringRadii(body);
   const material = useMemo(
     () =>

@@ -27,6 +27,11 @@ describe('ring helpers', () => {
     expect(ringRadii(jupiter)).toBeNull();
   });
 
+  it('throws on non-numeric ring radii instead of hiding a data error', () => {
+    const bad: Body = { ...saturn, imagery: { rings: { ...saturn.imagery!.rings!, innerKm: { value: 'x', sourceId: 'nssdca-saturn-rings' } } } };
+    expect(() => ringRadii(bad)).toThrow(/saturn.*innerKm/);
+  });
+
   it('casts the ring shadow on the winter hemisphere only', () => {
     const { inner, outer } = ringRadii(saturn)!;
     const sun = normalize([1, 0, 0.3]);

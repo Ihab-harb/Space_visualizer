@@ -8,7 +8,8 @@ export function ringRadii(body: Body): { inner: number; outer: number } | null {
   if (!rings) return null;
   const inner = rings.innerKm.value;
   const outer = rings.outerKm.value;
-  if (typeof inner !== 'number' || typeof outer !== 'number') return null;
+  if (typeof inner !== 'number') throw new Error(`Body ${body.id}: imagery.rings.innerKm must be a number, got ${typeof inner}.`);
+  if (typeof outer !== 'number') throw new Error(`Body ${body.id}: imagery.rings.outerKm must be a number, got ${typeof outer}.`);
   const eq = body.shape.equatorialRadiusKm;
   return { inner: inner / eq, outer: outer / eq };
 }
