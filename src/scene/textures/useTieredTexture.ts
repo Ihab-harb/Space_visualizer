@@ -1,6 +1,7 @@
-import { useEffect, useRef, useState } from 'react';
+import { createContext, useCallback, useContext, useEffect, useRef, useState } from 'react';
 import { LinearFilter, LinearMipmapLinearFilter, NoColorSpace, RepeatWrapping, SRGBColorSpace, TextureLoader, type Texture } from 'three';
 import { TIERS, type TextureRef, type Tier } from '../../core/catalog/schema';
+import { availableRef } from './availableTiers';
 
 export interface TextureLoaderLike {
   loadAsync(url: string): Promise<Texture>;
@@ -85,6 +86,9 @@ export class TextureCache {
   }
 }
 
+/** Lets tests supply their own cache; null means the shared app-wide cache. */
+export const TextureCacheContext = createContext<TextureCache | null>(null);
+
 let sharedCache: TextureCache | null = null;
 const getSharedCache = (): TextureCache => (sharedCache ??= new TextureCache(new TextureLoader()));
 
@@ -154,43 +158,51 @@ export async function loadBestTier(
 }
 
 export function useTieredTexture(ref: TextureRef | undefined, opts: { maxTier: Tier; srgb: boolean; mipmaps?: boolean }): Texture | null {
+  const cache = useContext(TextureCacheContext) ?? getSharedCache();
   const [texture, setTexture] = useState<Texture | null>(null);
-  const owned = useRef(new Set<Texture>());
+  /** How many times this consumer acquired each texture from the cache. */
+  const owned = useRef(new Map<Texture, number>());
 
-  // Release a texture only once React has committed its replacement (or null), so the renderer never draws a released one.
-  useEffect(() => {
-    for (const t of [...owned.current]) {
-      if (t === texture) continue;
+  const releaseAll = useCallback(
+    (t: Texture) => {
+      const n = owned.current.get(t) ?? 0;
       owned.current.delete(t);
-      getSharedCache().release(t);
-    }
-  }, [texture]);
+      for (let i = 0; i < n; i++) cache.release(t);
+    },
+    [cache],
+  );
+
+  // Release textures only after React has committed their replacement (or null), so nothing on screen is released.
   useEffect(() => {
-    const held = owned.current;
-    return () => {
-      for (const t of held) getSharedCache().release(t);
-      held.clear();
-    };
-  }, []);
+    for (const t of [...owned.current.keys()]) if (t !== texture) releaseAll(t);
+  }, [texture, releaseAll]);
+  useEffect(
+    () => () => {
+      for (const t of [...owned.current.keys()]) releaseAll(t);
+    },
+    [releaseAll],
+  );
 
   useEffect(() => {
-    if (!ref) return;
+    if (!ref) {
+      setTexture(null);
+      return;
+    }
     let cancelled = false;
     void loadBestTier(
-      ref,
+      availableRef(ref),
       opts.maxTier,
       import.meta.env.BASE_URL,
-      getSharedCache().loaderFor({ srgb: opts.srgb, mipmaps: opts.mipmaps }),
+      cache.loaderFor({ srgb: opts.srgb, mipmaps: opts.mipmaps }),
       (t) => {
-        owned.current.add(t);
+        owned.current.set(t, (owned.current.get(t) ?? 0) + 1);
         setTexture(t);
       },
       () => cancelled,
     );
     return () => {
-      cancelled = true;
-      setTexture(null);
+      cancelled = true; // the current texture stays on screen until a replacement arrives
     };
-  }, [ref, opts.maxTier, opts.srgb, opts.mipmaps]);
+  }, [ref, opts.maxTier, opts.srgb, opts.mipmaps, cache]);
   return texture;
 }
