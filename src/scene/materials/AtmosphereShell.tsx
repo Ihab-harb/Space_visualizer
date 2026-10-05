@@ -69,20 +69,30 @@ void main() {
   float tNear = max(tOut.x, 0.0);
   float tFar = tOut.y;
   vec2 tIn = raySphere(ro, rd, 1.0);
-  if (tIn.x > 0.0) tFar = min(tFar, tIn.x);
+  bool hitsPlanet = tIn.x > 0.0;
+  if (hitsPlanet) tFar = min(tFar, tIn.x);
   float fScale = 1.0 / (uOuter - 1.0);
   float scaleOverDepth = fScale / uScaleDepth;
   vec3 start = ro + rd * tNear;
   float startOffset = exp(-1.0 / uScaleDepth) * scaleFn(dot(rd, start) / uOuter);
-  float segLen = (tFar - tNear) / float(uSamples);
+  float startOffsetGround = exp(-1.0 / uScaleDepth) * scaleFn(dot(-rd, start) / uOuter);
+  float segLen =(tFar - tNear) / float(uSamples);
   vec3 front = vec3(0.0);
   for (int i = 0; i < 16; i++) {
     if (i >= uSamples) break;
     vec3 sp = start + rd * segLen * (float(i) + 0.5);
     float h = length(sp);
     float depth = exp(scaleOverDepth * (1.0 - h));
-    float scatter = startOffset + depth * (scaleFn(dot(uSunDirObj, sp) / h) - scaleFn(dot(rd, sp) / h));
-    vec3 att = exp(-max(scatter, 0.0) * (uInvWavelength * uKr4PI + uKm4PI));
+    float scatter;
+    if (hitsPlanet) {
+      // GroundFromSpace form: the view path through the planet must not use the sky polynomial (it overflows).
+      scatter = depth * (scaleFn(dot(uSunDirObj, sp) / h) + scaleFn(dot(-rd, sp) / h)) - startOffsetGround;
+    } else {
+      scatter = startOffset + depth * (scaleFn(dot(uSunDirObj, sp) / h) - scaleFn(dot(rd, sp) / h));
+      // Guards against the polynomial-fit error at grazing heights.
+      scatter = max(scatter, 0.0);
+    }
+    vec3 att = exp(-scatter * (uInvWavelength * uKr4PI + uKm4PI));
     front += att * depth * segLen * fScale;
   }
   float cosA = dot(uSunDirObj, -rd);
