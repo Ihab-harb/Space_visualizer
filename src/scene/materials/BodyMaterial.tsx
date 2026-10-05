@@ -4,6 +4,7 @@ import type { Body } from '../../core/catalog/schema';
 import { AtmosphereShell } from './AtmosphereShell';
 import { CloudShell } from './CloudShell';
 import { EarthMaterial } from './EarthMaterial';
+import { GiantMaterial } from './GiantMaterial';
 import { RockyMaterial } from './RockyMaterial';
 
 /** Chooses the shader for a body from its render settings. Shaders not yet implemented fall back to M1 materials. */
@@ -14,6 +15,8 @@ export function BodyMaterial({ body, bodies }: { body: Body; bodies: readonly Bo
       return <RockyMaterial body={body} bodies={bodies} />;
     case 'earth':
       return <EarthMaterial body={body} bodies={bodies} />;
+    case 'giant':
+      return <GiantMaterial body={body} bodies={bodies} />;
     case 'sun':
       return <meshBasicMaterial color={starColor} toneMapped={false} />;
     default:
