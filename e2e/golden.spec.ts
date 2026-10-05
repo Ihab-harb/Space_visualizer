@@ -5,6 +5,7 @@ const VIEWS = [
   { name: '1-earth-terminator', url: '/?jd=2461317.5&pause=1&target=earth&dist=26000&azSun=90&el=12' },
   { name: '2-saturn-rings', url: '/?jd=2453371.5&pause=1&target=saturn&dist=420000&azSun=55&el=16' },
   { name: '3-sun', url: '/?jd=2461317.5&pause=1&target=sun&dist=4500000&az=0&el=8' },
+  { name: '0-mars', url: '/?jd=2461317.5&pause=1&target=mars&dist=14000&azSun=60&el=15' },
   { name: '4-overview', url: '/?jd=2461317.5&pause=1' },
 ];
 

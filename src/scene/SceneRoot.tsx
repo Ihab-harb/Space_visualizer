@@ -33,7 +33,7 @@ export function SceneRoot({ catalog }: { catalog: Catalog }) {
             <ambientLight intensity={0.035} />
             {star && <SunLight bodyId={star.id} />}
             {catalog.bodies.map((body) => (
-              <BodyMesh key={body.id} body={body} />
+              <BodyMesh key={body.id} body={body} bodies={catalog.bodies} />
             ))}
             {catalog.bodies.filter(hasApproxOrbit).map((body) => (
               <OrbitLine key={`orbit-${body.id}`} body={body} />
