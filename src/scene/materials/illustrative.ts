@@ -34,3 +34,6 @@ export function coronaProfile(b: number): number {
   const window = 1 - t * t * (3 - 2 * t);
   return (CORONA_A * Math.exp(-CORONA_K * (b - 1)) + CORONA_C / (b * b)) * window;
 }
+
+/** Strength of the cinematic fill light (spec §5), applied only while Camera effects is on. */
+export const CINEMATIC_FILL = 1;

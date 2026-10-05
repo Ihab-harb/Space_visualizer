@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { initialLevel, nextMode, parseQualityMode, canvasDpr, pixelRatioFor, PRESETS, stepDown, stepUp } from './quality';
+import { activePasses, initialLevel, nextMode, parseQualityMode, canvasDpr, pixelRatioFor, PRESETS, stepDown, stepUp } from './quality';
 
 describe('quality presets (spec §5)', () => {
   it('match the spec table', () => {
@@ -42,5 +42,18 @@ describe('canvasDpr (Canvas dpr prop)', () => {
     expect(canvasDpr('high', undefined)).toBe(1);
     expect(canvasDpr('high', 0)).toBe(1);
     expect(canvasDpr('high', Number.NaN)).toBe(1);
+  });
+});
+
+describe('activePasses', () => {
+  it('keeps only bloom and a neutral tone map when camera effects are off', () => {
+    expect(activePasses('high', false, true)).toEqual(['bloom', 'tonemap']);
+  });
+  it('orders the full stack at High with a focused body', () => {
+    expect(activePasses('high', true, true)).toEqual(['bloom', 'rays', 'flare', 'streaks', 'dof', 'exposure', 'tonemap', 'chromatic', 'vignette', 'grain']);
+  });
+  it('drops depth of field without a focus, and the detail effects and sun rays at Low', () => {
+    expect(activePasses('medium', true, false)).not.toContain('dof');
+    expect(activePasses('low', true, true)).toEqual(['bloom', 'exposure', 'tonemap', 'vignette']);
   });
 });

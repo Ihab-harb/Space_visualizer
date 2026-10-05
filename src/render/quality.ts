@@ -53,3 +53,21 @@ export function parseQualityMode(s: string | null): QualityMode | undefined {
 export function canvasDpr(level: QualityLevel, devicePixelRatio: number | undefined): number {
   return pixelRatioFor(level, devicePixelRatio && devicePixelRatio > 0 ? devicePixelRatio : 1);
 }
+
+export type PassId = 'bloom' | 'rays' | 'flare' | 'streaks' | 'dof' | 'exposure' | 'tonemap' | 'chromatic' | 'vignette' | 'grain';
+
+/** Post-processing passes in render order (plan Global Constraints). Effects off keeps bloom and a neutral tone map. */
+export function activePasses(level: QualityLevel, effects: boolean, hasFocus: boolean): PassId[] {
+  if (!effects) return ['bloom', 'tonemap'];
+  const p = PRESETS[level];
+  const detail = p.detailFx !== 'off';
+  const out: PassId[] = ['bloom'];
+  if (p.sunRays) out.push('rays', 'flare');
+  if (detail) out.push('streaks');
+  if (detail && hasFocus) out.push('dof');
+  out.push('exposure', 'tonemap');
+  if (detail) out.push('chromatic');
+  out.push('vignette');
+  if (detail) out.push('grain');
+  return out;
+}

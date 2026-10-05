@@ -4,7 +4,7 @@ import { CameraSystem } from '../camera/CameraSystem';
 import type { Catalog } from '../core/catalog/catalog';
 import type { Body, PlanetApproxOrbit } from '../core/catalog/schema';
 import { BodyMesh } from './BodyMesh';
-import { Effects } from './Effects';
+import { EffectsStack } from '../render/EffectsStack';
 import { FrameDriver } from './FrameDriver';
 import { FrameStateProvider } from './FrameStateContext';
 import { LabelLayerContext } from './LabelLayerContext';
@@ -47,7 +47,7 @@ export function SceneRoot({ catalog }: { catalog: Catalog }) {
             {catalog.bodies.filter(hasApproxOrbit).map((body) => (
               <OrbitLine key={`orbit-${body.id}`} body={body} />
             ))}
-            <Effects />
+            <EffectsStack bodies={catalog.bodies} />
           </FrameStateProvider>
         </LabelLayerContext.Provider>
       </Canvas>

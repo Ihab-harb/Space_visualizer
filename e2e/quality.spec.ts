@@ -38,3 +38,13 @@ test('High only requests HD tiers that exist in the build', async ({ page }) => 
   await page.waitForSelector('.scene[data-textures-ready="true"]', { timeout: 30_000 });
   await page.waitForTimeout(1000);
 });
+
+test('camera effects off leaves only bloom and a neutral tone map', async ({ page }) => {
+  await page.goto('/?pause=1&quality=high&fx=0');
+  await expect(page.locator('.scene')).toHaveAttribute('data-fx', 'bloom,tonemap');
+});
+
+test('Low runs the reduced stack', async ({ page }) => {
+  await page.goto('/?pause=1&quality=low&fx=1');
+  await expect(page.locator('.scene')).toHaveAttribute('data-fx', 'bloom,exposure,tonemap,vignette');
+});
