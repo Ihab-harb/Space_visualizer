@@ -1,4 +1,4 @@
-import { useMemo } from 'react';
+﻿import { useMemo } from 'react';
 import { Color } from 'three';
 import type { Body } from '../../core/catalog/schema';
 import { AtmosphereShell } from './AtmosphereShell';
@@ -6,6 +6,8 @@ import { CloudShell } from './CloudShell';
 import { EarthMaterial } from './EarthMaterial';
 import { GiantMaterial } from './GiantMaterial';
 import { RockyMaterial } from './RockyMaterial';
+import { RingShell } from './RingShell';
+import { ringRadii } from './rings';
 
 /** Chooses the shader for a body from its render settings. Shaders not yet implemented fall back to M1 materials. */
 export function BodyMaterial({ body, bodies }: { body: Body; bodies: readonly Body[] }) {
@@ -30,6 +32,9 @@ export function BodyExtras({ body, bodies }: { body: Body; bodies: readonly Body
     <>
       {body.render.shader === 'earth' && <CloudShell body={body} bodies={bodies} />}
       {body.render.atmosphere && <AtmosphereShell body={body} bodies={bodies} />}
+      {ringRadii(body) && <RingShell body={body} bodies={bodies} />}
     </>
   );
 }
+
+
