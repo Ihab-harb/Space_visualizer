@@ -7,7 +7,7 @@ import { useSelectionStore } from '../state/selectionStore';
 import { useViewStore } from '../state/viewStore';
 import { BodyLabel } from './BodyLabel';
 import { useFrameState } from './FrameStateContext';
-import { BodyMaterial } from './materials/BodyMaterial';
+import { BodyExtras, BodyMaterial } from './materials/BodyMaterial';
 import { MIN_PIXELS, pixelsPerRadian, renderRadiusKm } from './scaleMode';
 import { writeMatrix4 } from './threeMath';
 
@@ -76,6 +76,7 @@ export function BodyMesh({ body, bodies }: { body: Body; bodies: readonly Body[]
         onPointerOut={() => hover(null)}
       >
         <BodyMaterial body={body} bodies={bodies} />
+        <BodyExtras body={body} bodies={bodies} />
       </mesh>
       <BodyLabel body={body} />
     </group>

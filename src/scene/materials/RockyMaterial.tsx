@@ -1,4 +1,4 @@
-import { useMemo } from 'react';
+import { useEffect, useMemo } from 'react';
 import { Color } from 'three';
 import type { Body } from '../../core/catalog/schema';
 import { useViewStore } from '../../state/viewStore';
@@ -50,6 +50,7 @@ export function RockyMaterial({ body, bodies }: { body: Body; bodies: readonly B
       }),
     [body.render.normalStrength, body.render.lommelSeeliger, body.display.color],
   );
+  useEffect(() => () => material.dispose(), [material]);
   material.uniforms.uColorMap!.value = color;
   material.uniforms.uHasColor!.value = color ? 1 : 0;
   material.uniforms.uNormalMap!.value = normal;
