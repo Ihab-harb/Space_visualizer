@@ -3,11 +3,12 @@ import { segmentByAttributes } from './passSegments';
 import { activePasses } from './quality';
 
 describe('segmentByAttributes', () => {
-  it('splits the High stack where EffectPass would reorder', () => {
+  it('splits the High stack where EffectPass would reorder, and before depth of field', () => {
     expect(segmentByAttributes(activePasses('high', true, true).filter((p) => !['chromatic', 'vignette', 'grain'].includes(p)))).toEqual([
       ['bloom'],
       ['rays', 'flare'],
-      ['streaks', 'dof', 'exposure', 'tonemap'],
+      ['streaks'],
+      ['dof', 'exposure', 'tonemap'],
     ]);
   });
   it('keeps the Low stack in one pass', () => {

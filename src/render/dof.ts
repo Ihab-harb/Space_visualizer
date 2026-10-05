@@ -45,8 +45,34 @@ void main() {
   gl_FragColor.rg = magnitude * vec2(step(signedDistance, 0.0), step(0.0, signedDistance));
 }`;
 
-export function patchCocForLogDepth(material: { fragmentShader: string; needsUpdate: boolean }): void {
-  if (material.fragmentShader === LOG_DEPTH_COC_FRAGMENT) return;
+export interface CocMaterialLike {
+  fragmentShader: string;
+  needsUpdate: boolean;
+  defines: Record<string, unknown>;
+  uniforms: Record<string, unknown>;
+}
+
+const REQUIRED_UNIFORMS = ['depthBuffer', 'projectionMatrixInverse', 'cameraFar', 'focusDistance', 'focusRange'] as const;
+
+/**
+ * Installs the log-depth shader. Returns 'pending' until the library has set LOG_DEPTH (it does so when the composer
+ * initialises the effect), 'failed' (after a console.error, material left untouched) if the library's assumptions that
+ * this shader depends on no longer hold, and 'patched' once installed. Never throws: it runs inside the render loop.
+ */
+export function patchCocForLogDepth(material: CocMaterialLike): 'patched' | 'pending' | 'failed' {
+  if (material.fragmentShader === LOG_DEPTH_COC_FRAGMENT) return 'patched';
+  const problems: string[] = [];
+  if (material.defines.PERSPECTIVE_CAMERA === undefined) problems.push('PERSPECTIVE_CAMERA define missing');
+  if (material.defines.USE_REVERSED_DEPTH_BUFFER !== undefined) problems.push('USE_REVERSED_DEPTH_BUFFER is defined');
+  for (const name of REQUIRED_UNIFORMS) if (!(name in material.uniforms)) problems.push(`uniform ${name} missing`);
+  if (problems.length) {
+    console.error(
+      `Depth of field: the circle-of-confusion material no longer matches the log-depth shader (${problems.join('; ')}); leaving the stock shader, which is wrong for this scene's depth buffer.`,
+    );
+    return 'failed';
+  }
+  if (material.defines.LOG_DEPTH === undefined) return 'pending';
   material.fragmentShader = LOG_DEPTH_COC_FRAGMENT;
   material.needsUpdate = true;
+  return 'patched';
 }

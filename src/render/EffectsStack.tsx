@@ -20,6 +20,8 @@ import { useSunFx } from './sunFx';
 /** Filmic operator; Task 9 compares ACES and AgX on the golden views (Decision 0007). */
 export const FILMIC_TONE_MAPPING = ToneMappingMode.AGX;
 
+const cocStatus = new WeakMap<object, string>();
+
 export function EffectsStack({ bodies }: { bodies: readonly Body[] }) {
   const frame = useFrameState();
   const level = useRenderStore((s) => s.level);
@@ -64,7 +66,7 @@ export function EffectsStack({ bodies }: { bodies: readonly Body[] }) {
   const godRays = useRef<GodRaysEffect | null>(null);
   useSunFx({ sun, bodies, proxy, flare, godRays });
 
-  const streaks = useMemo(() => new AnamorphicStreakEffect({ strength: preset.detailFx === 'full' ? 0.8 : 0.5 }), [preset.detailFx]);
+  const streaks = useMemo(() => new AnamorphicStreakEffect({ threshold: 0.8, strength: preset.detailFx === 'full' ? 1.6 : 1, spreadPx: 12 }), [preset.detailFx]);
   useEffect(() => () => streaks.dispose(), [streaks]);
   const dof = useRef<DepthOfFieldEffect | null>(null);
   const dofTarget = useMemo(() => new Vector3(), []);
@@ -72,7 +74,8 @@ export function EffectsStack({ bodies }: { bodies: readonly Body[] }) {
     const id = useSelectionStore.getState().selectedId;
     const effect = dof.current;
     if (!effect) return;
-    patchCocForLogDepth(effect.cocMaterial);
+    const mat = effect.cocMaterial;
+    if (cocStatus.get(mat) !== 'failed') cocStatus.set(mat, patchCocForLogDepth(mat));
     if (!id || preset.detailFx === 'off') return;
     const pos = frame.bodyPositionsKm.get(id);
     const r = frame.bodyRenderRadiusKm.get(id);
@@ -136,5 +139,5 @@ export function EffectsStack({ bodies }: { bodies: readonly Body[] }) {
     <EffectGroup key={`hdr-${segment.join('+')}`}>{segment.map(element)}</EffectGroup>
   ));
   if (display.length) children.push(<EffectGroup key="display">{display.map(element)}</EffectGroup>);
-  return <EffectComposer ref={composerRef} multisampling={level === 'low' ? 0 : 4}>{children}</EffectComposer>;
+  return <EffectComposer key={passes.join(',')} ref={composerRef} multisampling={level === 'low' ? 0 : 4}>{children}</EffectComposer>;
 }

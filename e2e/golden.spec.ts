@@ -44,6 +44,7 @@ for (const view of VIEWS) {
  * clear of the "Earth" label (which sits at the centre).
  */
 test('earth atmosphere keeps the night side dark and the scene visible', async ({ page }) => {
+  test.setTimeout(180_000); // two full-size SwiftShader screenshots, run in parallel with other workers
   await page.goto('/?jd=2461317.5&pause=1&target=earth&dist=36000&azSun=90&el=12&quality=high&fx=1');
   await expect(page.locator('canvas')).toBeVisible();
   await page.waitForSelector('.scene[data-textures-ready="true"]', { timeout: 30_000 }).catch(() => undefined);
@@ -89,7 +90,37 @@ test('earth atmosphere keeps the night side dark and the scene visible', async (
     }
   }
   console.log(`atmosphere guard: stars=${stars}`);
-  expect(stars).toBeGreaterThanOrEqual(3);
+  // Floor catches erased stars; ceiling catches a grey veil (measured 98 with depth of field off, about 192 on, of 24000 px).
+  expect(stars).toBeGreaterThanOrEqual(30);
+  expect(stars).toBeLessThan(SKY_W * SKY_H * 0.25);
+
+  // Sharpness check: the selected body must stay in focus. Local contrast (sum of absolute horizontal luminance differences)
+  // over a cloud-rich day-side patch (80x60 px, up-left of the disc centre, clear of the "Earth" label) is compared with the
+  // same patch after closing the info panel: that deselects the body, which removes the depth-of-field pass and leaves the
+  // camera, time and every other effect unchanged, so the only difference is depth of field.
+  const PATCH_X = 520;
+  const PATCH_Y = 285;
+  const PATCH_W = 80;
+  const PATCH_H = 60;
+  const contrast = (px: Buffer, width: number) => {
+    let sum = 0;
+    for (let y = PATCH_Y; y < PATCH_Y + PATCH_H; y++) {
+      for (let x = PATCH_X; x < PATCH_X + PATCH_W - 1; x++) {
+        const a = (y * width + x) * 3;
+        const b = a + 3;
+        sum += Math.abs(0.2126 * (px[b]! - px[a]!) + 0.7152 * (px[b + 1]! - px[a + 1]!) + 0.0722 * (px[b + 2]! - px[a + 2]!));
+      }
+    }
+    return sum;
+  };
+  const withDof = contrast(data, info.width);
+  await page.getByRole('button', { name: 'Close' }).click();
+  await page.waitForTimeout(1500);
+  const off = await sharp(await page.locator('canvas').screenshot()).removeAlpha().raw().toBuffer({ resolveWithObject: true });
+  const withoutDof = contrast(off.data, off.info.width);
+  console.log(`atmosphere guard: sharpness dof=${withDof.toFixed(0)} off=${withoutDof.toFixed(0)} ratio=${(withDof / withoutDof).toFixed(3)}`);
+  expect(withoutDof).toBeGreaterThan(0);
+  expect(withDof).toBeGreaterThanOrEqual(0.7 * withoutDof);
 });
 
 test('golden 5-phone', async ({ browser }) => {
