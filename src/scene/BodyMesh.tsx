@@ -46,6 +46,7 @@ export function BodyMesh({ body }: { body: Body }) {
       isStar ? MIN_PIXELS.star : MIN_PIXELS.body,
       pixelsPerRadian(frame.viewportHeightPx, frame.fovRad),
     );
+    frame.bodyRenderRadiusKm.set(body.id, radius);
     const k = radius / equatorialRadiusKm;
     mesh.current.scale.set(equatorialRadiusKm * k, equatorialRadiusKm * k, polarRadiusKm * k);
     const orientation = frame.bodyOrientation.get(body.id);
