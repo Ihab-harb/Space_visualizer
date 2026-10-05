@@ -9,13 +9,11 @@ import { FrameDriver } from './FrameDriver';
 import { FrameStateProvider } from './FrameStateContext';
 import { LabelLayerContext } from './LabelLayerContext';
 import { OrbitLine } from './OrbitLine';
-import { SunLight } from './SunLight';
 import { TextureReadiness } from './TextureReadiness';
 
 const hasApproxOrbit = (b: Body): b is Body & { orbit: PlanetApproxOrbit } => b.orbit.type === 'planet-approx';
 
 export function SceneRoot({ catalog }: { catalog: Catalog }) {
-  const star = catalog.bodies.find((b) => b.category === 'star');
   const labelLayer = useRef<HTMLDivElement>(null);
   const sceneRef = useRef<HTMLDivElement>(null);
   return (
@@ -30,8 +28,6 @@ export function SceneRoot({ catalog }: { catalog: Catalog }) {
           <FrameStateProvider>
             <FrameDriver bodies={catalog.bodies} />
             <CameraSystem catalog={catalog} />
-            <ambientLight intensity={0.035} />
-            {star && <SunLight bodyId={star.id} />}
             {catalog.bodies.map((body) => (
               <BodyMesh key={body.id} body={body} bodies={catalog.bodies} />
             ))}
