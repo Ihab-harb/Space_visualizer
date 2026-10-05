@@ -1,16 +1,20 @@
 import { useFrame } from '@react-three/fiber';
-import { Bloom, ChromaticAberration, EffectComposer, EffectGroup, GodRays, LensFlareEffect, Noise, ToneMapping, Vignette } from '@react-three/postprocessing';
+import { Bloom, ChromaticAberration, DepthOfField, EffectComposer, EffectGroup, GodRays, LensFlareEffect, Noise, ToneMapping, Vignette } from '@react-three/postprocessing';
 import { ToneMappingMode } from 'postprocessing';
 import { EffectPass } from 'postprocessing';
 import { useEffect, useMemo, useRef, type JSX } from 'react';
-import type { EffectComposer as EffectComposerImpl, GodRaysEffect } from 'postprocessing';
-import { Color, Mesh, MeshBasicMaterial, SphereGeometry, Vector2 } from 'three';
+import type { DepthOfFieldEffect, EffectComposer as EffectComposerImpl, GodRaysEffect } from 'postprocessing';
+import { Color, Mesh, MeshBasicMaterial, SphereGeometry, Vector2, Vector3 } from 'three';
 import type { Body } from '../core/catalog/schema';
+import { sub } from '../core/math/vec3';
 import { useFrameState } from '../scene/FrameStateContext';
 import { useRenderStore } from '../state/renderStore';
 import { useSelectionStore } from '../state/selectionStore';
+import { dofSettings, focusPoint, patchCocForLogDepth } from './dof';
+import { AnamorphicStreakEffect } from './effects/AnamorphicStreakEffect';
 import { ExposureEffect } from './effects/ExposureEffect';
-import { activePasses, PRESETS } from './quality';
+import { segmentByAttributes } from './passSegments';
+import { activePasses, PRESETS, type PassId } from './quality';
 import { useSunFx } from './sunFx';
 
 /** Filmic operator; Task 9 compares ACES and AgX on the golden views (Decision 0007). */
@@ -60,6 +64,27 @@ export function EffectsStack({ bodies }: { bodies: readonly Body[] }) {
   const godRays = useRef<GodRaysEffect | null>(null);
   useSunFx({ sun, bodies, proxy, flare, godRays });
 
+  const streaks = useMemo(() => new AnamorphicStreakEffect({ strength: preset.detailFx === 'full' ? 0.8 : 0.5 }), [preset.detailFx]);
+  useEffect(() => () => streaks.dispose(), [streaks]);
+  const dof = useRef<DepthOfFieldEffect | null>(null);
+  const dofTarget = useMemo(() => new Vector3(), []);
+  useFrame(() => {
+    const id = useSelectionStore.getState().selectedId;
+    const effect = dof.current;
+    if (!effect) return;
+    patchCocForLogDepth(effect.cocMaterial);
+    if (!id || preset.detailFx === 'off') return;
+    const pos = frame.bodyPositionsKm.get(id);
+    const r = frame.bodyRenderRadiusKm.get(id);
+    if (!pos || !r) return;
+    const p = focusPoint(sub(pos, frame.cameraPositionKm), r);
+    dofTarget.set(p[0], p[1], p[2]);
+    effect.target = dofTarget;
+    const s = dofSettings(Math.hypot(p[0], p[1], p[2]), preset.detailFx);
+    effect.cocMaterial.focusRange = s.focusRange;
+    effect.bokehScale = s.bokehScale;
+  });
+
   const exposure = useMemo(() => new ExposureEffect(1), []);
   useEffect(() => () => exposure.dispose(), [exposure]);
   useFrame(() => {
@@ -79,18 +104,37 @@ export function EffectsStack({ bodies }: { bodies: readonly Body[] }) {
 
   // HDR stage (merged into passes by the composer) ends with tone mapping. The display stage is its own EffectPass:
   // chromatic aberration samples the raw input buffer for R and B, so it must not share a pass with exposure or tone mapping.
-  const children: JSX.Element[] = [];
-  const display: JSX.Element[] = [];
-  for (const pass of passes) {
-    if (pass === 'bloom') children.push(<Bloom key="bloom" mipmapBlur levels={preset.bloomLevels} luminanceThreshold={1} intensity={effects ? 1.1 : 0.6} />);
-    else if (pass === 'rays') children.push(<GodRays key="rays" ref={godRays} sun={proxy} samples={preset.detailFx === 'full' ? 60 : 40} density={0.96} decay={0.93} weight={0.35} exposure={0.5} clampMax={1} blur />);
-    else if (pass === 'flare') children.push(<primitive key="flare" object={flare} />);
-    else if (pass === 'exposure') children.push(<primitive key="exposure" object={exposure} />);
-    else if (pass === 'tonemap') children.push(<ToneMapping key={`tonemap-${effects}`} mode={effects ? FILMIC_TONE_MAPPING : ToneMappingMode.NEUTRAL} />);
-    else if (pass === 'chromatic') display.push(<ChromaticAberration key="chromatic" offset={caOffset} radialModulation modulationOffset={0.35} />);
-    else if (pass === 'vignette') display.push(<Vignette key="vignette" offset={0.3} darkness={0.55} />);
-    else if (pass === 'grain') display.push(<Noise key="grain" premultiply opacity={preset.detailFx === 'full' ? 0.035 : 0.02} />);
-  }
-  if (display.length) children.push(<EffectGroup key="display">{display}</EffectGroup>);
+  const element = (pass: PassId): JSX.Element => {
+    switch (pass) {
+      case 'bloom':
+        return <Bloom key="bloom" mipmapBlur levels={preset.bloomLevels} luminanceThreshold={1} intensity={effects ? 1.1 : 0.6} />;
+      case 'rays':
+        return <GodRays key="rays" ref={godRays} sun={proxy} samples={preset.detailFx === 'full' ? 60 : 40} density={0.96} decay={0.93} weight={0.35} exposure={0.5} clampMax={1} blur />;
+      case 'flare':
+        return <primitive key="flare" object={flare} />;
+      case 'streaks':
+        return <primitive key="streaks" object={streaks} />;
+      case 'dof':
+        return <DepthOfField key="dof" ref={dof} bokehScale={preset.detailFx === 'full' ? 2 : 1} />;
+      case 'exposure':
+        return <primitive key="exposure" object={exposure} />;
+      case 'tonemap':
+        return <ToneMapping key={`tonemap-${effects}`} mode={effects ? FILMIC_TONE_MAPPING : ToneMappingMode.NEUTRAL} />;
+      case 'chromatic':
+        return <ChromaticAberration key="chromatic" offset={caOffset} radialModulation modulationOffset={0.35} />;
+      case 'vignette':
+        return <Vignette key="vignette" offset={0.3} darkness={0.55} />;
+      case 'grain':
+        return <Noise key="grain" premultiply opacity={preset.detailFx === 'full' ? 0.035 : 0.02} />;
+    }
+  };
+  const isDisplay = (p: PassId) => p === 'chromatic' || p === 'vignette' || p === 'grain';
+  const display = passes.filter(isDisplay);
+  // Each HDR segment is one EffectPass (merged effects are re-sorted by attributes; see passSegments.ts), so the
+  // composer's assembly equals the spec order and no pass ever holds two convolution effects.
+  const children: JSX.Element[] = segmentByAttributes(passes.filter((p) => !isDisplay(p))).map((segment) => (
+    <EffectGroup key={`hdr-${segment.join('+')}`}>{segment.map(element)}</EffectGroup>
+  ));
+  if (display.length) children.push(<EffectGroup key="display">{display.map(element)}</EffectGroup>);
   return <EffectComposer ref={composerRef} multisampling={level === 'low' ? 0 : 4}>{children}</EffectComposer>;
 }

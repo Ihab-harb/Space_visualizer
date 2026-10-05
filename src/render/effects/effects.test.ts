@@ -1,5 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { ExposureEffect } from './ExposureEffect';
+import { EffectAttribute } from 'postprocessing';
+import { AnamorphicStreakEffect } from './AnamorphicStreakEffect';
 
 describe('ExposureEffect', () => {
   it('stores the exposure in a uniform', () => {
@@ -8,6 +10,16 @@ describe('ExposureEffect', () => {
     e.exposure = 0.8;
     expect(e.uniforms.get('exposure')!.value).toBe(0.8);
     expect(e.getFragmentShader()).toContain('mainImage');
+    e.dispose();
+  });
+});
+
+describe('AnamorphicStreakEffect', () => {
+  it('is a convolution effect with tunable uniforms', () => {
+    const e = new AnamorphicStreakEffect({ strength: 0.5 });
+    expect(e.getAttributes() & EffectAttribute.CONVOLUTION).toBeTruthy();
+    expect(e.uniforms.get('strength')!.value).toBe(0.5);
+    expect(e.getFragmentShader()).toContain('inputBuffer');
     e.dispose();
   });
 });

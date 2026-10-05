@@ -55,6 +55,10 @@ async function composerPasses(page: import('@playwright/test').Page): Promise<st
 }
 const FX_NAME: Record<string, string> = {
   BloomEffect: 'bloom',
+  GodRaysEffect: 'rays',
+  LensFlareEffect: 'flare',
+  AnamorphicStreakEffect: 'streaks',
+  DepthOfFieldEffect: 'dof',
   ExposureEffect: 'exposure',
   ToneMappingEffect: 'tonemap',
   ChromaticAberrationEffect: 'chromatic',
@@ -83,4 +87,14 @@ test('camera effects off assembles only bloom and tone mapping', async ({ page }
   await page.goto('/?pause=1&quality=high&fx=0');
   const names = (await composerPasses(page)).flat().map((n) => FX_NAME[n] ?? n);
   expect(names).toEqual(['bloom', 'tonemap']);
+});
+
+test('High with a focused body runs the full stack', async ({ page }) => {
+  await page.goto('/?pause=1&quality=high&fx=1&target=earth');
+  await expect(page.locator('.scene')).toHaveAttribute('data-fx', 'bloom,rays,flare,streaks,dof,exposure,tonemap,chromatic,vignette,grain');
+  const passes = await composerPasses(page);
+  const names = passes.flat().map((n) => FX_NAME[n] ?? n);
+  expect(names.join(',')).toBe((await page.locator('.scene').getAttribute('data-fx'))!);
+  console.log('composer passes: ' + JSON.stringify(passes));
+  await page.waitForTimeout(1500);
 });

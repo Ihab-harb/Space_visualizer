@@ -73,6 +73,23 @@ test('earth atmosphere keeps the night side dark and the scene visible', async (
   expect(max).toBeGreaterThan(40);
   expect(night).toBeLessThan(35);
   expect(day).toBeGreaterThan(night + 40);
+
+  // Star-field check: depth of field softens the background but must not erase it. The sky region (200x120 px, left of the
+  // disc, below the top bar, clear of labels, orbit lines and panels) was chosen from this view rendered with depth of
+  // field off, where it held 98 pixels above 90 (191 with it on: the bokeh spreads each star over more pixels).
+  const SKY_X = 20;
+  const SKY_Y = 380;
+  const SKY_W = 200;
+  const SKY_H = 120;
+  let stars = 0;
+  for (let y = SKY_Y; y < SKY_Y + SKY_H; y++) {
+    for (let x = SKY_X; x < SKY_X + SKY_W; x++) {
+      const i = (y * info.width + x) * 3;
+      if (Math.max(data[i]!, data[i + 1]!, data[i + 2]!) > 90) stars++;
+    }
+  }
+  console.log(`atmosphere guard: stars=${stars}`);
+  expect(stars).toBeGreaterThanOrEqual(3);
 });
 
 test('golden 5-phone', async ({ browser }) => {
