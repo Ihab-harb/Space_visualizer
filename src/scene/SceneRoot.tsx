@@ -10,6 +10,8 @@ import { FrameStateProvider } from './FrameStateContext';
 import { LabelLayerContext } from './LabelLayerContext';
 import { OrbitLine } from './OrbitLine';
 import { SkyBackground } from './sky/SkyBackground';
+import { QualityGovernor } from '../render/QualityGovernor';
+import { RenderStateAttributes } from '../render/RenderStateAttributes';
 import { TextureReadiness } from './TextureReadiness';
 import { useSkyStore } from '../state/skyStore';
 
@@ -35,6 +37,7 @@ export function SceneRoot({ catalog }: { catalog: Catalog }) {
             <SkyBackground />
             <FrameDriver bodies={catalog.bodies} />
             <CameraSystem catalog={catalog} />
+            <QualityGovernor />
             {catalog.bodies.map((body) => (
               <BodyMesh key={body.id} body={body} bodies={catalog.bodies} />
             ))}
@@ -46,6 +49,7 @@ export function SceneRoot({ catalog }: { catalog: Catalog }) {
         </LabelLayerContext.Provider>
       </Canvas>
       <TextureReadiness target={sceneRef} />
+      <RenderStateAttributes target={sceneRef} />
       <div className="label-layer" ref={labelLayer} />
     </div>
   );
