@@ -1,7 +1,9 @@
 import { useFrame } from '@react-three/fiber';
-import { Bloom, ChromaticAberration, EffectComposer, Noise, ToneMapping, Vignette } from '@react-three/postprocessing';
+import { Bloom, ChromaticAberration, EffectComposer, EffectGroup, Noise, ToneMapping, Vignette } from '@react-three/postprocessing';
 import { ToneMappingMode } from 'postprocessing';
-import { useEffect, useMemo, type JSX } from 'react';
+import { EffectPass } from 'postprocessing';
+import { useEffect, useMemo, useRef, type JSX } from 'react';
+import type { EffectComposer as EffectComposerImpl } from 'postprocessing';
 import { Vector2 } from 'three';
 import type { Body } from '../core/catalog/schema';
 import { useFrameState } from '../scene/FrameStateContext';
@@ -29,14 +31,28 @@ export function EffectsStack({ bodies }: { bodies: readonly Body[] }) {
   });
   const caOffset = useMemo(() => (preset.detailFx === 'full' ? new Vector2(0.0012, 0.0012) : new Vector2(0.0007, 0.0007)), [preset.detailFx]);
 
+  const composerRef = useRef<EffectComposerImpl>(null);
+  useEffect(() => {
+    if (!import.meta.env.DEV) return;
+    // EffectPass.effects is private in the typings only; read it for e2e assembly checks.
+    window.__svPasses = () => (composerRef.current?.passes ?? []).filter((p): p is EffectPass => p instanceof EffectPass).map((p) => (p as unknown as { effects: Array<{ name: string }> }).effects.map((e) => e.name));
+    return () => {
+      delete window.__svPasses;
+    };
+  }, []);
+
+  // HDR stage (merged into passes by the composer) ends with tone mapping. The display stage is its own EffectPass:
+  // chromatic aberration samples the raw input buffer for R and B, so it must not share a pass with exposure or tone mapping.
   const children: JSX.Element[] = [];
+  const display: JSX.Element[] = [];
   for (const pass of passes) {
     if (pass === 'bloom') children.push(<Bloom key="bloom" mipmapBlur levels={preset.bloomLevels} luminanceThreshold={1} intensity={effects ? 1.1 : 0.6} />);
     else if (pass === 'exposure') children.push(<primitive key="exposure" object={exposure} />);
     else if (pass === 'tonemap') children.push(<ToneMapping key={`tonemap-${effects}`} mode={effects ? FILMIC_TONE_MAPPING : ToneMappingMode.NEUTRAL} />);
-    else if (pass === 'chromatic') children.push(<ChromaticAberration key="chromatic" offset={caOffset} radialModulation modulationOffset={0.35} />);
-    else if (pass === 'vignette') children.push(<Vignette key="vignette" offset={0.3} darkness={0.55} />);
-    else if (pass === 'grain') children.push(<Noise key="grain" premultiply opacity={preset.detailFx === 'full' ? 0.035 : 0.02} />);
+    else if (pass === 'chromatic') display.push(<ChromaticAberration key="chromatic" offset={caOffset} radialModulation modulationOffset={0.35} />);
+    else if (pass === 'vignette') display.push(<Vignette key="vignette" offset={0.3} darkness={0.55} />);
+    else if (pass === 'grain') display.push(<Noise key="grain" premultiply opacity={preset.detailFx === 'full' ? 0.035 : 0.02} />);
   }
-  return <EffectComposer multisampling={level === 'low' ? 0 : 4}>{children}</EffectComposer>;
+  if (display.length) children.push(<EffectGroup key="display">{display}</EffectGroup>);
+  return <EffectComposer ref={composerRef} multisampling={level === 'low' ? 0 : 4}>{children}</EffectComposer>;
 }

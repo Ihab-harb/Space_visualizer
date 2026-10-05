@@ -48,3 +48,39 @@ test('Low runs the reduced stack', async ({ page }) => {
   await page.goto('/?pause=1&quality=low&fx=1');
   await expect(page.locator('.scene')).toHaveAttribute('data-fx', 'bloom,exposure,tonemap,vignette');
 });
+
+async function composerPasses(page: import('@playwright/test').Page): Promise<string[][]> {
+  await page.waitForFunction(() => (window.__svPasses?.().length ?? 0) > 0);
+  return page.evaluate(() => window.__svPasses!());
+}
+const FX_NAME: Record<string, string> = {
+  BloomEffect: 'bloom',
+  ExposureEffect: 'exposure',
+  ToneMappingEffect: 'tonemap',
+  ChromaticAberrationEffect: 'chromatic',
+  VignetteEffect: 'vignette',
+  NoiseEffect: 'grain',
+};
+
+test('the composer assembles exactly the passes data-fx reports (Low)', async ({ page }) => {
+  await page.goto('/?pause=1&quality=low&fx=1');
+  const names = (await composerPasses(page)).flat().map((n) => FX_NAME[n] ?? n);
+  const fx = await page.locator('.scene').getAttribute('data-fx');
+  expect(names.join(',')).toBe(fx);
+  expect(fx).toBe('bloom,exposure,tonemap,vignette');
+});
+
+test('chromatic aberration runs in a later pass than tone mapping (High)', async ({ page }) => {
+  await page.goto('/?pause=1&quality=high&fx=1');
+  const passes = await composerPasses(page);
+  const at = (name: string) => passes.findIndex((p) => p.includes(name));
+  expect(at('ToneMappingEffect')).toBeGreaterThanOrEqual(0);
+  expect(at('ChromaticAberrationEffect')).toBeGreaterThan(at('ToneMappingEffect'));
+  expect(at('VignetteEffect')).toBeGreaterThanOrEqual(at('ChromaticAberrationEffect'));
+});
+
+test('camera effects off assembles only bloom and tone mapping', async ({ page }) => {
+  await page.goto('/?pause=1&quality=high&fx=0');
+  const names = (await composerPasses(page)).flat().map((n) => FX_NAME[n] ?? n);
+  expect(names).toEqual(['bloom', 'tonemap']);
+});
