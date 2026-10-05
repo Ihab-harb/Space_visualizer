@@ -1,4 +1,4 @@
-﻿import { useEffect, useMemo } from 'react';
+import { useEffect, useMemo } from 'react';
 import { DoubleSide, RingGeometry, Vector2 } from 'three';
 import type { Body } from '../../core/catalog/schema';
 import { useTieredTexture } from '../textures/useTieredTexture';

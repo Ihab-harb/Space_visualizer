@@ -10,6 +10,23 @@ const VIEWS = [
   { name: '4-overview', url: '/?jd=2461317.5&pause=1' },
 ];
 
+let pageErrors: string[] = [];
+let shaderErrors: string[] = [];
+
+test.beforeEach(({ page }) => {
+  pageErrors = [];
+  shaderErrors = [];
+  page.on('pageerror', (error) => pageErrors.push(error.message));
+  page.on('console', (msg) => {
+    if (msg.type() === 'error' && /Shader Error|THREE\.WebGLProgram/.test(msg.text())) shaderErrors.push(msg.text().slice(0, 500));
+  });
+});
+
+test.afterEach(() => {
+  expect(pageErrors).toEqual([]);
+  expect(shaderErrors).toEqual([]);
+});
+
 for (const view of VIEWS) {
   test(`golden ${view.name}`, async ({ page }) => {
     await page.goto(view.url);

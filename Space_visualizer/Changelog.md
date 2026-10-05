@@ -53,3 +53,4 @@ Back to [[Home]]
 - Shareable URL views (`jd`, `date`, `pause`, `target`, `dist`, `az`, `azSun`, `el`, `tier`).
 - Info panel Imagery section: every layer cited, procedural visuals labelled illustrative.
 - Six golden screenshots in `Assets/m2a1-golden/`; an e2e pixel guard on the Earth view. Details in [[scene]] and [[pipeline]].
+- Final-review fixes: no impossible texture tiers (imagery.json lists only what the build produces; OPAL tiers never exceed their source width), a shared ref-counted texture cache (night, clouds and ring textures upload once), exaggerated relief labelled illustrative, Saturn outer ring edge is the cited F ring radius (139,826 km).
