@@ -13,6 +13,7 @@ export interface FrameState {
   bodyPositionsKm: Map<string, Vec3>;
   bodyInValidRange: Map<string, boolean>;
   bodyOrientation: Map<string, Mat3>;
+  bodyRenderRadiusKm: Map<string, number>;
   viewportHeightPx: number;
   fovRad: number;
 }
@@ -24,6 +25,7 @@ export function createFrameState(): FrameState {
     bodyPositionsKm: new Map(),
     bodyInValidRange: new Map(),
     bodyOrientation: new Map(),
+    bodyRenderRadiusKm: new Map(),
     viewportHeightPx: 800,
     fovRad: 50 * DEG,
   };

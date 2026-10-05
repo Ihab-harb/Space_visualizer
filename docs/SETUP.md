@@ -11,6 +11,8 @@ This guide covers everything needed to install, run, test and refresh the data f
 | [Git](https://git-scm.com/) | Any recent version | Clone the repository | `git --version` |
 | A web browser with **WebGL** | Current Chrome, Edge, Firefox or Safari, with hardware acceleration on | Shows the 3D scene | Visit [get.webgl.org](https://get.webgl.org/) |
 
+Optional, only to rebuild textures: about 6 GB free disk space for the imagery cache (the committed textures are enough to run the app) and 16 GB RAM recommended for `npm run textures:hd` (the build runs Node with an 8 GB heap).
+
 Everything else (React, Three.js, Vite, test tools) is installed by npm in step 2. No database, server or API key is needed: the app runs entirely in the browser from data files committed to the repository.
 
 ## 2. Get the code and install dependencies
@@ -70,6 +72,10 @@ An amber note in the time bar means the date is outside 1800–2050, where JPL's
 | `npm run typecheck` | Checks TypeScript types without building |
 | `npm run e2e` | Runs end-to-end tests in headless Chromium (Playwright); starts the dev server automatically if it isn't running |
 
+### Golden views
+
+`npx playwright test e2e/golden.spec.ts` writes screenshots to `test-results/golden/`. The URL parameters `jd`, `date`, `pause`, `target`, `dist`, `az`, `azSun`, `el` and `tier` also work in the browser for sharing a view.
+
 ## 6. Refreshing the data (optional)
 
 The app reads `public/data/*.json`, which is generated from official sources and committed to the repository, so you do **not** need to run the pipeline to use the app.
@@ -82,6 +88,10 @@ The app reads `public/data/*.json`, which is generated from official sources and
 
 Review the resulting `git diff` before committing refreshed data.
 
+### Refreshing the textures
+
+See the Imagery section of the README: `npm run textures`, `npm run textures:hd`, `npm run textures -- --offline` and `npm run textures:verify`.
+
 ## 7. Troubleshooting
 
 | Symptom | Fix |
@@ -92,6 +102,8 @@ Review the resulting `git diff` before committing refreshed data.
 | Port 5173 already in use | Vite picks the next free port and prints it; use that address. |
 | `npm run e2e` says the browser is missing | Run `npx playwright install chromium`. |
 | `npm run data` fails with a network error | A source may be temporarily down. Run `npm run data:offline` to rebuild from the cache, or try again later. The committed data stays unchanged on failure. |
+| Texture build fails a validation (for example the Mars peak check) | The source product may have changed layout. Run `npm run textures:verify`, and see the vault's Data Sources notes. |
+| Black planets | A shader failed to compile. Check the browser console for `THREE.WebGLProgram`, and report the GPU and browser. |
 
 ## 8. Where things are
 
