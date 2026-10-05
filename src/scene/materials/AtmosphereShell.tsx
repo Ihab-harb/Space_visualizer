@@ -1,6 +1,8 @@
 import { useEffect, useMemo } from 'react';
 import { AdditiveBlending, SphereGeometry, Vector3 } from 'three';
 import type { Body } from '../../core/catalog/schema';
+import { PRESETS } from '../../render/quality';
+import { useRenderStore } from '../../state/renderStore';
 import { FRAG_OUTRO } from './chunks';
 import { createBodyMaterial } from './createBodyMaterial';
 import { useBodyUniforms } from './useBodyUniforms';
@@ -124,6 +126,10 @@ export function AtmosphereShell({ body, bodies }: { body: Body; bodies: readonly
       depthWrite: false,
     });
   }, [preset]);
+  const samples = useRenderStore((s) => PRESETS[s.level].atmosphereSamples);
+  useEffect(() => {
+    material.uniforms.uSamples!.value = samples;
+  }, [material, samples]);
   useEffect(() => () => geometry.dispose(), [geometry]);
   useEffect(() => () => material.dispose(), [material]);
   useBodyUniforms(body, [material], bodies);

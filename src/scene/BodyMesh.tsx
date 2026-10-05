@@ -1,8 +1,10 @@
 import { useFrame, type ThreeEvent } from '@react-three/fiber';
-import { useMemo, useRef } from 'react';
+import { useEffect, useMemo, useRef } from 'react';
 import { Matrix4, SphereGeometry, type Group, type Mesh } from 'three';
 import type { Body } from '../core/catalog/schema';
 import { length, sub } from '../core/math/vec3';
+import { PRESETS } from '../render/quality';
+import { useRenderStore } from '../state/renderStore';
 import { useSelectionStore } from '../state/selectionStore';
 import { useViewStore } from '../state/viewStore';
 import { BodyLabel } from './BodyLabel';
@@ -24,11 +26,13 @@ export function BodyMesh({ body, bodies }: { body: Body; bodies: readonly Body[]
   const mesh = useRef<Mesh>(null);
   const matrix = useMemo(() => new Matrix4(), []);
   const isStar = body.category === 'star';
+  const [widthSegments, heightSegments] = useRenderStore((s) => PRESETS[s.level].sphereSegments);
   const geometry = useMemo(() => {
-    const g = new SphereGeometry(1, 128, 64);
+    const g = new SphereGeometry(1, widthSegments, heightSegments);
     g.rotateX(Math.PI / 2); // Three's sphere poles are on +Y; body-fixed poles are on +Z
     return g;
-  }, []);
+  }, [widthSegments, heightSegments]);
+  useEffect(() => () => geometry.dispose(), [geometry]);
   const select = useSelectionStore((s) => s.select);
   const hover = useSelectionStore((s) => s.hover);
   const requestFocus = useViewStore((s) => s.requestFocus);
