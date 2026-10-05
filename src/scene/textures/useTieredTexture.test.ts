@@ -25,6 +25,39 @@ describe('tiered textures', () => {
     expect(best).toBe('2k');
     expect(pendingTextures()).toBe(0);
   });
+  it('falls back to the middle tier when the highest fails', async () => {
+    const shown: string[] = [];
+    const best = await loadBestTier(ref, '8k', '/', loader(['a_1k', 'a_2k']), (_t, tier) => shown.push(tier));
+    expect(shown).toEqual(['1k', '2k']);
+    expect(best).toBe('2k');
+  });
+  it('stops loading once cancelled, disposes late results and leaves nothing pending', async () => {
+    let calls = 0;
+    let cancelled = false;
+    const disposed: Texture[] = [];
+    const counting: TextureLoaderLike = {
+      loadAsync: async () => {
+        calls++;
+        const t = new Texture();
+        t.addEventListener('dispose', () => disposed.push(t));
+        cancelled = true; // cancelled while the first load is in flight
+        return t;
+      },
+    };
+    const shown: string[] = [];
+    const best = await loadBestTier(ref, '8k', '/', counting, (_t, tier) => shown.push(tier), () => cancelled);
+    expect(calls).toBe(1);
+    expect(shown).toEqual([]);
+    expect(best).toBeNull();
+    expect(disposed).toHaveLength(1);
+    expect(pendingTextures()).toBe(0);
+  });
+  it('does not start any load when already cancelled', async () => {
+    let calls = 0;
+    const l: TextureLoaderLike = { loadAsync: async () => (calls++, new Texture()) };
+    await loadBestTier(ref, '8k', '/', l, () => undefined, () => true);
+    expect(calls).toBe(0);
+  });
   it('never throws when every tier fails', async () => {
     await expect(loadBestTier(ref, '4k', '/', loader([]), () => undefined)).resolves.toBeNull();
     expect(pendingTextures()).toBe(0);
