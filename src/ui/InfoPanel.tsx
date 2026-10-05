@@ -10,6 +10,7 @@ import { useViewStore } from '../state/viewStore';
 import { accuracyLines } from './accuracy';
 import { citationNumbers, citationOrder } from './citations';
 import { formatDistanceKm, formatFact, formatLightTime } from './format';
+import { illustrativeNotes, imageryLines } from './imagery';
 
 const CATEGORY_LABELS: Record<BodyCategory, string> = {
   star: 'Star', planet: 'Planet', 'dwarf-planet': 'Dwarf planet', moon: 'Moon', asteroid: 'Asteroid', comet: 'Comet', spacecraft: 'Spacecraft',
@@ -156,7 +157,26 @@ export function InfoPanel({ catalog }: { catalog: Catalog }) {
         </ul>
       </section>
 
-      <p className="info-panel__note">Illustrative colour — no official surface map in this release.</p>
+      <section>
+        <h3>Imagery</h3>
+        {imageryLines(body).length > 0 && (
+          <ul className="info-panel__imagery">
+            {imageryLines(body).map((l) => (
+              <li key={l.label}>
+                <strong>{l.label}</strong>
+                {l.illustrative && <span className="tag">illustrative</span>}
+                {cite(l.sourceId)}
+                {l.derivation && <span className="info-panel__derivation"> — {l.derivation}</span>}
+              </li>
+            ))}
+          </ul>
+        )}
+        {illustrativeNotes(body).map((note) => (
+          <p key={note} className="info-panel__note">
+            {note}
+          </p>
+        ))}
+      </section>
 
       <section>
         <h3>Sources</h3>

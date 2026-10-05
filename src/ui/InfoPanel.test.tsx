@@ -96,6 +96,13 @@ describe('InfoPanel', () => {
     expect(panel()).toHaveTextContent('Earth–Moon barycentre');
   });
 
+  it('shows the imagery section with cited layers and illustrative notes', () => {
+    render(<InfoPanel catalog={catalog} />);
+    const section = within(panel()).getByRole('heading', { name: 'Imagery' }).closest('section')!;
+    expect(section).toHaveTextContent('Cloud-band motion is illustrative.');
+    expect(panel()).not.toHaveTextContent('Illustrative colour — no official surface map in this release.');
+  });
+
   it('centres the view and closes', async () => {
     const user = userEvent.setup();
     render(<InfoPanel catalog={catalog} />);

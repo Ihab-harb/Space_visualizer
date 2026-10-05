@@ -44,3 +44,12 @@ Back to [[Home]]
   - one Blue Marble month and the latest OPAL map per planet;
   - Moon imagery moves to M2b and the Venus radar view to M2a.2;
   - KTX2 is deferred (WebP tiers are used instead).
+
+## 2026-10-05 — M2a.1 Imagery and Realistic shading implemented
+- Official imagery from 13 sources (NASA Blue Marble, Black Marble, clouds, GEBCO; USGS Mars and Mercury; Hubble OPAL giant-planet maps; NASA Deep Star Maps sky), built into WebP tiers by `npm run textures` ([[0006-webp-tiers-ktx2-deferred]]). About 13.1 MB committed.
+- Custom WebGL2 shaders per body type: terminator, Lommel-Seeliger and GGX, Earth night lights and cloud shadows, atmosphere scattering, eclipses ([[0005-webgl2-custom-shaders]]).
+- Saturn and Uranus rings from NSSDCA ring tables with ring and planet shadows; illustrative Venus clouds, Sun surface and corona.
+- NASA Deep Star Maps sky with credit.
+- Shareable URL views (`jd`, `date`, `pause`, `target`, `dist`, `az`, `azSun`, `el`, `tier`).
+- Info panel Imagery section: every layer cited, procedural visuals labelled illustrative.
+- Six golden screenshots in `Assets/m2a1-golden/`; an e2e pixel guard on the Earth view. Details in [[scene]] and [[pipeline]].

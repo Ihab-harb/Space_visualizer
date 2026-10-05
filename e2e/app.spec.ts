@@ -92,3 +92,12 @@ test('jumps in time and warns about accuracy', async ({ page }) => {
   await page.getByRole('button', { name: 'Now' }).click();
   await expect(page.getByRole('status')).toHaveCount(0);
 });
+
+test('cites the official imagery for Earth', async ({ page }) => {
+  await page.goto('/?target=earth&pause=1');
+  const panel = page.getByRole('complementary', { name: 'Body information' });
+  const imagery = panel.locator('section', { has: page.getByRole('heading', { name: 'Imagery' }) });
+  await expect(imagery).toContainText('Surface');
+  await expect(imagery).toContainText('Night lights');
+  await expect(panel.locator('.sources')).toContainText('Blue Marble');
+});

@@ -346,3 +346,21 @@ button[aria-pressed='true'] {
 .sky-credit a {
   color: inherit;
 }
+
+.info-panel__imagery {
+  margin: 0;
+  padding-left: 18px;
+  font-size: 13px;
+}
+.info-panel__derivation {
+  color: var(--text-dim, rgba(255, 255, 255, 0.6));
+}
+.tag {
+  margin-left: 6px;
+  padding: 0 5px;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  border-radius: 4px;
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}

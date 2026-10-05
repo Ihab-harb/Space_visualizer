@@ -13,7 +13,7 @@ A 3D, time-accurate solar system in the browser — every fact cited to an offic
 
 ## Plans
 - [[2026-10-04-m1-foundation|M1 Foundation]] — complete
-- [[2026-10-04-m2a1-imagery-and-shading|M2a.1 Imagery and Realistic shading]] — awaiting review
+- [[2026-10-04-m2a1-imagery-and-shading|M2a.1 Imagery and Realistic shading]] — complete
 - M2a.2 Cinematic effects, quality and interface — to be planned after M2a.1
 
 ## Architecture
@@ -49,6 +49,11 @@ A 3D, time-accurate solar system in the browser — every fact cited to an offic
 - [[0002-react-three-fiber]]
 - [[0003-floating-origin-and-log-depth]]
 - [[0004-measured-accuracy]]
+- [[0005-webgl2-custom-shaders]]
+- [[0006-webp-tiers-ktx2-deferred]]
+
+## Assets
+- M2a.1 golden screenshots: `Assets/m2a1-golden/` (six PNG views)
 
 ## Log
 - [[Changelog]]
