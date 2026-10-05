@@ -26,3 +26,29 @@ describe('pickOccluders', () => {
     expect(pickOccluders('earth', bodies, positions).map((o) => o.id)).toEqual(['jupiter']);
   });
 });
+
+describe('pickOccluders ordering and limits', () => {
+  const mk = (id: string, category: 'star' | 'planet' = 'planet') => ({ ...makeEarth(), id, category });
+  const bodies = [mk('sun', 'star'), mk('self'), mk('far'), mk('near'), mk('mid'), mk('mid2'), mk('mid3'), mk('nopos')];
+  const positions = new Map<string, Vec3>([
+    ['sun', [1, 0, 0]],
+    ['self', [0, 0, 0]],
+    ['far', [900, 0, 0]],
+    ['near', [10, 0, 0]],
+    ['mid', [30, 0, 0]],
+    ['mid2', [0, 50, 0]],
+    ['mid3', [0, 0, 70]],
+  ]);
+
+  it('orders by distance, caps at 4 by default, excludes self, Sun and bodies without a position', () => {
+    expect(pickOccluders('self', bodies, positions).map((o) => o.id)).toEqual(['near', 'mid', 'mid2', 'mid3']);
+  });
+
+  it('honours an explicit smaller max', () => {
+    expect(pickOccluders('self', bodies, positions, 2).map((o) => o.id)).toEqual(['near', 'mid']);
+  });
+
+  it('returns [] when the body itself has no position', () => {
+    expect(pickOccluders('nopos', bodies, positions)).toEqual([]);
+  });
+});

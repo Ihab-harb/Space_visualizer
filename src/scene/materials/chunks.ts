@@ -135,11 +135,14 @@ float eclipseFactor(vec3 p) {
     float dOcc = length(toOcc);
     if (dOcc >= dSun) continue;
     float ao = asin(clamp(uOccluders[i].w / dOcc, 0.0, 1.0));
-    float sep = acos(clamp(dot(toSun / dSun, toOcc / dOcc), -1.0, 1.0));
+    vec3 ua = toSun / dSun;
+    vec3 ub = toOcc / dOcc;
+    float sep = atan(length(cross(ua, ub)), dot(ua, ub));
     vis *= sunVisibleFraction(as, ao, sep);
   }
   return vis;
 }
+/** Mirrors the TS rayHitsEllipsoid; float32 forces a 1e-4 tolerance (TS uses 1e-9). */
 bool rayHitsEllipsoid(vec3 o, vec3 d, float f) {
   vec3 os = vec3(o.xy, o.z / f);
   vec3 ds = vec3(d.xy, d.z / f);
