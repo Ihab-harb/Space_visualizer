@@ -54,3 +54,8 @@ Back to [[Home]]
 - Info panel Imagery section: every layer cited, procedural visuals labelled illustrative.
 - Six golden screenshots in `Assets/m2a1-golden/`; an e2e pixel guard on the Earth view. Details in [[scene]] and [[pipeline]].
 - Final-review fixes: no impossible texture tiers (imagery.json lists only what the build produces; OPAL tiers never exceed their source width), a shared ref-counted texture cache (night, clouds and ring textures upload once), exaggerated relief labelled illustrative, Saturn outer ring edge is the cited F ring radius (139,826 km).
+
+## 2026-10-05 — M2a.2 plan
+- Wrote [[2026-10-05-m2a2-cinematic-effects-and-quality]] (10 tasks): the effects stack (bloom, god rays, lens flare, streaks, depth of field, exposure, filmic tone mapping, chromatic aberration, vignette, grain), the Camera-effects toggle, the High/Medium/Low/Auto quality presets with the frame-time controller, and the M2a.1 carry-over texture fixes.
+- The remaining M2a scope is split into its own section, M2a.3: the interface redesign (spec §4), Tour mode and the Venus radar toggle. Each section gets its own PR.
+- Planning research: postprocessing 6.39 supports the logarithmic depth buffer for depth of field and god rays. The built-in lens-flare occlusion raycast is unreliable at solar-system scale, so the plan computes Sun visibility in float64 in core.
