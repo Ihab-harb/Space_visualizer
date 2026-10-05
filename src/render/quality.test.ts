@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { initialLevel, nextMode, parseQualityMode, pixelRatioFor, PRESETS, stepDown, stepUp } from './quality';
+import { initialLevel, nextMode, parseQualityMode, canvasDpr, pixelRatioFor, PRESETS, stepDown, stepUp } from './quality';
 
 describe('quality presets (spec §5)', () => {
   it('match the spec table', () => {
@@ -28,5 +28,19 @@ describe('quality presets (spec §5)', () => {
     expect(parseQualityMode('medium')).toBe('medium');
     expect(parseQualityMode('ultra')).toBeUndefined();
     expect(parseQualityMode(null)).toBeUndefined();
+  });
+});
+
+describe('canvasDpr (Canvas dpr prop)', () => {
+  it('is a single number per level, never a range', () => {
+    expect(canvasDpr('low', 2)).toBe(1);
+    expect(canvasDpr('medium', 2)).toBe(1.25);
+    expect(canvasDpr('high', 3)).toBe(2);
+    expect(typeof canvasDpr('high', 2)).toBe('number');
+  });
+  it('falls back to 1 for a missing or invalid devicePixelRatio', () => {
+    expect(canvasDpr('high', undefined)).toBe(1);
+    expect(canvasDpr('high', 0)).toBe(1);
+    expect(canvasDpr('high', Number.NaN)).toBe(1);
   });
 });

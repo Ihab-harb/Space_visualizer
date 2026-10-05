@@ -10,6 +10,8 @@ import { FrameStateProvider } from './FrameStateContext';
 import { LabelLayerContext } from './LabelLayerContext';
 import { OrbitLine } from './OrbitLine';
 import { SkyBackground } from './sky/SkyBackground';
+import { canvasDpr } from '../render/quality';
+import { useRenderStore } from '../state/renderStore';
 import { QualityGovernor } from '../render/QualityGovernor';
 import { RenderStateAttributes } from '../render/RenderStateAttributes';
 import { TextureReadiness } from './TextureReadiness';
@@ -18,6 +20,7 @@ import { useSkyStore } from '../state/skyStore';
 const hasApproxOrbit = (b: Body): b is Body & { orbit: PlanetApproxOrbit } => b.orbit.type === 'planet-approx';
 
 export function SceneRoot({ catalog }: { catalog: Catalog }) {
+  const level = useRenderStore((s) => s.level);
   const labelLayer = useRef<HTMLDivElement>(null);
   const sceneRef = useRef<HTMLDivElement>(null);
   const loadSky = useSkyStore((s) => s.load);
@@ -29,7 +32,7 @@ export function SceneRoot({ catalog }: { catalog: Catalog }) {
       <Canvas
         gl={{ logarithmicDepthBuffer: true, antialias: true }}
         camera={{ fov: 50, near: 0.001, far: 1e13, position: [0, 0, 0] }}
-        dpr={[1, 2]}
+        dpr={canvasDpr(level, typeof window === 'undefined' ? 1 : window.devicePixelRatio)}
       >
         <color attach="background" args={['#03050b']} />
         <LabelLayerContext.Provider value={labelLayer}>

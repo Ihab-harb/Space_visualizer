@@ -48,3 +48,8 @@ export function stepUp(level: QualityLevel): QualityLevel {
 export function parseQualityMode(s: string | null): QualityMode | undefined {
   return s !== null && (MODE_CYCLE as readonly string[]).includes(s) ? (s as QualityMode) : undefined;
 }
+
+/** Canvas pixel ratio for a level on this device; the single source for the Canvas dpr prop. */
+export function canvasDpr(level: QualityLevel, devicePixelRatio: number | undefined): number {
+  return pixelRatioFor(level, devicePixelRatio && devicePixelRatio > 0 ? devicePixelRatio : 1);
+}

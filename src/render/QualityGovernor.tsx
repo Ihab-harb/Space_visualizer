@@ -1,19 +1,17 @@
-import { useFrame, useThree } from '@react-three/fiber';
+import { useFrame } from '@react-three/fiber';
 import { useEffect, useRef } from 'react';
 import { useRenderStore } from '../state/renderStore';
 import { createAutoQuality } from './autoQuality';
-import { pixelRatioFor } from './quality';
 
-/** Applies the pixel ratio for the current level and, in Auto mode, adjusts the level from measured frame times. */
+/**
+ * In Auto mode, adjusts the level from measured frame times. The pixel ratio itself is applied by the Canvas dpr prop
+ * (SceneRoot, via canvasDpr), so a Canvas re-render can never reset it; no setDpr call is needed here.
+ */
 export function QualityGovernor() {
-  const setDpr = useThree((s) => s.setDpr);
   const level = useRenderStore((s) => s.level);
   const mode = useRenderStore((s) => s.mode);
   const controller = useRef(createAutoQuality(level));
 
-  useEffect(() => {
-    setDpr(pixelRatioFor(level, typeof window === 'undefined' ? 1 : window.devicePixelRatio || 1));
-  }, [level, setDpr]);
   useEffect(() => {
     if (mode === 'auto') controller.current = createAutoQuality(useRenderStore.getState().level);
   }, [mode]);
