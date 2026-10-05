@@ -41,7 +41,7 @@ interface PlanetSpec {
   render: Render;
 }
 
-/** Display colours are illustrative only (no official surface maps in M1). */
+/** Fallback display colours, illustrative only; official imagery (imagery.json) replaces them where a body has a map. */
 export const PLANET_SPECS: PlanetSpec[] = [
   { id: 'mercury', name: 'Mercury', naifId: 199, column: 'MERCURY', approxRow: 'Mercury', color: '#9a9894', represents: 'planet', render: { shader: 'rocky', atmosphere: null, lommelSeeliger: 0.85, normalStrength: 1, bandFlow: false } },
   { id: 'venus', name: 'Venus', naifId: 299, column: 'VENUS', approxRow: 'Venus', color: '#e2c48e', represents: 'planet', render: { shader: 'venus', atmosphere: 'venus', lommelSeeliger: 0, normalStrength: 0, bandFlow: false } },

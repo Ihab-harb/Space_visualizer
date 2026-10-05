@@ -65,6 +65,8 @@ export function parseRingSheet(html: string): RingRow[] {
   return out;
 }
 
+const ILLUSTRATIVE_RING_WIDTH_KM = 50;
+
 export function buildRingBands(rows: RingRow[], opts: { albedoUnit: number; minOpticalDepth: number }): RingBand[] {
   const bands: RingBand[] = [];
   const pending: Array<{ name: string; tau: number; albedo: number }> = [];
@@ -90,8 +92,13 @@ export function buildRingBands(rows: RingRow[], opts: { albedoUnit: number; minO
       continue;
     }
     if (row.radiusKm !== undefined && tau !== undefined && !/gap|ringlet/i.test(row.name)) {
-      const half = (row.widthKm ?? 50) / 2;
-      bands.push({ name: row.name, innerKm: row.radiusKm - half, outerKm: row.radiusKm + half, opticalDepth: tau, albedo });
+      if (row.widthKm !== undefined) {
+        const half = row.widthKm / 2;
+        bands.push({ name: row.name, innerKm: row.radiusKm - half, outerKm: row.radiusKm + half, opticalDepth: tau, albedo });
+      } else {
+        // No cited width: the cited radius is the outer edge and an illustrative 50 km width lies inward of it.
+        bands.push({ name: row.name, innerKm: row.radiusKm - ILLUSTRATIVE_RING_WIDTH_KM, outerKm: row.radiusKm, opticalDepth: tau, albedo });
+      }
     }
   }
   return bands.filter((b) => b.opticalDepth >= opts.minOpticalDepth).sort((a, b) => a.innerKm - b.innerKm);
@@ -99,6 +106,7 @@ export function buildRingBands(rows: RingRow[], opts: { albedoUnit: number; minO
 
 /** Radial RGBA profile (width × 2): alpha from optical depth with sub-texel coverage, colour = tint × albedo. */
 export function ringProfile(bands: RingBand[], opts: { width: number; tint: [number, number, number] }): { rgba: Uint8Array; innerKm: number; outerKm: number } {
+  if (bands.length === 0) throw new Error('ringProfile: no ring bands (empty list)');
   const innerKm = Math.min(...bands.map((b) => b.innerKm));
   const outerKm = Math.max(...bands.map((b) => b.outerKm));
   const texelKm = (outerKm - innerKm) / opts.width;

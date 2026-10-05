@@ -23,7 +23,7 @@ Back to [[Home]] · [[Overview]]
 See [[0006-webp-tiers-ktx2-deferred]] and the M2 spec [[2026-10-04-m2-cinematic-and-rich-bodies-design]].
 
 **Commands**
-- `npm run textures`: downloads the source products into `pipeline/raw/textures/` (git-ignored, about 5 GB, resumable) and builds the committed 1k/2k tiers in `public/textures/`. Reports "Imagery for 8 bodies from 13 sources".
+- `npm run textures`: downloads the source products into `pipeline/raw/textures/` (git-ignored, about 5 GB; a download interrupted part-way restarts from zero, because it is written to a temp file and renamed on completion) and builds the committed 1k/2k tiers in `public/textures/`. Reports "Imagery for 8 bodies from 13 sources".
 - `npm run textures -- --offline`: rebuilds from the cache only.
 - `npm run textures:hd`: also builds 4k and 8k locally (Node runs with an 8 GB heap).
 - `npm run textures:verify`: checks that every source URL still responds.

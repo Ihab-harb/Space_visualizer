@@ -76,7 +76,7 @@ describe('imagery schema', () => {
           rings: {
             texture: { tiers: { '2k': 'textures/saturn/rings_2k.webp' }, sourceId: 'nssdca-saturn-rings', illustrative: true },
             innerKm: { value: 74658, sourceId: 'nssdca-saturn-rings' },
-            outerKm: { value: 139851, sourceId: 'nssdca-saturn-rings' },
+            outerKm: { value: 139826, sourceId: 'nssdca-saturn-rings' },
           },
         },
       },

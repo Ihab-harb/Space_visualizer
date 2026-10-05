@@ -15,7 +15,7 @@ const saturn: Body = {
     rings: {
       texture: { tiers: { '2k': 'textures/saturn/rings_2k.webp' }, sourceId: 'nssdca-saturn-rings', illustrative: true },
       innerKm: { value: 74658, sourceId: 'nssdca-saturn-rings' },
-      outerKm: { value: 139851, sourceId: 'nssdca-saturn-rings' },
+      outerKm: { value: 139826, sourceId: 'nssdca-saturn-rings' },
     },
   },
 };
@@ -23,7 +23,7 @@ const saturn: Body = {
 describe('ring helpers', () => {
   it('expresses ring radii in equatorial radii', () => {
     expect(ringRadii(saturn)!.inner).toBeCloseTo(74658 / 60268, 12);
-    expect(ringRadii(saturn)!.outer).toBeCloseTo(139851 / 60268, 12);
+    expect(ringRadii(saturn)!.outer).toBeCloseTo(139826 / 60268, 12);
     expect(ringRadii(jupiter)).toBeNull();
   });
 

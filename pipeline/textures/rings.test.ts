@@ -23,6 +23,13 @@ describe('buildRingBands and ringProfile', () => {
     expect(saturn.map((b) => b.name)).toEqual(['C', 'B', 'Cassini division', 'A', 'F ring']);
     expect(saturn.find((b) => b.name === 'Cassini division')).toMatchObject({ innerKm: 117507, outerKm: 122340 });
   });
+  it('places the F ring illustrative width inward of its cited radius (139,826 km is the outer edge)', () => {
+    expect(saturn.find((b) => b.name === 'F ring')).toMatchObject({ innerKm: 139776, outerKm: 139826 });
+    expect(ringProfile(saturn, { width: 2048, tint: [1, 1, 1] }).outerKm).toBe(139826);
+  });
+  it('rejects an empty band list instead of producing NaN profiles', () => {
+    expect(() => ringProfile([], { width: 2048, tint: [1, 1, 1] })).toThrow(/no ring bands/);
+  });
   it('makes the B ring opaque and the Cassini division nearly clear', () => {
     const { rgba, innerKm, outerKm } = ringProfile(saturn, { width: 2048, tint: [0.85, 0.78, 0.66] });
     const alphaAt = (r: number) => rgba[Math.floor(((r - innerKm) / (outerKm - innerKm)) * 2047) * 4 + 3]!;

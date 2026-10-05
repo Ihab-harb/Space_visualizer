@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "regionId": "solar-system",
-  "generatedAt": "2026-10-04T23:38:01.221Z",
+  "generatedAt": "2026-10-05T17:46:39.087Z",
   "bodies": [
     {
       "id": "sun",
@@ -367,7 +367,8 @@
             "4k": "textures/mercury/normal_4k.webp"
           },
           "sourceId": "usgs-mercury-dem",
-          "derivation": "Normal map derived from the MESSENGER DEM; relief exaggerated ×3."
+          "derivation": "Normal map derived from the MESSENGER DEM; relief exaggerated ×3.",
+          "illustrative": true
         }
       },
       "render": {
@@ -806,7 +807,8 @@
             "4k": "textures/earth/normal_4k.webp"
           },
           "sourceId": "nasa-topography",
-          "derivation": "Normal map derived from GEBCO topography; relief exaggerated ×8 for visibility."
+          "derivation": "Normal map derived from GEBCO topography; relief exaggerated ×8 for visibility.",
+          "illustrative": true
         },
         "night": {
           "tiers": {
@@ -1258,7 +1260,8 @@
             "4k": "textures/mars/normal_4k.webp"
           },
           "sourceId": "usgs-mars-mola-dem",
-          "derivation": "Normal map derived from MOLA elevation; relief exaggerated ×3."
+          "derivation": "Normal map derived from MOLA elevation; relief exaggerated ×3.",
+          "illustrative": true
         }
       },
       "render": {
@@ -1600,8 +1603,7 @@
         "color": {
           "tiers": {
             "1k": "textures/jupiter/color_1k.webp",
-            "2k": "textures/jupiter/color_2k.webp",
-            "4k": "textures/jupiter/color_4k.webp"
+            "2k": "textures/jupiter/color_2k.webp"
           },
           "sourceId": "stsci-opal",
           "derivation": "Hubble OPAL 2024 global map (F395N/F502N/F631N composite); longitude alignment approximate."
@@ -1821,9 +1823,7 @@
       "imagery": {
         "color": {
           "tiers": {
-            "1k": "textures/saturn/color_1k.webp",
-            "2k": "textures/saturn/color_2k.webp",
-            "4k": "textures/saturn/color_4k.webp"
+            "1k": "textures/saturn/color_1k.webp"
           },
           "sourceId": "stsci-opal",
           "derivation": "Hubble OPAL 2024 global map (F395N/F502N/F631N composite); longitude alignment approximate."
@@ -1843,7 +1843,7 @@
             "sourceId": "nssdca-saturn-rings"
           },
           "outerKm": {
-            "value": 139851,
+            "value": 139826,
             "unit": "km",
             "sourceId": "nssdca-saturn-rings"
           }
@@ -2063,9 +2063,7 @@
       "imagery": {
         "color": {
           "tiers": {
-            "1k": "textures/uranus/color_1k.webp",
-            "2k": "textures/uranus/color_2k.webp",
-            "4k": "textures/uranus/color_4k.webp"
+            "1k": "textures/uranus/color_1k.webp"
           },
           "sourceId": "stsci-opal",
           "derivation": "Hubble OPAL 2023 global map (F467M/F547M/F657N composite); longitude alignment approximate."
@@ -2418,9 +2416,7 @@
       "imagery": {
         "color": {
           "tiers": {
-            "1k": "textures/neptune/color_1k.webp",
-            "2k": "textures/neptune/color_2k.webp",
-            "4k": "textures/neptune/color_4k.webp"
+            "1k": "textures/neptune/color_1k.webp"
           },
           "sourceId": "stsci-opal",
           "derivation": "Hubble OPAL 2025 global map (F467M/F547M/F657N composite); longitude alignment approximate."

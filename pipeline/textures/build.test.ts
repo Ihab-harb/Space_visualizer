@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { COMMITTED_TIERS, LAYER_JOBS, texturePath, tiersFor } from './build';
+import { assertValidImagery, COMMITTED_TIERS, LAYER_JOBS, texturePath, tiersFor } from './build';
 import { PRODUCTS } from './manifest';
 
 describe('texture recipes', () => {
@@ -14,6 +14,22 @@ describe('texture recipes', () => {
     expect(tiersFor(earthColor, { hd: true, sourceWidth: 21600 })).toEqual(['1k', '2k', '4k', '8k']);
     const opal = LAYER_JOBS.find((j) => j.body === 'jupiter' && j.layer === 'color')!;
     expect(tiersFor(opal, { hd: true, sourceWidth: 3600 })).toEqual(['1k', '2k']);
+  });
+  it('never builds a tier wider than the source, keeping 1k as the floor', () => {
+    const opal = LAYER_JOBS.find((j) => j.body === 'jupiter' && j.layer === 'color')!;
+    expect(tiersFor(opal, { hd: true, sourceWidth: 721 })).toEqual(['1k']);
+    expect(tiersFor(opal, { hd: false, sourceWidth: 721 })).toEqual(['1k']);
+    expect(tiersFor(opal, { hd: true, sourceWidth: 1800 })).toEqual(['1k']);
+    expect(tiersFor(opal, { hd: true, sourceWidth: 3600 })).toEqual(['1k', '2k']);
+    expect(tiersFor(opal, { hd: false, sourceWidth: 3600 })).toEqual(['1k', '2k']);
+  });
+  it('labels exaggerated relief as illustrative', () => {
+    const relief = LAYER_JOBS.filter((j) => j.layer === 'normal');
+    expect(relief).toHaveLength(3);
+    for (const j of relief) expect(j.illustrative, j.body).toBe(true);
+  });
+  it('rejects an invalid imagery file before it is written', () => {
+    expect(() => assertValidImagery({ schemaVersion: 1, generatedAt: 'x', sources: [], bodies: { sky: { color: { tiers: { '2k': null }, sourceId: 's' } } } } as never)).toThrow();
   });
   it('names texture files predictably', () => {
     expect(texturePath('earth', 'color', '2k')).toBe('textures/earth/color_2k.webp');
