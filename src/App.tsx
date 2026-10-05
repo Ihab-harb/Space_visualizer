@@ -4,6 +4,7 @@ import { useCatalogStore } from './state/catalogStore';
 import { applyUrlOverrides, parseUrlOverrides } from './state/urlParams';
 import { InfoPanel } from './ui/InfoPanel';
 import { ErrorScreen, LoadingScreen, WebGLUnavailable } from './ui/StatusScreens';
+import { SkyCredit } from './ui/SkyCredit';
 import { TimeBar } from './ui/TimeBar';
 import { TopBar } from './ui/TopBar';
 import { isWebGLAvailable } from './ui/webgl';
@@ -33,6 +34,7 @@ export function App() {
       <TopBar />
       <InfoPanel catalog={catalog} />
       <TimeBar catalog={catalog} />
+      <SkyCredit catalog={catalog} />
     </div>
   );
 }

@@ -332,3 +332,17 @@ button[aria-pressed='true'] {
     animation: none !important;
   }
 }
+
+.sky-credit {
+  position: absolute;
+  left: var(--gutter);
+  bottom: 150px;
+  margin: 0;
+  font-size: 11px;
+  color: var(--text-dim, rgba(255, 255, 255, 0.55));
+  isolation: isolate;
+  z-index: 2;
+}
+.sky-credit a {
+  color: inherit;
+}

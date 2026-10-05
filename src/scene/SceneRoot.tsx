@@ -1,5 +1,5 @@
 import { Canvas } from '@react-three/fiber';
-import { useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import { CameraSystem } from '../camera/CameraSystem';
 import type { Catalog } from '../core/catalog/catalog';
 import type { Body, PlanetApproxOrbit } from '../core/catalog/schema';
@@ -9,13 +9,19 @@ import { FrameDriver } from './FrameDriver';
 import { FrameStateProvider } from './FrameStateContext';
 import { LabelLayerContext } from './LabelLayerContext';
 import { OrbitLine } from './OrbitLine';
+import { SkyBackground } from './sky/SkyBackground';
 import { TextureReadiness } from './TextureReadiness';
+import { useSkyStore } from '../state/skyStore';
 
 const hasApproxOrbit = (b: Body): b is Body & { orbit: PlanetApproxOrbit } => b.orbit.type === 'planet-approx';
 
 export function SceneRoot({ catalog }: { catalog: Catalog }) {
   const labelLayer = useRef<HTMLDivElement>(null);
   const sceneRef = useRef<HTMLDivElement>(null);
+  const loadSky = useSkyStore((s) => s.load);
+  useEffect(() => {
+    if (useSkyStore.getState().status === 'idle') void loadSky();
+  }, [loadSky]);
   return (
     <div className="scene" ref={sceneRef}>
       <Canvas
@@ -26,6 +32,7 @@ export function SceneRoot({ catalog }: { catalog: Catalog }) {
         <color attach="background" args={['#03050b']} />
         <LabelLayerContext.Provider value={labelLayer}>
           <FrameStateProvider>
+            <SkyBackground />
             <FrameDriver bodies={catalog.bodies} />
             <CameraSystem catalog={catalog} />
             {catalog.bodies.map((body) => (
