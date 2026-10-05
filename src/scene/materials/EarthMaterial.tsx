@@ -1,6 +1,6 @@
 import { useEffect, useMemo } from 'react';
 import type { Body } from '../../core/catalog/schema';
-import { useViewStore } from '../../state/viewStore';
+import { useMaxTier } from '../../render/useMaxTier';
 import { useTieredTexture } from '../textures/useTieredTexture';
 import { FRAG_OUTRO } from './chunks';
 import { createBodyMaterial } from './createBodyMaterial';
@@ -49,7 +49,7 @@ void main() {
 }`;
 
 export function EarthMaterial({ body, bodies }: { body: Body; bodies: readonly Body[] }) {
-  const tier = useViewStore((s) => s.textureTier);
+  const tier = useMaxTier();
   const day = useTieredTexture(body.imagery?.color, { maxTier: tier, srgb: true });
   const night = useTieredTexture(body.imagery?.night, { maxTier: tier, srgb: true });
   const clouds = useTieredTexture(body.imagery?.clouds, { maxTier: tier, srgb: false });

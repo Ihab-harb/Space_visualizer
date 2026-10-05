@@ -1,7 +1,7 @@
 import { useEffect, useMemo } from 'react';
 import { Color, Vector2 } from 'three';
 import type { Body } from '../../core/catalog/schema';
-import { useViewStore } from '../../state/viewStore';
+import { useMaxTier } from '../../render/useMaxTier';
 import { useTieredTexture } from '../textures/useTieredTexture';
 import { FRAG_OUTRO } from './chunks';
 import { createBodyMaterial } from './createBodyMaterial';
@@ -50,7 +50,7 @@ void main() {
 }`;
 
 export function GiantMaterial({ body, bodies }: { body: Body; bodies: readonly Body[] }) {
-  const tier = useViewStore((s) => s.textureTier);
+  const tier = useMaxTier();
   const color = useTieredTexture(body.imagery?.color, { maxTier: tier, srgb: true });
   const rings = useTieredTexture(body.imagery?.rings?.texture, { maxTier: '2k', srgb: true, mipmaps: false });
   const radii = ringRadii(body);

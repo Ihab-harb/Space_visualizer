@@ -1,7 +1,7 @@
 import { useEffect, useMemo } from 'react';
 import { BackSide, Matrix3, ShaderMaterial, SphereGeometry } from 'three';
 import { useSkyStore } from '../../state/skyStore';
-import { useViewStore } from '../../state/viewStore';
+import { useMaxTier } from '../../render/useMaxTier';
 import { useTieredTexture } from '../textures/useTieredTexture';
 import { eclipticToEquatorialColumns, skyTier } from './skyMath';
 
@@ -36,7 +36,7 @@ void main() {
 
 export function SkyBackground() {
   const ref = useSkyStore((s) => s.ref);
-  const tier = useViewStore((s) => s.textureTier);
+  const tier = useMaxTier();
   const texture = useTieredTexture(ref ?? undefined, { maxTier: skyTier(tier), srgb: true, mipmaps: false });
   const geometry = useMemo(() => new SphereGeometry(1, 64, 32), []);
   const material = useMemo(() => {

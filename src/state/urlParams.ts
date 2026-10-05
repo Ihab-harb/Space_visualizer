@@ -2,6 +2,8 @@ import type { Catalog } from '../core/catalog/catalog';
 import { TIERS, type Tier } from '../core/catalog/schema';
 import { parseDateInput } from '../core/time/format';
 import { utcToTdb } from '../core/time/timescales';
+import { parseQualityMode, type QualityMode } from '../render/quality';
+import { useRenderStore } from './renderStore';
 import { useSelectionStore } from './selectionStore';
 import { JD_MAX, JD_MIN, RATE_STEPS, useTimeStore } from './timeStore';
 import { useViewStore } from './viewStore';
@@ -16,6 +18,8 @@ export interface UrlOverrides {
   azFromSunDeg?: number;
   elDeg?: number;
   tier?: Tier;
+  quality?: QualityMode;
+  effects?: boolean;
 }
 
 export function parseUrlOverrides(search: string): UrlOverrides {
@@ -49,6 +53,10 @@ export function parseUrlOverrides(search: string): UrlOverrides {
   if (el !== undefined) o.elDeg = el;
   const tier = p.get('tier');
   if (tier && (TIERS as readonly string[]).includes(tier)) o.tier = tier as Tier;
+  const quality = parseQualityMode(p.get('quality'));
+  if (quality) o.quality = quality;
+  const fx = p.get('fx');
+  if (fx === '0' || fx === '1') o.effects = fx === '1';
   return o;
 }
 
@@ -57,7 +65,9 @@ export function applyUrlOverrides(o: UrlOverrides, catalog: Catalog): void {
   if (o.jdTdb !== undefined) time.setJdTdb(o.jdTdb);
   if (o.paused) time.setPlaying(false);
   if (o.rateIndex !== undefined) time.setRateIndex(o.rateIndex);
-  if (o.tier) useViewStore.getState().setTextureTier(o.tier);
+  if (o.tier) useViewStore.getState().setTextureTierOverride(o.tier);
+  if (o.quality) useRenderStore.getState().setMode(o.quality);
+  if (o.effects !== undefined) useRenderStore.getState().setEffects(o.effects);
   if (o.target && catalog.bodyById.has(o.target)) {
     useSelectionStore.getState().select(o.target);
     useViewStore.getState().requestCameraOverride({
