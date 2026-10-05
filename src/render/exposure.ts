@@ -5,6 +5,8 @@ export const EXPOSURE = {
   skyDimAtFull: 0.25,
   fullSizeRad: (5 * Math.PI) / 180,
   damping: 4,
+  /** God-ray opacity floor when the Sun is large on screen; full-strength rays saturate a close-up disc. */
+  rayCloseUpOpacity: 0.3,
 } as const;
 
 /** Sun visibility scaled by how much of it is in frame; fades out between NDC edge 1 and 1.3. null = behind the camera. */
@@ -23,4 +25,11 @@ export function sceneExposure(weight: number, sunAngularRadiusRad: number): { ex
 
 export function damp(current: number, target: number, lambda: number, dt: number): number {
   return target + (current - target) * Math.exp(-lambda * dt);
+}
+
+/** God-ray blend opacity: the visible fraction, eased down to rayCloseUpOpacity as the Sun grows toward fullSizeRad. */
+export function godRayOpacity(visible: number, inFront: boolean, angularRadiusRad: number): number {
+  if (!inFront) return 0;
+  const size = Math.min(1, Math.max(0, angularRadiusRad / EXPOSURE.fullSizeRad));
+  return visible * (1 + (EXPOSURE.rayCloseUpOpacity - 1) * size);
 }

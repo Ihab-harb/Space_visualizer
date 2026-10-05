@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { damp, EXPOSURE, sceneExposure, sunFrameWeight } from './exposure';
+import { damp, EXPOSURE, godRayOpacity, sceneExposure, sunFrameWeight } from './exposure';
 
 describe('scene-driven exposure', () => {
   it('weights the Sun by visibility and position in frame', () => {
@@ -24,5 +24,17 @@ describe('scene-driven exposure', () => {
     for (let i = 0; i < 120; i++) x = damp(x, 0.6, EXPOSURE.damping, 1 / 60);
     expect(x).toBeGreaterThan(0.6);
     expect(x).toBeLessThan(0.61);
+  });
+});
+
+describe('god ray opacity', () => {
+  it('is zero behind the camera and the visible fraction for a small Sun', () => {
+    expect(godRayOpacity(1, false, 0.001)).toBe(0);
+    expect(godRayOpacity(0.6, true, 0)).toBeCloseTo(0.6, 6);
+  });
+  it('backs off to the close-up floor for a large Sun', () => {
+    expect(godRayOpacity(1, true, EXPOSURE.fullSizeRad)).toBeCloseTo(EXPOSURE.rayCloseUpOpacity, 6);
+    expect(godRayOpacity(1, true, 1)).toBeCloseTo(EXPOSURE.rayCloseUpOpacity, 6);
+    expect(godRayOpacity(0, true, 1)).toBe(0);
   });
 });

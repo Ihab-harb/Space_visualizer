@@ -7,7 +7,7 @@ import type { Body } from '../core/catalog/schema';
 import { length, sub, type Vec3 } from '../core/math/vec3';
 import { sunVisibilityFromObserver } from '../core/shadows/eclipse';
 import { useFrameState } from '../scene/FrameStateContext';
-import { damp, EXPOSURE, sceneExposure, sunFrameWeight } from './exposure';
+import { damp, EXPOSURE, godRayOpacity, sceneExposure, sunFrameWeight } from './exposure';
 
 /** After body positions (-0.5) and uniforms (-0.4), before the composer. */
 const SUN_FX_PRIORITY = -0.3;
@@ -56,7 +56,8 @@ export function useSunFx(opts: {
     const inFront = view.z < 0;
     if (inFront) ndc.copy(rel).project(state.camera);
     const weight = sunFrameWeight(visible, inFront ? [ndc.x, ndc.y] : null);
-    const target = sceneExposure(weight, Math.asin(Math.min(1, sunR / Math.max(length(d), 1e-9))));
+    const angularRadius = Math.asin(Math.min(1, sunR / Math.max(length(d), 1e-9)));
+    const target = sceneExposure(weight, angularRadius);
     frame.fx.exposure = damp(frame.fx.exposure, target.exposure, EXPOSURE.damping, delta);
     frame.fx.skyDim = damp(frame.fx.skyDim, target.skyDim, EXPOSURE.damping, delta);
 
@@ -67,6 +68,6 @@ export function useSunFx(opts: {
     flare.uniforms.get('opacity')!.value = 1 - weight;
     const res = flare.uniforms.get('screenRes')!.value as Vector2;
     res.set(state.size.width, state.size.height);
-    if (godRays.current) godRays.current.blendMode.opacity.value = inFront ? visible : 0;
+    if (godRays.current) godRays.current.blendMode.opacity.value = godRayOpacity(visible, inFront, angularRadius);
   }, SUN_FX_PRIORITY);
 }
