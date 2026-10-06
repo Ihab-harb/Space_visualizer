@@ -16,6 +16,10 @@ const VIEWS = [
   { name: '4-overview', url: '/?jd=2461317.5&pause=1&quality=high&fx=1' },
 ];
 
+// Golden views take 21-47 s each on SwiftShader, plus up to 30 s for textures; the global 60 s leaves no margin. The Earth guard
+// below keeps its own 180 s.
+test.describe.configure({ timeout: 120_000 });
+
 let pageErrors: string[] = [];
 let shaderErrors: string[] = [];
 
