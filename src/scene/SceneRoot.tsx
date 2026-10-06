@@ -30,7 +30,8 @@ export function SceneRoot({ catalog }: { catalog: Catalog }) {
   return (
     <div className="scene" ref={sceneRef}>
       <Canvas
-        gl={{ logarithmicDepthBuffer: true, antialias: true }}
+        // The composer multisamples its own buffers; an MSAA backbuffer would cost memory and a resolve for nothing.
+        gl={{ logarithmicDepthBuffer: true, antialias: false }}
         camera={{ fov: 50, near: 0.001, far: 1e13, position: [0, 0, 0] }}
         dpr={canvasDpr(level, typeof window === 'undefined' ? 1 : window.devicePixelRatio)}
       >
