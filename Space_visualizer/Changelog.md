@@ -59,3 +59,10 @@ Back to [[Home]]
 - Wrote [[2026-10-05-m2a2-cinematic-effects-and-quality]] (10 tasks): the effects stack (bloom, god rays, lens flare, streaks, depth of field, exposure, filmic tone mapping, chromatic aberration, vignette, grain), the Camera-effects toggle, the High/Medium/Low/Auto quality presets with the frame-time controller, and the M2a.1 carry-over texture fixes.
 - The remaining M2a scope is split into its own section, M2a.3: the interface redesign (spec §4), Tour mode and the Venus radar toggle. Each section gets its own PR.
 - Planning research: postprocessing 6.39 supports the logarithmic depth buffer for depth of field and god rays. The built-in lens-flare occlusion raycast is unreliable at solar-system scale, so the plan computes Sun visibility in float64 in core.
+
+## 2026-10-07 — M2a.2 Cinematic effects and adaptive quality implemented
+- Post-processing stack: bloom, god rays and lens flare, anamorphic streaks, depth of field, scene-driven exposure, AgX tone mapping, chromatic aberration, vignette and grain. See [[render]].
+- Quality presets (High, Medium, Low) and an Auto mode that follows spec §5; Quality control and Camera-effects toggle in the top bar, keys **Q** and **E**, URL parameters `quality=` and `fx=`. HD texture tiers are requested only if present in the build.
+- [[0007-tone-mapping-and-exposure]]: AgX chosen over ACES, plus the exposure rule and two checklist waivers (cloud shadows in golden 1; flare and rays on the close-up Sun, checked on the far-Sun view instead).
+- Real-GPU probe `npm run perf`. On this machine (integrated Intel UHD) Auto settles at Low; High and Medium miss 16.7 ms. God rays plus flare are the most expensive pass, then depth of field. Numbers in [[render]].
+- Carry-overs for M2a.3 and M2b recorded in [[2026-10-05-m2a1-carry-over]].

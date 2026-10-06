@@ -14,6 +14,7 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "e2e": "playwright test",
+    "perf": "playwright test -c playwright.perf.config.ts",
     "data": "tsx pipeline/run.ts",
     "data:offline": "tsx pipeline/run.ts --offline",
     "horizons:reference": "tsx pipeline/scripts/fetchHorizonsReference.ts",

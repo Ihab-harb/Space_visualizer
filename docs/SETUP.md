@@ -76,6 +76,12 @@ An amber note in the time bar means the date is outside 1800–2050, where JPL's
 
 `npx playwright test e2e/golden.spec.ts` writes screenshots to `test-results/golden/`. The URL parameters `jd`, `date`, `pause`, `target`, `dist`, `az`, `azSun`, `el` and `tier` also work in the browser for sharing a view.
 
+### Quality, effects and the performance probe
+
+Use the Quality control (key **Q**) and Camera effects toggle (key **E**) in the top bar, or the URL parameters `quality=auto|high|medium|low` and `fx=0|1`.
+
+`npm run perf` runs Chromium against the dev server and records median and 95th-percentile frame time at High, Medium and Low (5 s each, 1600x900, Earth view), plus 20 s of Auto. Results go to the console and `test-results/perf/perf.json`. It needs a real GPU: check that the printed renderer is not SwiftShader. If it is, set `headless: false` in `playwright.perf.config.ts`, or add `channel: 'chrome'` if Chrome is installed. It is not part of `npm run e2e`.
+
 ## 6. Refreshing the data (optional)
 
 The app reads `public/data/*.json`, which is generated from official sources and committed to the repository, so you do **not** need to run the pipeline to use the app.
@@ -92,6 +98,8 @@ Review the resulting `git diff` before committing refreshed data.
 
 See the Imagery section of the README: `npm run textures`, `npm run textures:hd`, `npm run textures -- --offline` and `npm run textures:verify`.
 
+HD tiers (4k/8k) are only requested when their files exist at the moment the dev server or build starts, so **restart `npm run dev` after `npm run textures:hd`**.
+
 ## 7. Troubleshooting
 
 | Symptom | Fix |
@@ -103,6 +111,7 @@ See the Imagery section of the README: `npm run textures`, `npm run textures:hd`
 | `npm run e2e` says the browser is missing | Run `npx playwright install chromium`. |
 | `npm run data` fails with a network error | A source may be temporarily down. Run `npm run data:offline` to rebuild from the cache, or try again later. The committed data stays unchanged on failure. |
 | Texture build fails a validation (for example the Mars peak check) | The source product may have changed layout. Run `npm run textures:verify`, and see the vault's Data Sources notes. |
+| Very slow in a VM or remote desktop | There is no real GPU, so Auto drops to Low. Force it with `?quality=low` (and `&fx=0` to turn effects off). |
 | Black planets | A shader failed to compile. Check the browser console for `THREE.WebGLProgram`, and report the GPU and browser. |
 
 ## 8. Where things are
