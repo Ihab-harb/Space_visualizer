@@ -44,7 +44,9 @@ export const RING_UNLIT_SCALE = 0.3;
 /** Earth ocean Sun glint: GGX strength and roughness. */
 export const GLINT_STRENGTH = 0.035;
 export const GLINT_ROUGHNESS = 0.45;
-/** Earth cloud-shadow offset toward the Sun, in texture u/v units (u corrected by 1/cos(latitude)). */
+/** Earth cloud-shadow offset toward the Sun, in v units (u is halved for the equirectangular map and divided by cos(latitude)). */
 export const CLOUD_SHADOW_OFFSET = 0.004;
+/** Fraction of direct sunlight a full cloud blocks on the ground below its shadow. */
+export const CLOUD_SHADOW_DARKNESS = 0.8;
 /** Corona colour multiplier on the Sun display colour. */
 export const CORONA_GAIN = 0.9;
