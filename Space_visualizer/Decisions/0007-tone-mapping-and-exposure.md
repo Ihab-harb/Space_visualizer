@@ -54,6 +54,8 @@ The exposure target changes in the same frame the Sun is hidden, for example beh
 
 **The composer keeps `autoClear` at its default.** The GodRays wrapper warns about this on every run. With `autoClear={false}`, the kept depth buffer hides the ray proxy (0.98 of the drawn Sun's radius) behind the Sun's own mesh. The rays then lose their glow (overview, 60 px from the Sun: 55.6 → 44.4), and a square artifact appears around the Sun. Golden 3b was identical with either setting (max difference 2.6 grey levels), because occlusion by bodies comes from the float64 visibility, not the ray depth mask.
 
+**Final review (2026-10-07):** keeping `autoClear` on has a cost. Bodies never mask the rays, so with the Sun partly behind a limb, rays from the hidden part cross the planet. The default makes three clear the depth that `GodRaysEffect` copies into its light target, before the proxy is drawn. A temporary test with `autoClear={false}` and the proxy at 1.02 of the Sun's radius masked them, and kept the unoccluded glow within about 1 grey level. Revisiting this decision is pending a ruling; details in [[render]] (God-ray proxy).
+
 ## Final look constants
 All illustrative, with no data meaning.
 - **Was:** the value before Task 9.

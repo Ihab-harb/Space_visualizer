@@ -66,3 +66,11 @@ Back to [[Home]]
 - [[0007-tone-mapping-and-exposure]]: AgX chosen over ACES, plus the exposure rule and two checklist waivers (cloud shadows in golden 1; flare and rays on the close-up Sun, checked on the far-Sun view instead).
 - Real-GPU probe `npm run perf`. On this machine (integrated Intel UHD) Auto settles at Low; High and Medium miss 16.7 ms. God rays plus flare are the most expensive pass, then depth of field. Numbers in [[render]].
 - Carry-overs for M2a.3 and M2b recorded in [[2026-10-05-m2a1-carry-over]].
+- Final-review fixes:
+  - Auto drops straight to Low on sustained long frames (it stayed at High at 1 fps). It backs off a step-up that is reversed, ignores hidden frames, and restarts from the initial level when Auto is entered.
+  - A tier change loads the wanted tier directly, with no 1k flash.
+  - Depth of field stays mounted, so selecting no longer rebuilds the composer: the hitch went from 367 ms to none.
+  - Low runs as one pass, and the unused MSAA backbuffer is gone.
+  - Q and E ignore modifier keys and auto-repeat.
+  - God-ray masking by bodies was traced to the composer's `autoClear` and left for a ruling.
+  - Details in [[render]].
