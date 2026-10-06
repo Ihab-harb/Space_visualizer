@@ -68,10 +68,12 @@ const FX_NAME: Record<string, string> = {
 
 test('the composer assembles exactly the passes data-fx reports (Low)', async ({ page }) => {
   await page.goto('/?pause=1&quality=low&fx=1');
-  const names = (await composerPasses(page)).flat().map((n) => FX_NAME[n] ?? n);
+  const passes = await composerPasses(page);
+  const names = passes.flat().map((n) => FX_NAME[n] ?? n);
   const fx = await page.locator('.scene').getAttribute('data-fx');
   expect(names.join(',')).toBe(fx);
   expect(fx).toBe('bloom,exposure,tonemap,vignette');
+  expect(passes, 'Low has no chromatic aberration, so vignette merges into the HDR pass').toHaveLength(1);
 });
 
 test('chromatic aberration runs in a later pass than tone mapping (High)', async ({ page }) => {

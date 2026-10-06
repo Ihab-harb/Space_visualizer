@@ -13,7 +13,7 @@ import { useSelectionStore } from '../state/selectionStore';
 import { DOF_BOKEH, dofSettings, focusPoint, patchCocForLogDepth } from './dof';
 import { AnamorphicStreakEffect } from './effects/AnamorphicStreakEffect';
 import { ExposureEffect } from './effects/ExposureEffect';
-import { segmentByAttributes } from './passSegments';
+import { composerGroups } from './passSegments';
 import { activePasses, PRESETS, type PassId } from './quality';
 import { useSunFx } from './sunFx';
 
@@ -125,8 +125,8 @@ export function EffectsStack({ bodies }: { bodies: readonly Body[] }) {
     };
   }, []);
 
-  // HDR stage (merged into passes by the composer) ends with tone mapping. The display stage is its own EffectPass:
-  // chromatic aberration samples the raw input buffer for R and B, so it must not share a pass with exposure or tone mapping.
+  // HDR stage ends with tone mapping. With chromatic aberration the display stage is its own EffectPass (CA samples the raw
+  // input buffer for R and B, so it must not share a pass with exposure or tone mapping); without it, vignette merges in.
   const element = (pass: PassId): JSX.Element => {
     switch (pass) {
       case 'bloom':
@@ -151,14 +151,9 @@ export function EffectsStack({ bodies }: { bodies: readonly Body[] }) {
         return <Noise key="grain" premultiply opacity={preset.detailFx === 'full' ? 0.035 : 0.02} />;
     }
   };
-  const isDisplay = (p: PassId) => p === 'chromatic' || p === 'vignette' || p === 'grain';
-  const display = passes.filter(isDisplay);
-  // Each HDR segment is one EffectPass (merged effects are re-sorted by attributes; see passSegments.ts), so the
-  // composer's assembly equals the spec order and no pass ever holds two convolution effects.
-  const children: JSX.Element[] = segmentByAttributes(passes.filter((p) => !isDisplay(p))).map((segment) => (
-    <EffectGroup key={`hdr-${segment.join('+')}`}>{segment.map(element)}</EffectGroup>
-  ));
-  if (display.length) children.push(<EffectGroup key="display">{display.map(element)}</EffectGroup>);
+  // Each group is one EffectPass (merged effects are re-sorted by attributes; see passSegments.ts), so the composer's
+  // assembly equals the spec order and no pass ever holds two convolution effects.
+  const children: JSX.Element[] = composerGroups(passes).map((group) => <EffectGroup key={`pass-${group.join('+')}`}>{group.map(element)}</EffectGroup>);
   // autoClear stays at its default despite GodRays' console warning: with autoClear={false} the kept depth hides the ray
   // proxy (inside the drawn Sun) behind the Sun's own mesh, so the rays lose their glow, and a square artifact appears around
   // the Sun. Occlusion by bodies comes from float64 sunVisibilityFromObserver instead (Task 9 fix round, item 5).

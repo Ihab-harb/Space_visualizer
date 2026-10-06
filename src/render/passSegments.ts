@@ -25,3 +25,16 @@ export function segmentByAttributes(passes: readonly PassId[]): PassId[][] {
   }
   return segments;
 }
+
+const DISPLAY: ReadonlySet<PassId> = new Set<PassId>(['chromatic', 'vignette', 'grain']);
+
+/**
+ * The composer's EffectPass groups, in order. Chromatic aberration samples its pass's input buffer for R and B, so when it
+ * is present the display effects get their own pass fed by tone-mapped output. Without it (Low) vignette is per-pixel and
+ * merges into the last HDR pass, saving a full-screen pass.
+ */
+export function composerGroups(passes: readonly PassId[]): PassId[][] {
+  const display = passes.filter((p) => DISPLAY.has(p));
+  if (!display.includes('chromatic')) return segmentByAttributes(passes);
+  return [...segmentByAttributes(passes.filter((p) => !DISPLAY.has(p))), display];
+}
