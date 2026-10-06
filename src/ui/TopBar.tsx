@@ -46,8 +46,12 @@ export function TopBar() {
       if (isTyping(e.target)) return;
       if (e.key === '1' || e.key === 'Escape') setView('orbit');
       else if (e.key === '2') setView('follow');
-      else if (e.key === 'q' || e.key === 'Q') useRenderStore.getState().cycleMode();
-      else if (e.key === 'e' || e.key === 'E') useRenderStore.getState().toggleEffects();
+      else if (e.key === 'q' || e.key === 'Q' || e.key === 'e' || e.key === 'E') {
+        // Browser shortcuts (Ctrl+Q, Cmd+E...) are not ours, and auto-repeat would rebuild the composer every few ms.
+        if (e.ctrlKey || e.metaKey || e.altKey || e.repeat) return;
+        if (e.key === 'q' || e.key === 'Q') useRenderStore.getState().cycleMode();
+        else useRenderStore.getState().toggleEffects();
+      }
     };
     window.addEventListener('keydown', onKey);
     return () => window.removeEventListener('keydown', onKey);

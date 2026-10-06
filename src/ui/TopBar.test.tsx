@@ -1,5 +1,5 @@
 // @vitest-environment jsdom
-import { act, render, screen } from '@testing-library/react';
+import { act, fireEvent, render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { useRenderStore } from '../state/renderStore';
@@ -66,6 +66,18 @@ describe('quality and camera effects', () => {
     expect(useRenderStore.getState().effects).toBe(false);
     await userEvent.click(screen.getByRole('textbox', { name: 'typing' }));
     await userEvent.keyboard('qe');
+    expect(useRenderStore.getState()).toMatchObject({ mode: 'high', effects: false });
+  });
+  it('ignores Q and E with Ctrl, Cmd or Alt, and on key auto-repeat', () => {
+    render(<TopBar />);
+    for (const key of ['q', 'Q', 'e', 'E']) {
+      for (const extra of [{ ctrlKey: true }, { metaKey: true }, { altKey: true }, { repeat: true }]) {
+        fireEvent.keyDown(window, { key, ...extra });
+        expect(useRenderStore.getState(), `${key} ${JSON.stringify(extra)}`).toMatchObject({ mode: 'auto', effects: true });
+      }
+    }
+    fireEvent.keyDown(window, { key: 'q' });
+    fireEvent.keyDown(window, { key: 'E', shiftKey: true });
     expect(useRenderStore.getState()).toMatchObject({ mode: 'high', effects: false });
   });
   it('toggles camera effects from the checkbox', async () => {
