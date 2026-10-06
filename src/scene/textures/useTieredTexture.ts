@@ -122,7 +122,9 @@ async function tryLoad(loader: TextureLoaderLike, url: string): Promise<Texture 
 
 /**
  * Lowest tier first for a fast first paint, then the highest tier that loads (missing local HD tiers fall back).
- * isCancelled is checked before each load and after it; a cancelled result is released, never shown.
+ * With skipFirstPaint (the consumer already shows a texture, so a tier change), only the highest tier that loads is
+ * shown, falling back downward. isCancelled is checked before each load and after it; a cancelled result is released,
+ * never shown.
  */
 export async function loadBestTier(
   ref: TextureRef,
@@ -131,6 +133,7 @@ export async function loadBestTier(
   loader: TextureLoaderLike,
   onTexture: (t: Texture, tier: Tier) => void,
   isCancelled: () => boolean = () => false,
+  options: { skipFirstPaint?: boolean } = {},
 ): Promise<Tier | null> {
   const chain = tierChain(ref, maxTier);
   const attempt = async (tier: Tier): Promise<boolean> => {
@@ -146,6 +149,10 @@ export async function loadBestTier(
     onTexture(t, tier);
     return true;
   };
+  if (options.skipFirstPaint) {
+    for (let i = chain.length - 1; i >= 0 && !isCancelled(); i--) if (await attempt(chain[i]!)) return chain[i]!;
+    return null;
+  }
   let shownIndex = -1;
   for (let i = 0; i < chain.length && shownIndex < 0 && !isCancelled(); i++) {
     if (await attempt(chain[i]!)) shownIndex = i;
@@ -162,6 +169,8 @@ export function useTieredTexture(ref: TextureRef | undefined, opts: { maxTier: T
   const [texture, setTexture] = useState<Texture | null>(null);
   /** How many times this consumer acquired each texture from the cache. */
   const owned = useRef(new Map<Texture, number>());
+  /** The ref whose texture this consumer last received (it stays on screen until a replacement commits). */
+  const shownFor = useRef<TextureRef | null>(null);
 
   const releaseAll = useCallback(
     (t: Texture) => {
@@ -185,10 +194,13 @@ export function useTieredTexture(ref: TextureRef | undefined, opts: { maxTier: T
 
   useEffect(() => {
     if (!ref) {
+      shownFor.current = null;
       setTexture(null);
       return;
     }
     let cancelled = false;
+    // A tier change for the image already on screen skips the lowest-tier first paint (no 4k -> 1k -> 2k flash).
+    const skipFirstPaint = shownFor.current === ref;
     void loadBestTier(
       availableRef(ref),
       opts.maxTier,
@@ -196,9 +208,11 @@ export function useTieredTexture(ref: TextureRef | undefined, opts: { maxTier: T
       cache.loaderFor({ srgb: opts.srgb, mipmaps: opts.mipmaps }),
       (t) => {
         owned.current.set(t, (owned.current.get(t) ?? 0) + 1);
+        shownFor.current = ref;
         setTexture(t);
       },
       () => cancelled,
+      { skipFirstPaint },
     );
     return () => {
       cancelled = true; // the current texture stays on screen until a replacement arrives
