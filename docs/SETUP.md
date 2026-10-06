@@ -80,7 +80,7 @@ An amber note in the time bar means the date is outside 1800–2050, where JPL's
 
 Use the Quality control (key **Q**) and Camera effects toggle (key **E**) in the top bar, or the URL parameters `quality=auto|high|medium|low` and `fx=0|1`.
 
-`npm run perf` runs Chromium against the dev server and records median and 95th-percentile frame time at High, Medium and Low (5 s each, 1600x900, Earth view), plus 20 s of Auto. Results go to the console and `test-results/perf/perf.json`. It needs a real GPU: check that the printed renderer is not SwiftShader. If it is, set `headless: false` in `playwright.perf.config.ts`, or add `channel: 'chrome'` if Chrome is installed. It is not part of `npm run e2e`.
+`npm run perf` runs Chromium against the dev server and records median and 95th-percentile frame time at High, Medium and Low (5 s each, 1600x900, Earth view), plus 20 s of Auto. Results go to the console and `test-results/perf/perf.json`. It needs a real GPU: check that the printed renderer is not SwiftShader. If it is, set `headless: false` in `playwright.perf.config.ts`, or add `channel: 'chrome'` if Chrome is installed. The probe fails if the renderer looks like software (SwiftShader, llvmpipe) and records `software` in the JSON. `--use-angle=d3d11` in `playwright.perf.config.ts` is Windows-specific; change it on macOS or Linux. Playwright clears `test-results/` on the next normal run, so copy `perf.json` if you need to keep it. It is not part of `npm run e2e`.
 
 ## 6. Refreshing the data (optional)
 

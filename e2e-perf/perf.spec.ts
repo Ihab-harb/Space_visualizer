@@ -1,8 +1,15 @@
 import { mkdirSync, writeFileSync } from 'node:fs';
 import { expect, test, type Page } from '@playwright/test';
+import { analyseAutoLevels } from '../src/render/analyseAutoLevels';
 
 const VIEW = '/?jd=2461317.5&pause=1&target=earth&dist=36000&azSun=90&el=12&fx=1';
 const results: Record<string, unknown> = {};
+const SOFTWARE = /swiftshader|llvmpipe|software|unknown/i;
+
+function requireRealGpu(gpu: string): void {
+  results.software = results.software === true || SOFTWARE.test(gpu);
+  expect(SOFTWARE.test(gpu), `Renderer "${gpu}" is a software renderer or unknown. Run the perf probe on a real GPU (see docs/SETUP.md).`).toBe(false);
+}
 
 async function gpuName(page: Page): Promise<string> {
   return page.evaluate(() => {
@@ -37,6 +44,7 @@ for (const q of ['high', 'medium', 'low'] as const) {
     await page.waitForSelector('.scene[data-textures-ready="true"]', { timeout: 60_000 });
     await page.waitForTimeout(3000);
     const gpu = await gpuName(page);
+    requireRealGpu(gpu);
     const r = await frameTimes(page, 5000);
     results[q] = { gpu, ...r };
     console.log(`perf ${q}: ${JSON.stringify(results[q])}`);
@@ -52,14 +60,15 @@ test('Auto settles without oscillating', async ({ page }) => {
     levels.push((await page.locator('.scene').getAttribute('data-quality')) ?? '?');
     await page.waitForTimeout(500);
   }
-  const changes = levels.filter((l, i) => i > 0 && l !== levels[i - 1]).length;
-  results.auto = { levels, changes };
+  const analysis = analyseAutoLevels(levels);
+  results.auto = { levels, ...analysis };
   console.log(`perf auto: ${levels.join(' ')}`);
-  const oscillates = levels.some((l, i) => i >= 2 && l === levels[i - 2] && l !== levels[i - 1]);
-  expect(oscillates).toBe(false);
+  expect(analysis.reversed, 'Auto reversed direction within the window').toBe(false);
+  expect(analysis.settled, 'Auto level still changing in the last 5 s').toBe(true);
 });
 
 test.afterAll(() => {
+  results.software ??= false;
   mkdirSync('test-results/perf', { recursive: true });
   writeFileSync('test-results/perf/perf.json', JSON.stringify(results, null, 2));
 });

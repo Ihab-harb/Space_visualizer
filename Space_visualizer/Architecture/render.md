@@ -110,7 +110,7 @@ GPU: Intel(R) UHD Graphics (device 0xA78B), an integrated GPU.
 
 Frame times are quantised to the 60 Hz vsync step of 16.7 ms.
 
-Auto, starting at High, `data-quality` every 500 ms for 20 s: `high` for 2 s, `medium` for 4.5 s, then `low` for the rest. Two downward steps, no oscillation. It settles at Low, the only preset under 16.7 ms here.
+Auto, starting at High, `data-quality` every 500 ms for 20 s: `high` for 2 s, `medium` for 4.5 s, then `low` for the rest. Two downward steps, no oscillation. It settles at Low, the only preset at vsync (16.7 ms) here.
 
 Targets (spec §1): High under 16.7 ms median on a desktop GPU; Medium under 16.7 ms on a mid-range laptop. This machine has an integrated Intel UHD GPU, below both reference classes, and High and Medium miss by a wide margin. The numbers are still useful for relative cost, but they do not show whether a discrete desktop GPU meets the High target. That is unmeasured.
 

@@ -22,7 +22,7 @@ These items came out of the M2a.1 reviews (per-task reviews and the final whole-
 
 - **Done in M2a.2 (AgX, [[0007-tone-mapping-and-exposure]]).** **Tone mapping.** EffectComposer forces `NoToneMapping`, so HDR clips (the Earth limb saturates to white). Add a ToneMapping effect.
 - **Label occlusion and clutter.** Labels of far bodies draw over nearer discs, and inner-planet labels overlap in the overview.
-- **Phone layout.** The info panel covers most of the body (for example Jupiter in the phone golden view). The drawer becomes a sheet in M2a.2.
+- **Phone layout.** The info panel covers most of the body (for example Jupiter in the phone golden view). The drawer becomes a sheet in M2a.3.
 - **Done in M2a.2** (stars dim with exposure; flare and rays checked on golden `3c-sun-far`; Saturn golden near equinox). **Golden views.** Stars should dim near the Sun, the Sun view needs lens flare and god rays, and the Saturn view should use a date near equinox.
 - **Look tuning (mostly done in M2a.2 Task 9, see [[0007-tone-mapping-and-exposure]]).** Addressed: the cinematic fill, the unlit ring face (`RING_UNLIT_SCALE`), the dark ring at the Sun's limb (`CORONA_GAIN`), the ocean glint, and the cloud-shadow darkness and offset (with the 1/cos(lat) term; shadows still do not read over ocean, see "From M2a.2"). Still open: the ring slant correction, the atmosphere grazing-height brightening (pale day-limb line on Mars) and the "illustrative" label on Black Marble lights. Original list:
   - the cinematic fill (Venus and Mercury night sides read as blue-grey);
