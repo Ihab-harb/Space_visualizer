@@ -159,5 +159,8 @@ export function EffectsStack({ bodies }: { bodies: readonly Body[] }) {
     <EffectGroup key={`hdr-${segment.join('+')}`}>{segment.map(element)}</EffectGroup>
   ));
   if (display.length) children.push(<EffectGroup key="display">{display.map(element)}</EffectGroup>);
+  // autoClear stays at its default despite GodRays' console warning: with autoClear={false} the kept depth hides the ray
+  // proxy (inside the drawn Sun) behind the Sun's own mesh, so the rays lose their glow, and a square artifact appears around
+  // the Sun. Occlusion by bodies comes from float64 sunVisibilityFromObserver instead (Task 9 fix round, item 5).
   return <EffectComposer key={passes.join(',')} ref={composerRef} multisampling={level === 'low' ? 0 : 4}>{children}</EffectComposer>;
 }
