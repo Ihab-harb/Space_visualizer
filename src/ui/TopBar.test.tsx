@@ -1,7 +1,7 @@
 // @vitest-environment jsdom
-import { render, screen } from '@testing-library/react';
+import { act, render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { beforeEach, describe, expect, it } from 'vitest';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { useRenderStore } from '../state/renderStore';
 import { useViewStore } from '../state/viewStore';
 import { TopBar } from './TopBar';
@@ -72,5 +72,34 @@ describe('quality and camera effects', () => {
     render(<TopBar />);
     await userEvent.click(screen.getByRole('checkbox', { name: /Camera effects/ }));
     expect(useRenderStore.getState().effects).toBe(false);
+  });
+});
+
+describe('top bar edge', () => {
+  it('publishes its bottom edge as --top-bar-bottom while mounted and on resize', () => {
+    let callback: ResizeObserverCallback = () => undefined;
+    const disconnect = vi.fn();
+    class FakeResizeObserver {
+      constructor(cb: ResizeObserverCallback) {
+        callback = cb;
+      }
+      observe() {}
+      unobserve() {}
+      disconnect = disconnect;
+    }
+    vi.stubGlobal('ResizeObserver', FakeResizeObserver);
+    let bottom = 102;
+    const rect = vi.spyOn(HTMLElement.prototype, 'getBoundingClientRect').mockImplementation(() => ({ bottom }) as DOMRect);
+    const root = document.documentElement.style;
+    const { unmount } = render(<TopBar />);
+    expect(root.getPropertyValue('--top-bar-bottom')).toBe('102px');
+    bottom = 195;
+    act(() => callback([], {} as ResizeObserver));
+    expect(root.getPropertyValue('--top-bar-bottom')).toBe('195px');
+    unmount();
+    expect(disconnect).toHaveBeenCalled();
+    expect(root.getPropertyValue('--top-bar-bottom')).toBe('');
+    rect.mockRestore();
+    vi.unstubAllGlobals();
   });
 });

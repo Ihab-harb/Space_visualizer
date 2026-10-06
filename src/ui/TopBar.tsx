@@ -1,10 +1,13 @@
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import { useRenderStore } from '../state/renderStore';
 import { useViewStore } from '../state/viewStore';
 import type { QualityLevel, QualityMode } from '../render/quality';
 
 const MODE_LABEL: Record<QualityMode, string> = { auto: 'Auto', high: 'High', medium: 'Medium', low: 'Low' };
 const LEVEL_LABEL: Record<QualityLevel, string> = { high: 'High', medium: 'Medium', low: 'Low' };
+
+/** CSS custom property other panels use to sit below the bar, whose height grows when its controls wrap. */
+export const TOP_BAR_BOTTOM_VAR = '--top-bar-bottom';
 
 const isTyping = (target: EventTarget | null) =>
   target instanceof HTMLElement && (['INPUT', 'SELECT', 'TEXTAREA'].includes(target.tagName) || target.isContentEditable);
@@ -22,6 +25,22 @@ export function TopBar() {
   const effects = useRenderStore((s) => s.effects);
   const toggleEffects = useRenderStore((s) => s.toggleEffects);
 
+  // Publish the bar's bottom edge so the info panel and the phone sky credit sit below it however its controls wrap.
+  const barRef = useRef<HTMLElement>(null);
+  useEffect(() => {
+    const bar = barRef.current;
+    if (!bar) return;
+    const root = document.documentElement.style;
+    const publish = () => root.setProperty(TOP_BAR_BOTTOM_VAR, `${Math.round(bar.getBoundingClientRect().bottom)}px`);
+    publish();
+    const observer = typeof ResizeObserver === 'undefined' ? null : new ResizeObserver(publish);
+    observer?.observe(bar);
+    return () => {
+      observer?.disconnect();
+      root.removeProperty(TOP_BAR_BOTTOM_VAR);
+    };
+  }, []);
+
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
       if (isTyping(e.target)) return;
@@ -35,7 +54,7 @@ export function TopBar() {
   }, [setView]);
 
   return (
-    <header className="panel top-bar">
+    <header ref={barRef} className="panel top-bar">
       <h1 className="top-bar__title">Solar System</h1>
       <div className="segmented" role="group" aria-label="Camera view">
         <button type="button" aria-pressed={view === 'orbit'} onClick={() => setView('orbit')} title="Rotate, zoom and pan around a point (key 1)">
