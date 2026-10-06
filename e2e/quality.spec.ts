@@ -101,6 +101,25 @@ test('High with a focused body runs the full stack', async ({ page }) => {
   await page.waitForTimeout(1500);
 });
 
+test('selecting and deselecting keeps the composer: depth of field stays mounted and goes neutral (High)', async ({ page }) => {
+  await page.goto('/?pause=1&quality=high&fx=1&target=earth');
+  const fx = 'bloom,rays,flare,streaks,dof,exposure,tonemap,chromatic,vignette,grain';
+  await expect(page.locator('.scene')).toHaveAttribute('data-fx', fx);
+  await composerPasses(page);
+  await page.evaluate(() => {
+    (window as unknown as { __svComposerBefore: unknown }).__svComposerBefore = window.__svComposer!();
+  });
+  await page.getByRole('button', { name: 'Close' }).click();
+  await expect(page.locator('.body-label.is-selected')).toHaveCount(0);
+  await page.waitForTimeout(800);
+  await expect(page.locator('.scene')).toHaveAttribute('data-fx', fx);
+  await page.locator('.body-label', { hasText: 'Earth' }).dispatchEvent('click');
+  await expect(page.locator('.body-label.is-selected')).toHaveCount(1);
+  await page.waitForTimeout(800);
+  const same = await page.evaluate(() => window.__svComposer!() === (window as unknown as { __svComposerBefore: unknown }).__svComposerBefore);
+  expect(same, 'the EffectComposer was rebuilt on select or deselect').toBe(true);
+});
+
 test('Q cycles quality and E toggles camera effects', async ({ page }) => {
   await page.goto('/?pause=1&quality=low');
   await expect(page.locator('.scene[data-quality-mode="low"]')).toBeAttached();

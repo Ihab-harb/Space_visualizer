@@ -52,6 +52,61 @@ for (const q of ['high', 'medium', 'low'] as const) {
   });
 }
 
+/**
+ * Select/deselect hitch (final-review item I6): the longest frame within 1 s after selecting or deselecting Earth, next to
+ * the longest frame in the 1 s before (the steady-state baseline at that preset). Three of each, at High.
+ */
+test('select and deselect hitch', async ({ page }) => {
+  await page.goto(`${VIEW}&quality=high`);
+  await page.waitForSelector('.scene[data-textures-ready="true"]', { timeout: 60_000 });
+  await page.waitForTimeout(3000);
+  requireRealGpu(await gpuName(page));
+  const selected = page.locator('.body-label.is-selected');
+  const measure = (action: 'select' | 'deselect') =>
+    page.evaluate(async (a) => {
+      const longestFrame = (ms: number) =>
+        new Promise<number>((resolve) => {
+          let last = performance.now();
+          const end = last + ms;
+          let longest = 0;
+          const tick = (t: number) => {
+            longest = Math.max(longest, t - last);
+            last = t;
+            if (t < end) requestAnimationFrame(tick);
+            else resolve(longest);
+          };
+          requestAnimationFrame(tick);
+        });
+      const target =
+        a === 'select'
+          ? [...document.querySelectorAll<HTMLButtonElement>('.body-label')].find((b) => b.textContent?.trim() === 'Earth')
+          : document.querySelector<HTMLButtonElement>('button[aria-label="Close"]');
+      if (!target) throw new Error(`no control to ${a}`);
+      const beforeMs = await longestFrame(1000);
+      target.click();
+      const afterMs = await longestFrame(1000);
+      return { beforeMs, afterMs };
+    }, action);
+  const runs: Record<'select' | 'deselect', Array<{ beforeMs: number; afterMs: number }>> = { select: [], deselect: [] };
+  for (let i = 0; i < 3; i++) {
+    runs.deselect.push(await measure('deselect')); // the view starts with Earth selected
+    await expect(selected).toHaveCount(0);
+    await page.waitForTimeout(1500);
+    runs.select.push(await measure('select'));
+    await expect(selected).toHaveCount(1);
+    await page.waitForTimeout(1500);
+  }
+  const med = (xs: number[]) => [...xs].sort((a, b) => a - b)[xs.length >> 1]!;
+  const all = [...runs.select, ...runs.deselect];
+  results.hitch = {
+    preset: 'high',
+    ...runs,
+    medianAfterMs: med(all.map((r) => r.afterMs)),
+    medianBeforeMs: med(all.map((r) => r.beforeMs)),
+  };
+  console.log(`perf hitch: ${JSON.stringify(results.hitch)}`);
+});
+
 test('Auto settles without oscillating', async ({ page }) => {
   await page.goto(`${VIEW}&quality=auto`);
   await page.waitForSelector('.scene[data-textures-ready="true"]', { timeout: 60_000 });

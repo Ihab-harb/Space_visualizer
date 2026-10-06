@@ -43,9 +43,8 @@ export function EffectsStack({ bodies }: { bodies: readonly Body[] }) {
   const frame = useFrameState();
   const level = useRenderStore((s) => s.level);
   const effects = useRenderStore((s) => s.effects);
-  const hasFocus = useSelectionStore((s) => s.selectedId !== null);
   const preset = PRESETS[level];
-  const passes = activePasses(level, effects, hasFocus);
+  const passes = activePasses(level, effects);
 
   const sun = bodies.find((b) => b.category === 'star');
   // Proxy sphere for the god rays; deliberately not in the scene graph (useSunFx places it camera-relative each frame).
@@ -93,17 +92,20 @@ export function EffectsStack({ bodies }: { bodies: readonly Body[] }) {
   useFrame(() => {
     const id = useSelectionStore.getState().selectedId;
     const effect = dof.current;
-    if (!effect) return;
+    const detail = preset.detailFx;
+    if (!effect || detail === 'off') return;
     const mat = effect.cocMaterial;
     if (cocStatus.get(mat) !== 'failed') cocStatus.set(mat, patchCocForLogDepth(mat));
-    if (!id || preset.detailFx === 'off') return;
-    const pos = frame.bodyPositionsKm.get(id);
-    const r = frame.bodyRenderRadiusKm.get(id);
+    const pos = id ? frame.bodyPositionsKm.get(id) : undefined;
+    const r = id ? frame.bodyRenderRadiusKm.get(id) : undefined;
+    // No focus: the pass stays mounted (no composer rebuild on select or deselect) but passes its input through exactly.
+    // bokehScale 0 would not: the far-field term is added unscaled.
+    effect.blendMode.opacity.value = pos && r ? 1 : 0;
     if (!pos || !r) return;
     const p = focusPoint(sub(pos, frame.cameraPositionKm), r);
     dofTarget.set(p[0], p[1], p[2]);
     effect.target = dofTarget;
-    const s = dofSettings(Math.hypot(p[0], p[1], p[2]), preset.detailFx, r);
+    const s = dofSettings(Math.hypot(p[0], p[1], p[2]), detail, r);
     effect.cocMaterial.focusRange = s.focusRange;
     effect.bokehScale = s.bokehScale;
   });
@@ -120,8 +122,10 @@ export function EffectsStack({ bodies }: { bodies: readonly Body[] }) {
     if (!import.meta.env.DEV) return;
     // EffectPass.effects is private in the typings only; read it for e2e assembly checks.
     window.__svPasses = () => (composerRef.current?.passes ?? []).filter((p): p is EffectPass => p instanceof EffectPass).map((p) => (p as unknown as { effects: Array<{ name: string }> }).effects.map((e) => e.name));
+    window.__svComposer = () => composerRef.current;
     return () => {
       delete window.__svPasses;
+      delete window.__svComposer;
     };
   }, []);
 

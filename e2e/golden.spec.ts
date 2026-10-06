@@ -106,8 +106,8 @@ test('earth atmosphere keeps the night side dark and the scene visible', async (
 
   // Sharpness check: the selected body must stay in focus. Local contrast (sum of absolute horizontal luminance differences)
   // over a cloud-rich day-side patch (80x60 px, up-left of the disc centre, clear of the "Earth" label) is compared with the
-  // same patch after closing the info panel: that deselects the body, which removes the depth-of-field pass and leaves the
-  // camera, time and every other effect unchanged, so the only difference is depth of field.
+  // same patch after closing the info panel: that deselects the body, which makes the (still mounted) depth-of-field pass
+  // neutral and leaves the camera, time and every other effect unchanged, so the only difference is depth of field.
   const PATCH_X = 520;
   const PATCH_Y = 285;
   const PATCH_W = 80;

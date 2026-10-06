@@ -47,13 +47,16 @@ describe('canvasDpr (Canvas dpr prop)', () => {
 
 describe('activePasses', () => {
   it('keeps only bloom and a neutral tone map when camera effects are off', () => {
-    expect(activePasses('high', false, true)).toEqual(['bloom', 'tonemap']);
+    expect(activePasses('high', false)).toEqual(['bloom', 'tonemap']);
   });
-  it('orders the full stack at High with a focused body', () => {
-    expect(activePasses('high', true, true)).toEqual(['bloom', 'rays', 'flare', 'streaks', 'dof', 'exposure', 'tonemap', 'chromatic', 'vignette', 'grain']);
+  it('orders the full stack at High', () => {
+    expect(activePasses('high', true)).toEqual(['bloom', 'rays', 'flare', 'streaks', 'dof', 'exposure', 'tonemap', 'chromatic', 'vignette', 'grain']);
   });
-  it('drops depth of field without a focus, and the detail effects and sun rays at Low', () => {
-    expect(activePasses('medium', true, false)).not.toContain('dof');
-    expect(activePasses('low', true, true)).toEqual(['bloom', 'exposure', 'tonemap', 'vignette']);
+  it('keeps depth of field mounted at Medium too (neutral without a selection, so selecting never rebuilds the composer)', () => {
+    expect(activePasses('medium', true)).toContain('dof');
+    expect(activePasses.length).toBe(2); // the selection is not an input
+  });
+  it('drops the detail effects and sun rays at Low', () => {
+    expect(activePasses('low', true)).toEqual(['bloom', 'exposure', 'tonemap', 'vignette']);
   });
 });
