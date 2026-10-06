@@ -35,7 +35,7 @@ for (const view of VIEWS) {
   test(`golden ${view.name}`, async ({ page }) => {
     await page.goto(view.url);
     await expect(page.locator('canvas')).toBeVisible();
-    await page.waitForSelector('.scene[data-textures-ready="true"]', { timeout: 30_000 }).catch(() => undefined);
+    await page.waitForSelector('.scene[data-textures-ready="true"]', { timeout: 30_000 }); // a golden fails if textures never load
     await page.waitForTimeout(1500);
     await page.screenshot({ path: `test-results/golden/${view.name}.png` });
   });
@@ -51,7 +51,7 @@ test('earth atmosphere keeps the night side dark and the scene visible', async (
   test.setTimeout(180_000); // two full-size SwiftShader screenshots, run in parallel with other workers
   await page.goto('/?jd=2461317.5&pause=1&target=earth&dist=36000&azSun=90&el=12&quality=high&fx=1');
   await expect(page.locator('canvas')).toBeVisible();
-  await page.waitForSelector('.scene[data-textures-ready="true"]', { timeout: 30_000 }).catch(() => undefined);
+  await page.waitForSelector('.scene[data-textures-ready="true"]', { timeout: 30_000 }); // a golden fails if textures never load
   await page.waitForTimeout(1500);
   const buffer = await page.locator('canvas').screenshot();
   const { data, info } = await sharp(buffer).removeAlpha().raw().toBuffer({ resolveWithObject: true });
@@ -130,7 +130,7 @@ test('earth atmosphere keeps the night side dark and the scene visible', async (
 test('golden 5-phone', async ({ browser }) => {
   const page = await browser.newPage({ viewport: { width: 390, height: 844 } });
   await page.goto('/?jd=2461317.5&pause=1&target=jupiter&dist=600000&azSun=70&el=10&quality=high&fx=1');
-  await page.waitForSelector('.scene[data-textures-ready="true"]', { timeout: 30_000 }).catch(() => undefined);
+  await page.waitForSelector('.scene[data-textures-ready="true"]', { timeout: 30_000 }); // a golden fails if textures never load
   await page.waitForTimeout(1500);
   await page.screenshot({ path: 'test-results/golden/5-phone.png' });
   await page.close();

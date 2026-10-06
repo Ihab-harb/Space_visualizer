@@ -22,10 +22,16 @@ export const FILMIC_TONE_MAPPING = ToneMappingMode.AGX;
 
 // Look constants tuned in M2a.2 Task 9 (illustrative; Decision 0007 records start and final values).
 /**
- * Anamorphic streaks. threshold and maxExcess are HDR units before exposure and tone mapping: the threshold sits above the
- * Earth limb (atmosphere at intensity 0.45) so only the Sun streaks; maxExcess bounds a transient spike.
+ * Anamorphic streaks. threshold and maxExcess are HDR units before exposure and tone mapping; the threshold sits above the
+ * Earth limb so only the Sun streaks. Gap-free taps every 2 px (bilinear pairs) reach reachPx: 30 taps a side at High,
+ * 18 at Medium (61 and 37 fetches per pixel, one row, so cache-friendly; Low has no streaks).
  */
-export const STREAKS = { threshold: 3, strengthFull: 3, strengthLight: 1.8, spreadPx: 14, maxExcess: 2 } as const;
+export const STREAKS = {
+  threshold: 3,
+  maxExcess: 2,
+  full: { strength: 3, reachPx: 60, falloffPx: 20 },
+  light: { strength: 1.8, reachPx: 36, falloffPx: 12 },
+} as const;
 /** Lens flare. colorGain also scales the library's broad ghost terms, which veil the whole frame (magenta) when high. */
 export const FLARE = { glareSize: 0.08, colorGain: [3, 2.7, 2.1] as const } as const;
 export const GOD_RAYS = { weight: 0.3, exposure: 0.35 } as const;
@@ -77,7 +83,10 @@ export function EffectsStack({ bodies }: { bodies: readonly Body[] }) {
   const godRays = useRef<GodRaysEffect | null>(null);
   useSunFx({ sun, bodies, proxy, flare, godRays });
 
-  const streaks = useMemo(() => new AnamorphicStreakEffect({ threshold: STREAKS.threshold, strength: preset.detailFx === 'full' ? STREAKS.strengthFull : STREAKS.strengthLight, spreadPx: STREAKS.spreadPx, maxExcess: STREAKS.maxExcess }), [preset.detailFx]);
+  const streaks = useMemo(
+    () => new AnamorphicStreakEffect({ threshold: STREAKS.threshold, maxExcess: STREAKS.maxExcess, ...(preset.detailFx === 'full' ? STREAKS.full : STREAKS.light) }),
+    [preset.detailFx],
+  );
   useEffect(() => () => streaks.dispose(), [streaks]);
   const dof = useRef<DepthOfFieldEffect | null>(null);
   const dofTarget = useMemo(() => new Vector3(), []);
