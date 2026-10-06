@@ -22,4 +22,10 @@ describe('AnamorphicStreakEffect', () => {
     expect(e.getFragmentShader()).toContain('inputBuffer');
     e.dispose();
   });
+  it('bounds each tap by maxExcess so a transient HDR spike cannot smear the frame', () => {
+    const e = new AnamorphicStreakEffect({ maxExcess: 1.5 });
+    expect(e.uniforms.get('maxExcess')!.value).toBe(1.5);
+    expect(e.getFragmentShader()).toContain('min(e, maxExcess)');
+    e.dispose();
+  });
 });

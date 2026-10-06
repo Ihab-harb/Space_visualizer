@@ -53,9 +53,11 @@ A 3D, time-accurate solar system in the browser — every fact cited to an offic
 - [[0004-measured-accuracy]]
 - [[0005-webgl2-custom-shaders]]
 - [[0006-webp-tiers-ktx2-deferred]]
+- [[0007-tone-mapping-and-exposure]]
 
 ## Assets
 - M2a.1 golden screenshots: `Assets/m2a1-golden/` (six PNG views)
+- M2a.2 golden screenshots: `Assets/m2a2-golden/` (eight PNG views, AgX, `quality=high&fx=1`)
 
 ## Log
 - [[Changelog]]

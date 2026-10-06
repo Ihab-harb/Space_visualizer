@@ -4,6 +4,7 @@ import { useMaxTier } from '../../render/useMaxTier';
 import { useTieredTexture } from '../textures/useTieredTexture';
 import { FRAG_OUTRO } from './chunks';
 import { createBodyMaterial } from './createBodyMaterial';
+import { CLOUD_SHADOW_OFFSET, GLINT_ROUGHNESS, GLINT_STRENGTH } from './illustrative';
 import { useBodyUniforms } from './useBodyUniforms';
 
 /** Illustrative cloud drift: u offset per simulation day. */
@@ -35,11 +36,11 @@ void main() {
   vec3 north = cross(n, east);
   vec2 drift = vec2(uSimDays * uCloudDrift, 0.0);
   float cloudHere = texture2D(uCloudMap, vUv - drift).r;
-  float cloudShadow = texture2D(uCloudMap, vUv - drift + vec2(dot(l, east), dot(l, north)) * 0.0025).r;
+  float cloudShadow = texture2D(uCloudMap, vUv - drift + vec2(dot(l, east) / max(length(n.xy), 0.2), dot(l, north)) * ${CLOUD_SHADOW_OFFSET.toFixed(4)}).r;
   float shade = eclipseFactor(s);
   vec3 diffuse = dayColor * max(dot(nb, l), 0.0) * day * sunColor * (1.0 - 0.45 * cloudShadow) * uSunIntensity * shade;
   // Sun glint on water only (GGX).
-  float spec = ocean * ggx(n, v, l, 0.35) * max(geo, 0.0) * 0.06 * (1.0 - cloudHere);
+  float spec = ocean * ggx(n, v, l, ${GLINT_ROUGHNESS.toFixed(4)}) * max(geo, 0.0) * ${GLINT_STRENGTH.toFixed(4)} * (1.0 - cloudHere);
   // City lights on the night side, fading toward the terminator and under clouds.
   float night = 1.0 - smoothstep(-0.18, 0.06, geo);
   vec3 lights = texture2D(uNightMap, vUv).rgb * night * (1.0 - 0.7 * cloudHere) * vec3(1.0, 0.8, 0.55) * 1.4;

@@ -17,8 +17,19 @@ import { segmentByAttributes } from './passSegments';
 import { activePasses, PRESETS, type PassId } from './quality';
 import { useSunFx } from './sunFx';
 
-/** Filmic operator; Task 9 compares ACES and AgX on the golden views (Decision 0007). */
+/** Filmic operator, chosen over ACES on the golden views (Decision 0007). */
 export const FILMIC_TONE_MAPPING = ToneMappingMode.AGX;
+
+// Look constants tuned in M2a.2 Task 9 (illustrative; Decision 0007 records start and final values).
+/**
+ * Anamorphic streaks. threshold and maxExcess are HDR units before exposure and tone mapping: the threshold sits above the
+ * Earth limb (atmosphere at intensity 0.45) so only the Sun streaks; maxExcess bounds a transient spike.
+ */
+export const STREAKS = { threshold: 3, strengthFull: 3, strengthLight: 1.8, spreadPx: 14, maxExcess: 2 } as const;
+/** Lens flare. colorGain also scales the library's broad ghost terms, which veil the whole frame (magenta) when high. */
+export const FLARE = { glareSize: 0.08, colorGain: [3, 2.7, 2.1] as const } as const;
+export const GOD_RAYS = { weight: 0.3, exposure: 0.35 } as const;
+export const BLOOM_INTENSITY = { effects: 1.1, plain: 0.6 } as const;
 
 const cocStatus = new WeakMap<object, string>();
 
@@ -46,7 +57,7 @@ export function EffectsStack({ bodies }: { bodies: readonly Body[] }) {
   const flare = useMemo(
     () =>
       new LensFlareEffect({
-        glareSize: 0.12,
+        glareSize: FLARE.glareSize,
         flareSize: 0.004,
         flareSpeed: 0.004,
         flareShape: 0.1,
@@ -57,7 +68,7 @@ export function EffectsStack({ bodies }: { bodies: readonly Body[] }) {
         aditionalStreaks: false,
         ghostScale: 0.1,
         starBurst: false,
-        colorGain: new Color(14, 12, 10),
+        colorGain: new Color(...FLARE.colorGain),
         opacity: 1, // library semantics: 1 hides the flare; useSunFx drives it from the Sun's weight
       }),
     [],
@@ -66,7 +77,7 @@ export function EffectsStack({ bodies }: { bodies: readonly Body[] }) {
   const godRays = useRef<GodRaysEffect | null>(null);
   useSunFx({ sun, bodies, proxy, flare, godRays });
 
-  const streaks = useMemo(() => new AnamorphicStreakEffect({ threshold: 0.8, strength: preset.detailFx === 'full' ? 1.6 : 1, spreadPx: 12 }), [preset.detailFx]);
+  const streaks = useMemo(() => new AnamorphicStreakEffect({ threshold: STREAKS.threshold, strength: preset.detailFx === 'full' ? STREAKS.strengthFull : STREAKS.strengthLight, spreadPx: STREAKS.spreadPx, maxExcess: STREAKS.maxExcess }), [preset.detailFx]);
   useEffect(() => () => streaks.dispose(), [streaks]);
   const dof = useRef<DepthOfFieldEffect | null>(null);
   const dofTarget = useMemo(() => new Vector3(), []);
@@ -83,7 +94,7 @@ export function EffectsStack({ bodies }: { bodies: readonly Body[] }) {
     const p = focusPoint(sub(pos, frame.cameraPositionKm), r);
     dofTarget.set(p[0], p[1], p[2]);
     effect.target = dofTarget;
-    const s = dofSettings(Math.hypot(p[0], p[1], p[2]), preset.detailFx);
+    const s = dofSettings(Math.hypot(p[0], p[1], p[2]), preset.detailFx, r);
     effect.cocMaterial.focusRange = s.focusRange;
     effect.bokehScale = s.bokehScale;
   });
@@ -110,9 +121,9 @@ export function EffectsStack({ bodies }: { bodies: readonly Body[] }) {
   const element = (pass: PassId): JSX.Element => {
     switch (pass) {
       case 'bloom':
-        return <Bloom key="bloom" mipmapBlur levels={preset.bloomLevels} luminanceThreshold={1} intensity={effects ? 1.1 : 0.6} />;
+        return <Bloom key="bloom" mipmapBlur levels={preset.bloomLevels} luminanceThreshold={1} intensity={effects ? BLOOM_INTENSITY.effects : BLOOM_INTENSITY.plain} />;
       case 'rays':
-        return <GodRays key="rays" ref={godRays} sun={proxy} samples={preset.detailFx === 'full' ? 60 : 40} density={0.96} decay={0.93} weight={0.35} exposure={0.5} clampMax={1} blur />;
+        return <GodRays key="rays" ref={godRays} sun={proxy} samples={preset.detailFx === 'full' ? 60 : 40} density={0.96} decay={0.93} weight={GOD_RAYS.weight} exposure={GOD_RAYS.exposure} clampMax={1} blur />;
       case 'flare':
         return <primitive key="flare" object={flare} />;
       case 'streaks':

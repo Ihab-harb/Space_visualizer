@@ -1,10 +1,15 @@
 import { describe, expect, it, vi } from 'vitest';
-import { dofSettings, focusPoint, LOG_DEPTH_COC_FRAGMENT, patchCocForLogDepth } from './dof';
+import { DOF_RADIUS_RANGE, dofSettings, focusPoint, LOG_DEPTH_COC_FRAGMENT, patchCocForLogDepth } from './dof';
 
 describe('depth of field', () => {
   it('keeps the selected body sharp with a range proportional to distance', () => {
     expect(dofSettings(100000, 'full')).toEqual({ focusRange: 35000, bokehScale: 2 });
     expect(dofSettings(100000, 'light')).toEqual({ focusRange: 60000, bokehScale: 1 });
+  });
+  it('widens the range by the body radius so the far side of a large body stays sharp', () => {
+    expect(DOF_RADIUS_RANGE).toBeGreaterThan(1);
+    expect(dofSettings(100000, 'full', 2000).focusRange).toBeCloseTo(35000 + DOF_RADIUS_RANGE * 2000, 9);
+    expect(dofSettings(100000, 'light', 2000).focusRange).toBeCloseTo(60000 + DOF_RADIUS_RANGE * 2000, 9);
   });
   it('focuses on the near surface, not the centre', () => {
     const p = focusPoint([0, 0, -10000], 2000);

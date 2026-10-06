@@ -3,7 +3,7 @@ import { AdditiveBlending, BackSide, Color, SphereGeometry } from 'three';
 import type { Body } from '../../core/catalog/schema';
 import { FRAG_OUTRO_NO_TONEMAP } from './chunks';
 import { createBodyMaterial } from './createBodyMaterial';
-import { CORONA_A, CORONA_C, CORONA_FADE_START, CORONA_K, CORONA_SCALE } from './illustrative';
+import { CORONA_A, CORONA_C, CORONA_FADE_START, CORONA_GAIN, CORONA_K, CORONA_SCALE } from './illustrative';
 import { useBodyUniforms } from './useBodyUniforms';
 
 const FRAGMENT = /* glsl */ `
@@ -26,7 +26,7 @@ export function CoronaGlow({ body, bodies }: { body: Body; bodies: readonly Body
     () =>
       createBodyMaterial({
         fragment: FRAGMENT,
-        uniforms: { uColor: { value: new Color(body.display.color).multiplyScalar(1.6) } },
+        uniforms: { uColor: { value: new Color(body.display.color).multiplyScalar(CORONA_GAIN) } },
         transparent: true,
         blending: AdditiveBlending,
         side: BackSide,

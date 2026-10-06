@@ -1,7 +1,14 @@
 import { length, scale, type Vec3 } from '../core/math/vec3';
 
-export function dofSettings(distanceKm: number, detail: 'full' | 'light'): { focusRange: number; bokehScale: number } {
-  return detail === 'full' ? { focusRange: distanceKm * 0.35, bokehScale: 2 } : { focusRange: distanceKm * 0.6, bokehScale: 1 };
+/**
+ * Body radii added to the focus range (illustrative, M2a.2 Task 9). Focus sits on the near surface, so the limb lies about one
+ * radius beyond it and a ring system up to about 2.3 radii; without this term a large body's far side went soft.
+ */
+export const DOF_RADIUS_RANGE = 2;
+
+export function dofSettings(distanceKm: number, detail: 'full' | 'light', bodyRadiusKm = 0): { focusRange: number; bokehScale: number } {
+  const depth = DOF_RADIUS_RANGE * bodyRadiusKm;
+  return detail === 'full' ? { focusRange: distanceKm * 0.35 + depth, bokehScale: 2 } : { focusRange: distanceKm * 0.6 + depth, bokehScale: 1 };
 }
 
 /** The point on the body's near surface along the line of sight (camera at the origin). */

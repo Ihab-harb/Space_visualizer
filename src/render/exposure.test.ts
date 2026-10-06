@@ -13,9 +13,9 @@ describe('scene-driven exposure', () => {
     expect(sceneExposure(0, 0.1)).toEqual({ exposure: 1, skyDim: 1 });
   });
   it('dips exposure more for a large Sun and dims the stars', () => {
-    const small = sceneExposure(1, 0.001);
+    const small = sceneExposure(1, 1e-6);
     const large = sceneExposure(1, EXPOSURE.fullSizeRad);
-    expect(small.exposure).toBeCloseTo(1 - EXPOSURE.minDip, 2);
+    expect(small.exposure).toBeCloseTo(1 - EXPOSURE.minDip, 4);
     expect(large.exposure).toBeCloseTo(1 - EXPOSURE.maxDip, 6);
     expect(large.skyDim).toBeCloseTo(EXPOSURE.skyDimAtFull, 6);
   });

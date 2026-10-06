@@ -1,8 +1,8 @@
 /** Scene-driven exposure (plan scope ruling). */
 export const EXPOSURE = {
   minDip: 0.15,
-  maxDip: 0.4,
-  skyDimAtFull: 0.25,
+  maxDip: 0.6,
+  skyDimAtFull: 0.4,
   fullSizeRad: (5 * Math.PI) / 180,
   damping: 4,
   /** God-ray opacity floor when the Sun is large on screen; full-strength rays saturate a close-up disc. */
