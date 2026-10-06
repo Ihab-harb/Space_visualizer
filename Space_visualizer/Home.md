@@ -57,7 +57,7 @@ A 3D, time-accurate solar system in the browser — every fact cited to an offic
 
 ## Assets
 - M2a.1 golden screenshots: `Assets/m2a1-golden/` (six PNG views)
-- M2a.2 golden screenshots: `Assets/m2a2-golden/` (eight PNG views, AgX, `quality=high&fx=1`)
+- M2a.2 golden screenshots: `Assets/m2a2-golden/` (nine golden views plus the phone view, AgX, `quality=high&fx=1`)
 
 ## Log
 - [[Changelog]]
