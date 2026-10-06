@@ -10,7 +10,7 @@ import { sub } from '../core/math/vec3';
 import { useFrameState } from '../scene/FrameStateContext';
 import { useRenderStore } from '../state/renderStore';
 import { useSelectionStore } from '../state/selectionStore';
-import { dofSettings, focusPoint, patchCocForLogDepth } from './dof';
+import { DOF_BOKEH, dofSettings, focusPoint, patchCocForLogDepth } from './dof';
 import { AnamorphicStreakEffect } from './effects/AnamorphicStreakEffect';
 import { ExposureEffect } from './effects/ExposureEffect';
 import { segmentByAttributes } from './passSegments';
@@ -138,7 +138,7 @@ export function EffectsStack({ bodies }: { bodies: readonly Body[] }) {
       case 'streaks':
         return <primitive key="streaks" object={streaks} />;
       case 'dof':
-        return <DepthOfField key="dof" ref={dof} bokehScale={preset.detailFx === 'full' ? 2 : 1} />;
+        return <DepthOfField key="dof" ref={dof} bokehScale={preset.detailFx === 'full' ? DOF_BOKEH.full : DOF_BOKEH.light} />;
       case 'exposure':
         return <primitive key="exposure" object={exposure} />;
       case 'tonemap':

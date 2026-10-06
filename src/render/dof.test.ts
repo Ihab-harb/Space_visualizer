@@ -1,10 +1,21 @@
 import { describe, expect, it, vi } from 'vitest';
-import { DOF_RADIUS_RANGE, dofSettings, focusPoint, LOG_DEPTH_COC_FRAGMENT, patchCocForLogDepth } from './dof';
+import { cocMagnitude, DOF_BOKEH, DOF_FOCUS_PLATEAU, DOF_RADIUS_RANGE, dofSettings, focusPoint, LOG_DEPTH_COC_FRAGMENT, patchCocForLogDepth } from './dof';
 
 describe('depth of field', () => {
-  it('keeps the selected body sharp with a range proportional to distance', () => {
-    expect(dofSettings(100000, 'full')).toEqual({ focusRange: 35000, bokehScale: 2 });
-    expect(dofSettings(100000, 'light')).toEqual({ focusRange: 60000, bokehScale: 1 });
+  it('keeps the selected body sharp with a range proportional to distance and a mild bokeh', () => {
+    expect(DOF_BOKEH).toEqual({ full: 1, light: 0.6 });
+    expect(dofSettings(100000, 'full')).toEqual({ focusRange: 35000, bokehScale: 1 });
+    expect(dofSettings(100000, 'light')).toEqual({ focusRange: 60000, bokehScale: 0.6 });
+  });
+  it('has an in-focus plateau: no blur within DOF_FOCUS_PLATEAU of the range, full blur beyond the range', () => {
+    expect(DOF_FOCUS_PLATEAU).toBe(0.25);
+    expect(cocMagnitude(0, 1000)).toBe(0);
+    expect(cocMagnitude(250, 1000)).toBe(0);
+    expect(cocMagnitude(-250, 1000)).toBe(0);
+    expect(cocMagnitude(625, 1000)).toBeCloseTo(0.5, 9);
+    expect(cocMagnitude(1000, 1000)).toBe(1);
+    expect(cocMagnitude(5000, 1000)).toBe(1);
+    expect(LOG_DEPTH_COC_FRAGMENT).toContain(`smoothstep(${DOF_FOCUS_PLATEAU.toFixed(4)} * range, range, abs(signedDistance))`);
   });
   it('widens the range by the body radius so the far side of a large body stays sharp', () => {
     expect(DOF_RADIUS_RANGE).toBeGreaterThan(1);

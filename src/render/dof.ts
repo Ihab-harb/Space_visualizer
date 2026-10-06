@@ -5,10 +5,22 @@ import { length, scale, type Vec3 } from '../core/math/vec3';
  * radius beyond it and a ring system up to about 2.3 radii; without this term a large body's far side went soft.
  */
 export const DOF_RADIUS_RANGE = 2;
+/** Bokeh scale per detail level: mild, as spec §5 asks for Realistic mode (illustrative, M2a.2 Task 9). */
+export const DOF_BOKEH = { full: 1, light: 0.6 } as const;
+/** Fraction of the focus range that stays fully sharp before the blur ramps up (illustrative, M2a.2 Task 9). */
+export const DOF_FOCUS_PLATEAU = 0.25;
 
 export function dofSettings(distanceKm: number, detail: 'full' | 'light', bodyRadiusKm = 0): { focusRange: number; bokehScale: number } {
   const depth = DOF_RADIUS_RANGE * bodyRadiusKm;
-  return detail === 'full' ? { focusRange: distanceKm * 0.35 + depth, bokehScale: 2 } : { focusRange: distanceKm * 0.6 + depth, bokehScale: 1 };
+  return { focusRange: distanceKm * (detail === 'full' ? 0.35 : 0.6) + depth, bokehScale: DOF_BOKEH[detail] };
+}
+
+/** CPU mirror of the circle of confusion in LOG_DEPTH_COC_FRAGMENT: 0 on the plateau, smoothstep up to 1 at the range. */
+export function cocMagnitude(signedDistance: number, focusRange: number): number {
+  const range = Math.max(focusRange, 1e-6);
+  const e0 = DOF_FOCUS_PLATEAU * range;
+  const t = Math.min(1, Math.max(0, (Math.abs(signedDistance) - e0) / (range - e0)));
+  return t * t * (3 - 2 * t);
 }
 
 /** The point on the body's near surface along the line of sight (camera at the origin). */
@@ -48,7 +60,9 @@ void main() {
   vec3 ray = vec3(ndc.x * projectionMatrixInverse[0][0], ndc.y * projectionMatrixInverse[1][1], 1.0);
   float distanceToCamera = viewZ * length(ray);
   float signedDistance = distanceToCamera - focusDistance;
-  float magnitude = smoothstep(0.0, max(focusRange, 1e-6), abs(signedDistance));
+  // In-focus plateau (DOF_FOCUS_PLATEAU of the range), then a smooth ramp to full blur at the range; see cocMagnitude.
+  float range = max(focusRange, 1e-6);
+  float magnitude = smoothstep(${DOF_FOCUS_PLATEAU.toFixed(4)} * range, range, abs(signedDistance));
   gl_FragColor.rg = magnitude * vec2(step(signedDistance, 0.0), step(0.0, signedDistance));
 }`;
 
