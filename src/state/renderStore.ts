@@ -23,7 +23,9 @@ export const useRenderStore = create<RenderState>()((set, get) => ({
   mode: 'auto',
   level: initialLevel(environment()),
   effects: true,
-  setMode: (mode) => set(mode === 'auto' ? { mode } : { mode, level: mode }),
+  // Entering Auto restarts from the initial level: frame times are capped at vsync, so Auto can always step down but
+  // cannot see headroom to step up at 60 Hz (final-review ruling I3).
+  setMode: (mode) => set(mode === 'auto' ? { mode, level: initialLevel(environment()) } : { mode, level: mode }),
   cycleMode: () => get().setMode(nextMode(get().mode)),
   setLevel: (level) => set({ level }),
   setEffects: (effects) => set({ effects }),

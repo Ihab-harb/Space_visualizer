@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { createAutoQuality, median } from './autoQuality';
+import { createAutoQuality, median, resyncAuto } from './autoQuality';
 
 /** Feed a constant frame time from t0 for durationMs; return the levels it changed to. */
 function run(ctrl: ReturnType<typeof createAutoQuality>, frameMs: number, t0: number, durationMs: number): { changes: string[]; end: number } {
@@ -62,5 +62,122 @@ describe('Auto quality (spec §5)', () => {
     expect(changes).toEqual([]);
     expect(afterGap).toBeNull();
     expect(c.level).toBe('high');
+  });
+});
+
+/** Feed frames whose time depends on the controller's current level; return the changes with their times. */
+function simulate(ctrl: ReturnType<typeof createAutoQuality>, frameMsAt: (level: string) => number, durationMs: number) {
+  const changes: Array<{ to: string; t: number }> = [];
+  let t = 0;
+  while (t < durationMs) {
+    const ms = frameMsAt(ctrl.level);
+    t += ms;
+    const next = ctrl.sample(ms, t);
+    if (next) changes.push({ to: next, t });
+  }
+  return changes;
+}
+
+describe('Auto quality: sustained long frames (C1)', () => {
+  it('drops straight to Low within about 1-2 s when every frame takes 400 ms, ignoring the warm-up', () => {
+    const c = createAutoQuality('high');
+    const changes = simulate(c, () => 400, 10000);
+    expect(changes.map((x) => x.to)).toEqual(['low']);
+    expect(changes[0]!.t).toBeLessThanOrEqual(2000);
+  });
+  it('drops to Low on a 1 fps renderer (SwiftShader-like) too', () => {
+    const c = createAutoQuality('high');
+    const changes = simulate(c, () => 1000, 10000);
+    expect(changes.map((x) => x.to)).toEqual(['low']);
+    expect(changes[0]!.t).toBeLessThanOrEqual(2000);
+  });
+  it('ignores one isolated 5 s gap', () => {
+    const c = createAutoQuality('high');
+    const a = run(c, 10, 0, 4000);
+    expect(c.sample(5000, a.end + 5000)).toBeNull();
+    expect(run(c, 10, a.end + 5000, 3000).changes).toEqual([]);
+    expect(c.level).toBe('high');
+  });
+  it('ignores a long pause followed by a single hitch', () => {
+    const c = createAutoQuality('high');
+    const a = run(c, 10, 0, 4000);
+    expect(c.sample(5000, a.end + 5000)).toBeNull();
+    expect(c.sample(300, a.end + 5300)).toBeNull();
+    expect(run(c, 10, a.end + 5300, 3000).changes).toEqual([]);
+    expect(c.level).toBe('high');
+  });
+  it('never counts frames while the page is not visible', () => {
+    const c = createAutoQuality('high');
+    let t = 0;
+    for (let i = 0; i < 50; i++) {
+      t += 400;
+      expect(c.sample(400, t, false)).toBeNull();
+    }
+    expect(c.level).toBe('high');
+  });
+  it('waits out the cooldown after a change before acting on long frames (compile hitches after a rebuild)', () => {
+    const c = createAutoQuality('high');
+    const a = run(c, 25, 0, 3100);
+    expect(a.changes).toEqual(['medium']);
+    // Three 400 ms frames straight after the change (shader compilation) do not drop it further.
+    let t = a.end;
+    for (let i = 0; i < 3; i++) expect(c.sample(400, (t += 400))).toBeNull();
+    expect(run(c, 15, t, 10000).changes).toEqual([]);
+    expect(c.level).toBe('medium');
+  });
+});
+
+describe('Auto quality: back-off and gaps (I2)', () => {
+  it('settles after at most one up/down when the next level up is over 18 ms', () => {
+    const c = createAutoQuality('medium');
+    // 120 Hz display: Medium at 8.3 ms, High at 25 ms.
+    const changes = simulate(c, (level) => (level === 'high' ? 25 : 8.3), 120000);
+    expect(changes.map((x) => x.to)).toEqual(['high', 'medium']);
+    expect(c.level).toBe('medium');
+  });
+  it('still steps up again after a reversal that came long after the step-up', () => {
+    const c = createAutoQuality('medium');
+    let slowFrom = Number.POSITIVE_INFINITY;
+    let t = 0;
+    const changes: string[] = [];
+    while (t < 90000) {
+      const ms = c.level === 'high' && t >= slowFrom && t < slowFrom + 8000 ? 25 : 8.3;
+      t += ms;
+      const next = c.sample(ms, t);
+      if (next) {
+        changes.push(next);
+        if (next === 'high' && slowFrom === Number.POSITIVE_INFINITY) slowFrom = t + 20000; // a heavy view 20 s later
+      }
+    }
+    expect(changes).toEqual(['high', 'medium', 'high']);
+  });
+  it('resets the 10 s fast hold across a hidden-tab gap, so no stale step-up follows it', () => {
+    const c = createAutoQuality('low');
+    const a = run(c, 8, 0, 11000); // fast since ~3 s: 8 s of the 10 s hold done
+    expect(a.changes).toEqual([]);
+    expect(c.sample(5000, a.end + 5000)).toBeNull(); // the tab was hidden for 5 s
+    expect(run(c, 8, a.end + 5000, 5000).changes).toEqual([]);
+  });
+  it('resets the fast hold on hidden frames too', () => {
+    const c = createAutoQuality('low');
+    const a = run(c, 8, 0, 11000);
+    expect(c.sample(8, a.end + 8, false)).toBeNull();
+    expect(run(c, 8, a.end + 8, 5000).changes).toEqual([]);
+  });
+});
+
+describe('resyncAuto (QualityGovernor)', () => {
+  it('keeps the controller that made the change, with its state', () => {
+    const c = createAutoQuality('high');
+    run(c, 25, 0, 3100); // stepped down to Medium
+    expect(c.level).toBe('medium');
+    expect(resyncAuto(c, 'medium')).toBe(c);
+  });
+  it('restarts from a level set by anything else while in Auto', () => {
+    const c = createAutoQuality('high');
+    const next = resyncAuto(c, 'low');
+    expect(next).not.toBe(c);
+    expect(next.level).toBe('low');
+    expect(resyncAuto(null, 'medium').level).toBe('medium');
   });
 });
