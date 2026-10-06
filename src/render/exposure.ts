@@ -33,3 +33,11 @@ export function godRayOpacity(visible: number, inFront: boolean, angularRadiusRa
   const size = Math.min(1, Math.max(0, angularRadiusRad / EXPOSURE.fullSizeRad));
   return visible * (1 + (EXPOSURE.rayCloseUpOpacity - 1) * size);
 }
+
+/**
+ * LensFlareEffect opacity for a Sun frame weight. The library's shader fades the flare with mix(flare, 0, opacity), so 1
+ * hides it and 0 shows it in full: the uniform is the inverse of the weight.
+ */
+export function flareOpacity(weight: number): number {
+  return 1 - weight;
+}

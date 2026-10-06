@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { damp, EXPOSURE, godRayOpacity, sceneExposure, sunFrameWeight } from './exposure';
+import { damp, EXPOSURE, flareOpacity, godRayOpacity, sceneExposure, sunFrameWeight } from './exposure';
 
 describe('scene-driven exposure', () => {
   it('weights the Sun by visibility and position in frame', () => {
@@ -36,5 +36,13 @@ describe('god ray opacity', () => {
     expect(godRayOpacity(1, true, EXPOSURE.fullSizeRad)).toBeCloseTo(EXPOSURE.rayCloseUpOpacity, 6);
     expect(godRayOpacity(1, true, 1)).toBeCloseTo(EXPOSURE.rayCloseUpOpacity, 6);
     expect(godRayOpacity(0, true, 1)).toBe(0);
+  });
+});
+
+describe('lens flare opacity', () => {
+  it('inverts the weight, because the library fades the flare with mix(flare, 0, opacity)', () => {
+    expect(flareOpacity(1)).toBe(0); // Sun fully visible in frame: full flare
+    expect(flareOpacity(0)).toBe(1); // hidden or out of frame: no flare
+    expect(flareOpacity(0.25)).toBeCloseTo(0.75, 12);
   });
 });
