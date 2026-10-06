@@ -8,6 +8,8 @@ const VIEWS = [
   // 2008-09-01: the Sun is about 4 degrees from the ring plane, so the unlit face and the globe's shadow are easy to judge.
   { name: '2b-saturn-equinox', url: '/?jd=2454710.5&pause=1&target=saturn&dist=420000&azSun=55&el=6&quality=high&fx=1' },
   { name: '3-sun', url: '/?jd=2461317.5&pause=1&target=sun&dist=4500000&az=0&el=8&quality=high&fx=1' },
+  // The Sun small in frame (about 4e7 km): the view where the lens flare, god rays and streak must read (3-sun waives them).
+  { name: '3c-sun-far', url: '/?jd=2461317.5&pause=1&target=sun&dist=40000000&az=0&el=8&quality=high&fx=1' },
   // The Sun directly behind Earth: no lens flare and no god rays while the disc is hidden.
   { name: '3b-sun-behind-earth', url: '/?jd=2461317.5&pause=1&target=earth&dist=20000&azSun=180&el=0&quality=high&fx=1' },
   { name: '0-mars', url: '/?jd=2461317.5&pause=1&target=mars&dist=14000&azSun=60&el=15&quality=high&fx=1' },
