@@ -15,6 +15,7 @@ const VIEWS = [
   // The Sun partly behind Earth's upper limb: rays from the hidden part must not cross the planet (see the luminance test below).
   { name: '3d-sun-partial', url: '/?jd=2461317.5&pause=1&target=earth&dist=20000&azSun=180&el=18.6&quality=high&fx=1' },
   { name: '0-mars', url: '/?jd=2461317.5&pause=1&target=mars&dist=14000&azSun=60&el=15&quality=high&fx=1' },
+  { name: '0b-venus-radar', url: '/?jd=2461317.5&pause=1&target=venus&dist=30000&azSun=60&el=10&radar=1&quality=high&fx=1' },
   { name: '4-overview', url: '/?jd=2461317.5&pause=1&quality=high&fx=1' },
 ];
 

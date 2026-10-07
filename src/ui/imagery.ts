@@ -13,6 +13,7 @@ const LAYERS: Array<[Exclude<keyof Imagery, 'rings'>, string]> = [
   ['night', 'Night lights'],
   ['clouds', 'Clouds'],
   ['specular', 'Water mask'],
+  ['radar', 'Radar (Magellan)'],
 ];
 
 const line = (label: string, ref: TextureRef): ImageryLine => ({
@@ -38,6 +39,7 @@ export function illustrativeNotes(body: Body): string[] {
   if (body.render.shader === 'sun') notes.push('Illustrative surface: granulation, limb darkening and corona are artistic, not imagery.');
   else if (body.render.shader === 'venus') notes.push('Illustrative cloud deck: there is no official true-colour global map of Venus.');
   else if (!body.imagery?.color) notes.push('Illustrative colour — no official surface map.');
+  if (body.imagery?.radar) notes.push('Radar view: Magellan radar backscatter of the surface under the clouds — brightness is radar roughness, not visible light.');
   if (body.render.bandFlow) notes.push('Cloud-band motion is illustrative.');
   if (body.render.shader === 'earth' && body.imagery?.clouds) notes.push('Cloud drift is illustrative.');
   if (body.render.atmosphere && body.render.atmosphere !== 'earth') notes.push('Atmosphere tint is illustrative.');

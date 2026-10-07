@@ -3,6 +3,7 @@ import type { Catalog } from '../core/catalog/catalog';
 import { FACT_DEFS, FACT_KEYS, type FactGroup } from '../core/catalog/facts';
 import type { BodyCategory } from '../core/catalog/schema';
 import { useSelectionStore } from '../state/selectionStore';
+import { useViewStore } from '../state/viewStore';
 import { useUiStore } from '../state/uiStore';
 import { useTimeStore } from '../state/timeStore';
 import { accuracyLines } from './accuracy';
@@ -20,6 +21,8 @@ export function FactsDrawer({ catalog }: { catalog: Catalog }) {
   const selectedId = useSelectionStore((s) => s.selectedId);
   const open = useUiStore((s) => s.drawerOpen);
   const setOpen = useUiStore((s) => s.setDrawerOpen);
+  const venusRadar = useViewStore((s) => s.venusRadar);
+  const setVenusRadar = useViewStore((s) => s.setVenusRadar);
   const focusSource = useUiStore((s) => s.focusSource);
   const clearFocusSource = useUiStore((s) => s.clearFocusSource);
   const ref = useRef<HTMLElement>(null);
@@ -160,6 +163,12 @@ export function FactsDrawer({ catalog }: { catalog: Catalog }) {
               </li>
             ))}
           </ul>
+        )}
+        {body.imagery?.radar && (
+          <label className="toggle">
+            <input type="checkbox" checked={venusRadar} onChange={(e) => setVenusRadar(e.target.checked)} />
+            Show Magellan radar (surface under the clouds)
+          </label>
         )}
         {illustrativeNotes(body).map((note) => (
           <p key={note} className="info-panel__note">

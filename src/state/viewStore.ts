@@ -20,6 +20,9 @@ interface ViewState {
   /** Orbit view: move the pivot to this body. seq makes repeated requests distinct. */
   focusRequest: { bodyId: string; seq: number } | null;
   textureTierOverride: Tier | null;
+  /** Venus: show the Magellan radar mosaic instead of the cloud deck. */
+  venusRadar: boolean;
+  setVenusRadar(on: boolean): void;
   cameraOverride: CameraOverride | null;
   setTextureTierOverride(tier: Tier | null): void;
   requestCameraOverride(o: Omit<CameraOverride, 'seq'>): void;
@@ -35,6 +38,8 @@ export const useViewStore = create<ViewState>()((set) => ({
   scaleMode: 'readable',
   focusRequest: null,
   textureTierOverride: null,
+  venusRadar: false,
+  setVenusRadar: (venusRadar) => set({ venusRadar }),
   cameraOverride: null,
   setTextureTierOverride: (textureTierOverride) => set({ textureTierOverride }),
   requestCameraOverride: (o) => set((s) => ({ cameraOverride: { ...o, seq: (s.cameraOverride?.seq ?? 0) + 1 } })),

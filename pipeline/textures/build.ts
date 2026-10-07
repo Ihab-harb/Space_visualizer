@@ -4,7 +4,7 @@ import path from 'node:path';
 import { ImageryFileSchema } from '../../src/core/catalog/schema';
 import type { Imagery, ImageryFile, Source, TextureRef, Tier } from '../../src/core/catalog/schema';
 import { toSource } from '../sources/registry';
-import { argmaxLonLat, assertElevationRange, calibrateMask, normalMapFromHeight, rollColumns, sampleEquirect, thresholdMask, type LonLat } from './derive';
+import { argmaxLonLat, assertElevationRange, calibrateMask, meanInBox, normalMapFromHeight, rollColumns, sampleEquirect, thresholdMask, type LonLat } from './derive';
 import { fetchBinaryCached, type FetchedFile } from './fetchBinary';
 import { imagerySpec, PRODUCTS, type ProductId } from './manifest';
 import { desaturateRgb, imageInfo, readBandFloat, readRgb8, writeWebp } from './rasters';
@@ -16,7 +16,7 @@ export const COMMITTED_TIERS: Tier[] = ['1k', '2k'];
 const ALL_TIERS: Tier[] = ['1k', '2k', '4k', '8k'];
 export const BUDGET_BYTES = 60 * 1024 * 1024;
 
-type Layer = 'color' | 'night' | 'clouds' | 'normal' | 'specular';
+type Layer = 'color' | 'night' | 'clouds' | 'normal' | 'specular' | 'radar';
 
 export interface LayerJob {
   body: string;
@@ -40,6 +40,7 @@ export const LAYER_JOBS: LayerJob[] = [
   { body: 'mars', layer: 'normal', product: 'mars-dem', kind: 'normal', illustrative: true, maxTier: '4k', normal: { radiusM: 3_389_500, metersPerUnit: 1, strength: 3 }, derivation: 'Normal map derived from MOLA elevation; relief exaggerated ×3.' },
   { body: 'mercury', layer: 'color', product: 'mercury-color', kind: 'color', maxTier: '8k', desaturate: 0.8, derivation: 'MDIS 3-colour mosaic desaturated 80% toward Mercury’s natural grey-brown.' },
   { body: 'mercury', layer: 'normal', product: 'mercury-dem', kind: 'normal', illustrative: true, maxTier: '4k', normal: { radiusM: 2_439_400, metersPerUnit: 1, strength: 3 }, derivation: 'Normal map derived from the MESSENGER DEM; relief exaggerated ×3.' },
+  { body: 'venus', layer: 'radar', product: 'venus-radar', kind: 'gray', maxTier: '4k', derivation: 'Magellan C3-MDIR radar backscatter mosaic (2025 m/pixel); radar brightness, not visible light.' },
   { body: 'jupiter', layer: 'color', product: 'jupiter-opal', kind: 'color', maxTier: '4k', derivation: 'Hubble OPAL 2024 global map (F395N/F502N/F631N composite); longitude alignment approximate.' },
   { body: 'saturn', layer: 'color', product: 'saturn-opal', kind: 'color', maxTier: '4k', derivation: 'Hubble OPAL 2024 global map (F395N/F502N/F631N composite); longitude alignment approximate.' },
   { body: 'uranus', layer: 'color', product: 'uranus-opal', kind: 'color', maxTier: '4k', derivation: 'Hubble OPAL 2023 global map (F467M/F547M/F657N composite); longitude alignment approximate.' },
@@ -103,6 +104,13 @@ function validate(job: LayerJob, data: Uint8Array | Float32Array, w: number, h: 
       throw new Error(`mars DEM peak at ${peak.lonDeg.toFixed(1)}°, ${peak.latDeg.toFixed(1)}° is not Olympus Mons (−133.8°, 18.65°): check lonOffsetDeg`);
     }
   }
+  if (job.product === 'venus-radar') {
+    const global = meanInBox(data, w, h, { lonMin: -180, lonMax: 180, latMin: -90, latMax: 90 });
+    const maxwell = meanInBox(data, w, h, { lonMin: 0, lonMax: 7, latMin: 62, latMax: 68 });
+    if (!(maxwell > 1.3 * global)) {
+      throw new Error(`venus radar orientation check failed: Maxwell Montes box mean ${maxwell.toFixed(1)} is not above 1.3 x the global mean ${global.toFixed(1)}`);
+    }
+  }
   if (job.product === 'mercury-dem') assertElevationRange('mercury', data, { minBelow: -3000, maxAbove: 3000 });
 }
 
@@ -120,6 +128,7 @@ async function processLayer(job: LayerJob, file: string, tier: Tier, tmpDir: str
     await writeWebp(rgb, w, h, 3, out, { quality: 90 });
   } else if (job.kind === 'gray') {
     const v = rollColumns(await readBandFloat(file, w, h), w, h, 1, lon);
+    if (tier === '1k') validate(job, v, w, h);
     await writeWebp(Uint8Array.from(v, (x) => Math.max(0, Math.min(255, Math.round(x)))), w, h, 1, out, { quality: 90 });
   } else if (job.kind === 'normal') {
     const height = rollColumns(await readBandFloat(file, w, h), w, h, 1, lon);

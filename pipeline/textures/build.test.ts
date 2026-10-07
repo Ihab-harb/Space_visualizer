@@ -23,6 +23,13 @@ describe('texture recipes', () => {
     expect(tiersFor(opal, { hd: true, sourceWidth: 3600 })).toEqual(['1k', '2k']);
     expect(tiersFor(opal, { hd: false, sourceWidth: 3600 })).toEqual(['1k', '2k']);
   });
+  it('builds the Venus radar layer at 1k, 2k and a local 4k from the 18775 px mosaic', () => {
+    const radar = LAYER_JOBS.find((j) => j.body === 'venus' && j.layer === 'radar')!;
+    expect(radar).toMatchObject({ product: 'venus-radar', kind: 'gray', maxTier: '4k' });
+    expect(radar.derivation).toMatch(/not visible light/);
+    expect(tiersFor(radar, { hd: true, sourceWidth: 18775 })).toEqual(['1k', '2k', '4k']);
+    expect(tiersFor(radar, { hd: false, sourceWidth: 18775 })).toEqual(['1k', '2k']);
+  });
   it('labels exaggerated relief as illustrative', () => {
     const relief = LAYER_JOBS.filter((j) => j.layer === 'normal');
     expect(relief).toHaveLength(3);

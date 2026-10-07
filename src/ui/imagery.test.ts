@@ -12,6 +12,23 @@ const earth: Body = {
   },
 };
 
+const venus: Body = {
+  ...makeEarth(),
+  id: 'venus',
+  render: { ...makeEarth().render, shader: 'venus' },
+  imagery: { radar: { tiers: { '2k': 'textures/venus/radar_2k.webp' }, sourceId: 'usgs-venus-magellan-c3', derivation: 'Magellan C3-MDIR radar backscatter mosaic; radar brightness, not visible light.' } },
+};
+
+describe('Venus radar', () => {
+  it('lists the radar layer and explains it', () => {
+    expect(imageryLines(venus)).toEqual([{ label: 'Radar (Magellan)', sourceId: 'usgs-venus-magellan-c3', derivation: 'Magellan C3-MDIR radar backscatter mosaic; radar brightness, not visible light.', illustrative: false }]);
+    expect(illustrativeNotes(venus)).toContain('Radar view: Magellan radar backscatter of the surface under the clouds — brightness is radar roughness, not visible light.');
+  });
+  it('adds no radar note without a radar layer', () => {
+    expect(illustrativeNotes({ ...venus, imagery: null }).join(' ')).not.toMatch(/Radar view/);
+  });
+});
+
 describe('imagery lines', () => {
   it('lists each layer with its source, in display order', () => {
     expect(imageryLines(earth)).toEqual([

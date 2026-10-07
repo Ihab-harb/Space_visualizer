@@ -17,6 +17,7 @@ export const IMAGERY_SOURCE_SPECS: SourceSpec[] = [
   { id: 'usgs-mars-mola-dem', title: 'Mars MGS MOLA DEM 463 m', publisher: 'USGS Astrogeology Science Center (NASA MGS MOLA team data)', url: `${USGS}/Mars_MGS_MOLA_DEM_mosaic_global_463m.tif`, license: USGS_PD },
   { id: 'usgs-mercury-md3-color', title: 'Mercury MESSENGER MDIS Basemap MD3 Color Mosaic 665 m', publisher: 'USGS Astrogeology Science Center (NASA MESSENGER data)', url: `${USGS}/Mercury_MESSENGER_MDIS_Basemap_MD3Color_Mosaic_Global_665m.tif`, license: USGS_PD },
   { id: 'usgs-mercury-dem', title: 'Mercury MESSENGER USGS DEM 665 m', publisher: 'USGS Astrogeology Science Center (NASA MESSENGER data)', url: `${USGS}/Mercury_Messenger_USGS_DEM_Global_665m_v2.tif`, license: USGS_PD },
+  { id: 'usgs-venus-magellan-c3', title: 'Venus Magellan Global C3-MDIR Mosaic 2025m', publisher: 'USGS Astrogeology Science Center (NASA Magellan data)', url: 'https://astrogeology.usgs.gov/search/map/venus_magellan_global_c3_mdir_mosaic_2025m', license: USGS_PD },
   { id: 'stsci-opal', title: 'Outer Planet Atmospheres Legacy (OPAL) global maps', publisher: 'NASA/ESA Hubble Space Telescope via STScI MAST (OPAL program, PI A. Simon)', url: 'https://doi.org/10.17909/T9G593', license: 'Public HLSP data; acknowledge NASA/ESA HST OPAL program (PI: Simon, GO13937), archived by STScI' },
   { id: 'nasa-svs-deep-star-maps', title: 'Deep Star Maps 2020', publisher: 'NASA Goddard Scientific Visualization Studio', url: 'https://svs.gsfc.nasa.gov/4851', license: 'NASA public domain (credit NASA/Goddard SVS; Gaia DR2: ESA/Gaia/DPAC)' },
   { id: 'nssdca-saturn-rings', title: 'Saturnian Rings Fact Sheet (D. R. Williams)', publisher: 'NASA Goddard Space Flight Center, NSSDCA', url: 'https://nssdc.gsfc.nasa.gov/planetary/factsheet/satringfact.html', license: NASA_PD },
@@ -25,7 +26,7 @@ export const IMAGERY_SOURCE_SPECS: SourceSpec[] = [
 
 export type ProductId =
   | 'earth-day' | 'earth-night' | 'earth-clouds' | 'earth-topography' | 'earth-bathymetry'
-  | 'mars-color' | 'mars-dem' | 'mercury-color' | 'mercury-dem'
+  | 'mars-color' | 'mars-dem' | 'mercury-color' | 'mercury-dem' | 'venus-radar'
   | 'jupiter-opal' | 'saturn-opal' | 'uranus-opal' | 'neptune-opal'
   | 'sky-starmap-4k' | 'sky-starmap-8k' | 'saturn-ring-sheet' | 'uranus-ring-sheet';
 
@@ -49,6 +50,7 @@ export const PRODUCTS: Record<ProductId, Product> = {
   'mars-dem': { url: `${USGS}/Mars_MGS_MOLA_DEM_mosaic_global_463m.tif`, cacheName: 'mars-dem.tif', sourceId: 'usgs-mars-mola-dem', approxBytes: 2_125_771_142, lonOffsetDeg: 0 },
   'mercury-color': { url: `${USGS}/Mercury_MESSENGER_MDIS_Basemap_MD3Color_Mosaic_Global_665m.tif`, cacheName: 'mercury-color.tif', sourceId: 'usgs-mercury-md3-color', approxBytes: 796_539_539, lonOffsetDeg: 0 },
   'mercury-dem': { url: `${USGS}/Mercury_Messenger_USGS_DEM_Global_665m_v2.tif`, cacheName: 'mercury-dem.tif', sourceId: 'usgs-mercury-dem', approxBytes: 530_934_581, lonOffsetDeg: 0 },
+  'venus-radar': { url: `${USGS}/Venus_Magellan_C3-MDIR_Global_Mosaic_2025m.tif`, cacheName: 'venus-radar.tif', sourceId: 'usgs-venus-magellan-c3', approxBytes: 176_335_453, lonOffsetDeg: 0 },
   'jupiter-opal': { url: `${OPAL}/jupiter/hlsp_opal_hst_wfc3-uvis_jupiter-2024c_f395n-f502n-f631n_v1_globalmap.tif`, cacheName: 'jupiter-opal.tif', sourceId: 'stsci-opal', approxBytes: 19_472_820, lonOffsetDeg: 0 },
   'saturn-opal': { url: `${OPAL}/saturn/hlsp_opal_hst_wfc3-uvis_saturn-2024a_f395n-f502n-f631n_v1_globalmap.tif`, cacheName: 'saturn-opal.tif', sourceId: 'stsci-opal', approxBytes: 4_876_618, lonOffsetDeg: 0 },
   'uranus-opal': { url: `${OPAL}/uranus/hlsp_opal_hst_wfc3-uvis_uranus-2023a_f467m-f547m-f657n_v1_globalmap.tif`, cacheName: 'uranus-opal.tif', sourceId: 'stsci-opal', approxBytes: 787_710, lonOffsetDeg: 0 },

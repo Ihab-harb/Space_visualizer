@@ -44,6 +44,7 @@ A 3D, time-accurate solar system in the browser — every fact cited to an offic
 - [[USGS Mars Viking Color Mosaic]]
 - [[USGS Mars MOLA DEM]]
 - [[USGS Mercury MESSENGER Mosaics]]
+- [[USGS Venus Magellan C3-MDIR Mosaic]]
 - [[Hubble OPAL Global Maps]]
 - [[NASA SVS Deep Star Maps 2020]]
 - [[NSSDCA Ring Fact Sheets]]

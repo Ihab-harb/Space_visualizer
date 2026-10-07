@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { argmaxLonLat, assertElevationRange, calibrateMask, normalMapFromHeight, rangeOf, rollColumns, sampleEquirect, thresholdMask } from './derive';
+import { argmaxLonLat, assertElevationRange, calibrateMask, meanInBox, normalMapFromHeight, rangeOf, rollColumns, sampleEquirect, thresholdMask } from './derive';
 
 const W = 8;
 const H = 4;
@@ -64,5 +64,25 @@ describe('range and mask checks', () => {
   it('refuses to calibrate when land and water overlap', () => {
     const v = grid(() => 50);
     expect(() => calibrateMask(v, W, H, [{ lonDeg: -100, latDeg: 0 }], [{ lonDeg: 100, latDeg: 0 }])).toThrow(/cannot separate land from water/);
+  });
+});
+
+describe('meanInBox', () => {
+  const w = 360;
+  const h = 180;
+  const v = new Float32Array(w * h).fill(10);
+  // Bright 10 degree box at 0..10 E, 60..70 N: columns 180..189, rows 20..29.
+  for (let y = 20; y < 30; y++) for (let x = 180; x < 190; x++) v[y * w + x] = 100;
+  it('averages only the pixels inside the box and is far above the global mean', () => {
+    const box = meanInBox(v, w, h, { lonMin: 0, lonMax: 10, latMin: 60, latMax: 70 });
+    expect(box).toBeCloseTo(100, 5);
+    expect(box).toBeGreaterThan(5 * rangeOf(v).min);
+    expect(meanInBox(v, w, h, { lonMin: -180, lonMax: 180, latMin: -90, latMax: 90 })).toBeCloseTo(10 + (90 * 100) / (w * h), 5);
+  });
+  it('treats the box edges as inclusive', () => {
+    // lonMax 11 reaches the pixel whose west edge is at 10 E: one extra column of dim pixels over 10 rows.
+    const wide = meanInBox(v, w, h, { lonMin: 0, lonMax: 10.5, latMin: 60, latMax: 70 });
+    expect(wide).toBeLessThan(100);
+    expect(wide).toBeCloseTo((100 * 100 + 10 * 10) / 110, 5);
   });
 });
