@@ -1,5 +1,5 @@
 // @vitest-environment jsdom
-import { act, fireEvent, render, screen } from '@testing-library/react';
+import { act, render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { useRenderStore } from '../state/renderStore';
@@ -20,23 +20,6 @@ describe('TopBar', () => {
     expect(useViewStore.getState().coRotate).toBe(true);
   });
 
-  it('supports keys 1, 2 and Escape, but not while typing', async () => {
-    const user = userEvent.setup();
-    render(
-      <>
-        <TopBar />
-        <input aria-label="typing" />
-      </>,
-    );
-    await user.keyboard('2');
-    expect(useViewStore.getState().view).toBe('follow');
-    await user.keyboard('{Escape}');
-    expect(useViewStore.getState().view).toBe('orbit');
-    await user.click(screen.getByLabelText('typing'));
-    await user.keyboard('2');
-    expect(useViewStore.getState().view).toBe('orbit');
-  });
-
   it('switches scale mode', async () => {
     const user = userEvent.setup();
     render(<TopBar />);
@@ -52,33 +35,6 @@ describe('quality and camera effects', () => {
     expect(screen.getByRole('button', { name: /Auto · High/ })).toHaveAttribute('aria-pressed', 'true');
     await userEvent.click(screen.getByRole('button', { name: 'Medium' }));
     expect(useRenderStore.getState()).toMatchObject({ mode: 'medium', level: 'medium' });
-  });
-  it('cycles quality with Q and toggles effects with E, but not while typing', async () => {
-    render(
-      <>
-        <TopBar />
-        <input aria-label="typing" />
-      </>,
-    );
-    await userEvent.keyboard('q');
-    expect(useRenderStore.getState().mode).toBe('high');
-    await userEvent.keyboard('e');
-    expect(useRenderStore.getState().effects).toBe(false);
-    await userEvent.click(screen.getByRole('textbox', { name: 'typing' }));
-    await userEvent.keyboard('qe');
-    expect(useRenderStore.getState()).toMatchObject({ mode: 'high', effects: false });
-  });
-  it('ignores Q and E with Ctrl, Cmd or Alt, and on key auto-repeat', () => {
-    render(<TopBar />);
-    for (const key of ['q', 'Q', 'e', 'E']) {
-      for (const extra of [{ ctrlKey: true }, { metaKey: true }, { altKey: true }, { repeat: true }]) {
-        fireEvent.keyDown(window, { key, ...extra });
-        expect(useRenderStore.getState(), `${key} ${JSON.stringify(extra)}`).toMatchObject({ mode: 'auto', effects: true });
-      }
-    }
-    fireEvent.keyDown(window, { key: 'q' });
-    fireEvent.keyDown(window, { key: 'E', shiftKey: true });
-    expect(useRenderStore.getState()).toMatchObject({ mode: 'high', effects: false });
   });
   it('toggles camera effects from the checkbox', async () => {
     render(<TopBar />);

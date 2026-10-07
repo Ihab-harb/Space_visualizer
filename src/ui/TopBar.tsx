@@ -9,9 +9,6 @@ const LEVEL_LABEL: Record<QualityLevel, string> = { high: 'High', medium: 'Mediu
 /** CSS custom property other panels use to sit below the bar, whose height grows when its controls wrap. */
 export const TOP_BAR_BOTTOM_VAR = '--top-bar-bottom';
 
-const isTyping = (target: EventTarget | null) =>
-  target instanceof HTMLElement && (['INPUT', 'SELECT', 'TEXTAREA'].includes(target.tagName) || target.isContentEditable);
-
 export function TopBar() {
   const view = useViewStore((s) => s.view);
   const setView = useViewStore((s) => s.setView);
@@ -40,22 +37,6 @@ export function TopBar() {
       root.removeProperty(TOP_BAR_BOTTOM_VAR);
     };
   }, []);
-
-  useEffect(() => {
-    const onKey = (e: KeyboardEvent) => {
-      if (isTyping(e.target)) return;
-      if (e.key === '1' || e.key === 'Escape') setView('orbit');
-      else if (e.key === '2') setView('follow');
-      else if (e.key === 'q' || e.key === 'Q' || e.key === 'e' || e.key === 'E') {
-        // Browser shortcuts (Ctrl+Q, Cmd+E...) are not ours, and auto-repeat would rebuild the composer every few ms.
-        if (e.ctrlKey || e.metaKey || e.altKey || e.repeat) return;
-        if (e.key === 'q' || e.key === 'Q') useRenderStore.getState().cycleMode();
-        else useRenderStore.getState().toggleEffects();
-      }
-    };
-    window.addEventListener('keydown', onKey);
-    return () => window.removeEventListener('keydown', onKey);
-  }, [setView]);
 
   return (
     <header ref={barRef} className="panel top-bar">

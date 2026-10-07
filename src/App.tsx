@@ -6,10 +6,12 @@ import { InfoPanel } from './ui/InfoPanel';
 import { ErrorScreen, LoadingScreen, WebGLUnavailable } from './ui/StatusScreens';
 import { SkyCredit } from './ui/SkyCredit';
 import { TimeBar } from './ui/TimeBar';
+import { useHotkeys } from './ui/hotkeys';
 import { TopBar } from './ui/TopBar';
 import { isWebGLAvailable } from './ui/webgl';
 
 export function App() {
+  useHotkeys();
   const [webgl] = useState(() => isWebGLAvailable());
   const status = useCatalogStore((s) => s.status);
   const catalog = useCatalogStore((s) => s.catalog);
