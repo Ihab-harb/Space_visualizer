@@ -34,3 +34,16 @@ test('a click stops the tour', async ({ page }) => {
   await page.mouse.click(640, 360);
   await expect(page.getByRole('button', { name: 'Tour', exact: true })).toHaveAttribute('aria-pressed', 'false');
 });
+
+test('selection updates the header and its cited chips', async ({ page }) => {
+  await page.goto('/?pause=1&quality=low');
+  await expect(page.getByRole('heading', { name: 'Solar System' })).toBeVisible();
+  await page.getByRole('button', { name: 'Jupiter', exact: true }).dispatchEvent('click');
+  const header = page.getByRole('banner', { name: 'Selected body' });
+  await expect(header.getByRole('heading', { name: 'Jupiter' })).toBeVisible();
+  await expect(header).toContainText('From Earth');
+  await expect(header).toContainText('AU');
+  expect(await header.getByRole('link', { name: /Source \d+/ }).count()).toBeGreaterThanOrEqual(3);
+  await page.getByRole('button', { name: 'Mars', exact: true }).dispatchEvent('click');
+  await expect(header.getByRole('heading', { name: 'Mars' })).toBeVisible();
+});

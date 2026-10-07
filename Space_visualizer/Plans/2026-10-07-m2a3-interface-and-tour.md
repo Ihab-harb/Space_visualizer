@@ -1,7 +1,7 @@
 ---
 title: M2a.3 Interface Redesign and Tour — Implementation Plan
 date: 2026-10-07
-status: awaiting review
+status: complete
 milestone: M2a.3
 tags: [plan, m2a]
 ---

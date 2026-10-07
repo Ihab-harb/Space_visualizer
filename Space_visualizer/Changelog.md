@@ -82,3 +82,11 @@ Back to [[Home]]
   - Tour mode (spec §5);
   - the Venus Magellan radar view (USGS C3-MDIR mosaic, public domain, verified 2026-10-07);
   - phone layout and motion polish, then e2e coverage, goldens and docs.
+
+## 2026-10-08 — M2a.3 Interface redesign, Tour and Venus radar implemented
+- **Interface (spec §4):** a header that shows the overview or the selected body (cited chips and a narrative built only from cited facts), a frosted-glass control panel, a facts and sources drawer (**F**), a bottom bar with the date, time controls, Go to date, Tour button and a 1800-2050 timeline, and pill labels that declutter. Header and drawer share one citation numbering. Keys: **1**/**2**/**Esc**, **T** tour, **Q** quality, **E** effects, **F** drawer, all owned by `hotkeys.ts`. See [[ui]].
+- **Tour:** the Sun, the planets by distance, then the overview: 5 s flights and 7 s dwells on the lit side, selecting each body. Any input exits; reduced motion means cuts; time is never changed. See [[camera]].
+- **Venus radar:** the USGS Magellan C3-MDIR mosaic as a drawer toggle (`?radar=1`), labelled as radar and not visible light, with a Maxwell Montes orientation check (ratio 1.68). New source note [[USGS Venus Magellan C3-MDIR Mosaic]]; see [[pipeline]].
+- **Phone layout:** compact header and bottom bar, the drawer as a sheet between them, a collapsible Controls dropdown; panels never overlap (layout tests at 1280x720 and 390x844).
+- **M2a.2 residuals fixed first:** Auto counts only consecutive long frames and cannot drop in the first 5 s ([[render]]); god rays are masked by bodies (composer `autoClear={false}`, proxy at 1.02 R, golden `3d-sun-partial`; [[0007-tone-mapping-and-exposure]]).
+- Twelve golden screenshots in `Assets/m2a3-golden/`; new end-to-end tests for the header, Tour, labels, the drawer and the layout matrix. Carry-over: [[2026-10-05-m2a1-carry-over]] (done items marked; "From M2a.3" lists what was deferred).

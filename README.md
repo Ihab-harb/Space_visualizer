@@ -16,7 +16,10 @@ The Solar System is the first "region" of a project designed to grow outward lat
 
 - **Cinematic effects and adaptive quality (M2a.2):** bloom, god rays, lens flare, anamorphic streaks, depth of field, AgX tone mapping, scene-driven exposure and film grain, with High / Medium / Low presets and an Auto mode.
 
-Still to come: moons, dwarf planets, asteroids and comets, spacecraft, filters and search, more camera views (top-down, view from a body, fly), the interface redesign and tour, and, later, regions beyond the Solar System.
+- **Interface and Tour (M2a.3):** a header with cited facts and a short narrative, a frosted-glass control panel, a facts and sources drawer, a bottom bar with a 1800-2050 timeline, decluttered body labels, a phone layout, and a guided Tour of the Sun and planets.
+- **Venus radar:** the Magellan radar map of Venus's surface (USGS), as a toggle in the drawer.
+
+Still to come: moons, dwarf planets, asteroids and comets, spacecraft, filters and search, more camera views (top-down, view from a body, fly), and, later, regions beyond the Solar System.
 
 ## Quick start
 
@@ -33,14 +36,18 @@ Then open the address Vite prints (normally <http://localhost:5173/>). No server
 
 **Controls:**
 - Drag to rotate, right-drag or Shift-drag to pan, scroll to zoom.
-- Click a body (or its label) for its info panel; double-click to centre the view on it.
-- Keys **1** / **2** switch between Orbit and Follow; **Esc** returns to Orbit.
+- Click a body (or its label) to select it: the **header** (top left) shows its name, cited facts and a short narrative. Double-click, or press **Centre view**, to centre the view on it. Each `[n]` in the header opens the drawer at that source.
+- The **control panel** (top right; on phones behind a **Controls** button) sets the view (Orbit or Follow), scale (Readable or True scale), quality and camera effects.
+- The **drawer** (**Facts & sources**, or key **F**) lists every fact, the imagery used and the numbered sources. For Venus it has a **Show Magellan radar** toggle that swaps the cloud deck for the Magellan radar map (radar backscatter, not visible light).
+- The **bottom bar** has the date, Reverse, Play, Speed, Now, Go to date and a timeline from 1800 to 2050.
+- **Tour** (button, or key **T**): flies from the Sun outward past each planet and ends with an overview. Any key, click, wheel or touch stops it; time is never changed.
+- Keys: **1** / **2** Orbit and Follow, **Esc** Orbit, **T** Tour, **Q** quality, **E** camera effects, **F** drawer.
 
 ## Quality and camera effects
 
-- **Quality** (top bar, or key **Q**): cycles Auto, High, Medium and Low. Auto measures frame time and steps down when the median exceeds 18 ms, and steps up after 10 s under 12 ms. Phones start at Low.
-- **Camera effects** (top bar, or key **E**): turns the cinematic effects on or off. Off keeps bloom (reduced) and neutral tone mapping.
-- URL parameters: `?quality=auto|high|medium|low` and `?fx=0|1`, for example `?quality=low&fx=0`.
+- **Quality** (control panel, or key **Q**): cycles Auto, High, Medium and Low. Auto measures frame time and steps down when the median exceeds 18 ms, and steps up after 10 s under 12 ms. Phones start at Low.
+- **Camera effects** (control panel, or key **E**): turns the cinematic effects on or off. Off keeps bloom (reduced) and neutral tone mapping.
+- URL parameters: `?quality=auto|high|medium|low`, `?fx=0|1` and `?radar=1` (Venus radar view), for example `?quality=low&fx=0` or `?target=venus&radar=1`.
 - `npm run perf`: measures frame times at each preset on your real GPU (see [docs/SETUP.md](docs/SETUP.md)).
 
 ## Commands
@@ -66,6 +73,7 @@ Then open the address Vite prints (normally <http://localhost:5173/>). No server
 | [NASA NSSDCA Planetary](https://nssdc.gsfc.nasa.gov/planetary/factsheet/) and [Sun](https://nssdc.gsfc.nasa.gov/planetary/factsheet/sunfact.html) fact sheets | Physical and orbital facts |
 | [NASA/JPL NAIF PCK00011](https://naif.jpl.nasa.gov/pub/naif/generic_kernels/pck/pck00011.tpc) | IAU rotation models and shape radii |
 | [NASA Science](https://science.nasa.gov/) | Body descriptions |
+| [USGS Venus Magellan C3-MDIR mosaic](https://astrogeology.usgs.gov/search/map/venus_magellan_global_c3_mdir_mosaic_2025m) | The Venus radar view |
 | [IERS](https://hpiers.obspm.fr/iers/bul/bulc/Leap_Second.dat) and [NASA ΔT polynomials](https://eclipse.gsfc.nasa.gov/SEhelp/deltatpoly2004.html) | Converting between UTC and the time scale of the orbit formulas |
 
 ## Imagery
@@ -76,6 +84,8 @@ Planet surfaces, rings and the star sky come from official NASA, USGS and STScI 
 - `npm run textures:hd`: also builds 4k/8k textures locally (not committed). Open the app with `?tier=4k` or `?tier=8k` to use them; missing tiers fall back to 2k.
 - `npm run textures -- --offline`: rebuilds from the cache without network access.
 - `npm run textures:verify`: checks that every source URL still responds.
+
+Venus also has a radar layer from the [USGS Magellan C3-MDIR mosaic](https://astrogeology.usgs.gov/search/map/venus_magellan_global_c3_mdir_mosaic_2025m).
 
 Procedural visuals (Venus clouds, Sun surface, band flow, cloud drift) are labelled illustrative in the app.
 
