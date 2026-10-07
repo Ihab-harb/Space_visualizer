@@ -36,7 +36,7 @@ export function BottomBar({ catalog }: { catalog: Catalog }) {
     const el = ref.current;
     if (!el) return;
     const root = document.documentElement.style;
-    const publish = () => root.setProperty('--bottom-bar-height', `${Math.round(el.getBoundingClientRect().height + 16)}px`);
+    const publish = () => root.setProperty('--bottom-bar-height', `${Math.ceil(window.innerHeight - el.getBoundingClientRect().top)}px`);
     publish();
     const observer = typeof ResizeObserver === 'undefined' ? null : new ResizeObserver(publish);
     observer?.observe(el);
@@ -72,7 +72,7 @@ export function BottomBar({ catalog }: { catalog: Catalog }) {
           {playing ? 'Pause' : 'Play'}
         </button>
         <label className="time-bar__speed">
-          Speed
+          <span className="time-bar__speed-text">Speed</span>
           <select value={rateIndex} onChange={(e) => setRateIndex(Number(e.target.value))}>
             {RATE_STEPS.map((step, i) => (
               <option key={step.label} value={i}>

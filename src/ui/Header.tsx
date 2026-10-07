@@ -1,3 +1,4 @@
+import { useEffect, useRef, useState } from 'react';
 import type { Catalog } from '../core/catalog/catalog';
 import type { BodyCategory } from '../core/catalog/schema';
 import { formatUtc } from '../core/time/format';
@@ -14,7 +15,25 @@ import { buildNarrative } from './narrative';
 
 const CATEGORY: Record<BodyCategory, string> = { star: 'Star', planet: 'Planet', 'dwarf-planet': 'Dwarf planet', moon: 'Moon', asteroid: 'Asteroid', comet: 'Comet', spacecraft: 'Spacecraft' };
 
+/** CSS custom property the phone drawer uses to stay clear of this card, whose height changes with the selection. */
+export const HEADER_BOTTOM_VAR = '--header-bottom';
+
 export function Header({ catalog }: { catalog: Catalog }) {
+  const ref = useRef<HTMLElement>(null);
+  const [expandedFor, setExpandedFor] = useState<string | null>(null);
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const root = document.documentElement.style;
+    const publish = () => root.setProperty(HEADER_BOTTOM_VAR, `${Math.round(el.getBoundingClientRect().bottom)}px`);
+    publish();
+    const observer = typeof ResizeObserver === 'undefined' ? null : new ResizeObserver(publish);
+    observer?.observe(el);
+    return () => {
+      observer?.disconnect();
+      root.removeProperty(HEADER_BOTTOM_VAR);
+    };
+  }, []);
   const selectedId = useSelectionStore((s) => s.selectedId);
   const select = useSelectionStore((s) => s.select);
   const jdTdb = useTimeStore((s) => s.jdTdb);
@@ -28,7 +47,7 @@ export function Header({ catalog }: { catalog: Catalog }) {
 
   if (!body) {
     return (
-      <header className="glass header" aria-label="Overview">
+      <header ref={ref} className="glass header" aria-label="Overview">
         <p className="header__subtitle">Overview</p>
         <h1 className="header__headline">Solar System</h1>
         <ul className="chips">
@@ -63,9 +82,10 @@ export function Header({ catalog }: { catalog: Catalog }) {
   const day = dayFact && typeof dayFact.value === 'number' ? { value: dayFact.value, sourceId: dayFact.sourceId } : null;
   const temp = tempFact && typeof tempFact.value === 'number' ? { value: tempFact.value, sourceId: tempFact.sourceId } : null;
   const narrative = buildNarrative(body, stats);
+  const expanded = expandedFor === body.id;
 
   return (
-    <header className="glass header" aria-label="Selected body" style={{ ['--body-accent' as string]: body.display.color }}>
+    <header ref={ref} className="glass header" aria-label="Selected body" style={{ ['--body-accent' as string]: body.display.color }}>
       <p className="header__subtitle">
         {CATEGORY[body.category]}
         {distanceKm !== null ? ` · ${formatAu(distanceKm)} ${stats.fromEarthKm !== null ? 'from Earth' : 'from the Sun'}` : ''}
@@ -85,7 +105,7 @@ export function Header({ catalog }: { catalog: Catalog }) {
           <li className="chip"><span className="chip__label">Mean temp.</span><span className="num">{formatNumber(temp.value)} °C</span>{cite(temp.sourceId)}</li>
         )}
       </ul>
-      <p className="header__narrative">
+      <p id="header-narrative" className={expanded ? 'header__narrative is-expanded' : 'header__narrative'}>
         {narrative.map((p, i) =>
           p.kind === 'text' ? <span key={i}>{p.text}</span> : (
             <span key={i}>
@@ -95,6 +115,9 @@ export function Header({ catalog }: { catalog: Catalog }) {
           ),
         )}
       </p>
+      <button type="button" className="header__narrative-toggle" aria-expanded={expanded} aria-controls="header-narrative" onClick={() => setExpandedFor(expanded ? null : body.id)}>
+        {expanded ? 'Show less' : 'Show more'}
+      </button>
       <div className="header__actions">
         <button type="button" onClick={toggleDrawer} title="Facts & sources (key F)">Facts &amp; sources</button>
         {view === 'orbit' && <button type="button" onClick={() => requestFocus(body.id)}>Centre view</button>}

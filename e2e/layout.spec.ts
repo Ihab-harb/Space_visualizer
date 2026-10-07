@@ -43,3 +43,72 @@ for (const vp of VIEWPORTS) {
     });
   });
 }
+
+for (const vp of VIEWPORTS) {
+  for (const drawer of [false, true]) {
+    test(`panels never overlap at ${vp.width}x${vp.height}, drawer ${drawer ? 'open' : 'closed'}`, async ({ browser }) => {
+      const page = await browser.newPage({ viewport: { width: vp.width, height: vp.height } });
+      await page.goto('/?target=jupiter&pause=1&quality=low');
+      await expect(page.locator('canvas')).toBeVisible();
+      if (drawer) await page.keyboard.press('f');
+      await page.waitForTimeout(600);
+      const ids = ['.header', '.control-panel', '.bottom-bar', ...(drawer ? ['.drawer'] : [])];
+      const rects = await Promise.all(ids.map((s) => page.locator(s).boundingBox()));
+      for (let i = 0; i < rects.length; i++) {
+        for (let j = i + 1; j < rects.length; j++) {
+          expect(intersects(rects[i]!, rects[j]!), `${ids[i]} overlaps ${ids[j]}`).toBe(false);
+        }
+      }
+      await page.close();
+    });
+  }
+}
+
+test.describe('phone 390x844 specifics', () => {
+  test.use({ viewport: { width: 390, height: 844 } });
+
+  test('the bottom bar is compact and its controls stay inside it', async ({ page }) => {
+    await open(page, '/?quality=low&pause=1');
+    const bar = await box(page.locator('.bottom-bar'));
+    expect(bar.height, 'bottom bar height').toBeLessThan(200);
+    for (const name of ['Reverse', 'Pause', 'Play', 'Now', 'Go', 'Tour']) {
+      const b = page.getByRole('button', { name, exact: true });
+      if ((await b.count()) === 0) continue;
+      const r = await box(b);
+      expect(r.x).toBeGreaterThanOrEqual(bar.x);
+      expect(r.x + r.width).toBeLessThanOrEqual(bar.x + bar.width + 0.5);
+    }
+    await expect(page.getByRole('slider', { name: 'Timeline 1800–2050' })).toBeVisible();
+    await expect(page.getByLabel('Simulation date')).toBeVisible();
+    await expect(page.getByLabel('Speed')).toBeVisible();
+    // tick labels stay inside the bar (no clipped "2050")
+    const ticks = page.locator('.timeline__ticks li');
+    for (let i = 0; i < (await ticks.count()); i++) {
+      const r = (await ticks.nth(i).boundingBox())!;
+      expect(r.x).toBeGreaterThanOrEqual(bar.x);
+      expect(r.x + r.width).toBeLessThanOrEqual(bar.x + bar.width + 0.5);
+    }
+  });
+
+  test('the open drawer sits between the header and the bottom bar with no gap under it', async ({ page }) => {
+    await open(page, '/?quality=low&pause=1&target=jupiter');
+    await page.keyboard.press('f');
+    await page.waitForTimeout(500);
+    const header = await box(page.locator('.header'));
+    const bar = await box(page.locator('.bottom-bar'));
+    const sheet = await box(page.locator('.drawer'));
+    expect(sheet.y).toBeGreaterThanOrEqual(header.y + header.height);
+    expect(Math.abs(sheet.y + sheet.height - bar.y)).toBeLessThanOrEqual(1.5);
+  });
+
+  test('the narrative is clamped and expands through an accessible button', async ({ page }) => {
+    await open(page, '/?quality=low&pause=1&target=jupiter');
+    const toggle = page.locator('.header__narrative-toggle');
+    await expect(toggle).toHaveAttribute('aria-expanded', 'false');
+    const collapsed = await box(page.locator('.header__narrative'));
+    await toggle.click();
+    await expect(toggle).toHaveAttribute('aria-expanded', 'true');
+    const expanded = await box(page.locator('.header__narrative'));
+    expect(expanded.height).toBeGreaterThan(collapsed.height);
+  });
+});

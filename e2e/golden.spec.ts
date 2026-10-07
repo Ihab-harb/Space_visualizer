@@ -145,6 +145,18 @@ test('golden 5-phone', async ({ browser }) => {
   await page.close();
 });
 
+// The phone with the facts drawer open (key F): the sheet must sit between the header and the bottom bar.
+test('golden 5b-phone-drawer', async ({ browser }) => {
+  const page = await browser.newPage({ viewport: { width: 390, height: 844 } });
+  await page.goto('/?jd=2461317.5&pause=1&target=jupiter&dist=600000&azSun=70&el=10&quality=high&fx=1');
+  await page.waitForSelector('.scene[data-textures-ready="true"]', { timeout: 30_000 }); // a golden fails if textures never load
+  await page.keyboard.press('f');
+  await page.waitForTimeout(1500);
+  console.log(`phone bottom bar height: ${(await page.locator('.bottom-bar').boundingBox())!.height}px`);
+  await page.screenshot({ path: 'test-results/golden/5b-phone-drawer.png' });
+  await page.close();
+});
+
 /**
  * God rays must not cross a planet that hides part of the Sun (3d-sun-partial: Earth at 20,000 km, the Sun behind the upper limb).
  * Viewport 1280x720: the limb is at about y=100 above the centre x=640; the patch is 24x24 px centred at (PATCH_CX, PATCH_CY) on
