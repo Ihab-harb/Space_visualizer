@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { SceneRoot } from './scene/SceneRoot';
 import { useCatalogStore } from './state/catalogStore';
 import { applyUrlOverrides, parseUrlOverrides } from './state/urlParams';
+import { Header } from './ui/Header';
 import { InfoPanel } from './ui/InfoPanel';
 import { ErrorScreen, LoadingScreen, WebGLUnavailable } from './ui/StatusScreens';
 import { SkyCredit } from './ui/SkyCredit';
@@ -33,6 +34,7 @@ export function App() {
   return (
     <div className="app">
       <SceneRoot catalog={catalog} />
+      <Header catalog={catalog} />
       <TopBar />
       <InfoPanel catalog={catalog} />
       <TimeBar catalog={catalog} />

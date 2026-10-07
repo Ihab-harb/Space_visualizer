@@ -24,7 +24,7 @@ test.afterEach(() => {
 test('follows a planet with co-rotation while time runs', async ({ page }) => {
   await page.getByRole('button', { name: 'Jupiter', exact: true }).dispatchEvent('click');
   await page.keyboard.press('2');
-  await page.getByLabel('Rotate with body').check();
+  await page.getByLabel('Rotate with body').dispatchEvent('click');
   await page.getByLabel('Speed').selectOption({ label: '1 hour/s' });
   await page.waitForTimeout(2500); // transition plus a few seconds of rotation
   const box = await page.getByRole('button', { name: 'Jupiter', exact: true }).boundingBox();
