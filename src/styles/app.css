@@ -113,16 +113,21 @@ button[aria-pressed='true'] {
   color: var(--text-muted);
 }
 
-/* Info panel */
-.info-panel {
-  /* Below the control panel, which publishes its bottom edge (ControlPanel.tsx); it grows when its controls wrap. */
-  top: calc(var(--control-panel-bottom, 84px) + 8px);
+/* Facts & sources drawer */
+.drawer {
+  position: absolute;
   right: var(--gutter);
-  bottom: 150px;
-  width: min(380px, calc(100% - 2 * var(--gutter)));
+  top: calc(var(--control-panel-bottom, 84px) + 8px);
+  bottom: calc(var(--bottom-bar-height, 150px) + 8px);
+  width: min(380px, calc(100vw - 2 * var(--gutter)));
   overflow-y: auto;
   padding: 16px 18px;
+  z-index: 4;
+  transform: translateX(calc(100% + var(--gutter) + 8px));
+  transition: transform var(--dur) var(--ease);
 }
+.drawer.is-open { transform: none; }
+.sources li.is-highlighted { background: var(--accent-soft); border-radius: 6px; transition: background var(--dur) var(--ease); }
 
 .info-panel__header {
   display: flex;
@@ -130,12 +135,12 @@ button[aria-pressed='true'] {
   gap: var(--gap);
 }
 
-.info-panel h2 {
+.drawer h2 {
   margin: 0;
   font-size: 22px;
 }
 
-.info-panel h3 {
+.drawer h3 {
   margin: 18px 0 6px;
   font-size: 12px;
   font-weight: 600;
@@ -147,12 +152,6 @@ button[aria-pressed='true'] {
 .info-panel__kind {
   margin: 2px 0 0;
   color: var(--text-muted);
-}
-
-.info-panel__actions {
-  display: flex;
-  align-items: flex-start;
-  gap: 6px;
 }
 
 .info-panel__description {
@@ -304,16 +303,14 @@ button[aria-pressed='true'] {
   .control-panel__toggle { display: inline-flex; }
   .control-panel__body { display: none; }
   .control-panel.is-open .control-panel__body { display: flex; flex-direction: column; align-items: flex-start; padding: 8px; }
-  .info-panel {
-    top: auto;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    width: auto;
-    max-height: 55vh;
-    border-radius: var(--radius) var(--radius) 0 0;
-    z-index: 2;
+  .drawer {
+    left: 0; right: 0; width: auto; top: auto;
+    bottom: var(--bottom-bar-height, 120px);
+    max-height: 70vh;
+    border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+    transform: translateY(calc(100% + var(--bottom-bar-height, 120px) + 8px));
   }
+  .drawer.is-open { transform: none; }
   .time-bar__date {
     min-width: 0;
   }

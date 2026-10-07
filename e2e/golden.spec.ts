@@ -126,7 +126,7 @@ test('earth atmosphere keeps the night side dark and the scene visible', async (
     return sum;
   };
   const withDof = contrast(data, info.width);
-  await page.getByRole('button', { name: 'Close' }).click();
+  await page.getByRole('button', { name: 'Deselect' }).click();
   await page.waitForTimeout(1500);
   const off = await sharp(await page.locator('canvas').screenshot()).removeAlpha().raw().toBuffer({ resolveWithObject: true });
   const withoutDof = contrast(off.data, off.info.width);

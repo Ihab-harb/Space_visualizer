@@ -1,9 +1,10 @@
+import { useEffect, useRef } from 'react';
 import type { Catalog } from '../core/catalog/catalog';
 import { FACT_DEFS, FACT_KEYS, type FactGroup } from '../core/catalog/facts';
 import type { BodyCategory } from '../core/catalog/schema';
 import { useSelectionStore } from '../state/selectionStore';
+import { useUiStore } from '../state/uiStore';
 import { useTimeStore } from '../state/timeStore';
-import { useViewStore } from '../state/viewStore';
 import { accuracyLines } from './accuracy';
 import { citationModel } from './citations';
 import { formatDistanceKm, formatFact, formatLightTime } from './format';
@@ -15,11 +16,25 @@ const CATEGORY_LABELS: Record<BodyCategory, string> = {
 };
 const GROUP_TITLES: Record<FactGroup, string> = { physical: 'Physical characteristics', orbit: 'Orbit' };
 
-export function InfoPanel({ catalog }: { catalog: Catalog }) {
+export function FactsDrawer({ catalog }: { catalog: Catalog }) {
   const selectedId = useSelectionStore((s) => s.selectedId);
-  const select = useSelectionStore((s) => s.select);
-  const view = useViewStore((s) => s.view);
-  const requestFocus = useViewStore((s) => s.requestFocus);
+  const open = useUiStore((s) => s.drawerOpen);
+  const setOpen = useUiStore((s) => s.setDrawerOpen);
+  const focusSource = useUiStore((s) => s.focusSource);
+  const clearFocusSource = useUiStore((s) => s.clearFocusSource);
+  const ref = useRef<HTMLElement>(null);
+  useEffect(() => {
+    if (!open || !focusSource) return;
+    // jsdom has no CSS.escape; source ids are kebab-case so the raw id is safe there.
+    const id = typeof CSS !== 'undefined' && CSS.escape ? CSS.escape(focusSource) : focusSource;
+    const el = ref.current?.querySelector<HTMLElement>(`#source-${id}`);
+    if (el) {
+      el.scrollIntoView({ block: 'center', behavior: window.matchMedia?.('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' });
+      el.classList.add('is-highlighted');
+      window.setTimeout(() => el.classList.remove('is-highlighted'), 1500);
+    }
+    clearFocusSource();
+  }, [open, focusSource, clearFocusSource]);
   const jdTdb = useTimeStore((s) => s.jdTdb);
   const body = selectedId ? catalog.bodyById.get(selectedId) : undefined;
   if (!body) return null;
@@ -36,7 +51,7 @@ export function InfoPanel({ catalog }: { catalog: Catalog }) {
   const live = liveStats(catalog, body, jdTdb);
 
   return (
-    <aside className="panel info-panel" aria-label="Body information">
+    <aside ref={ref} className={open ? 'glass drawer is-open' : 'glass drawer'} aria-label="Body information" aria-hidden={!open} inert={!open} role="complementary">
       <header className="info-panel__header">
         <div>
           <h2>{body.name}</h2>
@@ -45,16 +60,9 @@ export function InfoPanel({ catalog }: { catalog: Catalog }) {
             {parent ? ` · orbits the ${parent.name}` : ''}
           </p>
         </div>
-        <div className="info-panel__actions">
-          {view === 'orbit' && (
-            <button type="button" onClick={() => requestFocus(body.id)}>
-              Centre view
-            </button>
-          )}
-          <button type="button" aria-label="Close" onClick={() => select(null)}>
-            ×
-          </button>
-        </div>
+        <button type="button" aria-label="Close facts" onClick={() => setOpen(false)}>
+          ×
+        </button>
       </header>
 
       {body.description && (

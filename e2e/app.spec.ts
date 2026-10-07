@@ -50,6 +50,7 @@ test('shows cited information for a planet', async ({ page }) => {
   await page.screenshot({ path: 'test-results/overview.png' });
   // dispatchEvent: the label may sit under another panel at some dates; we test selection, not hit-testing.
   await page.getByRole('button', { name: 'Jupiter', exact: true }).dispatchEvent('click');
+  await page.keyboard.press('f');
   const panel = page.getByRole('complementary', { name: 'Body information' });
   await expect(panel.getByRole('heading', { name: 'Jupiter' })).toBeVisible();
   await expect(panel.getByRole('link', { name: /Planetary Fact Sheet/ })).toHaveAttribute('href', 'https://nssdc.gsfc.nasa.gov/planetary/factsheet/');
@@ -59,11 +60,12 @@ test('shows cited information for a planet', async ({ page }) => {
 
 test('panels sit above scene labels', async ({ page }) => {
   await page.getByRole('button', { name: 'Jupiter', exact: true }).dispatchEvent('click');
+  await page.keyboard.press('f');
   const panel = page.getByRole('complementary', { name: 'Body information' });
   await expect(panel).toBeVisible();
   // Wherever a label overlaps the panel, the panel must be the element on top.
   const labelsOnTop = await page.evaluate(() => {
-    const panelEl = document.querySelector('.info-panel')!;
+    const panelEl = document.querySelector('.drawer')!;
     const p = panelEl.getBoundingClientRect();
     return [...document.querySelectorAll('.body-label')]
       .map((label) => {
@@ -96,9 +98,24 @@ test('jumps in time and warns about accuracy', async ({ page }) => {
 
 test('cites the official imagery for Earth', async ({ page }) => {
   await page.goto('/?target=earth&pause=1&quality=low');
+  await page.keyboard.press('f');
   const panel = page.getByRole('complementary', { name: 'Body information' });
   const imagery = panel.locator('section', { has: page.getByRole('heading', { name: 'Imagery' }) });
   await expect(imagery).toContainText('Surface');
   await expect(imagery).toContainText('Night lights');
   await expect(panel.locator('.sources')).toContainText('Blue Marble');
+});
+
+test('a header citation opens the drawer at the same source', async ({ page }) => {
+  await page.goto('/?target=jupiter&pause=1&quality=low');
+  const header = page.getByRole('banner', { name: 'Selected body' });
+  const first = header.getByRole('link', { name: /Source \d+/ }).first();
+  const label = await first.getAttribute('aria-label');
+  await first.click();
+  const drawer = page.getByRole('complementary', { name: 'Body information' });
+  await expect(drawer).toBeVisible();
+  const n = Number(label!.replace('Source ', ''));
+  const item = drawer.locator('.sources li').nth(n - 1);
+  await expect(item).toHaveClass(/is-highlighted/);
+  await expect(item).toBeInViewport();
 });

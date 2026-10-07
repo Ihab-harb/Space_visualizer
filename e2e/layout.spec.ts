@@ -30,10 +30,12 @@ for (const vp of VIEWPORTS) {
       expect(intersects(await box(page.locator('.sky-credit')), await box(page.locator('.control-panel')))).toBe(false);
     });
 
-    test('the info panel of a selected body does not overlap the control panel', async ({ page }) => {
+    test('the drawer of a selected body does not overlap the control panel', async ({ page }) => {
       await open(page, '/?quality=low&target=earth');
       const bar = await box(page.locator('.control-panel'));
-      const panel = await box(page.locator('.info-panel'));
+      await page.keyboard.press('f');
+      await page.waitForTimeout(400); // the slide-in
+      const panel = await box(page.locator('.drawer'));
       expect(intersects(panel, bar)).toBe(false);
       expect(intersects(await box(page.locator('.sky-credit')), bar)).toBe(false);
     });

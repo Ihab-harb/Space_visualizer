@@ -4,7 +4,7 @@ import { useCatalogStore } from './state/catalogStore';
 import { applyUrlOverrides, parseUrlOverrides } from './state/urlParams';
 import { ControlPanel } from './ui/ControlPanel';
 import { Header } from './ui/Header';
-import { InfoPanel } from './ui/InfoPanel';
+import { FactsDrawer } from './ui/FactsDrawer';
 import { ErrorScreen, LoadingScreen, WebGLUnavailable } from './ui/StatusScreens';
 import { SkyCredit } from './ui/SkyCredit';
 import { TimeBar } from './ui/TimeBar';
@@ -36,7 +36,7 @@ export function App() {
       <SceneRoot catalog={catalog} />
       <Header catalog={catalog} />
       <ControlPanel />
-      <InfoPanel catalog={catalog} />
+      <FactsDrawer catalog={catalog} />
       <TimeBar catalog={catalog} />
       <SkyCredit catalog={catalog} />
     </div>
