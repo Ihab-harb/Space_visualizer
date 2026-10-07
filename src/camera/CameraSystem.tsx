@@ -125,8 +125,8 @@ export function CameraSystem({ catalog }: { catalog: Catalog }) {
       // Tour ended (input, completion or toggle): hand control back to Orbit around the current stop, from where we are.
       const current = r.tour.stops[Math.max(0, r.tour.index)];
       r.orbit.enter(r.lastPose, ctx, current?.targetId);
+      // The view store is left alone: a key 2 that ended the tour has already asked for Follow, and the normal path below enters it from this pose.
       r.activeView = 'orbit';
-      useViewStore.getState().setView('orbit');
       r.tour = null;
       r.transition = null;
     }
