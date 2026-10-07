@@ -337,8 +337,8 @@ button[aria-pressed='true'] {
   color: var(--text-muted);
 }
 
-/* Phones: panels become sheets */
-@media (max-width: 720px) {
+/* Narrow windows (tablets, half-screen windows): the control panel collapses behind its Controls button so it cannot meet the 520 px header. */
+@media (max-width: 1140px) {
   .control-panel { padding: 6px; }
   .control-panel__toggle { display: inline-flex; }
   .control-panel__body { display: none; }
@@ -346,6 +346,15 @@ button[aria-pressed='true'] {
   /* The open dropdown may overlay the header: topmost and opaque so it stays legible. */
   .control-panel.is-open { z-index: 5; background: var(--glass-strong); }
   .control-panel.is-open .control-panel__body { display: flex; flex-direction: column; align-items: flex-start; padding: 8px; animation: panel-in var(--dur) var(--ease); }
+}
+
+/* Where the 520 px header and the 380 px drawer would share columns (about 940 px and narrower), the drawer sits under the header. */
+@media (max-width: 940px) {
+  .drawer { top: calc(var(--header-bottom, 160px) + 8px); }
+}
+
+/* Phones: panels become sheets */
+@media (max-width: 720px) {
   .drawer {
     left: 0; right: 0; width: auto; top: auto;
     bottom: var(--bottom-bar-height, 140px);

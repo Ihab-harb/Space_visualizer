@@ -4,6 +4,10 @@ import { expect, test, type Locator, type Page } from '@playwright/test';
 const VIEWPORTS = [
   { name: 'phone', width: 390, height: 844 },
   { name: 'desktop', width: 1280, height: 720 },
+  // Intermediate widths: the control panel collapses behind its button below 1140 px and the drawer sits under the header below 940 px.
+  { name: 'tablet-landscape', width: 1024, height: 768 },
+  { name: 'tablet-portrait', width: 800, height: 1000 },
+  { name: 'narrow-desktop', width: 1100, height: 800 },
 ];
 
 async function box(locator: Locator) {
