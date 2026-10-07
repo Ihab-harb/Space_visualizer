@@ -25,19 +25,21 @@ for (const vp of VIEWPORTS) {
   test.describe(`${vp.name} ${vp.width}x${vp.height}`, () => {
     test.use({ viewport: { width: vp.width, height: vp.height } });
 
-    test('the sky credit does not overlap the control panel', async ({ page }) => {
+    test('the bottom bar does not overlap the header or the control panel', async ({ page }) => {
       await open(page, '/?quality=low');
-      expect(intersects(await box(page.locator('.sky-credit')), await box(page.locator('.control-panel')))).toBe(false);
+      const bar = await box(page.locator('.bottom-bar'));
+      expect(intersects(bar, await box(page.locator('.header')))).toBe(false);
+      expect(intersects(bar, await box(page.locator('.control-panel')))).toBe(false);
     });
 
-    test('the drawer of a selected body does not overlap the control panel', async ({ page }) => {
+    test('the drawer of a selected body does not overlap the control panel or the bottom bar', async ({ page }) => {
       await open(page, '/?quality=low&target=earth');
-      const bar = await box(page.locator('.control-panel'));
+      const controls = await box(page.locator('.control-panel'));
       await page.keyboard.press('f');
       await page.waitForTimeout(400); // the slide-in
       const panel = await box(page.locator('.drawer'));
-      expect(intersects(panel, bar)).toBe(false);
-      expect(intersects(await box(page.locator('.sky-credit')), bar)).toBe(false);
+      expect(intersects(panel, controls)).toBe(false);
+      expect(intersects(panel, await box(page.locator('.bottom-bar')))).toBe(false);
     });
   });
 }

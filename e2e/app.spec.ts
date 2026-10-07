@@ -91,6 +91,7 @@ test('jumps in time and warns about accuracy', async ({ page }) => {
   await page.getByLabel('Go to date (UTC)').fill('1500-01-01');
   await page.getByLabel('Go to date (UTC)').press('Enter');
   await expect(page.getByLabel('Simulation date')).toContainText('1500');
+  await expect(page.getByRole('slider', { name: 'Timeline 1800–2050' })).toBeVisible();
   await expect(page.getByRole('status')).toContainText('Outside 1800–2050');
   await page.getByRole('button', { name: 'Now' }).click();
   await expect(page.getByRole('status')).toHaveCount(0);

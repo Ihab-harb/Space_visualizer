@@ -6,8 +6,7 @@ import { ControlPanel } from './ui/ControlPanel';
 import { Header } from './ui/Header';
 import { FactsDrawer } from './ui/FactsDrawer';
 import { ErrorScreen, LoadingScreen, WebGLUnavailable } from './ui/StatusScreens';
-import { SkyCredit } from './ui/SkyCredit';
-import { TimeBar } from './ui/TimeBar';
+import { BottomBar } from './ui/BottomBar';
 import { useHotkeys } from './ui/hotkeys';
 import { isWebGLAvailable } from './ui/webgl';
 
@@ -37,8 +36,7 @@ export function App() {
       <Header catalog={catalog} />
       <ControlPanel />
       <FactsDrawer catalog={catalog} />
-      <TimeBar catalog={catalog} />
-      <SkyCredit catalog={catalog} />
+      <BottomBar catalog={catalog} />
     </div>
   );
 }

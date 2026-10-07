@@ -217,17 +217,29 @@ button[aria-pressed='true'] {
   color: var(--text-muted);
 }
 
-/* Time bar */
-.time-bar {
+/* Bottom bar */
+.bottom-bar {
+  position: absolute;
   left: var(--gutter);
   right: var(--gutter);
   bottom: var(--gutter);
+  z-index: 3;
+  padding: 10px 14px;
   display: flex;
   flex-wrap: wrap;
+  gap: 8px 14px;
   align-items: center;
-  gap: var(--gap) 20px;
-  padding: 12px 16px;
 }
+.tour-button { margin-left: auto; }
+.timeline { flex: 1 1 100%; position: relative; padding-bottom: 16px; }
+.timeline input[type='range'] { width: 100%; accent-color: var(--accent); }
+.timeline__ticks { position: absolute; left: 0; right: 0; bottom: 0; margin: 0; padding: 0; list-style: none; height: 14px; }
+.timeline__ticks li { position: absolute; transform: translateX(-50%); color: var(--text-muted); font: 10px var(--font-mono); }
+.timeline__outside { margin: 2px 0 0; color: var(--warning); font-size: 11px; }
+.bottom-bar__footer { flex: 1 1 100%; display: flex; justify-content: space-between; gap: 12px; font-size: 11px; color: var(--text-muted); }
+.sky-credit { margin: 0; }
+.sky-credit a { color: inherit; }
+.tour-button[aria-pressed='true'] { border-color: var(--accent); background: var(--accent-soft); }
 
 .time-bar__date {
   font-family: var(--font-mono);
@@ -255,7 +267,6 @@ button[aria-pressed='true'] {
 }
 
 .time-bar__warning {
-  flex-basis: 100%;
   margin: 0;
   color: var(--warning);
 }
@@ -306,7 +317,7 @@ button[aria-pressed='true'] {
   .drawer {
     left: 0; right: 0; width: auto; top: auto;
     bottom: var(--bottom-bar-height, 120px);
-    max-height: 70vh;
+    max-height: min(70vh, calc(100dvh - var(--bottom-bar-height, 120px) - var(--control-panel-bottom, 128px) - 16px));
     border-radius: var(--radius-lg) var(--radius-lg) 0 0;
     transform: translateY(calc(100% + var(--bottom-bar-height, 120px) + 8px));
   }
@@ -321,20 +332,6 @@ button[aria-pressed='true'] {
     transition: none !important;
     animation: none !important;
   }
-}
-
-.sky-credit {
-  position: absolute;
-  left: var(--gutter);
-  bottom: 150px;
-  margin: 0;
-  font-size: 11px;
-  color: var(--text-dim, rgba(255, 255, 255, 0.55));
-  isolation: isolate;
-  z-index: 2;
-}
-.sky-credit a {
-  color: inherit;
 }
 
 .info-panel__imagery {
@@ -355,13 +352,9 @@ button[aria-pressed='true'] {
   letter-spacing: 0.04em;
 }
 
-/* On phones the info panel is a bottom sheet; keep the sky credit clear of it, just below the control panel. */
 @media (max-width: 720px) {
-  .sky-credit {
-    bottom: auto;
-    top: calc(var(--control-panel-bottom, 128px) + 8px);
-    max-width: calc(100% - 2 * var(--gutter));
-  }
+  .bottom-bar { left: 0; right: 0; bottom: 0; border-radius: var(--radius-lg) var(--radius-lg) 0 0; }
+  .tour-button { margin-left: 0; }
 }
 
 .glass {

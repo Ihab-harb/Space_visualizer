@@ -1,16 +1,19 @@
-import { useState, type FormEvent } from 'react';
+import { useEffect, useRef, useState, type FormEvent } from 'react';
 import type { Catalog } from '../core/catalog/catalog';
 import { validityStatus } from '../core/ephemeris/state';
 import { formatUtc, parseDateInput } from '../core/time/format';
 import { tdbToUtc, utcToTdb } from '../core/time/timescales';
+import { useSkyStore } from '../state/skyStore';
 import { RATE_STEPS, useTimeStore } from '../state/timeStore';
+import { useTourStore } from '../state/tourStore';
+import { fractionForJd, jdForFraction, timelineTicks } from './timeline';
 
 export const VALIDITY_MESSAGES = {
   extended: 'Outside 1800–2050: planet positions use JPL’s 3000 BC–AD 3000 elements (lower accuracy).',
   'out-of-range': 'Outside 3000 BC–AD 3000: planet positions are extrapolated and only approximate.',
 } as const;
 
-export function TimeBar({ catalog }: { catalog: Catalog }) {
+export function BottomBar({ catalog }: { catalog: Catalog }) {
   const jdTdb = useTimeStore((s) => s.jdTdb);
   const playing = useTimeStore((s) => s.playing);
   const rateIndex = useTimeStore((s) => s.rateIndex);
@@ -23,6 +26,25 @@ export function TimeBar({ catalog }: { catalog: Catalog }) {
   const [draft, setDraft] = useState('');
   const [error, setError] = useState<string | null>(null);
   const status = validityStatus(catalog.bodies, jdTdb);
+  const tourActive = useTourStore((s) => s.active);
+  const toggleTour = useTourStore((s) => s.toggle);
+  const skyRef = useSkyStore((s) => s.ref);
+  const skySource = skyRef ? catalog.sources.get(skyRef.sourceId) : undefined;
+  const { fraction, outside } = fractionForJd(jdTdb);
+  const ref = useRef<HTMLElement>(null);
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const root = document.documentElement.style;
+    const publish = () => root.setProperty('--bottom-bar-height', `${Math.round(el.getBoundingClientRect().height + 16)}px`);
+    publish();
+    const observer = typeof ResizeObserver === 'undefined' ? null : new ResizeObserver(publish);
+    observer?.observe(el);
+    return () => {
+      observer?.disconnect();
+      root.removeProperty('--bottom-bar-height');
+    };
+  }, []);
 
   const onSubmit = (event: FormEvent) => {
     event.preventDefault();
@@ -37,9 +59,9 @@ export function TimeBar({ catalog }: { catalog: Catalog }) {
   };
 
   return (
-    <section className="panel time-bar" aria-label="Time controls">
+    <section ref={ref} className="glass bottom-bar" aria-label="Time controls">
       {/* <time>, not <output>: <output> has the implicit ARIA role "status", reserved here for accuracy warnings */}
-      <time className="time-bar__date" aria-label="Simulation date">
+      <time className="time-bar__date num" aria-label="Simulation date">
         {formatUtc(tdbToUtc(jdTdb))}
       </time>
       <div className="time-bar__controls">
@@ -81,11 +103,44 @@ export function TimeBar({ catalog }: { catalog: Catalog }) {
           </p>
         )}
       </form>
-      {status !== 'high' && (
-        <p className="time-bar__warning" role="status">
-          {VALIDITY_MESSAGES[status]}
-        </p>
-      )}
+      <button type="button" className="tour-button" data-tour-toggle aria-pressed={tourActive} onClick={toggleTour} title="Guided tour (key T)">
+        {tourActive ? 'Stop tour' : 'Tour'}
+      </button>
+      <div className="timeline">
+        <input
+          type="range"
+          aria-label="Timeline 1800–2050"
+          min={0}
+          max={1000}
+          step={1}
+          value={Math.round(fraction * 1000)}
+          onChange={(e) => setJdTdb(jdForFraction(Number(e.target.value) / 1000))}
+        />
+        <ol className="timeline__ticks" aria-hidden="true">
+          {timelineTicks().map((t) => (
+            <li key={t.year} style={{ left: `${t.fraction * 100}%` }}>
+              {t.year}
+            </li>
+          ))}
+        </ol>
+        {outside && <p className="timeline__outside">Outside 1800–2050 — use Go to date</p>}
+      </div>
+      <footer className="bottom-bar__footer">
+        {status !== 'high' && (
+          <p className="time-bar__warning" role="status">
+            {VALIDITY_MESSAGES[status]}
+          </p>
+        )}
+        {skySource && (
+          <p className="sky-credit">
+            Sky:{' '}
+            <a href={skySource.url} target="_blank" rel="noreferrer">
+              {skySource.title}
+            </a>{' '}
+            — {skySource.publisher}
+          </p>
+        )}
+      </footer>
     </section>
   );
 }
