@@ -79,8 +79,8 @@ test('select and deselect hitch', async ({ page }) => {
         });
       const target =
         a === 'select'
-          ? [...document.querySelectorAll<HTMLButtonElement>('.body-label')].find((b) => b.textContent?.trim() === 'Earth')
-          : document.querySelector<HTMLButtonElement>('button[aria-label="Close"]');
+          ? document.querySelector<HTMLButtonElement>('.body-label[data-label-id="earth"]')
+          : document.querySelector<HTMLButtonElement>('button[aria-label="Deselect"]');
       if (!target) throw new Error(`no control to ${a}`);
       const beforeMs = await longestFrame(1000);
       target.click();
