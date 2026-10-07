@@ -72,12 +72,7 @@ export function createAutoQuality(start: QualityLevel, config: typeof AUTO_QUALI
     },
     /** One frame. visible is false while the page is hidden; such frames never count. Returns the new level on a change. */
     sample(frameMs: number, nowMs: number, visible = true): QualityLevel | null {
-      if (startedAt === null) {
-        // The cooldown covers start-up and Auto entry (resyncAuto creates a new controller on entry): the first
-        // seconds compile shaders and upload textures, which says nothing about steady rendering.
-        startedAt = nowMs;
-        lastChangeAt = nowMs;
-      }
+      if (startedAt === null) startedAt = nowMs;
       if (!(frameMs > 0)) return null;
       if (!visible || frameMs > config.windowMs) {
         // Hidden, or a pause longer than the window: no evidence either way, and the fast hold starts again.
@@ -92,7 +87,10 @@ export function createAutoQuality(start: QualityLevel, config: typeof AUTO_QUALI
         longRunMs += frameMs;
         const sustained = longRun >= config.longRunFrames || (longRun >= 2 && longRunMs > config.longWithinWindowMs);
         // Ignores the warm-up, but not the cooldown: the rebuild after a change compiles shaders in long frames.
-        if (sustained && nowMs - lastChangeAt >= config.cooldownMs) return change('low', nowMs);
+        // The cooldown also starts at the first sample (start-up, and Auto entry: resyncAuto makes a new controller),
+        // because the first seconds compile shaders and upload textures. Only this rule is gated by it; the median
+        // rule keeps its own 3 s warm-up (spec 5).
+        if (sustained && nowMs - Math.max(lastChangeAt, startedAt) >= config.cooldownMs) return change('low', nowMs);
         return null;
       }
       longRun = 0;

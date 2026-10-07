@@ -27,19 +27,19 @@ describe('Auto quality (spec §5)', () => {
   });
   it('steps down once the 2 s median exceeds 18 ms, then waits out the cooldown', () => {
     const c = createAutoQuality('high');
-    const a = run(c, 25, 0, 5200); // first decision at ~5.0 s (the cooldown starts at the first sample and outlasts the 3 s warm-up)
+    const a = run(c, 25, 0, 5200); // first decision at ~3.0 s (warm-up over, window full)
     expect(a.changes).toEqual(['medium']);
-    // Still slow, but inside the 5 s cooldown that started at ~5.0 s.
-    const b = run(c, 25, a.end, 4700); // until ~9.9 s
+    // Still slow, but inside the 5 s cooldown that started at ~3.0 s.
+    const b = run(c, 25, a.end, 2700); // until ~7.9 s
     expect(b.changes).toEqual([]);
-    const d = run(c, 25, b.end, 1000); // cooldown ends at ~10.0 s; the window refilled during it
+    const d = run(c, 25, b.end, 1000); // cooldown ends at ~8.0 s; the window refilled during it
     expect(d.changes).toEqual(['low']);
     expect(run(c, 25, d.end, 20000).changes).toEqual([]); // never below Low
   });
   it('steps up only after 10 s continuously under 12 ms', () => {
     const c = createAutoQuality('low');
-    // Decisions start at ~5.0 s (start-up cooldown); the 10 s "fast" hold therefore completes at ~15.0 s.
-    const a = run(c, 8, 0, 14900);
+    // Decisions start at ~3.0 s (warm-up); the 10 s "fast" hold therefore completes at ~13.0 s.
+    const a = run(c, 8, 0, 12900);
     expect(a.changes).toEqual([]);
     const b = run(c, 8, a.end, 500);
     expect(b.changes).toEqual(['medium']);
@@ -117,7 +117,7 @@ describe('Auto quality: sustained long frames (C1)', () => {
   });
   it('waits out the cooldown after a change before acting on long frames (compile hitches after a rebuild)', () => {
     const c = createAutoQuality('high');
-    const a = run(c, 25, 0, 5100);
+    const a = run(c, 25, 0, 3100);
     expect(a.changes).toEqual(['medium']);
     // Three 400 ms frames straight after the change (shader compilation) do not drop it further.
     let t = a.end;
@@ -169,7 +169,7 @@ describe('Auto quality: back-off and gaps (I2)', () => {
 describe('resyncAuto (QualityGovernor)', () => {
   it('keeps the controller that made the change, with its state', () => {
     const c = createAutoQuality('high');
-    run(c, 25, 0, 5100); // stepped down to Medium
+    run(c, 25, 0, 3100); // stepped down to Medium
     expect(c.level).toBe('medium');
     expect(resyncAuto(c, 'medium')).toBe(c);
   });
@@ -198,7 +198,7 @@ describe('Auto start-up hitches (M2a.2 residual)', () => {
   }
   it('does not drop for start-up hitches separated by normal frames', () => {
     const c = createAutoQuality('high');
-    expect(feed(c, [[16.7, 30], [880, 1], [25, 40], [440, 1], [16.7, 600]])).toEqual([]);
+    expect(feed(c, [[16.7, 30], [880, 1], [16.7, 60], [440, 1], [16.7, 600]])).toEqual([]);
     expect(c.level).toBe('high');
   });
   it('does not drop within the cooldown that starts at the first sample', () => {
