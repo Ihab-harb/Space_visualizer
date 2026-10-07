@@ -74,3 +74,11 @@ Back to [[Home]]
   - Q and E ignore modifier keys and auto-repeat.
   - God-ray masking by bodies was traced to the composer's `autoClear` and left for a ruling.
   - Details in [[render]].
+
+## 2026-10-07 — M2a.3 plan written
+- Implementation plan: [[2026-10-07-m2a3-interface-and-tour]], awaiting review. Twelve tasks:
+  - the two M2a.2 residuals first: Auto dropping to Low on start-up hitches, and god rays not masked by bodies;
+  - the spec §4 interface: header with cited chips and narrative, glass control panel, facts & sources drawer, bottom bar with timeline and Tour, decluttered pill labels;
+  - Tour mode (spec §5);
+  - the Venus Magellan radar view (USGS C3-MDIR mosaic, public domain, verified 2026-10-07);
+  - phone layout and motion polish, then e2e coverage, goldens and docs.
