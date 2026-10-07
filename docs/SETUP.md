@@ -114,7 +114,7 @@ HD tiers (4k/8k) are only requested when their files exist at the moment the dev
 | `npm run e2e` says the browser is missing | Run `npx playwright install chromium`. |
 | `npm run data` fails with a network error | A source may be temporarily down. Run `npm run data:offline` to rebuild from the cache, or try again later. The committed data stays unchanged on failure. |
 | Texture build fails a validation (for example the Mars peak check) | The source product may have changed layout. Run `npm run textures:verify`, and see the vault's Data Sources notes. |
-| Very slow in a VM or remote desktop | There is probably no real GPU. Auto drops straight to Low once frames take over 250 ms each for about a second (three in a row, or more than 1 s of them within 2 s). Low can still be slow on a software renderer: force it from the start with `?quality=low`, and add `&fx=0` to turn camera effects off. |
+| Very slow in a VM or remote desktop | There is probably no real GPU. Auto drops straight to Low when frames over 250 ms come back to back: three in a row, or at least two in a row totalling more than 1 s (any normal frame resets the count). This cannot happen in the first 5 s after start-up or after choosing Auto; the median rule (steps down above 18 ms) starts after a 3 s warm-up. Low can still be slow on a software renderer: force it from the start with `?quality=low`, and add `&fx=0` to turn camera effects off. |
 | Tour stops immediately | Any key, click, wheel or touch ends it by design. Start it with **T** or the Tour button and leave the mouse and keyboard alone. |
 | Black planets | A shader failed to compile. Check the browser console for `THREE.WebGLProgram`, and report the GPU and browser. |
 
