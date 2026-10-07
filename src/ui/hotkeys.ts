@@ -26,6 +26,8 @@ const MODIFIER_ONLY = new Set(['Shift', 'Control', 'Alt', 'Meta', 'CapsLock']);
 export function useHotkeys(): void {
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
+      // Auto-repeat is never input: holding T must not start the tour and then stop it.
+      if (e.repeat) return;
       const action = hotkeyAction(e);
       const tour = useTourStore.getState();
       // Spec §5: any user input exits the tour (T toggles it instead).

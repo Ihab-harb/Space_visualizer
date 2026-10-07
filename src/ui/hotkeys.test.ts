@@ -105,4 +105,25 @@ describe('useHotkeys', () => {
     fireEvent.keyDown(window, { key: 't' });
     expect(useTourStore.getState().active).toBe(false);
   });
+
+  it('auto-repeat never stops or toggles the tour', () => {
+    renderHook(() => useHotkeys());
+    fireEvent.keyDown(window, { key: 't' });
+    fireEvent.keyDown(window, { key: 't', repeat: true });
+    expect(useTourStore.getState().active).toBe(true);
+    fireEvent.keyDown(window, { key: 'x', repeat: true });
+    expect(useTourStore.getState().active).toBe(true);
+  });
+
+  it('a modifier chord stops the tour; typing targets do not', () => {
+    renderHook(() => useHotkeys());
+    useTourStore.getState().start();
+    const input = document.createElement('input');
+    document.body.append(input);
+    fireEvent.keyDown(input, { key: 'f' });
+    expect(useTourStore.getState().active).toBe(true);
+    input.remove();
+    fireEvent.keyDown(window, { key: 't', ctrlKey: true });
+    expect(useTourStore.getState().active).toBe(false);
+  });
 });
