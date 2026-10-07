@@ -2,13 +2,13 @@ import { useEffect, useState } from 'react';
 import { SceneRoot } from './scene/SceneRoot';
 import { useCatalogStore } from './state/catalogStore';
 import { applyUrlOverrides, parseUrlOverrides } from './state/urlParams';
+import { ControlPanel } from './ui/ControlPanel';
 import { Header } from './ui/Header';
 import { InfoPanel } from './ui/InfoPanel';
 import { ErrorScreen, LoadingScreen, WebGLUnavailable } from './ui/StatusScreens';
 import { SkyCredit } from './ui/SkyCredit';
 import { TimeBar } from './ui/TimeBar';
 import { useHotkeys } from './ui/hotkeys';
-import { TopBar } from './ui/TopBar';
 import { isWebGLAvailable } from './ui/webgl';
 
 export function App() {
@@ -35,7 +35,7 @@ export function App() {
     <div className="app">
       <SceneRoot catalog={catalog} />
       <Header catalog={catalog} />
-      <TopBar />
+      <ControlPanel />
       <InfoPanel catalog={catalog} />
       <TimeBar catalog={catalog} />
       <SkyCredit catalog={catalog} />
