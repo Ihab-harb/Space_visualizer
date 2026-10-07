@@ -343,6 +343,8 @@ button[aria-pressed='true'] {
   .control-panel__toggle { display: inline-flex; }
   .control-panel__body { display: none; }
   .control-panel { max-height: calc(100dvh - var(--gutter) - var(--bottom-bar-height, 140px) - 8px); overflow-y: auto; }
+  /* The open dropdown may overlay the header: topmost and opaque so it stays legible. */
+  .control-panel.is-open { z-index: 5; background: var(--glass-strong); }
   .control-panel.is-open .control-panel__body { display: flex; flex-direction: column; align-items: flex-start; padding: 8px; animation: panel-in var(--dur) var(--ease); }
   .drawer {
     left: 0; right: 0; width: auto; top: auto;

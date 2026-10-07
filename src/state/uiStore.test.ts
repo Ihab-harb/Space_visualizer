@@ -8,10 +8,16 @@ describe('uiStore', () => {
     useUiStore.getState().revealSource('nssdca-planetary-fact-sheet');
     expect(useUiStore.getState()).toMatchObject({ drawerOpen: true, focusSource: 'nssdca-planetary-fact-sheet' });
   });
-  it('toggles the drawer and the phone controls', () => {
+  it('opening the phone controls closes the drawer and vice versa', () => {
     useUiStore.getState().toggleDrawer();
+    expect(useUiStore.getState()).toMatchObject({ drawerOpen: true, controlsOpen: false });
     useUiStore.getState().toggleControls();
-    expect(useUiStore.getState()).toMatchObject({ drawerOpen: true, controlsOpen: true });
+    expect(useUiStore.getState()).toMatchObject({ drawerOpen: false, controlsOpen: true });
+    useUiStore.getState().toggleDrawer();
+    expect(useUiStore.getState()).toMatchObject({ drawerOpen: true, controlsOpen: false });
+    useUiStore.getState().toggleControls();
+    useUiStore.getState().toggleControls();
+    expect(useUiStore.getState()).toMatchObject({ drawerOpen: false, controlsOpen: false });
   });
 });
 

@@ -112,3 +112,42 @@ test.describe('phone 390x844 specifics', () => {
     expect(expanded.height).toBeGreaterThan(collapsed.height);
   });
 });
+
+for (const vp of VIEWPORTS) {
+  test(`no horizontal scroll at ${vp.width}x${vp.height}`, async ({ browser }) => {
+    const page = await browser.newPage({ viewport: { width: vp.width, height: vp.height } });
+    await page.goto('/?target=jupiter&pause=1&quality=low');
+    await expect(page.locator('canvas')).toBeVisible();
+    await page.waitForTimeout(500);
+    expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(true);
+    await page.close();
+  });
+}
+
+test.describe('phone open Controls dropdown', () => {
+  test.use({ viewport: { width: 390, height: 844 } });
+
+  test('opens clear of the bar, topmost, closes again, and trades places with the drawer', async ({ page }) => {
+    await open(page, '/?quality=low&pause=1&target=jupiter');
+    const toggle = page.getByRole('button', { name: 'Controls' });
+    await toggle.click();
+    await page.waitForTimeout(500);
+    const panel = await box(page.locator('.control-panel'));
+    expect(intersects(panel, await box(page.locator('.bottom-bar')))).toBe(false);
+    const topmost = await page.evaluate(({ x, y }) => !!document.elementFromPoint(x, y)?.closest('.control-panel'), { x: panel.x + panel.width / 2, y: panel.y + panel.height / 2 });
+    expect(topmost, 'open panel is the topmost element at its centre').toBe(true);
+    // opening the drawer closes the dropdown, so they never share the screen
+    await page.keyboard.press('f');
+    await page.waitForTimeout(500);
+    await expect(toggle).toHaveAttribute('aria-expanded', 'false');
+    const sheet = await box(page.locator('.drawer'));
+    expect(intersects(sheet, await box(page.locator('.control-panel')))).toBe(false);
+    // and opening the dropdown closes the sheet
+    await toggle.click();
+    await page.waitForTimeout(500);
+    await expect(toggle).toHaveAttribute('aria-expanded', 'true');
+    await expect(page.locator('.drawer')).not.toHaveClass(/is-open/);
+    await toggle.click();
+    await expect(toggle).toHaveAttribute('aria-expanded', 'false');
+  });
+});
