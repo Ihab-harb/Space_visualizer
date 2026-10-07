@@ -10,6 +10,7 @@ import { useUiStore } from '../state/uiStore';
 import { useViewStore } from '../state/viewStore';
 import { citationModel } from './citations';
 import { formatAu, formatDuration, formatLightTimeShort, formatNumber } from './format';
+import { radarShown } from './imagery';
 import { liveStats } from './liveStats';
 import { buildNarrative } from './narrative';
 
@@ -39,6 +40,7 @@ export function Header({ catalog }: { catalog: Catalog }) {
   const jdTdb = useTimeStore((s) => s.jdTdb);
   const scaleMode = useViewStore((s) => s.scaleMode);
   const view = useViewStore((s) => s.view);
+  const venusRadar = useViewStore((s) => s.venusRadar);
   const requestFocus = useViewStore((s) => s.requestFocus);
   const inView = useSceneStatsStore((s) => s.bodiesInView);
   const revealSource = useUiStore((s) => s.revealSource);
@@ -91,6 +93,7 @@ export function Header({ catalog }: { catalog: Catalog }) {
         {distanceKm !== null ? ` · ${formatAu(distanceKm)} ${stats.fromEarthKm !== null ? 'from Earth' : 'from the Sun'}` : ''}
       </p>
       <h1 key={body.id} className="header__headline">{body.name}</h1>
+      {radarShown(body, venusRadar) && <p className="header__radar-tag">Radar view · not visible light</p>}
       <ul className="chips">
         {distanceKm !== null && stats.sourceId && (
           <li className="chip"><span className="chip__label">{distanceLabel}</span><span className="num">{formatAu(distanceKm)}</span>{cite(stats.sourceId)}</li>

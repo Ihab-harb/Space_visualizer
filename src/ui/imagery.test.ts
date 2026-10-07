@@ -19,13 +19,26 @@ const venus: Body = {
   imagery: { radar: { tiers: { '2k': 'textures/venus/radar_2k.webp' }, sourceId: 'usgs-venus-magellan-c3', derivation: 'Magellan C3-MDIR radar backscatter mosaic; radar brightness, not visible light.' } },
 };
 
+const RADAR_NOTE = 'Radar view: Magellan radar backscatter of the surface under the clouds — brightness is radar roughness, not visible light.';
+const venusFull: Body = { ...venus, render: { ...venus.render, atmosphere: 'venus' } };
+
 describe('Venus radar', () => {
-  it('lists the radar layer and explains it', () => {
+  it('lists the radar layer', () => {
     expect(imageryLines(venus)).toEqual([{ label: 'Radar (Magellan)', sourceId: 'usgs-venus-magellan-c3', derivation: 'Magellan C3-MDIR radar backscatter mosaic; radar brightness, not visible light.', illustrative: false }]);
-    expect(illustrativeNotes(venus)).toContain('Radar view: Magellan radar backscatter of the surface under the clouds — brightness is radar roughness, not visible light.');
   });
-  it('adds no radar note without a radar layer', () => {
-    expect(illustrativeNotes({ ...venus, imagery: null }).join(' ')).not.toMatch(/Radar view/);
+  it('with radar on, explains only the radar view (no cloud-deck or atmosphere notes)', () => {
+    const notes = illustrativeNotes(venusFull, { venusRadar: true });
+    expect(notes).toEqual([RADAR_NOTE]);
+  });
+  it('with radar off, explains the cloud deck and atmosphere, not the radar view', () => {
+    for (const notes of [illustrativeNotes(venusFull), illustrativeNotes(venusFull, { venusRadar: false })]) {
+      expect(notes.join(' ')).toMatch(/Illustrative cloud deck/);
+      expect(notes.join(' ')).toMatch(/Atmosphere tint is illustrative/);
+      expect(notes.join(' ')).not.toMatch(/Radar view/);
+    }
+  });
+  it('adds no radar note without a radar layer, even when radar is requested', () => {
+    expect(illustrativeNotes({ ...venus, imagery: null }, { venusRadar: true }).join(' ')).not.toMatch(/Radar view/);
   });
 });
 

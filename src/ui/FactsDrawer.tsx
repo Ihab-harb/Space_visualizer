@@ -170,7 +170,7 @@ export function FactsDrawer({ catalog }: { catalog: Catalog }) {
             Show Magellan radar (surface under the clouds)
           </label>
         )}
-        {illustrativeNotes(body).map((note) => (
+        {illustrativeNotes(body, { venusRadar }).map((note) => (
           <p key={note} className="info-panel__note">
             {note}
           </p>

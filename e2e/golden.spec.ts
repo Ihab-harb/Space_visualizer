@@ -46,6 +46,8 @@ for (const view of VIEWS) {
     await expect(page.locator('canvas')).toBeVisible();
     await page.waitForSelector('.scene[data-textures-ready="true"]', { timeout: 30_000 }); // a golden fails if textures never load
     await page.waitForTimeout(1500);
+    // The radar view must say on screen that it is not a photograph, drawer closed or not.
+    if (view.name === '0b-venus-radar') await expect(page.getByText('Radar view · not visible light')).toBeVisible();
     await page.screenshot({ path: `test-results/golden/${view.name}.png` });
   });
 }

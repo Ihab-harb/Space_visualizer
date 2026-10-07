@@ -452,6 +452,7 @@ button[aria-pressed='true'] {
 .chip { display: flex; align-items: baseline; gap: 6px; padding: 5px 10px; border: 1px solid var(--hairline); border-radius: 999px; background: rgba(255, 255, 255, 0.03); font-size: 13px; }
 .chip__label { color: var(--text-muted); font-size: 11px; }
 .header__narrative { margin: 0 0 12px; color: var(--text); font-size: 14px; line-height: 1.5; }
+.header__radar-tag { display: inline-block; margin: 0 0 10px; padding: 3px 10px; border: 1px solid var(--warning); border-radius: 999px; color: var(--warning); font-size: 12px; letter-spacing: 0.04em; }
 .header__narrative strong { color: var(--body-accent, var(--accent)); font-weight: 600; }
 .header__actions { display: flex; gap: 8px; }
 .header__narrative-toggle { display: none; background: none; border: 0; }

@@ -34,12 +34,18 @@ export function imageryLines(body: Body): ImageryLine[] {
   return lines;
 }
 
-export function illustrativeNotes(body: Body): string[] {
+/** True when the Magellan radar mosaic is what is on screen (the scene uses the same condition). */
+export function radarShown(body: Body, venusRadar: boolean): boolean {
+  return body.render.shader === 'venus' && venusRadar && !!body.imagery?.radar;
+}
+
+/** Notes for what is on screen: the radar view replaces the cloud deck and the atmosphere shell. */
+export function illustrativeNotes(body: Body, { venusRadar = false }: { venusRadar?: boolean } = {}): string[] {
+  if (radarShown(body, venusRadar)) return ['Radar view: Magellan radar backscatter of the surface under the clouds — brightness is radar roughness, not visible light.'];
   const notes: string[] = [];
   if (body.render.shader === 'sun') notes.push('Illustrative surface: granulation, limb darkening and corona are artistic, not imagery.');
   else if (body.render.shader === 'venus') notes.push('Illustrative cloud deck: there is no official true-colour global map of Venus.');
   else if (!body.imagery?.color) notes.push('Illustrative colour — no official surface map.');
-  if (body.imagery?.radar) notes.push('Radar view: Magellan radar backscatter of the surface under the clouds — brightness is radar roughness, not visible light.');
   if (body.render.bandFlow) notes.push('Cloud-band motion is illustrative.');
   if (body.render.shader === 'earth' && body.imagery?.clouds) notes.push('Cloud drift is illustrative.');
   if (body.render.atmosphere && body.render.atmosphere !== 'earth') notes.push('Atmosphere tint is illustrative.');
