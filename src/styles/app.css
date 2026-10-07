@@ -273,22 +273,48 @@ button[aria-pressed='true'] {
 
 /* Labels drawn over the scene */
 .body-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
   transform: translateY(16px);
-  padding: 1px 7px;
-  border: 0;
+  padding: 3px 9px 3px 7px;
+  border: 1px solid var(--hairline);
   border-radius: 999px;
-  background: rgba(3, 5, 11, 0.82);
-  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.9);
-  backdrop-filter: blur(3px);
+  background: rgba(6, 9, 18, 0.72);
+  backdrop-filter: blur(6px);
   color: var(--text);
-  font-size: 12px;
+  font-size: 11px;
   white-space: nowrap;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8);
   pointer-events: auto;
+  transition: opacity var(--dur-fast) var(--ease), padding var(--dur-fast) var(--ease);
+}
+
+.body-label__dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  box-shadow: 0 0 6px currentColor;
+}
+
+.body-label__name {
+  font-weight: 650;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.body-label__datum {
+  color: var(--text-muted);
 }
 
 .body-label.is-selected {
-  background: linear-gradient(var(--accent-soft), var(--accent-soft)), rgba(3, 5, 11, 0.88);
-  outline: 1px solid var(--accent);
+  border-color: var(--accent);
+  padding-right: 12px;
+}
+
+.body-label.is-hidden {
+  opacity: 0;
+  pointer-events: none;
 }
 
 /* Loading / error / no-WebGL */
