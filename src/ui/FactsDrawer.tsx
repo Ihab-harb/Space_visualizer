@@ -5,12 +5,12 @@ import type { BodyCategory } from '../core/catalog/schema';
 import { useSelectionStore } from '../state/selectionStore';
 import { useViewStore } from '../state/viewStore';
 import { useUiStore } from '../state/uiStore';
-import { useTimeStore } from '../state/timeStore';
 import { accuracyLines } from './accuracy';
 import { citationModel } from './citations';
 import { formatDistanceKm, formatFact, formatLightTime } from './format';
 import { illustrativeNotes, imageryLines } from './imagery';
 import { liveStats } from './liveStats';
+import { useThrottledJd } from './useThrottledJd';
 
 const CATEGORY_LABELS: Record<BodyCategory, string> = {
   star: 'Star', planet: 'Planet', 'dwarf-planet': 'Dwarf planet', moon: 'Moon', asteroid: 'Asteroid', comet: 'Comet', spacecraft: 'Spacecraft',
@@ -38,7 +38,7 @@ export function FactsDrawer({ catalog }: { catalog: Catalog }) {
     }
     clearFocusSource();
   }, [open, focusSource, clearFocusSource]);
-  const jdTdb = useTimeStore((s) => s.jdTdb);
+  const jdTdb = useThrottledJd();
   const body = selectedId ? catalog.bodyById.get(selectedId) : undefined;
   if (!body) return null;
 

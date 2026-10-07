@@ -5,13 +5,13 @@ import { formatUtc } from '../core/time/format';
 import { tdbToUtc } from '../core/time/timescales';
 import { useSceneStatsStore } from '../state/sceneStatsStore';
 import { useSelectionStore } from '../state/selectionStore';
-import { useTimeStore } from '../state/timeStore';
 import { useUiStore } from '../state/uiStore';
 import { useViewStore } from '../state/viewStore';
 import { citationModel } from './citations';
 import { formatAu, formatDuration, formatLightTimeShort, formatNumber } from './format';
 import { radarShown } from './imagery';
 import { liveStats } from './liveStats';
+import { useThrottledJd } from './useThrottledJd';
 import { buildNarrative } from './narrative';
 
 const CATEGORY: Record<BodyCategory, string> = { star: 'Star', planet: 'Planet', 'dwarf-planet': 'Dwarf planet', moon: 'Moon', asteroid: 'Asteroid', comet: 'Comet', spacecraft: 'Spacecraft' };
@@ -37,7 +37,7 @@ export function Header({ catalog }: { catalog: Catalog }) {
   }, []);
   const selectedId = useSelectionStore((s) => s.selectedId);
   const select = useSelectionStore((s) => s.select);
-  const jdTdb = useTimeStore((s) => s.jdTdb);
+  const jdTdb = useThrottledJd();
   const scaleMode = useViewStore((s) => s.scaleMode);
   const view = useViewStore((s) => s.view);
   const venusRadar = useViewStore((s) => s.venusRadar);
