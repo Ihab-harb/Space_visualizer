@@ -10,9 +10,9 @@ The Solar System is the first "region" of a project designed to grow outward lat
 - **True orientation and shape:** each planet is tilted, spun and flattened using the IAU rotation models and radii published by NASA/JPL [NAIF](https://naif.jpl.nasa.gov/).
 - **Time controls:** play, pause, reverse, speeds from real time up to 1 year per second, and jumping to any date. The app warns when a date is outside the range where the formulas are accurate.
 - **Camera views:** *Orbit* (rotate, pan and zoom around any body) and *Follow* (track a body, optionally rotating with its surface), with smooth fly-to transitions. The view stays precise from a planet's surface out to the edge of the Solar System.
-- **Info panel with sources:** NASA descriptions, physical and orbital facts, live distances and light travel time. Every value links to its source.
+- **Facts & sources drawer:** NASA descriptions, physical and orbital facts, live distances and light travel time. Every value links to its source.
 - **Readable or true scale:** enlarged bodies that stay visible, or real sizes and distances.
-- **Official imagery and shading (M2a.1):** NASA, USGS and STScI surface maps, rings and sky, lit by custom shaders (terminator, night lights, clouds, atmospheres, ring shadows), each image cited in the info panel.
+- **Official imagery and shading (M2a.1):** NASA, USGS and STScI surface maps, rings and sky, lit by custom shaders (terminator, night lights, clouds, atmospheres, ring shadows), each image cited in the facts & sources drawer.
 
 - **Cinematic effects and adaptive quality (M2a.2):** bloom, god rays, lens flare, anamorphic streaks, depth of field, AgX tone mapping, scene-driven exposure and film grain, with High / Medium / Low presets and an Auto mode.
 
@@ -78,7 +78,7 @@ Then open the address Vite prints (normally <http://localhost:5173/>). No server
 
 ## Imagery
 
-Planet surfaces, rings and the star sky come from official NASA, USGS and STScI products. Each image is cited in the app's info panel.
+Planet surfaces, rings and the star sky come from official NASA, USGS and STScI products. Each image is cited in the app's facts & sources drawer.
 
 - `npm run textures`: downloads the source products (about 5 GB, cached in `pipeline/raw/textures/`) and builds the committed 1k/2k textures in `public/textures/`.
 - `npm run textures:hd`: also builds 4k/8k textures locally (not committed). Open the app with `?tier=4k` or `?tier=8k` to use them; missing tiers fall back to 2k.
