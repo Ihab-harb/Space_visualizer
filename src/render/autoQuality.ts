@@ -11,9 +11,10 @@ export const AUTO_QUALITY = {
   /** Frames longer than this (tab switch, debugger pause, one-off hitch) never enter the median. */
   ignoreAboveMs: 250,
   /**
-   * Long frames are evidence when they persist (final-review ruling C1): this many in a row, or more than
-   * longWithinWindowMs of them (at least two) inside one window, drop straight to Low. A frame longer than the whole
-   * window is a pause, not rendering, and never counts.
+   * Long frames are evidence when they persist (final-review ruling C1): this many consecutive ones, or at least two
+   * consecutive ones totalling more than longWithinWindowMs, drop straight to Low. Any normal frame resets the run, so
+   * start-up compile hitches separated by normal frames never add up. A frame longer than the whole window is a
+   * pause, not rendering, and never counts.
    */
   longRunFrames: 3,
   longWithinWindowMs: 1000,
@@ -38,9 +39,9 @@ export function createAutoQuality(start: QualityLevel, config: typeof AUTO_QUALI
   let lastChangeAt = Number.NEGATIVE_INFINITY;
   let fastSince: number | null = null;
   let window: Sample[] = [];
-  /** Long frames (over ignoreAboveMs, up to windowMs) inside the last window, and how many arrived in a row. */
-  let long: Sample[] = [];
+  /** The current run of consecutive long frames (over ignoreAboveMs, up to windowMs); any normal frame resets it. */
   let longRun = 0;
+  let longRunMs = 0;
   /** The last step up, so a quick reversal can block that level (back-off, ruling I2). */
   let lastUp: { to: QualityLevel; at: number } | null = null;
   /** Levels a step-up may no longer reach for this controller's life (Auto entry creates a new controller). */
@@ -59,8 +60,8 @@ export function createAutoQuality(start: QualityLevel, config: typeof AUTO_QUALI
     level = next;
     lastChangeAt = now;
     window = [];
-    long = [];
     longRun = 0;
+    longRunMs = 0;
     fastSince = null;
     return level;
   };
@@ -71,27 +72,31 @@ export function createAutoQuality(start: QualityLevel, config: typeof AUTO_QUALI
     },
     /** One frame. visible is false while the page is hidden; such frames never count. Returns the new level on a change. */
     sample(frameMs: number, nowMs: number, visible = true): QualityLevel | null {
-      if (startedAt === null) startedAt = nowMs;
+      if (startedAt === null) {
+        // The cooldown covers start-up and Auto entry (resyncAuto creates a new controller on entry): the first
+        // seconds compile shaders and upload textures, which says nothing about steady rendering.
+        startedAt = nowMs;
+        lastChangeAt = nowMs;
+      }
       if (!(frameMs > 0)) return null;
       if (!visible || frameMs > config.windowMs) {
         // Hidden, or a pause longer than the window: no evidence either way, and the fast hold starts again.
         fastSince = null;
-        long = [];
         longRun = 0;
+        longRunMs = 0;
         return null;
       }
       if (frameMs > config.ignoreAboveMs) {
         fastSince = null;
         longRun++;
-        long.push({ t: nowMs, ms: frameMs });
-        while (long.length > 0 && long[0]!.t < nowMs - config.windowMs) long.shift();
-        const longMs = long.reduce((sum, s) => sum + s.ms, 0);
-        const sustained = longRun >= config.longRunFrames || (long.length >= 2 && longMs > config.longWithinWindowMs);
+        longRunMs += frameMs;
+        const sustained = longRun >= config.longRunFrames || (longRun >= 2 && longRunMs > config.longWithinWindowMs);
         // Ignores the warm-up, but not the cooldown: the rebuild after a change compiles shaders in long frames.
         if (sustained && nowMs - lastChangeAt >= config.cooldownMs) return change('low', nowMs);
         return null;
       }
       longRun = 0;
+      longRunMs = 0;
       window.push({ t: nowMs, ms: frameMs });
       while (window.length > 0 && window[0]!.t < nowMs - config.windowMs) window.shift();
       if (nowMs - startedAt < config.warmupMs) return null;
