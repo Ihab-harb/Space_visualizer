@@ -158,8 +158,9 @@ export function EffectsStack({ bodies }: { bodies: readonly Body[] }) {
   // Each group is one EffectPass (merged effects are re-sorted by attributes; see passSegments.ts), so the composer's
   // assembly equals the spec order and no pass ever holds two convolution effects.
   const children: JSX.Element[] = composerGroups(passes).map((group) => <EffectGroup key={`pass-${group.join('+')}`}>{group.map(element)}</EffectGroup>);
-  // autoClear stays at its default despite GodRays' console warning: with autoClear={false} the kept depth hides the ray
-  // proxy (inside the drawn Sun) behind the Sun's own mesh, so the rays lose their glow, and a square artifact appears around
-  // the Sun. Occlusion by bodies comes from float64 sunVisibilityFromObserver instead (Task 9 fix round, item 5).
-  return <EffectComposer key={passes.join(',')} ref={composerRef} multisampling={level === 'low' ? 0 : 4}>{children}</EffectComposer>;
+  // autoClear is off so the depth GodRaysEffect copies into its light target survives into the ray pass: with the default, three
+  // clears that depth (WebGLBackground clears whenever renderer.autoClear is true) before the proxy is drawn, and bodies never
+  // mask the rays. R3F restores gl.autoClear after composer.render, and the RenderPass clears itself. The proxy sits at 1.02 R
+  // (sunFx.PROXY_RADIUS_FACTOR) so the kept depth of the Sun's own mesh does not hide it. See Decision 0007.
+  return <EffectComposer key={passes.join(',')} ref={composerRef} autoClear={false} multisampling={level === 'low' ? 0 : 4}>{children}</EffectComposer>;
 }

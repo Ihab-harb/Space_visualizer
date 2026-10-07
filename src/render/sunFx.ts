@@ -11,8 +11,11 @@ import { damp, EXPOSURE, flareOpacity, godRayOpacity, sceneExposure, sunFrameWei
 
 /** After body positions (-0.5) and uniforms (-0.4), before the composer. */
 const SUN_FX_PRIORITY = -0.3;
-/** The proxy sits just inside the drawn Sun so scene geometry in front of it occludes the rays. */
-const PROXY_RADIUS_FACTOR = 0.98;
+/**
+ * The proxy sits just outside the drawn Sun, so the Sun's own depth (kept by the composer's autoClear={false}) does not hide
+ * it, while scene geometry in front of it still occludes the rays.
+ */
+export const PROXY_RADIUS_FACTOR = 1.02;
 /** Off-screen NDC parking spot for the flare when the Sun is behind the camera. */
 const OFFSCREEN_NDC = 10;
 

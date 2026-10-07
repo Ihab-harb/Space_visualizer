@@ -72,7 +72,7 @@ How the passes are assembled in three.js (all rulings from the M2a.2 ledger):
 - `EffectPass` re-sorts merged effects by attribute, so `segmentByAttributes` turns each non-increasing run into its own `EffectGroup`. At High the result is `[bloom] [rays, flare] [streaks] [dof, exposure, tonemap] [display]`. One convolution effect per pass is a library rule.
 - The stock circle-of-confusion shader mishandles our logarithmic depth buffer (it blurred the planet and left the sky sharp), so `patchCocForLogDepth` rewrites it.
 - The `EffectComposer` is keyed on the pass list, so it remounts whenever the list changes. This is a workaround for a stale depth-of-field frame left after the DoF pass is removed; the root cause in `@react-three/postprocessing` was not found. Since depth of field stays mounted, only quality and camera-effects changes remount the composer, not selection. A remount disposes and rebuilds every render target and program. Before this change, selecting or deselecting Earth at High cost a 367 ms frame (median of six), against 117 ms steady state (see Performance).
-- `autoClear={false}` on the composer is not adopted, although GodRays logs a warning asking for it: it hid the god-ray proxy behind the Sun mesh and added a square artifact. See [[0007-tone-mapping-and-exposure]]. Keeping it on is also why bodies do not mask the rays (see God-ray proxy).
+- The composer runs with `autoClear={false}`, as GodRays asks (its console warning is gone). The copied depth must survive into the god-ray light pass; see God-ray proxy and [[0007-tone-mapping-and-exposure]].
 - Tone mapping is AgX (compared with ACES in [[0007-tone-mapping-and-exposure]]).
 
 Frame order (`useFrame` priority): FrameDriver -2, CameraSystem -1, BodyMesh -0.5, body uniforms -0.4, Sun effects -0.3, other components 0, and the composer renders at `renderPriority` 1.
@@ -87,13 +87,11 @@ Lens-flare occlusion does not use the `<LensFlare>` raycast. `useSunFx` calls `s
 
 ## God-ray proxy
 
-The god-ray source is a sphere at 0.98 of the Sun's render radius, kept outside the scene graph and placed by `useSunFx` each frame. Its opacity comes from `godRayOpacity`: visible fraction, eased down to 0.3 as the Sun grows toward 5 degrees, because full-strength rays washed out a close-up disc.
+The god-ray source is a sphere at 1.02 of the Sun's render radius (`PROXY_RADIUS_FACTOR` in `sunFx.ts`), kept outside the scene graph and placed by `useSunFx` each frame. Its opacity comes from `godRayOpacity`: visible fraction, eased down to 0.3 as the Sun grows toward 5 degrees, because full-strength rays washed out a close-up disc.
 
-**Bodies do not mask the rays today; only the float64 opacity dims them.** That opacity covers full occlusion. With the Sun partly behind a limb, though, rays from the hidden part are drawn across the planet.
+**Bodies mask the rays, so partial occlusion works.** `GodRaysEffect` (postprocessing 6.39.5) copies the scene's raw depth into its light target with `gl_FragDepth`, then draws the proxy against it with a hardware depth test. Both are log depth, so the comparison is consistent. (The depth-mask material with the `a + b/d` conversion belongs to `SelectiveBloomEffect`, which this app does not use.) The composer now runs with `autoClear` off, so three no longer clears that depth (WebGLBackground, `three.module.js` lines 1385-1393) before the proxy is drawn. The proxy sits just outside the drawn Sun so the kept depth of the Sun's own mesh does not hide it. Full occlusion is still also covered by the float64 opacity.
 
-The cause is not the depth format. `GodRaysEffect` (postprocessing 6.39.5) copies the scene's raw depth into its light target with `gl_FragDepth`, then draws the proxy against it with a hardware depth test. Both are log depth, so the comparison is consistent. But the composer runs with `autoClear` true, so three's `renderer.render` clears that target's depth (WebGLBackground, `three.module.js` lines 1385-1393) before the proxy is drawn. The depth-mask material with the `a + b/d` conversion belongs to `SelectiveBloomEffect`, which this app does not use.
-
-A temporary partial-occlusion view measured the effect: Earth at 20,000 km, Sun at the upper limb, `el=18.3` and `18.6`. The rays added 2.3 and 3.8 grey levels over the upper disc. With `autoClear={false}` and the proxy at 1.02 of the Sun's radius (so the Sun's own mesh cannot hide it), they added 0 and 0.3 grey levels. The unoccluded glow around the Sun, in the far-Sun and overview views, stayed within about 1 grey level. That change reverses the `autoClear` choice in [[0007-tone-mapping-and-exposure]], so it waits for a ruling (see the carry-over note).
+Measured with golden `3d-sun-partial` (Earth at 20,000 km, `el=18.6`, Sun behind the upper limb): the night-side patch next to the limb fell from a mean luminance of 80.24 to 74.85, and an e2e test asserts it stays under 77.5. Earlier route-patch measurements over the upper disc: 2.3 and 3.8 grey levels of rays before, 0 and 0.3 after; the unoccluded glow stayed within about 1 grey level.
 
 ## Data and debug attributes
 
