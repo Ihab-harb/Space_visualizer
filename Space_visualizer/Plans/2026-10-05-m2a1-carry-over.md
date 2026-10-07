@@ -81,6 +81,12 @@ These items came out of the M2a.1 reviews (per-task reviews and the final whole-
 - **Giants and rings:** the gas-giant limb haze ignores eclipses and ring shadows, and Uranus's sub-texel rings alias into dots.
 - **Docs:** `Architecture/pipeline.md` says 13.1 MB committed; it is now 12.9 MB.
 
+## Must do at the start of M2a.3
+
+Residuals left open by the M2a.2 final review (no second fix wave was allowed). Both need doing before anything else.
+- **Auto drops to Low on start-up hitches.** The re-review reproduced this on the dev machine in 4 of 4 page loads with `quality=auto`. Two shader-compile and upload hitches (about 900 ms and 450 ms, roughly 1 s apart) trip the long-frame rule within about 2 s. That rule ignores warm-up, and its ">1 s within the window" clause does not need the long frames to be consecutive. Auto also drops after Low → Q → Auto. Because a 60 Hz display can never step back up, a strong desktop can stay at Low for the whole session. **Fix:** count only *consecutive* long frames (≥3 in a row, or ≥2 in a row totalling >1 s), and start the cooldown at the first sample. Add unit tests for the measured hitch traces. Correct render.md, which wrongly says "the long-frame rule did not fire".
+- **God rays are not masked by bodies.** The candidate fix, found by the implementer and checked by the re-reviewer with route patches, is `EffectComposer autoClear={false}` plus a god-ray proxy at 1.02× the Sun's radius. It showed no square artifact; golden differences were at most 7 grey levels; the GodRays warning went away; and rays over the occluding planet dropped from 2.3–3.8 to 0–0.3 grey levels. It still needs: its own commit; the full e2e run (leak test, Earth guard, goldens); a partial-occlusion golden with a luminance assertion; and updates to Decision 0007, render.md and the composer comment.
+
 ## From M2a.2
 
 Created or deferred during [[2026-10-05-m2a2-cinematic-effects-and-quality]]. Details in [[render]] and [[0007-tone-mapping-and-exposure]].
