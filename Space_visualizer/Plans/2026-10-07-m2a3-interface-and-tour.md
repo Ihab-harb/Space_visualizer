@@ -2286,3 +2286,50 @@ Expected: all PASS.
 git add -A e2e README.md docs Space_visualizer
 git commit -m "docs: M2a.3 interface, tour and Venus radar documentation, goldens and e2e coverage" -m "Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>"
 ```
+
+---
+
+## Execution record (2026-10-08)
+
+Run subagent-driven: one implementer and one reviewer per task, then a review of the whole branch on the most capable model and one fix wave. The final state passes 538 unit tests and 73 end-to-end tests, and typecheck is clean. Details are in [[Changelog]]; deferred items are in [[2026-10-05-m2a1-carry-over]] under "From M2a.3".
+
+### Final review
+The verdict was "ready with fixes". There was one critical issue and four important ones, and the reviewer confirmed each in a real browser:
+- The header and the control panel overlapped at 721–1127 px widths.
+- Space or Enter on the Tour button restarted the Tour.
+- Pressing 2 during the Tour ended in Orbit.
+- The Venus radar notes did not match what was shown, and there was no on-screen radar label.
+- Hotkeys stopped working after the slider or a checkbox had focus.
+
+Must-fix minor issues:
+- F with nothing selected changed hidden drawer state.
+- The header and drawer re-rendered on every frame.
+- The Tour exit test never dragged.
+- Some docs wording was out of date.
+
+All of these were fixed in one wave of six commits, with a test that failed first for each behaviour fix. A scoped re-review found every finding addressed and nothing new broken.
+
+### Rulings made during execution
+Each ruling ends with what it costs if it is wrong.
+1. Until Task 11, the header could coexist with, and overlap, the old panels. *Cost:* interim goldens looked odd.
+2. Task 1: the spec §5 3 s warm-up stays, and the start-up cooldown gates only the long-frame drop. The plan's test trace was wrong (its 25 ms frames are genuinely slow) and was changed to 16.7 ms. *Cost:* Auto may step to Medium early on a genuinely slow start, which is what the spec intends.
+3. Task 2: the god-ray threshold is midway, at 77.5 grey levels (80.24 unfixed, 74.85 fixed). The plan's "half the unfixed value" cannot be reached: rays add only about 5 of about 80 grey levels, and the rest is limb glow. *Cost:* the guard is coarse and may need re-tuning after unrelated tone or bloom changes.
+4. Task 3: auto-repeat key events never stop the Tour. Ctrl, Cmd or Alt chords still count as input and stop it. *Cost:* Ctrl+T ends the Tour, which is harmless.
+5. Task 4: an interim e2e `dispatchEvent` click was carried into Task 5 and reverted there to a real `.check()`. *Cost:* none.
+6. Task 4: the header subtitle repeats the cited distance chip next to it. The overview's date and bodies-in-view count are app state, not sourced facts. None of these carry a citation. *Cost:* a stricter reading of "every number cited" would want one on the subtitle.
+7. Task 6: no second review of a fix round whose diff was empty, because the round only re-ran tests. *Cost:* none.
+8. Task 7: the phone bottom bar height and the drawer touching the header were carried into Task 11, which fixed them (bar 280 px → 157 px). *Cost:* none.
+9. Task 8: Earth's label is hidden in the overview, because the Sun's pixel radius wins the inner cluster. Hover or selection shows it. *Cost:* the home body is unlabelled on the landing view. Recommended for early M2b: a priority bonus for the home body.
+10. Task 10: two commit messages were reworded to the required `Co-Authored-By: Claude Opus 5.5` trailer, with the files unchanged. *Cost:* two local commit ids changed.
+11. Task 11: the open Controls dropdown may overlay the header on phones, and also at 721–1140 px after the final fix. It is topmost and opaque, closes the drawer when opened, and never covers the bottom bar. *Cost:* the header is hidden while that menu is open.
+12. Final:
+    - Pill-label distances carry no citation; the header shows the cited value. *Cost:* an uncited number on screen.
+    - Esc switches to Orbit, as in M1, and does not close panels. *Cost:* one extra click.
+    - The Venus radar longitude rests on the Maxwell Montes check and the same east-positive USGS convention as Mercury and Mars. *Cost:* a rotated map.
+    - "Ticking numbers" means live tabular digits, not animated counters. *Cost:* a missing polish animation.
+    - The drawer reopens on the next selection. *Cost:* it may open unexpectedly.
+    - The real-GPU cost of the new interface work is unmeasured; the header and drawer are now throttled to about 4 Hz. *Cost:* a few ms per frame on integrated GPUs.
+    - The `?rate=` URL parameter is outside the plan. *Cost:* a URL quirk.
+    - Labels under panels still compete in the declutter. *Cost:* a half-hidden label.
+    - Below 940 px the drawer sits under the header and scrolls on short viewports. *Cost:* a short drawer on landscape tablets.
+    - A Tour started from Follow ends in Orbit unless the exit key is 2. *Cost:* one key press.
