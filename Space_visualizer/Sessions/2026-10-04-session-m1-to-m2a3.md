@@ -45,6 +45,20 @@ This was one long conversation with Claude Code. It produced the design, M1, M2a
 - "for future reference the vault should have the context of our chats…": the `Sessions/` folder was started (this note).
 - "update the github pull request with the latest code" (2026-10-10): the user chose stacked PRs over folding everything into #2. `m2a2-cinematic` and `m2a3-interface` were pushed, and two PRs opened: #3 M2a.2 (base `m2a1-imagery`) and #4 M2a.3 (base `m2a2-cinematic`). The local `m2a1-imagery` was not pushed, so #2 stays M2a.1 only.
 
+### M2b brainstorming (2026-10-10)
+- "continue with the work": M2b (rich body detail) has only an outline in the M2 spec, so it went through brainstorming as architectural work.
+- **Decisions:**
+  - **Order:** data first. M2b.1 is cited data, then M2b.2 the Moon, M2b.3 the cutaway and charts, M2b.4 pins and fields, and M2b.5 chapters.
+  - **Interiors:** curated values, each with its exact source sentence, which the build checks.
+  - **Missions:** key missions only, curated and quoted.
+  - **Features:** size-filtered from the Gazetteer.
+  - **Data layout:** Option B, one details file per body loaded on demand. The user said: "if I feel the need to change it later I will tell you."
+- **Source research:**
+  - the NSSDCA per-planet fact sheets have atmosphere composition and dipole data, but none for Mars;
+  - the USGS Gazetteer offers nightly shapefiles per body;
+  - the NSSDCA mission chronologies list launch dates only, with inconsistent outcomes, and were last updated in September 2024.
+- **Spec written:** [[2026-10-10-m2b1-body-details-design]] on branch `m2b1-details`, which is stacked on `m2a3-interface`. It is awaiting the user's review.
+
 ## State at the end of the session (2026-10-08)
 - **Branches** (as of 2026-10-10, pushed as stacked PRs):
   - `m2a1-imagery` and `m2a2-cinematic` point at `ef37f2e` (M2a.1 and M2a.2);
@@ -59,4 +73,4 @@ This was one long conversation with Claude Code. It produced the design, M1, M2a
   - when to merge PRs #1–#4, in order, starting with #1;
   - whether to delete `Welcome.md`;
   - whether to add a licence.
-- **Next sections:** M2b (rich bodies: moons, Earth chapters) and M2c (Exhibit style). Inputs are in [[2026-10-05-m2a1-carry-over]].
+- **Next sections:** M2b, split into M2b.1–M2b.5 (see the M2b brainstorming above), then M2c (Exhibit style). Inputs are in [[2026-10-05-m2a1-carry-over]].

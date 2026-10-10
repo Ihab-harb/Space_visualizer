@@ -10,6 +10,7 @@ A 3D, time-accurate solar system in the browser — every fact cited to an offic
 ## Specs
 - [[2026-10-04-solar-system-visualizer-design|Design spec (2026-10-04)]] — approved
 - [[2026-10-04-m2-cinematic-and-rich-bodies-design|M2 spec: cinematic graphics and rich bodies]] — approved
+- [[2026-10-10-m2b1-body-details-design|M2b.1 spec: body details data]] — awaiting review
 
 ## Plans
 - [[2026-10-04-m1-foundation|M1 Foundation]] — complete
