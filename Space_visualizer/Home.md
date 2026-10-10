@@ -7,6 +7,8 @@ tags: [index]
 
 A 3D, time-accurate solar system in the browser — every fact cited to an official source — designed to grow to stars and galaxies.
 
+**New chat or new contributor? Read [[Start here]] first**, then the latest note in `Sessions/`.
+
 ## Specs
 - [[2026-10-04-solar-system-visualizer-design|Design spec (2026-10-04)]] — approved
 - [[2026-10-04-m2-cinematic-and-rich-bodies-design|M2 spec: cinematic graphics and rich bodies]] — approved

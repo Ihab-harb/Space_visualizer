@@ -66,6 +66,7 @@ This was one long conversation with Claude Code. It produced the design, M1, M2a
   The plan is [[2026-10-10-m2b1-body-details]]: ten tasks, with the curated interiors and missions checked against their quotes. It is awaiting review and a choice of execution method.
 - "does this step require large data download?": no. About 25–40 MB goes into the cache once and about 0.2–0.5 MB is committed. "what is the most time consuming aspect": the curation research in Tasks 5–6, then the end-to-end runs.
 - "can tasks 1 till 4 be done first and the rest later?": yes, subagent-driven. Tasks 1–4 are complete, with 631 unit tests passing and three rulings, all recorded in the plan's "Execution record". **Resume at Task 5** (curate interiors). The SDD ledger, which is git-ignored, is kept at `.superpowers/sdd/2026-10-10-m2b1-body-details/progress.md`.
+- "does the vault contain all necessary documentation … to continue from another chat?": four gaps were found. Two were fixed: [[Start here]] was added with the goals, working agreements, process, environment quirks and current state, and the M2b.1 deferred findings were copied into the carry-over note. One cannot be fixed: the M2a.1 and M2a.2 per-task rulings were lost. The last needs the user: the M2b.1 branch is not pushed yet.
 
 ## State at the end of the session (2026-10-08)
 - **Branches** (as of 2026-10-10, pushed as stacked PRs):

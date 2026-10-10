@@ -118,3 +118,33 @@ Deferred minor items from [[2026-10-07-m2a3-interface-and-tour]] (summarised fro
 - **Tour.** Exiting mid-flight pivots Orbit on the destination stop while the camera is still far. A null stop pose ends the tour instead of skipping the stop. One frame of input is dropped on exit. Reduced motion keeps the 4 degrees per second dwell rotation. Per-frame allocation in the tour path. Missing tests: mid-flight exit, start from Follow, reduced motion, a null pose. Space or Enter on the Tour button now stops the tour (fixed in the M2a.3 final review); on other focused buttons they act and also stop the tour, which is intended as user input.
 - **Phone.** Footer, sky credit and tick labels are 10 px and header actions 12 px. "Show more" always renders, with a touch target of about 22 px. `controlsOpen` stays stale after resizing wider. The layout matrix now covers 800x1000, 1024x768 and 1100x800 as well as 390x844 and 1280x720. The layout specs use fixed waits (`waitForTimeout`), and the "topmost" check uses `elementFromPoint`, which is weak. No unit test for the `--header-bottom` publish or cleanup.
 - **Housekeeping.** All goldens are recopied each section (grain-only churn). The `hotkeys.test.ts` describe title has a mangled section sign. `useHotkeys` reads tour state before checking the action. The 400 ms waits in the label e2e leave a small flake margin.
+
+## From M2b.1 (Tasks 1–4, 2026-10-10)
+
+These are minor findings from the per-task reviews, deferred for the whole-branch review after Task 10 to triage. They were copied here from the git-ignored execution ledger. Plan: [[2026-10-10-m2b1-body-details]].
+- **Details schema and checks (Task 1):**
+  - the test fixtures cite a generic fact-sheet source for Mars' missions and features;
+  - an unused `_drop` destructure in `schema.test.ts`;
+  - `validDate` relies on `Date.parse` for impossible dates; the schema's `z.iso.date()` is the real guard.
+- **Fact-sheet parser (Task 2):**
+  - reworded dipole tilt, longitude, offset, surface-field or pole lines silently become `null`; only strength and radius throw;
+  - a reworded gas line without a "(Formula)" or "Symbol - n" shape falls into the notes instead of throwing;
+  - dipole qualifiers are lost ("~0.1", "(IAU convention)", Saturn's quadrupole/octupole caveat);
+  - Mercury's column-abundance ranges are dropped by design;
+  - Uranus' magnetosphere is only asserted as not null;
+  - `planetSheetUrl(id: string)` is not typed to the planet ids;
+  - superscript conversion covers digits and ± only.
+- **Zip, dBASE and Gazetteer (Task 3):**
+  - commit `d4c023b` was made with one failing test, which `8df7755` fixed;
+  - the dBASE reader is untested for numerics with leading spaces, short buffers and the version byte;
+  - two zip tests (the ZIP64 per-entry sentinel and the cut-short stored entry) only check that some zip error is thrown, not which one;
+  - Gazetteer latitudes and diameters keep the source's float noise;
+  - a NaN latitude or longitude is not checked before the schema;
+  - an `approvedYear` of "0000" becomes 0.
+- **Quote checks (Task 4):**
+  - a lower-case word before a day number still passes ("the probe 2 August 1977" counts as 1977-08-02);
+  - "July of 1965", "July, 1965" and "summer 1965" pass the planned-launch year-only rule;
+  - safe false fails: "Launched 20 August 1977", hostnames with a trailing dot, and a range after a capitalised word ("Earth 1,650-1,675 km" gives only 1675);
+  - the 6-word minimum can be gamed;
+  - `verifyInteriors` does not check min ≤ max;
+  - the zero exemption applies to every range key.
