@@ -1,7 +1,7 @@
 ---
 title: M2b.1 Body Details Data — Design Spec
 date: 2026-10-10
-status: awaiting review
+status: approved
 amends: "[[2026-10-04-m2-cinematic-and-rich-bodies-design]]"
 milestone: M2b.1
 tags: [spec, m2b, data]
@@ -52,13 +52,14 @@ BodyDetails = {
   atmosphere: Atmosphere | null,        // null only when no source gives composition; Mercury's exosphere is recorded with a note
   magnetosphere: Magnetosphere,
   missions: Mission[],                  // date order
-  discovery: Discovery,
+  discovery: Discovery | null,         // null for Earth and the Sun
   features: Features | null,            // null: the Gazetteer has no entries for this body (Earth, the Sun, the giants)
 }
 
 InteriorLayer = {
   id: string, name: string,                         // e.g. 'outer-core', "Outer core"
   outerRadiusKm: SourcedRange, innerRadiusKm: SourcedRange,  // innermost layer has inner radius 0
+  from: 'radius' | 'depth' | 'percent',             // how the source stated it (radii, depths below the surface, or % of the radius)
   state: 'solid' | 'liquid' | 'gas' | 'plasma' | 'unknown',
   composition: { text: string, sourceId } | null,
   uncertain: boolean,
@@ -66,16 +67,17 @@ InteriorLayer = {
 SourcedRange = { min: number, max: number, sourceId }   // min === max for a single value
 
 Atmosphere = {
-  major: Gas[], minor: Gas[],                       // major as % by volume, minor as ppm
-  surfacePressureBar: SourcedValue | null,
-  meanTemperatureK: SourcedValue | null,
-  note: { text, sourceId } | null,                  // e.g. Mercury's exosphere, the giants' "no solid surface; values at 1 bar"
+  basis: string,                                    // the fact sheet's own wording, e.g. "by volume", "near surface, by volume", "photosphere"
+  major: Gas[], minor: Gas[],                       // major as %, minor as ppm
+  note: { text, sourceId } | null,                  // e.g. Mercury's exosphere
 }
+// Surface pressure and mean temperature are not repeated here; the facts table already shows them, cited.
 Gas = { name: string, formula: string, amount: number, unit: '%' | 'ppm', uncertainty: number | null, sourceId }
 
 Magnetosphere =
-  | { kind: 'none', note: { text, sourceId } }     // Venus, Mars
-  | { kind: 'dipole', strengthGaussR3: SourcedValue, tiltDeg: SourcedValue, tiltLongitudeDeg: SourcedValue | null,
+  | { kind: 'none', sourceId }                      // Venus, Mars: the Planetary Fact Sheet's "Global Magnetic Field? No"
+  | { kind: 'dipole', strengthGaussR3: SourcedValue, tiltDeg: SourcedValue | null, tiltLongitudeDeg: SourcedValue | null,
+      dipolePole: { latDeg: number, lonDegE: number, sourceId } | null,   // Earth's sheet gives the geocentric dipole pole instead of a tilt
       offsetRadii: SourcedValue | null, referenceRadiusKm: SourcedValue, surfaceFieldGauss: SourcedRange | null }
   | { kind: 'other', note: { text, sourceId } }    // the Sun: a dynamic field, described in cited text, not a dipole
 
@@ -101,7 +103,7 @@ Every `sourceId` resolves to a `Source` in the shared `public/data/solar-system/
 
 | Area | Source | Method |
 |---|---|---|
-| Atmosphere, magnetic field | NSSDCA per-planet fact sheets: `https://nssdc.gsfc.nasa.gov/planetary/factsheet/<planet>fact.html` (the Sun uses `sunfact.html`, already in use) | A new parser, `pipeline/sources/nssdcPlanetFactSheet.ts`. It reads the "Atmospheric composition" block (major %, minor ppm, uncertainties in parentheses), surface pressure, mean temperature and the magnetosphere block (dipole field strength, tilt, tilt longitude, offset, reference radius, surface field). Fetched through `fetchCached`. Tests run against stored copies of the real pages in `pipeline/fixtures/` |
+| Atmosphere, magnetic field | NSSDCA per-planet fact sheets: `https://nssdc.gsfc.nasa.gov/planetary/factsheet/<planet>fact.html` (the Sun uses `sunfact.html`, already in use) | A new parser, `pipeline/sources/nssdcPlanetFactSheet.ts`. It reads the "Atmospheric composition" block (basis, major %, minor ppm, uncertainties in parentheses) and the magnetosphere block (dipole field strength, tilt, tilt longitude, geocentric dipole pole, offset, reference radius, surface field). The Sun's photosphere composition and typical field strengths come from `sunfact.html`. Fetched through `fetchCached`. Tests run against stored copies of the real pages in `pipeline/fixtures/` |
 | Named features | USGS Gazetteer of Planetary Nomenclature, nightly per-body shapefiles: `https://asc-planetarynames-data.s3.us-west-2.amazonaws.com/<TARGET>_nomenclature_center_pts.zip` (MERCURY, VENUS and MARS now; MOON in M2b.2) | A small built-in reader for the `.dbf` table inside the zip, with no new dependency. It keeps approved features (status "adopted"), drops dropped and never-approved ones, sorts by diameter and keeps the top 200, recording the cut-off diameter as `thresholdKm`. Coordinates are planetocentric latitude and east longitude, per the Gazetteer. The real column names are checked against the downloaded file when the plan is written |
 | Interior layers | NASA Science planet pages, the NSSDCA fact sheets (core radius, with footnotes), and NASA or USGS mission science pages | A curated file, `pipeline/reference/interiors.json`. Each value has `{ value or min/max, url, quote }`, and the build checks the quote (below) |
 | Key missions, discovery | NASA mission pages, the NSSDCA Master Catalog spacecraft pages, and NASA Science discovery text | A curated file, `pipeline/reference/missions.json`, in the same shape and with the same quote check |
@@ -125,8 +127,8 @@ Every `sourceId` resolves to a `Source` in the shared `public/data/solar-system/
 - **Loading:** `src/state/detailsStore.ts` (Zustand) tracks the status of each body: `idle | loading | ready | missing | error`. The first selection of a body starts `fetch(details/<id>.json)` and validates the result with the schema. The store caches results, so repeat selections reuse them. A failure never affects the scene, the header facts or the existing drawer sections. Only the new sections show "Details unavailable", with a Retry button.
 - **Drawer** (`FactsDrawer`): new sections below the current facts, each with a heading anchor (`#details-interior` and so on), and every value cited.
   - **Interior:** layers from the outside in, with radius or depth (a range where sources disagree), state, and an "uncertain" tag.
-  - **Atmosphere:** major gases (%), minor gases (ppm), surface pressure, mean temperature and the note.
-  - **Magnetic field:** a dipole table (strength, tilt, offset), or the cited "no global field" or "other" text.
+  - **Atmosphere:** the basis, major gases (%), minor gases (ppm) and the note.
+  - **Magnetic field:** a dipole table (strength, tilt, offset), or "No global magnetic field" (cited to the Planetary Fact Sheet), or the Sun's typical field strengths.
   - **Key missions:** in date order, with launch and arrival dates and type and outcome tags.
   - **Discovery:** one line.
   - **Named features:** the 10 largest, then "Showing 10 of N approved features (≥ X km)".
