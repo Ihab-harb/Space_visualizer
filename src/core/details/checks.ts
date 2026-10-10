@@ -16,6 +16,9 @@ export function checkDetails(details: BodyDetails, ctx: { radiusKm: number; know
     if (layer.innerRadiusKm.min > layer.outerRadiusKm.max + EPS) errors.push(`${p} interior ${layer.id} inner radius above outer radius`);
     const next = layers[i + 1];
     if (next && next.outerRadiusKm.min > layer.outerRadiusKm.max + EPS) errors.push(`${p} interior layers out of order at ${layer.id} -> ${next.id} (outside in)`);
+    if (next && (layer.innerRadiusKm.min > next.outerRadiusKm.max + EPS || next.outerRadiusKm.min > layer.innerRadiusKm.max + EPS)) {
+      errors.push(`${p} interior gap or overlap between ${layer.id} and ${next.id} (inner ${layer.innerRadiusKm.min}–${layer.innerRadiusKm.max} km vs outer ${next.outerRadiusKm.min}–${next.outerRadiusKm.max} km)`);
+    }
   });
   const innermost = layers.at(-1);
   if (innermost && innermost.innerRadiusKm.max > EPS) errors.push(`${p} innermost layer ${innermost.id} must have inner radius 0`);
@@ -27,7 +30,8 @@ export function checkDetails(details: BodyDetails, ctx: { radiusKm: number; know
   }
   const f = details.features;
   if (f) {
-    if (f.items.length > 200 || f.items.length > f.totalApproved.value) errors.push(`${p} ${f.items.length} features exceeds the 200 cap or the approved total`);
+    if (f.items.length > 200) errors.push(`${p} ${f.items.length} features exceeds the 200 cap`);
+    if (f.items.length > f.totalApproved.value) errors.push(`${p} ${f.items.length} features exceeds the approved total ${f.totalApproved.value}`);
     for (const it of f.items) {
       if (it.latDeg < -90 || it.latDeg > 90) errors.push(`${p} feature ${it.name} latitude ${it.latDeg} outside [-90, 90]`);
       if (it.lonDegE < 0 || it.lonDegE >= 360) errors.push(`${p} feature ${it.name} longitude ${it.lonDegE} outside [0, 360)`);

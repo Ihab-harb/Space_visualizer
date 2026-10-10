@@ -18,6 +18,12 @@ export function makeMarsDetails(): BodyDetails {
           from: 'radius', state: 'solid', composition: null, uncertain: false,
         },
         {
+          id: 'mantle', name: 'Mantle',
+          outerRadiusKm: { min: 3339.5, max: 3339.5, sourceId: PS },
+          innerRadiusKm: { min: 1830, max: 1830, sourceId: PS },
+          from: 'radius', state: 'solid', composition: null, uncertain: false,
+        },
+        {
           id: 'core', name: 'Core',
           outerRadiusKm: { min: 1830, max: 1830, sourceId: PS },
           innerRadiusKm: { min: 0, max: 0, sourceId: PS },

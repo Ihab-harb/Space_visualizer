@@ -13,4 +13,11 @@ describe('BodyDetailsSchema', () => {
     const { sourceId: _drop, ...noSource } = m.missions[0]!;
     expect(BodyDetailsSchema.safeParse({ ...m, missions: [noSource] }).success).toBe(false);
   });
+  it('rejects a range with min above max and an empty interior layers array', () => {
+    const m = makeMarsDetails();
+    const layer = m.interior!.layers[0]!;
+    const bad = { ...layer, outerRadiusKm: { ...layer.outerRadiusKm, min: 10, max: 5 } };
+    expect(BodyDetailsSchema.safeParse({ ...m, interior: { layers: [bad] } }).success).toBe(false);
+    expect(BodyDetailsSchema.safeParse({ ...m, interior: { layers: [] } }).success).toBe(false);
+  });
 });
