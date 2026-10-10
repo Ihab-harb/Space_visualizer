@@ -1,6 +1,7 @@
-import { useEffect, useRef, useState } from 'react';
+import { createContext, useCallback, useContext, useEffect, useRef, useState } from 'react';
 import { LinearFilter, LinearMipmapLinearFilter, NoColorSpace, RepeatWrapping, SRGBColorSpace, TextureLoader, type Texture } from 'three';
 import { TIERS, type TextureRef, type Tier } from '../../core/catalog/schema';
+import { availableRef } from './availableTiers';
 
 export interface TextureLoaderLike {
   loadAsync(url: string): Promise<Texture>;
@@ -85,6 +86,9 @@ export class TextureCache {
   }
 }
 
+/** Lets tests supply their own cache; null means the shared app-wide cache. */
+export const TextureCacheContext = createContext<TextureCache | null>(null);
+
 let sharedCache: TextureCache | null = null;
 const getSharedCache = (): TextureCache => (sharedCache ??= new TextureCache(new TextureLoader()));
 
@@ -118,7 +122,9 @@ async function tryLoad(loader: TextureLoaderLike, url: string): Promise<Texture 
 
 /**
  * Lowest tier first for a fast first paint, then the highest tier that loads (missing local HD tiers fall back).
- * isCancelled is checked before each load and after it; a cancelled result is released, never shown.
+ * With skipFirstPaint (the consumer already shows a texture, so a tier change), only the highest tier that loads is
+ * shown, falling back downward. isCancelled is checked before each load and after it; a cancelled result is released,
+ * never shown.
  */
 export async function loadBestTier(
   ref: TextureRef,
@@ -127,6 +133,7 @@ export async function loadBestTier(
   loader: TextureLoaderLike,
   onTexture: (t: Texture, tier: Tier) => void,
   isCancelled: () => boolean = () => false,
+  options: { skipFirstPaint?: boolean } = {},
 ): Promise<Tier | null> {
   const chain = tierChain(ref, maxTier);
   const attempt = async (tier: Tier): Promise<boolean> => {
@@ -142,6 +149,10 @@ export async function loadBestTier(
     onTexture(t, tier);
     return true;
   };
+  if (options.skipFirstPaint) {
+    for (let i = chain.length - 1; i >= 0 && !isCancelled(); i--) if (await attempt(chain[i]!)) return chain[i]!;
+    return null;
+  }
   let shownIndex = -1;
   for (let i = 0; i < chain.length && shownIndex < 0 && !isCancelled(); i++) {
     if (await attempt(chain[i]!)) shownIndex = i;
@@ -154,43 +165,58 @@ export async function loadBestTier(
 }
 
 export function useTieredTexture(ref: TextureRef | undefined, opts: { maxTier: Tier; srgb: boolean; mipmaps?: boolean }): Texture | null {
+  const cache = useContext(TextureCacheContext) ?? getSharedCache();
   const [texture, setTexture] = useState<Texture | null>(null);
-  const owned = useRef(new Set<Texture>());
+  /** How many times this consumer acquired each texture from the cache. */
+  const owned = useRef(new Map<Texture, number>());
+  /** The ref whose texture this consumer last received (it stays on screen until a replacement commits). */
+  const shownFor = useRef<TextureRef | null>(null);
 
-  // Release a texture only once React has committed its replacement (or null), so the renderer never draws a released one.
-  useEffect(() => {
-    for (const t of [...owned.current]) {
-      if (t === texture) continue;
+  const releaseAll = useCallback(
+    (t: Texture) => {
+      const n = owned.current.get(t) ?? 0;
       owned.current.delete(t);
-      getSharedCache().release(t);
-    }
-  }, [texture]);
+      for (let i = 0; i < n; i++) cache.release(t);
+    },
+    [cache],
+  );
+
+  // Release textures only after React has committed their replacement (or null), so nothing on screen is released.
   useEffect(() => {
-    const held = owned.current;
-    return () => {
-      for (const t of held) getSharedCache().release(t);
-      held.clear();
-    };
-  }, []);
+    for (const t of [...owned.current.keys()]) if (t !== texture) releaseAll(t);
+  }, [texture, releaseAll]);
+  useEffect(
+    () => () => {
+      for (const t of [...owned.current.keys()]) releaseAll(t);
+    },
+    [releaseAll],
+  );
 
   useEffect(() => {
-    if (!ref) return;
+    if (!ref) {
+      shownFor.current = null;
+      setTexture(null);
+      return;
+    }
     let cancelled = false;
+    // A tier change for the image already on screen skips the lowest-tier first paint (no 4k -> 1k -> 2k flash).
+    const skipFirstPaint = shownFor.current === ref;
     void loadBestTier(
-      ref,
+      availableRef(ref),
       opts.maxTier,
       import.meta.env.BASE_URL,
-      getSharedCache().loaderFor({ srgb: opts.srgb, mipmaps: opts.mipmaps }),
+      cache.loaderFor({ srgb: opts.srgb, mipmaps: opts.mipmaps }),
       (t) => {
-        owned.current.add(t);
+        owned.current.set(t, (owned.current.get(t) ?? 0) + 1);
+        shownFor.current = ref;
         setTexture(t);
       },
       () => cancelled,
+      { skipFirstPaint },
     );
     return () => {
-      cancelled = true;
-      setTexture(null);
+      cancelled = true; // the current texture stays on screen until a replacement arrives
     };
-  }, [ref, opts.maxTier, opts.srgb, opts.mipmaps]);
+  }, [ref, opts.maxTier, opts.srgb, opts.mipmaps, cache]);
   return texture;
 }

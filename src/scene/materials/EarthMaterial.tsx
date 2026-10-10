@@ -1,9 +1,10 @@
 import { useEffect, useMemo } from 'react';
 import type { Body } from '../../core/catalog/schema';
-import { useViewStore } from '../../state/viewStore';
+import { useMaxTier } from '../../render/useMaxTier';
 import { useTieredTexture } from '../textures/useTieredTexture';
 import { FRAG_OUTRO } from './chunks';
 import { createBodyMaterial } from './createBodyMaterial';
+import { CLOUD_SHADOW_DARKNESS, CLOUD_SHADOW_OFFSET, GLINT_ROUGHNESS, GLINT_STRENGTH } from './illustrative';
 import { useBodyUniforms } from './useBodyUniforms';
 
 /** Illustrative cloud drift: u offset per simulation day. */
@@ -30,16 +31,17 @@ void main() {
   // Soft terminator; sunlight reddens at grazing angles.
   float day = smoothstep(-0.10, 0.12, geo);
   vec3 sunColor = mix(vec3(1.0, 0.42, 0.18), vec3(1.0), smoothstep(0.0, 0.35, geo));
-  // Cloud shadow: sample the cloud layer offset toward the Sun.
+  // Cloud shadow: sample the cloud layer offset toward the Sun. u spans 360 degrees and v 180, so the same ground distance
+  // needs half the u offset, divided by cos(latitude) as meridians converge.
   vec3 east = normalize(vec3(-n.y, n.x, 0.0) + vec3(1e-5, 0.0, 0.0));
   vec3 north = cross(n, east);
   vec2 drift = vec2(uSimDays * uCloudDrift, 0.0);
   float cloudHere = texture2D(uCloudMap, vUv - drift).r;
-  float cloudShadow = texture2D(uCloudMap, vUv - drift + vec2(dot(l, east), dot(l, north)) * 0.0025).r;
+  float cloudShadow = texture2D(uCloudMap, vUv - drift + vec2(0.5 * dot(l, east) / max(length(n.xy), 0.2), dot(l, north)) * ${CLOUD_SHADOW_OFFSET.toFixed(4)}).r;
   float shade = eclipseFactor(s);
-  vec3 diffuse = dayColor * max(dot(nb, l), 0.0) * day * sunColor * (1.0 - 0.45 * cloudShadow) * uSunIntensity * shade;
+  vec3 diffuse = dayColor * max(dot(nb, l), 0.0) * day * sunColor * (1.0 - ${CLOUD_SHADOW_DARKNESS.toFixed(4)} * cloudShadow) * uSunIntensity * shade;
   // Sun glint on water only (GGX).
-  float spec = ocean * ggx(n, v, l, 0.35) * max(geo, 0.0) * 0.06 * (1.0 - cloudHere);
+  float spec = ocean * ggx(n, v, l, ${GLINT_ROUGHNESS.toFixed(4)}) * max(geo, 0.0) * ${GLINT_STRENGTH.toFixed(4)} * (1.0 - cloudHere);
   // City lights on the night side, fading toward the terminator and under clouds.
   float night = 1.0 - smoothstep(-0.18, 0.06, geo);
   vec3 lights = texture2D(uNightMap, vUv).rgb * night * (1.0 - 0.7 * cloudHere) * vec3(1.0, 0.8, 0.55) * 1.4;
@@ -49,7 +51,7 @@ void main() {
 }`;
 
 export function EarthMaterial({ body, bodies }: { body: Body; bodies: readonly Body[] }) {
-  const tier = useViewStore((s) => s.textureTier);
+  const tier = useMaxTier();
   const day = useTieredTexture(body.imagery?.color, { maxTier: tier, srgb: true });
   const night = useTieredTexture(body.imagery?.night, { maxTier: tier, srgb: true });
   const clouds = useTieredTexture(body.imagery?.clouds, { maxTier: tier, srgb: false });

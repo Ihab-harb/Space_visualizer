@@ -124,7 +124,8 @@ button[aria-pressed='true'] {
 
 /* Info panel */
 .info-panel {
-  top: 84px;
+  /* Below the top bar, which publishes its bottom edge (TopBar.tsx); it grows when its controls wrap. */
+  top: calc(var(--top-bar-bottom, 84px) + 8px);
   right: var(--gutter);
   bottom: 150px;
   width: min(380px, calc(100% - 2 * var(--gutter)));
@@ -369,7 +370,7 @@ button[aria-pressed='true'] {
 @media (max-width: 720px) {
   .sky-credit {
     bottom: auto;
-    top: 128px;
+    top: calc(var(--top-bar-bottom, 128px) + 8px);
     max-width: calc(100% - 2 * var(--gutter));
   }
 }

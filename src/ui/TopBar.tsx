@@ -1,5 +1,13 @@
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
+import { useRenderStore } from '../state/renderStore';
 import { useViewStore } from '../state/viewStore';
+import type { QualityLevel, QualityMode } from '../render/quality';
+
+const MODE_LABEL: Record<QualityMode, string> = { auto: 'Auto', high: 'High', medium: 'Medium', low: 'Low' };
+const LEVEL_LABEL: Record<QualityLevel, string> = { high: 'High', medium: 'Medium', low: 'Low' };
+
+/** CSS custom property other panels use to sit below the bar, whose height grows when its controls wrap. */
+export const TOP_BAR_BOTTOM_VAR = '--top-bar-bottom';
 
 const isTyping = (target: EventTarget | null) =>
   target instanceof HTMLElement && (['INPUT', 'SELECT', 'TEXTAREA'].includes(target.tagName) || target.isContentEditable);
@@ -11,19 +19,46 @@ export function TopBar() {
   const toggleCoRotate = useViewStore((s) => s.toggleCoRotate);
   const scaleMode = useViewStore((s) => s.scaleMode);
   const setScaleMode = useViewStore((s) => s.setScaleMode);
+  const mode = useRenderStore((s) => s.mode);
+  const level = useRenderStore((s) => s.level);
+  const setMode = useRenderStore((s) => s.setMode);
+  const effects = useRenderStore((s) => s.effects);
+  const toggleEffects = useRenderStore((s) => s.toggleEffects);
+
+  // Publish the bar's bottom edge so the info panel and the phone sky credit sit below it however its controls wrap.
+  const barRef = useRef<HTMLElement>(null);
+  useEffect(() => {
+    const bar = barRef.current;
+    if (!bar) return;
+    const root = document.documentElement.style;
+    const publish = () => root.setProperty(TOP_BAR_BOTTOM_VAR, `${Math.round(bar.getBoundingClientRect().bottom)}px`);
+    publish();
+    const observer = typeof ResizeObserver === 'undefined' ? null : new ResizeObserver(publish);
+    observer?.observe(bar);
+    return () => {
+      observer?.disconnect();
+      root.removeProperty(TOP_BAR_BOTTOM_VAR);
+    };
+  }, []);
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
       if (isTyping(e.target)) return;
       if (e.key === '1' || e.key === 'Escape') setView('orbit');
       else if (e.key === '2') setView('follow');
+      else if (e.key === 'q' || e.key === 'Q' || e.key === 'e' || e.key === 'E') {
+        // Browser shortcuts (Ctrl+Q, Cmd+E...) are not ours, and auto-repeat would rebuild the composer every few ms.
+        if (e.ctrlKey || e.metaKey || e.altKey || e.repeat) return;
+        if (e.key === 'q' || e.key === 'Q') useRenderStore.getState().cycleMode();
+        else useRenderStore.getState().toggleEffects();
+      }
     };
     window.addEventListener('keydown', onKey);
     return () => window.removeEventListener('keydown', onKey);
   }, [setView]);
 
   return (
-    <header className="panel top-bar">
+    <header ref={barRef} className="panel top-bar">
       <h1 className="top-bar__title">Solar System</h1>
       <div className="segmented" role="group" aria-label="Camera view">
         <button type="button" aria-pressed={view === 'orbit'} onClick={() => setView('orbit')} title="Rotate, zoom and pan around a point (key 1)">
@@ -47,7 +82,18 @@ export function TopBar() {
           True scale
         </button>
       </div>
-      <p className="top-bar__hint">Drag to rotate · right-drag or Shift-drag to pan · scroll to zoom · double-click a body to centre it</p>
+      <div className="segmented" role="group" aria-label="Quality">
+        {(['auto', 'high', 'medium', 'low'] as const).map((m) => (
+          <button key={m} type="button" aria-pressed={mode === m} onClick={() => setMode(m)} title="Rendering quality; Auto adapts to your frame rate (key Q cycles)">
+            {m === 'auto' && mode === 'auto' ? `Auto · ${LEVEL_LABEL[level]}` : MODE_LABEL[m]}
+          </button>
+        ))}
+      </div>
+      <label className="toggle" title="Bloom stays on; god rays, lens flare, depth of field, grain and the other camera effects switch off (key E)">
+        <input type="checkbox" checked={effects} onChange={toggleEffects} />
+        Camera effects
+      </label>
+      <p className="top-bar__hint">Drag to rotate · right-drag or Shift-drag to pan · scroll to zoom · double-click a body to centre it · Q quality · E camera effects</p>
     </header>
   );
 }

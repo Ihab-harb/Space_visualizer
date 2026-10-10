@@ -1,6 +1,8 @@
 import { useEffect, useMemo } from 'react';
 import { AdditiveBlending, SphereGeometry, Vector3 } from 'three';
 import type { Body } from '../../core/catalog/schema';
+import { PRESETS } from '../../render/quality';
+import { useRenderStore } from '../../state/renderStore';
 import { FRAG_OUTRO } from './chunks';
 import { createBodyMaterial } from './createBodyMaterial';
 import { useBodyUniforms } from './useBodyUniforms';
@@ -16,9 +18,13 @@ export interface AtmospherePreset {
   intensity: number;
 }
 
-/** Earth: O'Neil's defaults. Mars and Venus: illustrative tints (a shorter "wavelength" scatters more of that colour). */
+/**
+ * Earth: O'Neil's defaults, with an illustrative output intensity of 0.45 (M2a.2 Task 9, Decision 0007): at 1.0 the limb
+ * crossed the anamorphic-streak threshold and was smeared across the disc. Mars and Venus: illustrative tints (a shorter
+ * "wavelength" scatters more of that colour).
+ */
 export const ATMOSPHERE_PRESETS: Record<'earth' | 'mars' | 'venus', AtmospherePreset> = {
-  earth: { outer: 1.025, wavelength: [0.65, 0.57, 0.475], kr: 0.0025, km: 0.001, eSun: 20, g: -0.95, scaleDepth: 0.25, intensity: 1.0 },
+  earth: { outer: 1.025, wavelength: [0.65, 0.57, 0.475], kr: 0.0025, km: 0.001, eSun: 20, g: -0.95, scaleDepth: 0.25, intensity: 0.45 },
   mars: { outer: 1.015, wavelength: [0.5, 0.58, 0.68], kr: 0.0015, km: 0.0035, eSun: 12, g: -0.85, scaleDepth: 0.25, intensity: 0.3 },
   venus: { outer: 1.035, wavelength: [0.55, 0.6, 0.75], kr: 0.003, km: 0.006, eSun: 18, g: -0.9, scaleDepth: 0.3, intensity: 0.9 },
 };
@@ -124,6 +130,10 @@ export function AtmosphereShell({ body, bodies }: { body: Body; bodies: readonly
       depthWrite: false,
     });
   }, [preset]);
+  const samples = useRenderStore((s) => PRESETS[s.level].atmosphereSamples);
+  useEffect(() => {
+    material.uniforms.uSamples!.value = samples;
+  }, [material, samples]);
   useEffect(() => () => geometry.dispose(), [geometry]);
   useEffect(() => () => material.dispose(), [material]);
   useBodyUniforms(body, [material], bodies);
