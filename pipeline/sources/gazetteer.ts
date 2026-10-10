@@ -28,7 +28,7 @@ export function selectFeatures(rows: Array<Record<string, string>>, sourceId: st
         name: (r.clean_name || r.name || '').trim(),
         type: (r.type ?? '').split(',')[0].trim(),
         latDeg: Number(r.center_lat),
-        lonDegE: ((lon % 360) + 360) % 360,
+        lonDegE: lon >= 0 && lon < 360 ? lon : ((lon % 360) + 360) % 360,
         diameterKm: Number(r.diameter),
         origin: (r.origin ?? '').trim(),
         approvedYear: year ? Number(year[0]) : null,
