@@ -18,7 +18,7 @@ A 3D, time-accurate solar system in the browser — every fact cited to an offic
 - [[2026-10-05-m2a1-carry-over|M2a.1 carry-over items]] — open (M2a.3 items done; M2b and M2c items remain)
 - [[2026-10-05-m2a2-cinematic-effects-and-quality|M2a.2 Cinematic effects and adaptive quality]] — complete
 - [[2026-10-07-m2a3-interface-and-tour|M2a.3 Interface redesign, Tour and Venus radar]] — complete
-- [[2026-10-10-m2b1-body-details|M2b.1 Body details data]] — awaiting review
+- [[2026-10-10-m2b1-body-details|M2b.1 Body details data]] — in progress (Tasks 1–4 done)
 
 ## Architecture
 - [[Overview]]

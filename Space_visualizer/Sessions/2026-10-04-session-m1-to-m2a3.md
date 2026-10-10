@@ -64,6 +64,8 @@ This was one long conversation with Claude Code. It produced the design, M1, M2a
   - Earth's field is given as a dipole pole, and layers can be stated as depths or as a percentage of the radius.
 
   The plan is [[2026-10-10-m2b1-body-details]]: ten tasks, with the curated interiors and missions checked against their quotes. It is awaiting review and a choice of execution method.
+- "does this step require large data download?": no. About 25–40 MB goes into the cache once and about 0.2–0.5 MB is committed. "what is the most time consuming aspect": the curation research in Tasks 5–6, then the end-to-end runs.
+- "can tasks 1 till 4 be done first and the rest later?": yes, subagent-driven. Tasks 1–4 are complete, with 631 unit tests passing and three rulings, all recorded in the plan's "Execution record". **Resume at Task 5** (curate interiors). The SDD ledger, which is git-ignored, is kept at `.superpowers/sdd/2026-10-10-m2b1-body-details/progress.md`.
 
 ## State at the end of the session (2026-10-08)
 - **Branches** (as of 2026-10-10, pushed as stacked PRs):

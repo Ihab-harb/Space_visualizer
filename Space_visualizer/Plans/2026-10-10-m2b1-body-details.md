@@ -1,7 +1,7 @@
 ---
 title: M2b.1 Body Details Data — Implementation Plan
 date: 2026-10-10
-status: awaiting review
+status: in progress (Tasks 1–4 complete; resume at Task 5)
 milestone: M2b.1
 tags: [plan, m2b, data]
 ---
@@ -1182,3 +1182,27 @@ Expected: all PASS.
 git add -A e2e README.md docs Space_visualizer
 git commit -m "docs: M2b.1 body details documentation, screenshots and e2e coverage" -m "Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>"
 ```
+
+---
+
+## Execution record
+
+### Part 1: Tasks 1–4 (2026-10-10)
+The work ran subagent-driven, with one implementer and one reviewer per task. The user asked for Tasks 1–4 first; Tasks 5–10 follow in a later session, starting at Task 5. The whole-branch review runs after Task 10. On commit `0affc51`, 631 unit tests pass and typecheck is clean. No end-to-end tests were needed, because the app is unchanged.
+
+| Task | Result | Commits |
+|---|---|---|
+| 1 Schema and checks | Review: the layer gap and overlap check was missing, and several §5 rules had no failing test. Both fixed in round 1 | `b681b1a..14320a9` |
+| 2 Fact-sheet parser | All nine bodies parse exactly. Review: Mercury's basis read "106 per cm2"; fixed in round 1 to "10⁶ per cm²" | `14320a9..d1b43c4` |
+| 3 Zip, dBASE and Gazetteer | Real data: Mercury 614 approved features (cut-off 143 km), Venus 1985 (906 km), Mars 2052 (499.3 km). Review: no bounds or ZIP64 checks; fixed in round 1 | `d1b43c4..c9a06f3` |
+| 4 Quote checks | Review probes found four false-pass paths: a mission number read as the day, km² counted as km, range leaks, and a month-year passing as 1 January. All fixed in round 1, together with an official-host gate and a minimum quote length. Round 2 restored test assertions that were not running | `c9a06f3..0affc51` |
+
+**Rulings made so far** (each ends with what it costs if wrong):
+1. **Task 1:** consecutive interior layers must touch; one layer's inner radius range must intersect the next layer's outer radius range (spec §5, "without gaps or overlaps"). The Mars fixture gained a mantle. *Cost:* curated layers with a real gap fail the build until a range is widened or a source is added. That is intended.
+2. **Task 2:** superscripts in fact sheets render as Unicode, so 10⁶ no longer reads as 106. Subscripts stay as plain ASCII, so formulas read CO2. *Cost:* basis text shows superscript characters instead of plain text.
+3. **Task 4:** curated sources must come from an official host (nasa.gov, usgs.gov, esa.int, jaxa.jp, isro.gov.in or cnsa.gov.cn, including subdomains), and quotes need at least 6 words. *Cost:* an official host missing from the list needs a one-line addition, and a very short genuine sentence needs a longer excerpt.
+
+**Deferred minor findings** so far are recorded in the execution ledger. The final review will triage them. They include:
+- the parser silently turns some reworded dipole lines into null;
+- a lower-case word before a day number still passes the date check;
+- some safe false fails in the quote checks.
