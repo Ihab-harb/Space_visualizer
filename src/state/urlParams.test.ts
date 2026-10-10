@@ -26,6 +26,16 @@ describe('parseUrlOverrides', () => {
 });
 
 describe('quality and effects parameters', () => {  it('reads quality and camera-effects parameters', () => {    expect(parseUrlOverrides('?quality=low&fx=0')).toEqual({ quality: 'low', effects: false });    expect(parseUrlOverrides('?quality=ultra&fx=2')).toEqual({});  });});
+describe('radar parameter', () => {
+  it('reads radar=1 and applies it to the view store', () => {
+    expect(parseUrlOverrides('?radar=1')).toEqual({ venusRadar: true });
+    expect(parseUrlOverrides('?radar=0')).toEqual({});
+    useViewStore.setState({ venusRadar: false });
+    applyUrlOverrides({ venusRadar: true }, catalog);
+    expect(useViewStore.getState().venusRadar).toBe(true);
+    useViewStore.setState({ venusRadar: false });
+  });
+});
 describe('applyUrlOverrides', () => {
   beforeEach(() => useViewStore.setState({ cameraOverride: null, textureTierOverride: null }));
   it('sets time, selection, texture tier and a camera override', () => {

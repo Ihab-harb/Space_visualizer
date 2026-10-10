@@ -24,6 +24,25 @@ export function argmaxLonLat(values: ArrayLike<number>, width: number, height: n
   return { lonDeg: ((x + 0.5) / width) * 360 - 180, latDeg: 90 - ((y + 0.5) / height) * 180, value: values[best]! };
 }
 
+/** Mean of the pixels whose centres lie inside the lon/lat box (edges inclusive) of an equirectangular grid spanning -180..180 E, 90..-90 N. */
+export function meanInBox(values: ArrayLike<number>, width: number, height: number, box: { lonMin: number; lonMax: number; latMin: number; latMax: number }): number {
+  const eps = 1e-9;
+  let sum = 0;
+  let n = 0;
+  for (let y = 0; y < height; y++) {
+    const lat = 90 - ((y + 0.5) / height) * 180;
+    if (lat < box.latMin - eps || lat > box.latMax + eps) continue;
+    for (let x = 0; x < width; x++) {
+      const lon = ((x + 0.5) / width) * 360 - 180;
+      if (lon < box.lonMin - eps || lon > box.lonMax + eps) continue;
+      sum += values[y * width + x]!;
+      n++;
+    }
+  }
+  if (n === 0) throw new Error('meanInBox: the box contains no pixel centres');
+  return sum / n;
+}
+
 export function rangeOf(values: ArrayLike<number>): { min: number; max: number } {
   let min = Infinity;
   let max = -Infinity;

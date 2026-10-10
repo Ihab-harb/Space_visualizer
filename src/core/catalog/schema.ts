@@ -106,6 +106,7 @@ export const ImagerySchema = z.object({
   night: TextureRefSchema.optional(),
   clouds: TextureRefSchema.optional(),
   specular: TextureRefSchema.optional(),
+  radar: TextureRefSchema.optional(),
   rings: z.object({ texture: TextureRefSchema, innerKm: SourcedValueSchema, outerKm: SourcedValueSchema }).optional(),
 });
 

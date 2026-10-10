@@ -1,6 +1,9 @@
 import { useFrame } from '@react-three/fiber';
 import { useEffect, useMemo } from 'react';
 import type { Body } from '../../core/catalog/schema';
+import { useMaxTier } from '../../render/useMaxTier';
+import { useViewStore } from '../../state/viewStore';
+import { useTieredTexture } from '../textures/useTieredTexture';
 import { useFrameState } from '../FrameStateContext';
 import { FRAG_OUTRO } from './chunks';
 import { createBodyMaterial } from './createBodyMaterial';
@@ -9,10 +12,20 @@ import { useBodyUniforms } from './useBodyUniforms';
 
 const FRAGMENT = /* glsl */ `
 uniform float uCloudAngle;
+uniform sampler2D uRadarMap;
+uniform float uRadar;
 void main() {
   vec3 s = surfacePoint(vUnit);
   vec3 n = surfaceNormal(vUnit);
   vec3 v = normalize(uCamObj - s);
+  if (uRadar > 0.5) {
+    vec3 radar = texture2D(uRadarMap, vUv).rgb;
+    float geoR = dot(n, uSunDirObj);
+    float lit = smoothstep(-0.06, 0.25, geoR) * max(geoR, 0.0);
+    vec3 rc = max(radar * lit * uSunIntensity * eclipseFactor(s) + cinematicFill(radar, n, v), vec3(0.0));
+    if (!(rc.r >= 0.0 && rc.g >= 0.0 && rc.b >= 0.0)) rc = vec3(0.0);
+    gl_FragColor = vec4(rc, 1.0);
+  } else {
   float c = cos(uCloudAngle);
   float sn = sin(uCloudAngle);
   vec3 q = vec3(c * vUnit.x - sn * vUnit.y, sn * vUnit.x + c * vUnit.y, vUnit.z);
@@ -26,13 +39,19 @@ void main() {
   color = max(color, vec3(0.0));
   if (!(color.r >= 0.0 && color.g >= 0.0 && color.b >= 0.0)) color = vec3(0.0);
   gl_FragColor = vec4(color, 1.0);
+  }
   ${FRAG_OUTRO}
 }`;
 
 export function VenusMaterial({ body, bodies }: { body: Body; bodies: readonly Body[] }) {
   const frame = useFrameState();
-  const material = useMemo(() => createBodyMaterial({ fragment: FRAGMENT, uniforms: { uCloudAngle: { value: 0 } } }), []);
+  const tier = useMaxTier();
+  const venusRadar = useViewStore((s) => s.venusRadar);
+  const radar = useTieredTexture(venusRadar ? body.imagery?.radar : undefined, { maxTier: tier, srgb: true });
+  const material = useMemo(() => createBodyMaterial({ fragment: FRAGMENT, uniforms: { uCloudAngle: { value: 0 }, uRadarMap: { value: null }, uRadar: { value: 0 } } }), []);
   useEffect(() => () => material.dispose(), [material]);
+  material.uniforms.uRadarMap!.value = radar;
+  material.uniforms.uRadar!.value = venusRadar && radar ? 1 : 0;
   useBodyUniforms(body, [material], bodies);
   useFrame(() => {
     material.uniforms.uCloudAngle!.value = venusCloudAngle(frame.jdTdb);

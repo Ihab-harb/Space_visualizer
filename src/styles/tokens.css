@@ -1,17 +1,31 @@
 :root {
   color-scheme: dark;
   --bg: #03050b;
-  --panel: rgba(10, 14, 26, 0.84);
-  --panel-border: rgba(140, 170, 230, 0.16);
-  --text: #e7ebf3;
-  --text-muted: #8d97ad;
-  --accent: #7cc4ff;
-  --accent-soft: rgba(124, 196, 255, 0.16);
+  --glass: rgba(10, 14, 26, 0.62);
+  --glass-strong: rgba(8, 11, 21, 0.86);
+  --hairline: rgba(170, 200, 255, 0.14);
+  --panel: var(--glass-strong);
+  --panel-border: var(--hairline);
+  --text: #e9edf5;
+  --text-muted: #8f99b0;
+  --accent: #5ad1ff;
+  --accent-soft: rgba(90, 209, 255, 0.16);
   --warning: #ffb454;
   --danger: #ff7a7a;
+  --shadow: 0 10px 40px rgba(0, 0, 0, 0.45);
   --font-ui: 'Inter Variable', system-ui, -apple-system, 'Segoe UI', sans-serif;
   --font-mono: 'JetBrains Mono', ui-monospace, 'Cascadia Mono', monospace;
   --radius: 10px;
+  --radius-lg: 16px;
   --gap: 12px;
   --gutter: 16px;
+  --ease: cubic-bezier(0.22, 1, 0.36, 1);
+  --dur-fast: 150ms;
+  --dur: 260ms;
+}
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --dur-fast: 0ms;
+    --dur: 0ms;
+  }
 }

@@ -74,3 +74,20 @@ Back to [[Home]]
   - Q and E ignore modifier keys and auto-repeat.
   - God-ray masking by bodies was traced to the composer's `autoClear` and left for a ruling.
   - Details in [[render]].
+
+## 2026-10-07 — M2a.3 plan written
+- Implementation plan: [[2026-10-07-m2a3-interface-and-tour]], awaiting review. Twelve tasks:
+  - the two M2a.2 residuals first: Auto dropping to Low on start-up hitches, and god rays not masked by bodies;
+  - the spec §4 interface: header with cited chips and narrative, glass control panel, facts & sources drawer, bottom bar with timeline and Tour, decluttered pill labels;
+  - Tour mode (spec §5);
+  - the Venus Magellan radar view (USGS C3-MDIR mosaic, public domain, verified 2026-10-07);
+  - phone layout and motion polish, then e2e coverage, goldens and docs.
+
+## 2026-10-08 — M2a.3 Interface redesign, Tour and Venus radar implemented
+- **Interface (spec §4):** a header that shows the overview or the selected body (cited chips and a narrative built only from cited facts), a frosted-glass control panel, a facts and sources drawer (**F**), a bottom bar with the date, time controls, Go to date, Tour button and a 1800-2050 timeline, and pill labels that declutter. Header and drawer share one citation numbering. Keys: **1**/**2**/**Esc**, **T** tour, **Q** quality, **E** effects, **F** drawer, all owned by `hotkeys.ts`. See [[ui]].
+- **Tour:** the Sun, the planets by distance, then the overview: 5 s flights and 7 s dwells on the lit side, selecting each body. Any input exits; reduced motion means cuts; time is never changed. See [[camera]].
+- **Venus radar:** the USGS Magellan C3-MDIR mosaic as a drawer toggle (`?radar=1`), labelled as radar and not visible light, with a Maxwell Montes orientation check (ratio 1.68). New source note [[USGS Venus Magellan C3-MDIR Mosaic]]; see [[pipeline]].
+- **Phone layout:** compact header and bottom bar, the drawer as a sheet between them, a collapsible Controls dropdown; panels never overlap (layout tests at 390x844, 800x1000, 1024x768, 1100x800 and 1280x720; the control panel collapses behind Controls at 1140 px and narrower and the drawer sits under the header at 940 px and narrower).
+- **Final review fixes:** the header and control panel no longer overlap at tablet widths; Space/Enter on the Tour button stops the tour; 2 during the tour ends in Follow; the Venus radar view is tagged on screen and its notes match what is shown; hotkeys work after the slider or a checkbox had focus; F needs a selection; header and drawer live values update at 4 Hz.
+- **M2a.2 residuals fixed first:** Auto counts only consecutive long frames and cannot drop in the first 5 s ([[render]]); god rays are masked by bodies (composer `autoClear={false}`, proxy at 1.02 R, golden `3d-sun-partial`; [[0007-tone-mapping-and-exposure]]).
+- Twelve golden screenshots in `Assets/m2a3-golden/`; new end-to-end tests for the header, Tour, labels, the drawer and the layout matrix. Carry-over: [[2026-10-05-m2a1-carry-over]] (done items marked; "From M2a.3" lists what was deferred).

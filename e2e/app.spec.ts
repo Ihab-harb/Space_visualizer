@@ -25,6 +25,7 @@ test('follows a planet with co-rotation while time runs', async ({ page }) => {
   await page.getByRole('button', { name: 'Jupiter', exact: true }).dispatchEvent('click');
   await page.keyboard.press('2');
   await page.getByLabel('Rotate with body').check();
+  await expect(page.getByLabel('Rotate with body')).toBeChecked();
   await page.getByLabel('Speed').selectOption({ label: '1 hour/s' });
   await page.waitForTimeout(2500); // transition plus a few seconds of rotation
   const box = await page.getByRole('button', { name: 'Jupiter', exact: true }).boundingBox();
@@ -49,6 +50,7 @@ test('shows cited information for a planet', async ({ page }) => {
   await page.screenshot({ path: 'test-results/overview.png' });
   // dispatchEvent: the label may sit under another panel at some dates; we test selection, not hit-testing.
   await page.getByRole('button', { name: 'Jupiter', exact: true }).dispatchEvent('click');
+  await page.keyboard.press('f');
   const panel = page.getByRole('complementary', { name: 'Body information' });
   await expect(panel.getByRole('heading', { name: 'Jupiter' })).toBeVisible();
   await expect(panel.getByRole('link', { name: /Planetary Fact Sheet/ })).toHaveAttribute('href', 'https://nssdc.gsfc.nasa.gov/planetary/factsheet/');
@@ -58,11 +60,12 @@ test('shows cited information for a planet', async ({ page }) => {
 
 test('panels sit above scene labels', async ({ page }) => {
   await page.getByRole('button', { name: 'Jupiter', exact: true }).dispatchEvent('click');
+  await page.keyboard.press('f');
   const panel = page.getByRole('complementary', { name: 'Body information' });
   await expect(panel).toBeVisible();
   // Wherever a label overlaps the panel, the panel must be the element on top.
   const labelsOnTop = await page.evaluate(() => {
-    const panelEl = document.querySelector('.info-panel')!;
+    const panelEl = document.querySelector('.drawer')!;
     const p = panelEl.getBoundingClientRect();
     return [...document.querySelectorAll('.body-label')]
       .map((label) => {
@@ -88,6 +91,7 @@ test('jumps in time and warns about accuracy', async ({ page }) => {
   await page.getByLabel('Go to date (UTC)').fill('1500-01-01');
   await page.getByLabel('Go to date (UTC)').press('Enter');
   await expect(page.getByLabel('Simulation date')).toContainText('1500');
+  await expect(page.getByRole('slider', { name: 'Timeline 1800–2050' })).toBeVisible();
   await expect(page.getByRole('status')).toContainText('Outside 1800–2050');
   await page.getByRole('button', { name: 'Now' }).click();
   await expect(page.getByRole('status')).toHaveCount(0);
@@ -95,9 +99,24 @@ test('jumps in time and warns about accuracy', async ({ page }) => {
 
 test('cites the official imagery for Earth', async ({ page }) => {
   await page.goto('/?target=earth&pause=1&quality=low');
+  await page.keyboard.press('f');
   const panel = page.getByRole('complementary', { name: 'Body information' });
   const imagery = panel.locator('section', { has: page.getByRole('heading', { name: 'Imagery' }) });
   await expect(imagery).toContainText('Surface');
   await expect(imagery).toContainText('Night lights');
   await expect(panel.locator('.sources')).toContainText('Blue Marble');
+});
+
+test('a header citation opens the drawer at the same source', async ({ page }) => {
+  await page.goto('/?target=jupiter&pause=1&quality=low');
+  const header = page.getByRole('banner', { name: 'Selected body' });
+  const first = header.getByRole('link', { name: /Source \d+/ }).first();
+  const label = await first.getAttribute('aria-label');
+  await first.click();
+  const drawer = page.getByRole('complementary', { name: 'Body information' });
+  await expect(drawer).toBeVisible();
+  const n = Number(label!.replace('Source ', ''));
+  const item = drawer.locator('.sources li').nth(n - 1);
+  await expect(item).toHaveClass(/is-highlighted/);
+  await expect(item).toBeInViewport();
 });

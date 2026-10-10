@@ -1,7 +1,8 @@
 import { describe, expect, it } from 'vitest';
 import type { Body } from '../core/catalog/schema';
-import { makeEarth } from '../test/fixtures';
-import { citationOrder } from './citations';
+import { createCatalog } from '../core/catalog/catalog';
+import { makeCatalogFiles, makeEarth } from '../test/fixtures';
+import { citationModel, citationOrder } from './citations';
 
 describe('citationOrder', () => {
   it('puts imagery sources after the data sources, without duplicates', () => {
@@ -15,5 +16,18 @@ describe('citationOrder', () => {
       },
     };
     expect(citationOrder(earth)).toEqual([...base, 'nasa-blue-marble', 'nasa-black-marble']);
+  });
+});
+
+describe('citationModel', () => {
+  it('numbers the live source after the body’s own sources, once', () => {
+    const f = makeCatalogFiles();
+    const catalog = createCatalog(f.regions, f.sources, [f.bodies]);
+    const jupiter = catalog.bodyById.get('jupiter')!;
+    const m = citationModel(catalog, jupiter);
+    expect(m.order.slice(0, citationOrder(jupiter).length)).toEqual(citationOrder(jupiter));
+    expect(new Set(m.order).size).toBe(m.order.length);
+    expect(m.liveSource).toBe('jpl-approx-pos');
+    expect(m.numbers.get(m.order[0]!)).toBe(1);
   });
 });

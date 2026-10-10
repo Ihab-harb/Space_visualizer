@@ -12,7 +12,10 @@ const VIEWS = [
   { name: '3c-sun-far', url: '/?jd=2461317.5&pause=1&target=sun&dist=40000000&az=0&el=8&quality=high&fx=1' },
   // The Sun directly behind Earth: no lens flare and no god rays while the disc is hidden.
   { name: '3b-sun-behind-earth', url: '/?jd=2461317.5&pause=1&target=earth&dist=20000&azSun=180&el=0&quality=high&fx=1' },
+  // The Sun partly behind Earth's upper limb: rays from the hidden part must not cross the planet (see the luminance test below).
+  { name: '3d-sun-partial', url: '/?jd=2461317.5&pause=1&target=earth&dist=20000&azSun=180&el=18.6&quality=high&fx=1' },
   { name: '0-mars', url: '/?jd=2461317.5&pause=1&target=mars&dist=14000&azSun=60&el=15&quality=high&fx=1' },
+  { name: '0b-venus-radar', url: '/?jd=2461317.5&pause=1&target=venus&dist=30000&azSun=60&el=10&radar=1&quality=high&fx=1' },
   { name: '4-overview', url: '/?jd=2461317.5&pause=1&quality=high&fx=1' },
 ];
 
@@ -43,6 +46,8 @@ for (const view of VIEWS) {
     await expect(page.locator('canvas')).toBeVisible();
     await page.waitForSelector('.scene[data-textures-ready="true"]', { timeout: 30_000 }); // a golden fails if textures never load
     await page.waitForTimeout(1500);
+    // The radar view must say on screen that it is not a photograph, drawer closed or not.
+    if (view.name === '0b-venus-radar') await expect(page.getByText('Radar view · not visible light')).toBeVisible();
     await page.screenshot({ path: `test-results/golden/${view.name}.png` });
   });
 }
@@ -124,7 +129,7 @@ test('earth atmosphere keeps the night side dark and the scene visible', async (
     return sum;
   };
   const withDof = contrast(data, info.width);
-  await page.getByRole('button', { name: 'Close' }).click();
+  await page.getByRole('button', { name: 'Deselect' }).click();
   await page.waitForTimeout(1500);
   const off = await sharp(await page.locator('canvas').screenshot()).removeAlpha().raw().toBuffer({ resolveWithObject: true });
   const withoutDof = contrast(off.data, off.info.width);
@@ -140,4 +145,45 @@ test('golden 5-phone', async ({ browser }) => {
   await page.waitForTimeout(1500);
   await page.screenshot({ path: 'test-results/golden/5-phone.png' });
   await page.close();
+});
+
+// The phone with the facts drawer open (key F): the sheet must sit between the header and the bottom bar.
+test('golden 5b-phone-drawer', async ({ browser }) => {
+  const page = await browser.newPage({ viewport: { width: 390, height: 844 } });
+  await page.goto('/?jd=2461317.5&pause=1&target=jupiter&dist=600000&azSun=70&el=10&quality=high&fx=1');
+  await page.waitForSelector('.scene[data-textures-ready="true"]', { timeout: 30_000 }); // a golden fails if textures never load
+  await page.keyboard.press('f');
+  await page.waitForTimeout(1500);
+  console.log(`phone bottom bar height: ${(await page.locator('.bottom-bar').boundingBox())!.height}px`);
+  await page.screenshot({ path: 'test-results/golden/5b-phone-drawer.png' });
+  await page.close();
+});
+
+/**
+ * God rays must not cross a planet that hides part of the Sun (3d-sun-partial: Earth at 20,000 km, the Sun behind the upper limb).
+ * Viewport 1280x720: the limb is at about y=100 above the centre x=640; the patch is 24x24 px centred at (PATCH_CX, PATCH_CY) on
+ * the night side just inside the limb (about 30 px below where the Sun is hidden), clear of the "Sun" label (y about 117).
+ */
+test('god rays do not cross the planet hiding part of the Sun', async ({ page }) => {
+  test.setTimeout(180_000);
+  await page.goto('/?jd=2461317.5&pause=1&target=earth&dist=20000&azSun=180&el=18.6&quality=high&fx=1');
+  await expect(page.locator('canvas')).toBeVisible();
+  await page.waitForSelector('.scene[data-textures-ready="true"]', { timeout: 30_000 });
+  await page.waitForTimeout(1500);
+  const { data, info } = await sharp(await page.locator('canvas').screenshot()).removeAlpha().raw().toBuffer({ resolveWithObject: true });
+  const PATCH_CX = 640;
+  const PATCH_CY = 150;
+  let sum = 0;
+  for (let y = PATCH_CY - 12; y < PATCH_CY + 12; y++) {
+    for (let x = PATCH_CX - 12; x < PATCH_CX + 12; x++) {
+      const i = (y * info.width + x) * 3;
+      sum += 0.2126 * data[i]! + 0.7152 * data[i + 1]! + 0.0722 * data[i + 2]!;
+    }
+  }
+  const mean = sum / (24 * 24);
+  console.log(`god-ray occlusion: night patch mean luminance=${mean.toFixed(2)}`);
+  // Measured (SwiftShader, quality=high): 80.24 with the composer's default autoClear (rays cross the planet), 74.85 with
+  // autoClear={false} and the proxy at 1.02 R. The rays add about 5 grey levels here; the rest is limb glow (bloom, atmosphere),
+  // so half of the unfixed value is unreachable and the threshold sits midway between the two measurements.
+  expect(mean).toBeLessThan(77.5);
 });
