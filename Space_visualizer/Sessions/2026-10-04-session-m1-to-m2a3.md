@@ -58,6 +58,12 @@ This was one long conversation with Claude Code. It produced the design, M1, M2a
   - the USGS Gazetteer offers nightly shapefiles per body;
   - the NSSDCA mission chronologies list launch dates only, with inconsistent outcomes, and were last updated in September 2024.
 - **Spec written:** [[2026-10-10-m2b1-body-details-design]] on branch `m2b1-details`, which is stacked on `m2a3-interface`. It is awaiting the user's review.
+- "go ahead": the spec was approved. Writing the plan meant checking the real source formats: the eight NSSDCA planet sheets, the Sun sheet, and the Gazetteer `.dbf` columns (Mars has 2,052 approved features, with a cut-off near 499 km for the top 200). Three refinements went into the spec:
+  - surface pressure and mean temperature are not repeated, because the facts table already shows them;
+  - Venus and Mars get "no global field" from the facts table;
+  - Earth's field is given as a dipole pole, and layers can be stated as depths or as a percentage of the radius.
+
+  The plan is [[2026-10-10-m2b1-body-details]]: ten tasks, with the curated interiors and missions checked against their quotes. It is awaiting review and a choice of execution method.
 
 ## State at the end of the session (2026-10-08)
 - **Branches** (as of 2026-10-10, pushed as stacked PRs):
