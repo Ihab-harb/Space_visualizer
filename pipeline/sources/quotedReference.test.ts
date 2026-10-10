@@ -135,7 +135,13 @@ describe('quoteHasDate formats', () => {
     expect(quoteHasDate([], '1964-11-28')).toBe(false);
   });
   it('applies the year-only rule only to dates ending -01-01', () => {
-expect(quoteHasDate(['planned for launch in 2028'], '2028-01-01')).toBe(false); // day-level by default    expect(quoteHasDate(['planned for launch in 2028'], '2028-01-01', Y)).toBe(true);    expect(quoteHasDate(['planned for launch in 2028'], '2028-03-01', Y)).toBe(false);    expect(quoteHasDate(['planned for launch in 2028'], '2028-01-02', Y)).toBe(false);    expect(quoteHasDate(['launched January 2, 2028'], '2028-01-01', Y)).toBe(false);    expect(quoteHasDate(['launched January 1, 2028'], '2028-01-01', Y)).toBe(true);    expect(quoteHasDate(['planned for launch in 2029'], '2028-01-01', Y)).toBe(false);
+    expect(quoteHasDate(['planned for launch in 2028'], '2028-01-01')).toBe(false); // day-level by default
+    expect(quoteHasDate(['planned for launch in 2028'], '2028-01-01', Y)).toBe(true);
+    expect(quoteHasDate(['planned for launch in 2028'], '2028-03-01', Y)).toBe(false);
+    expect(quoteHasDate(['planned for launch in 2028'], '2028-01-02', Y)).toBe(false);
+    expect(quoteHasDate(['launched January 2, 2028'], '2028-01-01', Y)).toBe(false);
+    expect(quoteHasDate(['launched January 1, 2028'], '2028-01-01', Y)).toBe(true);
+    expect(quoteHasDate(['planned for launch in 2029'], '2028-01-01', Y)).toBe(false);
   });
 });
 
