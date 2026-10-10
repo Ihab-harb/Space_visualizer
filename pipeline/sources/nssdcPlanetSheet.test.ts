@@ -19,8 +19,8 @@ const gases = (a: Atmosphere | null) =>
   a && { major: a.major.map((g) => [g.formula, g.amount, g.uncertainty]), minor: a.minor.map((g) => [g.formula, g.amount]) };
 
 describe('sheetText', () => {
-  it('inlines sub/sup and decodes entities', () => {
-    expect(sheetText('<pre>CO<sub>2</sub> &lt;40 10<span><sup>6</sup></span></pre>')).toContain('CO2 <40 106');
+  it('inlines sub, superscripts sup and decodes entities', () => {
+    expect(sheetText('<pre>CO<sub>2</sub> &lt;40 10<span><sup>6</sup></span> cm<sup>-2</sup></pre>')).toContain('CO2 <40 10⁶ cm⁻²');
   });
 });
 
@@ -73,6 +73,7 @@ describe('parseComposition', () => {
     expect(a).toMatchObject({ major: [], minor: [] });
     expect(a!.note!.text).toMatch(/surface bounded exosphere/);
     expect(a!.note!.text.startsWith('(')).toBe(false);
+    expect(a!.basis).toBe('Column abundances in 10⁶ per cm²');
   });
   it('parses the Sun photosphere', () => {
     expect(gases(parseComposition(sun, SUN_COMPOSITION_HEADING, 's'))).toEqual({

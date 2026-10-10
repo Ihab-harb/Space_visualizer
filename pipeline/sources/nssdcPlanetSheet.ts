@@ -7,10 +7,16 @@ export type PlanetSheetId = (typeof PLANET_SHEET_IDS)[number];
 export const PLANET_ATMOSPHERE_HEADING = /^Atmospheric composition\s*\(([^)]*)\)\s*:?/i;
 export const SUN_COMPOSITION_HEADING = /^Photosphere Composition\s*:?/i;
 
-/** The page's visible text with line breaks kept; sub/sup contents are inlined (CO<sub>2</sub> -> CO2). */
+const SUPERSCRIPT: Record<string, string> = {
+  '0': '⁰', '1': '¹', '2': '²', '3': '³', '4': '⁴', '5': '⁵', '6': '⁶', '7': '⁷', '8': '⁸', '9': '⁹', '-': '⁻', '+': '⁺',
+};
+
+/** The page's visible text with line breaks kept; <sub> contents are inlined (CO<sub>2</sub> -> CO2); <sup> contents become Unicode superscripts (10<sup>6</sup> -> 10⁶). */
 export function sheetText(html: string): string {
   const text = html
-    .replace(/<\/?(?:sub|sup)\b[^>]*>/gi, '')
+    .replace(/<sup\b[^>]*>([\s\S]*?)<\/sup>/gi, (_m, inner: string) =>
+      inner.replace(/<[^>]*>/g, '').replace(/[0-9+-]/g, (c) => SUPERSCRIPT[c]!))
+    .replace(/<\/?sub\b[^>]*>/gi, '')
     .replace(/<\/?(?:br|p|hr|pre|h\d|tr|table|div|li|ul|ol|title|body|head|html)\b[^>]*>/gi, '\n')
     .replace(/<[^>]*>/g, '');
   return decodeEntities(text).replace(/\r/g, '');
