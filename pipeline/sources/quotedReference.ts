@@ -63,9 +63,33 @@ export function quoteHasNumber(quote: string, n: number): boolean {
   return numbersIn(quote).some((v) => same(v, n));
 }
 
-const KM_UNIT = /^\s*(?:km|kilometers?|kilometres?)(?![A-Za-z0-9/])/i;
+// A unit followed by a letter, digit, slash, caret or superscript is a different unit (km/s, km², km^3).
+const KM_UNIT = /^\s*(?:km|kilometers?|kilometres?)(?![A-Za-z0-9/^²³¹⁰-⁹])/i;
 const PERCENT_UNIT = /^\s*(?:%|percent(?![A-Za-z]))/i;
-const RANGE_GAP = /^\s*(?:-|to|and)\s*$/i;
+
+const FUNCTION_WORDS = new Set([
+  'on', 'of', 'the', 'until', 'from', 'by', 'since', 'and', 'to', 'after', 'before', 'in', 'through', 'between',
+  'at', 'around', 'about', 'till', 'or', 'was', 'is', 'are', 'were', 'a', 'an', 'for', 'with', 'within', 'up',
+  'near', 'over', 'under', 'than', 'roughly', 'approximately', 'nearly', 'almost', 'some', 'only',
+]);
+
+/** Whether the text before a number ends in a name or designation ("Apollo ", "Voyager-") that owns the number. */
+function followsDesignation(prefix: string): boolean {
+  const trimmed = prefix.replace(/ $/, '');
+  if (trimmed.endsWith('-')) return true;
+  const word = /([A-Za-z]+)$/.exec(trimmed)?.[1];
+  return word !== undefined && /^[A-Z]/.test(word) && !FUNCTION_WORDS.has(word.toLowerCase());
+}
+
+/** Whether `n` and `next` are the two ends of one range, judged from the words around them. */
+function isRange(t: string, n: Num, next: Num): boolean {
+  const gap = t.slice(n.end, next.start);
+  const prefix = t.slice(0, n.start);
+  if (/^\s*-\s*$/.test(gap)) return !followsDesignation(prefix);
+  if (/^\s+and\s+$/i.test(gap)) return /\bbetween\s+$/i.test(prefix);
+  if (/^\s+to\s+$/i.test(gap)) return /\b(?:from|between)\s+$/i.test(prefix) || !followsDesignation(prefix);
+  return false;
+}
 
 /** Numbers followed by the unit, or the first number of a range whose second number is. */
 function withUnit(text: string, unit: RegExp): number[] {
@@ -76,7 +100,7 @@ function withUnit(text: string, unit: RegExp): number[] {
     const n = nums[i]!;
     if (unit.test(t.slice(n.end))) { hit[i] = true; continue; }
     const next = nums[i + 1];
-    if (next && hit[i + 1] && RANGE_GAP.test(t.slice(n.end, next.start))) hit[i] = true;
+    if (next && hit[i + 1] && isRange(t, n, next)) hit[i] = true;
   }
   return nums.filter((_, i) => hit[i]).map((n) => n.value);
 }
@@ -98,8 +122,13 @@ const monthAlt = (i: number): string => {
 const ANY_MONTH = `(?:${MONTHS.map((_, i) => monthAlt(i)).join('|')})`;
 const ORD = '(?:st|nd|rd|th)?';
 
+export interface DateOptions {
+  /** Accept the bare year for a `-01-01` date. Only for the launch date of a planned mission. */
+  yearOnly?: boolean;
+}
+
 /** Whether any quote states the ISO date (YYYY-MM-DD) in a common written form. */
-export function quoteHasDate(quotes: string[], isoDate: string): boolean {
+export function quoteHasDate(quotes: string[], isoDate: string, opts: DateOptions = {}): boolean {
   const m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(isoDate);
   if (!m) return false;
   const year = m[1]!;
@@ -108,23 +137,53 @@ export function quoteHasDate(quotes: string[], isoDate: string): boolean {
   if (month < 1 || month > 12) return false;
   const mon = monthAlt(month - 1);
   const d = `0?${day}${ORD}`;
-  const forms = [
-    new RegExp(`(?<![\\w])${mon}\\s+${d},?\\s+${year}(?!\\d)`, 'i'),
-    new RegExp(`(?<![\\d])${d}\\s+${mon}\\s+${year}(?!\\d)`, 'i'),
-    new RegExp(`(?<![\\d-])${isoDate}(?!\\d)`),
-  ];
-  const anyDay = [
-    new RegExp(`${ANY_MONTH}\\s+\\d{1,2}${ORD},?\\s+${year}(?!\\d)`, 'i'),
-    new RegExp(`(?<!\\d)\\d{1,2}${ORD}\\s+${ANY_MONTH}\\s+${year}(?!\\d)`, 'i'),
-    new RegExp(`(?<!\\d)${year}-\\d{2}-\\d{2}(?!\\d)`),
-  ];
+  const monthFirst = new RegExp(`(?<!\\w)${mon}\\s+${d},?\\s+${year}(?!\\d)`, 'i');
+  const dayFirst = new RegExp(`(?<!\\d)${d}\\s+${mon}\\s+${year}(?!\\d)`, 'gi');
+  const iso = new RegExp(`(?<![\\d-])${isoDate}(?!\\d)`);
   const texts = quotes.map(normaliseQuote);
-  if (texts.some((q) => forms.some((f) => f.test(q)))) return true;
-  if (month === 1 && day === 1) {
-    // Planned launches given only as a year: accept the year when the quote has no dated form for it.
-    return texts.some((q) => quoteHasNumber(q, Number(year)) && !anyDay.some((f) => f.test(q)));
+  for (const q of texts) {
+    if (monthFirst.test(q) || iso.test(q)) return true;
+    for (const hit of q.matchAll(dayFirst)) {
+      // "Voyager 2 August 1977" is mission 2, not the 2nd.
+      if (!followsDesignation(q.slice(0, hit.index))) return true;
+    }
+  }
+  if (opts.yearOnly && month === 1 && day === 1) {
+    // A planned launch given only as a year: the year must stand alone, with no month beside it.
+    const dated = [
+      new RegExp(`${ANY_MONTH}\\s+(?:\\d{1,2}${ORD},?\\s+)?${year}(?!\\d)`, 'i'),
+      new RegExp(`(?<!\\d)(?:\\d{1,2}${ORD}\\s+)?${ANY_MONTH}\\s+${year}(?!\\d)`, 'i'),
+      new RegExp(`(?<!\\d)${year}\\s+${ANY_MONTH}`, 'i'),
+      new RegExp(`(?<!\\d)${year}-\\d{2}`),
+    ];
+    return texts.some((q) => quoteHasNumber(q, Number(year)) && !dated.some((f) => f.test(q)));
   }
   return false;
+}
+
+export const OFFICIAL_HOSTS = ['nasa.gov', 'usgs.gov', 'esa.int', 'jaxa.jp', 'isro.gov.in', 'cnsa.gov.cn'] as const;
+export const MIN_QUOTE_WORDS = 6;
+
+function hostOf(url: string): string | null {
+  try { return new URL(url).hostname.toLowerCase(); } catch { return null; }
+}
+
+function checkSources(sources: CuratedSource[], errors: string[]): void {
+  const seen = new Set<string>();
+  for (const s of sources) {
+    if (seen.has(s.id)) errors.push(`duplicate source id ${s.id}`);
+    seen.add(s.id);
+    const host = hostOf(s.url);
+    if (host === null || !OFFICIAL_HOSTS.some((h) => host === h || host.endsWith(`.${h}`))) {
+      errors.push(`source ${s.id} is not on an official host: ${host ?? s.url}`);
+    }
+  }
+}
+
+function checkQuote(quote: string, page: string, sourceId: string, where: string, errors: string[]): void {
+  if (!quoteOnPage(quote, page)) errors.push(`${where}: quote not on page of ${sourceId}: "${quote}"`);
+  const words = normaliseQuote(quote).split(' ').filter(Boolean).length;
+  if (words < MIN_QUOTE_WORDS) errors.push(`${where}: quote too short (${words} words): "${quote}"`);
 }
 
 function pageFor(pages: Map<string, string>, sources: CuratedSource[], sourceId: string, where: string, errors: string[]): string | null {
@@ -136,6 +195,7 @@ function pageFor(pages: Map<string, string>, sources: CuratedSource[], sourceId:
 
 export function verifyInteriors(file: InteriorsFile, pages: Map<string, string>): string[] {
   const errors: string[] = [];
+  checkSources(file.sources, errors);
   for (const [body, { layers }] of Object.entries(file.bodies)) {
     for (const layer of layers) {
       const where = `${body}/${layer.id}`;
@@ -144,7 +204,7 @@ export function verifyInteriors(file: InteriorsFile, pages: Map<string, string>)
         const w = `${where} ${label}`;
         const page = pageFor(pages, file.sources, r.sourceId, w, errors);
         if (page === null) continue;
-        if (!quoteOnPage(r.quote, page)) errors.push(`${w}: quote not on page of ${r.sourceId}: "${r.quote}"`);
+        checkQuote(r.quote, page, r.sourceId, w, errors);
         for (const key of ['min', 'max'] as const) {
           const v = r[key];
           if (v === 0) continue;
@@ -157,9 +217,7 @@ export function verifyInteriors(file: InteriorsFile, pages: Map<string, string>)
       }
       if (layer.composition) {
         const page = pageFor(pages, file.sources, layer.composition.sourceId, `${where} composition`, errors);
-        if (page !== null && !quoteOnPage(layer.composition.quote, page)) {
-          errors.push(`${where} composition: quote not on page of ${layer.composition.sourceId}: "${layer.composition.quote}"`);
-        }
+        if (page !== null) checkQuote(layer.composition.quote, page, layer.composition.sourceId, `${where} composition`, errors);
       }
     }
   }
@@ -168,12 +226,13 @@ export function verifyInteriors(file: InteriorsFile, pages: Map<string, string>)
 
 export function verifyMissions(file: MissionsFile, pages: Map<string, string>): string[] {
   const errors: string[] = [];
+  checkSources(file.sources, errors);
   for (const [body, { discovery, missions }] of Object.entries(file.bodies)) {
     if (discovery) {
       const where = `${body} discovery`;
       const page = pageFor(pages, file.sources, discovery.sourceId, where, errors);
       if (page !== null) {
-        if (!quoteOnPage(discovery.quote, page)) errors.push(`${where}: quote not on page of ${discovery.sourceId}: "${discovery.quote}"`);
+        checkQuote(discovery.quote, page, discovery.sourceId, where, errors);
         if (discovery.kind === 'discovered' && !quoteHasDate([discovery.quote], discovery.date)) {
           errors.push(`${where}: date ${discovery.date} not in quote: "${discovery.quote}"`);
         }
@@ -183,13 +242,12 @@ export function verifyMissions(file: MissionsFile, pages: Map<string, string>): 
       const where = `${body}/${m.id}`;
       const page = pageFor(pages, file.sources, m.sourceId, where, errors);
       if (page !== null) {
-        for (const q of m.quotes) {
-          if (!quoteOnPage(q, page)) errors.push(`${where}: quote not on page of ${m.sourceId}: "${q}"`);
-        }
+        for (const q of m.quotes) checkQuote(q, page, m.sourceId, where, errors);
       }
       const dates: [string, string | null][] = [['launch', m.launchDate], ['arrival', m.arrivalDate], ['end', m.endDate]];
       for (const [label, date] of dates) {
-        if (date !== null && !quoteHasDate(m.quotes, date)) errors.push(`${where}: ${label} ${date} not in any quote`);
+        const yearOnly = label === 'launch' && m.outcome === 'planned';
+        if (date !== null && !quoteHasDate(m.quotes, date, { yearOnly })) errors.push(`${where}: ${label} ${date} not in any quote`);
       }
     }
   }
