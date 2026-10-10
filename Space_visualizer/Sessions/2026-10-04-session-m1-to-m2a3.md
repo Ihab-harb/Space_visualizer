@@ -42,19 +42,21 @@ This was one long conversation with Claude Code. It produced the design, M1, M2a
 - "merge and continue with the app": M2a.2 was fast-forwarded into the local `m2a1-imagery`, and the M2a.3 plan was written on `m2a3-interface`.
 - "go with subagent driven": M2a.3 was executed in 12 tasks plus a final review and one fix wave. The rulings and the review outcome are in the plan note's "Execution record" section.
 - "is everything being recorded in the obsidian vault?": the execution rulings existed only in chat. They are now in the plan note, and this session note was added.
+- "for future reference the vault should have the context of our chats…": the `Sessions/` folder was started (this note).
+- "update the github pull request with the latest code" (2026-10-10): the user chose stacked PRs over folding everything into #2. `m2a2-cinematic` and `m2a3-interface` were pushed, and two PRs opened: #3 M2a.2 (base `m2a1-imagery`) and #4 M2a.3 (base `m2a2-cinematic`). The local `m2a1-imagery` was not pushed, so #2 stays M2a.1 only.
 
 ## State at the end of the session (2026-10-08)
-- **Branches** (all local, nothing pushed since PR #2):
+- **Branches** (as of 2026-10-10, pushed as stacked PRs):
   - `m2a1-imagery` and `m2a2-cinematic` point at `ef37f2e` (M2a.1 and M2a.2);
   - `m2a3-interface` has M2a.3 on top of that.
   - Final state: 538 unit tests and 73 end-to-end tests pass, and typecheck is clean.
-- **Remote:**
-  - PR #1 is `m1-foundation`;
-  - PR #2 is `m2a1-imagery`, but only its state before M2a.2;
-  - neither has been merged.
+- **Remote:** four open, stacked PRs, none merged:
+  - #1 M1 (`m1-foundation` → `main`);
+  - #2 M2a.1 (`m2a1-imagery` → `m1-foundation`);
+  - #3 M2a.2 (`m2a2-cinematic` → `m2a1-imagery`);
+  - #4 M2a.3 (`m2a3-interface` → `m2a2-cinematic`).
 - **The user still has to decide:**
-  - how to integrate M2a.3: merge it locally into `m2a2-cinematic`; push two stacked pull requests (M2a.2 based on `m2a1-imagery`, M2a.3 based on `m2a2-cinematic`); or keep it as is;
-  - whether to merge PRs #1 and #2;
+  - when to merge PRs #1–#4, in order, starting with #1;
   - whether to delete `Welcome.md`;
   - whether to add a licence.
 - **Next sections:** M2b (rich bodies: moons, Earth chapters) and M2c (Exhibit style). Inputs are in [[2026-10-05-m2a1-carry-over]].
