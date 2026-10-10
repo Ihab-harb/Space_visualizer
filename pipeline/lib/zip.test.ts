@@ -62,6 +62,39 @@ describe('readZipEntry', () => {
     expect(() => readZipEntry(zip, '.shp')).toThrow('zip: no entry ending with .shp');
   });
 
+  it('throws for a truncated archive', () => {
+    expect(() => readZipEntry(zip.subarray(0, zip.length - 30), 'a.txt')).toThrow(/zip/);
+    const one = makeZip([{ name: 'a.txt', data: stored, deflate: false }]);
+    // cut the stored data short but keep the central directory intact
+    const cut = Buffer.concat([one.subarray(0, 30 + 5 + 4 + 3), one.subarray(30 + 5 + 4 + stored.length)]);
+    expect(() => readZipEntry(cut, 'a.txt')).toThrow(/zip: /);
+  });
+
+  it('throws for stored data that runs past the end of the buffer', () => {
+    const one = makeZip([{ name: 'a.txt', data: stored, deflate: false }]);
+    const eocd = one.length - 22;
+    const bad = Buffer.from(one);
+    bad.writeUInt32LE(one.length, eocd + 16); // central directory offset beyond the end
+    expect(() => readZipEntry(bad, 'a.txt')).toThrow('zip: truncated archive');
+  });
+
+  it('rejects ZIP64 sentinels', () => {
+    const z = Buffer.from(zip);
+    z.writeUInt16LE(0xffff, z.length - 22 + 10);
+    expect(() => readZipEntry(z, 'a.txt')).toThrow('zip: ZIP64 archives are not supported');
+    const z2 = Buffer.from(zip);
+    z2.writeUInt32LE(0xffffffff, z2.length - 22 + 16);
+    expect(() => readZipEntry(z2, 'a.txt')).toThrow('zip: ZIP64 archives are not supported');
+  });
+
+  it('throws on a size mismatch', () => {
+    const one = makeZip([{ name: 'a.txt', data: stored, deflate: false }]);
+    const cd = one.length - 22 - (46 + 5);
+    const bad = Buffer.from(one);
+    bad.writeUInt32LE(stored.length + 1, cd + 24);
+    expect(() => readZipEntry(bad, 'a.txt')).toThrow('zip: size mismatch');
+  });
+
   it('throws for a buffer that is not a zip', () => {
     expect(() => readZipEntry(Buffer.from('nope'), '.dbf')).toThrow(/zip/);
   });

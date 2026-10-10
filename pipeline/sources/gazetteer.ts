@@ -8,12 +8,12 @@ export function gazetteerUrl(target: GazetteerTarget): string {
   return `https://asc-planetarynames-data.s3.us-west-2.amazonaws.com/${target}_nomenclature_center_pts.zip`;
 }
 
-export function gazetteerSpec(bodyId: string, name: string): SourceSpec {
+export function gazetteerSpec(bodyId: keyof typeof GAZETTEER_TARGETS, name: string): SourceSpec {
   return {
     id: `usgs-gazetteer-${bodyId}`,
     title: `${name} nomenclature (feature centre points), Gazetteer of Planetary Nomenclature`,
     publisher: 'USGS Astrogeology Science Center / IAU Working Group for Planetary System Nomenclature',
-    url: gazetteerUrl(GAZETTEER_TARGETS[bodyId as keyof typeof GAZETTEER_TARGETS]),
+    url: gazetteerUrl(GAZETTEER_TARGETS[bodyId]),
     license: 'Public domain (USGS)',
   };
 }
@@ -35,7 +35,7 @@ export function selectFeatures(rows: Array<Record<string, string>>, sourceId: st
       };
     })
     .filter((i) => i.diameterKm > 0)
-    .sort((a, b) => b.diameterKm - a.diameterKm || a.name.localeCompare(b.name))
+    .sort((a, b) => b.diameterKm - a.diameterKm || (a.name < b.name ? -1 : a.name > b.name ? 1 : 0))
     .slice(0, limit);
   return {
     totalApproved: { value: approved.length, sourceId },

@@ -38,6 +38,12 @@ describe('selectFeatures', () => {
     expect(FeaturesSchema.safeParse(f).success).toBe(true);
   });
 
+  it('returns an empty, schema-valid result when nothing is approved', () => {
+    const e = selectFeatures([], 's');
+    expect(e).toEqual({ totalApproved: { value: 0, sourceId: 's' }, thresholdKm: 0, sourceId: 's', items: [] });
+    expect(FeaturesSchema.safeParse(e).success).toBe(true);
+  });
+
   it('breaks diameter ties by name', () => {
     const t = selectFeatures([row({ clean_name: 'B', diameter: '5' }), row({ clean_name: 'A', diameter: '5' })], 's');
     expect(t.items.map((i) => i.name)).toEqual(['A', 'B']);
