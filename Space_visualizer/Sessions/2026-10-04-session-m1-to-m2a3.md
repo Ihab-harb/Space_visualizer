@@ -72,7 +72,7 @@ This was one long conversation with Claude Code. It produced the design, M1, M2a
 - "continue": the plan was resumed at Task 5, subagent-driven as before (an implementer then a reviewer per task). Tasks 5–10 are done; the whole-branch review and the Execution record are still to come. State: 676 unit tests, typecheck clean.
 - **What was built:**
   - Task 5: curated interiors for the Sun, Mercury, Earth and Mars (`pipeline/reference/interiors.json`), each value with its source sentence.
-  - Task 6: `missions.json`, 44 missions from 46 official pages, with a discovery entry for all bodies except Earth and the Sun.
+  - Task 6: `missions.json`, with a discovery entry for all bodies except Earth and the Sun. At first it held 44 mission entries; after the whole-branch fix wave removed Apollo 8 from Earth it holds 43 mission entries (39 distinct missions: Voyager 1 and 2 and a few others repeat across bodies).
   - Task 7: `buildDetails` and `run.ts` write the nine details files and their new sources; the build fails on any broken rule.
   - Task 8: `detailsStore`, loading on demand with loading, ready, missing and error states and a retry.
   - Task 9: the drawer sections, the appended citations, the cited details sentence in the header, and the moon wording fix.
@@ -88,6 +88,7 @@ This was one long conversation with Claude Code. It produced the design, M1, M2a
   - details sources are appended to the citation order, so numbers never shift when details load.
 - **End-to-end testing:** three tests in `e2e/details.spec.ts`. Two of the brief's assertions needed correcting to match real behaviour, not weakened: the startup check now looks for `/data/solar-system/details/` (the source module `src/core/details/schema.ts` also contains `/details/`), and the Mars check looks for Valles Marineris, because Olympus Mons is not among the 10 largest Mars features shown. The tests wait for the canvas before pressing F: F does nothing until the URL target is selected, which lands with the canvas. This also explained the old "cites the official imagery for Earth" failure, a timing race in that test (fixed the same way), not a combined-run flake.
 - **Screenshots** (Mars Interior and Atmosphere, Jupiter Magnetic field, at 1280x720 and 390x844) are in `Assets/m2b1/`; the layouts read cleanly and every row carries its citation.
+- **Whole-branch review (2026-10-16):** the final review returned "ready with fixes". The main findings were places where the drawer showed numbers no source states (Mars core "radius 0–2,100 km", the Sun's derived kilometre figures, Earth's 2,886 km, "0.00200", "± 1000.0"). The fix wave: each interior bound is shown in the form its source uses (stored as `from` and `stated` on the bound), Mars core's state cites the InSight page, numbers print without invented digits, duplicate source pages merged, Gazetteer citations link the web page, Apollo 8 removed from Earth (it belongs to the Moon, M2b.2), Sun mission types corrected, missions sorted by launch date, and the Discovery method no longer shown. Details are in [[Changelog]] and [[2026-10-05-m2a1-carry-over]].
 - **Open:** deferred minor items are in [[2026-10-05-m2a1-carry-over]] ("From M2b.1"). The user has not yet been asked to push the branch or open the PR.
 
 ## State at the end of the session (2026-10-08)

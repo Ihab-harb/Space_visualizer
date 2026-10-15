@@ -15,6 +15,8 @@ Back to [[Home]]
 - **Where the values live:** `pipeline/reference/interiors.json` and `pipeline/reference/missions.json`, described in `pipeline/reference/README.md`.
 - **The quote rule:** every curated value records the exact sentence it came from. The build fails if that sentence is not on the fetched page, if it is shorter than 6 words, or if the recorded number (km or percent, or a day-level date) does not appear in the sentence. Quotes are dropped from the output; only the value and its `sourceId` ship.
 - **Conversion:** interior bounds are converted to radii by each bound's effective `from`: radius as is; depth becomes R minus depth; percent becomes R times p over 100. R is the body's cited mean radius (equatorial radius if there is none). Consecutive layers may differ at a boundary by up to max(40 km, 0.5 % of R).
+- **Display:** the drawer prints each bound in the form its source states it (`from` and `stated` in the data), not the converted radius. A layer's state is cited only when a `stateSource` quote exists (Mars core: the InSight page).
+- **Duplicate pages:** a curated source whose URL is already registered is aliased to the registered id when the details are built, so each page appears once in the Sources list.
 - **Verified by:** `verifyInteriors` and `verifyMissions` in `pipeline/sources/quotedReference.ts`.
 - **Licence:** NASA public domain (NASA media usage guidelines); USGS public domain
 - **Accuracy / caveats:** layer boundaries are ranges where the source gives ranges; layers the source hedges are marked uncertain. Mission dates follow the source's own time zone convention.
@@ -47,7 +49,6 @@ Back to [[Home]]
 - Explorer 1 (NASA Science mission page) (NASA Science): https://science.nasa.gov/mission/explorer-1/ (`nasa-mission-explorer-1`)
 - TIROS 1 (NSSDCA Master Catalog) (NASA NSSDCA): https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1960-002B (`nssdca-tiros-1`)
 - Landsat 1 (NASA Science mission page) (NASA Science): https://science.nasa.gov/mission/landsat-1/ (`nasa-mission-landsat-1`)
-- Apollo 8 (NASA Science mission page) (NASA Science): https://www.nasa.gov/mission/apollo-8/ (`nasa-mission-apollo-8`)
 - Landsat 9 (NASA Science mission page) (NASA Science): https://science.nasa.gov/mission/landsat-9/ (`nasa-mission-landsat-9`)
 - All About Mars (NASA Space Place) (NASA Space Place): https://spaceplace.nasa.gov/all-about-mars/en/ (`nasa-spaceplace-mars`)
 - Mariner 4 (NASA Science mission page) (NASA Science): https://science.nasa.gov/mission/mariner-4/ (`nasa-mission-mariner-4`)

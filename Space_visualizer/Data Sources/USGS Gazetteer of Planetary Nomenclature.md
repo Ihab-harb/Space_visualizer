@@ -12,6 +12,7 @@ Back to [[Home]]
 
 - **Publisher:** USGS Astrogeology Science Center, for the IAU Working Group for Planetary System Nomenclature
 - **URL pattern:** `https://asc-planetarynames-data.s3.us-west-2.amazonaws.com/<TARGET>_nomenclature_center_pts.zip` with TARGET MERCURY, VENUS or MARS.
+- **Citation link:** the source record links the web page for the target, `https://planetarynames.wr.usgs.gov/Page/<TARGET>/target`, so a click opens a page instead of downloading the zip. The zip URL above is what the pipeline fetches.
 - **Source ids:** `usgs-gazetteer-mercury`, `usgs-gazetteer-venus`, `usgs-gazetteer-mars`.
 - **Used for:** the named-feature list in the details files: name, type, centre latitude and east longitude, diameter, origin text, approval year, and the total number of approved names.
 - **How it is parsed:** the zip is read with the repo's own reader (`pipeline/lib/zip.ts`, Node `zlib`) and its `.dbf` with `pipeline/lib/dbf.ts`. `selectFeatures` in `pipeline/sources/gazetteer.ts` keeps rows whose approval starts with "Adopted", drops zero or missing diameters, and keeps the 200 largest. `thresholdKm` records the diameter of the smallest kept feature; `totalApproved` is the count of all approved names.

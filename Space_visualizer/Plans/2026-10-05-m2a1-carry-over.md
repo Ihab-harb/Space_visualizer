@@ -154,7 +154,7 @@ These are minor findings from the per-task reviews, deferred for the whole-branc
 Minor findings from the per-task reviews of Tasks 5 to 9, summarised from the execution ledger. Plan: [[2026-10-10-m2b1-body-details]]. The two marked "flag" were raised for the whole-branch review. The ones about code I re-read on 2026-10-16 (the missing mean-radius warning, no fetch timeout, the source order) are still open.
 - **Curated interiors (Task 5):**
   - Earth's crust is "about 30 km on land"; the oceanic crust (about 5 km) is in a separate sentence and is not a range;
-  - Mars' core state "liquid" has no stored quote, and Venus' crust (40 km mean, 65 km maximum) is unused, because a crust-only stack cannot be represented;
+  - Mars' core state "liquid" had no stored quote (**done in the M2b.1 fix wave:** it now cites the InSight page); Venus' crust (40 km mean, 65 km maximum) is unused, because a crust-only stack cannot be represented;
   - any number right after a "(km)" label counts as km (a year in a table cell would); the Sun's boundary tolerance of 3,478 km is lenient.
 - **Missions (Task 6):**
   - the README example error "arrival 1965-07-14 not in any quote" names a date that is in its quote (it only shows the format);
@@ -163,16 +163,24 @@ Minor findings from the per-task reviews of Tasks 5 to 9, summarised from the ex
 - **Build (Task 7):**
   - `buildDetails` swallows a mean-radius parse failure silently before falling back (add a warning);
   - Mercury's atmosphere has no gases (an exosphere note only), and the UI handles the empty list;
-  - the earthfact page is two sources (`nssdca-earth` curated and `nssdca-earth-fact-sheet`); `run.ts` never removes stale details files; a data run refreshes `retrievedAt` on existing sources.
+  - the earthfact page was two sources (**done in the M2b.1 fix wave:** a curated source for an already registered page is aliased, so each page is listed once); `run.ts` never removes stale details files; a data run refreshes `retrievedAt` on existing sources.
 - **Store (Task 8):**
   - a non-JSON 200 or a network error gives a bare message ("Failed to fetch") that does not name the body;
   - missing tests: retry while loading, retry from missing, HTTP 500, a non-JSON 200, a hook rerender across bodies, an undefined id, StrictMode; the "keyed by id" test is weak (two keys in one map);
   - a fetch has no timeout, so a hung request stays in `loading`.
 - **Drawer and header (Task 9):**
-  - flag, shown precision: Mercury's dipole 0.002 renders as "0.00200 G·R³", and uncertainties render as "± 1000.0" beside "3,000 ppm";
-  - flag, wording: the header says "tilted 0°" for Mercury and Saturn, where "aligned with its spin axis" reads better;
+  - **done in the M2b.1 fix wave:** flag, shown precision: Mercury's dipole 0.002 renders as "0.00200 G·R³", and uncertainties render as "± 1000.0" beside "3,000 ppm";
+  - **done in the M2b.1 fix wave:** flag, wording: the header says "tilted 0°" for Mercury and Saturn, where "aligned with its spin axis" reads better;
   - `detailsSourceOrder` differs from the display order for the magnetic field (reference radius before surface field), missions (stored order, not launch order) and features (total before rows), which only affects the order of the Sources list;
-  - Mars' interior shows one end of each stored range, so the crust "0–50 km deep" and the mantle "10–1,560 km deep" overlap without explanation;
+  - **done in the M2b.1 fix wave:** Mars' interior showed one end of each stored range, so the crust "0–50 km deep" and the mantle "10–1,560 km deep" overlap without explanation;
   - the narrative adds "%" without checking the gas unit, and gas-name casing differs between the list and the narrative.
+- **Deferred from the M2b.1 whole-branch review (for M2b.2 and later):**
+  - **Apollo 8** orbited the Moon, not Earth; it was removed from Earth's missions and belongs with the Moon in M2b.2 (source `nasa-mission-apollo-8`, page https://www.nasa.gov/mission/apollo-8/, quote "crew Frank Borman, James Lovell Jr., William Anders Launch Dec. 21, 1968 SPLASHDOWN Dec. 27, 1968").
+  - **Moon narrative:** `narrative.ts` writes the average distance as `sma.toFixed(2)} AU`, so the Moon (about 0.0026 AU) would read "0.00 AU"; use a unit that fits (for example km) in M2b.2.
+  - **Akatsuki:** its end of operations in 2024 is unverified against an official page.
+  - **Dropped fact-sheet qualifiers:** "varies with pressure", "~" and "(IAU convention)" are lost in the parsed values.
+  - **Header citation scroll:** a header citation's scroll target can move once the details load (the details sections are inserted above the Sources list).
+  - **Mission counts:** after removing Apollo 8 the data holds 43 mission entries covering 39 distinct missions (the Voyagers and a few others repeat across bodies); earlier notes said "44 missions".
+  - **Stated decimals:** the parser keeps numbers, not their written decimals, so Jupiter's dipole strength reads "4.3" where the sheet writes "4.30" (nothing is invented); recording the raw text would print it exactly.
 - **End-to-end (Task 10):** done. "cites the official imagery for Earth" was a timing race in the test, not a combined-run flake: it pressed **F** right after `goto`, but F does nothing until the URL target is selected, which lands with the canvas (about 1 failure in 5 under `--repeat-each=5 --workers=4`). The test and the new details tests now wait for the canvas first.
 

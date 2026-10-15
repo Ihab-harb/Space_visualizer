@@ -78,5 +78,5 @@ Per-task reviews run on Sonnet and the final whole-branch reviews on Opus, becau
 - **Latest:** see the most recent note in `Sessions/` (currently [[2026-10-04-session-m1-to-m2a3]], which also records M2b.1).
 - **As of 2026-10-16:**
   - PRs #1–#4 are open and stacked (M1 → M2a.1 → M2a.2 → M2a.3), none merged.
-  - **M2b.1** ([[2026-10-10-m2b1-body-details]]) is on branch `m2b1-details` (not pushed). All ten tasks are done (as of 2026-10-16: 676 unit tests, typecheck clean, 76 end-to-end tests). **Next:** the whole-branch review, one fix wave, then push the branch and open the PR stacked on `m2a3-interface` when the user asks. After that, M2b.2 (the Moon).
+  - **M2b.1** ([[2026-10-10-m2b1-body-details]]) is on branch `m2b1-details` (not pushed). All ten tasks are done and the whole-branch review fix wave is applied (as of 2026-10-16: 690 unit tests, typecheck clean, 76 end-to-end tests; the data has 43 mission entries covering 39 distinct missions). **Next:** push the branch and open the PR stacked on `m2a3-interface` when the user asks. After that, M2b.2 (the Moon).
 - **Known gap:** the per-task rulings of M2a.1 and M2a.2 were not preserved, because those ledgers were deleted before rulings were copied into the vault. Their outcomes are in [[Changelog]], [[2026-10-05-m2a1-carry-over]], [[0007-tone-mapping-and-exposure]] and [[render]].
