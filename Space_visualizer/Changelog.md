@@ -92,6 +92,12 @@ Back to [[Home]]
 - **M2a.2 residuals fixed first:** Auto counts only consecutive long frames and cannot drop in the first 5 s ([[render]]); god rays are masked by bodies (composer `autoClear={false}`, proxy at 1.02 R, golden `3d-sun-partial`; [[0007-tone-mapping-and-exposure]]).
 - Twelve golden screenshots in `Assets/m2a3-golden/`; new end-to-end tests for the header, Tour, labels, the drawer and the layout matrix. Carry-over: [[2026-10-05-m2a1-carry-over]] (done items marked; "From M2a.3" lists what was deferred).
 
+## 2026-10-10 — Stacked PRs, M2b.1 design, and chat history in the vault
+- **Pull requests:** M2a.2 and M2a.3 were pushed as stacked PRs, #3 (base `m2a1-imagery`) and #4 (base `m2a2-cinematic`). #2 stays M2a.1 only.
+- **M2b split:** M2b (rich body detail) was brainstormed and split into five sections: M2b.1 data, M2b.2 the Moon, M2b.3 cutaway and charts, M2b.4 pins and fields, M2b.5 chapters.
+- **M2b.1:** the spec [[2026-10-10-m2b1-body-details-design]] was approved, and the plan [[2026-10-10-m2b1-body-details]] was written after checking the real source formats. At the user's request, Tasks 1–4 were done first: the schema and checks, the fact-sheet parser, the Gazetteer readers and the quote checks.
+- **Vault process:** `Sessions/` was started, because the user wants the chat history kept in the vault. [[Start here]] was added for new chats: goals, working agreements, process, environment and current state. Execution rulings are now copied into each plan's "Execution record" before scratch files are deleted.
+
 ## 2026-10-16 — M2b.1 Body details data implemented
 - **Cited details for all nine bodies** (the Sun and eight planets), one file each in `public/data/solar-system/details/<id>.json`, loaded on demand when a body is selected and never at startup. Model and checks in `src/core/details` ([[core]]); the store in [[state]]; the drawer sections in [[ui]].
 - **Content:**
@@ -105,4 +111,4 @@ Back to [[Home]]
 - **Tests:** 690 unit tests (after the whole-branch fix wave); `e2e/details.spec.ts` (three end-to-end tests: no details request at startup, Mars shows all five cited sections, a blocked file shows the unavailable state). Screenshots in `Assets/m2b1/`.
 - **Whole-branch review fixes:** the Interior rows show each bound in the form its source states it (for example Mars core "from radius 1,500–2,100 km to the centre", Sun core "from 25 % of the radius to the centre", Earth mantle "from 30 km deep to radius 3,485 km"), never a derived kilometre figure; each bound records its `from` and stated numbers in the data (the stored radii are unchanged for the M2b.3 cutaway); Mars' core state "liquid" now cites the InSight page. Numbers no longer gain digits (Mercury's dipole reads 0.002; ppm uncertainties read "± 1,000"). The header says "aligned with its spin axis" for a 0° tilt; Mercury's Atmosphere shows no column-abundance basis line. Each source page is listed once (four duplicate pairs merged), Gazetteer citations link the web page rather than the zip, Parker Solar Probe, Solar Orbiter, SOHO and Ulysses are typed orbiter as their pages say, and the Discovery line no longer shows the unquoted method.
 - Carry-over: [[2026-10-05-m2a1-carry-over]] ("From M2b.1" lists what was deferred).
-
+- **Pull request:** `m2b1-details` was pushed as PR #5, stacked on #4 (base `m2a3-interface`). The stack #1 → #5 is open and not merged.

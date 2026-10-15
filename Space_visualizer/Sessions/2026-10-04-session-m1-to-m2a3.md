@@ -1,14 +1,14 @@
 ---
-title: "Session log: 2026-10-04 to 2026-10-08 (M1 to M2a.3)"
-date: 2026-10-08
+title: "Session log: 2026-10-04 to 2026-10-16 (M1 to M2b.1)"
+date: 2026-10-16
 tags: [session, history]
 ---
 
-# Session log: 2026-10-04 to 2026-10-08 (M1 to M2a.3)
+# Session log: 2026-10-04 to 2026-10-16 (M1 to M2b.1)
 
 Back to [[Home]] · [[Changelog]]
 
-This was one long conversation with Claude Code. It produced the design, M1, M2a.1, M2a.2, M2a.3 and (continuing in later turns) M2b.1. The context was compacted several times along the way, so the early part below is reconstructed from those summaries and lists requests and decisions rather than a word-for-word log. The full raw transcript lives outside the vault in Claude Code's local project history.
+This was one long conversation with Claude Code. It produced the design, M1, M2a.1, M2a.2, M2a.3 and M2b.1. The file name is kept from when the note covered M1 to M2a.3, so existing links still work. The context was compacted several times along the way, so the early part below is reconstructed from those summaries and lists requests and decisions rather than a word-for-word log. The full raw transcript lives outside the vault in Claude Code's local project history.
 
 ## What was asked, and what was decided
 
@@ -90,20 +90,37 @@ This was one long conversation with Claude Code. It produced the design, M1, M2a
 - **End-to-end testing:** three tests in `e2e/details.spec.ts`. Two of the brief's assertions needed correcting to match real behaviour, not weakened: the startup check now looks for `/data/solar-system/details/` (the source module `src/core/details/schema.ts` also contains `/details/`), and the Mars check looks for Valles Marineris, because Olympus Mons is not among the 10 largest Mars features shown. The tests wait for the canvas before pressing F: F does nothing until the URL target is selected, which lands with the canvas. This also explained the old "cites the official imagery for Earth" failure, a timing race in that test (fixed the same way), not a combined-run flake.
 - **Screenshots** (Mars Interior and Atmosphere, Jupiter Magnetic field, at 1280x720 and 390x844) are in `Assets/m2b1/`; the layouts read cleanly and every row carries its citation.
 - **Whole-branch review (2026-10-16):** the final review returned "ready with fixes". The main findings were places where the drawer showed numbers no source states (Mars core "radius 0–2,100 km", the Sun's derived kilometre figures, Earth's 2,886 km, "0.00200", "± 1000.0"). The fix wave: each interior bound is shown in the form its source uses (stored as `from` and `stated` on the bound), Mars core's state cites the InSight page, numbers print without invented digits, duplicate source pages merged, Gazetteer citations link the web page, Apollo 8 removed from Earth (it belongs to the Moon, M2b.2), Sun mission types corrected, missions sorted by launch date, and the Discovery method no longer shown. Details are in [[Changelog]] and [[2026-10-05-m2a1-carry-over]].
-- **Open:** deferred minor items are in [[2026-10-05-m2a1-carry-over]] ("From M2b.1"). The user has not yet been asked to push the branch or open the PR.
+- **Open:** deferred minor items are in [[2026-10-05-m2a1-carry-over]] ("From M2b.1"). The branch was later pushed as PR #5 (see below).
 
-## State at the end of the session (2026-10-08)
-- **Branches** (as of 2026-10-10, pushed as stacked PRs):
-  - `m2a1-imagery` and `m2a2-cinematic` point at `ef37f2e` (M2a.1 and M2a.2);
-  - `m2a3-interface` has M2a.3 on top of that.
-  - Final state: 538 unit tests and 73 end-to-end tests pass, and typecheck is clean.
-- **Remote:** four open, stacked PRs, none merged:
+### Questions and housekeeping (2026-10-10 to 2026-10-16)
+- **"can claude cloud session credits be used to work on this project…?"** Yes, for part of the work. A cloud session clones the repo onto a Linux machine with no GPU and no local caches.
+  - **Good fits:** unit-tested code, curation research, data built with `npm run data`, docs and PRs.
+  - **Slow:** full end-to-end runs, because the browser has to be installed in each session.
+  - **Impractical:** texture work, because of the multi-GB cache, and performance or visual tuning, because there is no GPU. Keep these on the user's PC.
+  - Billing for cloud credits was not checked. A "Cloud sessions" section was added to [[Start here]].
+- **"lets continue working":** M2b.1 resumed at Task 5. The latest session note was read first, as agreed.
+- **Fixer killed Node processes:** during the M2b.1 fix wave, a fixer stopped its dev server with `taskkill /IM node.exe`, which ends every Node process on the PC. The user was told. Future instructions should stop only the server's own process.
+- **"update the obsidian documentation regarding the project and chat conservation":** this note was brought up to date (title, the PR #5 status, these questions, the end state). The Changelog gained the 2026-10-10 entry and PR #5, and [[Start here]] gained the cloud-session guidance.
+
+## State at the end of the session (2026-10-16)
+- **Branches:** all pushed, one per section, stacked:
+  - `m1-foundation` (M1);
+  - `m2a1-imagery` (M2a.1 on GitHub; the local branch also holds M2a.2, so it is not pushed);
+  - `m2a2-cinematic` (M2a.2), then `m2a3-interface` (M2a.3), then `m2b1-details` (M2b.1).
+- **Tests on `m2b1-details`:** 690 unit tests and 76 end-to-end tests pass, and typecheck is clean.
+- **Remote:** five open, stacked PRs, none merged:
   - #1 M1 (`m1-foundation` → `main`);
   - #2 M2a.1 (`m2a1-imagery` → `m1-foundation`);
   - #3 M2a.2 (`m2a2-cinematic` → `m2a1-imagery`);
-  - #4 M2a.3 (`m2a3-interface` → `m2a2-cinematic`).
+  - #4 M2a.3 (`m2a3-interface` → `m2a2-cinematic`);
+  - #5 M2b.1 (`m2b1-details` → `m2a3-interface`).
 - **The user still has to decide:**
-  - when to merge PRs #1–#4, in order, starting with #1;
+  - when to merge PRs #1–#5, in order, starting with #1;
   - whether to delete `Welcome.md`;
   - whether to add a licence.
-- **Next sections:** M2b, split into M2b.1–M2b.5 (see the M2b brainstorming above), then M2c (Exhibit style). Inputs are in [[2026-10-05-m2a1-carry-over]].
+- **Next section:** M2b.2, the Moon, starting with a design discussion and a spec. Its branch will stack on `m2b1-details`. Items waiting for it are in [[2026-10-05-m2a1-carry-over]]:
+  - Apollo 8;
+  - the Moon's header sentence, which would read "0.00 AU";
+  - occluders when a moon is present.
+
+  M2b.3–M2b.5 and M2c follow.

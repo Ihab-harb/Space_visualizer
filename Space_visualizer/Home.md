@@ -76,4 +76,4 @@ A 3D, time-accurate solar system in the browser — every fact cited to an offic
 
 ## Sessions
 Chat history with Claude Code: requests, decisions and open questions, one note per session.
-- [[2026-10-04-session-m1-to-m2a3|2026-10-04 to 2026-10-08: M1 to M2a.3]]
+- [[2026-10-04-session-m1-to-m2a3|2026-10-04 to 2026-10-16: M1 to M2b.1]]
