@@ -1,0 +1,99 @@
+{
+  "schemaVersion": 1,
+  "bodyId": "uranus",
+  "generatedAt": "2026-10-15T21:12:40.945Z",
+  "interior": null,
+  "atmosphere": {
+    "basis": "by volume, uncertainty in parentheses",
+    "major": [
+      {
+        "name": "Molecular hydrogen",
+        "formula": "H2",
+        "amount": 82.5,
+        "uncertainty": 3.3,
+        "unit": "%",
+        "sourceId": "nssdca-uranus-fact-sheet"
+      },
+      {
+        "name": "Helium",
+        "formula": "He",
+        "amount": 15.2,
+        "uncertainty": 3.3,
+        "unit": "%",
+        "sourceId": "nssdca-uranus-fact-sheet"
+      },
+      {
+        "name": "Methane",
+        "formula": "CH4",
+        "amount": 2.3,
+        "uncertainty": null,
+        "unit": "%",
+        "sourceId": "nssdca-uranus-fact-sheet"
+      }
+    ],
+    "minor": [
+      {
+        "name": "Hydrogen Deuteride",
+        "formula": "HD",
+        "amount": 148,
+        "uncertainty": null,
+        "unit": "ppm",
+        "sourceId": "nssdca-uranus-fact-sheet"
+      }
+    ],
+    "note": {
+      "text": "Aerosols: Ammonia ice, water ice, ammonia hydrosulfide, methane ice(?)",
+      "sourceId": "nssdca-uranus-fact-sheet"
+    }
+  },
+  "magnetosphere": {
+    "kind": "dipole",
+    "strengthGaussR3": {
+      "value": 0.228,
+      "sourceId": "nssdca-uranus-fact-sheet"
+    },
+    "tiltDeg": {
+      "value": 58.6,
+      "sourceId": "nssdca-uranus-fact-sheet"
+    },
+    "tiltLongitudeDeg": {
+      "value": 53.6,
+      "sourceId": "nssdca-uranus-fact-sheet"
+    },
+    "dipolePole": null,
+    "offsetRadii": {
+      "value": 0.352,
+      "sourceId": "nssdca-uranus-fact-sheet"
+    },
+    "referenceRadiusKm": {
+      "value": 25600,
+      "sourceId": "nssdca-uranus-fact-sheet"
+    },
+    "surfaceFieldGauss": {
+      "min": 0.1,
+      "max": 1,
+      "sourceId": "nssdca-uranus-fact-sheet"
+    }
+  },
+  "missions": [
+    {
+      "id": "voyager-2",
+      "name": "Voyager 2",
+      "agency": "NASA",
+      "type": "flyby",
+      "launchDate": "1977-08-20",
+      "arrivalDate": "1986-01-24",
+      "endDate": null,
+      "outcome": "ongoing",
+      "sourceId": "nasa-mission-voyager-2"
+    }
+  ],
+  "discovery": {
+    "kind": "discovered",
+    "by": "William Herschel",
+    "date": "1781-03-13",
+    "method": "telescopic observation",
+    "sourceId": "nssdca-uranus-fact"
+  },
+  "features": null
+}

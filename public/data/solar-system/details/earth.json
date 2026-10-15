@@ -1,0 +1,270 @@
+{
+  "schemaVersion": 1,
+  "bodyId": "earth",
+  "generatedAt": "2026-10-15T21:12:40.945Z",
+  "interior": {
+    "layers": [
+      {
+        "id": "crust",
+        "name": "Crust",
+        "outerRadiusKm": {
+          "min": 6378.1366,
+          "max": 6378.1366,
+          "sourceId": "nasa-science-earth-facts"
+        },
+        "innerRadiusKm": {
+          "min": 6348.1366,
+          "max": 6348.1366,
+          "sourceId": "nasa-science-earth-facts"
+        },
+        "from": "depth",
+        "state": "solid",
+        "composition": null,
+        "uncertain": false
+      },
+      {
+        "id": "mantle",
+        "name": "Mantle",
+        "outerRadiusKm": {
+          "min": 6348.1366,
+          "max": 6348.1366,
+          "sourceId": "nasa-science-earth-facts"
+        },
+        "innerRadiusKm": {
+          "min": 3485,
+          "max": 3485,
+          "sourceId": "nssdca-earth"
+        },
+        "from": "depth",
+        "state": "unknown",
+        "composition": {
+          "text": "A hot, viscous mixture of molten rock.",
+          "sourceId": "nasa-science-earth-facts"
+        },
+        "uncertain": false
+      },
+      {
+        "id": "outer-core",
+        "name": "Outer core",
+        "outerRadiusKm": {
+          "min": 3485,
+          "max": 3485,
+          "sourceId": "nssdca-earth"
+        },
+        "innerRadiusKm": {
+          "min": 1221,
+          "max": 1221,
+          "sourceId": "nasa-science-earth-facts"
+        },
+        "from": "radius",
+        "state": "liquid",
+        "composition": {
+          "text": "Iron and nickel fluids.",
+          "sourceId": "nasa-science-earth-facts"
+        },
+        "uncertain": false
+      },
+      {
+        "id": "inner-core",
+        "name": "Inner core",
+        "outerRadiusKm": {
+          "min": 1221,
+          "max": 1221,
+          "sourceId": "nasa-science-earth-facts"
+        },
+        "innerRadiusKm": {
+          "min": 0,
+          "max": 0,
+          "sourceId": "nasa-science-earth-facts"
+        },
+        "from": "radius",
+        "state": "solid",
+        "composition": {
+          "text": "A solid sphere made of iron and nickel metals.",
+          "sourceId": "nasa-science-earth-facts"
+        },
+        "uncertain": false
+      }
+    ]
+  },
+  "atmosphere": {
+    "basis": "by volume, dry air",
+    "major": [
+      {
+        "name": "Nitrogen",
+        "formula": "N2",
+        "amount": 78.08,
+        "uncertainty": null,
+        "unit": "%",
+        "sourceId": "nssdca-earth-fact-sheet"
+      },
+      {
+        "name": "Oxygen",
+        "formula": "O2",
+        "amount": 20.95,
+        "uncertainty": null,
+        "unit": "%",
+        "sourceId": "nssdca-earth-fact-sheet"
+      }
+    ],
+    "minor": [
+      {
+        "name": "Argon",
+        "formula": "Ar",
+        "amount": 9340,
+        "uncertainty": null,
+        "unit": "ppm",
+        "sourceId": "nssdca-earth-fact-sheet"
+      },
+      {
+        "name": "Carbon Dioxide",
+        "formula": "CO2",
+        "amount": 420,
+        "uncertainty": null,
+        "unit": "ppm",
+        "sourceId": "nssdca-earth-fact-sheet"
+      },
+      {
+        "name": "Neon",
+        "formula": "Ne",
+        "amount": 18.18,
+        "uncertainty": null,
+        "unit": "ppm",
+        "sourceId": "nssdca-earth-fact-sheet"
+      },
+      {
+        "name": "Helium",
+        "formula": "He",
+        "amount": 5.24,
+        "uncertainty": null,
+        "unit": "ppm",
+        "sourceId": "nssdca-earth-fact-sheet"
+      },
+      {
+        "name": "Methane",
+        "formula": "CH4",
+        "amount": 1.94,
+        "uncertainty": null,
+        "unit": "ppm",
+        "sourceId": "nssdca-earth-fact-sheet"
+      },
+      {
+        "name": "Krypton",
+        "formula": "Kr",
+        "amount": 1.14,
+        "uncertainty": null,
+        "unit": "ppm",
+        "sourceId": "nssdca-earth-fact-sheet"
+      },
+      {
+        "name": "Hydrogen",
+        "formula": "H2",
+        "amount": 0.55,
+        "uncertainty": null,
+        "unit": "ppm",
+        "sourceId": "nssdca-earth-fact-sheet"
+      }
+    ],
+    "note": {
+      "text": "Numbers do not add up to exactly 100% due to roundoff and uncertainty. Water is highly variable, typically makes up about 1%",
+      "sourceId": "nssdca-earth-fact-sheet"
+    }
+  },
+  "magnetosphere": {
+    "kind": "dipole",
+    "strengthGaussR3": {
+      "value": 0.306,
+      "sourceId": "nssdca-earth-fact-sheet"
+    },
+    "tiltDeg": null,
+    "tiltLongitudeDeg": null,
+    "dipolePole": {
+      "latDeg": 80.65,
+      "lonDegE": 287.32,
+      "sourceId": "nssdca-earth-fact-sheet"
+    },
+    "offsetRadii": {
+      "value": 0.076,
+      "sourceId": "nssdca-earth-fact-sheet"
+    },
+    "referenceRadiusKm": {
+      "value": 6378,
+      "sourceId": "nssdca-earth-fact-sheet"
+    },
+    "surfaceFieldGauss": {
+      "min": 0.24,
+      "max": 0.66,
+      "sourceId": "nssdca-earth-fact-sheet"
+    }
+  },
+  "missions": [
+    {
+      "id": "sputnik-1",
+      "name": "Sputnik 1",
+      "agency": "USSR",
+      "type": "orbiter",
+      "launchDate": "1957-10-04",
+      "arrivalDate": null,
+      "endDate": null,
+      "outcome": "success",
+      "sourceId": "nasa-sputnik-1"
+    },
+    {
+      "id": "explorer-1",
+      "name": "Explorer 1",
+      "agency": "NASA",
+      "type": "orbiter",
+      "launchDate": "1958-01-31",
+      "arrivalDate": null,
+      "endDate": "1958-05-23",
+      "outcome": "success",
+      "sourceId": "nasa-mission-explorer-1"
+    },
+    {
+      "id": "tiros-1",
+      "name": "TIROS 1",
+      "agency": "NASA",
+      "type": "orbiter",
+      "launchDate": "1960-04-01",
+      "arrivalDate": null,
+      "endDate": "1960-06-15",
+      "outcome": "success",
+      "sourceId": "nssdca-tiros-1"
+    },
+    {
+      "id": "landsat-1",
+      "name": "Landsat 1",
+      "agency": "NASA/USGS",
+      "type": "observatory",
+      "launchDate": "1972-07-23",
+      "arrivalDate": null,
+      "endDate": "1978-01-06",
+      "outcome": "success",
+      "sourceId": "nasa-mission-landsat-1"
+    },
+    {
+      "id": "apollo-8",
+      "name": "Apollo 8",
+      "agency": "NASA",
+      "type": "orbiter",
+      "launchDate": "1968-12-21",
+      "arrivalDate": null,
+      "endDate": "1968-12-27",
+      "outcome": "success",
+      "sourceId": "nasa-mission-apollo-8"
+    },
+    {
+      "id": "landsat-9",
+      "name": "Landsat 9",
+      "agency": "NASA/USGS",
+      "type": "observatory",
+      "launchDate": "2021-09-27",
+      "arrivalDate": null,
+      "endDate": null,
+      "outcome": "ongoing",
+      "sourceId": "nasa-mission-landsat-9"
+    }
+  ],
+  "discovery": null,
+  "features": null
+}

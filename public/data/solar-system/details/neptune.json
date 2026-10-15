@@ -1,0 +1,107 @@
+{
+  "schemaVersion": 1,
+  "bodyId": "neptune",
+  "generatedAt": "2026-10-15T21:12:40.945Z",
+  "interior": null,
+  "atmosphere": {
+    "basis": "by volume, uncertainty in parentheses",
+    "major": [
+      {
+        "name": "Molecular hydrogen",
+        "formula": "H2",
+        "amount": 80,
+        "uncertainty": 3.2,
+        "unit": "%",
+        "sourceId": "nssdca-neptune-fact-sheet"
+      },
+      {
+        "name": "Helium",
+        "formula": "He",
+        "amount": 19,
+        "uncertainty": 3.2,
+        "unit": "%",
+        "sourceId": "nssdca-neptune-fact-sheet"
+      },
+      {
+        "name": "Methane",
+        "formula": "CH4",
+        "amount": 1.5,
+        "uncertainty": 0.5,
+        "unit": "%",
+        "sourceId": "nssdca-neptune-fact-sheet"
+      }
+    ],
+    "minor": [
+      {
+        "name": "Hydrogen Deuteride",
+        "formula": "HD",
+        "amount": 192,
+        "uncertainty": null,
+        "unit": "ppm",
+        "sourceId": "nssdca-neptune-fact-sheet"
+      },
+      {
+        "name": "Ethane",
+        "formula": "C2H6",
+        "amount": 1.5,
+        "uncertainty": null,
+        "unit": "ppm",
+        "sourceId": "nssdca-neptune-fact-sheet"
+      }
+    ],
+    "note": {
+      "text": "Aerosols: Ammonia ice, water ice, ammonia hydrosulfide, methane ice(?)",
+      "sourceId": "nssdca-neptune-fact-sheet"
+    }
+  },
+  "magnetosphere": {
+    "kind": "dipole",
+    "strengthGaussR3": {
+      "value": 0.142,
+      "sourceId": "nssdca-neptune-fact-sheet"
+    },
+    "tiltDeg": {
+      "value": 46.9,
+      "sourceId": "nssdca-neptune-fact-sheet"
+    },
+    "tiltLongitudeDeg": {
+      "value": 288,
+      "sourceId": "nssdca-neptune-fact-sheet"
+    },
+    "dipolePole": null,
+    "offsetRadii": {
+      "value": 0.485,
+      "sourceId": "nssdca-neptune-fact-sheet"
+    },
+    "referenceRadiusKm": {
+      "value": 24765,
+      "sourceId": "nssdca-neptune-fact-sheet"
+    },
+    "surfaceFieldGauss": {
+      "min": 0.1,
+      "max": 0.9,
+      "sourceId": "nssdca-neptune-fact-sheet"
+    }
+  },
+  "missions": [
+    {
+      "id": "voyager-2",
+      "name": "Voyager 2",
+      "agency": "NASA",
+      "type": "flyby",
+      "launchDate": "1977-08-20",
+      "arrivalDate": "1989-08-25",
+      "endDate": null,
+      "outcome": "ongoing",
+      "sourceId": "nasa-mission-voyager-2"
+    }
+  ],
+  "discovery": {
+    "kind": "discovered",
+    "by": "Johann Gottfried Galle (based on predictions by John Couch Adams and Urbain Leverrier)",
+    "date": "1846-09-23",
+    "method": "telescopic search at a mathematically predicted position",
+    "sourceId": "nssdca-neptune-fact"
+  },
+  "features": null
+}

@@ -1,0 +1,1964 @@
+{
+  "schemaVersion": 1,
+  "bodyId": "venus",
+  "generatedAt": "2026-10-15T21:12:40.945Z",
+  "interior": null,
+  "atmosphere": {
+    "basis": "near surface, by volume",
+    "major": [
+      {
+        "name": "Carbon Dioxide",
+        "formula": "CO2",
+        "amount": 96.5,
+        "uncertainty": null,
+        "unit": "%",
+        "sourceId": "nssdca-venus-fact-sheet"
+      },
+      {
+        "name": "Nitrogen",
+        "formula": "N2",
+        "amount": 3.5,
+        "uncertainty": null,
+        "unit": "%",
+        "sourceId": "nssdca-venus-fact-sheet"
+      }
+    ],
+    "minor": [
+      {
+        "name": "Sulfur Dioxide",
+        "formula": "SO2",
+        "amount": 150,
+        "uncertainty": null,
+        "unit": "ppm",
+        "sourceId": "nssdca-venus-fact-sheet"
+      },
+      {
+        "name": "Argon",
+        "formula": "Ar",
+        "amount": 70,
+        "uncertainty": null,
+        "unit": "ppm",
+        "sourceId": "nssdca-venus-fact-sheet"
+      },
+      {
+        "name": "Water",
+        "formula": "H2O",
+        "amount": 20,
+        "uncertainty": null,
+        "unit": "ppm",
+        "sourceId": "nssdca-venus-fact-sheet"
+      },
+      {
+        "name": "Carbon Monoxide",
+        "formula": "CO",
+        "amount": 17,
+        "uncertainty": null,
+        "unit": "ppm",
+        "sourceId": "nssdca-venus-fact-sheet"
+      },
+      {
+        "name": "Helium",
+        "formula": "He",
+        "amount": 12,
+        "uncertainty": null,
+        "unit": "ppm",
+        "sourceId": "nssdca-venus-fact-sheet"
+      },
+      {
+        "name": "Neon",
+        "formula": "Ne",
+        "amount": 7,
+        "uncertainty": null,
+        "unit": "ppm",
+        "sourceId": "nssdca-venus-fact-sheet"
+      }
+    ],
+    "note": null
+  },
+  "magnetosphere": {
+    "kind": "none",
+    "sourceId": "nssdca-planetary-fact-sheet"
+  },
+  "missions": [
+    {
+      "id": "mariner-2",
+      "name": "Mariner 2",
+      "agency": "NASA",
+      "type": "flyby",
+      "launchDate": "1962-08-27",
+      "arrivalDate": "1962-12-14",
+      "endDate": "1963-01-03",
+      "outcome": "success",
+      "sourceId": "nasa-mission-mariner-2"
+    },
+    {
+      "id": "venera-7",
+      "name": "Venera 7",
+      "agency": "USSR",
+      "type": "lander",
+      "launchDate": "1970-08-17",
+      "arrivalDate": null,
+      "endDate": null,
+      "outcome": "success",
+      "sourceId": "nssdca-planetary-chronology"
+    },
+    {
+      "id": "venera-13",
+      "name": "Venera 13",
+      "agency": "USSR",
+      "type": "lander",
+      "launchDate": "1981-10-30",
+      "arrivalDate": null,
+      "endDate": null,
+      "outcome": "success",
+      "sourceId": "nssdca-planetary-chronology"
+    },
+    {
+      "id": "magellan",
+      "name": "Magellan",
+      "agency": "NASA",
+      "type": "orbiter",
+      "launchDate": "1989-05-04",
+      "arrivalDate": "1990-08-10",
+      "endDate": "1994-10-13",
+      "outcome": "success",
+      "sourceId": "nasa-mission-magellan"
+    },
+    {
+      "id": "venus-express",
+      "name": "Venus Express",
+      "agency": "ESA",
+      "type": "orbiter",
+      "launchDate": "2005-11-09",
+      "arrivalDate": "2006-04-11",
+      "endDate": "2014-12-16",
+      "outcome": "success",
+      "sourceId": "nasa-mission-venus-express"
+    },
+    {
+      "id": "akatsuki",
+      "name": "Akatsuki",
+      "agency": "JAXA",
+      "type": "orbiter",
+      "launchDate": "2010-05-21",
+      "arrivalDate": "2015-12-07",
+      "endDate": null,
+      "outcome": "success",
+      "sourceId": "nasa-mission-akatsuki"
+    }
+  ],
+  "discovery": {
+    "kind": "antiquity",
+    "sourceId": "nasa-spaceplace-venus"
+  },
+  "features": {
+    "totalApproved": {
+      "value": 1985,
+      "sourceId": "usgs-gazetteer-venus"
+    },
+    "thresholdKm": 906,
+    "sourceId": "usgs-gazetteer-venus",
+    "items": [
+      {
+        "name": "Parga Chasmata",
+        "type": "Chasma",
+        "latDeg": -20,
+        "lonDegE": 255,
+        "diameterKm": 11000,
+        "origin": "Nenets (Samoyed) forest witch. (Feature extent expanded in 2001.)",
+        "approvedYear": 1982
+      },
+      {
+        "name": "Aphrodite Terra",
+        "type": "Terra",
+        "latDeg": -5.800000000000001,
+        "lonDegE": 104.80000000000001,
+        "diameterKm": 10000,
+        "origin": "Greek goddess of love.",
+        "approvedYear": 1979
+      },
+      {
+        "name": "Lada Terra",
+        "type": "Terra",
+        "latDeg": -62.5,
+        "lonDegE": 20,
+        "diameterKm": 8615,
+        "origin": "Slavic goddess of love.",
+        "approvedYear": 1982
+      },
+      {
+        "name": "Eistla Regio",
+        "type": "Regio",
+        "latDeg": 10.5,
+        "lonDegE": 21.5,
+        "diameterKm": 8015,
+        "origin": "Norse giantess.",
+        "approvedYear": 1982
+      },
+      {
+        "name": "Guinevere Planitia",
+        "type": "Planitia",
+        "latDeg": 21.900000000000002,
+        "lonDegE": 325,
+        "diameterKm": 7520,
+        "origin": "British, wife of Arthur.",
+        "approvedYear": 1982
+      },
+      {
+        "name": "Baltis Vallis",
+        "type": "Vallis",
+        "latDeg": 37.300000000000004,
+        "lonDegE": 161.4,
+        "diameterKm": 6000,
+        "origin": "Syrian word for planet Venus.",
+        "approvedYear": 1994
+      },
+      {
+        "name": "Ishtar Terra",
+        "type": "Terra",
+        "latDeg": 70.4,
+        "lonDegE": 27.5,
+        "diameterKm": 5610,
+        "origin": "Babylonian goddess of love.",
+        "approvedYear": 1979
+      },
+      {
+        "name": "Ovda Regio",
+        "type": "Regio",
+        "latDeg": -2.8,
+        "lonDegE": 85.60000000000001,
+        "diameterKm": 5280,
+        "origin": "Marijian; Titaness having supernatural power.",
+        "approvedYear": 1982
+      },
+      {
+        "name": "Ganiki Planitia",
+        "type": "Planitia",
+        "latDeg": 40,
+        "lonDegE": 202,
+        "diameterKm": 5160,
+        "origin": "Orochian (Siberia) water spirit, mermaid.",
+        "approvedYear": 1985
+      },
+      {
+        "name": "Niobe Planitia",
+        "type": "Planitia",
+        "latDeg": 21,
+        "lonDegE": 112.30000000000001,
+        "diameterKm": 5008,
+        "origin": "Greek; her 12 children killed by Artemis and Apollo.",
+        "approvedYear": 1982
+      },
+      {
+        "name": "Aino Planitia",
+        "type": "Planitia",
+        "latDeg": -40.5,
+        "lonDegE": 94.5,
+        "diameterKm": 4985,
+        "origin": "Finnish heroine who became water spirit.",
+        "approvedYear": 1982
+      },
+      {
+        "name": "Helen Planitia",
+        "type": "Planitia",
+        "latDeg": -51.7,
+        "lonDegE": 263.90000000000003,
+        "diameterKm": 4360,
+        "origin": "Greek; \"the face that launched 1000 ships.\"",
+        "approvedYear": 1982
+      },
+      {
+        "name": "Sudenitsa Tesserae",
+        "type": "Tessera",
+        "latDeg": 33,
+        "lonDegE": 270,
+        "diameterKm": 4200,
+        "origin": "Slavic fate deities (three sisters).",
+        "approvedYear": 1997
+      },
+      {
+        "name": "Ulfrun Regio",
+        "type": "Regio",
+        "latDeg": 27,
+        "lonDegE": 225,
+        "diameterKm": 3954,
+        "origin": "Norse giantess.",
+        "approvedYear": 1982
+      },
+      {
+        "name": "Kawelu Planitia",
+        "type": "Planitia",
+        "latDeg": 32.800000000000004,
+        "lonDegE": 246.5,
+        "diameterKm": 3910,
+        "origin": "Hawaiian mythological heroine, died and brought back to life.",
+        "approvedYear": 1985
+      },
+      {
+        "name": "Bereghinya Planitia",
+        "type": "Planitia",
+        "latDeg": 28.6,
+        "lonDegE": 23.6,
+        "diameterKm": 3900,
+        "origin": "Slavic water spirit.",
+        "approvedYear": 1985
+      },
+      {
+        "name": "Manatum Tessera",
+        "type": "Tessera",
+        "latDeg": -4,
+        "lonDegE": 64,
+        "diameterKm": 3800,
+        "origin": "Semitic goddess of fate.",
+        "approvedYear": 1997
+      },
+      {
+        "name": "Ganis Chasma",
+        "type": "Chasma",
+        "latDeg": 18,
+        "lonDegE": 189,
+        "diameterKm": 3700,
+        "origin": "Western Lapp forest maiden.",
+        "approvedYear": 1982
+      },
+      {
+        "name": "Hinemoa Planitia",
+        "type": "Planitia",
+        "latDeg": 5,
+        "lonDegE": 265,
+        "diameterKm": 3700,
+        "origin": "Māori tale heroine; swam across Rotorua Lake to her friend.",
+        "approvedYear": 1997
+      },
+      {
+        "name": "Rusalka Planitia",
+        "type": "Planitia",
+        "latDeg": 3,
+        "lonDegE": 170,
+        "diameterKm": 3600,
+        "origin": "Russian mermaid.",
+        "approvedYear": 1982
+      },
+      {
+        "name": "Sedna Planitia",
+        "type": "Planitia",
+        "latDeg": 42.7,
+        "lonDegE": 340.7,
+        "diameterKm": 3570,
+        "origin": "Eskimo; her fingers became seals and whales.",
+        "approvedYear": 1982
+      },
+      {
+        "name": "Vedma Dorsa",
+        "type": "Dorsum",
+        "latDeg": 42,
+        "lonDegE": 159,
+        "diameterKm": 3345,
+        "origin": "East Slav witch.",
+        "approvedYear": 1985
+      },
+      {
+        "name": "Atla Regio",
+        "type": "Regio",
+        "latDeg": 9.200000000000001,
+        "lonDegE": 200.10000000000002,
+        "diameterKm": 3200,
+        "origin": "Norse giantess, mother of Heimdall.",
+        "approvedYear": 1982
+      },
+      {
+        "name": "Morrigan Linea",
+        "type": "Linea",
+        "latDeg": -54.5,
+        "lonDegE": 311,
+        "diameterKm": 3200,
+        "origin": "Celtic war goddess.",
+        "approvedYear": 1991
+      },
+      {
+        "name": "Citlalpul Vallis",
+        "type": "Vallis",
+        "latDeg": -51.800000000000004,
+        "lonDegE": 187,
+        "diameterKm": 3160,
+        "origin": "Aztec name for planet Venus. Name changed from Citlalpul Valles.",
+        "approvedYear": 1994
+      },
+      {
+        "name": "Hecate Chasma",
+        "type": "Chasma",
+        "latDeg": 18.2,
+        "lonDegE": 254.3,
+        "diameterKm": 3145,
+        "origin": "Greek moon goddess.",
+        "approvedYear": 1982
+      },
+      {
+        "name": "Artemis Chasma",
+        "type": "Chasma",
+        "latDeg": -41.2,
+        "lonDegE": 138.5,
+        "diameterKm": 3087,
+        "origin": "Greek goddess of hunt/moon.",
+        "approvedYear": 1982
+      },
+      {
+        "name": "Fonueha Planitia",
+        "type": "Planitia",
+        "latDeg": -44,
+        "lonDegE": 48,
+        "diameterKm": 3000,
+        "origin": "Samoan folktale blind old woman who became the shark.",
+        "approvedYear": 1997
+      },
+      {
+        "name": "Tahmina Planitia",
+        "type": "Planitia",
+        "latDeg": -23,
+        "lonDegE": 80,
+        "diameterKm": 3000,
+        "origin": "Iranian (Farsi) epic heroine, wife of knight Rustam.",
+        "approvedYear": 1997
+      },
+      {
+        "name": "Leda Planitia",
+        "type": "Planitia",
+        "latDeg": 44,
+        "lonDegE": 65.10000000000001,
+        "diameterKm": 2890,
+        "origin": "Mother of Helen, Castor.",
+        "approvedYear": 1982
+      },
+      {
+        "name": "Beta Regio",
+        "type": "Regio",
+        "latDeg": 25.3,
+        "lonDegE": 282.8,
+        "diameterKm": 2869,
+        "origin": "Second letter in Greek alphabet.",
+        "approvedYear": 1979
+      },
+      {
+        "name": "Phoebe Regio",
+        "type": "Regio",
+        "latDeg": -6,
+        "lonDegE": 282.8,
+        "diameterKm": 2852,
+        "origin": "Greek Titaness.",
+        "approvedYear": 1982
+      },
+      {
+        "name": "Lavinia Planitia",
+        "type": "Planitia",
+        "latDeg": -47.300000000000004,
+        "lonDegE": 347.5,
+        "diameterKm": 2820,
+        "origin": "Roman; wife of Aeneas.",
+        "approvedYear": 1982
+      },
+      {
+        "name": "Fortuna Tessera",
+        "type": "Tessera",
+        "latDeg": 69.9,
+        "lonDegE": 45.1,
+        "diameterKm": 2801,
+        "origin": "Roman goddess of chance.",
+        "approvedYear": 1985
+      },
+      {
+        "name": "Thetis Regio",
+        "type": "Regio",
+        "latDeg": -11.4,
+        "lonDegE": 129.9,
+        "diameterKm": 2801,
+        "origin": "Greek Titaness.",
+        "approvedYear": 1982
+      },
+      {
+        "name": "Dzerassa Planitia",
+        "type": "Planitia",
+        "latDeg": -15,
+        "lonDegE": 295,
+        "diameterKm": 2800,
+        "origin": "Ossetian epic heroine; golden-haired daughter of water king.",
+        "approvedYear": 1997
+      },
+      {
+        "name": "Undine Planitia",
+        "type": "Planitia",
+        "latDeg": 13,
+        "lonDegE": 303,
+        "diameterKm": 2800,
+        "origin": "Lithuanian water nymph, mermaid.",
+        "approvedYear": 1997
+      },
+      {
+        "name": "Snegurochka Planitia",
+        "type": "Planitia",
+        "latDeg": 86.60000000000001,
+        "lonDegE": 328,
+        "diameterKm": 2775,
+        "origin": "Snow maiden in Russian folktales, melted in spring.",
+        "approvedYear": 1985
+      },
+      {
+        "name": "Akhtamar Planitia",
+        "type": "Planitia",
+        "latDeg": 27,
+        "lonDegE": 65,
+        "diameterKm": 2700,
+        "origin": "Armenian epic heroine.",
+        "approvedYear": 1997
+      },
+      {
+        "name": "Laidamlulum Vallis",
+        "type": "Vallis",
+        "latDeg": -73,
+        "lonDegE": 151,
+        "diameterKm": 2700,
+        "origin": "Maidu (California) name for morning Venus.",
+        "approvedYear": 2000
+      },
+      {
+        "name": "Lowana Planitia",
+        "type": "Planitia",
+        "latDeg": 43,
+        "lonDegE": 98,
+        "diameterKm": 2700,
+        "origin": "Australian aboriginal tale heroine; lived alone by the sea weaving baskets.",
+        "approvedYear": 1997
+      },
+      {
+        "name": "Artemis Corona",
+        "type": "Corona",
+        "latDeg": -35,
+        "lonDegE": 135,
+        "diameterKm": 2600,
+        "origin": "Named from associated chasma.",
+        "approvedYear": 1994
+      },
+      {
+        "name": "Haasttse baad Tessera",
+        "type": "Tessera",
+        "latDeg": 6,
+        "lonDegE": 127,
+        "diameterKm": 2600,
+        "origin": "Navajo good health goddess.",
+        "approvedYear": 1997
+      },
+      {
+        "name": "Llorona Planitia",
+        "type": "Planitia",
+        "latDeg": 18,
+        "lonDegE": 145,
+        "diameterKm": 2600,
+        "origin": "Mexican/Spanish folktale heroine.",
+        "approvedYear": 1997
+      },
+      {
+        "name": "Unelanuhi Dorsa",
+        "type": "Dorsum",
+        "latDeg": 12,
+        "lonDegE": 87,
+        "diameterKm": 2600,
+        "origin": "Cherokee sun goddess.",
+        "approvedYear": 1997
+      },
+      {
+        "name": "Wawalag Planitia",
+        "type": "Planitia",
+        "latDeg": -30,
+        "lonDegE": 217,
+        "diameterKm": 2600,
+        "origin": "Yulengor (Arnhemland) tale heroines, two sisters who evolved language.",
+        "approvedYear": 1997
+      },
+      {
+        "name": "Tinatin Planitia",
+        "type": "Planitia",
+        "latDeg": -2,
+        "lonDegE": 16,
+        "diameterKm": 2500,
+        "origin": "Georgian epic heroine.",
+        "approvedYear": 1994
+      },
+      {
+        "name": "Louhi Planitia",
+        "type": "Planitia",
+        "latDeg": 80.5,
+        "lonDegE": 120.5,
+        "diameterKm": 2440,
+        "origin": "Karelo-Finn mother of the North.",
+        "approvedYear": 1985
+      },
+      {
+        "name": "Kalaipahoa Linea",
+        "type": "Linea",
+        "latDeg": -60.5,
+        "lonDegE": 336.5,
+        "diameterKm": 2400,
+        "origin": "Hawaiian war goddess.",
+        "approvedYear": 1991
+      },
+      {
+        "name": "Lakshmi Planum",
+        "type": "Planum",
+        "latDeg": 68.60000000000001,
+        "lonDegE": 339.3,
+        "diameterKm": 2345,
+        "origin": "Indian goddess of love and war.",
+        "approvedYear": 1979
+      },
+      {
+        "name": "Tellus Tessera",
+        "type": "Tessera",
+        "latDeg": 42.6,
+        "lonDegE": 76.8,
+        "diameterKm": 2329,
+        "origin": "Greek Titaness",
+        "approvedYear": 1982
+      },
+      {
+        "name": "Agrona Linea",
+        "type": "Linea",
+        "latDeg": 40,
+        "lonDegE": 280,
+        "diameterKm": 2300,
+        "origin": "Welsh goddess of slaughter, destroyer of life.",
+        "approvedYear": 2006
+      },
+      {
+        "name": "Dione Regio",
+        "type": "Regio",
+        "latDeg": -31.5,
+        "lonDegE": 328,
+        "diameterKm": 2300,
+        "origin": "Greek Titanness; 1st wife of Zeus.",
+        "approvedYear": 1991
+      },
+      {
+        "name": "Hyndla Regio",
+        "type": "Regio",
+        "latDeg": 22.5,
+        "lonDegE": 294.5,
+        "diameterKm": 2300,
+        "origin": "Norse wood giantess.",
+        "approvedYear": 1991
+      },
+      {
+        "name": "Tilli Hanum Planitia",
+        "type": "Planitia",
+        "latDeg": 54,
+        "lonDegE": 120,
+        "diameterKm": 2300,
+        "origin": "Azeri \"Ker-ogly\" epic tale heroine.",
+        "approvedYear": 1997
+      },
+      {
+        "name": "Jokwa Linea",
+        "type": "Linea",
+        "latDeg": -17,
+        "lonDegE": 210,
+        "diameterKm": 2200,
+        "origin": "Japanese \"Royal Lady of the West\" who waged war with demons and giants, then set the world in order.",
+        "approvedYear": 2003
+      },
+      {
+        "name": "Nuvakchin Dorsa",
+        "type": "Dorsum",
+        "latDeg": -53,
+        "lonDegE": 212,
+        "diameterKm": 2200,
+        "origin": "Hopi snow maiden ('kachina').",
+        "approvedYear": 1997
+      },
+      {
+        "name": "Rokapi Dorsa",
+        "type": "Dorsum",
+        "latDeg": -55,
+        "lonDegE": 222,
+        "diameterKm": 2200,
+        "origin": "Georgian main witch.",
+        "approvedYear": 1997
+      },
+      {
+        "name": "Vellamo Planitia",
+        "type": "Planitia",
+        "latDeg": 45.400000000000006,
+        "lonDegE": 149.1,
+        "diameterKm": 2155,
+        "origin": "Karelo-Finn mermaid.",
+        "approvedYear": 1985
+      },
+      {
+        "name": "Imapinua Planitia",
+        "type": "Planitia",
+        "latDeg": -60,
+        "lonDegE": 142,
+        "diameterKm": 2100,
+        "origin": "E. Greenland Eskimo sea mistress.",
+        "approvedYear": 1997
+      },
+      {
+        "name": "Kanykey Planitia",
+        "type": "Planitia",
+        "latDeg": -10,
+        "lonDegE": 350,
+        "diameterKm": 2100,
+        "origin": "Kyrgyz \"Manas\" epic tale heroine, wife of the knight Manas.",
+        "approvedYear": 1997
+      },
+      {
+        "name": "Laufey Regio",
+        "type": "Regio",
+        "latDeg": 7,
+        "lonDegE": 315,
+        "diameterKm": 2100,
+        "origin": "Norse giantess.",
+        "approvedYear": 2000
+      },
+      {
+        "name": "Navka Planitia",
+        "type": "Planitia",
+        "latDeg": -8.1,
+        "lonDegE": 317.6,
+        "diameterKm": 2100,
+        "origin": "East-Slavic mermaid.",
+        "approvedYear": 1982
+      },
+      {
+        "name": "Nsomeka Planitia",
+        "type": "Planitia",
+        "latDeg": -53,
+        "lonDegE": 195,
+        "diameterKm": 2100,
+        "origin": "Bantu culture heroine.",
+        "approvedYear": 1994
+      },
+      {
+        "name": "Dali Chasma",
+        "type": "Chasma",
+        "latDeg": -17.6,
+        "lonDegE": 167,
+        "diameterKm": 2077,
+        "origin": "Georgian; goddess of hunt.",
+        "approvedYear": 1982
+      },
+      {
+        "name": "Atalanta Planitia",
+        "type": "Planitia",
+        "latDeg": 45.6,
+        "lonDegE": 165.8,
+        "diameterKm": 2050,
+        "origin": "Greek mythical heroine.",
+        "approvedYear": 1982
+      },
+      {
+        "name": "Iris Dorsa",
+        "type": "Dorsum",
+        "latDeg": 52.7,
+        "lonDegE": 221.3,
+        "diameterKm": 2050,
+        "origin": "Greek goddess of the rainbow.",
+        "approvedYear": 1985
+      },
+      {
+        "name": "Astkhik Planum",
+        "type": "Planum",
+        "latDeg": -45,
+        "lonDegE": 20,
+        "diameterKm": 2000,
+        "origin": "Armenian goddess of love.",
+        "approvedYear": 1997
+      },
+      {
+        "name": "Devana Chasma",
+        "type": "Chasma",
+        "latDeg": 22,
+        "lonDegE": 283.5,
+        "diameterKm": 2000,
+        "origin": "Czechoslovakian goddess of hunting.",
+        "approvedYear": 1982
+      },
+      {
+        "name": "Lemkechen Dorsa",
+        "type": "Dorsum",
+        "latDeg": 18.5,
+        "lonDegE": 68.5,
+        "diameterKm": 2000,
+        "origin": "Berber pole star goddess, holds camel motionless to milk it.",
+        "approvedYear": 1997
+      },
+      {
+        "name": "Vaidilute Rupes",
+        "type": "Rupes",
+        "latDeg": -43.5,
+        "lonDegE": 22,
+        "diameterKm": 2000,
+        "origin": "Lithuanian hearth goddess.",
+        "approvedYear": 1997
+      },
+      {
+        "name": "Zhibek Planitia",
+        "type": "Planitia",
+        "latDeg": -40,
+        "lonDegE": 157,
+        "diameterKm": 2000,
+        "origin": "Kazakh \"Kyz-Zhibek\" epic tale heroine.",
+        "approvedYear": 1997
+      },
+      {
+        "name": "Nephele Dorsa",
+        "type": "Dorsum",
+        "latDeg": 39.7,
+        "lonDegE": 138.8,
+        "diameterKm": 1937,
+        "origin": "Greek cloud goddess.",
+        "approvedYear": 1985
+      },
+      {
+        "name": "Audra Planitia",
+        "type": "Planitia",
+        "latDeg": 61,
+        "lonDegE": 72,
+        "diameterKm": 1900,
+        "origin": "Lithuanian sea mistress.",
+        "approvedYear": 1991
+      },
+      {
+        "name": "Kotsmanyako Dorsa",
+        "type": "Dorsum",
+        "latDeg": -76,
+        "lonDegE": 242,
+        "diameterKm": 1900,
+        "origin": "Keresan Pueblo mythological girl who scattered the stars into the sky.",
+        "approvedYear": 1997
+      },
+      {
+        "name": "Alpha Regio",
+        "type": "Regio",
+        "latDeg": -25.5,
+        "lonDegE": 0.3,
+        "diameterKm": 1897,
+        "origin": "First letter in Greek alphabet.",
+        "approvedYear": 1979
+      },
+      {
+        "name": "Themis Regio",
+        "type": "Regio",
+        "latDeg": -37.4,
+        "lonDegE": 284.2,
+        "diameterKm": 1811,
+        "origin": "Greek Titaness.",
+        "approvedYear": 1982
+      },
+      {
+        "name": "Athena Tessera",
+        "type": "Tessera",
+        "latDeg": 35,
+        "lonDegE": 175,
+        "diameterKm": 1800,
+        "origin": "Greek goddess of wisdom.",
+        "approvedYear": 1997
+      },
+      {
+        "name": "Brynhild Fossae",
+        "type": "Fossa",
+        "latDeg": -26,
+        "lonDegE": 18,
+        "diameterKm": 1800,
+        "origin": "Norse warrior maiden.",
+        "approvedYear": 1997
+      },
+      {
+        "name": "Hanwi Chasma",
+        "type": "Chasma",
+        "latDeg": 10.5,
+        "lonDegE": 247,
+        "diameterKm": 1800,
+        "origin": "Oglala (Sioux) moon and sky goddess.",
+        "approvedYear": 2006
+      },
+      {
+        "name": "Karra mahte Fossae",
+        "type": "Fossa",
+        "latDeg": 28,
+        "lonDegE": 342,
+        "diameterKm": 1800,
+        "origin": "Latvian warrior goddess.",
+        "approvedYear": 1997
+      },
+      {
+        "name": "Khosedem Fossae",
+        "type": "Fossa",
+        "latDeg": -13,
+        "lonDegE": 303,
+        "diameterKm": 1800,
+        "origin": "Ketian (Yenisey R.) main evil goddess.",
+        "approvedYear": 1997
+      },
+      {
+        "name": "Laimdota Planitia",
+        "type": "Planitia",
+        "latDeg": -58,
+        "lonDegE": 117,
+        "diameterKm": 1800,
+        "origin": "Latvian myth heroine.",
+        "approvedYear": 1997
+      },
+      {
+        "name": "Sinanevt Dorsa",
+        "type": "Dorsum",
+        "latDeg": 66.5,
+        "lonDegE": 171,
+        "diameterKm": 1800,
+        "origin": "Itelmen (Kamchatka) Raven's daughter, wife of sky man.",
+        "approvedYear": 1997
+      },
+      {
+        "name": "Bell Regio",
+        "type": "Regio",
+        "latDeg": 32.800000000000004,
+        "lonDegE": 51.400000000000006,
+        "diameterKm": 1778,
+        "origin": "English giantess.",
+        "approvedYear": 1982
+      },
+      {
+        "name": "Badb Linea",
+        "type": "Linea",
+        "latDeg": 14,
+        "lonDegE": 15,
+        "diameterKm": 1750,
+        "origin": "Irish war goddess.",
+        "approvedYear": 1997
+      },
+      {
+        "name": "Ahsonnutli Dorsa",
+        "type": "Dorsum",
+        "latDeg": 47.900000000000006,
+        "lonDegE": 196.5,
+        "diameterKm": 1708,
+        "origin": "Navajo (N. America) spirit of light and sky.",
+        "approvedYear": 1985
+      },
+      {
+        "name": "Ikhwezi Vallis",
+        "type": "Vallis",
+        "latDeg": 16,
+        "lonDegE": 147.8,
+        "diameterKm": 1700,
+        "origin": "Zulu name for planet Venus.",
+        "approvedYear": 1997
+      },
+      {
+        "name": "Penthesilea Fossa",
+        "type": "Fossa",
+        "latDeg": -12,
+        "lonDegE": 214,
+        "diameterKm": 1700,
+        "origin": "Greek amazon queen.",
+        "approvedYear": 1997
+      },
+      {
+        "name": "Vir ava Chasma",
+        "type": "Chasma",
+        "latDeg": -16.5,
+        "lonDegE": 124,
+        "diameterKm": 1700,
+        "origin": "Mordvinian forest mother.",
+        "approvedYear": 1982
+      },
+      {
+        "name": "Vinmara Planitia",
+        "type": "Planitia",
+        "latDeg": 53.800000000000004,
+        "lonDegE": 207.60000000000002,
+        "diameterKm": 1635,
+        "origin": "Swan maiden whom sea god Qat kept on Earth by hiding her wings (New Hebrides).",
+        "approvedYear": 1985
+      },
+      {
+        "name": "Imdr Regio",
+        "type": "Regio",
+        "latDeg": -43,
+        "lonDegE": 212,
+        "diameterKm": 1611,
+        "origin": "Norse giantess.",
+        "approvedYear": 1982
+      },
+      {
+        "name": "Cocomama Tessera",
+        "type": "Tessera",
+        "latDeg": -62,
+        "lonDegE": 23,
+        "diameterKm": 1600,
+        "origin": "Quechua (Peru) happiness goddess.",
+        "approvedYear": 1997
+      },
+      {
+        "name": "Gegute Tessera",
+        "type": "Tessera",
+        "latDeg": 17,
+        "lonDegE": 121,
+        "diameterKm": 1600,
+        "origin": "Lithuanian goddess of time.",
+        "approvedYear": 1997
+      },
+      {
+        "name": "Sogolon Planitia",
+        "type": "Planitia",
+        "latDeg": 8,
+        "lonDegE": 107,
+        "diameterKm": 1600,
+        "origin": "Mandingo (Mali) epic heroine, buffalo-woman, mother of giant.",
+        "approvedYear": 1997
+      },
+      {
+        "name": "Vejas mate Dorsa",
+        "type": "Dorsum",
+        "latDeg": -70.5,
+        "lonDegE": 245,
+        "diameterKm": 1600,
+        "origin": "Latvian \"wind mother\".",
+        "approvedYear": 1997
+      },
+      {
+        "name": "Lukelong Dorsa",
+        "type": "Dorsum",
+        "latDeg": 73.3,
+        "lonDegE": 178.8,
+        "diameterKm": 1566,
+        "origin": "Polynesian goddess, creator of heavens.",
+        "approvedYear": 1985
+      },
+      {
+        "name": "Rona Chasma",
+        "type": "Chasma",
+        "latDeg": 2.5,
+        "lonDegE": 288,
+        "diameterKm": 1520,
+        "origin": "Maori Moon goddess who controls the tides.",
+        "approvedYear": 2012
+      },
+      {
+        "name": "Lauma Dorsa",
+        "type": "Dorsum",
+        "latDeg": 64.8,
+        "lonDegE": 190.4,
+        "diameterKm": 1517,
+        "origin": "Latvian witch, flies in the sky.",
+        "approvedYear": 1985
+      },
+      {
+        "name": "Alma Merghen Planitia",
+        "type": "Planitia",
+        "latDeg": -76,
+        "lonDegE": 100,
+        "diameterKm": 1500,
+        "origin": "Mongol/Tibet/Buryat \"Gheser\" epic tale heroine.",
+        "approvedYear": 1997
+      },
+      {
+        "name": "Chimon mana Tessera",
+        "type": "Tessera",
+        "latDeg": -3,
+        "lonDegE": 270,
+        "diameterKm": 1500,
+        "origin": "Hopi (SW USA) goddess of insane.",
+        "approvedYear": 1997
+      },
+      {
+        "name": "Dsonkwa Regio",
+        "type": "Regio",
+        "latDeg": -53,
+        "lonDegE": 167,
+        "diameterKm": 1500,
+        "origin": "Kwakiutl (NW Coast) forest giantess.",
+        "approvedYear": 1997
+      },
+      {
+        "name": "Kicheda Chasma",
+        "type": "Chasma",
+        "latDeg": -2.5,
+        "lonDegE": 213,
+        "diameterKm": 1500,
+        "origin": "Nganasan (Taymyr Peninsula Samoyed) lunar goddess.",
+        "approvedYear": 2003
+      },
+      {
+        "name": "Mugazo Planitia",
+        "type": "Planitia",
+        "latDeg": -69,
+        "lonDegE": 60,
+        "diameterKm": 1500,
+        "origin": "Vietnamese tale heroine.",
+        "approvedYear": 1997
+      },
+      {
+        "name": "Poludnitsa Dorsa",
+        "type": "Dorsum",
+        "latDeg": 5,
+        "lonDegE": 179.5,
+        "diameterKm": 1500,
+        "origin": "E. Slavic witch, corn fields deity.",
+        "approvedYear": 1997
+      },
+      {
+        "name": "Tinianavyt Dorsa",
+        "type": "Dorsum",
+        "latDeg": -51,
+        "lonDegE": 239,
+        "diameterKm": 1500,
+        "origin": "Koryak (Kamchatka) wife of sky man.",
+        "approvedYear": 1997
+      },
+      {
+        "name": "Bathkol Tessera",
+        "type": "Tessera",
+        "latDeg": 61,
+        "lonDegE": 200,
+        "diameterKm": 1485,
+        "origin": "Israeli goddess of fate.",
+        "approvedYear": 1997
+      },
+      {
+        "name": "Etain Dorsa",
+        "type": "Dorsum",
+        "latDeg": -45,
+        "lonDegE": 199,
+        "diameterKm": 1400,
+        "origin": "Irish sun and horse goddess.",
+        "approvedYear": 1997
+      },
+      {
+        "name": "Senectus Tesserae",
+        "type": "Tessera",
+        "latDeg": 50,
+        "lonDegE": 292,
+        "diameterKm": 1400,
+        "origin": "Roman goddess of old age.",
+        "approvedYear": 1997
+      },
+      {
+        "name": "Tushita Tesserae",
+        "type": "Tessera",
+        "latDeg": -42,
+        "lonDegE": 54,
+        "diameterKm": 1400,
+        "origin": "Hindu deity of resignation to fate. Name changed from Hikuleo Tesserae.",
+        "approvedYear": 2000
+      },
+      {
+        "name": "Saule Dorsa",
+        "type": "Dorsum",
+        "latDeg": -58,
+        "lonDegE": 206,
+        "diameterKm": 1375,
+        "origin": "Lithuanian and Latvian sun goddess.",
+        "approvedYear": 1994
+      },
+      {
+        "name": "Dekla Tessera",
+        "type": "Tessera",
+        "latDeg": 57.400000000000006,
+        "lonDegE": 71.8,
+        "diameterKm": 1363,
+        "origin": "Latvian goddess of fate.",
+        "approvedYear": 1985
+      },
+      {
+        "name": "Manzan Gurme Tesserae",
+        "type": "Tessera",
+        "latDeg": 39,
+        "lonDegE": 359.5,
+        "diameterKm": 1354,
+        "origin": "Ancestress who possesses the book of fate in Mongol, Tibetan, Buriat mythologies.",
+        "approvedYear": 1985
+      },
+      {
+        "name": "Veleda Linea",
+        "type": "Linea",
+        "latDeg": -10,
+        "lonDegE": 213,
+        "diameterKm": 1350,
+        "origin": "Warrior goddess of the continental Celts.",
+        "approvedYear": 2003
+      },
+      {
+        "name": "Dziwica Chasma",
+        "type": "Chasma",
+        "latDeg": -16.5,
+        "lonDegE": 235,
+        "diameterKm": 1300,
+        "origin": "Forest maiden in myths of Luzicke Serby/Sorben/Wenden, W. Slavic group in E. Germany.",
+        "approvedYear": 2003
+      },
+      {
+        "name": "Lahevhev Tesserae",
+        "type": "Tessera",
+        "latDeg": 29,
+        "lonDegE": 189,
+        "diameterKm": 1300,
+        "origin": "Melanesian dead souls goddess.",
+        "approvedYear": 1997
+      },
+      {
+        "name": "Metelitsa Dorsa",
+        "type": "Dorsum",
+        "latDeg": 16,
+        "lonDegE": 31,
+        "diameterKm": 1300,
+        "origin": "E. Slavic snowstorm deity.",
+        "approvedYear": 1997
+      },
+      {
+        "name": "Minu Anni Tessera",
+        "type": "Tessera",
+        "latDeg": -20,
+        "lonDegE": 30,
+        "diameterKm": 1300,
+        "origin": "Assyrian fate goddess.",
+        "approvedYear": 1997
+      },
+      {
+        "name": "Perunitsa Fossae",
+        "type": "Fossa",
+        "latDeg": -10,
+        "lonDegE": 307,
+        "diameterKm": 1300,
+        "origin": "E. Slavic winged warrior maiden.",
+        "approvedYear": 1997
+      },
+      {
+        "name": "Vut Ami Fluctus",
+        "type": "Fluctus",
+        "latDeg": -38,
+        "lonDegE": 67,
+        "diameterKm": 1300,
+        "origin": "Chuvash (Volga Region) fire goddess.",
+        "approvedYear": 2000
+      },
+      {
+        "name": "Xaratanga Chasma",
+        "type": "Chasma",
+        "latDeg": -54,
+        "lonDegE": 70,
+        "diameterKm": 1300,
+        "origin": "Tarascan (Mexico) moon goddess.",
+        "approvedYear": 1997
+      },
+      {
+        "name": "Xi Wang mu Tessera",
+        "type": "Tessera",
+        "latDeg": -30,
+        "lonDegE": 62,
+        "diameterKm": 1300,
+        "origin": "Chinese goddess of west, keeper of medicine for eternal life.",
+        "approvedYear": 1997
+      },
+      {
+        "name": "Zverine Chasma",
+        "type": "Chasma",
+        "latDeg": 18.5,
+        "lonDegE": 271,
+        "diameterKm": 1300,
+        "origin": "Lithuanian hunting goddess.",
+        "approvedYear": 1997
+      },
+      {
+        "name": "Shimti Tessera",
+        "type": "Tessera",
+        "latDeg": 31.900000000000002,
+        "lonDegE": 97.7,
+        "diameterKm": 1275,
+        "origin": "Babylonian; Ishtar as the goddess of fate.",
+        "approvedYear": 1985
+      },
+      {
+        "name": "Pandrosos Dorsa",
+        "type": "Dorsum",
+        "latDeg": 58.2,
+        "lonDegE": 207.70000000000002,
+        "diameterKm": 1254,
+        "origin": "Greek dew goddess.",
+        "approvedYear": 1985
+      },
+      {
+        "name": "Jyestha Tesserae",
+        "type": "Tessera",
+        "latDeg": 65.05,
+        "lonDegE": 343.41,
+        "diameterKm": 1252,
+        "origin": "Indian goddess of inauspicious things; sister of Lakshmi.",
+        "approvedYear": 2019
+      },
+      {
+        "name": "Mortim Ekva Fluctus",
+        "type": "Fluctus",
+        "latDeg": 1,
+        "lonDegE": 334,
+        "diameterKm": 1250,
+        "origin": "Mansi (Ob River Ugra) mistress of \"Bird's country\".",
+        "approvedYear": 2000
+      },
+      {
+        "name": "Mylitta Fluctus",
+        "type": "Fluctus",
+        "latDeg": -54,
+        "lonDegE": 355.5,
+        "diameterKm": 1250,
+        "origin": "Semitic mother goddess.",
+        "approvedYear": 1991
+      },
+      {
+        "name": "Aditi Dorsa",
+        "type": "Dorsum",
+        "latDeg": -30,
+        "lonDegE": 189,
+        "diameterKm": 1200,
+        "origin": "Indian sky goddess.",
+        "approvedYear": 1997
+      },
+      {
+        "name": "Aibarchin Planitia",
+        "type": "Planitia",
+        "latDeg": -73,
+        "lonDegE": 25,
+        "diameterKm": 1200,
+        "origin": "Uzbek \"Alpamysh\" epic tale heroine.",
+        "approvedYear": 1997
+      },
+      {
+        "name": "Barbale Dorsa",
+        "type": "Dorsum",
+        "latDeg": 15,
+        "lonDegE": 143,
+        "diameterKm": 1200,
+        "origin": "Georgian sun goddess.",
+        "approvedYear": 1997
+      },
+      {
+        "name": "Gunda Planitia",
+        "type": "Planitia",
+        "latDeg": -16,
+        "lonDegE": 267,
+        "diameterKm": 1200,
+        "origin": "Abkhazian epic heroine, beautiful sister of the giant knights.",
+        "approvedYear": 1997
+      },
+      {
+        "name": "Kaiwan Fluctus",
+        "type": "Fluctus",
+        "latDeg": -45.5,
+        "lonDegE": 358,
+        "diameterKm": 1200,
+        "origin": "Ethiopian earth mother.",
+        "approvedYear": 1991
+      },
+      {
+        "name": "Kastiatsi Dorsa",
+        "type": "Dorsum",
+        "latDeg": -53,
+        "lonDegE": 245,
+        "diameterKm": 1200,
+        "origin": "Acoma (SW USA) name of the rainbow.",
+        "approvedYear": 1997
+      },
+      {
+        "name": "Libuse Planitia",
+        "type": "Planitia",
+        "latDeg": 60,
+        "lonDegE": 290,
+        "diameterKm": 1200,
+        "origin": "Czech tales heroine, wiser of three sisters.",
+        "approvedYear": 1997
+      },
+      {
+        "name": "Likho Tesserae",
+        "type": "Tessera",
+        "latDeg": 40,
+        "lonDegE": 134,
+        "diameterKm": 1200,
+        "origin": "E. Slavic deity of bad fate.",
+        "approvedYear": 1997
+      },
+      {
+        "name": "Nedolya Tesserae",
+        "type": "Tessera",
+        "latDeg": 5,
+        "lonDegE": 294,
+        "diameterKm": 1200,
+        "origin": "E. Slavic bad fate goddess.",
+        "approvedYear": 1997
+      },
+      {
+        "name": "Nuptadi Planitia",
+        "type": "Planitia",
+        "latDeg": -73,
+        "lonDegE": 250,
+        "diameterKm": 1200,
+        "origin": "Mandan (US Plains) folk heroine; had magic shell robe.",
+        "approvedYear": 1997
+      },
+      {
+        "name": "Okipeta Dorsa",
+        "type": "Dorsum",
+        "latDeg": 67.5,
+        "lonDegE": 240,
+        "diameterKm": 1200,
+        "origin": "Greek goddess of whirlwind.",
+        "approvedYear": 1985
+      },
+      {
+        "name": "Pasom mana Tesserae",
+        "type": "Tessera",
+        "latDeg": -33,
+        "lonDegE": 49,
+        "diameterKm": 1200,
+        "origin": "Hopi goddess of dreams and the insane.",
+        "approvedYear": 1997
+      },
+      {
+        "name": "Vako nana Tesserae",
+        "type": "Tessera",
+        "latDeg": 27,
+        "lonDegE": 40,
+        "diameterKm": 1200,
+        "origin": "Adygan wise predictor.",
+        "approvedYear": 1997
+      },
+      {
+        "name": "Vasilisa Regio",
+        "type": "Regio",
+        "latDeg": -11,
+        "lonDegE": 332,
+        "diameterKm": 1200,
+        "origin": "Russian tale heroine.",
+        "approvedYear": 1997
+      },
+      {
+        "name": "Viriplaca Planum",
+        "type": "Planum",
+        "latDeg": -20,
+        "lonDegE": 112,
+        "diameterKm": 1200,
+        "origin": "Roman goddess of matrimonial love and happiness.",
+        "approvedYear": 2003
+      },
+      {
+        "name": "Yalyane Dorsa",
+        "type": "Dorsum",
+        "latDeg": 7,
+        "lonDegE": 177,
+        "diameterKm": 1200,
+        "origin": "Nenets (Samoyed) maiden of light.",
+        "approvedYear": 1997
+      },
+      {
+        "name": "Yuki Onne Tessera",
+        "type": "Tessera",
+        "latDeg": 39,
+        "lonDegE": 261,
+        "diameterKm": 1200,
+        "origin": "Japanese spirit of death.",
+        "approvedYear": 1997
+      },
+      {
+        "name": "Asteria Regio",
+        "type": "Regio",
+        "latDeg": 21.6,
+        "lonDegE": 267.5,
+        "diameterKm": 1131,
+        "origin": "Greek Titaness.",
+        "approvedYear": 1982
+      },
+      {
+        "name": "Nambi Dorsum",
+        "type": "Dorsum",
+        "latDeg": -72.5,
+        "lonDegE": 213,
+        "diameterKm": 1125,
+        "origin": "Ugandan sky goddess.",
+        "approvedYear": 1994
+      },
+      {
+        "name": "Bolotnitsa Fluctus",
+        "type": "Fluctus",
+        "latDeg": 50,
+        "lonDegE": 160,
+        "diameterKm": 1100,
+        "origin": "E. Slavic swamp mermaid.",
+        "approvedYear": 1997
+      },
+      {
+        "name": "Dolya Tessera",
+        "type": "Tessera",
+        "latDeg": -8,
+        "lonDegE": 296,
+        "diameterKm": 1100,
+        "origin": "E. Slavic good fate goddess.",
+        "approvedYear": 1997
+      },
+      {
+        "name": "Hanghepiwi Chasma",
+        "type": "Chasma",
+        "latDeg": -48.5,
+        "lonDegE": 18,
+        "diameterKm": 1100,
+        "origin": "Dakota name of the moon and night.",
+        "approvedYear": 1997
+      },
+      {
+        "name": "Husbishag Tesserae",
+        "type": "Tessera",
+        "latDeg": -28,
+        "lonDegE": 101,
+        "diameterKm": 1100,
+        "origin": "Semitic underworld goddess, kept hour of death records.",
+        "approvedYear": 1997
+      },
+      {
+        "name": "Kuldurok Dorsa",
+        "type": "Dorsum",
+        "latDeg": -50.400000000000006,
+        "lonDegE": 61,
+        "diameterKm": 1100,
+        "origin": "Uzbek thunder and lightning goddess.",
+        "approvedYear": 1997
+      },
+      {
+        "name": "Laverna Dorsa",
+        "type": "Dorsum",
+        "latDeg": -50,
+        "lonDegE": 132,
+        "diameterKm": 1100,
+        "origin": "Roman darkness and income goddess.",
+        "approvedYear": 1997
+      },
+      {
+        "name": "Neringa Regio",
+        "type": "Regio",
+        "latDeg": -65,
+        "lonDegE": 288,
+        "diameterKm": 1100,
+        "origin": "Lithuanian seacoast giantess.",
+        "approvedYear": 1997
+      },
+      {
+        "name": "Tkashi mapa Chasma",
+        "type": "Chasma",
+        "latDeg": 13,
+        "lonDegE": 206,
+        "diameterKm": 1100,
+        "origin": "Georgian forest goddess.",
+        "approvedYear": 1997
+      },
+      {
+        "name": "Tsovinar Dorsa",
+        "type": "Dorsum",
+        "latDeg": -46,
+        "lonDegE": 254,
+        "diameterKm": 1100,
+        "origin": "Armenian lightning deity.",
+        "approvedYear": 1997
+      },
+      {
+        "name": "Uottakh sulus Valles",
+        "type": "Vallis",
+        "latDeg": 12.5,
+        "lonDegE": 239,
+        "diameterKm": 1100,
+        "origin": "Yakutian/Saha name for planet Venus.",
+        "approvedYear": 1997
+      },
+      {
+        "name": "Zaryanitsa Dorsa",
+        "type": "Dorsum",
+        "latDeg": 0,
+        "lonDegE": 170,
+        "diameterKm": 1100,
+        "origin": "E. Slavic night lightning goddess.",
+        "approvedYear": 1997
+      },
+      {
+        "name": "Yumyn Udyr Dorsa",
+        "type": "Dorsum",
+        "latDeg": 81.4,
+        "lonDegE": 164.70000000000002,
+        "diameterKm": 1086,
+        "origin": "Marian (Volga Finn) daughter of main god.",
+        "approvedYear": 1985
+      },
+      {
+        "name": "Tezan Lineae",
+        "type": "Linea",
+        "latDeg": 81.4,
+        "lonDegE": 47.1,
+        "diameterKm": 1079,
+        "origin": "Etruscan dawn goddess.",
+        "approvedYear": 1985
+      },
+      {
+        "name": "Ananke Tessera",
+        "type": "Tessera",
+        "latDeg": 53.300000000000004,
+        "lonDegE": 137,
+        "diameterKm": 1060,
+        "origin": "Greek goddess of necessity.",
+        "approvedYear": 1985
+      },
+      {
+        "name": "Heng o Corona",
+        "type": "Corona",
+        "latDeg": 2,
+        "lonDegE": 355,
+        "diameterKm": 1060,
+        "origin": "Named for associated chasma.",
+        "approvedYear": 1994
+      },
+      {
+        "name": "Akkruva Colles",
+        "type": "Collis",
+        "latDeg": 46.1,
+        "lonDegE": 115.5,
+        "diameterKm": 1059,
+        "origin": "Saami-Lapp fishing goddess.",
+        "approvedYear": 1985
+      },
+      {
+        "name": "Meskhent Tessera",
+        "type": "Tessera",
+        "latDeg": 65.8,
+        "lonDegE": 103.10000000000001,
+        "diameterKm": 1056,
+        "origin": "Egyptian goddess of fortune.",
+        "approvedYear": 1985
+      },
+      {
+        "name": "Zorile Dorsa",
+        "type": "Dorsum",
+        "latDeg": 39.9,
+        "lonDegE": 338.40000000000003,
+        "diameterKm": 1041,
+        "origin": "Moldavian dawn goddess.",
+        "approvedYear": 1985
+      },
+      {
+        "name": "Achek Dorsa",
+        "type": "Dorsum",
+        "latDeg": -37.2,
+        "lonDegE": 230,
+        "diameterKm": 1000,
+        "origin": "Dinka (Sudan) wife of rain god Deng.",
+        "approvedYear": 1997
+      },
+      {
+        "name": "Atanua Mons",
+        "type": "Mons",
+        "latDeg": 9.5,
+        "lonDegE": 308.90000000000003,
+        "diameterKm": 1000,
+        "origin": "Dawn goddess from Marquesas Islands.",
+        "approvedYear": 1997
+      },
+      {
+        "name": "Britomartis Chasma",
+        "type": "Chasma",
+        "latDeg": -33,
+        "lonDegE": 130,
+        "diameterKm": 1000,
+        "origin": "Greek/Cretan goddess of the hunt.",
+        "approvedYear": 1994
+      },
+      {
+        "name": "Chernava Colles",
+        "type": "Collis",
+        "latDeg": -10.5,
+        "lonDegE": 335.5,
+        "diameterKm": 1000,
+        "origin": "Russian sea maiden, sea czar's daughter.",
+        "approvedYear": 1997
+      },
+      {
+        "name": "Chondi Chasma",
+        "type": "Chasma",
+        "latDeg": -18.5,
+        "lonDegE": 230,
+        "diameterKm": 1000,
+        "origin": "Bengali goddess of wild animals.",
+        "approvedYear": 2003
+      },
+      {
+        "name": "Dewi Ratih Chasma",
+        "type": "Chasma",
+        "latDeg": -6.5,
+        "lonDegE": 359.70000000000005,
+        "diameterKm": 1000,
+        "origin": "Bali (Indonesia) moon goddess.",
+        "approvedYear": 2000
+      },
+      {
+        "name": "Ishkus Regio",
+        "type": "Regio",
+        "latDeg": -61,
+        "lonDegE": 245,
+        "diameterKm": 1000,
+        "origin": "Makah (NW Coast) forest giantess.",
+        "approvedYear": 1997
+      },
+      {
+        "name": "Kokomikeis Chasma",
+        "type": "Chasma",
+        "latDeg": 0,
+        "lonDegE": 85,
+        "diameterKm": 1000,
+        "origin": "Blackfoot/Algonquin moon goddess.",
+        "approvedYear": 1997
+      },
+      {
+        "name": "Kruchina Tesserae",
+        "type": "Tessera",
+        "latDeg": 36,
+        "lonDegE": 27,
+        "diameterKm": 1000,
+        "origin": "E. Slavic goddess of sadness.",
+        "approvedYear": 1997
+      },
+      {
+        "name": "Nuahine Tessera",
+        "type": "Tessera",
+        "latDeg": -9,
+        "lonDegE": 157,
+        "diameterKm": 1000,
+        "origin": "Rapanui (Easter Isl.) fate goddess.",
+        "approvedYear": 1997
+      },
+      {
+        "name": "Snotra Tesserae",
+        "type": "Tessera",
+        "latDeg": 24,
+        "lonDegE": 134,
+        "diameterKm": 1000,
+        "origin": "Scandinavian goddess of wisdom.",
+        "approvedYear": 1997
+      },
+      {
+        "name": "Tikoiwuti Dorsa",
+        "type": "Dorsum",
+        "latDeg": 56,
+        "lonDegE": 225,
+        "diameterKm": 1000,
+        "origin": "Hopi goddess of darkness.",
+        "approvedYear": 1997
+      },
+      {
+        "name": "Tukwunag Dorsa",
+        "type": "Dorsum",
+        "latDeg": -69,
+        "lonDegE": 155,
+        "diameterKm": 1000,
+        "origin": "Hopi cumulus cloud maiden ('kachina').",
+        "approvedYear": 1997
+      },
+      {
+        "name": "Var Mons",
+        "type": "Mons",
+        "latDeg": 1.2,
+        "lonDegE": 316.2,
+        "diameterKm": 1000,
+        "origin": "Scandinavian love goddess.",
+        "approvedYear": 1997
+      },
+      {
+        "name": "Surupa Dorsa",
+        "type": "Dorsum",
+        "latDeg": 71.7,
+        "lonDegE": 209,
+        "diameterKm": 981,
+        "origin": "Hindu sky goddess, bringer of rain.",
+        "approvedYear": 1997
+      },
+      {
+        "name": "Dudumitsa Dorsa",
+        "type": "Dorsum",
+        "latDeg": -13.5,
+        "lonDegE": 358,
+        "diameterKm": 980,
+        "origin": "Bulgarian rain deity.",
+        "approvedYear": 2000
+      },
+      {
+        "name": "Penardun Linea",
+        "type": "Linea",
+        "latDeg": -54,
+        "lonDegE": 344,
+        "diameterKm": 975,
+        "origin": "Celtic sky goddess.",
+        "approvedYear": 1991
+      },
+      {
+        "name": "Szel-anya Lineae",
+        "type": "Linea",
+        "latDeg": 79.4,
+        "lonDegE": 81.3,
+        "diameterKm": 975,
+        "origin": "Hungarian wind mother.",
+        "approvedYear": 1985
+      },
+      {
+        "name": "Quilla Chasma",
+        "type": "Chasma",
+        "latDeg": -23.700000000000003,
+        "lonDegE": 127.30000000000001,
+        "diameterKm": 973,
+        "origin": "Inca moon goddess.",
+        "approvedYear": 1982
+      },
+      {
+        "name": "Laima Tessera",
+        "type": "Tessera",
+        "latDeg": 55,
+        "lonDegE": 48.5,
+        "diameterKm": 971,
+        "origin": "Latvian and Lithuanian goddess of fate.",
+        "approvedYear": 1985
+      },
+      {
+        "name": "Jutrzenka Vallis",
+        "type": "Vallis",
+        "latDeg": 27,
+        "lonDegE": 155.8,
+        "diameterKm": 970,
+        "origin": "Polish name for planet Venus.",
+        "approvedYear": 1997
+      },
+      {
+        "name": "Ningyo Fluctus",
+        "type": "Fluctus",
+        "latDeg": -5.5,
+        "lonDegE": 206,
+        "diameterKm": 970,
+        "origin": "Japanese fish goddess.",
+        "approvedYear": 1994
+      },
+      {
+        "name": "Sigrun Fossae",
+        "type": "Fossa",
+        "latDeg": 50.5,
+        "lonDegE": 18,
+        "diameterKm": 970,
+        "origin": "Norse Valkyrie.",
+        "approvedYear": 1985
+      },
+      {
+        "name": "Tomem Dorsa",
+        "type": "Dorsum",
+        "latDeg": 31.200000000000003,
+        "lonDegE": 7.2,
+        "diameterKm": 970,
+        "origin": "Ketian (Siberia) Mother of the hot; lives in the sky, near the Sun.",
+        "approvedYear": 1985
+      },
+      {
+        "name": "Argimpasa Fluctus",
+        "type": "Fluctus",
+        "latDeg": 0,
+        "lonDegE": 175.5,
+        "diameterKm": 950,
+        "origin": "Scythian goddess of love.",
+        "approvedYear": 1997
+      },
+      {
+        "name": "Naatse elit Dorsa",
+        "type": "Dorsum",
+        "latDeg": -66,
+        "lonDegE": 249,
+        "diameterKm": 950,
+        "origin": "Navajo rainbow goddess.",
+        "approvedYear": 1997
+      },
+      {
+        "name": "Ney Anki Fluctus",
+        "type": "Fluctus",
+        "latDeg": -37,
+        "lonDegE": 105,
+        "diameterKm": 950,
+        "origin": "Khanty (Ob River Ugra) mother of fire.",
+        "approvedYear": 2000
+      },
+      {
+        "name": "Rabie Chasma",
+        "type": "Chasma",
+        "latDeg": -10.5,
+        "lonDegE": 267,
+        "diameterKm": 950,
+        "origin": "Wemale (E. Indonesia) moon goddess.",
+        "approvedYear": 2000
+      },
+      {
+        "name": "Ragana Dorsa",
+        "type": "Dorsum",
+        "latDeg": -69,
+        "lonDegE": 246,
+        "diameterKm": 950,
+        "origin": "Latvian witch.",
+        "approvedYear": 1997
+      },
+      {
+        "name": "Spidola Dorsa",
+        "type": "Dorsum",
+        "latDeg": -73.5,
+        "lonDegE": 325,
+        "diameterKm": 950,
+        "origin": "Latvian witch.",
+        "approvedYear": 1997
+      },
+      {
+        "name": "T ien Hu Colles",
+        "type": "Collis",
+        "latDeg": 30.700000000000003,
+        "lonDegE": 15.100000000000001,
+        "diameterKm": 947,
+        "origin": "Chinese sea goddess.",
+        "approvedYear": 1991
+      },
+      {
+        "name": "Diana Chasma",
+        "type": "Chasma",
+        "latDeg": -14.8,
+        "lonDegE": 154.8,
+        "diameterKm": 938,
+        "origin": "Roman goddess of hunt/moon.",
+        "approvedYear": 1982
+      },
+      {
+        "name": "Metis Mons",
+        "type": "Mons",
+        "latDeg": 71,
+        "lonDegE": 253,
+        "diameterKm": 920,
+        "origin": "Greek Titaness.",
+        "approvedYear": 2009
+      },
+      {
+        "name": "Juno Chasma",
+        "type": "Chasma",
+        "latDeg": -30.5,
+        "lonDegE": 111.10000000000001,
+        "diameterKm": 915,
+        "origin": "Roman sky goddess; sister and consort of Jupiter.",
+        "approvedYear": 1982
+      },
+      {
+        "name": "Mardezh Ava Dorsa",
+        "type": "Dorsum",
+        "latDeg": 32.4,
+        "lonDegE": 68.60000000000001,
+        "diameterKm": 906,
+        "origin": "Marian (Volga Finn) wind goddess.",
+        "approvedYear": 1985
+      }
+    ]
+  }
+}

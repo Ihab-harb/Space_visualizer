@@ -52,6 +52,9 @@ A 3D, time-accurate solar system in the browser — every fact cited to an offic
 - [[Hubble OPAL Global Maps]]
 - [[NASA SVS Deep Star Maps 2020]]
 - [[NSSDCA Ring Fact Sheets]]
+- [[NSSDCA Planet Fact Sheets]]
+- [[USGS Gazetteer of Planetary Nomenclature]]
+- [[NASA mission and science pages (curated)]]
 
 ## Decisions
 - [[0002-react-three-fiber]]

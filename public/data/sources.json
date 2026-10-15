@@ -7,7 +7,7 @@
       "publisher": "NASA/JPL Solar System Dynamics",
       "url": "https://ssd.jpl.nasa.gov/planets/approx_pos.html",
       "license": "NASA/JPL public web content (JPL Image Use Policy, https://www.jpl.nasa.gov/jpl-image-use-policy)",
-      "retrievedAt": "2026-10-04"
+      "retrievedAt": "2026-10-15"
     },
     {
       "id": "jpl-horizons",
@@ -23,7 +23,7 @@
       "publisher": "NASA Goddard Space Flight Center, NSSDCA",
       "url": "https://nssdc.gsfc.nasa.gov/planetary/factsheet/",
       "license": "NASA public domain (NASA media usage guidelines)",
-      "retrievedAt": "2026-10-04"
+      "retrievedAt": "2026-10-15"
     },
     {
       "id": "nssdca-sun-fact-sheet",
@@ -31,7 +31,7 @@
       "publisher": "NASA Goddard Space Flight Center, NSSDCA",
       "url": "https://nssdc.gsfc.nasa.gov/planetary/factsheet/sunfact.html",
       "license": "NASA public domain (NASA media usage guidelines)",
-      "retrievedAt": "2026-10-04"
+      "retrievedAt": "2026-10-15"
     },
     {
       "id": "naif-pck00011",
@@ -39,7 +39,7 @@
       "publisher": "NASA/JPL Navigation and Ancillary Information Facility (NAIF)",
       "url": "https://naif.jpl.nasa.gov/pub/naif/generic_kernels/pck/pck00011.tpc",
       "license": "NASA public domain (NASA media usage guidelines)",
-      "retrievedAt": "2026-10-04"
+      "retrievedAt": "2026-10-15"
     },
     {
       "id": "nasa-science-sun",
@@ -47,7 +47,7 @@
       "publisher": "NASA",
       "url": "https://science.nasa.gov/sun/",
       "license": "NASA public domain (NASA media usage guidelines)",
-      "retrievedAt": "2026-10-04"
+      "retrievedAt": "2026-10-15"
     },
     {
       "id": "nasa-science-mercury",
@@ -55,7 +55,7 @@
       "publisher": "NASA",
       "url": "https://science.nasa.gov/mercury/",
       "license": "NASA public domain (NASA media usage guidelines)",
-      "retrievedAt": "2026-10-04"
+      "retrievedAt": "2026-10-15"
     },
     {
       "id": "nasa-science-venus",
@@ -63,7 +63,7 @@
       "publisher": "NASA",
       "url": "https://science.nasa.gov/venus/",
       "license": "NASA public domain (NASA media usage guidelines)",
-      "retrievedAt": "2026-10-04"
+      "retrievedAt": "2026-10-15"
     },
     {
       "id": "nasa-science-earth",
@@ -71,7 +71,7 @@
       "publisher": "NASA",
       "url": "https://science.nasa.gov/earth/facts/",
       "license": "NASA public domain (NASA media usage guidelines)",
-      "retrievedAt": "2026-10-04"
+      "retrievedAt": "2026-10-15"
     },
     {
       "id": "nasa-science-mars",
@@ -79,7 +79,7 @@
       "publisher": "NASA",
       "url": "https://science.nasa.gov/mars/",
       "license": "NASA public domain (NASA media usage guidelines)",
-      "retrievedAt": "2026-10-04"
+      "retrievedAt": "2026-10-15"
     },
     {
       "id": "nasa-science-jupiter",
@@ -87,7 +87,7 @@
       "publisher": "NASA",
       "url": "https://science.nasa.gov/jupiter/",
       "license": "NASA public domain (NASA media usage guidelines)",
-      "retrievedAt": "2026-10-04"
+      "retrievedAt": "2026-10-15"
     },
     {
       "id": "nasa-science-saturn",
@@ -95,7 +95,7 @@
       "publisher": "NASA",
       "url": "https://science.nasa.gov/saturn/",
       "license": "NASA public domain (NASA media usage guidelines)",
-      "retrievedAt": "2026-10-04"
+      "retrievedAt": "2026-10-15"
     },
     {
       "id": "nasa-science-uranus",
@@ -103,7 +103,7 @@
       "publisher": "NASA",
       "url": "https://science.nasa.gov/uranus/",
       "license": "NASA public domain (NASA media usage guidelines)",
-      "retrievedAt": "2026-10-04"
+      "retrievedAt": "2026-10-15"
     },
     {
       "id": "nasa-science-neptune",
@@ -111,7 +111,7 @@
       "publisher": "NASA",
       "url": "https://science.nasa.gov/neptune/",
       "license": "NASA public domain (NASA media usage guidelines)",
-      "retrievedAt": "2026-10-04"
+      "retrievedAt": "2026-10-15"
     },
     {
       "id": "nasa-blue-marble-ng",
@@ -224,6 +224,518 @@
       "url": "https://svs.gsfc.nasa.gov/4851",
       "retrievedAt": "2026-10-04",
       "license": "NASA public domain (credit NASA/Goddard SVS; Gaia DR2: ESA/Gaia/DPAC)"
+    },
+    {
+      "id": "nssdca-mercury-fact-sheet",
+      "title": "Mercury Fact Sheet (D. R. Williams)",
+      "publisher": "NASA Goddard Space Flight Center, NSSDCA",
+      "url": "https://nssdc.gsfc.nasa.gov/planetary/factsheet/mercuryfact.html",
+      "license": "NASA public domain (NASA media usage guidelines)",
+      "retrievedAt": "2026-10-15"
+    },
+    {
+      "id": "usgs-gazetteer-mercury",
+      "title": "Mercury nomenclature (feature centre points), Gazetteer of Planetary Nomenclature",
+      "publisher": "USGS Astrogeology Science Center / IAU Working Group for Planetary System Nomenclature",
+      "url": "https://asc-planetarynames-data.s3.us-west-2.amazonaws.com/MERCURY_nomenclature_center_pts.zip",
+      "license": "Public domain (USGS)",
+      "retrievedAt": "2026-10-15"
+    },
+    {
+      "id": "nssdca-venus-fact-sheet",
+      "title": "Venus Fact Sheet (D. R. Williams)",
+      "publisher": "NASA Goddard Space Flight Center, NSSDCA",
+      "url": "https://nssdc.gsfc.nasa.gov/planetary/factsheet/venusfact.html",
+      "license": "NASA public domain (NASA media usage guidelines)",
+      "retrievedAt": "2026-10-15"
+    },
+    {
+      "id": "usgs-gazetteer-venus",
+      "title": "Venus nomenclature (feature centre points), Gazetteer of Planetary Nomenclature",
+      "publisher": "USGS Astrogeology Science Center / IAU Working Group for Planetary System Nomenclature",
+      "url": "https://asc-planetarynames-data.s3.us-west-2.amazonaws.com/VENUS_nomenclature_center_pts.zip",
+      "license": "Public domain (USGS)",
+      "retrievedAt": "2026-10-15"
+    },
+    {
+      "id": "nssdca-earth-fact-sheet",
+      "title": "Earth Fact Sheet (D. R. Williams)",
+      "publisher": "NASA Goddard Space Flight Center, NSSDCA",
+      "url": "https://nssdc.gsfc.nasa.gov/planetary/factsheet/earthfact.html",
+      "license": "NASA public domain (NASA media usage guidelines)",
+      "retrievedAt": "2026-10-15"
+    },
+    {
+      "id": "nssdca-mars-fact-sheet",
+      "title": "Mars Fact Sheet (D. R. Williams)",
+      "publisher": "NASA Goddard Space Flight Center, NSSDCA",
+      "url": "https://nssdc.gsfc.nasa.gov/planetary/factsheet/marsfact.html",
+      "license": "NASA public domain (NASA media usage guidelines)",
+      "retrievedAt": "2026-10-15"
+    },
+    {
+      "id": "usgs-gazetteer-mars",
+      "title": "Mars nomenclature (feature centre points), Gazetteer of Planetary Nomenclature",
+      "publisher": "USGS Astrogeology Science Center / IAU Working Group for Planetary System Nomenclature",
+      "url": "https://asc-planetarynames-data.s3.us-west-2.amazonaws.com/MARS_nomenclature_center_pts.zip",
+      "license": "Public domain (USGS)",
+      "retrievedAt": "2026-10-15"
+    },
+    {
+      "id": "nssdca-jupiter-fact-sheet",
+      "title": "Jupiter Fact Sheet (D. R. Williams)",
+      "publisher": "NASA Goddard Space Flight Center, NSSDCA",
+      "url": "https://nssdc.gsfc.nasa.gov/planetary/factsheet/jupiterfact.html",
+      "license": "NASA public domain (NASA media usage guidelines)",
+      "retrievedAt": "2026-10-15"
+    },
+    {
+      "id": "nssdca-saturn-fact-sheet",
+      "title": "Saturn Fact Sheet (D. R. Williams)",
+      "publisher": "NASA Goddard Space Flight Center, NSSDCA",
+      "url": "https://nssdc.gsfc.nasa.gov/planetary/factsheet/saturnfact.html",
+      "license": "NASA public domain (NASA media usage guidelines)",
+      "retrievedAt": "2026-10-15"
+    },
+    {
+      "id": "nssdca-uranus-fact-sheet",
+      "title": "Uranus Fact Sheet (D. R. Williams)",
+      "publisher": "NASA Goddard Space Flight Center, NSSDCA",
+      "url": "https://nssdc.gsfc.nasa.gov/planetary/factsheet/uranusfact.html",
+      "license": "NASA public domain (NASA media usage guidelines)",
+      "retrievedAt": "2026-10-15"
+    },
+    {
+      "id": "nssdca-neptune-fact-sheet",
+      "title": "Neptune Fact Sheet (D. R. Williams)",
+      "publisher": "NASA Goddard Space Flight Center, NSSDCA",
+      "url": "https://nssdc.gsfc.nasa.gov/planetary/factsheet/neptunefact.html",
+      "license": "NASA public domain (NASA media usage guidelines)",
+      "retrievedAt": "2026-10-15"
+    },
+    {
+      "id": "nasa-msfc-solar-interior",
+      "title": "The Solar Interior (NASA/Marshall Solar Physics)",
+      "publisher": "NASA Marshall Space Flight Center",
+      "url": "https://solarscience.msfc.nasa.gov/interior.shtml",
+      "license": "NASA public domain (NASA media usage guidelines)",
+      "retrievedAt": "2026-10-15"
+    },
+    {
+      "id": "nasa-gsfc-sun-structure",
+      "title": "The Structure of the Sun (ISTP Workshop)",
+      "publisher": "NASA Goddard Space Flight Center",
+      "url": "https://pwg.gsfc.nasa.gov/istp/outreach/workshop/thompson/sundiag.html",
+      "license": "NASA public domain (NASA media usage guidelines)",
+      "retrievedAt": "2026-10-15"
+    },
+    {
+      "id": "nasa-science-mercury-facts",
+      "title": "Mercury: Facts",
+      "publisher": "NASA Science",
+      "url": "https://science.nasa.gov/mercury/facts/",
+      "license": "NASA public domain (NASA media usage guidelines)",
+      "retrievedAt": "2026-10-15"
+    },
+    {
+      "id": "nasa-science-earth-facts",
+      "title": "Facts About Earth",
+      "publisher": "NASA Science",
+      "url": "https://science.nasa.gov/earth/facts/",
+      "license": "NASA public domain (NASA media usage guidelines)",
+      "retrievedAt": "2026-10-15"
+    },
+    {
+      "id": "nssdca-earth",
+      "title": "Earth Fact Sheet",
+      "publisher": "NASA NSSDCA",
+      "url": "https://nssdc.gsfc.nasa.gov/planetary/factsheet/earthfact.html",
+      "license": "NASA public domain (NASA media usage guidelines)",
+      "retrievedAt": "2026-10-15"
+    },
+    {
+      "id": "nasa-science-mars-facts",
+      "title": "Mars: Facts",
+      "publisher": "NASA Science",
+      "url": "https://science.nasa.gov/mars/facts/",
+      "license": "NASA public domain (NASA media usage guidelines)",
+      "retrievedAt": "2026-10-15"
+    },
+    {
+      "id": "nasa-insight-deep-interior",
+      "title": "NASA's InSight Reveals the Deep Interior of Mars",
+      "publisher": "NASA / JPL",
+      "url": "https://www.nasa.gov/centers-and-facilities/jpl/nasas-insight-reveals-the-deep-interior-of-mars/",
+      "license": "NASA public domain (NASA media usage guidelines)",
+      "retrievedAt": "2026-10-15"
+    },
+    {
+      "id": "nasa-spaceplace-mercury",
+      "title": "All About Mercury (NASA Space Place)",
+      "publisher": "NASA Space Place",
+      "url": "https://spaceplace.nasa.gov/all-about-mercury/en/",
+      "license": "NASA public domain (NASA media usage guidelines)",
+      "retrievedAt": "2026-10-15"
+    },
+    {
+      "id": "nssdca-mariner-10",
+      "title": "Mariner 10 (NSSDCA Master Catalog)",
+      "publisher": "NASA NSSDCA",
+      "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1973-085A",
+      "license": "NASA public domain (NASA media usage guidelines)",
+      "retrievedAt": "2026-10-15"
+    },
+    {
+      "id": "nssdca-messenger",
+      "title": "MESSENGER (NSSDCA Master Catalog)",
+      "publisher": "NASA NSSDCA",
+      "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=2004-030A",
+      "license": "NASA public domain (NASA media usage guidelines)",
+      "retrievedAt": "2026-10-15"
+    },
+    {
+      "id": "nasa-mission-bepicolombo",
+      "title": "BepiColombo (NASA Science mission page)",
+      "publisher": "NASA Science",
+      "url": "https://science.nasa.gov/mission/bepicolombo/",
+      "license": "NASA public domain (NASA media usage guidelines)",
+      "retrievedAt": "2026-10-15"
+    },
+    {
+      "id": "nasa-spaceplace-venus",
+      "title": "All About Venus (NASA Space Place)",
+      "publisher": "NASA Space Place",
+      "url": "https://spaceplace.nasa.gov/all-about-venus/en/",
+      "license": "NASA public domain (NASA media usage guidelines)",
+      "retrievedAt": "2026-10-15"
+    },
+    {
+      "id": "nasa-mission-mariner-2",
+      "title": "Mariner 2 (NASA Science mission page)",
+      "publisher": "NASA Science",
+      "url": "https://science.nasa.gov/mission/mariner-2/",
+      "license": "NASA public domain (NASA media usage guidelines)",
+      "retrievedAt": "2026-10-15"
+    },
+    {
+      "id": "nssdca-planetary-chronology",
+      "title": "Chronology of Lunar and Planetary Exploration (NSSDCA)",
+      "publisher": "NASA NSSDCA",
+      "url": "https://nssdc.gsfc.nasa.gov/planetary/chronology.html",
+      "license": "NASA public domain (NASA media usage guidelines)",
+      "retrievedAt": "2026-10-15"
+    },
+    {
+      "id": "nasa-mission-magellan",
+      "title": "Magellan (NASA Science mission page)",
+      "publisher": "NASA Science",
+      "url": "https://science.nasa.gov/mission/magellan/",
+      "license": "NASA public domain (NASA media usage guidelines)",
+      "retrievedAt": "2026-10-15"
+    },
+    {
+      "id": "nasa-mission-venus-express",
+      "title": "Venus Express (NASA Science mission page)",
+      "publisher": "NASA Science",
+      "url": "https://science.nasa.gov/mission/venus-express/",
+      "license": "NASA public domain (NASA media usage guidelines)",
+      "retrievedAt": "2026-10-15"
+    },
+    {
+      "id": "nasa-mission-akatsuki",
+      "title": "Akatsuki (NASA Science mission page)",
+      "publisher": "NASA Science",
+      "url": "https://science.nasa.gov/mission/akatsuki/",
+      "license": "NASA public domain (NASA media usage guidelines)",
+      "retrievedAt": "2026-10-15"
+    },
+    {
+      "id": "nasa-sputnik-1",
+      "title": "Sputnik 1 (NASA Image Article)",
+      "publisher": "NASA",
+      "url": "https://www.nasa.gov/image-article/sputnik-1/",
+      "license": "NASA public domain (NASA media usage guidelines)",
+      "retrievedAt": "2026-10-15"
+    },
+    {
+      "id": "nasa-mission-explorer-1",
+      "title": "Explorer 1 (NASA Science mission page)",
+      "publisher": "NASA Science",
+      "url": "https://science.nasa.gov/mission/explorer-1/",
+      "license": "NASA public domain (NASA media usage guidelines)",
+      "retrievedAt": "2026-10-15"
+    },
+    {
+      "id": "nssdca-tiros-1",
+      "title": "TIROS 1 (NSSDCA Master Catalog)",
+      "publisher": "NASA NSSDCA",
+      "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1960-002B",
+      "license": "NASA public domain (NASA media usage guidelines)",
+      "retrievedAt": "2026-10-15"
+    },
+    {
+      "id": "nasa-mission-landsat-1",
+      "title": "Landsat 1 (NASA Science mission page)",
+      "publisher": "NASA Science",
+      "url": "https://science.nasa.gov/mission/landsat-1/",
+      "license": "NASA public domain (NASA media usage guidelines)",
+      "retrievedAt": "2026-10-15"
+    },
+    {
+      "id": "nasa-mission-apollo-8",
+      "title": "Apollo 8 (NASA Science mission page)",
+      "publisher": "NASA Science",
+      "url": "https://www.nasa.gov/mission/apollo-8/",
+      "license": "NASA public domain (NASA media usage guidelines)",
+      "retrievedAt": "2026-10-15"
+    },
+    {
+      "id": "nasa-mission-landsat-9",
+      "title": "Landsat 9 (NASA Science mission page)",
+      "publisher": "NASA Science",
+      "url": "https://science.nasa.gov/mission/landsat-9/",
+      "license": "NASA public domain (NASA media usage guidelines)",
+      "retrievedAt": "2026-10-15"
+    },
+    {
+      "id": "nasa-spaceplace-mars",
+      "title": "All About Mars (NASA Space Place)",
+      "publisher": "NASA Space Place",
+      "url": "https://spaceplace.nasa.gov/all-about-mars/en/",
+      "license": "NASA public domain (NASA media usage guidelines)",
+      "retrievedAt": "2026-10-15"
+    },
+    {
+      "id": "nasa-mission-mariner-4",
+      "title": "Mariner 4 (NASA Science mission page)",
+      "publisher": "NASA Science",
+      "url": "https://science.nasa.gov/mission/mariner-4/",
+      "license": "NASA public domain (NASA media usage guidelines)",
+      "retrievedAt": "2026-10-15"
+    },
+    {
+      "id": "nasa-mission-mariner-9",
+      "title": "Mariner 9 (NASA Science mission page)",
+      "publisher": "NASA Science",
+      "url": "https://science.nasa.gov/mission/mariner-9/",
+      "license": "NASA public domain (NASA media usage guidelines)",
+      "retrievedAt": "2026-10-15"
+    },
+    {
+      "id": "nasa-mission-viking-1",
+      "title": "Viking 1 (NASA Science mission page)",
+      "publisher": "NASA Science",
+      "url": "https://science.nasa.gov/mission/viking-1/",
+      "license": "NASA public domain (NASA media usage guidelines)",
+      "retrievedAt": "2026-10-15"
+    },
+    {
+      "id": "nasa-mission-mars-pathfinder",
+      "title": "Mars Pathfinder (NASA Science mission page)",
+      "publisher": "NASA Science",
+      "url": "https://science.nasa.gov/mission/mars-pathfinder/",
+      "license": "NASA public domain (NASA media usage guidelines)",
+      "retrievedAt": "2026-10-15"
+    },
+    {
+      "id": "nasa-mission-mars-global-surveyor",
+      "title": "Mars Global Surveyor (NASA Science mission page)",
+      "publisher": "NASA Science",
+      "url": "https://science.nasa.gov/mission/mars-global-surveyor/",
+      "license": "NASA public domain (NASA media usage guidelines)",
+      "retrievedAt": "2026-10-15"
+    },
+    {
+      "id": "nssdca-spirit",
+      "title": "Spirit (Mars Exploration Rover A) (NSSDCA Master Catalog)",
+      "publisher": "NASA NSSDCA",
+      "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=2003-027A",
+      "license": "NASA public domain (NASA media usage guidelines)",
+      "retrievedAt": "2026-10-15"
+    },
+    {
+      "id": "nssdca-opportunity",
+      "title": "Opportunity (Mars Exploration Rover B) (NSSDCA Master Catalog)",
+      "publisher": "NASA NSSDCA",
+      "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=2003-032A",
+      "license": "NASA public domain (NASA media usage guidelines)",
+      "retrievedAt": "2026-10-15"
+    },
+    {
+      "id": "nasa-mission-msl-curiosity",
+      "title": "Mars Science Laboratory: Curiosity Rover (NASA Science mission page)",
+      "publisher": "NASA Science",
+      "url": "https://science.nasa.gov/mission/msl-curiosity/",
+      "license": "NASA public domain (NASA media usage guidelines)",
+      "retrievedAt": "2026-10-15"
+    },
+    {
+      "id": "nasa-mission-insight",
+      "title": "InSight (NASA Science mission page)",
+      "publisher": "NASA Science",
+      "url": "https://science.nasa.gov/mission/insight/",
+      "license": "NASA public domain (NASA media usage guidelines)",
+      "retrievedAt": "2026-10-15"
+    },
+    {
+      "id": "nssdca-perseverance",
+      "title": "Mars 2020 (Perseverance) (NSSDCA Master Catalog)",
+      "publisher": "NASA NSSDCA",
+      "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=2020-052A",
+      "license": "NASA public domain (NASA media usage guidelines)",
+      "retrievedAt": "2026-10-15"
+    },
+    {
+      "id": "nasa-spaceplace-jupiter",
+      "title": "All About Jupiter (NASA Space Place)",
+      "publisher": "NASA Space Place",
+      "url": "https://spaceplace.nasa.gov/all-about-jupiter/en/",
+      "license": "NASA public domain (NASA media usage guidelines)",
+      "retrievedAt": "2026-10-15"
+    },
+    {
+      "id": "nasa-mission-pioneer-10",
+      "title": "Pioneer 10 (NASA Science mission page)",
+      "publisher": "NASA Science",
+      "url": "https://science.nasa.gov/mission/pioneer-10/",
+      "license": "NASA public domain (NASA media usage guidelines)",
+      "retrievedAt": "2026-10-15"
+    },
+    {
+      "id": "nasa-mission-voyager-1",
+      "title": "Voyager 1 (NASA Science mission page)",
+      "publisher": "NASA Science",
+      "url": "https://science.nasa.gov/mission/voyager-1/",
+      "license": "NASA public domain (NASA media usage guidelines)",
+      "retrievedAt": "2026-10-15"
+    },
+    {
+      "id": "nasa-mission-voyager-2",
+      "title": "Voyager 2 (NASA Science mission page)",
+      "publisher": "NASA Science",
+      "url": "https://science.nasa.gov/mission/voyager-2/",
+      "license": "NASA public domain (NASA media usage guidelines)",
+      "retrievedAt": "2026-10-15"
+    },
+    {
+      "id": "nasa-mission-galileo",
+      "title": "Galileo (NASA Science mission page)",
+      "publisher": "NASA Science",
+      "url": "https://science.nasa.gov/mission/galileo/",
+      "license": "NASA public domain (NASA media usage guidelines)",
+      "retrievedAt": "2026-10-15"
+    },
+    {
+      "id": "nasa-mission-juno",
+      "title": "Juno (NASA Science mission page)",
+      "publisher": "NASA Science",
+      "url": "https://science.nasa.gov/mission/juno/",
+      "license": "NASA public domain (NASA media usage guidelines)",
+      "retrievedAt": "2026-10-15"
+    },
+    {
+      "id": "nasa-mission-juice",
+      "title": "Juice (NASA Science mission page)",
+      "publisher": "NASA Science",
+      "url": "https://science.nasa.gov/mission/juice/",
+      "license": "NASA public domain (NASA media usage guidelines)",
+      "retrievedAt": "2026-10-15"
+    },
+    {
+      "id": "nasa-mission-europa-clipper",
+      "title": "Europa Clipper (NASA Science mission page)",
+      "publisher": "NASA Science",
+      "url": "https://science.nasa.gov/mission/europa-clipper/",
+      "license": "NASA public domain (NASA media usage guidelines)",
+      "retrievedAt": "2026-10-15"
+    },
+    {
+      "id": "nasa-science-saturn-facts-history",
+      "title": "Saturn: Facts (NASA Science)",
+      "publisher": "NASA Science",
+      "url": "https://science.nasa.gov/saturn/facts/",
+      "license": "NASA public domain (NASA media usage guidelines)",
+      "retrievedAt": "2026-10-15"
+    },
+    {
+      "id": "nasa-mission-pioneer-11",
+      "title": "Pioneer 11 (NASA Science mission page)",
+      "publisher": "NASA Science",
+      "url": "https://science.nasa.gov/mission/pioneer-11/",
+      "license": "NASA public domain (NASA media usage guidelines)",
+      "retrievedAt": "2026-10-15"
+    },
+    {
+      "id": "nasa-jpl-cassini",
+      "title": "Cassini-Huygens (NASA JPL mission page)",
+      "publisher": "NASA Jet Propulsion Laboratory",
+      "url": "https://www.jpl.nasa.gov/missions/cassini-huygens/",
+      "license": "NASA public domain (NASA media usage guidelines)",
+      "retrievedAt": "2026-10-15"
+    },
+    {
+      "id": "nssdca-uranus-fact",
+      "title": "Uranus Fact Sheet (NSSDCA)",
+      "publisher": "NASA NSSDCA",
+      "url": "https://nssdc.gsfc.nasa.gov/planetary/factsheet/uranusfact.html",
+      "license": "NASA public domain (NASA media usage guidelines)",
+      "retrievedAt": "2026-10-15"
+    },
+    {
+      "id": "nssdca-neptune-fact",
+      "title": "Neptune Fact Sheet (NSSDCA)",
+      "publisher": "NASA NSSDCA",
+      "url": "https://nssdc.gsfc.nasa.gov/planetary/factsheet/neptunefact.html",
+      "license": "NASA public domain (NASA media usage guidelines)",
+      "retrievedAt": "2026-10-15"
+    },
+    {
+      "id": "nasa-mission-helios-1",
+      "title": "Helios 1 (NASA Science mission page)",
+      "publisher": "NASA Science",
+      "url": "https://science.nasa.gov/mission/helios-1/",
+      "license": "NASA public domain (NASA media usage guidelines)",
+      "retrievedAt": "2026-10-15"
+    },
+    {
+      "id": "nasa-mission-ulysses",
+      "title": "Ulysses (NASA Science mission page)",
+      "publisher": "NASA Science",
+      "url": "https://science.nasa.gov/mission/ulysses/",
+      "license": "NASA public domain (NASA media usage guidelines)",
+      "retrievedAt": "2026-10-15"
+    },
+    {
+      "id": "nasa-mission-soho",
+      "title": "SOHO (NASA Science mission page)",
+      "publisher": "NASA Science",
+      "url": "https://science.nasa.gov/mission/soho/",
+      "license": "NASA public domain (NASA media usage guidelines)",
+      "retrievedAt": "2026-10-15"
+    },
+    {
+      "id": "nasa-mission-sdo",
+      "title": "Solar Dynamics Observatory (NASA Science mission page)",
+      "publisher": "NASA Science",
+      "url": "https://science.nasa.gov/mission/sdo/",
+      "license": "NASA public domain (NASA media usage guidelines)",
+      "retrievedAt": "2026-10-15"
+    },
+    {
+      "id": "nasa-mission-parker-solar-probe",
+      "title": "Parker Solar Probe (NASA Science mission page)",
+      "publisher": "NASA Science",
+      "url": "https://science.nasa.gov/mission/parker-solar-probe/",
+      "license": "NASA public domain (NASA media usage guidelines)",
+      "retrievedAt": "2026-10-15"
+    },
+    {
+      "id": "nasa-mission-solar-orbiter",
+      "title": "Solar Orbiter (NASA Science mission page)",
+      "publisher": "NASA Science",
+      "url": "https://science.nasa.gov/mission/solar-orbiter/",
+      "license": "NASA public domain (NASA media usage guidelines)",
+      "retrievedAt": "2026-10-15"
     }
   ]
 }
