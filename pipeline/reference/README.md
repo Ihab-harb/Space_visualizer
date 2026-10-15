@@ -40,11 +40,11 @@ The build step that loads these files (added with the details builder) calls `ve
 `verifyInteriors` and `verifyMissions` return a list of problems, one string each, for example:
 
 - `mars/core outer.min: 2100 km not in quote: "..."`
-- `mars/mariner-4: arrival 1965-07-15 not in any quote`
+- `mars/mariner-4: arrival 1965-07-14 not in any quote`
 - `quote not on page of <sourceId>`, `quote too short (3 words)`, `source <sourceId> is not registered`, `source <id> is not on an official host: <host>`, `duplicate source id <id>`
 
 An empty list means every quote is on its page and every number and date is in its quote. The build fails otherwise.
 
 ## Time zones in mission dates
 
-Mission dates follow the cited page's own convention, which is US local time on some NASA pages and UT on others. For example, the Mariner 4 page gives the Mars flyby as July 14, 1965 (EDT), while the same moment is July 15 in UT. When a page states both explicitly, record the UT date. Do not convert dates yourself: the recorded date must appear in the quote.
+Mission dates follow the cited page's own convention, which is US local time on some NASA pages and UT on others. Prefer the UT date only when the page states the UT date with its year in a form the date check accepts; otherwise record the page's main date (often US local time) and keep the quote that states it. Example of the otherwise case: the Mariner 4 page gives the flyby as July 14, 1965 (EDT) and the UT form only as "[01:00:57 UT July 15]", without a year, so the arrival is recorded as 1965-07-14 (UT was July 15). Do not convert dates yourself: the recorded date must appear in the quote.
