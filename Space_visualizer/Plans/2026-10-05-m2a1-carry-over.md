@@ -183,4 +183,4 @@ Minor findings from the per-task reviews of Tasks 5 to 9, summarised from the ex
   - **Mission counts:** after removing Apollo 8 the data holds 43 mission entries covering 39 distinct missions (the Voyagers and a few others repeat across bodies); earlier notes said "44 missions".
   - **Stated decimals:** the parser keeps numbers, not their written decimals, so Jupiter's dipole strength reads "4.3" where the sheet writes "4.30" (nothing is invented); recording the raw text would print it exactly.
 - **End-to-end (Task 10):** done. "cites the official imagery for Earth" was a timing race in the test, not a combined-run flake: it pressed **F** right after `goto`, but F does nothing until the URL target is selected, which lands with the canvas (about 1 failure in 5 under `--repeat-each=5 --workers=4`). The test and the new details tests now wait for the canvas first.
-
+- **Whole-branch review leftovers (M2b.1):** the 390×844 Mars screenshot in `Assets/m2b1/` shows the Interior wording from before the fix wave and should be retaken. Stated decimals are not recorded, so Jupiter's dipole shows "4.3" where the sheet says "4.30".

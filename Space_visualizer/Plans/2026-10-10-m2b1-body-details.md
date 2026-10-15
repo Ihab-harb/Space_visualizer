@@ -1,7 +1,7 @@
 ---
 title: M2b.1 Body Details Data — Implementation Plan
 date: 2026-10-10
-status: in progress (Tasks 1–4 complete; resume at Task 5)
+status: complete
 milestone: M2b.1
 tags: [plan, m2b, data]
 ---
@@ -1206,3 +1206,43 @@ The work ran subagent-driven, with one implementer and one reviewer per task. Th
 - the parser silently turns some reworded dipole lines into null;
 - a lower-case word before a day number still passes the date check;
 - some safe false fails in the quote checks.
+
+### Part 2: Tasks 5–10, whole-branch review and fix wave (2026-10-15/16)
+
+| Task | Result | Commits |
+|---|---|---|
+| 5 Curated interiors | **Coverage:** Sun (3 layers), Mercury (2), Earth (4), Mars (3). Venus and the giant planets have no official km or % figures (confirmed independently), so their interior is null. **Review:** Earth's mantle was stored from a "thickness" quote, and its outer core was missing; both fixed using NSSDCA's core radius of 3,485 km | `bf8dbb3..3c83047` |
+| 6 Curated missions | 43 entries (39 distinct missions; the Voyagers repeat across bodies) from official NASA, NSSDCA and ESA pages. Discovery for Uranus and Neptune; antiquity for the five classical planets. **Review:** checked 33 missions and found no wrong date; NASA's MESSENGER page has a typo (Mar. 11), confirmed. The Ulysses and Sputnik 1 quotes were fixed | `3c83047..ee39ab1` |
+| 7 Pipeline build | Nine details files and 64 new sources. **Review:** radii used the equatorial radius instead of the mean radius; fixed with the NSSDCA sheet mean radius. Gazetteer values are rounded | `ee39ab1..3291a3b` |
+| 8 Details store | On-demand loading, with missing, error and retry states. Clean review | `3291a3b..a14d0fd` |
+| 9 Drawer and header | New drawer sections, citations added only after the existing ones, the details sentence and the moon wording fix. Clean review | `a14d0fd..91a315b` |
+| 10 End-to-end tests and docs | Three end-to-end tests, screenshots and docs. **Review:** an existing Earth-imagery test pressed F before the URL target was selected (a timing race in the test); fixed with a canvas wait | `91a315b..038485e` |
+| Whole-branch review (Opus) | **Verdict:** ready with fixes. **Interior rows** did not show the sources' forms: collapsed ranges, percentages shown as km, and Earth's 2,886 km. **False precision:** 0.00200 G·R³. One fix wave fixed both, plus: the tilt-0 wording, Mercury's atmosphere text, duplicate sources, Apollo 8 removed from Earth, Sun mission types, the discovery line, the Gazetteer link and mission order. A scoped re-review confirmed every fix | `038485e..e0e755f` |
+
+**Rulings made in Part 2** (each ends with what it costs if wrong):
+1. **Task 5, coverage:** interiors for the Sun, Mercury, Earth and Mars only; null for the other five. *Cost:* less interior information until an official numeric source appears.
+2. **Task 5, table figures:** a number directly after a "(km)" label counts as kilometres. *Cost:* a year placed right after such a label would also count.
+3. **Task 5, per-bound form:** each curated bound may state its own form (radius, depth or percent). *Cost:* slightly more complex curated data.
+4. **Task 5, layer tolerance:** a gap or overlap between layers is allowed up to the larger of 40 km and 0.5 % of the radius. *Cost:* a genuinely missing layer thinner than that would not be caught.
+5. **Task 6, date convention:** mission dates follow the cited page's convention. The UT date is preferred only when the page gives it with its year in a form the date check accepts. *Cost:* a date can differ by one day from another source (Mariner 4 is July 14 EDT, July 15 UT).
+6. **Task 6, process:** no separate re-review for a two-line README change, which the controller read in full. *Cost:* a wording slip.
+7. **Task 7, mean radius:** R is the NSSDCA sheet's volumetric mean radius. *Cost:* none expected.
+8. **Task 7, rounding:** Gazetteer coordinates are rounded to 1e-4° and diameters to 1e-3 km. *Cost:* sub-metre precision, which doesn't matter at feature scale.
+9. **Whole-branch review, items kept as they are:**
+   - mission outcome describes the whole mission;
+   - Earth's dipole pole is shown in east longitude;
+   - "(≥ X km)" refers to the 200 stored features;
+   - end dates are stored but not shown;
+   - Akatsuki's 2024 end is not re-verified (recorded in the carry-over);
+   - interior states carry no citation except Mars's core;
+   - Mercury's species are not listed;
+   - the Sun's photosphere sits under "Atmosphere";
+   - feature diameters use the existing number format.
+
+   *Cost:* minor gaps in information or presentation, each listed in the ledger.
+10. **Whole-branch review, discovery method:** kept in the data but not displayed, because no quote states it. *Cost:* an unused field.
+11. **Whole-branch review, Apollo 8:** removed from Earth; it belongs with the Moon in M2b.2. *Cost:* Earth loses one landmark crewed mission until then.
+
+**Final verification (2026-10-16, idle machine):** 690 unit tests pass, typecheck is clean, and all 76 end-to-end tests pass (8.2 min). The god-ray occlusion patch measured 76.22 against its 77.5 threshold. That is closer than at M2a.3 (74.85), but this branch did not touch the render code. It is noted under the existing Task 2 deferred item.
+
+**Deferred items** are in [[2026-10-05-m2a1-carry-over]] under "From M2b.1".
