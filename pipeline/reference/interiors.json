@@ -1,0 +1,308 @@
+{
+  "sources": [
+    {
+      "id": "nasa-msfc-solar-interior",
+      "title": "The Solar Interior (NASA/Marshall Solar Physics)",
+      "publisher": "NASA Marshall Space Flight Center",
+      "url": "https://solarscience.msfc.nasa.gov/interior.shtml",
+      "license": "NASA public domain (NASA media usage guidelines)"
+    },
+    {
+      "id": "nasa-gsfc-sun-structure",
+      "title": "The Structure of the Sun (ISTP Workshop)",
+      "publisher": "NASA Goddard Space Flight Center",
+      "url": "https://pwg.gsfc.nasa.gov/istp/outreach/workshop/thompson/sundiag.html",
+      "license": "NASA public domain (NASA media usage guidelines)"
+    },
+    {
+      "id": "nasa-science-mercury-facts",
+      "title": "Mercury: Facts",
+      "publisher": "NASA Science",
+      "url": "https://science.nasa.gov/mercury/facts/",
+      "license": "NASA public domain (NASA media usage guidelines)"
+    },
+    {
+      "id": "nasa-science-earth-facts",
+      "title": "Facts About Earth",
+      "publisher": "NASA Science",
+      "url": "https://science.nasa.gov/earth/facts/",
+      "license": "NASA public domain (NASA media usage guidelines)"
+    },
+    {
+      "id": "nasa-science-mars-facts",
+      "title": "Mars: Facts",
+      "publisher": "NASA Science",
+      "url": "https://science.nasa.gov/mars/facts/",
+      "license": "NASA public domain (NASA media usage guidelines)"
+    },
+    {
+      "id": "nasa-insight-deep-interior",
+      "title": "NASA's InSight Reveals the Deep Interior of Mars",
+      "publisher": "NASA / JPL",
+      "url": "https://www.nasa.gov/centers-and-facilities/jpl/nasas-insight-reveals-the-deep-interior-of-mars/",
+      "license": "NASA public domain (NASA media usage guidelines)"
+    }
+  ],
+  "bodies": {
+    "sun": {
+      "layers": [
+        {
+          "id": "convection-zone",
+          "name": "Convection zone",
+          "from": "depth",
+          "outer": {
+            "sourceId": "nasa-msfc-solar-interior",
+            "quote": "It extends from a depth of about 200,000 km right up to the visible surface.",
+            "min": 0,
+            "max": 0
+          },
+          "inner": {
+            "sourceId": "nasa-msfc-solar-interior",
+            "quote": "It extends from a depth of about 200,000 km right up to the visible surface.",
+            "min": 200000,
+            "max": 200000
+          },
+          "state": "plasma",
+          "composition": null,
+          "uncertain": false
+        },
+        {
+          "id": "radiative-zone",
+          "name": "Radiative zone",
+          "from": "percent",
+          "outer": {
+            "sourceId": "nasa-gsfc-sun-structure",
+            "quote": "The Structure of the Sun Core: Extends to 25% from Sun's center Radiation Zone: 25-71% from the Sun's center Convection Zone: 71% to the photosphere",
+            "min": 71,
+            "max": 71
+          },
+          "inner": {
+            "sourceId": "nasa-msfc-solar-interior",
+            "quote": "The radiative zone extends outward from the outer edge of the core to the interface layer or tachocline at the base of the convection zone (from 25% of the distance to the surface to 70% of that distance).",
+            "min": 25,
+            "max": 25
+          },
+          "state": "plasma",
+          "composition": null,
+          "uncertain": false
+        },
+        {
+          "id": "core",
+          "name": "Core",
+          "from": "percent",
+          "outer": {
+            "sourceId": "nasa-gsfc-sun-structure",
+            "quote": "The Structure of the Sun Core: Extends to 25% from Sun's center Radiation Zone: 25-71% from the Sun's center Convection Zone: 71% to the photosphere",
+            "min": 25,
+            "max": 25
+          },
+          "inner": {
+            "sourceId": "nasa-gsfc-sun-structure",
+            "quote": "The Structure of the Sun Core: Extends to 25% from Sun's center Radiation Zone: 25-71% from the Sun's center Convection Zone: 71% to the photosphere",
+            "min": 0,
+            "max": 0
+          },
+          "state": "plasma",
+          "composition": null,
+          "uncertain": false
+        }
+      ]
+    },
+    "mercury": {
+      "layers": [
+        {
+          "id": "mantle-crust",
+          "name": "Mantle and crust (outer shell)",
+          "from": "depth",
+          "outer": {
+            "sourceId": "nasa-science-mercury-facts",
+            "quote": "Mercury's outer shell, comparable to Earth's outer shell (called the mantle and crust), is only about 400 kilometers (250 miles) thick.",
+            "min": 0,
+            "max": 0
+          },
+          "inner": {
+            "sourceId": "nasa-science-mercury-facts",
+            "quote": "Mercury's outer shell, comparable to Earth's outer shell (called the mantle and crust), is only about 400 kilometers (250 miles) thick.",
+            "min": 400,
+            "max": 400
+          },
+          "state": "solid",
+          "composition": null,
+          "uncertain": false
+        },
+        {
+          "id": "core",
+          "name": "Core",
+          "from": "radius",
+          "outer": {
+            "sourceId": "nasa-science-mercury-facts",
+            "quote": "It has a large metallic core with a radius of about 1,289 miles (2,074 kilometers), about 85% of the planet's radius.",
+            "min": 2074,
+            "max": 2074
+          },
+          "inner": {
+            "sourceId": "nasa-science-mercury-facts",
+            "quote": "It has a large metallic core with a radius of about 1,289 miles (2,074 kilometers), about 85% of the planet's radius.",
+            "min": 0,
+            "max": 0
+          },
+          "state": "unknown",
+          "composition": {
+            "sourceId": "nasa-science-mercury-facts",
+            "quote": "It has a large metallic core with a radius of about 1,289 miles (2,074 kilometers), about 85% of the planet's radius.",
+            "text": "A large metallic core."
+          },
+          "uncertain": true
+        }
+      ]
+    },
+    "earth": {
+      "layers": [
+        {
+          "id": "crust",
+          "name": "Crust",
+          "from": "depth",
+          "outer": {
+            "sourceId": "nasa-science-earth-facts",
+            "quote": "The outermost layer, Earth's crust, goes about 19 miles (30 kilometers) deep on average on land.",
+            "min": 0,
+            "max": 0
+          },
+          "inner": {
+            "sourceId": "nasa-science-earth-facts",
+            "quote": "The outermost layer, Earth's crust, goes about 19 miles (30 kilometers) deep on average on land.",
+            "min": 30,
+            "max": 30
+          },
+          "state": "solid",
+          "composition": null,
+          "uncertain": false
+        },
+        {
+          "id": "mantle",
+          "name": "Mantle",
+          "from": "depth",
+          "outer": {
+            "sourceId": "nasa-science-earth-facts",
+            "quote": "The outermost layer, Earth's crust, goes about 19 miles (30 kilometers) deep on average on land.",
+            "min": 30,
+            "max": 30
+          },
+          "inner": {
+            "sourceId": "nasa-science-earth-facts",
+            "quote": "This hot, viscous mixture of molten rock is about 1,800 miles (2,900 kilometers) thick and has the consistency of caramel.",
+            "min": 2900,
+            "max": 2900
+          },
+          "state": "unknown",
+          "composition": {
+            "sourceId": "nasa-science-earth-facts",
+            "quote": "This hot, viscous mixture of molten rock is about 1,800 miles (2,900 kilometers) thick and has the consistency of caramel.",
+            "text": "A hot, viscous mixture of molten rock."
+          },
+          "uncertain": false
+        },
+        {
+          "id": "inner-core",
+          "name": "Inner core",
+          "from": "radius",
+          "outer": {
+            "sourceId": "nasa-science-earth-facts",
+            "quote": "The inner core is a solid sphere made of iron and nickel metals about 759 miles (1,221 kilometers) in radius.",
+            "min": 1221,
+            "max": 1221
+          },
+          "inner": {
+            "sourceId": "nasa-science-earth-facts",
+            "quote": "The inner core is a solid sphere made of iron and nickel metals about 759 miles (1,221 kilometers) in radius.",
+            "min": 0,
+            "max": 0
+          },
+          "state": "solid",
+          "composition": {
+            "sourceId": "nasa-science-earth-facts",
+            "quote": "The inner core is a solid sphere made of iron and nickel metals about 759 miles (1,221 kilometers) in radius.",
+            "text": "A solid sphere made of iron and nickel metals."
+          },
+          "uncertain": false
+        }
+      ]
+    },
+    "mars": {
+      "layers": [
+        {
+          "id": "crust",
+          "name": "Crust",
+          "from": "depth",
+          "outer": {
+            "sourceId": "nasa-science-mars-facts",
+            "quote": "This crust is between 6 and 30 miles (10 to 50 kilometers) deep.",
+            "min": 0,
+            "max": 0
+          },
+          "inner": {
+            "sourceId": "nasa-science-mars-facts",
+            "quote": "This crust is between 6 and 30 miles (10 to 50 kilometers) deep.",
+            "min": 10,
+            "max": 50
+          },
+          "state": "solid",
+          "composition": {
+            "sourceId": "nasa-science-mars-facts",
+            "quote": "Surrounding the core is a rocky mantle between 770 and 1,170 miles (1,240 to 1,880 kilometers) thick, and above that, a crust made of iron, magnesium, aluminum, calcium, and potassium.",
+            "text": "A crust made of iron, magnesium, aluminum, calcium, and potassium."
+          },
+          "uncertain": true
+        },
+        {
+          "id": "mantle",
+          "name": "Mantle",
+          "from": "depth",
+          "outer": {
+            "sourceId": "nasa-science-mars-facts",
+            "quote": "This crust is between 6 and 30 miles (10 to 50 kilometers) deep.",
+            "min": 10,
+            "max": 50
+          },
+          "inner": {
+            "sourceId": "nasa-insight-deep-interior",
+            "quote": "Beneath that is the mantle, which extends 969 miles (1,560 kilometers) below the surface.",
+            "min": 1560,
+            "max": 1560
+          },
+          "state": "solid",
+          "composition": {
+            "sourceId": "nasa-science-mars-facts",
+            "quote": "Surrounding the core is a rocky mantle between 770 and 1,170 miles (1,240 to 1,880 kilometers) thick, and above that, a crust made of iron, magnesium, aluminum, calcium, and potassium.",
+            "text": "A rocky mantle."
+          },
+          "uncertain": false
+        },
+        {
+          "id": "core",
+          "name": "Core",
+          "from": "radius",
+          "outer": {
+            "sourceId": "nasa-science-mars-facts",
+            "quote": "Structure Mars has a dense core at its center between 930 and 1,300 miles (1,500 to 2,100 kilometers) in radius.",
+            "min": 1500,
+            "max": 2100
+          },
+          "inner": {
+            "sourceId": "nasa-science-mars-facts",
+            "quote": "Structure Mars has a dense core at its center between 930 and 1,300 miles (1,500 to 2,100 kilometers) in radius.",
+            "min": 0,
+            "max": 0
+          },
+          "state": "liquid",
+          "composition": {
+            "sourceId": "nasa-science-mars-facts",
+            "quote": "Structure Mars has a dense core at its center between 930 and 1,300 miles (1,500 to 2,100 kilometers) in radius.",
+            "text": "A dense core at its center."
+          },
+          "uncertain": true
+        }
+      ]
+    }
+  }
+}
