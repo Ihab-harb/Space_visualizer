@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "bodyId": "sun",
-  "generatedAt": "2026-10-15T21:17:12.226Z",
+  "generatedAt": "2026-10-15T22:28:23.240Z",
   "interior": {
     "layers": [
       {
@@ -10,12 +10,22 @@
         "outerRadiusKm": {
           "min": 695700,
           "max": 695700,
-          "sourceId": "nasa-msfc-solar-interior"
+          "sourceId": "nasa-msfc-solar-interior",
+          "from": "depth",
+          "stated": {
+            "min": 0,
+            "max": 0
+          }
         },
         "innerRadiusKm": {
           "min": 495700,
           "max": 495700,
-          "sourceId": "nasa-msfc-solar-interior"
+          "sourceId": "nasa-msfc-solar-interior",
+          "from": "depth",
+          "stated": {
+            "min": 200000,
+            "max": 200000
+          }
         },
         "from": "depth",
         "state": "plasma",
@@ -28,12 +38,22 @@
         "outerRadiusKm": {
           "min": 493947,
           "max": 493947,
-          "sourceId": "nasa-gsfc-sun-structure"
+          "sourceId": "nasa-gsfc-sun-structure",
+          "from": "percent",
+          "stated": {
+            "min": 71,
+            "max": 71
+          }
         },
         "innerRadiusKm": {
           "min": 173925,
           "max": 173925,
-          "sourceId": "nasa-msfc-solar-interior"
+          "sourceId": "nasa-msfc-solar-interior",
+          "from": "percent",
+          "stated": {
+            "min": 25,
+            "max": 25
+          }
         },
         "from": "percent",
         "state": "plasma",
@@ -46,12 +66,22 @@
         "outerRadiusKm": {
           "min": 173925,
           "max": 173925,
-          "sourceId": "nasa-gsfc-sun-structure"
+          "sourceId": "nasa-gsfc-sun-structure",
+          "from": "percent",
+          "stated": {
+            "min": 25,
+            "max": 25
+          }
         },
         "innerRadiusKm": {
           "min": 0,
           "max": 0,
-          "sourceId": "nasa-gsfc-sun-structure"
+          "sourceId": "nasa-gsfc-sun-structure",
+          "from": "percent",
+          "stated": {
+            "min": 0,
+            "max": 0
+          }
         },
         "from": "percent",
         "state": "plasma",

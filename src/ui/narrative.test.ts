@@ -45,6 +45,14 @@ describe('buildNarrative', () => {
     it('describes a tilted dipole field', () => {
       expect(text(buildNarrative(makeJupiter(), stats, { details: makeJupiterDetails() }))).toMatch(/tilted 9\.4° from its spin axis/);
     });
+    it('says the field is aligned with the spin axis when the tilt is 0, keeping the citation', () => {
+      const details = makeJupiterDetails();
+      if (details.magnetosphere.kind === 'dipole') details.magnetosphere.tiltDeg = { value: 0, sourceId: 'nssdca-saturn-fact-sheet' };
+      const parts = buildNarrative(makeJupiter(), stats, { details });
+      expect(text(parts)).toMatch(/its magnetic field is aligned with its spin axis/);
+      expect(text(parts)).not.toMatch(/tilted 0/);
+      expect(parts.some((p) => p.kind === 'value' && p.sourceId === 'nssdca-saturn-fact-sheet')).toBe(true);
+    });
     it('says photosphere for the Sun and omits the field part when there is no summary', () => {
       const t = text(buildNarrative(makeSun(), stats, { details: makeSunDetails() }));
       expect(t).toMatch(/Its photosphere is 90\.965% hydrogen\./);

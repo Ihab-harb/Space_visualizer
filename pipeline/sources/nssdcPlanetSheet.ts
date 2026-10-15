@@ -87,7 +87,9 @@ export function parseComposition(text: string, heading: RegExp, sourceId: string
     while (p < lines.length && lines[p]!.trim() === '') p++;
     const para: string[] = [];
     for (; p < lines.length && lines[p]!.trim() !== ''; p++) para.push(lines[p]!.trim());
-    const noteText = para.join(' ').replace(/\s+/g, ' ').replace(/^\(/, '').replace(/\)$/, '').trim();
+    const paragraph = para.join(' ').replace(/\s+/g, ' ').replace(/^\(/, '').replace(/\)$/, '').trim();
+    // Keep the first sentence only: what follows ("these are given as ranges") describes the column-abundance table, which is not shown.
+    const noteText = /^.*?[a-z)]\.(?=\s|$)/.exec(paragraph)?.[0] ?? paragraph;
     return { basis, major: [], minor: [], note: noteText ? { text: noteText, sourceId } : null };
   }
 

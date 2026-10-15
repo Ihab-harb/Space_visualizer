@@ -38,6 +38,7 @@ export function detailsSourceOrder(details: BodyDetails | null | undefined): str
   for (const layer of details.interior?.layers ?? []) {
     add(layer.outerRadiusKm.sourceId);
     add(layer.innerRadiusKm.sourceId);
+    add(layer.stateSourceId);
     add(layer.composition?.sourceId);
   }
   if (details.atmosphere) {

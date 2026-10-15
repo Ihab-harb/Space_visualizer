@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "bodyId": "mars",
-  "generatedAt": "2026-10-15T21:17:12.226Z",
+  "generatedAt": "2026-10-15T22:28:23.240Z",
   "interior": {
     "layers": [
       {
@@ -10,12 +10,22 @@
         "outerRadiusKm": {
           "min": 3389.5,
           "max": 3389.5,
-          "sourceId": "nasa-science-mars-facts"
+          "sourceId": "nasa-science-mars-facts",
+          "from": "depth",
+          "stated": {
+            "min": 0,
+            "max": 0
+          }
         },
         "innerRadiusKm": {
           "min": 3339.5,
           "max": 3379.5,
-          "sourceId": "nasa-science-mars-facts"
+          "sourceId": "nasa-science-mars-facts",
+          "from": "depth",
+          "stated": {
+            "min": 10,
+            "max": 50
+          }
         },
         "from": "depth",
         "state": "solid",
@@ -31,12 +41,22 @@
         "outerRadiusKm": {
           "min": 3339.5,
           "max": 3379.5,
-          "sourceId": "nasa-science-mars-facts"
+          "sourceId": "nasa-science-mars-facts",
+          "from": "depth",
+          "stated": {
+            "min": 10,
+            "max": 50
+          }
         },
         "innerRadiusKm": {
           "min": 1829.5,
           "max": 1829.5,
-          "sourceId": "nasa-insight-deep-interior"
+          "sourceId": "nasa-insight-deep-interior",
+          "from": "depth",
+          "stated": {
+            "min": 1560,
+            "max": 1560
+          }
         },
         "from": "depth",
         "state": "solid",
@@ -52,15 +72,18 @@
         "outerRadiusKm": {
           "min": 1500,
           "max": 2100,
-          "sourceId": "nasa-science-mars-facts"
+          "sourceId": "nasa-science-mars-facts",
+          "from": "radius"
         },
         "innerRadiusKm": {
           "min": 0,
           "max": 0,
-          "sourceId": "nasa-science-mars-facts"
+          "sourceId": "nasa-science-mars-facts",
+          "from": "radius"
         },
         "from": "radius",
         "state": "liquid",
+        "stateSourceId": "nasa-insight-deep-interior",
         "composition": {
           "text": "A dense core at its center.",
           "sourceId": "nasa-science-mars-facts"
@@ -204,17 +227,6 @@
       "sourceId": "nasa-mission-viking-1"
     },
     {
-      "id": "mars-pathfinder",
-      "name": "Mars Pathfinder",
-      "agency": "NASA",
-      "type": "lander",
-      "launchDate": "1996-12-04",
-      "arrivalDate": "1997-07-04",
-      "endDate": "1997-09-27",
-      "outcome": "success",
-      "sourceId": "nasa-mission-mars-pathfinder"
-    },
-    {
       "id": "mars-global-surveyor",
       "name": "Mars Global Surveyor",
       "agency": "NASA",
@@ -224,6 +236,17 @@
       "endDate": "2006-11-14",
       "outcome": "success",
       "sourceId": "nasa-mission-mars-global-surveyor"
+    },
+    {
+      "id": "mars-pathfinder",
+      "name": "Mars Pathfinder",
+      "agency": "NASA",
+      "type": "lander",
+      "launchDate": "1996-12-04",
+      "arrivalDate": "1997-07-04",
+      "endDate": "1997-09-27",
+      "outcome": "success",
+      "sourceId": "nasa-mission-mars-pathfinder"
     },
     {
       "id": "spirit",

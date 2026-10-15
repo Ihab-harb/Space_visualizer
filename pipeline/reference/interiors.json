@@ -327,6 +327,10 @@
             "max": 0
           },
           "state": "liquid",
+          "stateSource": {
+            "sourceId": "nasa-insight-deep-interior",
+            "quote": "providing details on the depth and composition of Mars’ crust, mantle, and core, including confirmation that the planet’s center is molten."
+          },
           "composition": {
             "sourceId": "nasa-science-mars-facts",
             "quote": "Structure Mars has a dense core at its center between 930 and 1,300 miles (1,500 to 2,100 kilometers) in radius.",

@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "bodyId": "mercury",
-  "generatedAt": "2026-10-15T21:17:12.226Z",
+  "generatedAt": "2026-10-15T22:28:23.240Z",
   "interior": {
     "layers": [
       {
@@ -10,12 +10,22 @@
         "outerRadiusKm": {
           "min": 2439.7,
           "max": 2439.7,
-          "sourceId": "nasa-science-mercury-facts"
+          "sourceId": "nasa-science-mercury-facts",
+          "from": "depth",
+          "stated": {
+            "min": 0,
+            "max": 0
+          }
         },
         "innerRadiusKm": {
           "min": 2039.7,
           "max": 2039.7,
-          "sourceId": "nasa-science-mercury-facts"
+          "sourceId": "nasa-science-mercury-facts",
+          "from": "depth",
+          "stated": {
+            "min": 400,
+            "max": 400
+          }
         },
         "from": "depth",
         "state": "solid",
@@ -28,12 +38,14 @@
         "outerRadiusKm": {
           "min": 2074,
           "max": 2074,
-          "sourceId": "nasa-science-mercury-facts"
+          "sourceId": "nasa-science-mercury-facts",
+          "from": "radius"
         },
         "innerRadiusKm": {
           "min": 0,
           "max": 0,
-          "sourceId": "nasa-science-mercury-facts"
+          "sourceId": "nasa-science-mercury-facts",
+          "from": "radius"
         },
         "from": "radius",
         "state": "unknown",
@@ -50,7 +62,7 @@
     "major": [],
     "minor": [],
     "note": {
-      "text": "The atmosphere of Mercury is a surface bounded exosphere, essentially a vacuum. Values for some species can vary with local time or location, these are given as ranges.",
+      "text": "The atmosphere of Mercury is a surface bounded exosphere, essentially a vacuum.",
       "sourceId": "nssdca-mercury-fact-sheet"
     }
   },

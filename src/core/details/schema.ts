@@ -5,8 +5,19 @@ const NumberValue = z.object({ value: z.number(), sourceId: SourceId });
 const Text = z.object({ text: z.string().min(1), sourceId: SourceId });
 const IsoDate = z.iso.date();
 
+export const BoundFormSchema = z.enum(['radius', 'depth', 'percent']);
+
+/**
+ * A cited range. For an interior bound, `min`/`max` are always radii in km (the cutaway needs them); `from` records the form
+ * the source stated the bound in, and `stated` the numbers as the source gives them (km deep, or percent of the radius).
+ * `stated` is absent for a radius bound, whose stated numbers are `min`/`max`.
+ */
 export const SourcedRangeSchema = z
-  .object({ min: z.number(), max: z.number(), sourceId: SourceId })
+  .object({
+    min: z.number(), max: z.number(), sourceId: SourceId,
+    from: BoundFormSchema.optional(),
+    stated: z.object({ min: z.number(), max: z.number() }).optional(),
+  })
   .refine((r) => r.min <= r.max, { message: 'range min must not exceed max' });
 
 export const InteriorLayerSchema = z.object({
@@ -14,8 +25,10 @@ export const InteriorLayerSchema = z.object({
   name: z.string().min(1),
   outerRadiusKm: SourcedRangeSchema,
   innerRadiusKm: SourcedRangeSchema,
-  from: z.enum(['radius', 'depth', 'percent']),
+  from: BoundFormSchema,
   state: z.enum(['solid', 'liquid', 'gas', 'plasma', 'unknown']),
+  /** The source that states the layer's state, when one does. */
+  stateSourceId: SourceId.optional(),
   composition: Text.nullable(),
   uncertain: z.boolean(),
 });

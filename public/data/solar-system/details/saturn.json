@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "bodyId": "saturn",
-  "generatedAt": "2026-10-15T21:17:12.226Z",
+  "generatedAt": "2026-10-15T22:28:23.240Z",
   "interior": null,
   "atmosphere": {
     "basis": "by volume, uncertainty in parentheses",
@@ -101,17 +101,6 @@
       "sourceId": "nasa-mission-pioneer-11"
     },
     {
-      "id": "voyager-1",
-      "name": "Voyager 1",
-      "agency": "NASA",
-      "type": "flyby",
-      "launchDate": "1977-09-05",
-      "arrivalDate": "1980-11-12",
-      "endDate": null,
-      "outcome": "ongoing",
-      "sourceId": "nasa-mission-voyager-1"
-    },
-    {
       "id": "voyager-2",
       "name": "Voyager 2",
       "agency": "NASA",
@@ -121,6 +110,17 @@
       "endDate": null,
       "outcome": "ongoing",
       "sourceId": "nasa-mission-voyager-2"
+    },
+    {
+      "id": "voyager-1",
+      "name": "Voyager 1",
+      "agency": "NASA",
+      "type": "flyby",
+      "launchDate": "1977-09-05",
+      "arrivalDate": "1980-11-12",
+      "endDate": null,
+      "outcome": "ongoing",
+      "sourceId": "nasa-mission-voyager-1"
     },
     {
       "id": "cassini-huygens",

@@ -32,12 +32,13 @@ export interface DetailsInputs {
 
 const round = (x: number) => Math.round(x * 1e6) / 1e6;
 
-/** Convert one curated bound (in its effective `from`) to a radius range in km. */
+/** Convert one curated bound (in its effective `from`) to a radius range in km, keeping the stated form and numbers for display. */
 function boundToRadius(r: QuotedRange, layerFrom: CuratedLayer['from'], radiusKm: number): SourcedRange {
   const from = r.from ?? layerFrom;
-  if (from === 'radius') return { min: r.min, max: r.max, sourceId: r.sourceId };
-  if (from === 'depth') return { min: round(radiusKm - r.max), max: round(radiusKm - r.min), sourceId: r.sourceId };
-  return { min: round((radiusKm * r.min) / 100), max: round((radiusKm * r.max) / 100), sourceId: r.sourceId };
+  if (from === 'radius') return { min: r.min, max: r.max, sourceId: r.sourceId, from };
+  const stated = { min: r.min, max: r.max };
+  if (from === 'depth') return { min: round(radiusKm - r.max), max: round(radiusKm - r.min), sourceId: r.sourceId, from, stated };
+  return { min: round((radiusKm * r.min) / 100), max: round((radiusKm * r.max) / 100), sourceId: r.sourceId, from, stated };
 }
 
 function convertLayer(layer: CuratedLayer, radiusKm: number): InteriorLayer {
@@ -48,6 +49,7 @@ function convertLayer(layer: CuratedLayer, radiusKm: number): InteriorLayer {
     innerRadiusKm: boundToRadius(layer.inner, layer.from, radiusKm),
     from: layer.from,
     state: layer.state,
+    ...(layer.stateSource ? { stateSourceId: layer.stateSource.sourceId } : {}),
     composition: layer.composition ? { text: layer.composition.text, sourceId: layer.composition.sourceId } : null,
     uncertain: layer.uncertain,
   };
@@ -103,7 +105,9 @@ export function buildDetails(inputs: DetailsInputs, generatedAt: string): { deta
     if (!magnetosphere) { errors.push(`${p}: no magnetosphere source`); continue; }
 
     const m = inputs.missions.bodies[id];
-    const missions: Mission[] = (m?.missions ?? []).map(({ quotes: _q, ...rest }) => rest);
+    const missions: Mission[] = (m?.missions ?? [])
+      .map(({ quotes: _q, ...rest }) => rest)
+      .sort((a, b) => a.launchDate.localeCompare(b.launchDate) || a.name.localeCompare(b.name));
 
     let features: BodyDetails['features'] = null;
     if (id in GAZETTEER_TARGETS) {

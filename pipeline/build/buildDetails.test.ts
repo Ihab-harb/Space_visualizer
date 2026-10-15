@@ -73,7 +73,7 @@ describe('buildDetails', () => {
     expect(m.atmosphere!.major.find((g) => g.formula === 'CO2')!.amount).toBe(95.1);
     expect(m.features!.items[0]!.name).toBe('Olympus Mons');
     expect(m.features!.sourceId).toBe('usgs-gazetteer-mars');
-    expect(m.interior!.layers[0]!.outerRadiusKm).toEqual({ min: 3389.5, max: 3389.5, sourceId: 'test-page' });
+    expect(m.interior!.layers[0]!.outerRadiusKm).toEqual({ min: 3389.5, max: 3389.5, sourceId: 'test-page', from: 'depth', stated: { min: 0, max: 0 } });
     expect(m.interior!.layers[0]!.innerRadiusKm.min).toBeCloseTo(1823.5, 6);
     expect(m.missions[0]).not.toHaveProperty('quotes');
     expect(m.discovery).toEqual({ kind: 'antiquity', sourceId: 'test-page' });
@@ -137,6 +137,11 @@ describe('buildDetails', () => {
     expect(l[0]!.innerRadiusKm.min).toBe(6341);
     expect(l[1]!.outerRadiusKm.min).toBe(6341);
     expect(l[1]!.innerRadiusKm.max).toBe(3485);
+    // Each bound records the form its source used, with the numbers as the source states them.
+    expect(l[0]!.outerRadiusKm).toMatchObject({ from: 'depth', stated: { min: 0, max: 0 } });
+    expect(l[1]!.outerRadiusKm).toMatchObject({ from: 'depth', stated: { min: 30, max: 30 } });
+    expect(l[1]!.innerRadiusKm).toMatchObject({ from: 'radius', min: 3485, max: 3485 });
+    expect(l[1]!.innerRadiusKm).not.toHaveProperty('stated');
   });
 
   it('converts a percent layer to exact radii of the Sun', () => {
@@ -155,5 +160,32 @@ describe('buildDetails', () => {
     const l = details.find((d) => d.bodyId === 'sun')!.interior!.layers;
     expect(l[0]!.outerRadiusKm.max).toBeCloseTo(486990, 6);
     expect(l[0]!.innerRadiusKm.min).toBeCloseTo(173925, 6);
+    expect(l[0]!.outerRadiusKm).toMatchObject({ from: 'percent', stated: { min: 70, max: 70 } });
+    expect(l[0]!.innerRadiusKm).toMatchObject({ from: 'percent', stated: { min: 25, max: 25 } });
+  });
+
+  it('carries a cited layer state through as stateSourceId, and checks its quote', () => {
+    const withState = (quote: string): InteriorsFile => {
+      const f = interiors();
+      f.bodies.mars!.layers[1]!.stateSource = { sourceId: 'test-page', quote };
+      return f;
+    };
+    const ok = build({ interiors: withState(Q_CORE) });
+    expect(ok.errors).toEqual([]);
+    const layers = ok.details.find((d) => d.bodyId === 'mars')!.interior!.layers;
+    expect(layers[1]!.stateSourceId).toBe('test-page');
+    expect(layers[0]!).not.toHaveProperty('stateSourceId');
+    expect(build({ interiors: withState('This sentence is certainly not on the page at all') }).errors.some((e) => e.includes('stateSource') || e.includes('quote not on page'))).toBe(true);
+  });
+
+  it('lists missions in launch order, then by name', () => {
+    const base = missions.bodies.mars!.missions[0]!;
+    const mk = (id: string, name: string, launchDate: string) => ({ ...base, id, name, launchDate, arrivalDate: null });
+    const file: MissionsFile = { sources: [src], bodies: { mars: { discovery: null, missions: [
+      mk('c', 'Zeta', '1990-01-01'), mk('b', 'Beta', '1964-11-28'), mk('a', 'Alpha', '1964-11-28'),
+    ] } } };
+    const page = PAGE + '<p>' + 'Alpha' + '</p>';
+    const out = build({ missions: file, curatedPages: new Map([['test-page', fetched(page)]]) });
+    expect(out.details.find((d) => d.bodyId === 'mars')!.missions.map((m) => m.id)).toEqual(['a', 'b', 'c']);
   });
 });

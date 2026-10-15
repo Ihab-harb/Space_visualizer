@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "bodyId": "earth",
-  "generatedAt": "2026-10-15T21:17:12.226Z",
+  "generatedAt": "2026-10-15T22:28:23.240Z",
   "interior": {
     "layers": [
       {
@@ -10,12 +10,22 @@
         "outerRadiusKm": {
           "min": 6371,
           "max": 6371,
-          "sourceId": "nasa-science-earth-facts"
+          "sourceId": "nasa-science-earth-facts",
+          "from": "depth",
+          "stated": {
+            "min": 0,
+            "max": 0
+          }
         },
         "innerRadiusKm": {
           "min": 6341,
           "max": 6341,
-          "sourceId": "nasa-science-earth-facts"
+          "sourceId": "nasa-science-earth-facts",
+          "from": "depth",
+          "stated": {
+            "min": 30,
+            "max": 30
+          }
         },
         "from": "depth",
         "state": "solid",
@@ -28,12 +38,18 @@
         "outerRadiusKm": {
           "min": 6341,
           "max": 6341,
-          "sourceId": "nasa-science-earth-facts"
+          "sourceId": "nasa-science-earth-facts",
+          "from": "depth",
+          "stated": {
+            "min": 30,
+            "max": 30
+          }
         },
         "innerRadiusKm": {
           "min": 3485,
           "max": 3485,
-          "sourceId": "nssdca-earth"
+          "sourceId": "nssdca-earth",
+          "from": "radius"
         },
         "from": "depth",
         "state": "unknown",
@@ -49,12 +65,14 @@
         "outerRadiusKm": {
           "min": 3485,
           "max": 3485,
-          "sourceId": "nssdca-earth"
+          "sourceId": "nssdca-earth",
+          "from": "radius"
         },
         "innerRadiusKm": {
           "min": 1221,
           "max": 1221,
-          "sourceId": "nasa-science-earth-facts"
+          "sourceId": "nasa-science-earth-facts",
+          "from": "radius"
         },
         "from": "radius",
         "state": "liquid",
@@ -70,12 +88,14 @@
         "outerRadiusKm": {
           "min": 1221,
           "max": 1221,
-          "sourceId": "nasa-science-earth-facts"
+          "sourceId": "nasa-science-earth-facts",
+          "from": "radius"
         },
         "innerRadiusKm": {
           "min": 0,
           "max": 0,
-          "sourceId": "nasa-science-earth-facts"
+          "sourceId": "nasa-science-earth-facts",
+          "from": "radius"
         },
         "from": "radius",
         "state": "solid",
@@ -232,17 +252,6 @@
       "sourceId": "nssdca-tiros-1"
     },
     {
-      "id": "landsat-1",
-      "name": "Landsat 1",
-      "agency": "NASA/USGS",
-      "type": "observatory",
-      "launchDate": "1972-07-23",
-      "arrivalDate": null,
-      "endDate": "1978-01-06",
-      "outcome": "success",
-      "sourceId": "nasa-mission-landsat-1"
-    },
-    {
       "id": "apollo-8",
       "name": "Apollo 8",
       "agency": "NASA",
@@ -252,6 +261,17 @@
       "endDate": "1968-12-27",
       "outcome": "success",
       "sourceId": "nasa-mission-apollo-8"
+    },
+    {
+      "id": "landsat-1",
+      "name": "Landsat 1",
+      "agency": "NASA/USGS",
+      "type": "observatory",
+      "launchDate": "1972-07-23",
+      "arrivalDate": null,
+      "endDate": "1978-01-06",
+      "outcome": "success",
+      "sourceId": "nasa-mission-landsat-1"
     },
     {
       "id": "landsat-9",

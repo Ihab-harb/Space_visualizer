@@ -74,6 +74,8 @@ describe('parseComposition', () => {
     expect(a).toMatchObject({ major: [], minor: [] });
     expect(a!.note!.text).toMatch(/surface bounded exosphere/);
     expect(a!.note!.text.startsWith('(')).toBe(false);
+    // Cut at the sentence boundary: the sheet's next sentence refers to the column-abundance table, which the drawer does not show.
+    expect(a!.note!.text).toBe('The atmosphere of Mercury is a surface bounded exosphere, essentially a vacuum.');
     expect(a!.basis).toBe('Column abundances in 10⁶ per cm²');
   });
   it('parses the Sun photosphere', () => {

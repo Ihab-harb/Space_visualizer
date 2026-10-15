@@ -12,6 +12,8 @@ export interface CuratedLayer {
   id: string; name: string; from: 'radius' | 'depth' | 'percent';
   outer: QuotedRange; inner: QuotedRange; // radii in km, depths in km below the surface, or percent of the body's radius from the centre
   state: 'solid' | 'liquid' | 'gas' | 'plasma' | 'unknown';
+  /** A sentence on a registered page that states the layer's state; when present, the state is shown with this citation. */
+  stateSource?: Quoted;
   composition: (Quoted & { text: string }) | null;
   uncertain: boolean;
 }
@@ -228,6 +230,10 @@ export function verifyInteriors(file: InteriorsFile, pages: Map<string, string>)
             errors.push(`${w}.${key}: ${v} km not in quote: "${r.quote}"`);
           }
         }
+      }
+      if (layer.stateSource) {
+        const page = pageFor(pages, file.sources, layer.stateSource.sourceId, `${where} stateSource`, errors);
+        if (page !== null) checkQuote(layer.stateSource.quote, page, layer.stateSource.sourceId, `${where} stateSource`, errors);
       }
       if (layer.composition) {
         const page = pageFor(pages, file.sources, layer.composition.sourceId, `${where} composition`, errors);

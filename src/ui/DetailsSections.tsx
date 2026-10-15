@@ -1,5 +1,5 @@
 import type { ReactNode } from 'react';
-import type { Atmosphere, BodyDetails, InteriorLayer, Magnetosphere, Mission } from '../core/details/schema';
+import type { Atmosphere, BodyDetails, Gas, InteriorLayer, Magnetosphere, Mission, SourcedRange } from '../core/details/schema';
 import { useDetailsStore, type DetailsEntry } from '../state/detailsStore';
 import { formatNumber } from './format';
 
@@ -9,40 +9,50 @@ const MAX_FEATURES = 10;
 const SUBSCRIPT: Record<string, string> = { '0': '₀', '1': '₁', '2': '₂', '3': '₃', '4': '₄', '5': '₅', '6': '₆', '7': '₇', '8': '₈', '9': '₉' };
 const subscripts = (formula: string) => formula.replace(/\d/g, (d) => SUBSCRIPT[d] ?? d);
 const rangeText = (min: number, max: number) => (min === max ? formatNumber(min) : `${formatNumber(min)}–${formatNumber(max)}`);
-/** Three significant figures, so 4.3 reads "4.30" and 0.00033 reads "0.000330". */
-const sig3 = (n: number) => (Math.abs(n) >= 1000 ? formatNumber(n) : n.toPrecision(3));
-const plain = (n: number) => (Number.isInteger(n) ? n.toFixed(1) : String(n));
+/** Uncertainties: percent values are written to one decimal in the sheets; ppm values are whole numbers as written. */
+const uncertaintyText = (gas: Gas) => (gas.unit === '%' ? gas.uncertainty!.toFixed(1) : formatNumber(gas.uncertainty!));
 const latText = (lat: number) => `${Math.abs(lat)}° ${lat < 0 ? 'S' : 'N'}`;
 const uniq = (ids: string[]) => [...new Set(ids)];
 
+/** One interior bound in the form its source states it: a depth, a radius, a percent of the radius, or the surface or centre. */
+function boundText(r: SourcedRange): string {
+  const form = r.from ?? 'radius';
+  const stated = r.stated ?? { min: r.min, max: r.max };
+  if (stated.min === 0 && stated.max === 0) return form === 'depth' ? 'the surface' : 'the centre';
+  const range = rangeText(stated.min, stated.max);
+  if (form === 'depth') return `${range} km deep`;
+  if (form === 'percent') return `${range} % of the radius`;
+  return `radius ${range} km`;
+}
+
 /**
- * Interior display rule: every layer shows its stored radii (inner to outer) as "radius a-b km". A layer whose source
- * gave depths (from === 'depth') shows "a-b km deep" instead, derived as the surface radius minus the stored radius,
- * where the surface is the largest outer radius among the layers. Every shown number is therefore a stored cited value,
- * or that value subtracted from the surface radius (and cited to the same two sources as the layer's bounds).
+ * Interior display rule: each layer reads outside in, "from <outer bound> to <inner bound>", and every bound is printed in
+ * the form and with the numbers its source states (km deep, radius in km, or percent of the radius), never a derived figure.
+ * The stored radii are untouched; they are for the cutaway, not for display.
  */
-function layerExtent(layer: InteriorLayer, surfaceKm: number): string {
-  if (layer.from === 'depth') {
-    const round = (n: number) => Math.round(n * 1000) / 1000;
-    const top = round(surfaceKm - layer.outerRadiusKm.max);
-    const bottom = round(surfaceKm - layer.innerRadiusKm.min);
-    return `${rangeText(top, bottom)} km deep`;
+function layerExtent(layer: InteriorLayer): string {
+  const { outerRadiusKm: outer, innerRadiusKm: inner } = layer;
+  const stated = (r: SourcedRange) => r.stated ?? { min: r.min, max: r.max };
+  const isCentre = (r: SourcedRange) => stated(r).min === 0 && stated(r).max === 0;
+  if (outer.from === 'percent' && inner.from === 'percent' && !isCentre(inner)) {
+    const pct = (r: SourcedRange) => `${rangeText(stated(r).min, stated(r).max)} %`;
+    return `from ${pct(outer)} to ${pct(inner)} of the radius`;
   }
-  return `radius ${rangeText(layer.innerRadiusKm.min, layer.outerRadiusKm.max)} km`;
+  return `from ${boundText(outer)} to ${boundText(inner)}`;
 }
 
 function Interior({ layers, cite }: { layers: InteriorLayer[]; cite: Cite }) {
-  const surfaceKm = Math.max(...layers.map((l) => l.outerRadiusKm.max));
   return (
     <ul className="details-list">
       {layers.map((layer) => (
         <li key={layer.id} className="details-row">
           <strong>{layer.name}</strong>
-          <span className="num">{layerExtent(layer, surfaceKm)}</span>
+          <span className="num">{layerExtent(layer)}</span>
           {uniq([layer.outerRadiusKm.sourceId, layer.innerRadiusKm.sourceId]).map((id) => (
             <span key={id}>{cite(id)}</span>
           ))}
           <span className="tag">{layer.state}</span>
+          {layer.stateSourceId && cite(layer.stateSourceId)}
           {layer.uncertain && <span className="tag uncertain">uncertain</span>}
           {layer.composition && (
             <span className="details-row__text">
@@ -57,7 +67,7 @@ function Interior({ layers, cite }: { layers: InteriorLayer[]; cite: Cite }) {
 }
 
 function AtmosphereBlock({ atmosphere, cite }: { atmosphere: Atmosphere; cite: Cite }) {
-  const gas = (g: Atmosphere['major'][number] | Atmosphere['minor'][number]) => (
+  const gas = (g: Gas) => (
     <li key={`${g.unit}-${g.formula}-${g.name}`} className="details-row">
       <span>
         {g.name} ({subscripts(g.formula)})
@@ -65,14 +75,15 @@ function AtmosphereBlock({ atmosphere, cite }: { atmosphere: Atmosphere; cite: C
       <span className="num">
         {formatNumber(g.amount)}
         {g.unit === '%' ? '%' : ` ${g.unit}`}
-        {g.uncertainty !== null && ` ± ${plain(g.uncertainty)}`}
+        {g.uncertainty !== null && ` ± ${uncertaintyText(g)}`}
       </span>
       {cite(g.sourceId)}
     </li>
   );
+  const hasGases = atmosphere.major.length + atmosphere.minor.length > 0;
   return (
     <>
-      <p className="info-panel__note">{atmosphere.basis}</p>
+      {hasGases && <p className="info-panel__note">{atmosphere.basis}</p>}
       {atmosphere.major.length > 0 && <ul className="details-list">{atmosphere.major.map(gas)}</ul>}
       {atmosphere.minor.length > 0 && (
         <>
@@ -107,7 +118,7 @@ function MagneticField({ field, cite }: { field: Magnetosphere; cite: Cite }) {
       </p>
     );
   }
-  const rows: Array<[string, string, string]> = [['Dipole strength', `${sig3(field.strengthGaussR3.value)} G·R³`, field.strengthGaussR3.sourceId]];
+  const rows: Array<[string, string, string]> = [['Dipole strength', `${formatNumber(field.strengthGaussR3.value)} G·R³`, field.strengthGaussR3.sourceId]];
   if (field.tiltDeg) rows.push(['Tilt from spin axis', `${field.tiltDeg.value}°`, field.tiltDeg.sourceId]);
   if (field.tiltLongitudeDeg) rows.push(['Tilt longitude', `${field.tiltLongitudeDeg.value}°`, field.tiltLongitudeDeg.sourceId]);
   if (field.dipolePole) rows.push(['Dipole pole', `${latText(field.dipolePole.latDeg)}, ${field.dipolePole.lonDegE}° E`, field.dipolePole.sourceId]);
@@ -191,7 +202,7 @@ function Ready({ details, cite }: { details: BodyDetails; cite: Cite }) {
       {discovery && (
         <Section id="discovery" title="Discovery">
           <p className="details-row">
-            {discovery.kind === 'antiquity' ? 'Known since antiquity' : `Discovered by ${discovery.by} on ${discovery.date} (${discovery.method})`}
+            {discovery.kind === 'antiquity' ? 'Known since antiquity' : `Discovered by ${discovery.by} on ${discovery.date}`}
             {cite(discovery.sourceId)}
           </p>
         </Section>

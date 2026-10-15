@@ -26,7 +26,11 @@ function detailsSentence(body: Body, details: BodyDetails): NarrativePart[] | nu
   if (mag.kind === 'none') {
     clauses.push([t('it has '), v('no global magnetic field', mag.sourceId)]);
   } else if (mag.kind === 'dipole' && mag.tiltDeg) {
-    clauses.push([t('its magnetic field is tilted '), v(`${mag.tiltDeg.value}°`, mag.tiltDeg.sourceId), t(' from its spin axis')]);
+    clauses.push(
+      mag.tiltDeg.value === 0
+        ? [t('its magnetic field is '), v('aligned with its spin axis', mag.tiltDeg.sourceId)]
+        : [t('its magnetic field is tilted '), v(`${mag.tiltDeg.value}°`, mag.tiltDeg.sourceId), t(' from its spin axis')],
+    );
   }
   if (clauses.length === 0) return null;
   const parts = clauses.flatMap((clause, i) => (i === 0 ? clause : [t('; '), ...clause]));

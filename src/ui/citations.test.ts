@@ -56,4 +56,11 @@ describe('citationModel with details', () => {
     expect(detailsSourceOrder(makeJupiterDetails())).toEqual(['nssdca-planetary-fact-sheet', 'nasa-science-jupiter']);
     expect(detailsSourceOrder(null)).toEqual([]);
   });
+  it('lists a layer state source right after the layer bounds', () => {
+    const d = makeMarsDetails();
+    d.interior!.layers[2]!.stateSourceId = 'insight-page';
+    const order = detailsSourceOrder(d);
+    expect(order).toContain('insight-page');
+    expect(order.indexOf('insight-page')).toBe(order.indexOf('nssdca-planetary-fact-sheet') + 1);
+  });
 });
