@@ -46,7 +46,7 @@ The Venus `radar` layer comes from [[USGS Venus Magellan C3-MDIR Mosaic]] (`usgs
 Unmapped Magellan areas are black in the source and stay black. The map is radar backscatter, not visible light, and the app says so (drawer Imagery section; toggle or `?radar=1`). The radar view hides the illustrative cloud deck and the atmosphere shell.
 
 ## Body details (M2b.1)
-Built in [[2026-10-10-m2b1-body-details]] from spec [[2026-10-10-m2b1-body-details-design]]. `npm run data` also writes one cited details file per body: `public/data/solar-system/details/<id>.json` for the Sun and the eight planets (9 files, about 208 KB together), plus their new sources in `public/data/sources.json`. The shape is `BodyDetails` in `src/core/details/schema.ts` (see [[core]]).
+Built in [[2026-10-10-m2b1-body-details]] from spec [[2026-10-10-m2b1-body-details-design]]. `npm run data` also writes one cited details file per body: `public/data/solar-system/details/<id>.json` for the Sun and the eight planets (9 files, about 190 KB together), plus their new sources in `public/data/sources.json`. The shape is `BodyDetails` in `src/core/details/schema.ts` (see [[core]]).
 
 **Flow (`pipeline/run.ts` then `pipeline/build/buildDetails.ts`):**
 1. **Fetch** (with the same cache fallback as every source): the eight NSSDCA per-planet fact sheets and the Sun sheet, three Gazetteer zips (`pipeline/raw/gazetteer-<TARGET>.zip`, Mercury, Venus and Mars, about 12 MB together) and every curated page (`pipeline/raw/ref-<sourceId>.html`).

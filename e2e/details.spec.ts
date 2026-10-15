@@ -11,6 +11,7 @@ test('details files are not requested at startup', async ({ page }) => {
 
 test('Mars shows cited interior, atmosphere, field, missions and features', async ({ page }) => {
   await page.goto('/?target=mars&pause=1&quality=low');
+  // F needs the URL target's selection, which lands with the canvas.
   await expect(page.locator('canvas')).toBeVisible();
   await page.keyboard.press('f');
   const drawer = page.getByRole('complementary', { name: 'Body information' });
@@ -27,6 +28,7 @@ test('Mars shows cited interior, atmosphere, field, missions and features', asyn
 test('a blocked details file shows Details unavailable and the drawer still works', async ({ page }) => {
   await page.route('**/details/mars.json', (route) => route.abort());
   await page.goto('/?target=mars&pause=1&quality=low');
+  // F needs the URL target's selection, which lands with the canvas.
   await expect(page.locator('canvas')).toBeVisible();
   await page.keyboard.press('f');
   const drawer = page.getByRole('complementary', { name: 'Body information' });

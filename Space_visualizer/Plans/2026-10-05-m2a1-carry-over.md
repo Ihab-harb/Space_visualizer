@@ -174,5 +174,5 @@ Minor findings from the per-task reviews of Tasks 5 to 9, summarised from the ex
   - `detailsSourceOrder` differs from the display order for the magnetic field (reference radius before surface field), missions (stored order, not launch order) and features (total before rows), which only affects the order of the Sources list;
   - Mars' interior shows one end of each stored range, so the crust "0–50 km deep" and the mantle "10–1,560 km deep" overlap without explanation;
   - the narrative adds "%" without checking the gas unit, and gas-name casing differs between the list and the narrative.
-- **End-to-end (Task 10):** "cites the official imagery for Earth" can fail when `app.spec.ts` and `interface.spec.ts` run together and passes alone (it also failed on the clean baseline). A new details test also showed that pressing **F** straight after `goto` was not handled in one test run (the drawer stayed closed), so the details tests wait for the canvas first; the cause was not investigated.
+- **End-to-end (Task 10):** done. "cites the official imagery for Earth" was a timing race in the test, not a combined-run flake: it pressed **F** right after `goto`, but F does nothing until the URL target is selected, which lands with the canvas (about 1 failure in 5 under `--repeat-each=5 --workers=4`). The test and the new details tests now wait for the canvas first.
 
