@@ -10,6 +10,7 @@ The Solar System is the first "region" of a project designed to grow outward lat
 - **True orientation and shape:** each planet is tilted, spun and flattened using the IAU rotation models and radii published by NASA/JPL [NAIF](https://naif.jpl.nasa.gov/).
 - **Time controls:** play, pause, reverse, speeds from real time up to 1 year per second, and jumping to any date. The app warns when a date is outside the range where the formulas are accurate.
 - **Camera views:** *Orbit* (rotate, pan and zoom around any body) and *Follow* (track a body, optionally rotating with its surface), with smooth fly-to transitions. The view stays precise from a planet's surface out to the edge of the Solar System.
+- **Body details (M2b.1):** for each body the drawer also shows, when an official source exists, the interior layers, atmosphere, magnetic field, key missions, discovery and the largest named features, each cited. They load only when a body is selected.
 - **Facts & sources drawer:** NASA descriptions, physical and orbital facts, live distances and light travel time. Every value links to its source.
 - **Readable or true scale:** enlarged bodies that stay visible, or real sizes and distances.
 - **Official imagery and shading (M2a.1):** NASA, USGS and STScI surface maps, rings and sky, lit by custom shaders (terminator, night lights, clouds, atmospheres, ring shadows), each image cited in the facts & sources drawer.
@@ -72,6 +73,9 @@ Then open the address Vite prints (normally <http://localhost:5173/>). No server
 | [JPL Horizons](https://ssd.jpl.nasa.gov/horizons/) | Reference positions used to test and measure accuracy |
 | [NASA NSSDCA Planetary](https://nssdc.gsfc.nasa.gov/planetary/factsheet/) and [Sun](https://nssdc.gsfc.nasa.gov/planetary/factsheet/sunfact.html) fact sheets | Physical and orbital facts |
 | [NASA/JPL NAIF PCK00011](https://naif.jpl.nasa.gov/pub/naif/generic_kernels/pck/pck00011.tpc) | IAU rotation models and shape radii |
+| [NASA NSSDCA per-planet fact sheets](https://nssdc.gsfc.nasa.gov/planetary/factsheet/) | Atmosphere composition, magnetic field and mean radius for each planet and the Sun (body details) |
+| [USGS Gazetteer of Planetary Nomenclature](https://planetarynames.wr.usgs.gov/) | The largest approved surface features of Mercury, Venus and Mars |
+| Curated NASA, ESA and JAXA mission and science pages | Interior layers, key missions and discovery, each stored with the exact sentence it came from; the build checks that sentence is on the page |
 | [NASA Science](https://science.nasa.gov/) | Body descriptions |
 | [USGS Venus Magellan C3-MDIR mosaic](https://astrogeology.usgs.gov/search/map/venus_magellan_global_c3_mdir_mosaic_2025m) | The Venus radar view |
 | [IERS](https://hpiers.obspm.fr/iers/bul/bulc/Leap_Second.dat) and [NASA ΔT polynomials](https://eclipse.gsfc.nasa.gov/SEhelp/deltatpoly2004.html) | Converting between UTC and the time scale of the orbit formulas |

@@ -53,6 +53,20 @@ export function nasaScienceSpec(bodyId: string, name: string, url: string): Sour
   return { id: `nasa-science-${bodyId}`, title: `${name} - NASA Science`, publisher: 'NASA', url, license: NASA_PUBLIC_DOMAIN };
 }
 
+export function planetSheetUrl(id: string): string {
+  return `https://nssdc.gsfc.nasa.gov/planetary/factsheet/${id}fact.html`;
+}
+
+export function planetSheetSpec(id: string, name: string): SourceSpec {
+  return {
+    id: `nssdca-${id}-fact-sheet`,
+    title: `${name} Fact Sheet (D. R. Williams)`,
+    publisher: 'NASA Goddard Space Flight Center, NSSDCA',
+    url: planetSheetUrl(id),
+    license: NASA_PUBLIC_DOMAIN,
+  };
+}
+
 export function toSource(spec: SourceSpec, retrievedAt: string): Source {
   return { ...spec, retrievedAt };
 }

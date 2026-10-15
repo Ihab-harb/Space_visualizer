@@ -110,7 +110,7 @@ Deferred minor items from [[2026-10-07-m2a3-interface-and-tour]] (summarised fro
 
 - **Venus radar.** The Maxwell Montes box check (1k, 1.3×) may not catch a longitude mirror (an argmax near 3.6 E, 65 N would). No-data (0) pixels lower the global mean and render pure black (noted in the data source). No unit test for the atmosphere hiding or the `uRadar` gating.
 - **Auto quality.** No regression test that the median step-down still fires between 3 s and 5 s, and none for a long run straddling the end of the start-up cooldown. `longWithinWindowMs` is now a run total (stale name). A garbled sentence in render.md ("three loads ... two loads"). The god-ray luminance assertion is glow-dominated (margin about 2.6 grey levels); a differential patch would discriminate better.
-- **Header and narrative.** Rounding crosses boundaries (59.96 s shows "60.0 s", 119.6 min shows "120 min") and "1 hours" is possible. The narrative says "circles the Sun" for any non-star (wrong for moons; use `parentId` in M2b). Tests miss chip `[n]` equal to the `citationModel` numbers, Sun and Earth headers, and the bodies-in-view projection. The Facts button's visible label lacks "(F)".
+- **Header and narrative.** Rounding crosses boundaries (59.96 s shows "60.0 s", 119.6 min shows "120 min") and "1 hours" is possible. **Done in M2b.1 Task 9:** the narrative says "orbits <parent>" for a body whose parent is not a star (`buildNarrative` takes the parent); it still says "circles the Sun" for a body with no parent given. Tests miss chip `[n]` equal to the `citationModel` numbers, Sun and Earth headers, and the bodies-in-view projection. The Facts button's visible label lacks "(F)".
 - **Control panel.** Realistic is a focusable pressed button with no handler, and the disabled Exhibit button hides its "arrives in M2c" title from keyboard and touch users (use `aria-disabled`).
 - **Drawer.** Focus is not moved into the drawer on open or restored on close. A highlight timeout is not cleaned up on unmount.
 - **Bottom bar.** The 0-1000 slider is about 91 days per step, so a click without a drag quantises the date. Tick labels do not line up with the native thumb travel. "Outside 1800-2050" shows twice (note and status). Tests miss the outside-range note, the Stop-tour state and the published variable.
@@ -118,3 +118,69 @@ Deferred minor items from [[2026-10-07-m2a3-interface-and-tour]] (summarised fro
 - **Tour.** Exiting mid-flight pivots Orbit on the destination stop while the camera is still far. A null stop pose ends the tour instead of skipping the stop. One frame of input is dropped on exit. Reduced motion keeps the 4 degrees per second dwell rotation. Per-frame allocation in the tour path. Missing tests: mid-flight exit, start from Follow, reduced motion, a null pose. Space or Enter on the Tour button now stops the tour (fixed in the M2a.3 final review); on other focused buttons they act and also stop the tour, which is intended as user input.
 - **Phone.** Footer, sky credit and tick labels are 10 px and header actions 12 px. "Show more" always renders, with a touch target of about 22 px. `controlsOpen` stays stale after resizing wider. The layout matrix now covers 800x1000, 1024x768 and 1100x800 as well as 390x844 and 1280x720. The layout specs use fixed waits (`waitForTimeout`), and the "topmost" check uses `elementFromPoint`, which is weak. No unit test for the `--header-bottom` publish or cleanup.
 - **Housekeeping.** All goldens are recopied each section (grain-only churn). The `hotkeys.test.ts` describe title has a mangled section sign. `useHotkeys` reads tour state before checking the action. The 400 ms waits in the label e2e leave a small flake margin.
+
+## From M2b.1 (Tasks 1–4, 2026-10-10)
+
+These are minor findings from the per-task reviews, deferred for the whole-branch review after Task 10 to triage. They were copied here from the git-ignored execution ledger. Plan: [[2026-10-10-m2b1-body-details]].
+- **Details schema and checks (Task 1):**
+  - the test fixtures cite a generic fact-sheet source for Mars' missions and features;
+  - an unused `_drop` destructure in `schema.test.ts`;
+  - `validDate` relies on `Date.parse` for impossible dates; the schema's `z.iso.date()` is the real guard.
+- **Fact-sheet parser (Task 2):**
+  - reworded dipole tilt, longitude, offset, surface-field or pole lines silently become `null`; only strength and radius throw;
+  - a reworded gas line without a "(Formula)" or "Symbol - n" shape falls into the notes instead of throwing;
+  - dipole qualifiers are lost ("~0.1", "(IAU convention)", Saturn's quadrupole/octupole caveat);
+  - Mercury's column-abundance ranges are dropped by design;
+  - Uranus' magnetosphere is only asserted as not null;
+  - `planetSheetUrl(id: string)` is not typed to the planet ids;
+  - superscript conversion covers digits and ± only.
+- **Zip, dBASE and Gazetteer (Task 3):**
+  - commit `d4c023b` was made with one failing test, which `8df7755` fixed;
+  - the dBASE reader is untested for numerics with leading spaces, short buffers and the version byte;
+  - two zip tests (the ZIP64 per-entry sentinel and the cut-short stored entry) only check that some zip error is thrown, not which one;
+  - Gazetteer latitudes and diameters keep the source's float noise;
+  - a NaN latitude or longitude is not checked before the schema;
+  - an `approvedYear` of "0000" becomes 0.
+- **Quote checks (Task 4):**
+  - a lower-case word before a day number still passes ("the probe 2 August 1977" counts as 1977-08-02);
+  - "July of 1965", "July, 1965" and "summer 1965" pass the planned-launch year-only rule;
+  - safe false fails: "Launched 20 August 1977", hostnames with a trailing dot, and a range after a capitalised word ("Earth 1,650-1,675 km" gives only 1675);
+  - the 6-word minimum can be gamed;
+  - `verifyInteriors` does not check min ≤ max;
+  - the zero exemption applies to every range key.
+
+## From M2b.1 (Tasks 5–9, 2026-10-15/16)
+
+Minor findings from the per-task reviews of Tasks 5 to 9, summarised from the execution ledger. Plan: [[2026-10-10-m2b1-body-details]]. The two marked "flag" were raised for the whole-branch review. The ones about code I re-read on 2026-10-16 (the missing mean-radius warning, no fetch timeout, the source order) are still open.
+- **Curated interiors (Task 5):**
+  - Earth's crust is "about 30 km on land"; the oceanic crust (about 5 km) is in a separate sentence and is not a range;
+  - Mars' core state "liquid" had no stored quote (**done in the M2b.1 fix wave:** it now cites the InSight page); Venus' crust (40 km mean, 65 km maximum) is unused, because a crust-only stack cannot be represented;
+  - any number right after a "(km)" label counts as km (a year in a table cell would); the Sun's boundary tolerance of 3,478 km is lenient.
+- **Missions (Task 6):**
+  - the README example error "arrival 1965-07-14 not in any quote" names a date that is in its quote (it only shows the format);
+  - the Venera 7 and 13 quotes start at the date and include a neighbouring entry's name (no better official page; the NSSDCA spacecraft pages error);
+  - Neptune's `by` wording is longer than planned; Venus Express ends on the ESA announcement date (2014-12-16; contact was lost 2014-11-28); Tianwen-1 is omitted; Earth has one current flagship (Landsat 9).
+- **Build (Task 7):**
+  - `buildDetails` swallows a mean-radius parse failure silently before falling back (add a warning);
+  - Mercury's atmosphere has no gases (an exosphere note only), and the UI handles the empty list;
+  - the earthfact page was two sources (**done in the M2b.1 fix wave:** a curated source for an already registered page is aliased, so each page is listed once); `run.ts` never removes stale details files; a data run refreshes `retrievedAt` on existing sources.
+- **Store (Task 8):**
+  - a non-JSON 200 or a network error gives a bare message ("Failed to fetch") that does not name the body;
+  - missing tests: retry while loading, retry from missing, HTTP 500, a non-JSON 200, a hook rerender across bodies, an undefined id, StrictMode; the "keyed by id" test is weak (two keys in one map);
+  - a fetch has no timeout, so a hung request stays in `loading`.
+- **Drawer and header (Task 9):**
+  - **done in the M2b.1 fix wave:** flag, shown precision: Mercury's dipole 0.002 renders as "0.00200 G·R³", and uncertainties render as "± 1000.0" beside "3,000 ppm";
+  - **done in the M2b.1 fix wave:** flag, wording: the header says "tilted 0°" for Mercury and Saturn, where "aligned with its spin axis" reads better;
+  - `detailsSourceOrder` differs from the display order for the magnetic field (reference radius before surface field), missions (stored order, not launch order) and features (total before rows), which only affects the order of the Sources list;
+  - **done in the M2b.1 fix wave:** Mars' interior showed one end of each stored range, so the crust "0–50 km deep" and the mantle "10–1,560 km deep" overlap without explanation;
+  - the narrative adds "%" without checking the gas unit, and gas-name casing differs between the list and the narrative.
+- **Deferred from the M2b.1 whole-branch review (for M2b.2 and later):**
+  - **Apollo 8** orbited the Moon, not Earth; it was removed from Earth's missions and belongs with the Moon in M2b.2 (source `nasa-mission-apollo-8`, page https://www.nasa.gov/mission/apollo-8/, quote "crew Frank Borman, James Lovell Jr., William Anders Launch Dec. 21, 1968 SPLASHDOWN Dec. 27, 1968").
+  - **Moon narrative:** `narrative.ts` writes the average distance as `sma.toFixed(2)} AU`, so the Moon (about 0.0026 AU) would read "0.00 AU"; use a unit that fits (for example km) in M2b.2.
+  - **Akatsuki:** its end of operations in 2024 is unverified against an official page.
+  - **Dropped fact-sheet qualifiers:** "varies with pressure", "~" and "(IAU convention)" are lost in the parsed values.
+  - **Header citation scroll:** a header citation's scroll target can move once the details load (the details sections are inserted above the Sources list).
+  - **Mission counts:** after removing Apollo 8 the data holds 43 mission entries covering 39 distinct missions (the Voyagers and a few others repeat across bodies); earlier notes said "44 missions".
+  - **Stated decimals:** the parser keeps numbers, not their written decimals, so Jupiter's dipole strength reads "4.3" where the sheet writes "4.30" (nothing is invented); recording the raw text would print it exactly.
+- **End-to-end (Task 10):** done. "cites the official imagery for Earth" was a timing race in the test, not a combined-run flake: it pressed **F** right after `goto`, but F does nothing until the URL target is selected, which lands with the canvas (about 1 failure in 5 under `--repeat-each=5 --workers=4`). The test and the new details tests now wait for the canvas first.
+- **Whole-branch review leftovers (M2b.1):** the 390×844 Mars screenshot in `Assets/m2b1/` shows the Interior wording from before the fix wave and should be retaken. Stated decimals are not recorded, so Jupiter's dipole shows "4.3" where the sheet says "4.30".
