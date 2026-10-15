@@ -44,3 +44,7 @@ The build step that loads these files (added with the details builder) calls `ve
 - `quote not on page of <sourceId>`, `quote too short (3 words)`, `source <sourceId> is not registered`, `source <id> is not on an official host: <host>`, `duplicate source id <id>`
 
 An empty list means every quote is on its page and every number and date is in its quote. The build fails otherwise.
+
+## Time zones in mission dates
+
+Mission dates follow the cited page's own convention, which is US local time on some NASA pages and UT on others. For example, the Mariner 4 page gives the Mars flyby as July 14, 1965 (EDT), while the same moment is July 15 in UT. When a page states both explicitly, record the UT date. Do not convert dates yourself: the recorded date must appear in the quote.

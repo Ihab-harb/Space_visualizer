@@ -71,6 +71,13 @@
       "license": "NASA public domain (NASA media usage guidelines)"
     },
     {
+      "id": "nasa-sputnik-1",
+      "title": "Sputnik 1 (NASA Image Article)",
+      "publisher": "NASA",
+      "url": "https://www.nasa.gov/image-article/sputnik-1/",
+      "license": "NASA public domain (NASA media usage guidelines)"
+    },
+    {
       "id": "nasa-mission-explorer-1",
       "title": "Explorer 1 (NASA Science mission page)",
       "publisher": "NASA Science",
@@ -346,7 +353,7 @@
           "sourceId": "nasa-mission-ulysses",
           "quotes": [
             "Key Dates Oct. 6, 1990: Launch from the cargo bay of Space Shuttle Discovery Feb. 8, 1992: Ulysses became the fifth spacecraft to reach Jupiter",
-            "Oct. 1, 1995: ESA extended Ulysses' mission and renamed it Second Solar Orbit June 30, 2009"
+            "Oct. 1, 1995: ESA extended Ulysses' mission and renamed it Second Solar Orbit June 30, 2009: L oss of contact with spacecraft"
           ]
         },
         {
@@ -569,9 +576,9 @@
           "arrivalDate": null,
           "endDate": null,
           "outcome": "success",
-          "sourceId": "nssdca-planetary-chronology",
+          "sourceId": "nasa-sputnik-1",
           "quotes": [
-            "4 October 1957 - Earth Orbiter Sputnik 2 - 3 November 1957 - Earth Orbiter"
+            "On Oct. 4, 1957, Sputnik 1 successfully launched and entered Earth's orbit."
           ]
         },
         {
