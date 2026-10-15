@@ -70,6 +70,7 @@ This was one long conversation with Claude Code. It produced the design, M1, M2a
 
 ### M2b.1 Tasks 5–10 (2026-10-15/16)
 - "continue": the plan was resumed at Task 5, subagent-driven as before (an implementer then a reviewer per task). Tasks 5–10 are done. The whole-branch review (Opus) said "ready with fixes": the Interior rows showed numbers in forms no source used (collapsed ranges, percentages shown as km, Earth's 2,886 km), and some values had false precision (0.00200). One fix wave fixed these and the triaged minor findings, and a scoped re-review confirmed the fixes. The plan's "Execution record" Part 2 lists every ruling. Final state: 690 unit tests, typecheck clean, and a clean full end-to-end run on an idle machine (76 passed, 8.2 min). M2b.1 is complete.
+- "what is the next step?": the answer was to push M2b.1 as a stacked PR, merge PRs #1–#5 when the user decides, then start M2b.2 (the Moon). "open the pr": `m2b1-details` was pushed and PR #5 opened (base `m2a3-interface`): https://github.com/Ihab-harb/Space_visualizer/pull/5
 - **What was built:**
   - Task 5: curated interiors for the Sun, Mercury, Earth and Mars (`pipeline/reference/interiors.json`), each value with its source sentence.
   - Task 6: `missions.json`, with a discovery entry for all bodies except Earth and the Sun. At first it held 44 mission entries; after the whole-branch fix wave removed Apollo 8 from Earth it holds 43 mission entries (39 distinct missions: Voyager 1 and 2 and a few others repeat across bodies).
