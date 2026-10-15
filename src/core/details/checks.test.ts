@@ -53,6 +53,14 @@ describe('checkDetails: remaining spec §5 rules', () => {
     const out = checkDetails(withLayers([crust!, { ...mantle!, outerRadiusKm: rng(3380) }, core!]), ctx);
     expect(out.join()).toContain('interior gap or overlap between crust and mantle (inner 3339.5–3339.5 km vs outer 3380–3380 km)');
   });
+  it('allows a small boundary mismatch but not a large one', () => {
+    const [crust, mantle, core] = layersOf();
+    const at = (R: number, a: number, b: number) => checkDetails(withLayers([{ ...crust!, innerRadiusKm: rng(a) }, { ...mantle!, outerRadiusKm: rng(b) }, core!]), { ...ctx, radiusKm: R }).filter((e) => e.includes('gap or overlap'));
+    expect(at(2439.7, 2039.7, 2074)).toEqual([]); // Mercury-style 34 km
+    expect(at(695700, 495700, 493947)).toEqual([]); // Sun-style 1,753 km
+    expect(at(6371, 3471, 1221)).not.toEqual([]); // 2,250 km
+    expect(at(6371, 3471, 3421)).not.toEqual([]); // 50 km
+  });
   it('rejects an inner radius above the outer radius', () => {
     const [crust, mantle, core] = layersOf();
     const out = checkDetails(withLayers([crust!, { ...mantle!, innerRadiusKm: rng(3339.6) }, core!]), ctx);

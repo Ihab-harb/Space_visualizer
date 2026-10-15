@@ -29,6 +29,13 @@
       "license": "NASA public domain (NASA media usage guidelines)"
     },
     {
+      "id": "nssdca-earth",
+      "title": "Earth Fact Sheet",
+      "publisher": "NASA NSSDCA",
+      "url": "https://nssdc.gsfc.nasa.gov/planetary/factsheet/earthfact.html",
+      "license": "NASA public domain (NASA media usage guidelines)"
+    },
+    {
       "id": "nasa-science-mars-facts",
       "title": "Mars: Facts",
       "publisher": "NASA Science",
@@ -189,16 +196,41 @@
             "max": 30
           },
           "inner": {
-            "sourceId": "nasa-science-earth-facts",
-            "quote": "This hot, viscous mixture of molten rock is about 1,800 miles (2,900 kilometers) thick and has the consistency of caramel.",
-            "min": 2900,
-            "max": 2900
+            "sourceId": "nssdca-earth",
+            "quote": "Volumetric mean radius (km) 6371.000 Core radius (km) 3485",
+            "min": 3485,
+            "max": 3485,
+            "from": "radius"
           },
           "state": "unknown",
           "composition": {
             "sourceId": "nasa-science-earth-facts",
             "quote": "This hot, viscous mixture of molten rock is about 1,800 miles (2,900 kilometers) thick and has the consistency of caramel.",
             "text": "A hot, viscous mixture of molten rock."
+          },
+          "uncertain": false
+        },
+        {
+          "id": "outer-core",
+          "name": "Outer core",
+          "from": "radius",
+          "outer": {
+            "sourceId": "nssdca-earth",
+            "quote": "Volumetric mean radius (km) 6371.000 Core radius (km) 3485",
+            "min": 3485,
+            "max": 3485
+          },
+          "inner": {
+            "sourceId": "nasa-science-earth-facts",
+            "quote": "The inner core is a solid sphere made of iron and nickel metals about 759 miles (1,221 kilometers) in radius.",
+            "min": 1221,
+            "max": 1221
+          },
+          "state": "liquid",
+          "composition": {
+            "sourceId": "nasa-science-earth-facts",
+            "quote": "This layer is about 1,400 miles (2,300 kilometers) thick, made of iron and nickel fluids.",
+            "text": "Iron and nickel fluids."
           },
           "uncertain": false
         },

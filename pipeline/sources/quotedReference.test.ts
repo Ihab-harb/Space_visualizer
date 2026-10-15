@@ -94,6 +94,14 @@ describe('kmIn and percentIn', () => {
     expect(kmIn('2,100 miles to 3,400 km')).toEqual([3400]);
     expect(kmIn('moving 5 km/s over 40 km')).toEqual([40]);
   });
+  it('reads numbers right after a (km) table label', () => {
+    expect(kmIn('Core radius (km) 3485')).toEqual([3485]);
+    expect(kmIn('Core radius (km) 1830 3485')).toEqual([1830, 3485]);
+    expect(kmIn('Core radius (km) 1830 ** 3485 Ellipticity 0.5')).toEqual([1830, 3485]);
+    expect(kmIn('Mean radius (km) 6371.000 Core radius (km) 3485')).toEqual([6371, 3485]);
+    expect(kmIn('(km) is the unit used. In 1965 Mariner flew by')).toEqual([]);
+    expect(kmIn('Radius (km) of Mars is 3389 and 1965')).toEqual([]);
+  });
   it('reads percentages the same way', () => {
     expect(percentIn('about 55% of the radius')).toEqual([55]);
     expect(percentIn('from 20 to 25 percent of the radius')).toEqual([20, 25]);

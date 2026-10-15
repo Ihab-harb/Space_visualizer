@@ -3,7 +3,11 @@ import { decodeEntities } from '../lib/html';
 
 export interface CuratedSource { id: string; title: string; publisher: string; url: string; license: string }
 export interface Quoted { sourceId: string; quote: string }
-export interface QuotedRange extends Quoted { min: number; max: number }
+export interface QuotedRange extends Quoted {
+  min: number; max: number;
+  /** Overrides the layer's `from` for this bound only. */
+  from?: 'radius' | 'depth' | 'percent';
+}
 export interface CuratedLayer {
   id: string; name: string; from: 'radius' | 'depth' | 'percent';
   outer: QuotedRange; inner: QuotedRange; // radii in km, depths in km below the surface, or percent of the body's radius from the centre
@@ -105,7 +109,17 @@ function withUnit(text: string, unit: RegExp): number[] {
   return nums.filter((_, i) => hit[i]).map((n) => n.value);
 }
 
-export const kmIn = (text: string): number[] => withUnit(text, KM_UNIT);
+/** Numbers listed right after a "(km)" table label: "Core radius (km) 1830 ** 3485". Only whitespace and "*" footnote marks may separate them. */
+function afterKmLabel(text: string): number[] {
+  const t = normaliseQuote(text);
+  const out: number[] = [];
+  for (const m of t.matchAll(/\(km\)((?:\s+(?:\d{1,3}(?:,\d{3})+(?:\.\d+)?|\d+(?:\.\d+)?)(?![\d.,/^])(?:\s*\*+)?)+)/gi)) {
+    out.push(...numbersIn(m[1]!.replace(/\*/g, ' ')));
+  }
+  return out;
+}
+
+export const kmIn = (text: string): number[] => [...withUnit(text, KM_UNIT), ...afterKmLabel(text)];
 export const percentIn = (text: string): number[] => withUnit(text, PERCENT_UNIT);
 export const quoteHasKm = (quote: string, n: number): boolean => kmIn(quote).some((v) => same(v, n));
 export const quoteHasPercent = (quote: string, n: number): boolean => percentIn(quote).some((v) => same(v, n));
@@ -208,7 +222,7 @@ export function verifyInteriors(file: InteriorsFile, pages: Map<string, string>)
         for (const key of ['min', 'max'] as const) {
           const v = r[key];
           if (v === 0) continue;
-          if (layer.from === 'percent') {
+          if ((r.from ?? layer.from) === 'percent') {
             if (!quoteHasPercent(r.quote, v)) errors.push(`${w}.${key}: ${v} percent not in quote: "${r.quote}"`);
           } else if (!quoteHasKm(r.quote, v)) {
             errors.push(`${w}.${key}: ${v} km not in quote: "${r.quote}"`);

@@ -2,6 +2,8 @@ import { findUnresolvedSources } from '../catalog/references';
 import type { BodyDetails } from './schema';
 
 const EPS = 1e-6;
+/** Gap or overlap allowed between consecutive layers: sources round their boundaries independently. */
+const touchTol = (radiusKm: number) => Math.max(40, 0.005 * radiusKm);
 const validDate = (d: string) => !Number.isNaN(Date.parse(`${d}T00:00:00Z`));
 
 /** Spec §5 build checks. Returns one message per failed rule; empty means the file is consistent. */
@@ -16,7 +18,8 @@ export function checkDetails(details: BodyDetails, ctx: { radiusKm: number; know
     if (layer.innerRadiusKm.min > layer.outerRadiusKm.max + EPS) errors.push(`${p} interior ${layer.id} inner radius above outer radius`);
     const next = layers[i + 1];
     if (next && next.outerRadiusKm.min > layer.outerRadiusKm.max + EPS) errors.push(`${p} interior layers out of order at ${layer.id} -> ${next.id} (outside in)`);
-    if (next && (layer.innerRadiusKm.min > next.outerRadiusKm.max + EPS || next.outerRadiusKm.min > layer.innerRadiusKm.max + EPS)) {
+    const tol = touchTol(ctx.radiusKm);
+    if (next && (layer.innerRadiusKm.min > next.outerRadiusKm.max + tol || next.outerRadiusKm.min > layer.innerRadiusKm.max + tol)) {
       errors.push(`${p} interior gap or overlap between ${layer.id} and ${next.id} (inner ${layer.innerRadiusKm.min}–${layer.innerRadiusKm.max} km vs outer ${next.outerRadiusKm.min}–${next.outerRadiusKm.max} km)`);
     }
   });
