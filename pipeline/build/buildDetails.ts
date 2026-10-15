@@ -22,6 +22,8 @@ export const DETAIL_BODY_IDS = ['sun', 'mercury', 'venus', 'earth', 'mars', 'jup
 export interface DetailsInputs {
   bodies: readonly Body[];
   existingSourceIds: ReadonlySet<string>;
+  /** URL -> id of the sources already registered, so a curated source for the same page is aliased to it. */
+  existingSourceUrls?: ReadonlyMap<string, string>;
   planetSheets: Record<(typeof PLANET_SHEET_IDS)[number], FetchedText>;
   sunSheet: FetchedText;
   gazetteer: Partial<Record<keyof typeof GAZETTEER_TARGETS, { rows: Array<Record<string, string>>; retrievedAt: string }>>;
