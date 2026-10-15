@@ -7,6 +7,8 @@ import { useSelectionStore } from '../state/selectionStore';
 import { useTimeStore } from '../state/timeStore';
 import { useUiStore } from '../state/uiStore';
 import { useViewStore } from '../state/viewStore';
+import { useDetailsStore } from '../state/detailsStore';
+import { makeJupiterDetails } from '../test/detailsFixtures';
 import { makeCatalogFiles } from '../test/fixtures';
 import { Header } from './Header';
 
@@ -15,6 +17,7 @@ const catalog = createCatalog(f.regions, f.sources, [f.bodies]);
 
 describe('Header', () => {
   beforeEach(() => {
+    useDetailsStore.setState({ entries: {} });
     useTimeStore.setState({ jdTdb: 2451545, playing: false });
     useUiStore.setState({ drawerOpen: false, focusSource: null });
     useViewStore.setState({ venusRadar: false });
@@ -55,5 +58,21 @@ describe('Header', () => {
     useSelectionStore.setState({ selectedId: 'earth' });
     rerender(<Header catalog={radarCatalog} />);
     expect(screen.queryByText(/not visible light/i)).toBeNull();
+  });
+
+  it('adds the cited field sentence once details load, without renumbering the chips', () => {
+    useSelectionStore.setState({ selectedId: 'jupiter' });
+    useDetailsStore.setState({ entries: { jupiter: { status: 'loading' } } });
+    const { rerender } = render(<Header catalog={catalog} />);
+    const header = () => screen.getByRole('banner', { name: 'Selected body' });
+    const chips = () => Array.from(header().querySelectorAll('.chip')).map((c) => c.textContent);
+    const before = chips();
+    expect(header()).not.toHaveTextContent(/tilted/);
+    useDetailsStore.setState({ entries: { jupiter: { status: 'ready', details: makeJupiterDetails() } } });
+    rerender(<Header catalog={catalog} />);
+    expect(chips()).toEqual(before);
+    expect(header()).toHaveTextContent(/tilted 9\.4°\[\d+\] from its spin axis/);
+    const narrative = header().querySelector('#header-narrative')!;
+    expect(within(narrative as HTMLElement).getAllByRole('link', { name: /Source \d+/ }).length).toBeGreaterThanOrEqual(2);
   });
 });

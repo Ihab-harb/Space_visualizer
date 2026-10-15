@@ -3,9 +3,11 @@ import type { Catalog } from '../core/catalog/catalog';
 import { FACT_DEFS, FACT_KEYS, type FactGroup } from '../core/catalog/facts';
 import type { BodyCategory } from '../core/catalog/schema';
 import { useSelectionStore } from '../state/selectionStore';
+import { readyDetails, useBodyDetails } from '../state/detailsStore';
 import { useViewStore } from '../state/viewStore';
 import { useUiStore } from '../state/uiStore';
 import { accuracyLines } from './accuracy';
+import { DetailsSections } from './DetailsSections';
 import { citationModel } from './citations';
 import { formatDistanceKm, formatFact, formatLightTime } from './format';
 import { illustrativeNotes, imageryLines } from './imagery';
@@ -40,9 +42,10 @@ export function FactsDrawer({ catalog }: { catalog: Catalog }) {
   }, [open, focusSource, clearFocusSource]);
   const jdTdb = useThrottledJd();
   const body = selectedId ? catalog.bodyById.get(selectedId) : undefined;
+  const detailsEntry = useBodyDetails(body?.id);
   if (!body) return null;
 
-  const { order, numbers, liveSource } = citationModel(catalog, body);
+  const { order, numbers, liveSource } = citationModel(catalog, body, readyDetails(detailsEntry));
   const cite = (sourceId: string) => (
     <sup className="cite">
       <a href={`#source-${sourceId}`} aria-label={`Source ${numbers.get(sourceId)}`}>
@@ -149,6 +152,8 @@ export function FactsDrawer({ catalog }: { catalog: Catalog }) {
           ))}
         </ul>
       </section>
+
+      <DetailsSections body={body} entry={detailsEntry} cite={cite} />
 
       <section>
         <h3>Imagery</h3>

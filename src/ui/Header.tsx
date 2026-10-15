@@ -3,6 +3,7 @@ import type { Catalog } from '../core/catalog/catalog';
 import type { BodyCategory } from '../core/catalog/schema';
 import { formatUtc } from '../core/time/format';
 import { tdbToUtc } from '../core/time/timescales';
+import { readyDetails, useBodyDetails } from '../state/detailsStore';
 import { useSceneStatsStore } from '../state/sceneStatsStore';
 import { useSelectionStore } from '../state/selectionStore';
 import { useUiStore } from '../state/uiStore';
@@ -46,6 +47,7 @@ export function Header({ catalog }: { catalog: Catalog }) {
   const revealSource = useUiStore((s) => s.revealSource);
   const toggleDrawer = useUiStore((s) => s.toggleDrawer);
   const body = selectedId ? catalog.bodyById.get(selectedId) : undefined;
+  const detailsEntry = useBodyDetails(body?.id);
 
   if (!body) {
     return (
@@ -62,7 +64,8 @@ export function Header({ catalog }: { catalog: Catalog }) {
   }
 
   const stats = liveStats(catalog, body, jdTdb);
-  const { numbers } = citationModel(catalog, body);
+  const details = readyDetails(detailsEntry);
+  const { numbers } = citationModel(catalog, body, details);
   const cite = (sourceId: string) => (
     <sup className="cite">
       <a
@@ -83,7 +86,7 @@ export function Header({ catalog }: { catalog: Catalog }) {
   const tempFact = body.facts.meanTemperatureC;
   const day = dayFact && typeof dayFact.value === 'number' ? { value: dayFact.value, sourceId: dayFact.sourceId } : null;
   const temp = tempFact && typeof tempFact.value === 'number' ? { value: tempFact.value, sourceId: tempFact.sourceId } : null;
-  const narrative = buildNarrative(body, stats);
+  const narrative = buildNarrative(body, stats, { details, parent: body.parentId ? catalog.bodyById.get(body.parentId) : undefined });
   const expanded = expandedFor === body.id;
 
   return (
