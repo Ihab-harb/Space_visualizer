@@ -61,6 +61,17 @@ function convertDiscovery(d: NonNullable<MissionsFile['bodies'][string]>['discov
   return { kind: 'discovered', by: d.by, date: d.date, method: d.method, sourceId: d.sourceId };
 }
 
+/** Rewrite every source id in `value` (keys "sourceId" and "*SourceId") through `alias`. */
+function aliasSourceIds<T>(value: T, alias: ReadonlyMap<string, string>): T {
+  if (Array.isArray(value)) return value.map((v) => aliasSourceIds(v, alias)) as T;
+  if (value !== null && typeof value === 'object') {
+    return Object.fromEntries(
+      Object.entries(value).map(([k, v]) => [k, (k === 'sourceId' || k.endsWith('SourceId')) && typeof v === 'string' ? (alias.get(v) ?? v) : aliasSourceIds(v, alias)]),
+    ) as T;
+  }
+  return value;
+}
+
 export function buildDetails(inputs: DetailsInputs, generatedAt: string): { details: BodyDetails[]; sources: Source[]; errors: string[] } {
   const errors: string[] = [];
 
@@ -124,11 +135,20 @@ export function buildDetails(inputs: DetailsInputs, generatedAt: string): { deta
     details.push({ schemaVersion: 1, bodyId: id, generatedAt, interior, atmosphere, magnetosphere, missions, discovery: convertDiscovery(m?.discovery ?? null), features });
   }
 
+  // A curated source for a page that is already registered (in the catalogue, or as a fact sheet above) is an alias of it:
+  // the page is listed once, and the details point at the registered id.
+  const registeredByUrl = new Map<string, string>(inputs.existingSourceUrls ?? []);
+  for (const c of candidates.values()) if (!registeredByUrl.has(c.url)) registeredByUrl.set(c.url, c.id);
+  const alias = new Map<string, string>();
   const curatedSources: CuratedSource[] = [...inputs.interiors.sources, ...inputs.missions.sources];
   for (const s of curatedSources) {
+    const registered = registeredByUrl.get(s.url);
+    if (registered !== undefined && registered !== s.id) { alias.set(s.id, registered); continue; }
     const page = inputs.curatedPages.get(s.id);
     addSource(s, page?.retrievedAt ?? '');
+    registeredByUrl.set(s.url, s.id);
   }
+  for (let i = 0; i < details.length; i++) details[i] = aliasSourceIds(details[i]!, alias);
 
   // Keep only sources a details file references.
   const referenced = new Set(details.flatMap((d) => collectSourceIds(d).map((r) => r.sourceId)));

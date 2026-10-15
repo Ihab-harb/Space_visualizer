@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "bodyId": "earth",
-  "generatedAt": "2026-10-15T22:28:23.240Z",
+  "generatedAt": "2026-10-15T22:30:26.775Z",
   "interior": {
     "layers": [
       {
@@ -10,7 +10,7 @@
         "outerRadiusKm": {
           "min": 6371,
           "max": 6371,
-          "sourceId": "nasa-science-earth-facts",
+          "sourceId": "nasa-science-earth",
           "from": "depth",
           "stated": {
             "min": 0,
@@ -20,7 +20,7 @@
         "innerRadiusKm": {
           "min": 6341,
           "max": 6341,
-          "sourceId": "nasa-science-earth-facts",
+          "sourceId": "nasa-science-earth",
           "from": "depth",
           "stated": {
             "min": 30,
@@ -38,7 +38,7 @@
         "outerRadiusKm": {
           "min": 6341,
           "max": 6341,
-          "sourceId": "nasa-science-earth-facts",
+          "sourceId": "nasa-science-earth",
           "from": "depth",
           "stated": {
             "min": 30,
@@ -48,14 +48,14 @@
         "innerRadiusKm": {
           "min": 3485,
           "max": 3485,
-          "sourceId": "nssdca-earth",
+          "sourceId": "nssdca-earth-fact-sheet",
           "from": "radius"
         },
         "from": "depth",
         "state": "unknown",
         "composition": {
           "text": "A hot, viscous mixture of molten rock.",
-          "sourceId": "nasa-science-earth-facts"
+          "sourceId": "nasa-science-earth"
         },
         "uncertain": false
       },
@@ -65,20 +65,20 @@
         "outerRadiusKm": {
           "min": 3485,
           "max": 3485,
-          "sourceId": "nssdca-earth",
+          "sourceId": "nssdca-earth-fact-sheet",
           "from": "radius"
         },
         "innerRadiusKm": {
           "min": 1221,
           "max": 1221,
-          "sourceId": "nasa-science-earth-facts",
+          "sourceId": "nasa-science-earth",
           "from": "radius"
         },
         "from": "radius",
         "state": "liquid",
         "composition": {
           "text": "Iron and nickel fluids.",
-          "sourceId": "nasa-science-earth-facts"
+          "sourceId": "nasa-science-earth"
         },
         "uncertain": false
       },
@@ -88,20 +88,20 @@
         "outerRadiusKm": {
           "min": 1221,
           "max": 1221,
-          "sourceId": "nasa-science-earth-facts",
+          "sourceId": "nasa-science-earth",
           "from": "radius"
         },
         "innerRadiusKm": {
           "min": 0,
           "max": 0,
-          "sourceId": "nasa-science-earth-facts",
+          "sourceId": "nasa-science-earth",
           "from": "radius"
         },
         "from": "radius",
         "state": "solid",
         "composition": {
           "text": "A solid sphere made of iron and nickel metals.",
-          "sourceId": "nasa-science-earth-facts"
+          "sourceId": "nasa-science-earth"
         },
         "uncertain": false
       }
@@ -250,17 +250,6 @@
       "endDate": "1960-06-15",
       "outcome": "success",
       "sourceId": "nssdca-tiros-1"
-    },
-    {
-      "id": "apollo-8",
-      "name": "Apollo 8",
-      "agency": "NASA",
-      "type": "orbiter",
-      "launchDate": "1968-12-21",
-      "arrivalDate": null,
-      "endDate": "1968-12-27",
-      "outcome": "success",
-      "sourceId": "nasa-mission-apollo-8"
     },
     {
       "id": "landsat-1",

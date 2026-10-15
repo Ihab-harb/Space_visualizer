@@ -178,6 +178,30 @@ describe('buildDetails', () => {
     expect(build({ interiors: withState('This sentence is certainly not on the page at all') }).errors.some((e) => e.includes('stateSource') || e.includes('quote not on page'))).toBe(true);
   });
 
+  it('points a curated source at the registered source for the same page instead of listing the page twice', () => {
+    const dup = { ...src, id: 'curated-mars-sheet', url: 'https://nssdc.gsfc.nasa.gov/planetary/factsheet/marsfact.html' };
+    const existing = { ...src, id: 'catalog-page', url: 'https://science.nasa.gov/catalog-page/' };
+    const dupExisting = { ...src, id: 'curated-catalog-page', url: existing.url };
+    const file = interiors();
+    file.sources = [src, dup, dupExisting];
+    file.bodies.mars!.layers[0]!.composition = { sourceId: 'curated-mars-sheet', quote: Q_CRUST, text: 'x' };
+    file.bodies.mars!.layers[1]!.composition = { sourceId: 'curated-catalog-page', quote: Q_CORE, text: 'y' };
+    const pages = new Map([['test-page', fetched(PAGE)], ['curated-mars-sheet', fetched(PAGE)], ['curated-catalog-page', fetched(PAGE)]]);
+    const out = build({
+      interiors: file, curatedPages: pages,
+      existingSourceIds: new Set([...makeCatalogFiles().sources.sources.map((s) => s.id), 'catalog-page']),
+      existingSourceUrls: new Map([[existing.url, 'catalog-page']]),
+    });
+    expect(out.errors).toEqual([]);
+    const layers = out.details.find((d) => d.bodyId === 'mars')!.interior!.layers;
+    expect(layers[0]!.composition!.sourceId).toBe('nssdca-mars-fact-sheet');
+    expect(layers[1]!.composition!.sourceId).toBe('catalog-page');
+    const ids = out.sources.map((s) => s.id);
+    expect(ids).not.toContain('curated-mars-sheet');
+    expect(ids).not.toContain('curated-catalog-page');
+    expect(new Set(out.sources.map((s) => s.url)).size).toBe(out.sources.length);
+  });
+
   it('lists missions in launch order, then by name', () => {
     const base = missions.bodies.mars!.missions[0]!;
     const mk = (id: string, name: string, launchDate: string) => ({ ...base, id, name, launchDate, arrivalDate: null });

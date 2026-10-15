@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "bodyId": "neptune",
-  "generatedAt": "2026-10-15T22:28:23.240Z",
+  "generatedAt": "2026-10-15T22:30:26.775Z",
   "interior": null,
   "atmosphere": {
     "basis": "by volume, uncertainty in parentheses",
@@ -101,7 +101,7 @@
     "by": "Johann Gottfried Galle (based on predictions by John Couch Adams and Urbain Leverrier)",
     "date": "1846-09-23",
     "method": "telescopic search at a mathematically predicted position",
-    "sourceId": "nssdca-neptune-fact"
+    "sourceId": "nssdca-neptune-fact-sheet"
   },
   "features": null
 }

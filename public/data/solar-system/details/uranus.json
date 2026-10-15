@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "bodyId": "uranus",
-  "generatedAt": "2026-10-15T22:28:23.240Z",
+  "generatedAt": "2026-10-15T22:30:26.775Z",
   "interior": null,
   "atmosphere": {
     "basis": "by volume, uncertainty in parentheses",
@@ -93,7 +93,7 @@
     "by": "William Herschel",
     "date": "1781-03-13",
     "method": "telescopic observation",
-    "sourceId": "nssdca-uranus-fact"
+    "sourceId": "nssdca-uranus-fact-sheet"
   },
   "features": null
 }

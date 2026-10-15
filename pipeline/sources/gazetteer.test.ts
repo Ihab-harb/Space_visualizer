@@ -59,8 +59,9 @@ describe('selectFeatures', () => {
 
 describe('gazetteer source', () => {
   it('builds url and spec', () => {
-    const url = 'https://asc-planetarynames-data.s3.us-west-2.amazonaws.com/MARS_nomenclature_center_pts.zip';
-    expect(gazetteerUrl(GAZETTEER_TARGETS.mars)).toBe(url);
+    const zip = 'https://asc-planetarynames-data.s3.us-west-2.amazonaws.com/MARS_nomenclature_center_pts.zip';
+    const url = 'https://planetarynames.wr.usgs.gov/Page/MARS/target';
+    expect(gazetteerUrl(GAZETTEER_TARGETS.mars)).toBe(zip); // fetched by the pipeline; the citation links the web page
     expect(gazetteerSpec('mars', 'Mars')).toEqual({
       id: 'usgs-gazetteer-mars',
       title: 'Mars nomenclature (feature centre points), Gazetteer of Planetary Nomenclature',

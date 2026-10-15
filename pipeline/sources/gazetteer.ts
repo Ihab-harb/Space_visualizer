@@ -8,12 +8,17 @@ export function gazetteerUrl(target: GazetteerTarget): string {
   return `https://asc-planetarynames-data.s3.us-west-2.amazonaws.com/${target}_nomenclature_center_pts.zip`;
 }
 
+/** The Gazetteer's web page for a target, which the citation links to (the zip above is only what the pipeline fetches). */
+export function gazetteerPageUrl(target: GazetteerTarget): string {
+  return `https://planetarynames.wr.usgs.gov/Page/${target}/target`;
+}
+
 export function gazetteerSpec(bodyId: keyof typeof GAZETTEER_TARGETS, name: string): SourceSpec {
   return {
     id: `usgs-gazetteer-${bodyId}`,
     title: `${name} nomenclature (feature centre points), Gazetteer of Planetary Nomenclature`,
     publisher: 'USGS Astrogeology Science Center / IAU Working Group for Planetary System Nomenclature',
-    url: gazetteerUrl(GAZETTEER_TARGETS[bodyId]),
+    url: gazetteerPageUrl(GAZETTEER_TARGETS[bodyId]),
     license: 'Public domain (USGS)',
   };
 }

@@ -237,7 +237,7 @@
       "id": "usgs-gazetteer-mercury",
       "title": "Mercury nomenclature (feature centre points), Gazetteer of Planetary Nomenclature",
       "publisher": "USGS Astrogeology Science Center / IAU Working Group for Planetary System Nomenclature",
-      "url": "https://asc-planetarynames-data.s3.us-west-2.amazonaws.com/MERCURY_nomenclature_center_pts.zip",
+      "url": "https://planetarynames.wr.usgs.gov/Page/MERCURY/target",
       "license": "Public domain (USGS)",
       "retrievedAt": "2026-10-15"
     },
@@ -253,7 +253,7 @@
       "id": "usgs-gazetteer-venus",
       "title": "Venus nomenclature (feature centre points), Gazetteer of Planetary Nomenclature",
       "publisher": "USGS Astrogeology Science Center / IAU Working Group for Planetary System Nomenclature",
-      "url": "https://asc-planetarynames-data.s3.us-west-2.amazonaws.com/VENUS_nomenclature_center_pts.zip",
+      "url": "https://planetarynames.wr.usgs.gov/Page/VENUS/target",
       "license": "Public domain (USGS)",
       "retrievedAt": "2026-10-15"
     },
@@ -277,7 +277,7 @@
       "id": "usgs-gazetteer-mars",
       "title": "Mars nomenclature (feature centre points), Gazetteer of Planetary Nomenclature",
       "publisher": "USGS Astrogeology Science Center / IAU Working Group for Planetary System Nomenclature",
-      "url": "https://asc-planetarynames-data.s3.us-west-2.amazonaws.com/MARS_nomenclature_center_pts.zip",
+      "url": "https://planetarynames.wr.usgs.gov/Page/MARS/target",
       "license": "Public domain (USGS)",
       "retrievedAt": "2026-10-15"
     },
@@ -334,22 +334,6 @@
       "title": "Mercury: Facts",
       "publisher": "NASA Science",
       "url": "https://science.nasa.gov/mercury/facts/",
-      "license": "NASA public domain (NASA media usage guidelines)",
-      "retrievedAt": "2026-10-15"
-    },
-    {
-      "id": "nasa-science-earth-facts",
-      "title": "Facts About Earth",
-      "publisher": "NASA Science",
-      "url": "https://science.nasa.gov/earth/facts/",
-      "license": "NASA public domain (NASA media usage guidelines)",
-      "retrievedAt": "2026-10-15"
-    },
-    {
-      "id": "nssdca-earth",
-      "title": "Earth Fact Sheet",
-      "publisher": "NASA NSSDCA",
-      "url": "https://nssdc.gsfc.nasa.gov/planetary/factsheet/earthfact.html",
       "license": "NASA public domain (NASA media usage guidelines)",
       "retrievedAt": "2026-10-15"
     },
@@ -478,14 +462,6 @@
       "title": "Landsat 1 (NASA Science mission page)",
       "publisher": "NASA Science",
       "url": "https://science.nasa.gov/mission/landsat-1/",
-      "license": "NASA public domain (NASA media usage guidelines)",
-      "retrievedAt": "2026-10-15"
-    },
-    {
-      "id": "nasa-mission-apollo-8",
-      "title": "Apollo 8 (NASA Science mission page)",
-      "publisher": "NASA Science",
-      "url": "https://www.nasa.gov/mission/apollo-8/",
       "license": "NASA public domain (NASA media usage guidelines)",
       "retrievedAt": "2026-10-15"
     },
@@ -670,22 +646,6 @@
       "title": "Cassini-Huygens (NASA JPL mission page)",
       "publisher": "NASA Jet Propulsion Laboratory",
       "url": "https://www.jpl.nasa.gov/missions/cassini-huygens/",
-      "license": "NASA public domain (NASA media usage guidelines)",
-      "retrievedAt": "2026-10-15"
-    },
-    {
-      "id": "nssdca-uranus-fact",
-      "title": "Uranus Fact Sheet (NSSDCA)",
-      "publisher": "NASA NSSDCA",
-      "url": "https://nssdc.gsfc.nasa.gov/planetary/factsheet/uranusfact.html",
-      "license": "NASA public domain (NASA media usage guidelines)",
-      "retrievedAt": "2026-10-15"
-    },
-    {
-      "id": "nssdca-neptune-fact",
-      "title": "Neptune Fact Sheet (NSSDCA)",
-      "publisher": "NASA NSSDCA",
-      "url": "https://nssdc.gsfc.nasa.gov/planetary/factsheet/neptunefact.html",
       "license": "NASA public domain (NASA media usage guidelines)",
       "retrievedAt": "2026-10-15"
     },

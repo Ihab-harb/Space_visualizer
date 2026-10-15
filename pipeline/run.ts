@@ -57,7 +57,7 @@ try {
     if (!curatedPages.has(s.id)) curatedPages.set(s.id, await fetchCached(s.url, `ref-${s.id}.html`, options));
   }
   const built = buildDetails(
-    { bodies: output.bodies.bodies, existingSourceIds: new Set(output.sources.sources.map((s) => s.id)), planetSheets, sunSheet, gazetteer, interiors, missions, curatedPages },
+    { bodies: output.bodies.bodies, existingSourceIds: new Set(output.sources.sources.map((s) => s.id)), existingSourceUrls: new Map(output.sources.sources.map((s) => [s.url, s.id])), planetSheets, sunSheet, gazetteer, interiors, missions, curatedPages },
     generatedAt,
   );
   output.sources.sources.push(...built.sources);

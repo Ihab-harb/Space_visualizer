@@ -99,13 +99,6 @@
       "license": "NASA public domain (NASA media usage guidelines)"
     },
     {
-      "id": "nasa-mission-apollo-8",
-      "title": "Apollo 8 (NASA Science mission page)",
-      "publisher": "NASA Science",
-      "url": "https://www.nasa.gov/mission/apollo-8/",
-      "license": "NASA public domain (NASA media usage guidelines)"
-    },
-    {
       "id": "nasa-mission-landsat-9",
       "title": "Landsat 9 (NASA Science mission page)",
       "publisher": "NASA Science",
@@ -345,7 +338,7 @@
           "id": "ulysses",
           "name": "Ulysses",
           "agency": "ESA/NASA",
-          "type": "probe",
+          "type": "orbiter",
           "launchDate": "1990-10-06",
           "arrivalDate": null,
           "endDate": "2009-06-30",
@@ -353,21 +346,23 @@
           "sourceId": "nasa-mission-ulysses",
           "quotes": [
             "Key Dates Oct. 6, 1990: Launch from the cargo bay of Space Shuttle Discovery Feb. 8, 1992: Ulysses became the fifth spacecraft to reach Jupiter",
-            "Oct. 1, 1995: ESA extended Ulysses' mission and renamed it Second Solar Orbit June 30, 2009: L oss of contact with spacecraft"
+            "Oct. 1, 1995: ESA extended Ulysses' mission and renamed it Second Solar Orbit June 30, 2009: L oss of contact with spacecraft",
+            "Ulysses Type Orbiter Launch Oct. 6, 1990 Target Sun Objective Survey the"
           ]
         },
         {
           "id": "soho",
           "name": "SOHO",
           "agency": "ESA/NASA",
-          "type": "observatory",
+          "type": "orbiter",
           "launchDate": "1995-12-02",
           "arrivalDate": null,
           "endDate": null,
           "outcome": "ongoing",
           "sourceId": "nasa-mission-soho",
           "quotes": [
-            "Key Dates Dec. 2, 1995: Launch Feb. 14, 1996: Sun-Earth L1 orbit insertion March 25, 2024: 5,000 comets discovered"
+            "Key Dates Dec. 2, 1995: Launch Feb. 14, 1996: Sun-Earth L1 orbit insertion March 25, 2024: 5,000 comets discovered",
+            "Type Orbiter Launch Dec. 2, 1995 Target Sun Objective Study the"
           ]
         },
         {
@@ -388,7 +383,7 @@
           "id": "parker-solar-probe",
           "name": "Parker Solar Probe",
           "agency": "NASA",
-          "type": "probe",
+          "type": "orbiter",
           "launchDate": "2018-08-12",
           "arrivalDate": null,
           "endDate": null,
@@ -402,7 +397,7 @@
           "id": "solar-orbiter",
           "name": "Solar Orbiter",
           "agency": "ESA/NASA",
-          "type": "probe",
+          "type": "orbiter",
           "launchDate": "2020-02-09",
           "arrivalDate": null,
           "endDate": null,
@@ -623,20 +618,6 @@
           "quotes": [
             "Landsat 1 (originally ERTS-1) launched on July 23, 1972, marking the beginning of the world's longest-running Earth observation",
             "Operating until January 6, 1978, Landsat 1 demonstrated that digital multispectral observations"
-          ]
-        },
-        {
-          "id": "apollo-8",
-          "name": "Apollo 8",
-          "agency": "NASA",
-          "type": "orbiter",
-          "launchDate": "1968-12-21",
-          "arrivalDate": null,
-          "endDate": "1968-12-27",
-          "outcome": "success",
-          "sourceId": "nasa-mission-apollo-8",
-          "quotes": [
-            "crew Frank Borman, James Lovell Jr., William Anders Launch Dec. 21, 1968 SPLASHDOWN Dec. 27, 1968"
           ]
         },
         {

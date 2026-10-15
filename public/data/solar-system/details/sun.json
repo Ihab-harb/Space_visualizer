@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "bodyId": "sun",
-  "generatedAt": "2026-10-15T22:28:23.240Z",
+  "generatedAt": "2026-10-15T22:30:26.775Z",
   "interior": {
     "layers": [
       {
@@ -201,7 +201,7 @@
       "id": "ulysses",
       "name": "Ulysses",
       "agency": "ESA/NASA",
-      "type": "probe",
+      "type": "orbiter",
       "launchDate": "1990-10-06",
       "arrivalDate": null,
       "endDate": "2009-06-30",
@@ -212,7 +212,7 @@
       "id": "soho",
       "name": "SOHO",
       "agency": "ESA/NASA",
-      "type": "observatory",
+      "type": "orbiter",
       "launchDate": "1995-12-02",
       "arrivalDate": null,
       "endDate": null,
@@ -234,7 +234,7 @@
       "id": "parker-solar-probe",
       "name": "Parker Solar Probe",
       "agency": "NASA",
-      "type": "probe",
+      "type": "orbiter",
       "launchDate": "2018-08-12",
       "arrivalDate": null,
       "endDate": null,
@@ -245,7 +245,7 @@
       "id": "solar-orbiter",
       "name": "Solar Orbiter",
       "agency": "ESA/NASA",
-      "type": "probe",
+      "type": "orbiter",
       "launchDate": "2020-02-09",
       "arrivalDate": null,
       "endDate": null,
