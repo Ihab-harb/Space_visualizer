@@ -91,3 +91,17 @@ Back to [[Home]]
 - **Final review fixes:** the header and control panel no longer overlap at tablet widths; Space/Enter on the Tour button stops the tour; 2 during the tour ends in Follow; the Venus radar view is tagged on screen and its notes match what is shown; hotkeys work after the slider or a checkbox had focus; F needs a selection; header and drawer live values update at 4 Hz.
 - **M2a.2 residuals fixed first:** Auto counts only consecutive long frames and cannot drop in the first 5 s ([[render]]); god rays are masked by bodies (composer `autoClear={false}`, proxy at 1.02 R, golden `3d-sun-partial`; [[0007-tone-mapping-and-exposure]]).
 - Twelve golden screenshots in `Assets/m2a3-golden/`; new end-to-end tests for the header, Tour, labels, the drawer and the layout matrix. Carry-over: [[2026-10-05-m2a1-carry-over]] (done items marked; "From M2a.3" lists what was deferred).
+
+## 2026-10-16 — M2b.1 Body details data implemented
+- **Cited details for all nine bodies** (the Sun and eight planets), one file each in `public/data/solar-system/details/<id>.json`, loaded on demand when a body is selected and never at startup. Model and checks in `src/core/details` ([[core]]); the store in [[state]]; the drawer sections in [[ui]].
+- **Content:**
+  - **Interior:** layers for the Sun, Mercury, Earth and Mars from curated official pages, each with its source sentence checked by the build. The other five planets show none, because no official numeric source exists.
+  - **Atmosphere** (all bodies, the Sun's photosphere included) and **magnetic field** (a dipole, "no global field" or a note) parsed from the NSSDCA fact sheets.
+  - **Key missions:** 44 missions from 46 NASA, ESA, JAXA and other official pages, plus a discovery entry for every body except Earth and the Sun.
+  - **Named features:** the 200 largest approved Gazetteer features for Mercury, Venus and Mars (the drawer shows the top 10 and the total).
+- **Pipeline:** fact-sheet parser, a zip and `.dbf` reader written in the repo (no dependency), the Gazetteer selector, the quoted-reference checks and `buildDetails`; see [[pipeline]]. The sources are [[NSSDCA Planet Fact Sheets]], [[USGS Gazetteer of Planetary Nomenclature]] and [[NASA mission and science pages (curated)]]. `npm run data` now also fetches about 12 MB of Gazetteer zips and the curated pages; `npm run data:offline` rebuilds from the cache.
+- **Citations:** details sources are numbered after the existing ones, so no number shown before the details load ever changes. The header gains a cited details sentence (main gas, field). A moon now reads "orbits <parent>", not "circles the Sun" (carry-over item done).
+- **Failure handling:** a missing or failing details file shows "Details unavailable" with Retry; the rest of the drawer keeps working.
+- **Tests:** 676 unit tests; `e2e/details.spec.ts` (three end-to-end tests: no details request at startup, Mars shows all five cited sections, a blocked file shows the unavailable state). Screenshots in `Assets/m2b1/`.
+- Carry-over: [[2026-10-05-m2a1-carry-over]] ("From M2b.1" lists what was deferred).
+

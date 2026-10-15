@@ -17,6 +17,7 @@ Pure TypeScript. **No React, Three.js or Zustand imports**; the only library all
 | `frames/` | IAU rotation models → body orientation; ecliptic ↔ equatorial | `orientationAngles`, `bodyFixedToEcliptic`, `poleEcliptic` |
 | `catalog/` | Data schemas, fact definitions, source-reference checks, the `Catalog` object | `BodySchema`, `FACT_KEYS`, `FACT_DEFS`, `findUnresolvedSources`, `createCatalog` |
 | `regions/` | Region opacity by camera distance, nested region origins | `regionOpacity`, `regionVisibility` |
+| `details/` | The cited per-body details model (M2b.1): interior layers, atmosphere, magnetic field, missions, discovery, named features. `checkDetails` returns every violated rule | `BodyDetailsSchema`, `InteriorLayerSchema`, `MagnetosphereSchema`, `MissionSchema`, `FeaturesSchema`, `checkDetails` |
 | `units.ts` | Exact constants: AU, c, J2000, J2000 obliquity | `AU_KM`, `J2000_JD` |
 
 Accuracy is tested against committed JPL Horizons vectors (see [[JPL Horizons]], [[0004-measured-accuracy]]).

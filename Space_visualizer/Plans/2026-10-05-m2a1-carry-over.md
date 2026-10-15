@@ -110,7 +110,7 @@ Deferred minor items from [[2026-10-07-m2a3-interface-and-tour]] (summarised fro
 
 - **Venus radar.** The Maxwell Montes box check (1k, 1.3×) may not catch a longitude mirror (an argmax near 3.6 E, 65 N would). No-data (0) pixels lower the global mean and render pure black (noted in the data source). No unit test for the atmosphere hiding or the `uRadar` gating.
 - **Auto quality.** No regression test that the median step-down still fires between 3 s and 5 s, and none for a long run straddling the end of the start-up cooldown. `longWithinWindowMs` is now a run total (stale name). A garbled sentence in render.md ("three loads ... two loads"). The god-ray luminance assertion is glow-dominated (margin about 2.6 grey levels); a differential patch would discriminate better.
-- **Header and narrative.** Rounding crosses boundaries (59.96 s shows "60.0 s", 119.6 min shows "120 min") and "1 hours" is possible. The narrative says "circles the Sun" for any non-star (wrong for moons; use `parentId` in M2b). Tests miss chip `[n]` equal to the `citationModel` numbers, Sun and Earth headers, and the bodies-in-view projection. The Facts button's visible label lacks "(F)".
+- **Header and narrative.** Rounding crosses boundaries (59.96 s shows "60.0 s", 119.6 min shows "120 min") and "1 hours" is possible. **Done in M2b.1 Task 9:** the narrative says "orbits <parent>" for a body whose parent is not a star (`buildNarrative` takes the parent); it still says "circles the Sun" for a body with no parent given. Tests miss chip `[n]` equal to the `citationModel` numbers, Sun and Earth headers, and the bodies-in-view projection. The Facts button's visible label lacks "(F)".
 - **Control panel.** Realistic is a focusable pressed button with no handler, and the disabled Exhibit button hides its "arrives in M2c" title from keyboard and touch users (use `aria-disabled`).
 - **Drawer.** Focus is not moved into the drawer on open or restored on close. A highlight timeout is not cleaned up on unmount.
 - **Bottom bar.** The 0-1000 slider is about 91 days per step, so a click without a drag quantises the date. Tick labels do not line up with the native thumb travel. "Outside 1800-2050" shows twice (note and status). Tests miss the outside-range note, the Stop-tour state and the published variable.
@@ -148,3 +148,31 @@ These are minor findings from the per-task reviews, deferred for the whole-branc
   - the 6-word minimum can be gamed;
   - `verifyInteriors` does not check min ≤ max;
   - the zero exemption applies to every range key.
+
+## From M2b.1 (Tasks 5–9, 2026-10-15/16)
+
+Minor findings from the per-task reviews of Tasks 5 to 9, summarised from the execution ledger. Plan: [[2026-10-10-m2b1-body-details]]. The two marked "flag" were raised for the whole-branch review. The ones about code I re-read on 2026-10-16 (the missing mean-radius warning, no fetch timeout, the source order) are still open.
+- **Curated interiors (Task 5):**
+  - Earth's crust is "about 30 km on land"; the oceanic crust (about 5 km) is in a separate sentence and is not a range;
+  - Mars' core state "liquid" has no stored quote, and Venus' crust (40 km mean, 65 km maximum) is unused, because a crust-only stack cannot be represented;
+  - any number right after a "(km)" label counts as km (a year in a table cell would); the Sun's boundary tolerance of 3,478 km is lenient.
+- **Missions (Task 6):**
+  - the README example error "arrival 1965-07-14 not in any quote" names a date that is in its quote (it only shows the format);
+  - the Venera 7 and 13 quotes start at the date and include a neighbouring entry's name (no better official page; the NSSDCA spacecraft pages error);
+  - Neptune's `by` wording is longer than planned; Venus Express ends on the ESA announcement date (2014-12-16; contact was lost 2014-11-28); Tianwen-1 is omitted; Earth has one current flagship (Landsat 9).
+- **Build (Task 7):**
+  - `buildDetails` swallows a mean-radius parse failure silently before falling back (add a warning);
+  - Mercury's atmosphere has no gases (an exosphere note only), and the UI handles the empty list;
+  - the earthfact page is two sources (`nssdca-earth` curated and `nssdca-earth-fact-sheet`); `run.ts` never removes stale details files; a data run refreshes `retrievedAt` on existing sources.
+- **Store (Task 8):**
+  - a non-JSON 200 or a network error gives a bare message ("Failed to fetch") that does not name the body;
+  - missing tests: retry while loading, retry from missing, HTTP 500, a non-JSON 200, a hook rerender across bodies, an undefined id, StrictMode; the "keyed by id" test is weak (two keys in one map);
+  - a fetch has no timeout, so a hung request stays in `loading`.
+- **Drawer and header (Task 9):**
+  - flag, shown precision: Mercury's dipole 0.002 renders as "0.00200 G·R³", and uncertainties render as "± 1000.0" beside "3,000 ppm";
+  - flag, wording: the header says "tilted 0°" for Mercury and Saturn, where "aligned with its spin axis" reads better;
+  - `detailsSourceOrder` differs from the display order for the magnetic field (reference radius before surface field), missions (stored order, not launch order) and features (total before rows), which only affects the order of the Sources list;
+  - Mars' interior shows one end of each stored range, so the crust "0–50 km deep" and the mantle "10–1,560 km deep" overlap without explanation;
+  - the narrative adds "%" without checking the gas unit, and gas-name casing differs between the list and the narrative.
+- **End-to-end (Task 10):** "cites the official imagery for Earth" can fail when `app.spec.ts` and `interface.spec.ts` run together and passes alone (it also failed on the clean baseline). A new details test also showed that pressing **F** straight after `goto` was not handled in one test run (the drawer stayed closed), so the details tests wait for the canvas first; the cause was not investigated.
+
