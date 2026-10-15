@@ -73,8 +73,8 @@ describe('buildDetails', () => {
     expect(m.atmosphere!.major.find((g) => g.formula === 'CO2')!.amount).toBe(95.1);
     expect(m.features!.items[0]!.name).toBe('Olympus Mons');
     expect(m.features!.sourceId).toBe('usgs-gazetteer-mars');
-    expect(m.interior!.layers[0]!.outerRadiusKm).toEqual({ min: 3396.19, max: 3396.19, sourceId: 'test-page' });
-    expect(m.interior!.layers[0]!.innerRadiusKm.min).toBeCloseTo(1830.19, 6);
+    expect(m.interior!.layers[0]!.outerRadiusKm).toEqual({ min: 3389.5, max: 3389.5, sourceId: 'test-page' });
+    expect(m.interior!.layers[0]!.innerRadiusKm.min).toBeCloseTo(1823.5, 6);
     expect(m.missions[0]).not.toHaveProperty('quotes');
     expect(m.discovery).toEqual({ kind: 'antiquity', sourceId: 'test-page' });
     expect(errors).toEqual([]);
@@ -115,5 +115,45 @@ describe('buildDetails', () => {
   it('reports a collision with an existing source id', () => {
     const { errors } = build({ existingSourceIds: new Set(['test-page', ...makeCatalogFiles().sources.sources.map((s) => s.id)]) });
     expect(errors.some((e) => e.includes('collides'))).toBe(true);
+  });
+
+  it('uses the sheet mean radius (not equatorial) and converts mixed per-bound from exactly', () => {
+    const earth: Body = { ...makeEarth(), shape: { equatorialRadiusKm: 6378.1366, polarRadiusKm: 6356.7519, sourceId: 'naif-pck00011' } };
+    const q = (k: string) => 'The crust and mantle of Earth extend about ' + k + ' kilometres deep according to this page text';
+    const page = '<p>' + q('30') + '.</p><p>' + q('3,485') + '.</p><p>The inner mantle boundary of Earth lies at 3,485 km from the centre according to this page text.</p>';
+    const rq = (n: number) => ({ min: n, max: n, sourceId: 'test-page', quote: n === 30 ? q('30') : q('3,485') });
+    const file: InteriorsFile = {
+      sources: [src],
+      bodies: { earth: { layers: [
+        { id: 'crust', name: 'Crust', from: 'depth', outer: { min: 0, max: 0, sourceId: 'test-page', quote: q('30') }, inner: rq(30), state: 'solid', composition: null, uncertain: false },
+        { id: 'mantle', name: 'Mantle', from: 'depth', outer: rq(30), inner: { ...rq(3485), from: 'radius' }, state: 'solid', composition: null, uncertain: false },
+        { id: 'core', name: 'Core', from: 'radius', outer: rq(3485), inner: { min: 0, max: 0, sourceId: 'test-page', quote: q('3,485') }, state: 'liquid', composition: null, uncertain: false },
+      ] } },
+    };
+    const { details, errors } = build({ bodies: [...bodies, earth], interiors: file, missions: { sources: [src], bodies: {} }, curatedPages: new Map([['test-page', fetched(page)]]) });
+    expect(errors).toEqual([]);
+    const l = details.find((d) => d.bodyId === 'earth')!.interior!.layers;
+    expect(l[0]!.outerRadiusKm.max).toBe(6371);
+    expect(l[0]!.innerRadiusKm.min).toBe(6341);
+    expect(l[1]!.outerRadiusKm.min).toBe(6341);
+    expect(l[1]!.innerRadiusKm.max).toBe(3485);
+  });
+
+  it('converts a percent layer to exact radii of the Sun', () => {
+    const q = 'The radiative zone of the Sun extends to about 70 percent of the solar radius according to this page text';
+    const page = '<p>' + q + '. The core of the Sun reaches 25 percent of the solar radius according to this page text.</p>';
+    const pr = (n: number, quote = q) => ({ min: n, max: n, sourceId: 'test-page', quote });
+    const q2 = 'The core of the Sun reaches 25 percent of the solar radius according to this page text';
+    const file: InteriorsFile = {
+      sources: [src],
+      bodies: { sun: { layers: [
+        { id: 'radiative', name: 'Radiative zone', from: 'percent', outer: pr(70), inner: pr(25, q2), state: 'plasma', composition: null, uncertain: false },
+        { id: 'core', name: 'Core', from: 'percent', outer: pr(25, q2), inner: { min: 0, max: 0, sourceId: 'test-page', quote: q2 }, state: 'plasma', composition: null, uncertain: false },
+      ] } },
+    };
+    const { details } = build({ interiors: file, missions: { sources: [src], bodies: {} }, curatedPages: new Map([['test-page', fetched(page)]]) });
+    const l = details.find((d) => d.bodyId === 'sun')!.interior!.layers;
+    expect(l[0]!.outerRadiusKm.max).toBeCloseTo(486990, 6);
+    expect(l[0]!.innerRadiusKm.min).toBeCloseTo(173925, 6);
   });
 });

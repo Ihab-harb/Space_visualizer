@@ -22,14 +22,14 @@ export function selectFeatures(rows: Array<Record<string, string>>, sourceId: st
   const approved = rows.filter((r) => (r.approval ?? '').startsWith('Adopted'));
   const items: FeatureItem[] = approved
     .map((r): FeatureItem => {
-      const lon = Number(r.center_lon);
+      const lon = Math.round(Number(r.center_lon) * 1e4) / 1e4;
       const year = /^\d{4}/.exec(r.approvaldt ?? '');
       return {
         name: (r.clean_name || r.name || '').trim(),
         type: (r.type ?? '').split(',')[0].trim(),
-        latDeg: Number(r.center_lat),
-        lonDegE: lon >= 0 && lon < 360 ? lon : ((lon % 360) + 360) % 360,
-        diameterKm: Number(r.diameter),
+        latDeg: Math.round(Number(r.center_lat) * 1e4) / 1e4,
+        lonDegE: lon >= 0 && lon < 360 ? lon : Math.round((((lon % 360) + 360) % 360) * 1e4) / 1e4 % 360,
+        diameterKm: Math.round(Number(r.diameter) * 1e3) / 1e3,
         origin: (r.origin ?? '').trim(),
         approvedYear: year ? Number(year[0]) : null,
       };

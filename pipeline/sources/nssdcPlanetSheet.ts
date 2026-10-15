@@ -189,3 +189,10 @@ export function parseSunField(text: string, sourceId: string): Extract<Magnetosp
   if (parts.length === 0) throw new Error('Sun fact sheet: no field strengths found');
   return { kind: 'other', note: { text: `Typical field strengths (Gauss): ${parts.join('; ')}`, sourceId } };
 }
+
+/** The sheet's "Volumetric mean radius (km)" value; throws if absent. */
+export function parseMeanRadiusKm(text: string): number {
+  const m = /Volumetric mean radius \(km\)\s*([\d,]+(?:\.\d+)?)/i.exec(text);
+  if (!m) throw new Error('fact sheet: no "Volumetric mean radius (km)" row');
+  return Number(m[1]!.replace(/,/g, ''));
+}

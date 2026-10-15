@@ -1,20 +1,20 @@
 {
   "schemaVersion": 1,
   "bodyId": "earth",
-  "generatedAt": "2026-10-15T21:12:40.945Z",
+  "generatedAt": "2026-10-15T21:17:12.226Z",
   "interior": {
     "layers": [
       {
         "id": "crust",
         "name": "Crust",
         "outerRadiusKm": {
-          "min": 6378.1366,
-          "max": 6378.1366,
+          "min": 6371,
+          "max": 6371,
           "sourceId": "nasa-science-earth-facts"
         },
         "innerRadiusKm": {
-          "min": 6348.1366,
-          "max": 6348.1366,
+          "min": 6341,
+          "max": 6341,
           "sourceId": "nasa-science-earth-facts"
         },
         "from": "depth",
@@ -26,8 +26,8 @@
         "id": "mantle",
         "name": "Mantle",
         "outerRadiusKm": {
-          "min": 6348.1366,
-          "max": 6348.1366,
+          "min": 6341,
+          "max": 6341,
           "sourceId": "nasa-science-earth-facts"
         },
         "innerRadiusKm": {

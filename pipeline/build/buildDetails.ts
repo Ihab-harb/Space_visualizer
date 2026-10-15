@@ -9,7 +9,7 @@ import type { FetchedText } from '../lib/fetchCached';
 import { GAZETTEER_TARGETS, gazetteerSpec, selectFeatures } from '../sources/gazetteer';
 import {
   PLANET_ATMOSPHERE_HEADING, PLANET_SHEET_IDS, SUN_COMPOSITION_HEADING,
-  parseComposition, parseMagnetosphere, parseSunField, sheetText,
+  parseComposition, parseMagnetosphere, parseMeanRadiusKm, parseSunField, sheetText,
 } from '../sources/nssdcPlanetSheet';
 import {
   pageText, verifyInteriors, verifyMissions,
@@ -82,15 +82,15 @@ export function buildDetails(inputs: DetailsInputs, generatedAt: string): { deta
     const body = inputs.bodies.find((b) => b.id === id);
     if (!body) continue;
     const p = `details/${id}.json`;
-    const radiusKm = (body.facts.meanRadiusKm?.value as number | undefined) ?? body.shape.equatorialRadiusKm;
-    radii.set(id, radiusKm);
-
-    const curated = inputs.interiors.bodies[id];
-    const interior = curated ? { layers: curated.layers.map((l) => convertLayer(l, radiusKm)) } : null;
-
     const isSun = id === 'sun';
     const sheet = isSun ? inputs.sunSheet : inputs.planetSheets[id as (typeof PLANET_SHEET_IDS)[number]];
     const text = sheetText(sheet.text);
+    const radiusKm = isSun
+      ? ((body.facts.meanRadiusKm?.value as number | undefined) ?? body.shape.equatorialRadiusKm)
+      : (() => { try { return parseMeanRadiusKm(text); } catch { return (body.facts.meanRadiusKm?.value as number | undefined) ?? body.shape.equatorialRadiusKm; } })();
+    radii.set(id, radiusKm);
+    const curated = inputs.interiors.bodies[id];
+    const interior = curated ? { layers: curated.layers.map((l) => convertLayer(l, radiusKm)) } : null;
     const sheetSourceId = isSun ? 'nssdca-sun-fact-sheet' : `nssdca-${id}-fact-sheet`;
     if (!isSun) addSource(planetSheetSpec(id, body.name), sheet.retrievedAt);
     const atmosphere = parseComposition(text, isSun ? SUN_COMPOSITION_HEADING : PLANET_ATMOSPHERE_HEADING, sheetSourceId);

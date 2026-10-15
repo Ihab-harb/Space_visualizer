@@ -15,6 +15,13 @@ const rows = [
   row({ clean_name: 'Small', diameter: '2' }),
 ];
 
+describe('selectFeatures rounding', () => {
+  it('rounds coordinates to 1e-4 deg and diameter to 1e-3 km', () => {
+    const f = selectFeatures([row({ center_lat: '57.540000000000006', center_lon: '150.39000000000001', diameter: '12.3456789' })], 's');
+    expect(f.items[0]).toMatchObject({ latDeg: 57.54, lonDegE: 150.39, diameterKm: 12.346 });
+  });
+});
+
 describe('selectFeatures', () => {
   const f = selectFeatures(rows, 'usgs-gazetteer-mars', 2);
 

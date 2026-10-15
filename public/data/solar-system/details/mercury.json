@@ -1,20 +1,20 @@
 {
   "schemaVersion": 1,
   "bodyId": "mercury",
-  "generatedAt": "2026-10-15T21:12:40.945Z",
+  "generatedAt": "2026-10-15T21:17:12.226Z",
   "interior": {
     "layers": [
       {
         "id": "mantle-crust",
         "name": "Mantle and crust (outer shell)",
         "outerRadiusKm": {
-          "min": 2440.53,
-          "max": 2440.53,
+          "min": 2439.7,
+          "max": 2439.7,
           "sourceId": "nasa-science-mercury-facts"
         },
         "innerRadiusKm": {
-          "min": 2040.53,
-          "max": 2040.53,
+          "min": 2039.7,
+          "max": 2039.7,
           "sourceId": "nasa-science-mercury-facts"
         },
         "from": "depth",
@@ -139,8 +139,8 @@
       {
         "name": "Stilbon Planitia",
         "type": "Planitia",
-        "latDeg": 57.540000000000006,
-        "lonDegE": 150.39000000000001,
+        "latDeg": 57.54,
+        "lonDegE": 150.39,
         "diameterKm": 1550,
         "origin": "Ancient Greek word for the planet Mercury.",
         "approvedYear": 2017
@@ -157,7 +157,7 @@
       {
         "name": "Mearcair Planitia",
         "type": "Planitia",
-        "latDeg": 31.400000000000002,
+        "latDeg": 31.4,
         "lonDegE": 132.1,
         "diameterKm": 1175,
         "origin": "Irish word for the planet Mercury.",
@@ -184,8 +184,8 @@
       {
         "name": "Caloris Montes",
         "type": "Mons",
-        "latDeg": 31.464100000000002,
-        "lonDegE": 185.84730000000002,
+        "latDeg": 31.4641,
+        "lonDegE": 185.8473,
         "diameterKm": 1023,
         "origin": "\"Hot mountains\"; surface temperature hottest near this position.",
         "approvedYear": 1976
@@ -239,7 +239,7 @@
         "name": "Budh Planitia",
         "type": "Planitia",
         "latDeg": 19.5245,
-        "lonDegE": 209.53830000000002,
+        "lonDegE": 209.5383,
         "diameterKm": 816,
         "origin": "Hindu word for Mercury.",
         "approvedYear": 1976
@@ -275,7 +275,7 @@
         "name": "Tir Planitia",
         "type": "Planitia",
         "latDeg": -1.045,
-        "lonDegE": 183.31470000000002,
+        "lonDegE": 183.3147,
         "diameterKm": 754,
         "origin": "Persian word for the planet Mercury.",
         "approvedYear": 1976
@@ -283,7 +283,7 @@
       {
         "name": "Catuilla Planum",
         "type": "Planum",
-        "latDeg": -8.780000000000001,
+        "latDeg": -8.78,
         "lonDegE": 114.22,
         "diameterKm": 735,
         "origin": "Inca/Quechua word for the planet Mercury.",
@@ -292,7 +292,7 @@
       {
         "name": "Rembrandt",
         "type": "Crater",
-        "latDeg": -32.891600000000004,
+        "latDeg": -32.8916,
         "lonDegE": 87.8657,
         "diameterKm": 716,
         "origin": "Rembrandt Harmenszoon van Rijn; Dutch painter (1606-1669).",
@@ -302,7 +302,7 @@
         "name": "Beagle Rupes",
         "type": "Rupes",
         "latDeg": -3.2243,
-        "lonDegE": 100.75720000000001,
+        "lonDegE": 100.7572,
         "diameterKm": 630,
         "origin": "British; naval vessel aboard which Charles Darwin served as a naturalist on a surveying expedition, 1831-1836.",
         "approvedYear": 2008
@@ -320,7 +320,7 @@
         "name": "Turms Planitia",
         "type": "Planitia",
         "latDeg": -31.05,
-        "lonDegE": 9.190000000000001,
+        "lonDegE": 9.19,
         "diameterKm": 622,
         "origin": "Etruscan messenger god equivalent of Roman god Mercury.",
         "approvedYear": 2017
@@ -329,7 +329,7 @@
         "name": "Paramour Rupes",
         "type": "Rupes",
         "latDeg": -0.0769,
-        "lonDegE": 147.46290000000002,
+        "lonDegE": 147.4629,
         "diameterKm": 616,
         "origin": "English; research vessel of the Royal Navy used to study magnetism, longitude, and navigation problems, commanded by Edmond Halley from 1698 to 1699.",
         "approvedYear": 2014
@@ -338,7 +338,7 @@
         "name": "Lugus Planitia",
         "type": "Planitia",
         "latDeg": -6.24,
-        "lonDegE": 261.34000000000003,
+        "lonDegE": 261.34,
         "diameterKm": 574,
         "origin": "Gaulish equivalent of the Roman god Mercury.",
         "approvedYear": 2017
@@ -365,7 +365,7 @@
         "name": "Chikyu Rupes",
         "type": "Rupes",
         "latDeg": -53.82,
-        "lonDegE": 100.38000000000001,
+        "lonDegE": 100.38,
         "diameterKm": 561,
         "origin": "Japanese; a scientific drilling ship built for the Integrated Ocean Drilling Program to conduct deep-sea geological research.",
         "approvedYear": 2021
@@ -374,7 +374,7 @@
         "name": "Darshak Rupes",
         "type": "Rupes",
         "latDeg": -14.5,
-        "lonDegE": 312.58000000000004,
+        "lonDegE": 312.58,
         "diameterKm": 560,
         "origin": "Indian; a hydrographic survey vessel that carries out hydrographic, geophysical, and oceanographic surveys in the Indian Ocean since 2001; has been used to investigate historically significant shipwrecks and the submerged remains of the lost city of Poom",
         "approvedYear": 2023
@@ -382,7 +382,7 @@
       {
         "name": "Antares Rupes",
         "type": "Rupes",
-        "latDeg": 18.060000000000002,
+        "latDeg": 18.06,
         "lonDegE": 130.58,
         "diameterKm": 530,
         "origin": "Mexican; an oceanographic research vessel for hydrography, meteorology, and oceanography studies (since 1968).",
@@ -392,7 +392,7 @@
         "name": "Duyfken Rupes",
         "type": "Rupes",
         "latDeg": -20.8805,
-        "lonDegE": 228.06820000000002,
+        "lonDegE": 228.0682,
         "diameterKm": 518,
         "origin": "Dutch; Willem Janszoon's ship credited with the first authenticated European discovery of Australia, 1606.",
         "approvedYear": 2013
@@ -418,7 +418,7 @@
       {
         "name": "Sanai",
         "type": "Crater",
-        "latDeg": -13.373800000000001,
+        "latDeg": -13.3738,
         "lonDegE": 353.014,
         "diameterKm": 490,
         "origin": "Sanai of Ghazna, Abul Majd bin Majdud bin Adam; Persian poet (d. c. 1131).",
@@ -436,7 +436,7 @@
       {
         "name": "Odin Planitia",
         "type": "Planitia",
-        "latDeg": 23.598100000000002,
+        "latDeg": 23.5981,
         "lonDegE": 190.1372,
         "diameterKm": 473,
         "origin": "Norse god.",
@@ -455,7 +455,7 @@
         "name": "Aneirin",
         "type": "Crater",
         "latDeg": -27.4658,
-        "lonDegE": 357.32370000000003,
+        "lonDegE": 357.3237,
         "diameterKm": 467,
         "origin": "Welsh poet (fl. 6th century).",
         "approvedYear": 2014
@@ -473,7 +473,7 @@
         "name": "Mirabilis Rupes",
         "type": "Rupes",
         "latDeg": -25.12,
-        "lonDegE": 299.77000000000004,
+        "lonDegE": 299.77,
         "diameterKm": 453,
         "origin": "Namibian; a deep-sea fisheries and multidisciplinary research vessel built for the Ministry of Fisheries and Marine Resources of the Republic of Namibia.",
         "approvedYear": 2026
@@ -491,7 +491,7 @@
         "name": "Belgica Rupes",
         "type": "Rupes",
         "latDeg": -50.4491,
-        "lonDegE": 63.764500000000005,
+        "lonDegE": 63.7645,
         "diameterKm": 425,
         "origin": "Belgian; ship used for an expedition to determine the position of the South Magnetic Pole in 1898, first ship to winter in Antarctica.",
         "approvedYear": 2013
@@ -509,7 +509,7 @@
         "name": "Discovery Rupes",
         "type": "Rupes",
         "latDeg": -54.7,
-        "lonDegE": 322.75870000000003,
+        "lonDegE": 322.7587,
         "diameterKm": 412,
         "origin": "English; Cook's ship on last voyage to Pacific, 1776-80.",
         "approvedYear": 1976
@@ -536,7 +536,7 @@
         "name": "Investigator Rupes",
         "type": "Rupes",
         "latDeg": -25.39,
-        "lonDegE": 136.04000000000002,
+        "lonDegE": 136.04,
         "diameterKm": 390,
         "origin": "Australian; research vessel used since 2014 for atmospheric, oceanographic, biological and geoscience research from the tropical north to the Antarctic ice-edge mainly in the Indian and Pacific Oceans.",
         "approvedYear": 2021
@@ -554,7 +554,7 @@
         "name": "Calypso Rupes",
         "type": "Rupes",
         "latDeg": 19.5316,
-        "lonDegE": 43.521300000000004,
+        "lonDegE": 43.5213,
         "diameterKm": 381,
         "origin": "French; originally commissioned in 1942 as a minesweeper, Calypso was purchased by Jacques-Yves Cousteau and used for oceanographic studies in 1950-1996.",
         "approvedYear": 2013
@@ -563,7 +563,7 @@
         "name": "Hesperides Rupes",
         "type": "Rupes",
         "latDeg": -2.98,
-        "lonDegE": 170.45000000000002,
+        "lonDegE": 170.45,
         "diameterKm": 374,
         "origin": "Spanish; a global research vessel, used since 1991 for studies of geology, geophysics, hydrography, physical and chemical oceanography, marine biology as well as for logistical support to the Spanish Antarctic bases.",
         "approvedYear": 2023
@@ -580,8 +580,8 @@
       {
         "name": "Soya Rupes",
         "type": "Rupes",
-        "latDeg": -6.470000000000001,
-        "lonDegE": 66.63000000000001,
+        "latDeg": -6.47,
+        "lonDegE": 66.63,
         "diameterKm": 372,
         "origin": "Japanese; Japan’s first dedicated Antarctic research vessel (polar voyages in 1956-1962).",
         "approvedYear": 2019
@@ -598,7 +598,7 @@
       {
         "name": "Trask Dorsum",
         "type": "Dorsum",
-        "latDeg": 56.220000000000006,
+        "latDeg": 56.22,
         "lonDegE": 26.17,
         "diameterKm": 360,
         "origin": "Newell J.; American geologist (1930-2017).",
@@ -607,7 +607,7 @@
       {
         "name": "Antoniadi Dorsum",
         "type": "Dorsum",
-        "latDeg": 27.197100000000002,
+        "latDeg": 27.1971,
         "lonDegE": 330.3493,
         "diameterKm": 359.402,
         "origin": "Eugene M.; Greco-French astronomer, defined classical nomenclature for albedo features of Mars (1870-1944).",
@@ -625,7 +625,7 @@
       {
         "name": "Unity Rupes",
         "type": "Rupes",
-        "latDeg": 27.160300000000003,
+        "latDeg": 27.1603,
         "lonDegE": 84.8011,
         "diameterKm": 350,
         "origin": "English vessel which took Edmond Halley to Saint Helena in 1676 to conduct a survey of the stars in the southern hemisphere. While there, Halley observed the 1677 transit of Mercury which enabled him to make one of the earliest calculations to estimate t",
@@ -644,7 +644,7 @@
         "name": "Victoria Rupes",
         "type": "Rupes",
         "latDeg": 52.7087,
-        "lonDegE": 325.83910000000003,
+        "lonDegE": 325.8391,
         "diameterKm": 347,
         "origin": "Spanish; Magellan's and Del Cano's ship, first voyage around the world.",
         "approvedYear": 1976
@@ -652,7 +652,7 @@
       {
         "name": "Raphael",
         "type": "Crater",
-        "latDeg": -20.416800000000002,
+        "latDeg": -20.4168,
         "lonDegE": 283.6489,
         "diameterKm": 342,
         "origin": "Raffaello Sanzio; Italian painter (1483-1520).",
@@ -661,8 +661,8 @@
       {
         "name": "Adventure Rupes",
         "type": "Rupes",
-        "latDeg": -65.48060000000001,
-        "lonDegE": 294.69980000000004,
+        "latDeg": -65.4806,
+        "lonDegE": 294.6998,
         "diameterKm": 340,
         "origin": "English; one of Cook's ships on second voyage to the Pacific, 1772-75.",
         "approvedYear": 1976
@@ -671,7 +671,7 @@
         "name": "Kainan Rupes",
         "type": "Rupes",
         "latDeg": -29.8,
-        "lonDegE": 29.200000000000003,
+        "lonDegE": 29.2,
         "diameterKm": 325,
         "origin": "Japanese; Kainan Maru, ship of Nobu Shirase Antarctic exploration, 1910-1912.",
         "approvedYear": 2018
@@ -679,7 +679,7 @@
       {
         "name": "Heemskerck Rupes",
         "type": "Rupes",
-        "latDeg": 27.299000000000003,
+        "latDeg": 27.299,
         "lonDegE": 235.687,
         "diameterKm": 320,
         "origin": "Dutch; one of Tasman's ships to explore Australia, New Zealand, 1642-43.",
@@ -689,7 +689,7 @@
         "name": "Homer",
         "type": "Crater",
         "latDeg": -1.2998,
-        "lonDegE": 323.37510000000003,
+        "lonDegE": 323.3751,
         "diameterKm": 319,
         "origin": "Greek epic poet (8th or 9th century B.C.).",
         "approvedYear": 1976
@@ -697,7 +697,7 @@
       {
         "name": "Goethe",
         "type": "Crater",
-        "latDeg": 81.10220000000001,
+        "latDeg": 81.1022,
         "lonDegE": 308.966,
         "diameterKm": 317.172,
         "origin": "Johann Wolfgang von; German poet and dramatist (1749-1832).",
@@ -707,7 +707,7 @@
         "name": "Pantheon Fossae",
         "type": "Fossa",
         "latDeg": 30.1857,
-        "lonDegE": 162.83110000000002,
+        "lonDegE": 162.8311,
         "diameterKm": 311,
         "origin": "Classic domed Roman building begun in 27 BC by Marcus Agrippa, and rebuilt by Hadrian between AD 118 and 128.",
         "approvedYear": 2008
@@ -725,7 +725,7 @@
         "name": "Rachmaninoff",
         "type": "Crater",
         "latDeg": 27.6609,
-        "lonDegE": 57.370200000000004,
+        "lonDegE": 57.3702,
         "diameterKm": 305,
         "origin": "Sergei V.; Russian composer, pianist, and conductor (1873-1943).",
         "approvedYear": 2010
@@ -743,7 +743,7 @@
         "name": "Vyasa",
         "type": "Crater",
         "latDeg": 49.7881,
-        "lonDegE": 275.37850000000003,
+        "lonDegE": 275.3785,
         "diameterKm": 297,
         "origin": "Indian poet (fl. 1500 B.C.).",
         "approvedYear": 1979
@@ -796,8 +796,8 @@
       {
         "name": "Palmer Rupes",
         "type": "Rupes",
-        "latDeg": -26.070500000000003,
-        "lonDegE": 253.72050000000002,
+        "latDeg": -26.0705,
+        "lonDegE": 253.7205,
         "diameterKm": 274,
         "origin": "American; ice-breaking ship dedicated to scientific research and operated by the National Science Foundation for Antarctic scientific missions since 1992.",
         "approvedYear": 2013
@@ -815,7 +815,7 @@
         "name": "Tangaroa Rupes",
         "type": "Rupes",
         "latDeg": 1.04,
-        "lonDegE": 186.73000000000002,
+        "lonDegE": 186.73,
         "diameterKm": 273,
         "origin": "New Zealand; a research vessel and icebreaker that performs marine environmental monitoring, ocean science studies and exploration and engineering activities (2000s).",
         "approvedYear": 2022
@@ -841,8 +841,8 @@
       {
         "name": "Carnegie Rupes",
         "type": "Rupes",
-        "latDeg": 58.524300000000004,
-        "lonDegE": 306.75370000000004,
+        "latDeg": 58.5243,
+        "lonDegE": 306.7537,
         "diameterKm": 267,
         "origin": "American; iron-free vessel used to conduct magnetic surveys from 1909 to 1928.",
         "approvedYear": 2013
@@ -878,7 +878,7 @@
         "name": "Raditladi",
         "type": "Crater",
         "latDeg": 27.1533,
-        "lonDegE": 119.06330000000001,
+        "lonDegE": 119.0633,
         "diameterKm": 258,
         "origin": "Leetile Disang; Botswanan playwright and poet (1910-1971).",
         "approvedYear": 2008
@@ -886,7 +886,7 @@
       {
         "name": "La Dauphine Rupes",
         "type": "Rupes",
-        "latDeg": 66.30250000000001,
+        "latDeg": 66.3025,
         "lonDegE": 333.3757,
         "diameterKm": 252,
         "origin": "French; royal ship used for a voyage in search of the eastern coast of Asia, determined that North America was not an extension of Asia, 1524.",
@@ -913,7 +913,7 @@
       {
         "name": "Haydn",
         "type": "Crater",
-        "latDeg": -27.224800000000002,
+        "latDeg": -27.2248,
         "lonDegE": 288.3621,
         "diameterKm": 251,
         "origin": "J.; Austrian composer (1732-1809).",
@@ -931,7 +931,7 @@
       {
         "name": "Selen Rupes",
         "type": "Rupes",
-        "latDeg": -8.110000000000001,
+        "latDeg": -8.11,
         "lonDegE": 181.08,
         "diameterKm": 246,
         "origin": "Turkish; research vessel used mainly in Sea of Marmara since 2010 for high resolution geophysical exploration in shallow waters.",
@@ -941,7 +941,7 @@
         "name": "Kunisada",
         "type": "Crater",
         "latDeg": 1.3695,
-        "lonDegE": 113.02170000000001,
+        "lonDegE": 113.0217,
         "diameterKm": 241.45,
         "origin": "Utagawa Kunisada; Japanese woodblock printmaker (1786-1864).",
         "approvedYear": 2009
@@ -967,8 +967,8 @@
       {
         "name": "Gjoa Rupes",
         "type": "Rupes",
-        "latDeg": -66.89110000000001,
-        "lonDegE": 201.49810000000002,
+        "latDeg": -66.8911,
+        "lonDegE": 201.4981,
         "diameterKm": 237.902,
         "origin": "Norwegian; Amundsen's ship through Northwest passage, 1903-06.",
         "approvedYear": 1976
@@ -1004,7 +1004,7 @@
         "name": "Michelangelo",
         "type": "Crater",
         "latDeg": -44.9152,
-        "lonDegE": 250.31220000000002,
+        "lonDegE": 250.3122,
         "diameterKm": 230,
         "origin": "Buonarroti; Italian painter, sculptor and architect (1475-1564).",
         "approvedYear": 1979
@@ -1012,7 +1012,7 @@
       {
         "name": "Rodin",
         "type": "Crater",
-        "latDeg": 21.720000000000002,
+        "latDeg": 21.72,
         "lonDegE": 341.1111,
         "diameterKm": 230,
         "origin": "Auguste; French sculptor (1840-1917).",
@@ -1031,7 +1031,7 @@
         "name": "Terror Rupes",
         "type": "Rupes",
         "latDeg": -72.056,
-        "lonDegE": 84.31060000000001,
+        "lonDegE": 84.3106,
         "diameterKm": 229.615,
         "origin": "English; ship of discovery that took part in the Ross Antarctic expedition (1839-1843) and Franklin Arctic expedition (1845).",
         "approvedYear": 2013
@@ -1039,8 +1039,8 @@
       {
         "name": "Santa Maria Rupes",
         "type": "Rupes",
-        "latDeg": 5.810700000000001,
-        "lonDegE": 339.99760000000003,
+        "latDeg": 5.8107,
+        "lonDegE": 339.9976,
         "diameterKm": 227,
         "origin": "Spanish; Columbus' flagship, first voyage to America, 1492.",
         "approvedYear": 1976
@@ -1057,7 +1057,7 @@
       {
         "name": "Aegaeo Rupes",
         "type": "Rupes",
-        "latDeg": -9.190000000000001,
+        "latDeg": -9.19,
         "lonDegE": 344.72,
         "diameterKm": 222,
         "origin": "Greek; research vessel that performs geophysical, geological, and hydrographic surveys in the Mediterranean Sea since 1985.",
@@ -1084,7 +1084,7 @@
       {
         "name": "Manley",
         "type": "Crater",
-        "latDeg": -10.530000000000001,
+        "latDeg": -10.53,
         "lonDegE": 103.39,
         "diameterKm": 218,
         "origin": "Edna; Jamaican sculptor, painter, and printmaker (1900-1987).",
@@ -1093,7 +1093,7 @@
       {
         "name": "Ellington",
         "type": "Crater",
-        "latDeg": -12.876000000000001,
+        "latDeg": -12.876,
         "lonDegE": 26.097,
         "diameterKm": 216,
         "origin": "Edward Kennedy “Duke”; American composer, musician, conductor (1899-1974).",
@@ -1103,7 +1103,7 @@
         "name": "Bach",
         "type": "Crater",
         "latDeg": -69.8554,
-        "lonDegE": 256.99420000000003,
+        "lonDegE": 256.9942,
         "diameterKm": 214.285,
         "origin": "J. S.; German composer (1685-1750).",
         "approvedYear": 1976
@@ -1112,7 +1112,7 @@
         "name": "Cervantes",
         "type": "Crater",
         "latDeg": -76.0881,
-        "lonDegE": 235.73530000000002,
+        "lonDegE": 235.7353,
         "diameterKm": 213.165,
         "origin": "Miguel de; Spanish novelist, playwright and poet (1547-1616).",
         "approvedYear": 1976
@@ -1120,7 +1120,7 @@
       {
         "name": "Vivaldi",
         "type": "Crater",
-        "latDeg": 13.759300000000001,
+        "latDeg": 13.7593,
         "lonDegE": 274.0847,
         "diameterKm": 213,
         "origin": "Antonio; Italian composer (1678-1741).",
@@ -1138,7 +1138,7 @@
       {
         "name": "Valmiki",
         "type": "Crater",
-        "latDeg": -23.583000000000002,
+        "latDeg": -23.583,
         "lonDegE": 218.5893,
         "diameterKm": 210,
         "origin": "Sanskrit poet, author of the Ramayala (1st century B.C.).",
@@ -1156,8 +1156,8 @@
       {
         "name": "Copland",
         "type": "Crater",
-        "latDeg": 37.628800000000005,
-        "lonDegE": 72.98570000000001,
+        "latDeg": 37.6288,
+        "lonDegE": 72.9857,
         "diameterKm": 208,
         "origin": "Aaron; American composer and pianist (1900-1990).",
         "approvedYear": 2010
@@ -1166,7 +1166,7 @@
         "name": "Hugo",
         "type": "Crater",
         "latDeg": 39.6102,
-        "lonDegE": 311.50710000000004,
+        "lonDegE": 311.5071,
         "diameterKm": 206,
         "origin": "Victor; French writer, dramatist and poet (1802-1885).",
         "approvedYear": 1979
@@ -1175,7 +1175,7 @@
         "name": "Slang Faculae",
         "type": "Facula",
         "latDeg": 24.5,
-        "lonDegE": 180.70000000000002,
+        "lonDegE": 180.7,
         "diameterKm": 204,
         "origin": "Afrikaans word for snake.",
         "approvedYear": 2018
@@ -1183,7 +1183,7 @@
       {
         "name": "Wren",
         "type": "Crater",
-        "latDeg": 24.837500000000002,
+        "latDeg": 24.8375,
         "lonDegE": 324.0546,
         "diameterKm": 204,
         "origin": "Christopher; English architect (1632-1723).",
@@ -1192,7 +1192,7 @@
       {
         "name": "Monet",
         "type": "Crater",
-        "latDeg": 44.229800000000004,
+        "latDeg": 44.2298,
         "lonDegE": 350.2325,
         "diameterKm": 203,
         "origin": "Claude; French painter (1840-1926).",
@@ -1237,8 +1237,8 @@
       {
         "name": "Ma Chih Yuan",
         "type": "Crater",
-        "latDeg": -60.014900000000004,
-        "lonDegE": 281.99150000000003,
+        "latDeg": -60.0149,
+        "lonDegE": 281.9915,
         "diameterKm": 197,
         "origin": "Chinese dramatist (fl. 1251).",
         "approvedYear": 1976
@@ -1246,7 +1246,7 @@
       {
         "name": "Larrocha",
         "type": "Crater",
-        "latDeg": 43.294000000000004,
+        "latDeg": 43.294,
         "lonDegE": 290.1669,
         "diameterKm": 196,
         "origin": "Alicia de Larrocha; Spanish pianist (1923-2009).",
@@ -1255,7 +1255,7 @@
       {
         "name": "Sholem Aleichem",
         "type": "Crater",
-        "latDeg": 50.924800000000005,
+        "latDeg": 50.9248,
         "lonDegE": 269.5195,
         "diameterKm": 196,
         "origin": "(Yakov Rabinowitz); Yiddish writer (1859-1916).",
@@ -1291,7 +1291,7 @@
       {
         "name": "Munkacsy",
         "type": "Crater",
-        "latDeg": 21.947300000000002,
+        "latDeg": 21.9473,
         "lonDegE": 101.1438,
         "diameterKm": 193,
         "origin": "Mihály; Hungarian painter (1844-1900).",
@@ -1301,7 +1301,7 @@
         "name": "Mendes Pinto",
         "type": "Crater",
         "latDeg": -61.6524,
-        "lonDegE": 342.42510000000004,
+        "lonDegE": 342.4251,
         "diameterKm": 192,
         "origin": "F.; Portuguese prose author (c. 1510-1583).",
         "approvedYear": 1976
@@ -1318,7 +1318,7 @@
       {
         "name": "Smetana",
         "type": "Crater",
-        "latDeg": -48.246700000000004,
+        "latDeg": -48.2467,
         "lonDegE": 289.8293,
         "diameterKm": 191,
         "origin": "Bedrich; Czechoslovakian composer (1824-1884).",
@@ -1327,8 +1327,8 @@
       {
         "name": "Schubert",
         "type": "Crater",
-        "latDeg": -43.214600000000004,
-        "lonDegE": 305.74350000000004,
+        "latDeg": -43.2146,
+        "lonDegE": 305.7435,
         "diameterKm": 190,
         "origin": "Franz S.; Austrian composer (1797-1828).",
         "approvedYear": 1976
@@ -1337,7 +1337,7 @@
         "name": "Matisse",
         "type": "Crater",
         "latDeg": -23.8317,
-        "lonDegE": 269.94980000000004,
+        "lonDegE": 269.9498,
         "diameterKm": 189.041,
         "origin": "Henri; French painter and sculptor (1869-1954).",
         "approvedYear": 1976
@@ -1345,7 +1345,7 @@
       {
         "name": "Matisse",
         "type": "Crater",
-        "latDeg": -23.798000000000002,
+        "latDeg": -23.798,
         "lonDegE": 269.8122,
         "diameterKm": 189,
         "origin": "Henri; French painter and sculptor (1869-1954).",
@@ -1363,8 +1363,8 @@
       {
         "name": "Al-Shirazi Dorsum",
         "type": "Dorsum",
-        "latDeg": -48.330000000000005,
-        "lonDegE": 197.64000000000001,
+        "latDeg": -48.33,
+        "lonDegE": 197.64,
         "diameterKm": 188,
         "origin": "Qutb al-Din; Persian astronomer, physicist, and poet who suggested “black dots” on the Sun to be the transiting Mercury and Venus (1236-1311).",
         "approvedYear": 2026
@@ -1373,7 +1373,7 @@
         "name": "Alvin Rupes",
         "type": "Rupes",
         "latDeg": 8.2951,
-        "lonDegE": 151.28130000000002,
+        "lonDegE": 151.2813,
         "diameterKm": 188,
         "origin": "American; U.S.Navy's first deep submergence research vessel commissioned in 1964, designed specifically for oceanographic research.",
         "approvedYear": 2013
@@ -1382,7 +1382,7 @@
         "name": "Caravaggio",
         "type": "Crater",
         "latDeg": 3.175,
-        "lonDegE": 87.23910000000001,
+        "lonDegE": 87.2391,
         "diameterKm": 185,
         "origin": "Michelangelo Merisi; Italian painter (1571-1610).",
         "approvedYear": 2013
@@ -1391,7 +1391,7 @@
         "name": "Riemenschneider",
         "type": "Crater",
         "latDeg": -52.7504,
-        "lonDegE": 260.05150000000003,
+        "lonDegE": 260.0515,
         "diameterKm": 183,
         "origin": "Tilman; German sculptor (c. 1460-1531).",
         "approvedYear": 1979
@@ -1399,7 +1399,7 @@
       {
         "name": "Milton",
         "type": "Crater",
-        "latDeg": -26.098300000000002,
+        "latDeg": -26.0983,
         "lonDegE": 184.9718,
         "diameterKm": 180.846,
         "origin": "John; English poet (1608-1674).",
@@ -1409,7 +1409,7 @@
         "name": "Milton",
         "type": "Crater",
         "latDeg": -26.1258,
-        "lonDegE": 184.93800000000002,
+        "lonDegE": 184.938,
         "diameterKm": 180,
         "origin": "John; English poet (1608-1674).",
         "approvedYear": 1976
@@ -1417,8 +1417,8 @@
       {
         "name": "Astrea Rupes",
         "type": "Rupes",
-        "latDeg": -20.310000000000002,
-        "lonDegE": 115.85000000000001,
+        "latDeg": -20.31,
+        "lonDegE": 115.85,
         "diameterKm": 178,
         "origin": "Italian; multi-purpose research vessel used in particular for investigations in fisheries, aquaculture, oceanography within the Mediterranean Sea since 2003.",
         "approvedYear": 2022
@@ -1445,7 +1445,7 @@
         "name": "Dali",
         "type": "Crater",
         "latDeg": 45.164,
-        "lonDegE": 119.74390000000001,
+        "lonDegE": 119.7439,
         "diameterKm": 176,
         "origin": "Salvador; Spanish painter (1904-1989).",
         "approvedYear": 2008
@@ -1453,7 +1453,7 @@
       {
         "name": "Lange",
         "type": "Crater",
-        "latDeg": 6.399500000000001,
+        "latDeg": 6.3995,
         "lonDegE": 100.4105,
         "diameterKm": 176,
         "origin": "Dorothea; American photographer (1895-1965).",
@@ -1472,7 +1472,7 @@
         "name": "Izquierdo",
         "type": "Crater",
         "latDeg": -1.6567,
-        "lonDegE": 107.04360000000001,
+        "lonDegE": 107.0436,
         "diameterKm": 174,
         "origin": "María; Mexican painter (c.1902-1955).",
         "approvedYear": 2009
@@ -1480,7 +1480,7 @@
       {
         "name": "Chaikovskij",
         "type": "Crater",
-        "latDeg": 7.859800000000001,
+        "latDeg": 7.8598,
         "lonDegE": 309.0729,
         "diameterKm": 171,
         "origin": "P. I.; Russian composer (1840-1893).",
@@ -1507,7 +1507,7 @@
       {
         "name": "Bernini",
         "type": "Crater",
-        "latDeg": -80.31880000000001,
+        "latDeg": -80.3188,
         "lonDegE": 219.03,
         "diameterKm": 168.131,
         "origin": "Gian Lorenzo; Italian sculptor and architect (1598-1680).",
@@ -1516,7 +1516,7 @@
       {
         "name": "Faulkner",
         "type": "Crater",
-        "latDeg": 8.076600000000001,
+        "latDeg": 8.0766,
         "lonDegE": 76.9675,
         "diameterKm": 168,
         "origin": "William; American author (1897-1962).",
@@ -1579,7 +1579,7 @@
       {
         "name": "Lermontov",
         "type": "Crater",
-        "latDeg": 15.238900000000001,
+        "latDeg": 15.2389,
         "lonDegE": 311.0575,
         "diameterKm": 166,
         "origin": "Mikhail Yurevich; Russian poet (1814-1841).",
@@ -1588,7 +1588,7 @@
       {
         "name": "Nabokov",
         "type": "Crater",
-        "latDeg": -14.555000000000001,
+        "latDeg": -14.555,
         "lonDegE": 55.7582,
         "diameterKm": 166,
         "origin": "Vladimir; Russian and American writer (1899-1977).",
@@ -1607,7 +1607,7 @@
         "name": "Pourquoi Pas Rupes",
         "type": "Rupes",
         "latDeg": -58.5407,
-        "lonDegE": 203.82770000000002,
+        "lonDegE": 203.8277,
         "diameterKm": 164.647,
         "origin": "French; Charcot's ship to explore Antarctica, 1908-10.",
         "approvedYear": 1976
@@ -1616,7 +1616,7 @@
         "name": "Al Hamadhani",
         "type": "Crater",
         "latDeg": 39.1914,
-        "lonDegE": 268.23990000000003,
+        "lonDegE": 268.2399,
         "diameterKm": 164,
         "origin": "Arab writer (d. 1007).",
         "approvedYear": 1979
@@ -1625,7 +1625,7 @@
         "name": "Kipling",
         "type": "Crater",
         "latDeg": -19.3712,
-        "lonDegE": 72.01740000000001,
+        "lonDegE": 72.0174,
         "diameterKm": 164,
         "origin": "Rudyard; English author (1865-1936).",
         "approvedYear": 2010
@@ -1634,7 +1634,7 @@
         "name": "Travers",
         "type": "Crater",
         "latDeg": -28,
-        "lonDegE": 30.900000000000002,
+        "lonDegE": 30.9,
         "diameterKm": 164,
         "origin": "Pamela Lyndon (born Helen Lyndon Goff); Australian-born British writer best known for Mary Poppins series of children’s books (1899-1996).",
         "approvedYear": 2018
@@ -1642,7 +1642,7 @@
       {
         "name": "Zeehaen Rupes",
         "type": "Rupes",
-        "latDeg": 49.642700000000005,
+        "latDeg": 49.6427,
         "lonDegE": 201.8484,
         "diameterKm": 164,
         "origin": "Dutch; one of Tasman's ships to explore Australia, New Zealand, 1642-43.",
@@ -1661,7 +1661,7 @@
         "name": "Kalidasa",
         "type": "Crater",
         "latDeg": -18.2097,
-        "lonDegE": 180.18290000000002,
+        "lonDegE": 180.1829,
         "diameterKm": 160,
         "origin": "Indian poet and dramatist (c. 5th century).",
         "approvedYear": 1976
@@ -1696,7 +1696,7 @@
       {
         "name": "Dowland",
         "type": "Crater",
-        "latDeg": -53.560700000000004,
+        "latDeg": -53.5607,
         "lonDegE": 179.2972,
         "diameterKm": 158,
         "origin": "John; English composer (1562-1626).",
@@ -1706,7 +1706,7 @@
         "name": "Rubens",
         "type": "Crater",
         "latDeg": 60.5775,
-        "lonDegE": 282.01050000000004,
+        "lonDegE": 282.0105,
         "diameterKm": 158,
         "origin": "Peter Paul; Flemish painter (1577-1640).",
         "approvedYear": 1979
@@ -1714,7 +1714,7 @@
       {
         "name": "Sotatsu",
         "type": "Crater",
-        "latDeg": -48.728500000000004,
+        "latDeg": -48.7285,
         "lonDegE": 341.8331,
         "diameterKm": 157,
         "origin": "Tawaraya; Japanese artist (1600-1643).",
@@ -1751,7 +1751,7 @@
         "name": "Lysippus",
         "type": "Crater",
         "latDeg": 1.028,
-        "lonDegE": 227.24560000000002,
+        "lonDegE": 227.2456,
         "diameterKm": 155,
         "origin": "Greek sculptor (4th century B.C.).",
         "approvedYear": 1976
@@ -1760,7 +1760,7 @@
         "name": "Stoddart",
         "type": "Crater",
         "latDeg": -12.17,
-        "lonDegE": 274.34000000000003,
+        "lonDegE": 274.34,
         "diameterKm": 155,
         "origin": "Margaret Olrog; New Zealand painter (1865-1934).",
         "approvedYear": 2024
@@ -1769,7 +1769,7 @@
         "name": "Rabelais",
         "type": "Crater",
         "latDeg": -60.5281,
-        "lonDegE": 298.19010000000003,
+        "lonDegE": 298.1901,
         "diameterKm": 154,
         "origin": "Francois; French writer (c. 1483-1553).",
         "approvedYear": 1976
@@ -1787,7 +1787,7 @@
         "name": "Pigalle",
         "type": "Crater",
         "latDeg": -37.6465,
-        "lonDegE": 350.35900000000004,
+        "lonDegE": 350.359,
         "diameterKm": 153,
         "origin": "Jean Baptiste; French sculptor (1714-1785).",
         "approvedYear": 1976
@@ -1814,7 +1814,7 @@
         "name": "Alver",
         "type": "Crater",
         "latDeg": -66.9709,
-        "lonDegE": 77.24640000000001,
+        "lonDegE": 77.2464,
         "diameterKm": 151.489,
         "origin": "Betti; Estonian poet (1906-1989).",
         "approvedYear": 2013
@@ -1840,7 +1840,7 @@
       {
         "name": "Protea Rupes",
         "type": "Rupes",
-        "latDeg": -9.360000000000001,
+        "latDeg": -9.36,
         "lonDegE": 156.99,
         "diameterKm": 147,
         "origin": "South African; research vessel that performed hydrographic surveys (1922-1933).",
@@ -1858,7 +1858,7 @@
       {
         "name": "Sayat Nova",
         "type": "Crater",
-        "latDeg": -27.976200000000002,
+        "latDeg": -27.9762,
         "lonDegE": 237.2999,
         "diameterKm": 146,
         "origin": "Aruthin Sayadian; Armenian/Georgian song writer (1712-1795).",
@@ -1867,7 +1867,7 @@
       {
         "name": "Liang K ai",
         "type": "Crater",
-        "latDeg": -39.891600000000004,
+        "latDeg": -39.8916,
         "lonDegE": 175.845,
         "diameterKm": 145,
         "origin": "Chinese painter (c. 1140-1210).",
@@ -1877,7 +1877,7 @@
         "name": "Proust",
         "type": "Crater",
         "latDeg": 19.5564,
-        "lonDegE": 312.40500000000003,
+        "lonDegE": 312.405,
         "diameterKm": 145,
         "origin": "Marcel; French novelist (1871-1922).",
         "approvedYear": 1976
@@ -1885,7 +1885,7 @@
       {
         "name": "Verdi",
         "type": "Crater",
-        "latDeg": 64.35730000000001,
+        "latDeg": 64.3573,
         "lonDegE": 190.2918,
         "diameterKm": 145,
         "origin": "Giuseppe; Italian composer (1813-1901).",
@@ -1903,7 +1903,7 @@
       {
         "name": "Chong Ch ol",
         "type": "Crater",
-        "latDeg": 46.871300000000005,
+        "latDeg": 46.8713,
         "lonDegE": 242.6869,
         "diameterKm": 143,
         "origin": "Korean poet (1536-1593).",
@@ -1921,8 +1921,8 @@
       {
         "name": "Shevchenko",
         "type": "Crater",
-        "latDeg": -53.641400000000004,
-        "lonDegE": 313.98470000000003,
+        "latDeg": -53.6414,
+        "lonDegE": 313.9847,
         "diameterKm": 143,
         "origin": "Taras Hryhorovych; Ukrainian poet (1814-1861).",
         "approvedYear": 1976

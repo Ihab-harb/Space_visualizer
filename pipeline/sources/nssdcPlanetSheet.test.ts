@@ -8,6 +8,7 @@ import {
   SUN_COMPOSITION_HEADING,
   parseComposition,
   parseMagnetosphere,
+  parseMeanRadiusKm,
   parseSunField,
   sheetText,
 } from './nssdcPlanetSheet';
@@ -130,5 +131,12 @@ describe('parseSunField', () => {
     expect(f.note.text).toMatch(/Polar field 1–2 G.*Sunspots 3000 G/);
     expect(f.note.text).toMatch(/Ephemeral \(unipolar\) active regions 20 G$/);
     expect(MagnetosphereSchema.safeParse(f).success).toBe(true);
+  });
+});
+
+describe('parseMeanRadiusKm', () => {
+  it('reads the volumetric mean radius from all eight sheets', () => {
+    const expected = { mercury: 2439.7, venus: 6051.8, earth: 6371, mars: 3389.5, jupiter: 69911, saturn: 58232, uranus: 25362, neptune: 24622 };
+    for (const [id, r] of Object.entries(expected)) expect(parseMeanRadiusKm(planet(id))).toBe(r);
   });
 });

@@ -1,20 +1,20 @@
 {
   "schemaVersion": 1,
   "bodyId": "mars",
-  "generatedAt": "2026-10-15T21:12:40.945Z",
+  "generatedAt": "2026-10-15T21:17:12.226Z",
   "interior": {
     "layers": [
       {
         "id": "crust",
         "name": "Crust",
         "outerRadiusKm": {
-          "min": 3396.19,
-          "max": 3396.19,
+          "min": 3389.5,
+          "max": 3389.5,
           "sourceId": "nasa-science-mars-facts"
         },
         "innerRadiusKm": {
-          "min": 3346.19,
-          "max": 3386.19,
+          "min": 3339.5,
+          "max": 3379.5,
           "sourceId": "nasa-science-mars-facts"
         },
         "from": "depth",
@@ -29,13 +29,13 @@
         "id": "mantle",
         "name": "Mantle",
         "outerRadiusKm": {
-          "min": 3346.19,
-          "max": 3386.19,
+          "min": 3339.5,
+          "max": 3379.5,
           "sourceId": "nasa-science-mars-facts"
         },
         "innerRadiusKm": {
-          "min": 1836.19,
-          "max": 1836.19,
+          "min": 1829.5,
+          "max": 1829.5,
           "sourceId": "nasa-insight-deep-interior"
         },
         "from": "depth",
@@ -290,15 +290,15 @@
       "value": 2052,
       "sourceId": "usgs-gazetteer-mars"
     },
-    "thresholdKm": 499.3205,
+    "thresholdKm": 499.321,
     "sourceId": "usgs-gazetteer-mars",
     "items": [
       {
         "name": "Terra Cimmeria",
         "type": "Terra",
-        "latDeg": -32.679500000000004,
+        "latDeg": -32.6795,
         "lonDegE": 147.7458,
-        "diameterKm": 5855.8726,
+        "diameterKm": 5855.873,
         "origin": "Classical albedo feature name.",
         "approvedYear": 1979
       },
@@ -307,16 +307,16 @@
         "type": "Terra",
         "latDeg": -50.4072,
         "lonDegE": 354.8433,
-        "diameterKm": 5519.4453,
+        "diameterKm": 5519.445,
         "origin": "Classical albedo feature name.",
         "approvedYear": 1979
       },
       {
         "name": "Arabia Terra",
         "type": "Terra",
-        "latDeg": 21.249000000000002,
-        "lonDegE": 5.718500000000001,
-        "diameterKm": 4851.7363,
+        "latDeg": 21.249,
+        "lonDegE": 5.7185,
+        "diameterKm": 4851.736,
         "origin": "Classical albedo feature name.",
         "approvedYear": 1979
       },
@@ -325,7 +325,7 @@
         "type": "Terra",
         "latDeg": 2.7188,
         "lonDegE": 51.3035,
-        "diameterKm": 4688.4385,
+        "diameterKm": 4688.439,
         "origin": "Classical albedo feature name.",
         "approvedYear": 1979
       },
@@ -334,7 +334,7 @@
         "type": "Terra",
         "latDeg": -60.2034,
         "lonDegE": 262.9547,
-        "diameterKm": 3873.4795,
+        "diameterKm": 3873.48,
         "origin": "Classical albedo feature name.",
         "approvedYear": 1979
       },
@@ -343,7 +343,7 @@
         "type": "Vallis",
         "latDeg": -14.0059,
         "lonDegE": 301.4123,
-        "diameterKm": 3761.2778,
+        "diameterKm": 3761.278,
         "origin": "General name of the system of canyons honoring the scientific team of the Mariner 9 program.",
         "approvedYear": 1973
       },
@@ -352,7 +352,7 @@
         "type": "Terra",
         "latDeg": -39.4946,
         "lonDegE": 205.8479,
-        "diameterKm": 3635.1792,
+        "diameterKm": 3635.179,
         "origin": "Classical albedo feature name.",
         "approvedYear": 1979
       },
@@ -368,7 +368,7 @@
       {
         "name": "Acidalia Planitia",
         "type": "Planitia",
-        "latDeg": 49.760000000000005,
+        "latDeg": 49.76,
         "lonDegE": 339.26,
         "diameterKm": 3505,
         "origin": "From classical albedo feature at 44N, 21W.",
@@ -377,7 +377,7 @@
       {
         "name": "Promethei Terra",
         "type": "Terra",
-        "latDeg": -64.37010000000001,
+        "latDeg": -64.3701,
         "lonDegE": 97.0044,
         "diameterKm": 3244.296,
         "origin": "Classical albedo feature name.",
@@ -388,14 +388,14 @@
         "type": "Planitia",
         "latDeg": 2.979,
         "lonDegE": 154.7372,
-        "diameterKm": 3000.7893,
+        "diameterKm": 3000.789,
         "origin": "Classical albedo feature name.",
         "approvedYear": 1973
       },
       {
         "name": "Phlegra Dorsa",
         "type": "Dorsum",
-        "latDeg": 25.080000000000002,
+        "latDeg": 25.08,
         "lonDegE": 170.37,
         "diameterKm": 2818.614,
         "origin": "Named for classical albedo feature at 35N, 195W.",
@@ -404,7 +404,7 @@
       {
         "name": "Amazonis Planitia",
         "type": "Planitia",
-        "latDeg": 25.746100000000002,
+        "latDeg": 25.7461,
         "lonDegE": 197.0872,
         "diameterKm": 2809.043,
         "origin": "Classical albedo feature name; home of the Amazons.",
@@ -415,7 +415,7 @@
         "type": "Terra",
         "latDeg": -1.8497,
         "lonDegE": 335.0777,
-        "diameterKm": 2733.2239,
+        "diameterKm": 2733.224,
         "origin": "Classical albedo feature name.",
         "approvedYear": 1979
       },
@@ -423,8 +423,8 @@
         "name": "Sirenum Fossae",
         "type": "Fossa",
         "latDeg": -35.5739,
-        "lonDegE": 197.26180000000002,
-        "diameterKm": 2731.2107,
+        "lonDegE": 197.2618,
+        "diameterKm": 2731.211,
         "origin": "Classical albedo feature name.",
         "approvedYear": 1973
       },
@@ -433,25 +433,25 @@
         "type": "Rupes",
         "latDeg": 43.5326,
         "lonDegE": 86.0326,
-        "diameterKm": 2492.6814,
+        "diameterKm": 2492.681,
         "origin": "Named for calssical albedo feature at 55N, 260W.",
         "approvedYear": 2003
       },
       {
         "name": "Tyrrhena Terra",
         "type": "Terra",
-        "latDeg": -11.899000000000001,
+        "latDeg": -11.899,
         "lonDegE": 88.8357,
-        "diameterKm": 2470.1377,
+        "diameterKm": 2470.138,
         "origin": "Classical albedo feature name.",
         "approvedYear": 1979
       },
       {
         "name": "Tantalus Fossae",
         "type": "Fossa",
-        "latDeg": 49.834500000000006,
+        "latDeg": 49.8345,
         "lonDegE": 263.913,
-        "diameterKm": 2361.8625,
+        "diameterKm": 2361.863,
         "origin": "From albedo feature at 35N, 110W.",
         "approvedYear": 1973
       },
@@ -460,7 +460,7 @@
         "type": "Planitia",
         "latDeg": -42.4301,
         "lonDegE": 70.5025,
-        "diameterKm": 2299.1624,
+        "diameterKm": 2299.162,
         "origin": "Classical albedo feature name.",
         "approvedYear": 1973
       },
@@ -477,17 +477,17 @@
         "name": "Nepenthes Mensae",
         "type": "Mensa",
         "latDeg": 9.1922,
-        "lonDegE": 119.42060000000001,
-        "diameterKm": 2176.2336,
+        "lonDegE": 119.4206,
+        "diameterKm": 2176.234,
         "origin": "Classical albedo feature name.",
         "approvedYear": 1976
       },
       {
         "name": "Tempe Fossae",
         "type": "Fossa",
-        "latDeg": 40.418600000000005,
+        "latDeg": 40.4186,
         "lonDegE": 288.5998,
-        "diameterKm": 2116.2397,
+        "diameterKm": 2116.24,
         "origin": "From albedo feature at 40N, 70W.",
         "approvedYear": 1973
       },
@@ -504,8 +504,8 @@
         "name": "Alba Fossae",
         "type": "Fossa",
         "latDeg": 49.3945,
-        "lonDegE": 253.17510000000001,
-        "diameterKm": 2072.0208,
+        "lonDegE": 253.1751,
+        "diameterKm": 2072.021,
         "origin": "Classical albedo name.",
         "approvedYear": 1973
       },
@@ -514,7 +514,7 @@
         "type": "Mons",
         "latDeg": 1.5703,
         "lonDegE": 247.4165,
-        "diameterKm": 2058.9111,
+        "diameterKm": 2058.911,
         "origin": "Classical albedo feature name.",
         "approvedYear": 1973
       },
@@ -523,14 +523,14 @@
         "type": "Fossa",
         "latDeg": -27.8873,
         "lonDegE": 255.7623,
-        "diameterKm": 2030.6376,
+        "diameterKm": 2030.638,
         "origin": "Classical albedo feature name.",
         "approvedYear": 1973
       },
       {
         "name": "Vastitas Borealis",
         "type": "Vastitas",
-        "latDeg": 87.72970000000001,
+        "latDeg": 87.7297,
         "lonDegE": 32.5298,
         "diameterKm": 2002.908,
         "origin": "Classical albedo feature name.",
@@ -541,16 +541,16 @@
         "type": "Terra",
         "latDeg": 38.6877,
         "lonDegE": 289.3857,
-        "diameterKm": 1954.9379,
+        "diameterKm": 1954.938,
         "origin": "From albedo feature at 40N, 70W.",
         "approvedYear": 1979
       },
       {
         "name": "Arcadia Dorsa",
         "type": "Dorsum",
-        "latDeg": 55.896100000000004,
-        "lonDegE": 222.43990000000002,
-        "diameterKm": 1952.6526,
+        "latDeg": 55.8961,
+        "lonDegE": 222.4399,
+        "diameterKm": 1952.653,
         "origin": "Named for classical albedo feature at 45N, 120W.",
         "approvedYear": 2003
       },
@@ -559,7 +559,7 @@
         "type": "Planum",
         "latDeg": -18.3477,
         "lonDegE": 234.0505,
-        "diameterKm": 1922.0167,
+        "diameterKm": 1922.017,
         "origin": "Classical albedo feature name.",
         "approvedYear": 1982
       },
@@ -567,17 +567,17 @@
         "name": "Olympus Rupes",
         "type": "Rupes",
         "latDeg": 18.402,
-        "lonDegE": 226.43550000000002,
-        "diameterKm": 1914.7714,
+        "lonDegE": 226.4355,
+        "diameterKm": 1914.771,
         "origin": "Classical albedo feature name.",
         "approvedYear": 1976
       },
       {
         "name": "Mareotis Fossae",
         "type": "Fossa",
-        "latDeg": 44.342800000000004,
-        "lonDegE": 283.87690000000003,
-        "diameterKm": 1907.9448,
+        "latDeg": 44.3428,
+        "lonDegE": 283.8769,
+        "diameterKm": 1907.945,
         "origin": "From albedo feature at 32N, 96W.",
         "approvedYear": 1973
       },
@@ -586,7 +586,7 @@
         "type": "Terra",
         "latDeg": 1.5956,
         "lonDegE": 311.9466,
-        "diameterKm": 1867.6538,
+        "diameterKm": 1867.654,
         "origin": "Classical albedo feature name.",
         "approvedYear": 1979
       },
@@ -595,7 +595,7 @@
         "type": "Planum",
         "latDeg": 10.7933,
         "lonDegE": 294.4877,
-        "diameterKm": 1817.6647,
+        "diameterKm": 1817.665,
         "origin": "Classical albedo feature name.",
         "approvedYear": 1973
       },
@@ -604,7 +604,7 @@
         "type": "Planum",
         "latDeg": -26.3994,
         "lonDegE": 270.3331,
-        "diameterKm": 1811.2274,
+        "diameterKm": 1811.227,
         "origin": "Classical albedo feature name.",
         "approvedYear": 1973
       },
@@ -613,15 +613,15 @@
         "type": "Vallis",
         "latDeg": 10.2924,
         "lonDegE": 334.3917,
-        "diameterKm": 1757.6658,
+        "diameterKm": 1757.666,
         "origin": "Word for 'Mars' in Greek.",
         "approvedYear": 1973
       },
       {
         "name": "Tiu Valles",
         "type": "Vallis",
-        "latDeg": 16.226200000000002,
-        "lonDegE": 325.13820000000004,
+        "latDeg": 16.2262,
+        "lonDegE": 325.1382,
         "diameterKm": 1720,
         "origin": "Word for \"Mars\" in old English (West Germanic).",
         "approvedYear": 1973
@@ -629,7 +629,7 @@
       {
         "name": "Hephaestus Rupes",
         "type": "Rupes",
-        "latDeg": 23.538500000000003,
+        "latDeg": 23.5385,
         "lonDegE": 114.9028,
         "diameterKm": 1707.445,
         "origin": "Named for classical albedo feature at 20N, 240W.",
@@ -639,8 +639,8 @@
         "name": "Tartarus Colles",
         "type": "Collis",
         "latDeg": 21.245,
-        "lonDegE": 175.18900000000002,
-        "diameterKm": 1672.6892,
+        "lonDegE": 175.189,
+        "diameterKm": 1672.689,
         "origin": "From albedo feature at 2N, 183W.",
         "approvedYear": 1985
       },
@@ -649,25 +649,25 @@
         "type": "Planum",
         "latDeg": 14.0097,
         "lonDegE": 113.792,
-        "diameterKm": 1650.1404,
+        "diameterKm": 1650.14,
         "origin": "Classical albedo feature name.",
         "approvedYear": 2009
       },
       {
         "name": "Hesperia Planum",
         "type": "Planum",
-        "latDeg": -21.422600000000003,
+        "latDeg": -21.4226,
         "lonDegE": 109.894,
-        "diameterKm": 1601.7285,
+        "diameterKm": 1601.729,
         "origin": "Classical albedo feature name.",
         "approvedYear": 1973
       },
       {
         "name": "Memnonia Fossae",
         "type": "Fossa",
-        "latDeg": -23.626900000000003,
+        "latDeg": -23.6269,
         "lonDegE": 206.1789,
-        "diameterKm": 1585.2823,
+        "diameterKm": 1585.282,
         "origin": "Classical albedo feature name.",
         "approvedYear": 1973
       },
@@ -684,17 +684,17 @@
         "name": "Cydnus Rupes",
         "type": "Rupes",
         "latDeg": 52.5315,
-        "lonDegE": 112.20920000000001,
-        "diameterKm": 1550.8141,
+        "lonDegE": 112.2092,
+        "diameterKm": 1550.814,
         "origin": "From albedo feature at 70N, 248W.",
         "approvedYear": 1985
       },
       {
         "name": "Chryse Planitia",
         "type": "Planitia",
-        "latDeg": 28.433300000000003,
+        "latDeg": 28.4333,
         "lonDegE": 319.6927,
-        "diameterKm": 1542.4379,
+        "diameterKm": 1542.438,
         "origin": "Classical albedo feature name.",
         "approvedYear": 1973
       },
@@ -703,7 +703,7 @@
         "type": "Collis",
         "latDeg": 65.467,
         "lonDegE": 220.8724,
-        "diameterKm": 1521.6758,
+        "diameterKm": 1521.676,
         "origin": "From albedo feature name.",
         "approvedYear": 1985
       },
@@ -711,7 +711,7 @@
         "name": "Maja Valles",
         "type": "Vallis",
         "latDeg": 10.227,
-        "lonDegE": 301.62010000000004,
+        "lonDegE": 301.6201,
         "diameterKm": 1515,
         "origin": "Nepali word for \"Mars\".",
         "approvedYear": 1979
@@ -719,8 +719,8 @@
       {
         "name": "Olympia Undae",
         "type": "Unda",
-        "latDeg": 81.16000000000001,
-        "lonDegE": 178.48000000000002,
+        "latDeg": 81.16,
+        "lonDegE": 178.48,
         "diameterKm": 1507.96,
         "origin": "Classical albedo feature name.",
         "approvedYear": 2003
@@ -730,7 +730,7 @@
         "type": "Fossa",
         "latDeg": 24.5762,
         "lonDegE": 275.4719,
-        "diameterKm": 1496.3558,
+        "diameterKm": 1496.356,
         "origin": "Previously named feature at 30N, 75W; expanded coordinates.",
         "approvedYear": 1985
       },
@@ -739,15 +739,15 @@
         "type": "Chasma",
         "latDeg": -8.2737,
         "lonDegE": 317.9341,
-        "diameterKm": 1471.5568,
+        "diameterKm": 1471.557,
         "origin": "Classical albedo feature name.",
         "approvedYear": 1973
       },
       {
         "name": "Planum Australe",
         "type": "Planum",
-        "latDeg": -83.35000000000001,
-        "lonDegE": 157.70000000000002,
+        "latDeg": -83.35,
+        "lonDegE": 157.7,
         "diameterKm": 1429.87,
         "origin": "Classical albedo feature.",
         "approvedYear": 1976
@@ -774,8 +774,8 @@
         "name": "Promethei Rupes",
         "type": "Rupes",
         "latDeg": -75.5416,
-        "lonDegE": 90.24340000000001,
-        "diameterKm": 1379.2096,
+        "lonDegE": 90.2434,
+        "diameterKm": 1379.21,
         "origin": "Classical albedo feature name.",
         "approvedYear": 1976
       },
@@ -784,7 +784,7 @@
         "type": "Planum",
         "latDeg": -72.4944,
         "lonDegE": 298.3345,
-        "diameterKm": 1370.6447,
+        "diameterKm": 1370.645,
         "origin": "Classical albedo feature name.",
         "approvedYear": 2003
       },
@@ -793,7 +793,7 @@
         "type": "Mons",
         "latDeg": 40.3967,
         "lonDegE": 163.7142,
-        "diameterKm": 1350.6467,
+        "diameterKm": 1350.647,
         "origin": "Classical albedo feature name.",
         "approvedYear": 1973
       },
@@ -802,7 +802,7 @@
         "type": "Sulcus",
         "latDeg": 28.1404,
         "lonDegE": 215.5299,
-        "diameterKm": 1350.6146,
+        "diameterKm": 1350.615,
         "origin": "Classical albedo feature name.",
         "approvedYear": 1976
       },
@@ -811,7 +811,7 @@
         "type": "Cavus",
         "latDeg": 16.231,
         "lonDegE": 114.5201,
-        "diameterKm": 1330.4968,
+        "diameterKm": 1330.497,
         "origin": "Classical albedo feature name.",
         "approvedYear": 2006
       },
@@ -820,7 +820,7 @@
         "type": "Chasma",
         "latDeg": -12.1472,
         "lonDegE": 320.8263,
-        "diameterKm": 1305.6874,
+        "diameterKm": 1305.687,
         "origin": "Classical albedo feature name.",
         "approvedYear": 1973
       },
@@ -828,7 +828,7 @@
         "name": "Cerberus Fossae",
         "type": "Fossa",
         "latDeg": 11.2766,
-        "lonDegE": 166.37380000000002,
+        "lonDegE": 166.3738,
         "diameterKm": 1235,
         "origin": "From albedo feature at 10n, 212W. Changed from Cerberus Rupes.",
         "approvedYear": 1997
@@ -838,15 +838,15 @@
         "type": "Planitia",
         "latDeg": 13.9357,
         "lonDegE": 88.3772,
-        "diameterKm": 1224.5798,
+        "diameterKm": 1224.58,
         "origin": "Classical albedo feature name.",
         "approvedYear": 1973
       },
       {
         "name": "Syrtis Major Planum",
         "type": "Planum",
-        "latDeg": 9.200700000000001,
-        "lonDegE": 67.10300000000001,
+        "latDeg": 9.2007,
+        "lonDegE": 67.103,
         "diameterKm": 1214.864,
         "origin": "Albedo feature name; changed from Planitia to Planum.",
         "approvedYear": 1973
@@ -856,25 +856,25 @@
         "type": "Rupes",
         "latDeg": 86.0386,
         "lonDegE": 174.1646,
-        "diameterKm": 1197.0388,
+        "diameterKm": 1197.039,
         "origin": "Classical albedo feature name.",
         "approvedYear": 2007
       },
       {
         "name": "Noctis Labyrinthus",
         "type": "Labyrinthus",
-        "latDeg": -6.362500000000001,
+        "latDeg": -6.3625,
         "lonDegE": 258.8111,
-        "diameterKm": 1190.3052,
+        "diameterKm": 1190.305,
         "origin": "Classical albedo feature name.",
         "approvedYear": 1973
       },
       {
         "name": "Ceraunius Fossae",
         "type": "Fossa",
-        "latDeg": 27.003700000000002,
+        "latDeg": 27.0037,
         "lonDegE": 249.8522,
-        "diameterKm": 1166.6342,
+        "diameterKm": 1166.634,
         "origin": "Classical albedo feature name",
         "approvedYear": 1973
       },
@@ -882,8 +882,8 @@
         "name": "Marikh Vallis",
         "type": "Vallis",
         "latDeg": -19.1583,
-        "lonDegE": 4.319100000000001,
-        "diameterKm": 1147.2246,
+        "lonDegE": 4.3191,
+        "diameterKm": 1147.225,
         "origin": "Malaysian word for Mars.",
         "approvedYear": 2007
       },
@@ -892,7 +892,7 @@
         "type": "Mons",
         "latDeg": -37.5732,
         "lonDegE": 316.7887,
-        "diameterKm": 1142.5846,
+        "diameterKm": 1142.585,
         "origin": "Classical albedo feature name.",
         "approvedYear": 1973
       },
@@ -900,8 +900,8 @@
         "name": "Panchaia Rupes",
         "type": "Rupes",
         "latDeg": 64.3717,
-        "lonDegE": 129.83450000000002,
-        "diameterKm": 1113.3997,
+        "lonDegE": 129.8345,
+        "diameterKm": 1113.4,
         "origin": "Named for classical albedo feature at 62N, 220W.",
         "approvedYear": 2003
       },
@@ -910,16 +910,16 @@
         "type": "Mons",
         "latDeg": 15.4593,
         "lonDegE": 167.5435,
-        "diameterKm": 1086.4637,
+        "diameterKm": 1086.464,
         "origin": "Classical albedo feature name.",
         "approvedYear": 1985
       },
       {
         "name": "Isidis Dorsa",
         "type": "Dorsum",
-        "latDeg": 12.923900000000001,
+        "latDeg": 12.9239,
         "lonDegE": 88.2121,
-        "diameterKm": 1074.6984,
+        "diameterKm": 1074.698,
         "origin": "Named for classical albedo feature at 25N, 270W.",
         "approvedYear": 2003
       },
@@ -928,7 +928,7 @@
         "type": "Planitia",
         "latDeg": -38.1485,
         "lonDegE": 122.2145,
-        "diameterKm": 1062.1301,
+        "diameterKm": 1062.13,
         "origin": "Classical albedo feature name.",
         "approvedYear": 2010
       },
@@ -945,8 +945,8 @@
         "name": "Reull Vallis",
         "type": "Vallis",
         "latDeg": -42.1449,
-        "lonDegE": 104.95240000000001,
-        "diameterKm": 1051.9442,
+        "lonDegE": 104.9524,
+        "diameterKm": 1051.944,
         "origin": "Word for \"planet\" in Gaelic.",
         "approvedYear": 1979
       },
@@ -963,8 +963,8 @@
         "name": "Libya Montes",
         "type": "Mons",
         "latDeg": 1.4424,
-        "lonDegE": 88.22840000000001,
-        "diameterKm": 1043.6345,
+        "lonDegE": 88.2284,
+        "diameterKm": 1043.634,
         "origin": "Classical albedo feature name.",
         "approvedYear": 1979
       },
@@ -972,8 +972,8 @@
         "name": "Protonilus Mensae",
         "type": "Mensa",
         "latDeg": 43.8694,
-        "lonDegE": 48.863600000000005,
-        "diameterKm": 1033.9739,
+        "lonDegE": 48.8636,
+        "diameterKm": 1033.974,
         "origin": "From albedo feature at 42N, 315W.",
         "approvedYear": 1973
       },
@@ -982,7 +982,7 @@
         "type": "Planum",
         "latDeg": -69.6417,
         "lonDegE": 6.4135,
-        "diameterKm": 1032.8744,
+        "diameterKm": 1032.874,
         "origin": "Classical albedo feature name.",
         "approvedYear": 2003
       },
@@ -998,9 +998,9 @@
       {
         "name": "Parva Planum",
         "type": "Planum",
-        "latDeg": -73.66890000000001,
-        "lonDegE": 264.92900000000003,
-        "diameterKm": 1027.3241,
+        "latDeg": -73.6689,
+        "lonDegE": 264.929,
+        "diameterKm": 1027.324,
         "origin": "Classical albedo feature name.",
         "approvedYear": 2003
       },
@@ -1016,9 +1016,9 @@
       {
         "name": "Eridania Scopulus",
         "type": "Scopulus",
-        "latDeg": -52.612700000000004,
-        "lonDegE": 141.79410000000001,
-        "diameterKm": 1017.6571,
+        "latDeg": -52.6127,
+        "lonDegE": 141.7941,
+        "diameterKm": 1017.657,
         "origin": "Classical albedo feature name.",
         "approvedYear": 1979
       },
@@ -1027,7 +1027,7 @@
         "type": "Sulcus",
         "latDeg": 22.1627,
         "lonDegE": 285.3,
-        "diameterKm": 1009.0531,
+        "diameterKm": 1009.053,
         "origin": "From albedo feature at 20N, 67W.",
         "approvedYear": 1985
       },
@@ -1045,7 +1045,7 @@
         "type": "Fossa",
         "latDeg": -47.7503,
         "lonDegE": 268.951,
-        "diameterKm": 996.1823,
+        "diameterKm": 996.182,
         "origin": "Classical albedo feature name.",
         "approvedYear": 1973
       },
@@ -1054,7 +1054,7 @@
         "type": "Vallis",
         "latDeg": 19.0867,
         "lonDegE": 321.9925,
-        "diameterKm": 987.9916,
+        "diameterKm": 987.992,
         "origin": "Word for \"Mars\" in Sumerian.",
         "approvedYear": 1973
       },
@@ -1062,17 +1062,17 @@
         "name": "Hrad Vallis",
         "type": "Vallis",
         "latDeg": 38.1681,
-        "lonDegE": 135.91310000000001,
-        "diameterKm": 974.3969,
+        "lonDegE": 135.9131,
+        "diameterKm": 974.397,
         "origin": "Word for \"Mars\" in Armenian.",
         "approvedYear": 1985
       },
       {
         "name": "Coprates Chasma",
         "type": "Chasma",
-        "latDeg": -13.365400000000001,
+        "latDeg": -13.3654,
         "lonDegE": 299.2615,
-        "diameterKm": 958.31116,
+        "diameterKm": 958.311,
         "origin": "Classical albedo feature name.",
         "approvedYear": 1973
       },
@@ -1088,9 +1088,9 @@
       {
         "name": "Claritas Rupes",
         "type": "Rupes",
-        "latDeg": -25.037000000000003,
-        "lonDegE": 254.73930000000001,
-        "diameterKm": 952.8749,
+        "latDeg": -25.037,
+        "lonDegE": 254.7393,
+        "diameterKm": 952.875,
         "origin": "From albedo feature at 25S, 110W.",
         "approvedYear": 1991
       },
@@ -1106,17 +1106,17 @@
       {
         "name": "Charitum Montes",
         "type": "Mons",
-        "latDeg": -58.097100000000005,
+        "latDeg": -58.0971,
         "lonDegE": 319.7079,
-        "diameterKm": 933.54047,
+        "diameterKm": 933.54,
         "origin": "Classical albedo feature name.",
         "approvedYear": 1973
       },
       {
         "name": "Deuteronilus Mensae",
         "type": "Mensa",
-        "latDeg": 45.109500000000004,
-        "lonDegE": 23.918400000000002,
+        "latDeg": 45.1095,
+        "lonDegE": 23.9184,
         "diameterKm": 919.167,
         "origin": "From albedo feature at 35N, 355W.",
         "approvedYear": 1973
@@ -1124,44 +1124,44 @@
       {
         "name": "Cyane Fossae",
         "type": "Fossa",
-        "latDeg": 31.253800000000002,
-        "lonDegE": 238.82860000000002,
-        "diameterKm": 913.1719,
+        "latDeg": 31.2538,
+        "lonDegE": 238.8286,
+        "diameterKm": 913.172,
         "origin": "Classical albedo feature name.",
         "approvedYear": 1985
       },
       {
         "name": "Ma adim Vallis",
         "type": "Vallis",
-        "latDeg": -21.980800000000002,
+        "latDeg": -21.9808,
         "lonDegE": 177.5021,
-        "diameterKm": 913.1133,
+        "diameterKm": 913.113,
         "origin": "Word for \"Mars\" in Hebrew.",
         "approvedYear": 1973
       },
       {
         "name": "Tractus Catena",
         "type": "Catena",
-        "latDeg": 26.999100000000002,
+        "latDeg": 26.9991,
         "lonDegE": 257.2083,
-        "diameterKm": 910.5717,
+        "diameterKm": 910.572,
         "origin": "Classical albedo feature name.",
         "approvedYear": 1976
       },
       {
         "name": "Nilokeras Scopulus",
         "type": "Scopulus",
-        "latDeg": 31.715300000000003,
+        "latDeg": 31.7153,
         "lonDegE": 304.1481,
-        "diameterKm": 901.4769,
+        "diameterKm": 901.477,
         "origin": "From albedo feature at 30N, 55W.",
         "approvedYear": 1976
       },
       {
         "name": "Sinai Planum",
         "type": "Planum",
-        "latDeg": -13.720500000000001,
-        "lonDegE": 272.23830000000004,
+        "latDeg": -13.7205,
+        "lonDegE": 272.2383,
         "diameterKm": 901.444,
         "origin": "Classical albedo feature name.",
         "approvedYear": 1973
@@ -1180,7 +1180,7 @@
         "type": "Planum",
         "latDeg": -4.99,
         "lonDegE": 182.83,
-        "diameterKm": 899.8681,
+        "diameterKm": 899.868,
         "origin": "Albedo feature name.",
         "approvedYear": 1997
       },
@@ -1189,7 +1189,7 @@
         "type": "Planitia",
         "latDeg": -49.8406,
         "lonDegE": 316.6902,
-        "diameterKm": 892.93286,
+        "diameterKm": 892.933,
         "origin": "Classical albedo feature name.",
         "approvedYear": 1973
       },
@@ -1198,15 +1198,15 @@
         "type": "Dorsum",
         "latDeg": 13.1629,
         "lonDegE": 130.3232,
-        "diameterKm": 887.53296,
+        "diameterKm": 887.533,
         "origin": "Named for albedo feature.",
         "approvedYear": 2003
       },
       {
         "name": "Boreales Scopuli",
         "type": "Scopulus",
-        "latDeg": 88.88000000000001,
-        "lonDegE": 269.84000000000003,
+        "latDeg": 88.88,
+        "lonDegE": 269.84,
         "diameterKm": 873,
         "origin": "Classical albedo feature name.",
         "approvedYear": 2006
@@ -1216,14 +1216,14 @@
         "type": "Planum",
         "latDeg": -65.8214,
         "lonDegE": 62.9429,
-        "diameterKm": 872.46625,
+        "diameterKm": 872.466,
         "origin": "From albedo feature at 60S, 290W.",
         "approvedYear": 1985
       },
       {
         "name": "Peneus Palus",
         "type": "Palus",
-        "latDeg": -35.055800000000005,
+        "latDeg": -35.0558,
         "lonDegE": 56.7106,
         "diameterKm": 870,
         "origin": "From classical albedo feature at 48S, 290W.",
@@ -1243,7 +1243,7 @@
         "type": "Planum",
         "latDeg": -1.1366,
         "lonDegE": 144.7648,
-        "diameterKm": 852.8074,
+        "diameterKm": 852.807,
         "origin": "Classical albedo feature name.",
         "approvedYear": 2006
       },
@@ -1251,7 +1251,7 @@
         "name": "Amenthes Fossae",
         "type": "Fossa",
         "latDeg": 9.0748,
-        "lonDegE": 102.68430000000001,
+        "lonDegE": 102.6843,
         "diameterKm": 850,
         "origin": "Classical albedo feature name.",
         "approvedYear": 1976
@@ -1260,17 +1260,17 @@
         "name": "Ulysses Fossae",
         "type": "Fossa",
         "latDeg": 9.9474,
-        "lonDegE": 236.93280000000001,
-        "diameterKm": 849.94336,
+        "lonDegE": 236.9328,
+        "diameterKm": 849.943,
         "origin": "From albedo feature name.",
         "approvedYear": 1985
       },
       {
         "name": "Ius Chasma",
         "type": "Chasma",
-        "latDeg": -7.289400000000001,
+        "latDeg": -7.2894,
         "lonDegE": 275.6109,
-        "diameterKm": 839.90857,
+        "diameterKm": 839.909,
         "origin": "Classical albedo feature name.",
         "approvedYear": 1973
       },
@@ -1288,7 +1288,7 @@
         "type": "Planum",
         "latDeg": -79.1841,
         "lonDegE": 88.3602,
-        "diameterKm": 831.2846,
+        "diameterKm": 831.285,
         "origin": "Classical albedo feature name.",
         "approvedYear": 2003
       },
@@ -1297,16 +1297,16 @@
         "type": "Dorsum",
         "latDeg": -22.8014,
         "lonDegE": 113.1555,
-        "diameterKm": 818.2545,
+        "diameterKm": 818.255,
         "origin": "Albedo feature name.",
         "approvedYear": 1991
       },
       {
         "name": "Erebus Montes",
         "type": "Mons",
-        "latDeg": 35.661300000000004,
-        "lonDegE": 185.02290000000002,
-        "diameterKm": 811.6671,
+        "latDeg": 35.6613,
+        "lonDegE": 185.0229,
+        "diameterKm": 811.667,
         "origin": "From albedo feature at 26N, 182W.",
         "approvedYear": 1982
       },
@@ -1315,7 +1315,7 @@
         "type": "Chasma",
         "latDeg": -6.5328,
         "lonDegE": 289.2207,
-        "diameterKm": 810.6087,
+        "diameterKm": 810.609,
         "origin": "Classical albedo feature name.",
         "approvedYear": 1973
       },
@@ -1333,7 +1333,7 @@
         "type": "Chasma",
         "latDeg": -4.6046,
         "lonDegE": 275.7106,
-        "diameterKm": 802.77606,
+        "diameterKm": 802.776,
         "origin": "Classical albedo feature name.",
         "approvedYear": 1973
       },
@@ -1342,16 +1342,16 @@
         "type": "Planum",
         "latDeg": -21.6566,
         "lonDegE": 294.7764,
-        "diameterKm": 799.6004,
+        "diameterKm": 799.6,
         "origin": "Albedo feature at 30S, 75W.",
         "approvedYear": 1994
       },
       {
         "name": "Tantalus Fluctus",
         "type": "Fluctus",
-        "latDeg": 35.926300000000005,
+        "latDeg": 35.9263,
         "lonDegE": 264.3158,
-        "diameterKm": 794.3423,
+        "diameterKm": 794.342,
         "origin": "Albedo feature name.",
         "approvedYear": 1991
       },
@@ -1359,15 +1359,15 @@
         "name": "Dao Vallis",
         "type": "Vallis",
         "latDeg": -37.6126,
-        "lonDegE": 88.88680000000001,
-        "diameterKm": 794.00256,
+        "lonDegE": 88.8868,
+        "diameterKm": 794.003,
         "origin": "Word for \"star\" in Thai.",
         "approvedYear": 1979
       },
       {
         "name": "Loire Valles",
         "type": "Vallis",
-        "latDeg": -17.692700000000002,
+        "latDeg": -17.6927,
         "lonDegE": 342.9701,
         "diameterKm": 790,
         "origin": "Modern river in France.",
@@ -1377,7 +1377,7 @@
         "name": "Aeolis Mensae",
         "type": "Mensa",
         "latDeg": -3.2532,
-        "lonDegE": 140.63070000000002,
+        "lonDegE": 140.6307,
         "diameterKm": 785.089,
         "origin": "Classical albedo feature name.",
         "approvedYear": 1976
@@ -1387,7 +1387,7 @@
         "type": "Dorsum",
         "latDeg": -22.8764,
         "lonDegE": 280.2552,
-        "diameterKm": 779.4971,
+        "diameterKm": 779.497,
         "origin": "Classical albedo feature name.",
         "approvedYear": 1976
       },
@@ -1396,16 +1396,16 @@
         "type": "Dorsum",
         "latDeg": -24.1994,
         "lonDegE": 115.7222,
-        "diameterKm": 779.4007,
+        "diameterKm": 779.401,
         "origin": "Albedo feature name.",
         "approvedYear": 1991
       },
       {
         "name": "Granicus Valles",
         "type": "Vallis",
-        "latDeg": 30.576500000000003,
+        "latDeg": 30.5765,
         "lonDegE": 129.9709,
-        "diameterKm": 777.7762,
+        "diameterKm": 777.776,
         "origin": "Ancient name for river in Turkey.",
         "approvedYear": 1982
       },
@@ -1421,7 +1421,7 @@
       {
         "name": "Cydonia Mensae",
         "type": "Mensa",
-        "latDeg": 34.561800000000005,
+        "latDeg": 34.5618,
         "lonDegE": 347.6667,
         "diameterKm": 764.957,
         "origin": "From albedo feature at 50N, 355W.",
@@ -1432,7 +1432,7 @@
         "type": "Fossa",
         "latDeg": -35.8159,
         "lonDegE": 279.137,
-        "diameterKm": 748.9581,
+        "diameterKm": 748.958,
         "origin": "From albedo feature at 46S, 87W.",
         "approvedYear": 1985
       },
@@ -1441,7 +1441,7 @@
         "type": "Planum",
         "latDeg": -12.0883,
         "lonDegE": 256.0998,
-        "diameterKm": 735.74316,
+        "diameterKm": 735.743,
         "origin": "Classical albedo feature name.",
         "approvedYear": 1973
       },
@@ -1459,14 +1459,14 @@
         "type": "Fossa",
         "latDeg": 22.0182,
         "lonDegE": 76.6948,
-        "diameterKm": 727.9063,
+        "diameterKm": 727.906,
         "origin": "Classical albedo feature name.",
         "approvedYear": 1973
       },
       {
         "name": "Echus Palus",
         "type": "Palus",
-        "latDeg": 12.290000000000001,
+        "latDeg": 12.29,
         "lonDegE": 282.73,
         "diameterKm": 715,
         "origin": "Classical albedo feature name, Echus Lacus.",
@@ -1476,8 +1476,8 @@
         "name": "Aurorae Chaos",
         "type": "Chaos",
         "latDeg": -8.4693,
-        "lonDegE": 325.18510000000003,
-        "diameterKm": 713.91583,
+        "lonDegE": 325.1851,
+        "diameterKm": 713.916,
         "origin": "Classical albedo name.",
         "approvedYear": 1991
       },
@@ -1485,8 +1485,8 @@
         "name": "Noctis Fossae",
         "type": "Fossa",
         "latDeg": -2.6934,
-        "lonDegE": 261.15180000000004,
-        "diameterKm": 712.7283,
+        "lonDegE": 261.1518,
+        "diameterKm": 712.728,
         "origin": "Classical albedo feature at 10S, 96W.",
         "approvedYear": 1985
       },
@@ -1495,7 +1495,7 @@
         "type": "Mons",
         "latDeg": -44.3682,
         "lonDegE": 42.7599,
-        "diameterKm": 711.45984,
+        "diameterKm": 711.46,
         "origin": "Classical albedo feature name.",
         "approvedYear": 1973
       },
@@ -1513,7 +1513,7 @@
         "type": "Fossa",
         "latDeg": 38.2742,
         "lonDegE": 224.9762,
-        "diameterKm": 703.11096,
+        "diameterKm": 703.111,
         "origin": "From classical albedo feature at 35N, 140W.",
         "approvedYear": 1979
       },
@@ -1521,7 +1521,7 @@
         "name": "Cerberus Tholi",
         "type": "Tholus",
         "latDeg": 4.4815,
-        "lonDegE": 164.41400000000002,
+        "lonDegE": 164.414,
         "diameterKm": 698,
         "origin": "Classical albedo feature name.",
         "approvedYear": 2006
@@ -1530,7 +1530,7 @@
         "name": "Mangala Fossa",
         "type": "Fossa",
         "latDeg": -17.274,
-        "lonDegE": 214.11630000000002,
+        "lonDegE": 214.1163,
         "diameterKm": 695,
         "origin": "Named for nearby valles.",
         "approvedYear": 1991
@@ -1540,7 +1540,7 @@
         "type": "Mensa",
         "latDeg": 34.7749,
         "lonDegE": 68.4704,
-        "diameterKm": 676.0251,
+        "diameterKm": 676.025,
         "origin": "Classical albedo feature name.",
         "approvedYear": 1973
       },
@@ -1549,7 +1549,7 @@
         "type": "Vallis",
         "latDeg": 4.8874,
         "lonDegE": 33.3932,
-        "diameterKm": 669.6296,
+        "diameterKm": 669.63,
         "origin": "Modern name for river in the Republic of Korea.",
         "approvedYear": 1982
       },
@@ -1567,34 +1567,34 @@
         "type": "Cavus",
         "latDeg": 77.553,
         "lonDegE": 209.6518,
-        "diameterKm": 663.7953,
+        "diameterKm": 663.795,
         "origin": "Named for classical albedo feature at 65N, 150W.",
         "approvedYear": 2003
       },
       {
         "name": "Samara Valles",
         "type": "Vallis",
-        "latDeg": -24.168200000000002,
-        "lonDegE": 341.27090000000004,
-        "diameterKm": 661.8396,
+        "latDeg": -24.1682,
+        "lonDegE": 341.2709,
+        "diameterKm": 661.84,
         "origin": "Ancient name for modern Somme River, France.",
         "approvedYear": 1976
       },
       {
         "name": "Chryse Chaos",
         "type": "Chaos",
-        "latDeg": 9.864600000000001,
+        "latDeg": 9.8646,
         "lonDegE": 322.8104,
-        "diameterKm": 658.8872,
+        "diameterKm": 658.887,
         "origin": "Classical albedo feature name.",
         "approvedYear": 2008
       },
       {
         "name": "Colles Nili",
         "type": "Collis",
-        "latDeg": 38.720400000000005,
-        "lonDegE": 62.876200000000004,
-        "diameterKm": 653.6683,
+        "latDeg": 38.7204,
+        "lonDegE": 62.8762,
+        "diameterKm": 653.668,
         "origin": "From classical albedo feature Portus Nili, at 38N, 295W.",
         "approvedYear": 1988
       },
@@ -1603,7 +1603,7 @@
         "type": "Dorsum",
         "latDeg": -71.0471,
         "lonDegE": 63.1805,
-        "diameterKm": 650.99445,
+        "diameterKm": 650.994,
         "origin": "Classical albedo feature name.",
         "approvedYear": 1976
       },
@@ -1611,8 +1611,8 @@
         "name": "Ophir Planum",
         "type": "Planum",
         "latDeg": -8.4548,
-        "lonDegE": 302.17990000000003,
-        "diameterKm": 642.2377,
+        "lonDegE": 302.1799,
+        "diameterKm": 642.238,
         "origin": "Classical albedo feature name.",
         "approvedYear": 1973
       },
@@ -1621,25 +1621,25 @@
         "type": "Cavus",
         "latDeg": -78.1636,
         "lonDegE": 285.2527,
-        "diameterKm": 640.03723,
+        "diameterKm": 640.037,
         "origin": "Classical albedo feature name.",
         "approvedYear": 1976
       },
       {
         "name": "Mawrth Vallis",
         "type": "Vallis",
-        "latDeg": 22.430400000000002,
+        "latDeg": 22.4304,
         "lonDegE": 343.0274,
-        "diameterKm": 634.6344,
+        "diameterKm": 634.634,
         "origin": "Welsh word for \"Mars\".",
         "approvedYear": 1979
       },
       {
         "name": "Hephaestus Fossae",
         "type": "Fossa",
-        "latDeg": 20.835800000000003,
-        "lonDegE": 122.84700000000001,
-        "diameterKm": 633.3186,
+        "latDeg": 20.8358,
+        "lonDegE": 122.847,
+        "diameterKm": 633.319,
         "origin": "Classical albedo feature name.",
         "approvedYear": 1973
       },
@@ -1648,14 +1648,14 @@
         "type": "Collis",
         "latDeg": -39.3795,
         "lonDegE": 61.5326,
-        "diameterKm": 633.0254,
+        "diameterKm": 633.025,
         "origin": "From albedo feature at 45S, 292W.",
         "approvedYear": 1985
       },
       {
         "name": "Syria Colles",
         "type": "Collis",
-        "latDeg": -13.461500000000001,
+        "latDeg": -13.4615,
         "lonDegE": 259.2686,
         "diameterKm": 630,
         "origin": "Classical albedo feature name, Syria.",
@@ -1666,16 +1666,16 @@
         "type": "Fossa",
         "latDeg": -23.085,
         "lonDegE": 302.8432,
-        "diameterKm": 623.0723,
+        "diameterKm": 623.072,
         "origin": "Classical albedo feature name.",
         "approvedYear": 1985
       },
       {
         "name": "Cerberus Dorsa",
         "type": "Dorsum",
-        "latDeg": -13.739600000000001,
+        "latDeg": -13.7396,
         "lonDegE": 105.2908,
-        "diameterKm": 623.0514,
+        "diameterKm": 623.051,
         "origin": "Classical albedo feature name.",
         "approvedYear": 1982
       },
@@ -1684,7 +1684,7 @@
         "type": "Planum",
         "latDeg": 40.5923,
         "lonDegE": 279.2235,
-        "diameterKm": 617.66235,
+        "diameterKm": 617.662,
         "origin": "Classical albedo name.",
         "approvedYear": 1991
       },
@@ -1693,7 +1693,7 @@
         "type": "Collis",
         "latDeg": 36.8022,
         "lonDegE": 147.4815,
-        "diameterKm": 610.33813,
+        "diameterKm": 610.338,
         "origin": "Albedo feature name.",
         "approvedYear": 1985
       },
@@ -1701,7 +1701,7 @@
         "name": "Olympus Mons",
         "type": "Mons",
         "latDeg": 18.6528,
-        "lonDegE": 226.19750000000002,
+        "lonDegE": 226.1975,
         "diameterKm": 610.13,
         "origin": "Classical albedo feature name.",
         "approvedYear": 1973
@@ -1718,9 +1718,9 @@
       {
         "name": "Galaxias Fluctus",
         "type": "Fluctus",
-        "latDeg": 30.956500000000002,
-        "lonDegE": 143.02870000000001,
-        "diameterKm": 607.03046,
+        "latDeg": 30.9565,
+        "lonDegE": 143.0287,
+        "diameterKm": 607.03,
         "origin": "Albedo feature name.",
         "approvedYear": 1985
       },
@@ -1728,7 +1728,7 @@
         "name": "Al Qahira Vallis",
         "type": "Vallis",
         "latDeg": -18.2333,
-        "lonDegE": 162.40730000000002,
+        "lonDegE": 162.4073,
         "diameterKm": 600,
         "origin": "Word for 'Mars' in Arabic, Indonesian, Malay.",
         "approvedYear": 1973
@@ -1737,7 +1737,7 @@
         "name": "Astapus Colles",
         "type": "Collis",
         "latDeg": 35.4585,
-        "lonDegE": 88.08030000000001,
+        "lonDegE": 88.0803,
         "diameterKm": 597,
         "origin": "From albedo feature at 35N, 269W.",
         "approvedYear": 1985
@@ -1747,7 +1747,7 @@
         "type": "Vallis",
         "latDeg": -10.4952,
         "lonDegE": 58.2466,
-        "diameterKm": 596.23883,
+        "diameterKm": 596.239,
         "origin": "Ancient name for modern Liri River, Italy.",
         "approvedYear": 1985
       },
@@ -1755,8 +1755,8 @@
         "name": "Oxia Colles",
         "type": "Collis",
         "latDeg": 21.2373,
-        "lonDegE": 333.72860000000003,
-        "diameterKm": 595.23737,
+        "lonDegE": 333.7286,
+        "diameterKm": 595.237,
         "origin": "From albedo feature at 25N, 24W.",
         "approvedYear": 1985
       },
@@ -1765,7 +1765,7 @@
         "type": "Chaos",
         "latDeg": -47.1212,
         "lonDegE": 64.4081,
-        "diameterKm": 590.62305,
+        "diameterKm": 590.623,
         "origin": "Named for albedo feature Hellas.",
         "approvedYear": 1994
       },
@@ -1773,7 +1773,7 @@
         "name": "Sinai Fossae",
         "type": "Fossa",
         "latDeg": -14.0816,
-        "lonDegE": 281.33160000000004,
+        "lonDegE": 281.3316,
         "diameterKm": 589.154,
         "origin": "Classical albedo feature name.",
         "approvedYear": 2012
@@ -1782,8 +1782,8 @@
         "name": "Arena Colles",
         "type": "Collis",
         "latDeg": 24.6276,
-        "lonDegE": 82.93050000000001,
-        "diameterKm": 580.12494,
+        "lonDegE": 82.9305,
+        "diameterKm": 580.125,
         "origin": "Classical albedo feature at 13N, 294W.",
         "approvedYear": 1985
       },
@@ -1801,7 +1801,7 @@
         "type": "Planum",
         "latDeg": -59.1362,
         "lonDegE": 139.4978,
-        "diameterKm": 576.3778,
+        "diameterKm": 576.378,
         "origin": "From albedo feature at 58S, 90W.",
         "approvedYear": 1985
       },
@@ -1810,7 +1810,7 @@
         "type": "Fossa",
         "latDeg": 36.6501,
         "lonDegE": 56.7804,
-        "diameterKm": 575.8943,
+        "diameterKm": 575.894,
         "origin": "Classical albedo feature name.",
         "approvedYear": 1982
       },
@@ -1819,7 +1819,7 @@
         "type": "Planum",
         "latDeg": -1.0807,
         "lonDegE": 153.7297,
-        "diameterKm": 575.1069,
+        "diameterKm": 575.107,
         "origin": "Classical albedo feature name.",
         "approvedYear": 2006
       },
@@ -1827,17 +1827,17 @@
         "name": "Ganges Chasma",
         "type": "Chasma",
         "latDeg": -7.9552,
-        "lonDegE": 312.11490000000003,
-        "diameterKm": 574.0752,
+        "lonDegE": 312.1149,
+        "diameterKm": 574.075,
         "origin": "Classical albedo feature name.",
         "approvedYear": 1973
       },
       {
         "name": "Promethei Lingula",
         "type": "Lingula",
-        "latDeg": -82.79690000000001,
-        "lonDegE": 119.89200000000001,
-        "diameterKm": 571.6268,
+        "latDeg": -82.7969,
+        "lonDegE": 119.892,
+        "diameterKm": 571.627,
         "origin": "Classical albedo feature name.",
         "approvedYear": 2006
       },
@@ -1846,7 +1846,7 @@
         "type": "Dorsum",
         "latDeg": 4.7921,
         "lonDegE": 203.6022,
-        "diameterKm": 569.2603,
+        "diameterKm": 569.26,
         "origin": "Classical albedo feature name.",
         "approvedYear": 1976
       },
@@ -1855,7 +1855,7 @@
         "type": "Fossa",
         "latDeg": -26.283,
         "lonDegE": 288.478,
-        "diameterKm": 568.18097,
+        "diameterKm": 568.181,
         "origin": "Classical albedo feature name.",
         "approvedYear": 1985
       },
@@ -1864,7 +1864,7 @@
         "type": "Planum",
         "latDeg": -43.2703,
         "lonDegE": 253.9644,
-        "diameterKm": 566.58813,
+        "diameterKm": 566.588,
         "origin": "Classical albedo feature name.",
         "approvedYear": 1979
       },
@@ -1873,16 +1873,16 @@
         "type": "Planum",
         "latDeg": -10.4129,
         "lonDegE": 311.3783,
-        "diameterKm": 564.4857,
+        "diameterKm": 564.486,
         "origin": "Classical albedo feature name.",
         "approvedYear": 1973
       },
       {
         "name": "Melas Chasma",
         "type": "Chasma",
-        "latDeg": -10.517800000000001,
+        "latDeg": -10.5178,
         "lonDegE": 287.4613,
-        "diameterKm": 563.5219,
+        "diameterKm": 563.522,
         "origin": "Classical albedo feature name.",
         "approvedYear": 1973
       },
@@ -1890,8 +1890,8 @@
         "name": "Aonia Planum",
         "type": "Planum",
         "latDeg": -57.8975,
-        "lonDegE": 281.32550000000003,
-        "diameterKm": 563.4517,
+        "lonDegE": 281.3255,
+        "diameterKm": 563.452,
         "origin": "Classical albedo feature name.",
         "approvedYear": 2003
       },
@@ -1899,7 +1899,7 @@
         "name": "Tithoniae Catenae",
         "type": "Catena",
         "latDeg": -5.4957,
-        "lonDegE": 278.17560000000003,
+        "lonDegE": 278.1756,
         "diameterKm": 562,
         "origin": "Classical albedo feature name.",
         "approvedYear": 1987
@@ -1907,9 +1907,9 @@
       {
         "name": "Ultimi Scopuli",
         "type": "Scopulus",
-        "latDeg": -77.87910000000001,
+        "latDeg": -77.8791,
         "lonDegE": 179.0448,
-        "diameterKm": 560.4661,
+        "diameterKm": 560.466,
         "origin": "Classical albedo feature name.",
         "approvedYear": 2006
       },
@@ -1927,7 +1927,7 @@
         "type": "Lingula",
         "latDeg": -76.3219,
         "lonDegE": 142.5628,
-        "diameterKm": 551.2815,
+        "diameterKm": 551.282,
         "origin": "Classical albedo feature name.",
         "approvedYear": 2006
       },
@@ -1936,7 +1936,7 @@
         "type": "Scopulus",
         "latDeg": -24.1412,
         "lonDegE": 20.0762,
-        "diameterKm": 551.25946,
+        "diameterKm": 551.259,
         "origin": "From albedo feature at 19S, 320W.",
         "approvedYear": 1985
       },
@@ -1944,7 +1944,7 @@
         "name": "Nanedi Valles",
         "type": "Vallis",
         "latDeg": 5.0487,
-        "lonDegE": 311.38370000000003,
+        "lonDegE": 311.3837,
         "diameterKm": 550,
         "origin": "Word for \"planet\" in Sesotho, national language of Lesotho, Africa.",
         "approvedYear": 1976
@@ -1952,9 +1952,9 @@
       {
         "name": "Thyles Rupes",
         "type": "Rupes",
-        "latDeg": -69.32390000000001,
-        "lonDegE": 132.28390000000002,
-        "diameterKm": 548.7536,
+        "latDeg": -69.3239,
+        "lonDegE": 132.2839,
+        "diameterKm": 548.754,
         "origin": "Name and feature changes 1984 from Ultimi Cavi and Thyles Chasma.",
         "approvedYear": 1985
       },
@@ -1963,16 +1963,16 @@
         "type": "Mons",
         "latDeg": 41.082,
         "lonDegE": 249.2906,
-        "diameterKm": 548.0231,
+        "diameterKm": 548.023,
         "origin": "Classical albedo feature name.",
         "approvedYear": 2007
       },
       {
         "name": "Uranius Dorsum",
         "type": "Dorsum",
-        "latDeg": 23.793300000000002,
+        "latDeg": 23.7933,
         "lonDegE": 284.9562,
-        "diameterKm": 542.08295,
+        "diameterKm": 542.083,
         "origin": "Named for albedo feature.",
         "approvedYear": 1985
       },
@@ -1990,7 +1990,7 @@
         "type": "Vallis",
         "latDeg": -56.2729,
         "lonDegE": 76.4676,
-        "diameterKm": 537.36884,
+        "diameterKm": 537.369,
         "origin": "Modern river, Vermont, USA.",
         "approvedYear": 1994
       },
@@ -1998,8 +1998,8 @@
         "name": "Aganippe Fossa",
         "type": "Fossa",
         "latDeg": -8.4885,
-        "lonDegE": 233.99730000000002,
-        "diameterKm": 537.1627,
+        "lonDegE": 233.9973,
+        "diameterKm": 537.163,
         "origin": "Classical albedo feature name.",
         "approvedYear": 1976
       },
@@ -2007,8 +2007,8 @@
         "name": "Bosporos Rupes",
         "type": "Rupes",
         "latDeg": -42.7447,
-        "lonDegE": 302.44640000000004,
-        "diameterKm": 531.42126,
+        "lonDegE": 302.4464,
+        "diameterKm": 531.421,
         "origin": "Classical albedo feature name.",
         "approvedYear": 1976
       },
@@ -2016,8 +2016,8 @@
         "name": "Enipeus Vallis",
         "type": "Vallis",
         "latDeg": 36.7964,
-        "lonDegE": 267.20210000000003,
-        "diameterKm": 527.06854,
+        "lonDegE": 267.2021,
+        "diameterKm": 527.069,
         "origin": "Classical river.",
         "approvedYear": 1991
       },
@@ -2026,7 +2026,7 @@
         "type": "Vallis",
         "latDeg": -40.9776,
         "lonDegE": 90.0638,
-        "diameterKm": 526.6577,
+        "diameterKm": 526.658,
         "origin": "Ancient Egyptian word for \"Mars.\"",
         "approvedYear": 1979
       },
@@ -2034,8 +2034,8 @@
         "name": "Louros Valles",
         "type": "Vallis",
         "latDeg": -8.41,
-        "lonDegE": 278.22540000000004,
-        "diameterKm": 516.1362,
+        "lonDegE": 278.2254,
+        "diameterKm": 516.136,
         "origin": "Modern river in Greece.",
         "approvedYear": 1982
       },
@@ -2051,7 +2051,7 @@
       {
         "name": "Phison Patera",
         "type": "Patera",
-        "latDeg": 30.270000000000003,
+        "latDeg": 30.27,
         "lonDegE": 48.7,
         "diameterKm": 506,
         "origin": "Classical albedo feature name.",
@@ -2061,8 +2061,8 @@
         "name": "Australe Scopuli",
         "type": "Scopulus",
         "latDeg": -83.4768,
-        "lonDegE": 247.06230000000002,
-        "diameterKm": 504.57782,
+        "lonDegE": 247.0623,
+        "diameterKm": 504.578,
         "origin": "Classical albedo feature name.",
         "approvedYear": 2006
       },
@@ -2070,7 +2070,7 @@
         "name": "Arsia Sulci",
         "type": "Sulcus",
         "latDeg": -6.2853,
-        "lonDegE": 230.18800000000002,
+        "lonDegE": 230.188,
         "diameterKm": 500,
         "origin": "Albedo name.",
         "approvedYear": 1991
@@ -2089,7 +2089,7 @@
         "type": "Mons",
         "latDeg": 18.132,
         "lonDegE": 305.0818,
-        "diameterKm": 499.3205,
+        "diameterKm": 499.321,
         "origin": "Classical albedo feature name.",
         "approvedYear": 2006
       }
