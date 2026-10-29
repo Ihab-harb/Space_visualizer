@@ -18,7 +18,7 @@ function formatAngle(arcsec: number): string {
   return arcsec >= 3600 ? `${formatNumber(Number((arcsec / 3600).toPrecision(3)))}°` : `${formatNumber(arcsec)}″`;
 }
 
-export function accuracyLines(body: Body, catalog?: Catalog): AccuracyLine[] {
+export function accuracyLines(body: Body, catalog: Catalog): AccuracyLine[] {
   const orbit = body.orbit;
   if (orbit.type === 'fixed') return [{ text: orbit.note, sourceIds: [] }];
   if (orbit.type === 'satellite') {
@@ -49,7 +49,7 @@ export function accuracyLines(body: Body, catalog?: Catalog): AccuracyLine[] {
     return { text: nominal + check, sourceIds: [orbit.sourceId, t.horizonsCheck.sourceId] };
   });
   if (orbit.represents === 'earth-moon-barycenter') {
-    const moon = catalog?.bodies.find((b) => b.parentId === body.id && b.orbit.type === 'satellite');
+    const moon = catalog.bodies.find((b) => b.parentId === body.id && b.orbit.type === 'satellite');
     const bary = moon?.orbit.type === 'satellite' ? moon.orbit.barycentre : null;
     if (bary) {
       const check = orbit.centreCheck;

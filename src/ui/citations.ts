@@ -88,6 +88,11 @@ export function citationModel(
   const liveSource =
     body.orbit.type === 'satellite' ? body.orbit.table.sourceId : body.orbit.type === 'planet-approx' ? body.orbit.sourceId : earth?.orbit.type === 'planet-approx' ? earth.orbit.sourceId : null;
   if (liveSource && !order.includes(liveSource)) order.push(liveSource);
+  if (body.orbit.type === 'planet-approx' && body.orbit.represents === 'earth-moon-barycenter') {
+    const moon = catalog.bodies.find((b) => b.parentId === body.id && b.orbit.type === 'satellite');
+    const bary = moon?.orbit.type === 'satellite' ? moon.orbit.barycentre : null;
+    for (const id of [bary?.massRatio.sourceId, body.orbit.centreCheck?.sourceId]) if (id && !order.includes(id)) order.push(id);
+  }
   for (const id of detailsSourceOrder(details)) if (!order.includes(id)) order.push(id);
   return { order, numbers: citationNumbers(order), liveSource };
 }

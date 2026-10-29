@@ -1,6 +1,9 @@
 import { describe, expect, it } from 'vitest';
 import { createCatalog } from '../core/catalog/catalog';
 import { makeCatalogFiles, makeMoon, makeMoonTable } from '../test/fixtures';
+import { bodyState } from '../core/ephemeris/state';
+import { systemState } from '../core/ephemeris/system';
+import { distance } from '../core/math/vec3';
 import { liveStats } from './liveStats';
 
 const f = makeCatalogFiles();
@@ -38,7 +41,14 @@ describe('liveStats for the Moon', () => {
   });
   it('measures Earth from the Sun using the Earth that is off the barycentre', () => {
     const e = liveStats(moonCatalog, moonCatalog.bodyById.get('earth')!, 2451545 + 3);
-    const e0 = liveStats(catalog, catalog.bodyById.get('earth')!, 2451545 + 3);
-    expect(Math.abs(e.fromSunKm! - e0.fromSunKm!)).toBeGreaterThan(0);
+    expect(e.fromSunKm).not.toBeNull();
+    const jd = 2451545 + 3;
+    const states = systemState(moonCatalog.bodies, moonCatalog.ephemerisTables, jd);
+    const emb = bodyState(moonCatalog.bodyById.get('earth')!, jd).positionKm;
+    const offset = distance(emb, states.get('earth')!.positionKm);
+    const moon = moonCatalog.bodyById.get('moon')!;
+    const r = distance(states.get('moon')!.positionKm, states.get('earth')!.positionKm);
+    const mu = Number((moon.orbit as { barycentre: { massRatio: { value: number } } }).barycentre.massRatio.value);
+    expect(Math.abs(offset - mu * r) / (mu * r)).toBeLessThan(1e-6);
   });
 });
