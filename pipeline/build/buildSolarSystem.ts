@@ -403,7 +403,8 @@ export function buildSolarSystem(inputs: PipelineInputs, generatedAt: string): P
     shape: { ...radiiFor(pck, 301), sourceId: pckId },
     description: description('moon'),
     imagery: inputs.imagery.bodies.moon ?? null,
-    render: { shader: 'rocky', atmosphere: null, lommelSeeliger: 0.9, normalStrength: 1, bandFlow: false },
+    // Tuned in M2b.2 Task 10: pure Lommel-Seeliger gives the evenly bright full Moon.
+    render: { shader: 'rocky', atmosphere: null, lommelSeeliger: 1, normalStrength: 1, bandFlow: false },
     display: { color: '#c9c5bd', note: 'illustrative' },
   };
 

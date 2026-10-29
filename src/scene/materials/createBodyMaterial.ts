@@ -14,6 +14,9 @@ export function createBaseUniforms(): Record<string, IUniform> {
     uSunRadiusTrue: { value: 100 },
     uOccluderCount: { value: 0 },
     uOccluders: { value: [new Vector4(), new Vector4(), new Vector4(), new Vector4()] },
+    uOccluderAtmo: { value: new Vector4() },
+    uEarthshine: { value: 0 },
+    uEarthshineDir: { value: new Vector3(0, 0, 1) },
   };
 }
 

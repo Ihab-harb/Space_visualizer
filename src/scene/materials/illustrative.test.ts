@@ -1,6 +1,8 @@
 import { describe, expect, it } from 'vitest';
 import { J2000_JD } from '../../core/units';
-import { CORONA_SCALE, coronaProfile, LIMB_DARKENING_U, limbDarkening, venusCloudAngle } from './illustrative';
+import { makeEarth, makeMoon } from '../../test/fixtures';
+import { illustrativeNotes } from '../../ui/imagery';
+import { CORONA_SCALE, coronaProfile, EARTHSHINE, ECLIPSE_TINT, LIMB_DARKENING_U, limbDarkening, receivesEarthshine, venusCloudAngle } from './illustrative';
 
 describe('illustrative profiles', () => {
   it('darkens the solar limb linearly', () => {
@@ -30,5 +32,36 @@ describe('illustrative profiles', () => {
       expect(v).toBeLessThanOrEqual(prev + 1e-12);
       prev = v;
     }
+  });
+});
+
+describe('Moon look constants (illustrative, M2b.2)', () => {
+  const moon = makeMoon();
+  const earth = makeEarth();
+
+  it('keeps earthshine faint and the eclipse tint inside sensible bounds', () => {
+    expect(EARTHSHINE.max).toBeGreaterThan(0);
+    expect(EARTHSHINE.max).toBeLessThan(0.2);
+    expect(ECLIPSE_TINT.amount).toBeGreaterThan(0);
+    expect(ECLIPSE_TINT.amount).toBeLessThanOrEqual(1);
+    expect(ECLIPSE_TINT.floor).toBeGreaterThan(0);
+    expect(ECLIPSE_TINT.floor).toBeLessThan(0.2);
+    expect(ECLIPSE_TINT.centreDarkening).toBeGreaterThanOrEqual(0);
+    expect(ECLIPSE_TINT.centreDarkening).toBeLessThan(1);
+  });
+  it('lists earthshine and the eclipse tint in the drawer’s illustrative notes for the Moon', () => {
+    const notes = illustrativeNotes(moon, { parent: earth });
+    expect(notes).toContain(EARTHSHINE.note);
+    expect(notes).toContain(ECLIPSE_TINT.note);
+  });
+  it('adds neither note to Earth itself', () => {
+    const notes = illustrativeNotes(earth);
+    expect(notes).not.toContain(EARTHSHINE.note);
+    expect(notes).not.toContain(ECLIPSE_TINT.note);
+  });
+  it('lights only Earth’s own moons with earthshine', () => {
+    expect(receivesEarthshine(moon)).toBe(true);
+    expect(receivesEarthshine(earth)).toBe(false);
+    expect(receivesEarthshine({ ...moon, parentId: 'mars' })).toBe(false);
   });
 });

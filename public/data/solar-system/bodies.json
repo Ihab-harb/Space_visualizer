@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "regionId": "solar-system",
-  "generatedAt": "2026-10-29T22:11:21.299Z",
+  "generatedAt": "2026-10-29T22:38:13.444Z",
   "bodies": [
     {
       "id": "sun",
@@ -2761,7 +2761,7 @@
       "render": {
         "shader": "rocky",
         "atmosphere": null,
-        "lommelSeeliger": 0.9,
+        "lommelSeeliger": 1,
         "normalStrength": 1,
         "bandFlow": false
       },

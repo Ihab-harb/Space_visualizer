@@ -50,3 +50,33 @@ export const CLOUD_SHADOW_OFFSET = 0.004;
 export const CLOUD_SHADOW_DARKNESS = 0.8;
 /** Corona colour multiplier on the Sun display colour. */
 export const CORONA_GAIN = 0.9;
+
+// Moon look constants (M2b.2 spec §5.3, my call; illustrative). The drawer lists each note in the Moon's Imagery section.
+/**
+ * Earthshine on the Moon's night side: sunlight reflected by Earth's day side. `max` is the strength (in units of full
+ * sunlight) when Earth's whole day side faces the Moon (new Moon); it scales with Earth's lit fraction seen from the Moon.
+ * The real ratio is near 1e-4; this is raised so the night side reads on screen.
+ */
+export const EARTHSHINE = {
+  max: 0.02,
+  color: [0.62, 0.72, 0.9] as const,
+  note: "Earthshine on the Moon's night side is illustrative: its strength follows how much of Earth's day side faces the Moon.",
+};
+
+/**
+ * Light inside the shadow of a body with an atmosphere (a lunar eclipse): the remaining light is mixed toward `color` by
+ * `amount × (1 − visible fraction)`, and never falls below `floor` (sunlight bent into the umbra by the atmosphere).
+ * `centreDarkening` dims that floor toward the umbra's axis (at the axis it is floor × (1 − centreDarkening)).
+ */
+export const ECLIPSE_TINT = {
+  color: [1.0, 0.3, 0.08] as const,
+  amount: 0.9,
+  floor: 0.12,
+  centreDarkening: 0.5,
+  note: "Eclipse colour is illustrative: inside Earth's shadow the Moon turns a dim copper red. The shadow's size and timing are real.",
+};
+
+/** Bodies that get earthshine: Earth's own moons. */
+export function receivesEarthshine(body: { category: string; parentId: string | null }): boolean {
+  return body.category === 'moon' && body.parentId === 'earth';
+}
