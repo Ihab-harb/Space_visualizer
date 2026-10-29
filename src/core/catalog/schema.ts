@@ -184,3 +184,27 @@ export type TextureRef = z.infer<typeof TextureRefSchema>;
 export type Imagery = z.infer<typeof ImagerySchema>;
 export type Render = z.infer<typeof RenderSchema>;
 export type ImageryFile = z.infer<typeof ImageryFileSchema>;
+
+export const ChebyshevFileSchema = z
+  .object({
+    schemaVersion: z.literal(1),
+    bodyId: z.string().min(1),
+    centreId: z.string().min(1),
+    frame: z.literal('ecliptic-j2000'),
+    unit: z.literal('km'),
+    sourceId: z.string().min(1),
+    startJdTdb: z.number().finite(),
+    segmentDays: z.number().finite().positive(),
+    degree: z.number().int().min(1).max(30),
+    // Each segment: x coefficients, then y, then z (3 * (degree + 1) numbers).
+    segments: z.array(z.array(z.number().finite())).min(1),
+  })
+  .superRefine((f, ctx) => {
+    const want = 3 * (f.degree + 1);
+    f.segments.forEach((s, i) => {
+      if (s.length !== want) {
+        ctx.addIssue({ code: 'custom', path: ['segments', i], message: `segment must have ${want} coefficients` });
+      }
+    });
+  });
+export type ChebyshevFile = z.infer<typeof ChebyshevFileSchema>;
