@@ -47,12 +47,15 @@ async function signedTiff(dir: string, w: number, h: number, values: number[], o
   tag(278, 3, 1, 1);
   tag(279, 4, h, stripCountsAt);
   tag(284, 3, 1, 1);
-  tag(339, 3, 1, 2);
+  tag(339, 3, 1, opts.sampleFormat ?? 2);
   for (let y = 0; y < h; y++) {
     buf.writeUInt32LE(dataAt + y * w * 2, stripOffsetsAt + y * 4);
     buf.writeUInt32LE(w * 2, stripCountsAt + y * 4);
   }
-  for (let i = 0; i < w * h; i++) buf.writeInt16LE(values[i]!, dataAt + i * 2);
+  for (let i = 0; i < w * h; i++) {
+    if (opts.sampleFormat === 1) buf.writeUInt16LE(values[i]!, dataAt + i * 2);
+    else buf.writeInt16LE(values[i]!, dataAt + i * 2);
+  }
   const file = path.join(dir, 'signed.tif');
   await writeFile(file, opts.truncateBytes ? buf.subarray(0, buf.length - opts.truncateBytes) : buf);
   return file;
@@ -81,6 +84,17 @@ describe('rasters', () => {
     const file = await signedTiff(await mkdtemp(path.join(os.tmpdir(), 'ssv-r-')), 4, 2, [-8000, -6000, 100, 200, -4000, -2000, 300, 400]);
     const v = await readBandFloat(file, 2, 1);
     expect(Array.from(v)).toEqual([-5000, 250]);
+  });
+
+  it('keeps the full 0..65535 range of an unsigned 16-bit TIFF when asked (sharp would rescale it to 0..255)', async () => {
+    const file = await signedTiff(await mkdtemp(path.join(os.tmpdir(), 'ssv-r-')), 4, 2, [60000, 40000, 100, 200, 20000, 2000, 300, 400], { sampleFormat: 1 });
+    const v = await readBandFloat(file, 2, 1, 0, { unsigned16: true });
+    expect(Array.from(v)).toEqual([30500, 250]);
+  });
+
+  it('refuses the unsigned reader for a signed TIFF and vice versa', async () => {
+    const file = await signedTiff(await mkdtemp(path.join(os.tmpdir(), 'ssv-r-')), 4, 2, values8);
+    await expect(readBandFloat(file, 2, 1, 0, { unsigned16: true })).rejects.toThrow(/not unsigned 16-bit/);
   });
 
   it('reads one band as floats at the requested size', async () => {

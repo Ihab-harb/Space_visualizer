@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "regionId": "solar-system",
-  "generatedAt": "2026-10-29T21:00:39.662Z",
+  "generatedAt": "2026-10-29T22:11:21.299Z",
   "bodies": [
     {
       "id": "sun",
@@ -2736,7 +2736,28 @@
         "text": "The Moon makes Earth more livable, sets the rhythm of ocean tides, and keeps a record of our solar system's history. Explore NASA lunar science here.",
         "sourceId": "nasa-science-moon"
       },
-      "imagery": null,
+      "imagery": {
+        "color": {
+          "tiers": {
+            "1k": "textures/moon/color_1k.webp",
+            "2k": "textures/moon/color_2k.webp",
+            "4k": "textures/moon/color_4k.webp",
+            "8k": "textures/moon/color_8k.webp"
+          },
+          "sourceId": "nasa-svs-cgi-moon-kit",
+          "derivation": "LROC WAC colour mosaic (NASA SVS CGI Moon Kit, 2025); SVS: \"These image is optimized for aesthetics, not science.\""
+        },
+        "normal": {
+          "tiers": {
+            "1k": "textures/moon/normal_1k.webp",
+            "2k": "textures/moon/normal_2k.webp",
+            "4k": "textures/moon/normal_4k.webp"
+          },
+          "sourceId": "nasa-svs-cgi-moon-kit",
+          "derivation": "Normal map derived from LOLA elevation (ldem_16); relief exaggerated ×2.",
+          "illustrative": true
+        }
+      },
       "render": {
         "shader": "rocky",
         "atmosphere": null,

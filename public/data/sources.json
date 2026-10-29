@@ -218,6 +218,14 @@
       "license": "USGS public domain (U.S. Government work)"
     },
     {
+      "id": "nasa-svs-cgi-moon-kit",
+      "title": "CGI Moon Kit",
+      "publisher": "NASA's Scientific Visualization Studio",
+      "url": "https://svs.gsfc.nasa.gov/4720",
+      "retrievedAt": "2026-10-29",
+      "license": "NASA media usage guidelines (credit: NASA's Scientific Visualization Studio)"
+    },
+    {
       "id": "usgs-venus-magellan-c3",
       "title": "Venus Magellan Global C3-MDIR Mosaic 2025m",
       "publisher": "USGS Astrogeology Science Center (NASA Magellan data)",
