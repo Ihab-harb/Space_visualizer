@@ -5,11 +5,13 @@ export interface LabelBox {
   width: number;
   height: number;
   priority: number;
+  /** A label hidden by the scene (e.g. a satellite inside its parent's disc): never shown, never blocks others. */
+  hidden?: boolean;
 }
 
 /** Greedy declutter: highest priority first; a label shows if it overlaps no label already shown. */
 export function resolveOverlaps(boxes: readonly LabelBox[], paddingPx = 4): Set<string> {
-  const ordered = [...boxes].sort((a, b) => b.priority - a.priority || a.id.localeCompare(b.id));
+  const ordered = boxes.filter((b) => !b.hidden).sort((a, b) => b.priority - a.priority || a.id.localeCompare(b.id));
   const accepted: LabelBox[] = [];
   const hit = (a: LabelBox, b: LabelBox) =>
     a.left - paddingPx < b.left + b.width && b.left - paddingPx < a.left + a.width && a.top - paddingPx < b.top + b.height && b.top - paddingPx < a.top + a.height;

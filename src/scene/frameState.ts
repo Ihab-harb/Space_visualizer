@@ -14,6 +14,8 @@ export interface FrameState {
   bodyInValidRange: Map<string, boolean>;
   bodyOrientation: Map<string, Mat3>;
   bodyRenderRadiusKm: Map<string, number>;
+  /** Satellites not drawn this frame (inside their parent's disc in readable scale); their label and orbit line follow. */
+  bodyHidden: Set<string>;
   viewportHeightPx: number;
   fovRad: number;
   /** Post-processing inputs written by the Sun effects (Task 6). */
@@ -28,6 +30,7 @@ export function createFrameState(): FrameState {
     bodyInValidRange: new Map(),
     bodyOrientation: new Map(),
     bodyRenderRadiusKm: new Map(),
+    bodyHidden: new Set(),
     viewportHeightPx: 800,
     fovRad: 50 * DEG,
     fx: { exposure: 1, skyDim: 1 },

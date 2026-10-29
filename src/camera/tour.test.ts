@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { length, sub, type Vec3 } from '../core/math/vec3';
-import { makeEarth, makeJupiter, makeSun } from '../test/fixtures';
+import { makeEarth, makeJupiter, makeMoon, makeSun } from '../test/fixtures';
 import { buildTour, litAzimuth, stopPose, TOUR, tourPhase } from './tour';
 import type { ControllerContext } from './types';
 
@@ -12,6 +12,13 @@ describe('tour', () => {
     expect(stops.map((s) => s.selectId)).toEqual(['sun', 'earth', 'jupiter', null]);
     expect(stops.at(-1)!.distanceKm).toBe(TOUR.overviewDistanceKm);
     expect(stops[1]!.distanceKm).toBeCloseTo(makeEarth().shape.equatorialRadiusKm * TOUR.distanceRadii, 6);
+  });
+  it('puts the Moon right after Earth, at 6 radii', () => {
+    const moon = makeMoon();
+    moon.facts = { meanDistanceFromParentKm: { value: 384400, sourceId: 'x' } } as never;
+    const stops = buildTour([moon, ...bodies]);
+    expect(stops.map((s) => s.selectId)).toEqual(['sun', 'earth', 'moon', 'jupiter', null]);
+    expect(stops[2]!.distanceKm).toBeCloseTo(1737.4 * TOUR.distanceRadii, 6);
   });
   it('alternates flight and dwell for each stop, then ends', () => {
     const per = TOUR.flightS + TOUR.dwellS;

@@ -1,8 +1,8 @@
 import { useFrame, type ThreeEvent } from '@react-three/fiber';
 import { useEffect, useMemo, useRef } from 'react';
-import { Matrix4, SphereGeometry, type Group, type Mesh } from 'three';
+import { Matrix4, Mesh as ThreeMesh, SphereGeometry, type Group, type Mesh } from 'three';
 import type { Body } from '../core/catalog/schema';
-import { length, sub } from '../core/math/vec3';
+import { cross, dot, length, sub } from '../core/math/vec3';
 import { PRESETS } from '../render/quality';
 import { useRenderStore } from '../state/renderStore';
 import { useSelectionStore } from '../state/selectionStore';
@@ -10,9 +10,11 @@ import { useViewStore } from '../state/viewStore';
 import { BodyLabel } from './BodyLabel';
 import { useFrameState } from './FrameStateContext';
 import { BodyExtras, BodyMaterial } from './materials/BodyMaterial';
-import { MIN_PIXELS, pixelsPerRadian, renderRadiusKm } from './scaleMode';
+import { minPixelsFor, pixelsPerRadian, renderRadiusKm } from './scaleMode';
+import { satelliteShown } from './satelliteVisibility';
 import { writeMatrix4 } from './threeMath';
 
+const noRaycast = () => undefined;
 const CLICK_DRAG_TOLERANCE_PX = 4;
 /**
  * After CameraSystem (-1), before drei <Html> labels (0). drei caches the first projected label position;
@@ -26,6 +28,11 @@ export function BodyMesh({ body, bodies }: { body: Body; bodies: readonly Body[]
   const mesh = useRef<Mesh>(null);
   const matrix = useMemo(() => new Matrix4(), []);
   const isStar = body.category === 'star';
+  // A satellite of a planet is hidden while it sits inside the planet's drawn disc (readable scale, spec §6).
+  const parent = useMemo(() => {
+    const p = body.parentId ? bodies.find((b) => b.id === body.parentId) : undefined;
+    return p && p.category !== 'star' ? p : undefined;
+  }, [body.parentId, bodies]);
   const [widthSegments, heightSegments] = useRenderStore((s) => PRESETS[s.level].sphereSegments);
   const geometry = useMemo(() => {
     const g = new SphereGeometry(1, widthSegments, heightSegments);
@@ -43,14 +50,28 @@ export function BodyMesh({ body, bodies }: { body: Body; bodies: readonly Body[]
     const rel = sub(position, frame.cameraPositionKm);
     group.current.position.set(rel[0], rel[1], rel[2]);
     const { equatorialRadiusKm, polarRadiusKm } = body.shape;
-    const radius = renderRadiusKm(
-      equatorialRadiusKm,
-      length(rel),
-      useViewStore.getState().scaleMode,
-      isStar ? MIN_PIXELS.star : MIN_PIXELS.body,
-      pixelsPerRadian(frame.viewportHeightPx, frame.fovRad),
-    );
+    const scaleMode = useViewStore.getState().scaleMode;
+    const pxPerRad = pixelsPerRadian(frame.viewportHeightPx, frame.fovRad);
+    const distanceKm = length(rel);
+    const radius = renderRadiusKm(equatorialRadiusKm, distanceKm, scaleMode, minPixelsFor(body.category), pxPerRad);
     frame.bodyRenderRadiusKm.set(body.id, radius);
+    const parentPosition = parent && frame.bodyPositionsKm.get(parent.id);
+    if (parent && parentPosition) {
+      // Computed inline (not from frame.bodyRenderRadiusKm) so the result does not depend on which BodyMesh runs first.
+      const parentRel = sub(parentPosition, frame.cameraPositionKm);
+      const parentDistance = length(parentRel);
+      const parentRadius = renderRadiusKm(parent.shape.equatorialRadiusKm, parentDistance, scaleMode, minPixelsFor(parent.category), pxPerRad);
+      const separationPx = Math.atan2(length(cross(rel, parentRel)), dot(rel, parentRel)) * pxPerRad;
+      const shown = satelliteShown({
+        separationPx,
+        parentRadiusPx: (parentRadius / Math.max(parentDistance, 1e-9)) * pxPerRad,
+        selfRadiusPx: (radius / Math.max(distanceKm, 1e-9)) * pxPerRad,
+      });
+      if (shown) frame.bodyHidden.delete(body.id);
+      else frame.bodyHidden.add(body.id);
+      group.current.visible = shown;
+      mesh.current.raycast = shown ? ThreeMesh.prototype.raycast : noRaycast;
+    }
     const k = radius / equatorialRadiusKm;
     mesh.current.scale.set(equatorialRadiusKm * k, equatorialRadiusKm * k, polarRadiusKm * k);
     const orientation = frame.bodyOrientation.get(body.id);

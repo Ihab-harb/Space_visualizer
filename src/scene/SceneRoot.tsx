@@ -3,13 +3,14 @@ import { Vector3 } from 'three';
 import { useEffect, useRef } from 'react';
 import { CameraSystem } from '../camera/CameraSystem';
 import type { Catalog } from '../core/catalog/catalog';
-import type { Body, PlanetApproxOrbit } from '../core/catalog/schema';
+import type { Body, PlanetApproxOrbit, SatelliteOrbit } from '../core/catalog/schema';
 import { BodyMesh } from './BodyMesh';
 import { EffectsStack } from '../render/EffectsStack';
 import { FrameDriver } from './FrameDriver';
 import { FrameStateProvider } from './FrameStateContext';
 import { LabelLayerContext } from './LabelLayerContext';
 import { OrbitLine } from './OrbitLine';
+import { SatelliteOrbitLine } from './SatelliteOrbitLine';
 import { SkyBackground } from './sky/SkyBackground';
 import { canvasDpr } from '../render/quality';
 import { useRenderStore } from '../state/renderStore';
@@ -22,6 +23,8 @@ import { useFrameState } from './FrameStateContext';
 import { useLabelDeclutter } from '../ui/useLabelDeclutter';
 
 const hasApproxOrbit = (b: Body): b is Body & { orbit: PlanetApproxOrbit } => b.orbit.type === 'planet-approx';
+
+const hasSatelliteOrbit = (b: Body): b is Body & { orbit: SatelliteOrbit } => b.orbit.type === 'satellite';
 
 /** Publishes how many bodies are on screen at about 2 Hz (NDC in [-1, 1]^2, in front of the camera). */
 function BodiesInView() {
@@ -79,6 +82,9 @@ export function SceneRoot({ catalog }: { catalog: Catalog }) {
             ))}
             {catalog.bodies.filter(hasApproxOrbit).map((body) => (
               <OrbitLine key={`orbit-${body.id}`} body={body} />
+            ))}
+            {catalog.bodies.filter(hasSatelliteOrbit).map((body) => (
+              <SatelliteOrbitLine key={`orbit-${body.id}`} body={body} catalog={catalog} />
             ))}
             <EffectsStack bodies={catalog.bodies} />
           </FrameStateProvider>

@@ -27,17 +27,21 @@ export function BodyLabel({ body, sunId }: { body: Body; sunId: string | undefin
   const since = useRef(DATUM_INTERVAL_S);
 
   useFrame((_, delta) => {
+    if (button.current) button.current.hidden = frame.bodyHidden.has(body.id);
     since.current += delta;
     if (since.current < DATUM_INTERVAL_S || !button.current || !datum.current) return;
     since.current = 0;
     const pos = frame.bodyPositionsKm.get(body.id);
     const earth = frame.bodyPositionsKm.get('earth');
-    const ref = body.id === 'earth' ? (sunId ? frame.bodyPositionsKm.get(sunId) : undefined) : earth;
+    const parentPos = body.parentId && body.parentId !== sunId ? frame.bodyPositionsKm.get(body.parentId) : undefined;
+    const ref = body.category === 'moon' ? parentPos : body.id === 'earth' ? (sunId ? frame.bodyPositionsKm.get(sunId) : undefined) : earth;
     if (pos && ref) {
       const d = length(sub(pos, ref));
       const expanded = selected || hovered;
       datum.current.textContent =
-        body.id === 'earth' ? `${formatAu(d)} from Sun` : expanded ? `${formatAu(d)} · ${formatLightTimeShort(d / SPEED_OF_LIGHT_KM_S)} light` : formatAu(d);
+        body.category === 'moon'
+          ? Math.round(d).toLocaleString('en-US') + ' km' // placeholder until formatKm (Task 7)
+          : body.id === 'earth' ? `${formatAu(d)} from Sun` : expanded ? `${formatAu(d)} · ${formatLightTimeShort(d / SPEED_OF_LIGHT_KM_S)} light` : formatAu(d);
     }
     const r = frame.bodyRenderRadiusKm.get(body.id);
     if (pos && r) {
