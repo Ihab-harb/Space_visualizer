@@ -60,7 +60,7 @@ export function buildNarrative(body: Body, stats: LiveStats, opts: { details?: B
     }
   } else if (opts.parent && opts.parent.category !== 'star') {
     if (period && parentDistance) {
-      sentences.push([t(`${body.name} orbits ${opts.parent.name} every `), v(formatPeriodDays(period.value), period.sourceId), t(' at an average '), v(formatKm(parentDistance.value), parentDistance.sourceId), t('. ')]);
+      sentences.push([t(`${body.name === 'Moon' ? 'The ' : ''}${body.name} orbits ${opts.parent.name} every `), v(formatPeriodDays(period.value), period.sourceId), t(' at an average '), v(formatKm(parentDistance.value), parentDistance.sourceId), t('. ')]);
     }
   } else if (period && sma) {
     const around = `${body.name} circles the Sun every `;

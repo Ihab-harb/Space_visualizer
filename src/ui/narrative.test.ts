@@ -64,7 +64,7 @@ describe('buildNarrative', () => {
     it('says the Moon orbits Earth with a km distance and no AU', () => {
       const moonStats = { fromSunKm: 1.5e8, fromEarthKm: 384400, fromParentKm: 384400, lightTimeS: 1.28, sourceId: 'jpl-horizons', phase: null };
       const t = text(buildNarrative(makeMoon(), moonStats, { parent: makeEarth() }));
-      expect(t).toMatch(/Moon orbits Earth every 27\.3 days at an average 384,400 km\./);
+      expect(t).toContain('The Moon orbits Earth every 27.3 days at an average 384,400 km.');
       expect(t).not.toMatch(/AU/);
       expect(t).not.toMatch(/circles the Sun/);
     });

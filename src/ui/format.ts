@@ -43,7 +43,8 @@ export function formatAu(km: number): string {
 
 /** A distance in kilometres: whole numbers from 1,000 km up, one decimal below. */
 export function formatKm(km: number): string {
-  return km >= 1000 ? `${Math.round(km).toLocaleString('en-US')} km` : `${km.toFixed(1)} km`;
+  const tenths = Math.round(km * 10) / 10;
+  return tenths >= 1000 ? `${Math.round(km).toLocaleString('en-US')} km` : `${tenths.toFixed(1)} km`;
 }
 
 export function formatLightTimeShort(seconds: number): string {

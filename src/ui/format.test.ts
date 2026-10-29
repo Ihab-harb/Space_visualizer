@@ -75,5 +75,8 @@ describe('formatKm', () => {
     expect(formatKm(384399.6)).toBe('384,400 km');
     expect(formatKm(1737.4)).toBe('1,737 km');
     expect(formatKm(412.34)).toBe('412.3 km');
+    expect(formatKm(999.94)).toBe('999.9 km');
+    expect(formatKm(999.96)).toBe('1,000 km');
+    expect(formatKm(1000)).toBe('1,000 km');
   });
 });
