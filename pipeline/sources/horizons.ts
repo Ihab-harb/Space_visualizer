@@ -12,6 +12,8 @@ export const REFERENCE_BODIES = [
   { body: 'saturn', command: '6' },
   { body: 'uranus', command: '7' },
   { body: 'neptune', command: '8' },
+  // Earth's body centre (not the barycentre): the Moon table's centre is Earth's centre.
+  { body: 'earth-centre', command: '399' },
 ] as const;
 
 /** Six dates inside Table 1 (1800-2050) and three outside it but inside Table 2 (3000 BC - AD 3000). */
@@ -55,4 +57,51 @@ export function parseHorizonsVector(result: string): Vec3 {
   const xyz = [Number(parts[2]), Number(parts[3]), Number(parts[4])] as const;
   if (xyz.some((n) => !Number.isFinite(n))) throw new Error(`Horizons vector line not numeric: ${block.trim()}`);
   return xyz;
+}
+
+const MOON_QUERY = { ...REFERENCE_QUERY, CENTER: "'500@399'" };
+
+/** Geocentric Moon vectors (ecliptic J2000, TDB) for [start, stop] at a fixed step. */
+export function moonChunkUrl(startJdTdb: number, stopJdTdb: number, stepMinutes: number): string {
+  const params = new URLSearchParams({
+    format: 'json',
+    COMMAND: "'301'",
+    OBJ_DATA: "'NO'",
+    MAKE_EPHEM: "'YES'",
+    START_TIME: `'JD ${startJdTdb}'`,
+    STOP_TIME: `'JD ${stopJdTdb}'`,
+    STEP_SIZE: `'${stepMinutes} m'`,
+    ...MOON_QUERY,
+  });
+  return `${HORIZONS_API}?${params.toString()}`;
+}
+
+/** Geocentric Moon vectors at a list of Julian dates (TDB). */
+export function moonListUrl(jdsTdb: readonly number[]): string {
+  const params = new URLSearchParams({
+    format: 'json',
+    COMMAND: "'301'",
+    OBJ_DATA: "'NO'",
+    MAKE_EPHEM: "'YES'",
+    TLIST: `'${jdsTdb.join(' ')}'`,
+    TLIST_TYPE: "'JD'",
+    ...MOON_QUERY,
+  });
+  return `${HORIZONS_API}?${params.toString()}`;
+}
+
+/** Every row between $$SOE and $$EOE of a CSV vector table: JD (TDB) and X, Y, Z in km. */
+export function parseHorizonsVectorTable(result: string): Array<{ jdTdb: number; positionKm: Vec3 }> {
+  const block = result.split('$$SOE')[1]?.split('$$EOE')[0];
+  if (!block) throw new Error('Horizons result has no $$SOE/$$EOE block');
+  return block
+    .trim()
+    .split('\n')
+    .filter((line) => line.trim() !== '')
+    .map((line) => {
+      const parts = line.split(',').map((x) => x.trim());
+      const nums = [Number(parts[0]), Number(parts[2]), Number(parts[3]), Number(parts[4])];
+      if (nums.some((n) => !Number.isFinite(n))) throw new Error(`Horizons vector line not numeric: ${line}`);
+      return { jdTdb: nums[0]!, positionKm: [nums[1]!, nums[2]!, nums[3]!] as Vec3 };
+    });
 }
