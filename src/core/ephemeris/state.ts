@@ -8,6 +8,8 @@ export function bodyState(body: Body, jdTdb: number): BodyState {
       return { positionKm: body.orbit.positionKm, inValidRange: true, tableId: null };
     case 'planet-approx':
       return planetApproxState(body.orbit, jdTdb);
+    case 'satellite':
+      throw new Error('use systemState for satellite bodies');
   }
 }
 
@@ -17,6 +19,15 @@ export type ValidityStatus = 'high' | 'extended' | 'out-of-range';
 export function validityStatus(bodies: readonly Body[], jdTdb: number): ValidityStatus {
   let status: ValidityStatus = 'high';
   for (const body of bodies) {
+    if (body.orbit.type === 'satellite') {
+      const o = body.orbit;
+      if (jdTdb >= o.table.validFromJdTdb && jdTdb <= o.table.validToJdTdb) continue;
+      if (jdTdb >= o.meanElements.validFromJdTdb && jdTdb <= o.meanElements.validToJdTdb) {
+        status = 'extended';
+        continue;
+      }
+      return 'out-of-range';
+    }
     if (body.orbit.type !== 'planet-approx') continue;
     const selected = selectTable(body.orbit.tables, jdTdb);
     if (!selected.inValidRange) return 'out-of-range';

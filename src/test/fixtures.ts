@@ -1,4 +1,6 @@
-import type { Body, BodiesFile, RegionsFile, Source, SourcesFile } from '../core/catalog/schema';
+import type { Body, BodiesFile, ChebyshevFile, RegionsFile, SatelliteOrbit, Source, SourcesFile } from '../core/catalog/schema';
+import { meanElementsGeocentricKm } from '../core/ephemeris/meanElements';
+import { calendarToJd } from '../core/time/julian';
 import { APPROX_ORBITS } from './approxOrbits';
 
 // Real values from the NSSDCA fact sheets, NAIF PCK00011 and NASA Science.
@@ -98,5 +100,79 @@ export function makeCatalogFiles(): { regions: RegionsFile; sources: SourcesFile
     },
     sources: { schemaVersion: 1, sources: structuredClone(TEST_SOURCES) },
     bodies: { schemaVersion: 1, regionId: 'solar-system', generatedAt: '2026-10-04T12:00:00.000Z', bodies: [makeSun(), makeEarth(), makeJupiter()] },
+  };
+}
+
+// ---- Moon fixture (not part of makeCatalogFiles, so unrelated catalogue tests keep their body counts) ----
+
+/** Real JPL satellite mean elements for the Moon (https://ssd.jpl.nasa.gov/sats/elem/). */
+export const MOON_MEAN_ELEMENTS: SatelliteOrbit['meanElements'] = {
+  sourceId: 'jpl-sat-mean-elements',
+  epochJdTdb: 2451545,
+  aKm: 384400,
+  e: 0.0554,
+  argPeriDeg: 318.15,
+  meanAnomalyDeg: 135.27,
+  iDeg: 5.16,
+  nodeDeg: 125.08,
+  siderealPeriodDays: 27.322,
+  apsisPeriodYears: 5.997,
+  nodePeriodYears: 18.6,
+  validFromJdTdb: calendarToJd({ year: -2999, month: 1, day: 1, hour: 0, minute: 0, second: 0 }),
+  validToJdTdb: calendarToJd({ year: 3001, month: 1, day: 1, hour: 0, minute: 0, second: 0 }),
+  note: 'Not intended for ephemeris computation.',
+};
+
+/** Tiny synthetic table: 4 segments of 4 days from J2000, fitted to the mean-elements orbit (degree 10). */
+export const MOON_TABLE_RANGE = { from: 2451545, to: 2451545 + 16 } as const;
+
+export function makeMoonTable(): ChebyshevFile {
+  const degree = 10;
+  const segmentDays = 4;
+  const n = degree + 1;
+  const segments: number[][] = [];
+  for (let k = 0; k < 4; k++) {
+    const start = MOON_TABLE_RANGE.from + k * segmentDays;
+    const coeffs: number[][] = [[], [], []];
+    const samples = Array.from({ length: n }, (_, j) => {
+      const tau = Math.cos((Math.PI * (j + 0.5)) / n);
+      return meanElementsGeocentricKm(MOON_MEAN_ELEMENTS, start + ((tau + 1) / 2) * segmentDays);
+    });
+    for (let axis = 0; axis < 3; axis++) {
+      for (let i = 0; i < n; i++) {
+        let sum = 0;
+        for (let j = 0; j < n; j++) sum += samples[j]![axis]! * Math.cos((Math.PI * i * (j + 0.5)) / n);
+        coeffs[axis]!.push(((i === 0 ? 1 : 2) * sum) / n);
+      }
+    }
+    segments.push(coeffs.flat());
+  }
+  return {
+    schemaVersion: 1, bodyId: 'moon', centreId: 'earth', frame: 'ecliptic-j2000', unit: 'km',
+    sourceId: 'jpl-horizons', startJdTdb: MOON_TABLE_RANGE.from, segmentDays, degree, segments,
+  };
+}
+
+export function makeMoon(): Body {
+  return {
+    id: 'moon', name: 'Moon', category: 'moon', parentId: 'earth', regionId: 'solar-system', naifId: 301,
+    facts: {},
+    orbit: {
+      type: 'satellite',
+      table: {
+        file: 'solar-system/ephemeris/moon.json', sourceId: 'jpl-horizons',
+        validFromJdTdb: MOON_TABLE_RANGE.from, validToJdTdb: MOON_TABLE_RANGE.to,
+        horizonsCheck: { sampleCount: 6, maxAngularErrorArcsec: 0.1, maxDistanceErrorKm: 0.5, sourceId: 'jpl-horizons' },
+      },
+      meanElements: structuredClone(MOON_MEAN_ELEMENTS),
+      // Test-only value, close to GM_Moon / (GM_Earth + GM_Moon).
+      barycentre: { massRatio: { value: 0.01215, sourceId: 'naif-gm-de440' } },
+    },
+    rotation: null,
+    shape: { equatorialRadiusKm: 1737.4, polarRadiusKm: 1737.4, sourceId: 'naif-pck00011' },
+    description: null,
+    imagery: null,
+    render: { shader: 'rocky', atmosphere: null, lommelSeeliger: 1, normalStrength: 1, bandFlow: false },
+    display: { color: '#b5b5b5', note: 'illustrative' },
   };
 }

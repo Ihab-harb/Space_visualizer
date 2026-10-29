@@ -15,6 +15,8 @@ export interface AccuracyLine {
 export function accuracyLines(body: Body): AccuracyLine[] {
   const orbit = body.orbit;
   if (orbit.type === 'fixed') return [{ text: orbit.note, sourceIds: [] }];
+  // Satellite accuracy lines arrive with the Moon drawer work.
+  if (orbit.type === 'satellite') return [{ text: orbit.meanElements.note, sourceIds: [orbit.meanElements.sourceId] }];
   const lines: AccuracyLine[] = orbit.tables.map((t) => {
     const nominal = `${TABLE_LABELS[t.id] ?? t.id}: JPL nominal error ${formatNumber(t.nominalError.longitudeArcsec)}″ in longitude, ${formatNumber(t.nominalError.latitudeArcsec)}″ in latitude, ${formatNumber(t.nominalError.distanceKm)} km in distance.`;
     if (!t.horizonsCheck) return { text: nominal, sourceIds: [orbit.sourceId] };
