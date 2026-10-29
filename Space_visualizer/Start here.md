@@ -98,8 +98,12 @@ A cloud session clones the repo from GitHub onto a fresh Linux machine. It has n
 **Afterwards:** push the branch so the user can pull it locally and see the vault update in Obsidian.
 
 ## 6. Current state
-- **Latest:** see the most recent note in `Sessions/` (currently [[2026-10-04-session-m1-to-m2a3]], which also records M2b.1).
+- **Latest:** see the most recent note in `Sessions/` (currently [[2026-10-29-session-m2b2-moon]]; [[2026-10-04-session-m1-to-m2a3]] records M1 to M2b.1).
 - **As of 2026-10-16:**
   - PRs #1–#5 are open and stacked (M1 → M2a.1 → M2a.2 → M2a.3 → M2b.1), none merged.
-  - **M2b.1** ([[2026-10-10-m2b1-body-details]]) is complete, on branch `m2b1-details`, and open as PR #5 (base `m2a3-interface`). All ten tasks are done and the whole-branch review fix wave is applied (as of 2026-10-16: 690 unit tests, typecheck clean, 76 end-to-end tests; the data has 43 mission entries covering 39 distinct missions). **Next:** M2b.2, the Moon. It starts with a design discussion and a spec. A new section branch stacks on `m2b1-details`.
+  - **M2b.1** ([[2026-10-10-m2b1-body-details]]) is complete, on branch `m2b1-details`, and open as PR #5 (base `m2a3-interface`). All ten tasks are done and the whole-branch review fix wave is applied (as of 2026-10-16: 690 unit tests, typecheck clean, 76 end-to-end tests; the data has 43 mission entries covering 39 distinct missions). **Next:** M2b.2, the Moon. It starts with a design discussion and a spec. A new section branch stacks on `m2b1-details`. **(Done, see below.)**
+- **As of 2026-10-30:**
+  - **M2b.2** ([[2026-10-29-m2b2-moon]], spec [[2026-10-29-m2b2-moon-design]], decision [[0008-moon-chebyshev-table]]) is complete on branch `m2b2-moon` (stacked on `m2b1-details`). The whole-branch review is pending. The branch is **not pushed** and no PR is open. 797 unit tests, typecheck clean, 93 end-to-end tests.
+  - **Open for the user:** what to do with the Moon's position outside 1800 to 2050 (mean elements, up to about 175 degrees off); the spec §10 calls and the plan's rulings; no Moon Discovery section. See [[2026-10-29-session-m2b2-moon]].
+  - **Next:** M2b.3, the cutaway and charts, per the split in the M2b.1 spec. It starts with a design discussion and a spec on a new branch stacked on `m2b2-moon`.
 - **Known gap:** the per-task rulings of M2a.1 and M2a.2 were not preserved, because those ledgers were deleted before rulings were copied into the vault. Their outcomes are in [[Changelog]], [[2026-10-05-m2a1-carry-over]], [[0007-tone-mapping-and-exposure]] and [[render]].

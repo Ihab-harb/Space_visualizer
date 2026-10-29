@@ -19,8 +19,9 @@ The Solar System is the first "region" of a project designed to grow outward lat
 
 - **Interface and Tour (M2a.3):** a header with cited facts and a short narrative, a frosted-glass control panel, a facts and sources drawer, a bottom bar with a 1800-2050 timeline, decluttered body labels, a phone layout, and a guided Tour of the Sun and planets.
 - **Venus radar:** the Magellan radar map of Venus's surface (USGS), as a toggle in the drawer.
+- **The Moon (M2b.2):** at its real position for 1800 to 2051 (JPL Horizons vectors as a Chebyshev table, within 1 km), with the Earth-Moon barycentre, phase, earthshine, eclipses, NASA's Moon Kit imagery, and cited interior, exosphere and missions. Outside that range the position comes from JPL mean elements and the app shows how far off they are.
 
-Still to come: moons, dwarf planets, asteroids and comets, spacecraft, filters and search, more camera views (top-down, view from a body, fly), and, later, regions beyond the Solar System.
+Still to come: the other moons, dwarf planets, asteroids and comets, spacecraft, filters and search, more camera views (top-down, view from a body, fly), and, later, regions beyond the Solar System.
 
 ## Quick start
 
@@ -48,7 +49,7 @@ Then open the address Vite prints (normally <http://localhost:5173/>). No server
 
 - **Quality** (control panel, or key **Q**): cycles Auto, High, Medium and Low. Auto measures frame time and steps down when the median exceeds 18 ms, and steps up after 10 s under 12 ms. Phones start at Low.
 - **Camera effects** (control panel, or key **E**): turns the cinematic effects on or off. Off keeps bloom (reduced) and neutral tone mapping.
-- URL parameters: `?quality=auto|high|medium|low`, `?fx=0|1` and `?radar=1` (Venus radar view), for example `?quality=low&fx=0` or `?target=venus&radar=1`.
+- URL parameters: `?quality=auto|high|medium|low`, `?fx=0|1` and `?radar=1` (Venus radar view) and `?target=<body id>` (for example `?target=moon`), for example `?quality=low&fx=0`, `?target=venus&radar=1` or `?target=moon`.
 - `npm run perf`: measures frame times at each preset on your real GPU (see [docs/SETUP.md](docs/SETUP.md)).
 
 ## Commands

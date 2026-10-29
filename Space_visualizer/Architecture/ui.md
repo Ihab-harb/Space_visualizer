@@ -33,3 +33,10 @@ CSS custom properties on the document root, so panels never overlap: `--control-
 
 ## Look and accessibility
 Stable names: the drawer is "Body information"; controls keep their visible names (Orbit, Follow, Readable, True scale, Auto, High, Medium, Low, Camera effects, Now, Go, Tour). Slide and fade transitions are switched off under reduced motion (`@media (prefers-reduced-motion: reduce)` in `app.css`), the drawer scroll to a source uses `auto` instead of `smooth`, and Tour flights become cuts.
+
+## The Moon (M2b.2)
+- **Header:** for a satellite the subtitle reads "Moon of Earth · 384,400 km" (category, parent, `formatKm` of the live distance from the parent). The chips are From Earth, **Phase** (for example "50% · First quarter"), Light time, Day length. Phase comes from `moonPhase` through `liveStats` and exists only for satellites of Earth.
+- **Distances:** `formatKm` (in `format.ts`) rounds first and then picks the format, so a value never reads "1000.0 km". The body label and the narrative use it for satellites. The narrative says "The Moon orbits Earth every 27.3 days at an average 384,400 km" and no longer "0.00 AU". The article is added for the Moon by name; other moons take none.
+- **Accuracy lines:** for a satellite the drawer shows the table figure (0.904 km, 0.4792 arcsec over 366,832 held-out samples) and, outside the table, the mean-elements figure. Earth shows its centre check.
+- **Citations:** the drawer cites the barycentre sources for Earth's position. Drawer Imagery for the Moon: the SVS credit, "optimized for aesthetics, not science", and illustrative tags for relief, earthshine and the eclipse tint (`illustrativeNotes(body, { parent })`).
+- **Details sections:** the atmosphere section is headed "Exosphere" for `kind: 'exosphere'`, with rows such as "Helium 4 (⁴He) 40,000 per cm³ (upper limit)".
