@@ -29,7 +29,7 @@ export function BodyMesh({ body, bodies }: { body: Body; bodies: readonly Body[]
   const matrix = useMemo(() => new Matrix4(), []);
   const isStar = body.category === 'star';
   // A satellite of a planet is hidden while it sits inside the planet's drawn disc, but only when readable-scale
-  // inflation causes the overlap (spec ง6). With true radii on both bodies it is never hidden.
+  // inflation causes the overlap (spec ยง6). With true radii on both bodies it is never hidden.
   const parent = useMemo(() => {
     const p = body.parentId ? bodies.find((b) => b.id === body.parentId) : undefined;
     return p && p.category !== 'star' ? p : undefined;

@@ -25,7 +25,7 @@ export function validityStatus(bodies: readonly Body[], jdTdb: number): Validity
     if (body.orbit.type === 'satellite') {
       const o = body.orbit;
       if (jdTdb >= o.table.validFromJdTdb && jdTdb <= o.table.validToJdTdb) continue;
-      // A satellite on its mean elements (outside its table) is far less accurate than 'extended' implies (spec ง3.2).
+      // A satellite on its mean elements (outside its table) is far less accurate than 'extended' implies (spec ยง3.2).
       return 'out-of-range';
     }
     if (body.orbit.type !== 'planet-approx') continue;

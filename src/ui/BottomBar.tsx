@@ -10,7 +10,7 @@ import { fractionForJd, jdForFraction, timelineTicks } from './timeline';
 
 export const VALIDITY_MESSAGES = {
   extended: 'Outside 1800–2050: planet positions use JPL’s 3000 BC–AD 3000 elements (lower accuracy).',
-  'out-of-range': 'Outside 3000 BC–AD 3000: planet positions are extrapolated and only approximate.',
+  'out-of-range': 'Outside 1800–2050: the Moon uses JPL mean elements (rough) and planets use lower-accuracy elements. Beyond 3000 BC–AD 3000, planets are extrapolated and only approximate.',
 } as const;
 
 export function BottomBar({ catalog }: { catalog: Catalog }) {

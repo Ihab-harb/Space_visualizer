@@ -32,7 +32,7 @@ describe('satellites', () => {
   it('bodyState refuses a satellite', () => {
     expect(() => bodyState(makeMoon(), 2451545)).toThrow('use systemState for satellite bodies');
   });
-  it('validityStatus is high inside the table and out-of-range on the mean elements (spec ง3.2)', () => {
+  it('validityStatus is high inside the table and out-of-range on the mean elements (spec ยง3.2)', () => {
     const withMoon = [makeSun(), makeEarth(), makeMoon()];
     expect(validityStatus(withMoon, MOON_TABLE_RANGE.from + 1)).toBe('high');
     expect(validityStatus(withMoon, MOON_TABLE_RANGE.to + 1)).toBe('out-of-range');
