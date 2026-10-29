@@ -155,4 +155,26 @@ describe('DetailsSections', () => {
     show('mars', ready(details));
     expect(screen.getByText(/Discovered by/).closest('p')).toHaveTextContent(/^Discovered by William Herschel on 1781-03-13\[d\]$/);
   });
+
+  it('heads a Moon exosphere "Exosphere" and prints number densities per cm³ as upper limits, with the caveat', () => {
+    const details = makeMarsDetails();
+    details.atmosphere = {
+      basis: 'night, particles per cubic cm', kind: 'exosphere', major: [], minor: [],
+      numberDensity: [
+        { name: 'Helium 4', formula: '⁴He', amount: 40000, unit: 'cm⁻³', upperLimit: true, sourceId: 'nssdca-moon-fact-sheet' },
+        { name: 'Hydrogen', formula: 'H2', amount: 35000, unit: 'cm⁻³', upperLimit: true, sourceId: 'nssdca-moon-fact-sheet' },
+      ],
+      note: { text: 'Composition of the tenuous lunar atmosphere is poorly known and variable.', sourceId: 'nssdca-moon-fact-sheet' },
+    };
+    show('moon', ready(details));
+    expect(heading('Exosphere')).toBeInTheDocument();
+    expect(heading('Atmosphere')).toBeNull();
+    const section = heading('Exosphere')!.closest('section')!;
+    expect(section).toHaveTextContent('Helium 4');
+    expect(screen.getByText(/Helium 4/).closest('li')).toHaveTextContent('40,000 per cm³ (upper limit)');
+    expect(screen.getByText(/Hydrogen/).closest('li')).toHaveTextContent('Hydrogen (H₂)');
+    expect(section).toHaveTextContent('poorly known and variable');
+    expect(section).toHaveTextContent('[nssdca-moon-fact-sheet]');
+    expect(section).toHaveTextContent('night, particles per cubic cm');
+  });
 });

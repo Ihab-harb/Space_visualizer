@@ -314,6 +314,34 @@
       "publisher": "NASA Science",
       "url": "https://science.nasa.gov/mission/solar-orbiter/",
       "license": "NASA public domain (NASA media usage guidelines)"
+    },
+    {
+      "id": "nssdca-lunar-timeline",
+      "title": "Lunar Exploration Timeline",
+      "publisher": "NASA Goddard Space Flight Center, NSSDCA",
+      "url": "https://nssdc.gsfc.nasa.gov/planetary/lunar/lunartimeline.html",
+      "license": "NASA public domain (NASA media usage guidelines)"
+    },
+    {
+      "id": "nasa-mission-apollo-8",
+      "title": "Apollo 8",
+      "publisher": "NASA",
+      "url": "https://www.nasa.gov/mission/apollo-8/",
+      "license": "NASA public domain (NASA media usage guidelines)"
+    },
+    {
+      "id": "nssdca-apollo-11",
+      "title": "Apollo 11 Command and Service Module (NSSDCA Master Catalog)",
+      "publisher": "NASA NSSDCA",
+      "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1969-059A",
+      "license": "NASA public domain (NASA media usage guidelines)"
+    },
+    {
+      "id": "nasa-mission-lro",
+      "title": "Lunar Reconnaissance Orbiter (LRO)",
+      "publisher": "NASA Science",
+      "url": "https://science.nasa.gov/mission/lro/",
+      "license": "NASA public domain (NASA media usage guidelines)"
     }
   ],
   "bodies": {
@@ -1018,6 +1046,184 @@
           "sourceId": "nasa-mission-voyager-2",
           "quotes": [
             "Launch Date and Time Aug. 20, 1977 / 14:29:44 UT Key Dates July 9, 1979: Jupiter Flyby Aug 25, 1981: Saturn Flyby Jan 24, 1986: Uranus Flyby Aug 25, 1989: Neptune Flyby"
+          ]
+        }
+      ]
+    },
+    "moon": {
+      "discovery": null,
+      "missions": [
+        {
+          "id": "luna-2",
+          "name": "Luna 2",
+          "agency": "USSR",
+          "type": "impactor",
+          "launchDate": "1959-09-12",
+          "arrivalDate": null,
+          "endDate": null,
+          "outcome": "success",
+          "sourceId": "nssdca-lunar-timeline",
+          "quotes": [
+            "Luna 2 - Sep 12, 1959 - Impact"
+          ]
+        },
+        {
+          "id": "luna-3",
+          "name": "Luna 3",
+          "agency": "USSR",
+          "type": "flyby",
+          "launchDate": "1959-10-04",
+          "arrivalDate": null,
+          "endDate": null,
+          "outcome": "success",
+          "sourceId": "nssdca-lunar-timeline",
+          "quotes": [
+            "Luna 3 - Oct 4, 1959 - Probe"
+          ]
+        },
+        {
+          "id": "luna-9",
+          "name": "Luna 9",
+          "agency": "USSR",
+          "type": "lander",
+          "launchDate": "1966-01-31",
+          "arrivalDate": null,
+          "endDate": null,
+          "outcome": "success",
+          "sourceId": "nssdca-lunar-timeline",
+          "quotes": [
+            "Luna 9 - Jan 31, 1966 - Lander"
+          ]
+        },
+        {
+          "id": "luna-10",
+          "name": "Luna 10",
+          "agency": "USSR",
+          "type": "orbiter",
+          "launchDate": "1966-03-31",
+          "arrivalDate": null,
+          "endDate": null,
+          "outcome": "success",
+          "sourceId": "nssdca-lunar-timeline",
+          "quotes": [
+            "Luna 10 - Mar 31, 1966 - Orbiter"
+          ]
+        },
+        {
+          "id": "apollo-8",
+          "name": "Apollo 8",
+          "agency": "NASA",
+          "type": "orbiter",
+          "launchDate": "1968-12-21",
+          "arrivalDate": null,
+          "endDate": "1968-12-27",
+          "outcome": "success",
+          "sourceId": "nasa-mission-apollo-8",
+          "quotes": [
+            "crew Frank Borman, James Lovell Jr., William Anders Launch Dec. 21, 1968 SPLASHDOWN Dec. 27, 1968"
+          ]
+        },
+        {
+          "id": "apollo-11",
+          "name": "Apollo 11",
+          "agency": "NASA",
+          "type": "lander",
+          "launchDate": "1969-07-16",
+          "arrivalDate": "1969-07-20",
+          "endDate": null,
+          "outcome": "success",
+          "sourceId": "nssdca-apollo-11",
+          "quotes": [
+            "After launch on Saturn V SA-504 on 16 July 1969 at 13:32 UT (9:32 a.m. EDT) from pad 39A of Kennedy Space Center",
+            "On 20 July 1969 two astronauts (Apollo 11 Commander Neil A. Armstrong and LM pilot Edwin E. \"Buzz\" Aldrin Jr.) landed in Mare Tranquilitatis (the Sea of Tranquility) on the Moon"
+          ]
+        },
+        {
+          "id": "luna-16",
+          "name": "Luna 16",
+          "agency": "USSR",
+          "type": "sample-return",
+          "launchDate": "1970-09-12",
+          "arrivalDate": null,
+          "endDate": null,
+          "outcome": "success",
+          "sourceId": "nssdca-lunar-timeline",
+          "quotes": [
+            "Luna 16 - Sep 12, 1970 - Sample Return"
+          ]
+        },
+        {
+          "id": "lro",
+          "name": "Lunar Reconnaissance Orbiter",
+          "agency": "NASA",
+          "type": "orbiter",
+          "launchDate": "2009-06-18",
+          "arrivalDate": null,
+          "endDate": null,
+          "outcome": "ongoing",
+          "sourceId": "nasa-mission-lro",
+          "quotes": [
+            "Type Orbiter Launch June 18, 2009 Target Earth's Moon Objective Exploration and Science"
+          ]
+        },
+        {
+          "id": "artemis-1",
+          "name": "Artemis 1",
+          "agency": "NASA",
+          "type": "orbiter",
+          "launchDate": "2022-11-16",
+          "arrivalDate": null,
+          "endDate": null,
+          "outcome": "success",
+          "sourceId": "nssdca-lunar-timeline",
+          "quotes": [
+            "Artemis 1 - 16 November 2022 - Lunar test Flight",
+            "16 November 2022 - Lunar test Flight"
+          ]
+        },
+        {
+          "id": "chandrayaan-3",
+          "name": "Chandrayaan-3",
+          "agency": "ISRO",
+          "type": "lander",
+          "launchDate": "2023-07-14",
+          "arrivalDate": null,
+          "endDate": null,
+          "outcome": "success",
+          "sourceId": "nssdca-lunar-timeline",
+          "quotes": [
+            "Chandrayaan 3 - 14 July 2023 - ISRO (India) Lunar Orbiter, Lander, and Rover",
+            "14 July 2023 - ISRO (India) Lunar Orbiter, Lander, and Rover"
+          ]
+        },
+        {
+          "id": "change-4",
+          "name": "Chang'e 4",
+          "agency": "CNSA",
+          "type": "lander",
+          "launchDate": "2018-12-07",
+          "arrivalDate": null,
+          "endDate": null,
+          "outcome": "success",
+          "sourceId": "nssdca-lunar-timeline",
+          "quotes": [
+            "Chang'e 4 - 7 December 2018 - CNSA (China) Lunar Farside Lander and Rover",
+            "7 December 2018 - CNSA (China) Lunar Farside Lander and Rover"
+          ]
+        },
+        {
+          "id": "change-6",
+          "name": "Chang'e 6",
+          "agency": "CNSA",
+          "type": "sample-return",
+          "launchDate": "2024-05-03",
+          "arrivalDate": null,
+          "endDate": null,
+          "outcome": "success",
+          "sourceId": "nssdca-lunar-timeline",
+          "quotes": [
+            "Chang'e 6 - 3 May 2024 - CNSA (China) Lunar Sample Return Mission",
+            "3 May 2024 - CNSA (China) Lunar Sample Return Mission"
           ]
         }
       ]

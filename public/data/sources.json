@@ -298,6 +298,14 @@
       "retrievedAt": "2026-10-29"
     },
     {
+      "id": "usgs-gazetteer-moon",
+      "title": "Moon nomenclature (feature centre points), Gazetteer of Planetary Nomenclature",
+      "publisher": "USGS Astrogeology Science Center / IAU Working Group for Planetary System Nomenclature",
+      "url": "https://planetarynames.wr.usgs.gov/Page/MOON/target",
+      "license": "Public domain (USGS)",
+      "retrievedAt": "2026-10-29"
+    },
+    {
       "id": "nssdca-mars-fact-sheet",
       "title": "Mars Fact Sheet (D. R. Williams)",
       "publisher": "NASA Goddard Space Flight Center, NSSDCA",
@@ -382,6 +390,22 @@
       "title": "NASA's InSight Reveals the Deep Interior of Mars",
       "publisher": "NASA / JPL",
       "url": "https://www.nasa.gov/centers-and-facilities/jpl/nasas-insight-reveals-the-deep-interior-of-mars/",
+      "license": "NASA public domain (NASA media usage guidelines)",
+      "retrievedAt": "2026-10-29"
+    },
+    {
+      "id": "nasa-science-moon-composition",
+      "title": "Moon Composition & Structure",
+      "publisher": "NASA Science",
+      "url": "https://science.nasa.gov/moon/composition/",
+      "license": "NASA public domain (NASA media usage guidelines)",
+      "retrievedAt": "2026-10-29"
+    },
+    {
+      "id": "nasa-science-moon-facts",
+      "title": "Moon Facts",
+      "publisher": "NASA Science",
+      "url": "https://science.nasa.gov/moon/facts/",
       "license": "NASA public domain (NASA media usage guidelines)",
       "retrievedAt": "2026-10-29"
     },
@@ -726,6 +750,38 @@
       "title": "Solar Orbiter (NASA Science mission page)",
       "publisher": "NASA Science",
       "url": "https://science.nasa.gov/mission/solar-orbiter/",
+      "license": "NASA public domain (NASA media usage guidelines)",
+      "retrievedAt": "2026-10-29"
+    },
+    {
+      "id": "nssdca-lunar-timeline",
+      "title": "Lunar Exploration Timeline",
+      "publisher": "NASA Goddard Space Flight Center, NSSDCA",
+      "url": "https://nssdc.gsfc.nasa.gov/planetary/lunar/lunartimeline.html",
+      "license": "NASA public domain (NASA media usage guidelines)",
+      "retrievedAt": "2026-10-29"
+    },
+    {
+      "id": "nasa-mission-apollo-8",
+      "title": "Apollo 8",
+      "publisher": "NASA",
+      "url": "https://www.nasa.gov/mission/apollo-8/",
+      "license": "NASA public domain (NASA media usage guidelines)",
+      "retrievedAt": "2026-10-29"
+    },
+    {
+      "id": "nssdca-apollo-11",
+      "title": "Apollo 11 Command and Service Module (NSSDCA Master Catalog)",
+      "publisher": "NASA NSSDCA",
+      "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1969-059A",
+      "license": "NASA public domain (NASA media usage guidelines)",
+      "retrievedAt": "2026-10-29"
+    },
+    {
+      "id": "nasa-mission-lro",
+      "title": "Lunar Reconnaissance Orbiter (LRO)",
+      "publisher": "NASA Science",
+      "url": "https://science.nasa.gov/mission/lro/",
       "license": "NASA public domain (NASA media usage guidelines)",
       "retrievedAt": "2026-10-29"
     }
