@@ -7,6 +7,7 @@ import { length, type Vec3 } from '../../src/core/math/vec3';
 import { calendarToJd } from '../../src/core/time/julian';
 import { fitTable } from '../lib/chebyshevFit';
 import { fetchCached } from '../lib/fetchCached';
+import type { HorizonsMoonCheck } from '../sources/horizons';
 import { moonChunkUrl, moonListUrl, parseHorizonsVectorTable, REFERENCE_JDS, REFERENCE_QUERY } from '../sources/horizons';
 
 const offline = process.argv.includes('--offline');
@@ -115,8 +116,10 @@ const best = passing[0]!;
 const ref = await fetchRows(moonListUrl(REFERENCE_JDS), 'horizons-moon-reference-dates.txt');
 const heldOut = odd
   .filter((_, i) => i % (HELD_OUT_EVERY_DAYS * 4) === 0)
-  .map((s) => ({ jdTdb: s.jdTdb, positionKm: [Math.round(s.positionKm[0] * 1000) / 1000, Math.round(s.positionKm[1] * 1000) / 1000, Math.round(s.positionKm[2] * 1000) / 1000] }));
-const check = { retrievedAt, query: { ...REFERENCE_QUERY, COMMAND: "'301'", CENTER: "'500@399'", STEP_SIZE: `'${STEP_MINUTES} m'` }, heldOut, referenceDates: ref.rows };
+  .map((s) => ({ jdTdb: s.jdTdb, positionKm: [Math.round(s.positionKm[0] * 1000) / 1000, Math.round(s.positionKm[1] * 1000) / 1000, Math.round(s.positionKm[2] * 1000) / 1000] as Vec3 }));
+const heldOutSummary = { sampleCount: odd.length, maxDistanceErrorKm: Math.round(best.maxKm * 1000) / 1000, maxAngularErrorArcsec: Math.round(best.maxArcsec * 10000) / 10000 };
+// heldOut is a 1-in-12 subset of the odd samples; heldOutSummary covers all of them, measured against the final rounded table.
+const check: HorizonsMoonCheck = { retrievedAt, query: { ...REFERENCE_QUERY, COMMAND: "'301'", CENTER: "'500@399'", STEP_SIZE: `'${STEP_MINUTES} m'` }, heldOutSummary, heldOut, referenceDates: ref.rows };
 
 await mkdir(path.dirname(OUT_TABLE), { recursive: true });
 await writeFile(OUT_TABLE, JSON.stringify(best.file), 'utf8');

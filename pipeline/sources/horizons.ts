@@ -100,8 +100,18 @@ export function parseHorizonsVectorTable(result: string): Array<{ jdTdb: number;
     .filter((line) => line.trim() !== '')
     .map((line) => {
       const parts = line.split(',').map((x) => x.trim());
-      const nums = [Number(parts[0]), Number(parts[2]), Number(parts[3]), Number(parts[4])];
+      const fields = [parts[0], parts[2], parts[3], parts[4]];
+      const nums = fields.map((f) => (f === undefined || f === '' ? NaN : Number(f)));
       if (nums.some((n) => !Number.isFinite(n))) throw new Error(`Horizons vector line not numeric: ${line}`);
       return { jdTdb: nums[0]!, positionKm: [nums[1]!, nums[2]!, nums[3]!] as Vec3 };
     });
+}
+
+/** Shape of pipeline/reference/horizons-moon-check.json. `heldOut` is a 1-in-12 subset (one per 3 days) of the odd samples; `heldOutSummary` covers ALL odd samples. */
+export interface HorizonsMoonCheck {
+  retrievedAt: string;
+  query: Record<string, string>;
+  heldOutSummary: { sampleCount: number; maxDistanceErrorKm: number; maxAngularErrorArcsec: number };
+  heldOut: Array<{ jdTdb: number; positionKm: Vec3 }>;
+  referenceDates: Array<{ jdTdb: number; positionKm: Vec3 }>;
 }

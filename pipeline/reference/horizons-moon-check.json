@@ -1,4 +1,4 @@
-{"retrievedAt":"2026-10-29","query":{"CENTER":"'500@399'","REF_PLANE":"'ECLIPTIC'","REF_SYSTEM":"'ICRF'","EPHEM_TYPE":"'VECTORS'","VEC_TABLE":"'1'","OUT_UNITS":"'KM-S'","TIME_TYPE":"'TDB'","CSV_FORMAT":"'YES'","COMMAND":"'301'","STEP_SIZE":"'180 m'"},"heldOut":[
+{"retrievedAt":"2026-10-29","query":{"CENTER":"'500@399'","REF_PLANE":"'ECLIPTIC'","REF_SYSTEM":"'ICRF'","EPHEM_TYPE":"'VECTORS'","VEC_TABLE":"'1'","OUT_UNITS":"'KM-S'","TIME_TYPE":"'TDB'","CSV_FORMAT":"'YES'","COMMAND":"'301'","STEP_SIZE":"'180 m'"},"heldOutSummary":{"sampleCount":366832,"maxDistanceErrorKm":0.904,"maxAngularErrorArcsec":0.4792},"heldOut":[
 {"jdTdb":2378496.625,"positionKm":[389525.921,-49016.129,-24308.732]},
 {"jdTdb":2378499.625,"positionKm":[352697.958,196444.189,-4782.538]},
 {"jdTdb":2378502.625,"positionKm":[173142.144,363913.986,16727.753]},

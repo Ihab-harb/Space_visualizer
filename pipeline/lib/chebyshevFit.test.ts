@@ -47,7 +47,11 @@ describe('fitTable', () => {
     }
     expect(worst).toBeLessThan(0.01);
   });
-  it('rounding to 0.001 km adds at most 0.01 km', () => {
+  it('rounded coefficients serialise with at most 3 decimals', () => {
+    const segs = fitTable(synth(32), { startJdTdb: 0, segmentDays: 16, degree: 12, roundKm: 0.001 });
+    for (const c of segs.flat()) expect(String(c)).toMatch(/^-?\d+(\.\d{1,3})?$/);
+  });
+  it('rounding to 0.001 km moves each axis by at most (degree+1) * 0.0005 km', () => {
     const days = 64;
     const samples = synth(days);
     const exact = fileOf(fitTable(samples, { startJdTdb: 0, segmentDays: 16, degree: 12, roundKm: 0 }), 16, 12);
@@ -56,8 +60,8 @@ describe('fitTable', () => {
     for (let jd = 0.125; jd < days; jd += 0.25) {
       const a = evaluateChebyshev(exact, jd)!;
       const b = evaluateChebyshev(rounded, jd)!;
-      worst = Math.max(worst, Math.hypot(a[0] - b[0], a[1] - b[1], a[2] - b[2]));
+      worst = Math.max(worst, Math.abs(a[0] - b[0]), Math.abs(a[1] - b[1]), Math.abs(a[2] - b[2]));
     }
-    expect(worst).toBeLessThanOrEqual(0.01);
+    expect(worst).toBeLessThanOrEqual((12 + 1) * 0.0005 + 1e-9);
   });
 });

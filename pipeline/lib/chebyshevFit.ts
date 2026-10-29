@@ -39,7 +39,12 @@ export function fitChebyshev(samples: ReadonlyArray<{ t: number; v: number }>, d
   return x;
 }
 
-const roundTo = (value: number, step: number) => (step > 0 ? Math.round(value / step) * step : value);
+/** Round to a multiple of `step`, then to the step's decimals so the serialised number is the shortest decimal (no 1.6440000000000001). */
+const roundTo = (value: number, step: number) => {
+  if (!(step > 0)) return value;
+  const decimals = Math.max(0, Math.ceil(-Math.log10(step) - 1e-9));
+  return Number((Math.round(value / step) * step).toFixed(decimals));
+};
 
 /**
  * Fit consecutive segments of `segmentDays` from `startJdTdb`. A segment uses every sample inside it, both ends included.
