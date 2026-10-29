@@ -72,14 +72,16 @@ const odd = all.filter((_, i) => i % 2 === 1);
 const maxInRange = (file: ChebyshevFile) => {
   let maxKm = 0;
   let maxArcsec = 0;
+  let count = 0;
   for (const s of odd) {
     const p = evaluateChebyshev(file, s.jdTdb);
     if (!p) continue;
+    count++;
     const err = Math.hypot(p[0] - s.positionKm[0], p[1] - s.positionKm[1], p[2] - s.positionKm[2]);
     maxKm = Math.max(maxKm, err);
     maxArcsec = Math.max(maxArcsec, err / length(s.positionKm) / ARCSEC);
   }
-  return { maxKm, maxArcsec };
+  return { maxKm, maxArcsec, count };
 };
 
 const buildFile = (segmentDays: number, degree: number): ChebyshevFile => {
@@ -100,13 +102,13 @@ const buildFile = (segmentDays: number, degree: number): ChebyshevFile => {
   });
 };
 
-interface Trial { segmentDays: number; degree: number; maxKm: number; maxArcsec: number; bytes: number; file: ChebyshevFile }
+interface Trial { segmentDays: number; degree: number; maxKm: number; maxArcsec: number; count: number; bytes: number; file: ChebyshevFile }
 const trials: Trial[] = TRIALS.map(([segmentDays, degree]) => {
   const file = buildFile(segmentDays, degree);
   const bytes = Buffer.byteLength(JSON.stringify(file));
-  const { maxKm, maxArcsec } = maxInRange(file);
+  const { maxKm, maxArcsec, count } = maxInRange(file);
   console.log(`trial segmentDays=${segmentDays} degree=${degree}: max held-out ${maxKm.toFixed(4)} km (${maxArcsec.toFixed(5)} arcsec), ${(bytes / 1e6).toFixed(3)} MB`);
-  return { segmentDays, degree, maxKm, maxArcsec, bytes, file };
+  return { segmentDays, degree, maxKm, maxArcsec, count, bytes, file };
 });
 const passing = trials.filter((t) => t.maxKm <= 1).sort((a, b) => a.bytes - b.bytes);
 if (passing.length === 0) throw new Error('No tried setting reaches 1 km held-out error');
@@ -117,8 +119,8 @@ const ref = await fetchRows(moonListUrl(REFERENCE_JDS), 'horizons-moon-reference
 const heldOut = odd
   .filter((_, i) => i % (HELD_OUT_EVERY_DAYS * 4) === 0)
   .map((s) => ({ jdTdb: s.jdTdb, positionKm: [Math.round(s.positionKm[0] * 1000) / 1000, Math.round(s.positionKm[1] * 1000) / 1000, Math.round(s.positionKm[2] * 1000) / 1000] as Vec3 }));
-const heldOutSummary = { sampleCount: odd.length, maxDistanceErrorKm: Math.round(best.maxKm * 1000) / 1000, maxAngularErrorArcsec: Math.round(best.maxArcsec * 10000) / 10000 };
-// heldOut is a 1-in-12 subset of the odd samples; heldOutSummary covers all of them, measured against the final rounded table.
+const heldOutSummary = { sampleCount: best.count, maxDistanceErrorKm: Math.round(best.maxKm * 1000) / 1000, maxAngularErrorArcsec: Math.round(best.maxArcsec * 10000) / 10000 };
+// heldOut is a 1-in-12 subset of the odd samples; heldOutSummary covers every odd sample inside the table (those past its end are not counted), measured against the final rounded table.
 const check: HorizonsMoonCheck = { retrievedAt, query: { ...REFERENCE_QUERY, COMMAND: "'301'", CENTER: "'500@399'", STEP_SIZE: `'${STEP_MINUTES} m'` }, heldOutSummary, heldOut, referenceDates: ref.rows };
 
 await mkdir(path.dirname(OUT_TABLE), { recursive: true });

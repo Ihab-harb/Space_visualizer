@@ -5,7 +5,8 @@ import { calendarToJd } from '../time/julian';
 import { makeEarth, makeMoon, makeMoonTable, makeSun, MOON_TABLE_RANGE } from '../../test/fixtures';
 import { evaluateChebyshev } from './chebyshev';
 import { planetApproxState } from './planetApprox';
-import { satelliteGeocentricKm, systemState } from './system';
+import { meanElementsGeocentricKm } from './meanElements';
+import { satelliteGeocentricKm, satelliteOrbitPathKm, systemState } from './system';
 
 const bodies = [makeSun(), makeEarth(), makeMoon()];
 const tables = new Map([['moon', makeMoonTable()]]);
@@ -83,5 +84,36 @@ describe('systemState', () => {
     const s = systemState(bodies, tables, MOON_TABLE_RANGE.to + 1 / 86400);
     expect(s.get('moon')!.tableId).toBe('mean-elements');
     expect(s.get('moon')!.positionKm.every(Number.isFinite)).toBe(true);
+  });
+});
+
+describe('satelliteOrbitPathKm', () => {
+  const orbit = makeMoon().orbit as SatelliteOrbit;
+  const norm = (v: Vec3) => Math.hypot(v[0], v[1], v[2]);
+  // A table whose positions are doubled, so a point from the table cannot be mistaken for a mean-elements point.
+  const doubled = (() => {
+    const t = makeMoonTable();
+    return new Map([['moon', { ...t, segments: t.segments.map((seg) => seg.map((c) => c * 2)) }]]);
+  })();
+  const period = orbit.meanElements.siderealPeriodDays;
+
+  it('uses only the mean elements when the date is outside the table', () => {
+    const jd = MOON_TABLE_RANGE.to + 100;
+    const path = satelliteOrbitPathKm(orbit, doubled, 'moon', jd, 40);
+    expect(path).toHaveLength(40);
+    path.forEach((p, i) => {
+      const t = jd - period / 2 + (period * i) / 39;
+      expect(dist(p, meanElementsGeocentricKm(orbit.meanElements, t))).toBeLessThan(1e-6);
+    });
+  });
+
+  it('uses only the table when the date is inside it, even if the window reaches past the edge', () => {
+    const path = satelliteOrbitPathKm(orbit, doubled, 'moon', MOON_TABLE_RANGE.to - 1, 40);
+    for (const p of path) expect(norm(p)).toBeGreaterThan(600000); // doubled table, never the ~384,000 km mean-elements radius
+  });
+
+  it('uses only the mean elements when the table is not loaded', () => {
+    const path = satelliteOrbitPathKm(orbit, new Map(), 'moon', mid, 10);
+    for (const p of path) expect(norm(p)).toBeLessThan(420000);
   });
 });

@@ -139,6 +139,11 @@ describe('buildSolarSystem', () => {
     expect(orbit.meanElements.note).toContain('not intended for ephemeris computation');
   });
 
+  it('counts only the held-out samples inside the table (odd 3-hour samples, one every 6 hours)', () => {
+    const range = chebyshevRange(moonTable);
+    expect(moonCheck.heldOutSummary.sampleCount).toBe(Math.round((range.toJdTdb - range.fromJdTdb) / 0.25));
+  });
+
   it('measures the mean elements against Horizons outside 1800-2050 only', () => {
     const orbit = body('moon').orbit;
     if (orbit.type !== 'satellite') throw new Error('expected satellite');

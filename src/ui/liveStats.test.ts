@@ -1,9 +1,10 @@
 import { describe, expect, it } from 'vitest';
 import { createCatalog } from '../core/catalog/catalog';
-import { makeCatalogFiles, makeMoon, makeMoonTable } from '../test/fixtures';
+import { makeCatalogFiles, makeMoon, makeMoonTable, MOON_TABLE_RANGE } from '../test/fixtures';
 import { bodyState } from '../core/ephemeris/state';
 import { systemState } from '../core/ephemeris/system';
 import { distance } from '../core/math/vec3';
+import { citationModel } from './citations';
 import { liveStats } from './liveStats';
 
 const f = makeCatalogFiles();
@@ -35,6 +36,20 @@ describe('liveStats for the Moon', () => {
     expect(s.fromEarthKm!).toBeLessThan(407000);
     expect(s.fromParentKm).toBeCloseTo(s.fromEarthKm!, 6);
     expect(s.sourceId).toBe('jpl-horizons');
+  });
+  it('cites the mean elements, not Horizons, for dates outside the table', () => {
+    const moon = moonCatalog.bodyById.get('moon')!;
+    const out = liveStats(moonCatalog, moon, MOON_TABLE_RANGE.to + 100);
+    expect(out.sourceId).toBe('jpl-sats-elem');
+    expect(liveStats(moonCatalog, moon, MOON_TABLE_RANGE.to - 1).sourceId).toBe('jpl-horizons');
+  });
+  it('keeps the citation numbering the same across the table edge', () => {
+    const moon = moonCatalog.bodyById.get('moon')!;
+    const inside = citationModel(moonCatalog, moon);
+    expect(inside.order).toContain('jpl-sats-elem');
+    expect(inside.order).toContain('jpl-horizons');
+    const after = liveStats(moonCatalog, moon, MOON_TABLE_RANGE.to + 100).sourceId!;
+    expect(inside.numbers.get(after)).toBeGreaterThan(0);
   });
   it('gives the Moon a phase and gives planets none', () => {
     const phase = liveStats(moonCatalog, moonCatalog.bodyById.get('moon')!, 2451545 + 3).phase;

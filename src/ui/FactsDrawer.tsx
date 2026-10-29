@@ -45,7 +45,7 @@ export function FactsDrawer({ catalog }: { catalog: Catalog }) {
   const detailsEntry = useBodyDetails(body?.id);
   if (!body) return null;
 
-  const { order, numbers, liveSource } = citationModel(catalog, body, readyDetails(detailsEntry));
+  const { order, numbers } = citationModel(catalog, body, readyDetails(detailsEntry));
   const cite = (sourceId: string) => (
     <sup className="cite">
       <a href={`#source-${sourceId}`} aria-label={`Source ${numbers.get(sourceId)}`}>
@@ -55,6 +55,7 @@ export function FactsDrawer({ catalog }: { catalog: Catalog }) {
   );
   const parent = body.parentId ? catalog.bodyById.get(body.parentId) : undefined;
   const live = liveStats(catalog, body, jdTdb);
+  const liveSource = live.sourceId;
 
   return (
     <aside ref={ref} className={open ? 'glass drawer is-open' : 'glass drawer'} aria-label="Body information" aria-hidden={!open} inert={!open} role="complementary">

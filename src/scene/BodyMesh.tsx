@@ -11,7 +11,7 @@ import { BodyLabel } from './BodyLabel';
 import { useFrameState } from './FrameStateContext';
 import { BodyExtras, BodyMaterial } from './materials/BodyMaterial';
 import { minPixelsFor, pixelsPerRadian, renderRadiusKm } from './scaleMode';
-import { satelliteShown } from './satelliteVisibility';
+import { isInflated, satelliteHidden } from './satelliteVisibility';
 import { writeMatrix4 } from './threeMath';
 
 const noRaycast = () => undefined;
@@ -28,9 +28,8 @@ export function BodyMesh({ body, bodies }: { body: Body; bodies: readonly Body[]
   const mesh = useRef<Mesh>(null);
   const matrix = useMemo(() => new Matrix4(), []);
   const isStar = body.category === 'star';
-  // A satellite of a planet is hidden while it sits inside the planet's drawn disc. This applies in both scale modes:
-  // in readable scale the minimum radii cause the overlap; in true scale it only triggers when both bodies are sub-pixel,
-  // and hiding keeps the label clear.
+  // A satellite of a planet is hidden while it sits inside the planet's drawn disc, but only when readable-scale
+  // inflation causes the overlap (spec §6). With true radii on both bodies it is never hidden.
   const parent = useMemo(() => {
     const p = body.parentId ? bodies.find((b) => b.id === body.parentId) : undefined;
     return p && p.category !== 'star' ? p : undefined;
@@ -64,10 +63,12 @@ export function BodyMesh({ body, bodies }: { body: Body; bodies: readonly Body[]
       const parentDistance = length(parentRel);
       const parentRadius = renderRadiusKm(parent.shape.equatorialRadiusKm, parentDistance, scaleMode, minPixelsFor(parent.category), pxPerRad);
       const separationPx = Math.atan2(length(cross(rel, parentRel)), dot(rel, parentRel)) * pxPerRad;
-      const shown = satelliteShown({
+      const shown = !satelliteHidden({
         separationPx,
         parentRadiusPx: (parentRadius / Math.max(parentDistance, 1e-9)) * pxPerRad,
         selfRadiusPx: (radius / Math.max(distanceKm, 1e-9)) * pxPerRad,
+        selfInflated: isInflated(radius, equatorialRadiusKm),
+        parentInflated: isInflated(parentRadius, parent.shape.equatorialRadiusKm),
       });
       if (shown) frame.bodyHidden.delete(body.id);
       else frame.bodyHidden.add(body.id);

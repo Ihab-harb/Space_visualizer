@@ -107,7 +107,7 @@ export function parseHorizonsVectorTable(result: string): Array<{ jdTdb: number;
     });
 }
 
-/** Shape of pipeline/reference/horizons-moon-check.json. `heldOut` is a 1-in-12 subset (one per 3 days) of the odd samples; `heldOutSummary` covers ALL odd samples. */
+/** Shape of pipeline/reference/horizons-moon-check.json. `heldOut` is a 1-in-12 subset (one per 3 days) of the odd samples; `heldOutSummary` covers every odd sample inside the table. */
 export interface HorizonsMoonCheck {
   retrievedAt: string;
   query: Record<string, string>;

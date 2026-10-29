@@ -15,17 +15,17 @@ export function bodyState(body: Body, jdTdb: number): BodyState {
 
 export type ValidityStatus = 'high' | 'extended' | 'out-of-range';
 
-/** 'high' = every body uses its preferred table; 'extended' = some use a fallback table; 'out-of-range' = some are extrapolated. */
+/**
+ * 'high' = every body uses its preferred table; 'extended' = some planets use a fallback table;
+ * 'out-of-range' = some planet is extrapolated, or a satellite is outside its table and on mean elements.
+ */
 export function validityStatus(bodies: readonly Body[], jdTdb: number): ValidityStatus {
   let status: ValidityStatus = 'high';
   for (const body of bodies) {
     if (body.orbit.type === 'satellite') {
       const o = body.orbit;
       if (jdTdb >= o.table.validFromJdTdb && jdTdb <= o.table.validToJdTdb) continue;
-      if (jdTdb >= o.meanElements.validFromJdTdb && jdTdb <= o.meanElements.validToJdTdb) {
-        status = 'extended';
-        continue;
-      }
+      // A satellite on its mean elements (outside its table) is far less accurate than 'extended' implies (spec §3.2).
       return 'out-of-range';
     }
     if (body.orbit.type !== 'planet-approx') continue;

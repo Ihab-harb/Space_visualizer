@@ -35,6 +35,34 @@ export function satelliteGeocentricKm(
   };
 }
 
+/**
+ * The satellite's path over one sidereal period around a date, sampled with the single model in force at that date,
+ * so the line never joins the table and the mean elements. Inside the table the window is slid to stay inside it
+ * (clamped when the table is shorter than one period). Parent-relative, km.
+ */
+export function satelliteOrbitPathKm(
+  orbit: SatelliteOrbit,
+  tables: ReadonlyMap<string, ChebyshevFile>,
+  bodyId: string,
+  jdTdb: number,
+  points: number,
+): Vec3[] {
+  const period = orbit.meanElements.siderealPeriodDays;
+  const file = tables.get(bodyId);
+  const from = orbit.table.validFromJdTdb;
+  const to = orbit.table.validToJdTdb;
+  const useTable = !!file && jdTdb >= from && jdTdb <= to && evaluateChebyshev(file, jdTdb) !== null;
+  let start = jdTdb - period / 2;
+  if (useTable) start = Math.max(from, Math.min(start, to - period));
+  const out: Vec3[] = [];
+  for (let i = 0; i < points; i++) {
+    const jd = start + (period * i) / Math.max(points - 1, 1);
+    const r = useTable ? evaluateChebyshev(file!, Math.min(Math.max(jd, from), to)) : null;
+    out.push(r ?? meanElementsGeocentricKm(orbit.meanElements, jd));
+  }
+  return out;
+}
+
 /** Every body's position for one date. Satellites follow their parent; Earth is moved off the Earth-Moon barycentre. */
 export function systemState(
   bodies: readonly Body[],

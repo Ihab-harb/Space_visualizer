@@ -28,12 +28,15 @@ export function liveStats(catalog: Catalog, body: Body, jdTdb: number): LiveStat
   const fromEarthKm = earth && earth.id !== body.id ? distance(position, states.get(earth.id)!.positionKm) : null;
   const fromParentKm = parent && parent.category !== 'star' ? distance(position, states.get(parent.id)!.positionKm) : null;
   const phase = sun && parent?.id === 'earth' && body.orbit?.type === 'satellite' ? moonPhase(states.get(sun.id)!.positionKm, states.get(parent.id)!.positionKm, position) : null;
+  // A satellite outside its table is on the mean elements; cite those, not the table's source.
+  const own = body.orbit?.type === 'satellite' && states.get(body.id)!.tableId === 'mean-elements' ? body.orbit.meanElements.sourceId : null;
+  const sourceId = own ?? citationModel(catalog, body).liveSource;
   return {
     fromSunKm,
     fromEarthKm,
     fromParentKm,
     lightTimeS: fromEarthKm === null ? null : fromEarthKm / SPEED_OF_LIGHT_KM_S,
     phase,
-    sourceId: citationModel(catalog, body).liveSource,
+    sourceId,
   };
 }

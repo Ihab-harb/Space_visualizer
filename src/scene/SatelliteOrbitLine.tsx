@@ -3,8 +3,7 @@ import { useEffect, useMemo, useRef } from 'react';
 import { BufferAttribute, BufferGeometry, Line, LineBasicMaterial } from 'three';
 import type { Catalog } from '../core/catalog/catalog';
 import type { Body, SatelliteOrbit } from '../core/catalog/schema';
-import { satelliteGeocentricKm } from '../core/ephemeris/system';
-import type { Vec3 } from '../core/math/vec3';
+import { satelliteOrbitPathKm } from '../core/ephemeris/system';
 import { useFrameState } from './FrameStateContext';
 
 const POINTS = 180;
@@ -12,7 +11,7 @@ const POINTS = 180;
 const RESAMPLE_DAYS = 0.25;
 
 /**
- * The satellite's real path around its parent over one sidereal period centred on now, from the same ephemeris as the body.
+ * The satellite's real path around its parent over one sidereal period around now, sampled with the one model in force at the current date (no kink at the table edge).
  * Stored parent-relative (km); placed around the parent's current position, minus the camera, every frame.
  */
 export function SatelliteOrbitLine({ body, catalog }: { body: Body & { orbit: SatelliteOrbit }; catalog: Catalog }) {
@@ -39,13 +38,11 @@ export function SatelliteOrbitLine({ body, catalog }: { body: Body & { orbit: Sa
     line.visible = !hidden;
     if (hidden) return;
     if (!(Math.abs(frame.jdTdb - sampledAt.current) <= RESAMPLE_DAYS)) {
-      const period = body.orbit.meanElements.siderealPeriodDays;
+      const sampled = satelliteOrbitPathKm(body.orbit, catalog.ephemerisTables, body.id, frame.jdTdb, POINTS);
       for (let i = 0; i < POINTS; i++) {
-        const jd = frame.jdTdb - period / 2 + (period * i) / (POINTS - 1);
-        const r: Vec3 = satelliteGeocentricKm(body.orbit, catalog.ephemerisTables, body.id, jd).r;
-        path[i * 3] = r[0];
-        path[i * 3 + 1] = r[1];
-        path[i * 3 + 2] = r[2];
+        path[i * 3] = sampled[i]![0];
+        path[i * 3 + 1] = sampled[i]![1];
+        path[i * 3 + 2] = sampled[i]![2];
       }
       sampledAt.current = frame.jdTdb;
     }
