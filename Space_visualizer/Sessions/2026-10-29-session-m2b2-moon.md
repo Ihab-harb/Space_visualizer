@@ -33,8 +33,8 @@ Back to [[Home]] · Previous: [[2026-10-29-session-vault-check]]
 See the spec §10 (nine calls) and the rulings in the plan's Execution record. The biggest: the Moon's 1800–2050 position comes from JPL Horizons vectors compressed to Chebyshev polynomials (≤ 1 km error), and Earth is moved off the barycentre. Rulings made while building: the 1 km target outranks the 2 MB file size (then met after rounding), no blending at the table edge, Earth's centre check uses the JPL Table 1 bound, the Moon has no Discovery entry, moon hiding applies only when readable-scale inflation causes the overlap (changed by the final review), and the eclipse tint is Earth's copper for any shadowing atmosphere.
 
 ## State
-- M2b.2 is complete on branch `m2b2-moon` (stacked on `m2b1-details`). 797 unit tests, typecheck clean, 93 end-to-end tests (two cold-start flakes in one run, both pass alone).
-- The whole-branch review is done and its fix wave is applied (see the plan's "Whole-branch review"). A scoped re-review is still to do. The branch is **not pushed** and **no PR** is open.
+- M2b.2 is complete on branch `m2b2-moon` (stacked on `m2b1-details`). 807 unit tests and typecheck clean after the review fixes; end-to-end results are in the plan's Execution record.
+- The whole-branch review, its fix wave and the scoped re-review are done (see the plan's "Whole-branch review"). The branch is **not pushed** and **no PR** is open.
 - Next section: M2b.3 (cutaway and charts), per the M2b.1 spec's split.
 
 ## Open for the user
