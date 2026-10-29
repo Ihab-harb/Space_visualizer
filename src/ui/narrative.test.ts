@@ -5,7 +5,7 @@ import { makeJupiterDetails, makeMarsDetails, makeSunDetails } from '../test/det
 import { buildNarrative, type NarrativePart } from './narrative';
 
 const text = (parts: NarrativePart[]) => parts.map((p) => p.text).join('');
-const stats = { fromSunKm: 7.8e8, fromEarthKm: 6.3e8, lightTimeS: 2100, sourceId: 'jpl-approx-pos' };
+const stats = { fromSunKm: 7.8e8, fromEarthKm: 6.3e8, fromParentKm: null, lightTimeS: 2100, sourceId: 'jpl-approx-pos' };
 
 describe('buildNarrative', () => {
   it('builds cited sentences from facts and live values only', () => {

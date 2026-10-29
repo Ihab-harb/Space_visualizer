@@ -142,7 +142,7 @@ export function FactsDrawer({ catalog }: { catalog: Catalog }) {
       <section>
         <h3>Position accuracy</h3>
         <ul className="info-panel__accuracy">
-          {accuracyLines(body).map((line) => (
+          {accuracyLines(body, catalog).map((line) => (
             <li key={line.text}>
               {line.text}
               {line.sourceIds.map((id) => (

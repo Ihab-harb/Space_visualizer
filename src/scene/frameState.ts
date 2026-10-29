@@ -1,5 +1,5 @@
-import type { Body } from '../core/catalog/schema';
-import { bodyState } from '../core/ephemeris/state';
+import type { Body, ChebyshevFile } from '../core/catalog/schema';
+import { systemState } from '../core/ephemeris/system';
 import { bodyFixedToEcliptic } from '../core/frames/rotation';
 import { DEG } from '../core/math/angles';
 import type { Mat3 } from '../core/math/mat3';
@@ -34,10 +34,16 @@ export function createFrameState(): FrameState {
   };
 }
 
-export function updateBodies(frame: FrameState, bodies: readonly Body[], jdTdb: number): void {
+export function updateBodies(
+  frame: FrameState,
+  bodies: readonly Body[],
+  tables: ReadonlyMap<string, ChebyshevFile>,
+  jdTdb: number,
+): void {
   frame.jdTdb = jdTdb;
+  const states = systemState(bodies, tables, jdTdb);
   for (const body of bodies) {
-    const state = bodyState(body, jdTdb);
+    const state = states.get(body.id)!;
     frame.bodyPositionsKm.set(body.id, state.positionKm);
     frame.bodyInValidRange.set(body.id, state.inValidRange);
     if (body.rotation) frame.bodyOrientation.set(body.id, bodyFixedToEcliptic(body.rotation, jdTdb));

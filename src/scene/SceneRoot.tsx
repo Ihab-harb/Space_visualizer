@@ -70,7 +70,7 @@ export function SceneRoot({ catalog }: { catalog: Catalog }) {
         <LabelLayerContext.Provider value={labelLayer}>
           <FrameStateProvider>
             <SkyBackground />
-            <FrameDriver bodies={catalog.bodies} />
+            <FrameDriver catalog={catalog} />
             <CameraSystem catalog={catalog} />
             <QualityGovernor />
             <BodiesInView />

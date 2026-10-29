@@ -1,17 +1,17 @@
 import { useFrame } from '@react-three/fiber';
 import type { PerspectiveCamera } from 'three';
-import type { Body } from '../core/catalog/schema';
+import type { Catalog } from '../core/catalog/catalog';
 import { DEG } from '../core/math/angles';
 import { useTimeStore } from '../state/timeStore';
 import { useFrameState } from './FrameStateContext';
 import { updateBodies } from './frameState';
 
-export function FrameDriver({ bodies }: { bodies: readonly Body[] }) {
+export function FrameDriver({ catalog }: { catalog: Catalog }) {
   const frame = useFrameState();
   useFrame((state, delta) => {
     const time = useTimeStore.getState();
     time.advance(delta);
-    updateBodies(frame, bodies, useTimeStore.getState().jdTdb);
+    updateBodies(frame, catalog.bodies, catalog.ephemerisTables, useTimeStore.getState().jdTdb);
     frame.viewportHeightPx = state.size.height;
     frame.fovRad = (state.camera as PerspectiveCamera).fov * DEG;
   }, -2);

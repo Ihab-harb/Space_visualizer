@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import type { Body } from '../core/catalog/schema';
 import { createCatalog } from '../core/catalog/catalog';
-import { makeCatalogFiles, makeEarth } from '../test/fixtures';
+import { makeCatalogFiles, makeEarth, makeMoon } from '../test/fixtures';
 import { makeJupiterDetails, makeMarsDetails } from '../test/detailsFixtures';
 import { citationModel, citationOrder, detailsSourceOrder } from './citations';
 
@@ -62,5 +62,17 @@ describe('citationModel with details', () => {
     const order = detailsSourceOrder(d);
     expect(order).toContain('insight-page');
     expect(order.indexOf('insight-page')).toBe(order.indexOf('nssdca-planetary-fact-sheet') + 1);
+  });
+});
+
+describe('citationModel for a satellite', () => {
+  it('lists the table, mean-elements, check and mass-ratio sources, and uses the table as the live source', () => {
+    const f = makeCatalogFiles();
+    f.bodies.bodies.push(makeMoon());
+    const catalog = createCatalog(f.regions, f.sources, [f.bodies]);
+    const m = citationModel(catalog, catalog.bodyById.get('moon')!);
+    expect(m.liveSource).toBe('jpl-horizons');
+    expect(m.order).toEqual(expect.arrayContaining(['jpl-horizons', 'jpl-sats-elem', 'naif-gm-de440']));
+    expect(new Set(m.order).size).toBe(m.order.length);
   });
 });

@@ -15,6 +15,8 @@ export const TEST_SOURCES: Source[] = [
   { id: 'nasa-science-sun', title: 'The Sun - NASA Science', publisher: 'NASA', url: 'https://science.nasa.gov/sun/', retrievedAt: '2026-10-04', license: 'NASA public domain (NASA media usage guidelines)' },
   { id: 'nasa-science-earth', title: 'Earth Facts - NASA Science', publisher: 'NASA', url: 'https://science.nasa.gov/earth/facts/', retrievedAt: '2026-10-04', license: 'NASA public domain (NASA media usage guidelines)' },
   { id: 'nasa-science-jupiter', title: 'Jupiter - NASA Science', publisher: 'NASA', url: 'https://science.nasa.gov/jupiter/', retrievedAt: '2026-10-04', license: 'NASA public domain (NASA media usage guidelines)' },
+  { id: 'jpl-sats-elem', title: 'Planetary Satellite Mean Elements', publisher: 'NASA/JPL Solar System Dynamics', url: 'https://ssd.jpl.nasa.gov/sats/elem/', retrievedAt: '2026-10-29', license: 'NASA/JPL public web content (JPL Image Use Policy)' },
+  { id: 'naif-gm-de440', title: 'gm_de440.tpc planetary constants kernel', publisher: 'NASA/JPL Navigation and Ancillary Information Facility (NAIF)', url: 'https://naif.jpl.nasa.gov/pub/naif/generic_kernels/pck/gm_de440.tpc', retrievedAt: '2026-10-29', license: 'NASA public domain' },
   { id: 'nasa-svs-deep-star-maps', title: 'Deep Star Maps 2020', publisher: 'NASA Goddard Scientific Visualization Studio', url: 'https://svs.gsfc.nasa.gov/4851', retrievedAt: '2026-10-04', license: 'NASA public domain (credit NASA/Goddard SVS; Gaia DR2: ESA/Gaia/DPAC)' },
 ];
 
@@ -107,7 +109,7 @@ export function makeCatalogFiles(): { regions: RegionsFile; sources: SourcesFile
 
 /** Real JPL satellite mean elements for the Moon (https://ssd.jpl.nasa.gov/sats/elem/). */
 export const MOON_MEAN_ELEMENTS: SatelliteOrbit['meanElements'] = {
-  sourceId: 'jpl-sat-mean-elements',
+  sourceId: 'jpl-sats-elem',
   epochJdTdb: 2451545,
   aKm: 384400,
   e: 0.0554,
