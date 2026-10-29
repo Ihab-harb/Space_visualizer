@@ -33,7 +33,7 @@ The smallest under 1 km wins. The first size reading (2.22 MB) fell under the 2 
 
 ## Consequences
 - **A 2 MB-class file loads at startup** (1.88 MB, before compression). The Moon waits for it; the other bodies do not.
-- **The table covers 1800-01-01 to 8 days past 2051-01-01.** Segments are 16 days and 91,676 days has no divisor of 8, 16 or 32, so the end is 8 days later than the M1 date range.
+- **The table covers 1800-01-01 to 4 days past 2051-01-01.** Segments are 16 days and 91,676 days has no divisor of 8, 16 or 32, so the table ends 4 days past the M1 end date (91,680 days).
 - **The fallback is poor far from 1800 to 2050.** At the three far M1 reference dates the mean elements are off by up to 784,535 km, about 175 degrees (the 27.322-day period is rounded and its phase error grows). The status bar reads amber "extended" there although the Moon's position is effectively unknown. At a table edge the position jumps by thousands of km: the two models are not blended, because blending would invent positions.
 - **Open question for the user:** extend the Horizons table to cover more years (more download), mark the Moon out of range outside the table, or keep it as it is. Listed in [[2026-10-29-session-m2b2-moon]].
 - **Accuracy is measured, not claimed** ([[0004-measured-accuracy]]): both figures are stored in `bodies.json` and shown in the drawer.
