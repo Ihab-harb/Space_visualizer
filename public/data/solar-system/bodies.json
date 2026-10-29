@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "regionId": "solar-system",
-  "generatedAt": "2026-10-29T22:38:13.444Z",
+  "generatedAt": "2026-10-29T23:29:39.035Z",
   "bodies": [
     {
       "id": "sun",
@@ -2561,7 +2561,7 @@
           "validFromJdTdb": 2378496.5,
           "validToJdTdb": 2470176.5,
           "horizonsCheck": {
-            "sampleCount": 366832,
+            "sampleCount": 366720,
             "maxDistanceErrorKm": 0.904,
             "maxAngularErrorArcsec": 0.4792,
             "sourceId": "jpl-horizons"
