@@ -28,7 +28,9 @@ export function BodyMesh({ body, bodies }: { body: Body; bodies: readonly Body[]
   const mesh = useRef<Mesh>(null);
   const matrix = useMemo(() => new Matrix4(), []);
   const isStar = body.category === 'star';
-  // A satellite of a planet is hidden while it sits inside the planet's drawn disc (readable scale, spec §6).
+  // A satellite of a planet is hidden while it sits inside the planet's drawn disc. This applies in both scale modes:
+  // in readable scale the minimum radii cause the overlap; in true scale it only triggers when both bodies are sub-pixel,
+  // and hiding keeps the label clear.
   const parent = useMemo(() => {
     const p = body.parentId ? bodies.find((b) => b.id === body.parentId) : undefined;
     return p && p.category !== 'star' ? p : undefined;

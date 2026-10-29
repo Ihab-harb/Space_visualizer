@@ -1,5 +1,5 @@
 import { useFrame } from '@react-three/fiber';
-import { useMemo, useRef } from 'react';
+import { useEffect, useMemo, useRef } from 'react';
 import { BufferAttribute, BufferGeometry, Line, LineBasicMaterial } from 'three';
 import type { Catalog } from '../core/catalog/catalog';
 import type { Body, SatelliteOrbit } from '../core/catalog/schema';
@@ -27,6 +27,10 @@ export function SatelliteOrbitLine({ body, catalog }: { body: Body & { orbit: Sa
     l.frustumCulled = false;
     return l;
   }, [positions, body.display.color]);
+  useEffect(() => () => {
+    line.geometry.dispose();
+    (line.material as LineBasicMaterial).dispose();
+  }, [line]);
 
   useFrame(() => {
     const parentPos = body.parentId ? frame.bodyPositionsKm.get(body.parentId) : undefined;
