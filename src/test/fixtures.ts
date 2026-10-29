@@ -158,7 +158,11 @@ export function makeMoonTable(): ChebyshevFile {
 export function makeMoon(): Body {
   return {
     id: 'moon', name: 'Moon', category: 'moon', parentId: 'earth', regionId: 'solar-system', naifId: 301,
-    facts: {},
+    facts: {
+      orbitalPeriodDays: { value: 27.321661, sourceId: 'jpl-horizons' },
+      meanDistanceFromParentKm: { value: 384400, sourceId: 'jpl-horizons' },
+      lengthOfDayHours: { value: 708.7, sourceId: 'jpl-horizons' },
+    },
     orbit: {
       type: 'satellite',
       table: {

@@ -6,7 +6,7 @@ import { length, sub } from '../core/math/vec3';
 import { SPEED_OF_LIGHT_KM_S } from '../core/units';
 import { useSelectionStore } from '../state/selectionStore';
 import { useViewStore } from '../state/viewStore';
-import { formatAu, formatLightTimeShort } from '../ui/format';
+import { formatAu, formatKm, formatLightTimeShort } from '../ui/format';
 import { useFrameState } from './FrameStateContext';
 import { labelPriority } from './labels/labelLayout';
 import { useLabelLayer } from './LabelLayerContext';
@@ -40,7 +40,7 @@ export function BodyLabel({ body, sunId }: { body: Body; sunId: string | undefin
       const expanded = selected || hovered;
       datum.current.textContent =
         body.category === 'moon'
-          ? Math.round(d).toLocaleString('en-US') + ' km' // placeholder until formatKm (Task 7)
+          ? formatKm(d)
           : body.id === 'earth' ? `${formatAu(d)} from Sun` : expanded ? `${formatAu(d)} · ${formatLightTimeShort(d / SPEED_OF_LIGHT_KM_S)} light` : formatAu(d);
     }
     const r = frame.bodyRenderRadiusKm.get(body.id);

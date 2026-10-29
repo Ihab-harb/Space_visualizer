@@ -1,11 +1,11 @@
 import { describe, expect, it } from 'vitest';
 import type { Body } from '../core/catalog/schema';
-import { makeEarth, makeJupiter, makeSun } from '../test/fixtures';
+import { makeEarth, makeJupiter, makeMoon, makeSun } from '../test/fixtures';
 import { makeJupiterDetails, makeMarsDetails, makeSunDetails } from '../test/detailsFixtures';
 import { buildNarrative, type NarrativePart } from './narrative';
 
 const text = (parts: NarrativePart[]) => parts.map((p) => p.text).join('');
-const stats = { fromSunKm: 7.8e8, fromEarthKm: 6.3e8, fromParentKm: null, lightTimeS: 2100, sourceId: 'jpl-approx-pos' };
+const stats = { fromSunKm: 7.8e8, fromEarthKm: 6.3e8, fromParentKm: null, lightTimeS: 2100, sourceId: 'jpl-approx-pos', phase: null };
 
 describe('buildNarrative', () => {
   it('builds cited sentences from facts and live values only', () => {
@@ -61,10 +61,11 @@ describe('buildNarrative', () => {
     it('is unchanged without details', () => {
       expect(buildNarrative(makeJupiter(), stats, { details: null })).toEqual(buildNarrative(makeJupiter(), stats));
     });
-    it('says a moon orbits its parent, not the Sun', () => {
-      const moon: Body = { ...makeJupiter(), id: 'moon', name: 'Moon', parentId: 'earth' };
-      const t = text(buildNarrative(moon, stats, { parent: makeEarth() }));
-      expect(t).toMatch(/Moon orbits Earth every/);
+    it('says the Moon orbits Earth with a km distance and no AU', () => {
+      const moonStats = { fromSunKm: 1.5e8, fromEarthKm: 384400, fromParentKm: 384400, lightTimeS: 1.28, sourceId: 'jpl-horizons', phase: null };
+      const t = text(buildNarrative(makeMoon(), moonStats, { parent: makeEarth() }));
+      expect(t).toMatch(/Moon orbits Earth every 27\.3 days at an average 384,400 km\./);
+      expect(t).not.toMatch(/AU/);
       expect(t).not.toMatch(/circles the Sun/);
     });
   });

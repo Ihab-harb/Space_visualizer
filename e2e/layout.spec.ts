@@ -49,10 +49,10 @@ for (const vp of VIEWPORTS) {
 }
 
 for (const vp of VIEWPORTS) {
-  for (const drawer of [false, true]) {
-    test(`panels never overlap at ${vp.width}x${vp.height}, drawer ${drawer ? 'open' : 'closed'}`, async ({ browser }) => {
+  for (const [target, drawer] of [['jupiter', false], ['jupiter', true], ['moon', false], ['moon', true]] as const) {
+    test(`panels never overlap at ${vp.width}x${vp.height} for ${target}, drawer ${drawer ? 'open' : 'closed'}`, async ({ browser }) => {
       const page = await browser.newPage({ viewport: { width: vp.width, height: vp.height } });
-      await page.goto('/?target=jupiter&pause=1&quality=low');
+      await page.goto(`/?target=${target}&pause=1&quality=low`);
       await expect(page.locator('canvas')).toBeVisible();
       if (drawer) await page.keyboard.press('f');
       await page.waitForTimeout(600);

@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { formatAu, formatDistanceKm, formatDuration, formatFact, formatLightTime, formatLightTimeShort, formatNumber, formatPeriodDays } from './format';
+import { formatAu, formatDistanceKm, formatDuration, formatFact, formatKm, formatLightTime, formatLightTimeShort, formatNumber, formatPeriodDays } from './format';
 
 describe('formatNumber', () => {
   it.each([
@@ -66,5 +66,14 @@ describe('short formats', () => {
     expect(formatPeriodDays(729.9)).toBe('729.9 days');
     expect(formatPeriodDays(730)).toBe('2 years');
     expect(formatPeriodDays(4331)).toBe('11.86 years');
+  });
+});
+
+describe('formatKm', () => {
+  it('groups thousands without decimals and keeps one decimal below 1,000 km', () => {
+    expect(formatKm(384400)).toBe('384,400 km');
+    expect(formatKm(384399.6)).toBe('384,400 km');
+    expect(formatKm(1737.4)).toBe('1,737 km');
+    expect(formatKm(412.34)).toBe('412.3 km');
   });
 });

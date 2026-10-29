@@ -9,7 +9,7 @@ import { useSelectionStore } from '../state/selectionStore';
 import { useUiStore } from '../state/uiStore';
 import { useViewStore } from '../state/viewStore';
 import { citationModel } from './citations';
-import { formatAu, formatDuration, formatLightTimeShort, formatNumber } from './format';
+import { formatAu, formatDuration, formatKm, formatLightTimeShort, formatNumber } from './format';
 import { radarShown } from './imagery';
 import { liveStats } from './liveStats';
 import { useThrottledJd } from './useThrottledJd';
@@ -81,25 +81,35 @@ export function Header({ catalog }: { catalog: Catalog }) {
     </sup>
   );
   const distanceKm = stats.fromEarthKm ?? stats.fromSunKm;
+  const parent = body.parentId ? catalog.bodyById.get(body.parentId) : undefined;
+  const ofEarth = parent?.id === 'earth' && stats.fromParentKm !== null;
+  const showDistance = (km: number) => (ofEarth ? formatKm(km) : formatAu(km));
   const distanceLabel = stats.fromEarthKm !== null ? 'From Earth' : 'From the Sun';
   const dayFact = body.facts.lengthOfDayHours;
   const tempFact = body.facts.meanTemperatureC;
   const day = dayFact && typeof dayFact.value === 'number' ? { value: dayFact.value, sourceId: dayFact.sourceId } : null;
   const temp = tempFact && typeof tempFact.value === 'number' ? { value: tempFact.value, sourceId: tempFact.sourceId } : null;
-  const narrative = buildNarrative(body, stats, { details, parent: body.parentId ? catalog.bodyById.get(body.parentId) : undefined });
+  const narrative = buildNarrative(body, stats, { details, parent });
   const expanded = expandedFor === body.id;
 
   return (
     <header ref={ref} className="glass header" aria-label="Selected body" style={{ ['--body-accent' as string]: body.display.color }}>
       <p className="header__subtitle">
-        {CATEGORY[body.category]}
-        {distanceKm !== null ? ` · ${formatAu(distanceKm)} ${stats.fromEarthKm !== null ? 'from Earth' : 'from the Sun'}` : ''}
+        {stats.fromParentKm !== null && parent
+          ? `${CATEGORY[body.category]} of ${parent.name} · ${formatKm(stats.fromParentKm)}`
+          : <>
+              {CATEGORY[body.category]}
+              {distanceKm !== null ? ` · ${formatAu(distanceKm)} ${stats.fromEarthKm !== null ? 'from Earth' : 'from the Sun'}` : ''}
+            </>}
       </p>
       <h1 key={body.id} className="header__headline">{body.name}</h1>
       {radarShown(body, venusRadar) && <p className="header__radar-tag">Radar view · not visible light</p>}
       <ul className="chips">
         {distanceKm !== null && stats.sourceId && (
-          <li className="chip"><span className="chip__label">{distanceLabel}</span><span className="num">{formatAu(distanceKm)}</span>{cite(stats.sourceId)}</li>
+          <li className="chip"><span className="chip__label">{distanceLabel}</span><span className="num">{showDistance(distanceKm)}</span>{cite(stats.sourceId)}</li>
+        )}
+        {stats.phase && stats.sourceId && (
+          <li className="chip"><span className="chip__label">Phase</span><span className="num">{Math.round(stats.phase.illuminatedFraction * 100)}% · {stats.phase.name}</span>{cite(stats.sourceId)}</li>
         )}
         {stats.lightTimeS !== null && stats.sourceId && (
           <li className="chip"><span className="chip__label">Light time</span><span className="num">{formatLightTimeShort(stats.lightTimeS)}</span>{cite(stats.sourceId)}</li>

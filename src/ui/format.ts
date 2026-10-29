@@ -41,6 +41,11 @@ export function formatAu(km: number): string {
   return `${au < 1 ? au.toFixed(3) : au.toFixed(2)} AU`;
 }
 
+/** A distance in kilometres: whole numbers from 1,000 km up, one decimal below. */
+export function formatKm(km: number): string {
+  return km >= 1000 ? `${Math.round(km).toLocaleString('en-US')} km` : `${km.toFixed(1)} km`;
+}
+
 export function formatLightTimeShort(seconds: number): string {
   if (seconds < 60) return `${seconds.toFixed(1)} s`;
   const min = seconds / 60;

@@ -1,5 +1,6 @@
 import type { Catalog } from '../core/catalog/catalog';
 import type { Body } from '../core/catalog/schema';
+import { moonPhase, type MoonPhase } from '../core/ephemeris/phase';
 import { systemState } from '../core/ephemeris/system';
 import { distance } from '../core/math/vec3';
 import { SPEED_OF_LIGHT_KM_S } from '../core/units';
@@ -11,6 +12,8 @@ export interface LiveStats {
   /** Distance from the body's parent; null when the parent is a star (that is the Sun distance). */
   fromParentKm: number | null;
   lightTimeS: number | null;
+  /** Phase as seen from Earth; non-null only for a satellite of Earth. */
+  phase: MoonPhase | null;
   /** The position model behind these values: the body's own, or Earth's when the body is fixed (the Sun). */
   sourceId: string | null;
 }
@@ -24,11 +27,13 @@ export function liveStats(catalog: Catalog, body: Body, jdTdb: number): LiveStat
   const fromSunKm = sun && sun.id !== body.id ? distance(position, states.get(sun.id)!.positionKm) : null;
   const fromEarthKm = earth && earth.id !== body.id ? distance(position, states.get(earth.id)!.positionKm) : null;
   const fromParentKm = parent && parent.category !== 'star' ? distance(position, states.get(parent.id)!.positionKm) : null;
+  const phase = sun && parent?.id === 'earth' && body.orbit?.type === 'satellite' ? moonPhase(states.get(sun.id)!.positionKm, states.get(parent.id)!.positionKm, position) : null;
   return {
     fromSunKm,
     fromEarthKm,
     fromParentKm,
     lightTimeS: fromEarthKm === null ? null : fromEarthKm / SPEED_OF_LIGHT_KM_S,
+    phase,
     sourceId: citationModel(catalog, body).liveSource,
   };
 }

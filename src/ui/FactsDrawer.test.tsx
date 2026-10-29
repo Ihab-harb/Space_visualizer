@@ -9,7 +9,7 @@ import { useTimeStore } from '../state/timeStore';
 import { useViewStore } from '../state/viewStore';
 import { useDetailsStore } from '../state/detailsStore';
 import { makeJupiterDetails } from '../test/detailsFixtures';
-import { makeCatalogFiles } from '../test/fixtures';
+import { makeCatalogFiles, makeMoon, makeMoonTable } from '../test/fixtures';
 import { citationModel } from './citations';
 import { FactsDrawer } from './FactsDrawer';
 
@@ -159,5 +159,24 @@ describe('FactsDrawer', () => {
     render(<FactsDrawer catalog={catalog} />);
     expect(within(panel()).getByRole('status')).toHaveTextContent('Loading details…');
     expect(within(panel()).getByRole('heading', { name: 'Position accuracy' })).toBeInTheDocument();
+  });
+
+  it('lists the new orbit facts of a satellite with their units', () => {
+    const mf = makeCatalogFiles();
+    const moon = makeMoon();
+    moon.facts.periapsisKm = { value: 363300, sourceId: 'jpl-horizons' };
+    moon.facts.apoapsisKm = { value: 405500, sourceId: 'jpl-horizons' };
+    moon.facts.synodicPeriodDays = { value: 29.530589, sourceId: 'jpl-horizons' };
+    mf.bodies.bodies.push(moon);
+    const moonCatalog = createCatalog(mf.regions, mf.sources, [mf.bodies], new Map([['moon', makeMoonTable()]]));
+    useSelectionStore.setState({ selectedId: 'moon' });
+    render(<FactsDrawer catalog={moonCatalog} />);
+    const text = panel().textContent!;
+    expect(text).toContain('Mean distance from its planet');
+    expect(text).toContain('384,400 km');
+    expect(text).toContain('Closest distance (periapsis)363,300 km');
+    expect(text).toContain('Farthest distance (apoapsis)405,500 km');
+    expect(text).toContain('Cycle of phases (synodic period)29.5306 days');
+    expect(text).not.toContain('Semi-major axis');
   });
 });

@@ -36,6 +36,13 @@ describe('liveStats for the Moon', () => {
     expect(s.fromParentKm).toBeCloseTo(s.fromEarthKm!, 6);
     expect(s.sourceId).toBe('jpl-horizons');
   });
+  it('gives the Moon a phase and gives planets none', () => {
+    const phase = liveStats(moonCatalog, moonCatalog.bodyById.get('moon')!, 2451545 + 3).phase;
+    expect(phase).not.toBeNull();
+    expect(phase!.illuminatedFraction).toBeGreaterThanOrEqual(0);
+    expect(phase!.illuminatedFraction).toBeLessThanOrEqual(1);
+    expect(liveStats(moonCatalog, moonCatalog.bodyById.get('jupiter')!, 2451545).phase).toBeNull();
+  });
   it('has no parent distance for a planet whose parent is the Sun', () => {
     expect(liveStats(moonCatalog, moonCatalog.bodyById.get('jupiter')!, 2451545).fromParentKm).toBeNull();
   });
