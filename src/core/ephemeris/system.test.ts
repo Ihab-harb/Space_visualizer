@@ -64,15 +64,24 @@ describe('systemState', () => {
     expect(() => systemState([makeSun(), orphan], tables, mid)).toThrow('satellite "moon" has no parent "mars" in the catalogue');
   });
 
-  it('a table boundary gives no jump', () => {
-    // Compared relative to Earth: Earth itself moves about 2.6 km in the 1e-6 day step.
-    const rel = (jd: number): Vec3 => {
-      const s = systemState(bodies, tables, jd);
-      const e = s.get('earth')!.positionKm;
-      const m = s.get('moon')!.positionKm;
-      return [m[0] - e[0], m[1] - e[1], m[2] - e[2]];
-    };
-    const to = MOON_TABLE_RANGE.to;
-    expect(dist(rel(to - 1e-6), rel(to))).toBeLessThan(1);
+  const rel = (jd: number): Vec3 => {
+    const s = systemState(bodies, tables, jd);
+    const e = s.get('earth')!.positionKm;
+    const m = s.get('moon')!.positionKm;
+    return [m[0] - e[0], m[1] - e[1], m[2] - e[2]];
+  };
+
+  it('a segment boundary inside the table gives no jump', () => {
+    // Segments are 4 days long; compare Moon minus Earth across each interior boundary.
+    for (const k of [1, 2, 3]) {
+      const edge = MOON_TABLE_RANGE.from + 4 * k;
+      expect(dist(rel(edge - 1e-6), rel(edge + 1e-6))).toBeLessThan(1);
+    }
+  });
+
+  it('just past the table edge it falls back to mean elements (a jump there is expected)', () => {
+    const s = systemState(bodies, tables, MOON_TABLE_RANGE.to + 1 / 86400);
+    expect(s.get('moon')!.tableId).toBe('mean-elements');
+    expect(s.get('moon')!.positionKm.every(Number.isFinite)).toBe(true);
   });
 });

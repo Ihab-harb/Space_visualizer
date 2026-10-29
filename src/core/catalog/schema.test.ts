@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
-import { makeCatalogFiles } from '../../test/fixtures';
-import { BodiesFileSchema, ImageryFileSchema, RegionsFileSchema, SourcesFileSchema, TextureRefSchema } from './schema';
+import { makeCatalogFiles, makeMoon } from '../../test/fixtures';
+import { BodiesFileSchema, BodySchema, ImageryFileSchema, RegionsFileSchema, SourcesFileSchema, TextureRefSchema } from './schema';
 import { collectSourceIds, findUnresolvedSources, formatIssues } from './references';
 
 describe('catalogue schema', () => {
@@ -87,5 +87,22 @@ describe('imagery schema', () => {
     const f = makeCatalogFiles();
     delete (f.bodies.bodies[0] as { render?: unknown }).render;
     expect(BodiesFileSchema.safeParse(f.bodies).success).toBe(false);
+  });
+});
+
+describe('satellite bodies', () => {
+  it('accepts the fixture Moon', () => {
+    expect(BodySchema.safeParse(makeMoon()).success).toBe(true);
+  });
+  it('rejects a barycentre mass ratio outside (0, 1)', () => {
+    for (const value of [0, 1, 1.5, -0.01, 'x']) {
+      const moon = makeMoon();
+      if (moon.orbit.type !== 'satellite') throw new Error('fixture');
+      moon.orbit.barycentre = { massRatio: { value, sourceId: 'naif-gm-de440' } };
+      expect(BodySchema.safeParse(moon).success).toBe(false);
+    }
+  });
+  it('rejects a satellite without a parent', () => {
+    expect(BodySchema.safeParse({ ...makeMoon(), parentId: null }).success).toBe(false);
   });
 });

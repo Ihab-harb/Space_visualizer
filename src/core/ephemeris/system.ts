@@ -25,6 +25,8 @@ export function satelliteGeocentricKm(
     const r = evaluateChebyshev(file, jdTdb);
     if (r) return { r, tableId: 'horizons-chebyshev', inValidRange: true };
   }
+  // Fallback: outside the table, or if evaluateChebyshev returns null inside its nominal range.
+  // The jump to the mean elements at the table edge is expected (they are a coarser model).
   const m = orbit.meanElements;
   return {
     r: meanElementsGeocentricKm(m, jdTdb),

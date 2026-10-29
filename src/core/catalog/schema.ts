@@ -98,7 +98,13 @@ export const SatelliteOrbitSchema = z.object({
     note: z.string().min(1),
   }),
   /** massRatio.value is mu = GM_satellite / (GM_parent + GM_satellite). */
-  barycentre: z.object({ massRatio: SourcedValueSchema }).nullable(),
+  barycentre: z
+    .object({
+      massRatio: SourcedValueSchema.refine((v) => typeof v.value === 'number' && v.value > 0 && v.value < 1, {
+        message: 'massRatio must be a number between 0 and 1 (exclusive)',
+      }),
+    })
+    .nullable(),
 });
 
 export const FixedOrbitSchema = z.object({
