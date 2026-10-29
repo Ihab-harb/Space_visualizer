@@ -10,7 +10,7 @@ export function useLabelDeclutter(layer: React.RefObject<HTMLElement | null>): v
       const els = [...root.querySelectorAll<HTMLElement>('.body-label')];
       const boxes: LabelBox[] = els.map((el) => {
         const r = el.getBoundingClientRect();
-        return { id: el.dataset.labelId ?? '', left: r.left, top: r.top, width: r.width, height: r.height, priority: Number(el.dataset.priority ?? 0) };
+        return { id: el.dataset.labelId ?? '', left: r.left, top: r.top, width: r.width, height: r.height, priority: Number(el.dataset.priority ?? 0), hidden: el.hidden === true };
       });
       const shown = resolveOverlaps(boxes.filter((b) => b.width > 0));
       for (const el of els) el.classList.toggle('is-hidden', !shown.has(el.dataset.labelId ?? ''));

@@ -105,7 +105,10 @@ void main() {
   float g2 = uG * uG;
   float rayleighPhase = 0.75 * (1.0 + cosA * cosA);
   float miePhase = 1.5 * ((1.0 - g2) / (2.0 + g2)) * (1.0 + cosA * cosA) / pow(1.0 + g2 - 2.0 * uG * cosA, 1.5);
-  vec3 color = (rayleighPhase * front * uInvWavelength * uKrESun + miePhase * front * uKmESun) * uIntensity * uSunIntensity;
+  // Air in another body's shadow scatters no sunlight (the Moon's shadow on Earth). One sample at the path midpoint: the
+  // shadow is thousands of km across, the shell a few percent of a radius thick.
+  float shade = eclipseFactor(start + rd * 0.5 * (tFar - tNear));
+  vec3 color = (rayleighPhase * front * uInvWavelength * uKrESun + miePhase * front * uKmESun) * uIntensity * uSunIntensity * shade;
   gl_FragColor = vec4(color, 1.0);
   ${FRAG_OUTRO}
 }`;

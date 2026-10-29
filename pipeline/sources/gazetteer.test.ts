@@ -70,4 +70,11 @@ describe('gazetteer source', () => {
       license: 'Public domain (USGS)',
     });
   });
+
+  it('has a Moon target', () => {
+    expect(GAZETTEER_TARGETS.moon).toBe('MOON');
+    expect(gazetteerUrl(GAZETTEER_TARGETS.moon)).toBe('https://asc-planetarynames-data.s3.us-west-2.amazonaws.com/MOON_nomenclature_center_pts.zip');
+    expect(gazetteerSpec('moon', 'Moon').url).toBe('https://planetarynames.wr.usgs.gov/Page/MOON/target');
+    expect(gazetteerSpec('moon', 'Moon').id).toBe('usgs-gazetteer-moon');
+  });
 });

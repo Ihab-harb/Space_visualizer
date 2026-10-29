@@ -1,8 +1,9 @@
 import { describe, expect, it } from 'vitest';
 import type { Body } from '../core/catalog/schema';
 import { createCatalog } from '../core/catalog/catalog';
-import { makeCatalogFiles, makeEarth } from '../test/fixtures';
+import { makeCatalogFiles, makeEarth, makeMoon } from '../test/fixtures';
 import { makeJupiterDetails, makeMarsDetails } from '../test/detailsFixtures';
+import { accuracyLines } from './accuracy';
 import { citationModel, citationOrder, detailsSourceOrder } from './citations';
 
 describe('citationOrder', () => {
@@ -62,5 +63,36 @@ describe('citationModel with details', () => {
     const order = detailsSourceOrder(d);
     expect(order).toContain('insight-page');
     expect(order.indexOf('insight-page')).toBe(order.indexOf('nssdca-planetary-fact-sheet') + 1);
+  });
+});
+
+describe('citationModel for a satellite', () => {
+  it('lists the table, mean-elements, check and mass-ratio sources, and uses the table as the live source', () => {
+    const f = makeCatalogFiles();
+    f.bodies.bodies.push(makeMoon());
+    const catalog = createCatalog(f.regions, f.sources, [f.bodies]);
+    const m = citationModel(catalog, catalog.bodyById.get('moon')!);
+    expect(m.liveSource).toBe('jpl-horizons');
+    expect(m.order).toEqual(expect.arrayContaining(['jpl-horizons', 'jpl-sats-elem', 'naif-gm-de440']));
+    expect(new Set(m.order).size).toBe(m.order.length);
+  });
+});
+
+describe('citationModel covers every accuracy source', () => {
+  it('lists every source id used by the accuracy lines of Earth and the Moon', () => {
+    const f = makeCatalogFiles();
+    f.bodies.bodies.push(makeMoon());
+    const earth = f.bodies.bodies.find((b) => b.id === 'earth')!;
+    if (earth.orbit.type !== 'planet-approx') throw new Error('fixture');
+    earth.orbit.centreCheck = { sampleCount: 6, maxAngularErrorArcsec: 11.8, maxDistanceErrorKm: 2190, sourceId: 'nasa-science-earth' };
+    const catalog = createCatalog(f.regions, f.sources, [f.bodies]);
+    for (const id of ['earth', 'moon']) {
+      const body = catalog.bodyById.get(id)!;
+      const order = citationModel(catalog, body).order;
+      const used = accuracyLines(body, catalog).flatMap((l) => l.sourceIds);
+      expect(used.length).toBeGreaterThan(0);
+      for (const s of used) expect(order, `${id} cites ${s}`).toContain(s);
+    }
+    expect(citationModel(catalog, catalog.bodyById.get('earth')!).order).toContain('naif-gm-de440');
   });
 });

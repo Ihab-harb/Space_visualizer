@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { assertValidImagery, COMMITTED_TIERS, LAYER_JOBS, texturePath, tiersFor } from './build';
+import { assertValidImagery, COMMITTED_TIERS, LAYER_JOBS, texturePath, tiersFor, validate } from './build';
 import { PRODUCTS } from './manifest';
 
 describe('texture recipes', () => {
@@ -32,7 +32,7 @@ describe('texture recipes', () => {
   });
   it('labels exaggerated relief as illustrative', () => {
     const relief = LAYER_JOBS.filter((j) => j.layer === 'normal');
-    expect(relief).toHaveLength(3);
+    expect(relief).toHaveLength(4);
     for (const j of relief) expect(j.illustrative, j.body).toBe(true);
   });
   it('rejects an invalid imagery file before it is written', () => {
@@ -43,5 +43,48 @@ describe('texture recipes', () => {
   });
   it('labels derived and adjusted layers', () => {
     for (const j of LAYER_JOBS.filter((x) => x.kind === 'normal' || x.desaturate)) expect(j.derivation, `${j.body}/${j.layer}`).toBeTruthy();
+  });
+});
+
+const W = 72;
+const H = 36;
+const inBox = (x: number, y: number, b: { lonMin: number; lonMax: number; latMin: number; latMax: number }) => {
+  const lon = ((x + 0.5) / W) * 360 - 180;
+  const lat = 90 - ((y + 0.5) / H) * 180;
+  const lonOk = b.lonMax <= 180 ? lon >= b.lonMin && lon <= b.lonMax : lon >= b.lonMin || lon <= b.lonMax - 360;
+  return lonOk && lat >= b.latMin && lat <= b.latMax;
+};
+function moonColour(mariaLon: [number, number], highlandsLon: [number, number]): Uint8Array {
+  const rgb = new Uint8Array(W * H * 3).fill(150);
+  for (let y = 0; y < H; y++) for (let x = 0; x < W; x++) {
+    if (inBox(x, y, { lonMin: mariaLon[0], lonMax: mariaLon[1], latMin: 10, latMax: 40 })) rgb.fill(60, (y * W + x) * 3, (y * W + x) * 3 + 3);
+    if (inBox(x, y, { lonMin: highlandsLon[0], lonMax: highlandsLon[1], latMin: -20, latMax: 20 })) rgb.fill(200, (y * W + x) * 3, (y * W + x) * 3 + 3);
+  }
+  return rgb;
+}
+function moonDem(minLon: number, minLat: number): Float32Array {
+  const raw = new Float32Array(W * H).fill(20000);
+  const x = Math.floor(((minLon + 180) / 360) * W);
+  const y = Math.floor(((90 - minLat) / 180) * H);
+  raw[y * W + x] = 3000;
+  raw[H * W - 1 - 5 * W] = 40000;
+  return raw;
+}
+
+describe('Moon validations', () => {
+  const color = LAYER_JOBS.find((j) => j.body === 'moon' && j.layer === 'color')!;
+  const dem = LAYER_JOBS.find((j) => j.body === 'moon' && j.layer === 'normal')!;
+  it('passes a correctly oriented colour map and rejects a flipped one', () => {
+    expect(() => validate(color, moonColour([-60, -20], [150, 200]), W, H)).not.toThrow();
+    expect(() => validate(color, moonColour([150, 200], [-60, -20]), W, H)).toThrow(/moon colour orientation check failed/);
+  });
+  it('passes a minimum inside South Pole-Aitken (including past the antimeridian) and rejects a northern one', () => {
+    expect(() => validate(dem, moonDem(-170, -50), W, H)).not.toThrow();
+    expect(() => validate(dem, moonDem(170, -50), W, H)).not.toThrow();
+    expect(() => validate(dem, moonDem(-170, 50), W, H)).toThrow(/South Pole–Aitken/);
+    expect(() => validate(dem, moonDem(0, -50), W, H)).toThrow(/South Pole–Aitken/);
+  });
+  it('rejects a DEM whose range is clamped (signed/unsigned misread)', () => {
+    expect(() => validate(dem, new Float32Array(W * H).fill(20000), W, H)).toThrow(/elevation range/);
   });
 });

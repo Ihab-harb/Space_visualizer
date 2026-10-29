@@ -45,7 +45,7 @@ export function FactsDrawer({ catalog }: { catalog: Catalog }) {
   const detailsEntry = useBodyDetails(body?.id);
   if (!body) return null;
 
-  const { order, numbers, liveSource } = citationModel(catalog, body, readyDetails(detailsEntry));
+  const { order, numbers } = citationModel(catalog, body, readyDetails(detailsEntry));
   const cite = (sourceId: string) => (
     <sup className="cite">
       <a href={`#source-${sourceId}`} aria-label={`Source ${numbers.get(sourceId)}`}>
@@ -55,6 +55,7 @@ export function FactsDrawer({ catalog }: { catalog: Catalog }) {
   );
   const parent = body.parentId ? catalog.bodyById.get(body.parentId) : undefined;
   const live = liveStats(catalog, body, jdTdb);
+  const liveSource = live.sourceId;
 
   return (
     <aside ref={ref} className={open ? 'glass drawer is-open' : 'glass drawer'} aria-label="Body information" aria-hidden={!open} inert={!open} role="complementary">
@@ -142,7 +143,7 @@ export function FactsDrawer({ catalog }: { catalog: Catalog }) {
       <section>
         <h3>Position accuracy</h3>
         <ul className="info-panel__accuracy">
-          {accuracyLines(body).map((line) => (
+          {accuracyLines(body, catalog).map((line) => (
             <li key={line.text}>
               {line.text}
               {line.sourceIds.map((id) => (
@@ -175,7 +176,7 @@ export function FactsDrawer({ catalog }: { catalog: Catalog }) {
             Show Magellan radar (surface under the clouds)
           </label>
         )}
-        {illustrativeNotes(body, { venusRadar }).map((note) => (
+        {illustrativeNotes(body, { venusRadar, ...(parent ? { parent } : {}) }).map((note) => (
           <p key={note} className="info-panel__note">
             {note}
           </p>

@@ -91,9 +91,10 @@ The app reads `public/data/*.json`, which is generated from official sources and
 
 | Command | What it does | Needs internet |
 |---|---|---|
-| `npm run data` | Downloads the JPL, NASA NSSDCA, NASA NAIF and NASA Science sources, the USGS Gazetteer zips for Mercury, Venus and Mars (about 12 MB) and the curated mission and interior pages; validates them (every curated sentence must be on its page), measures accuracy against the Horizons reference, and rewrites `public/data/` including the per-body details files. If anything fails, nothing is written. | Yes |
+| `npm run data` | Downloads the JPL, NASA NSSDCA, NASA NAIF and NASA Science sources, the USGS Gazetteer zips for Mercury, Venus, Mars and the Moon (about 12 MB, plus about 24 MB for the Moon) and the curated mission and interior pages; validates them (every curated sentence must be on its page), measures accuracy against the Horizons reference, and rewrites `public/data/` including the per-body details files. If anything fails, nothing is written. | Yes |
 | `npm run data:offline` | Same, using only the copies cached in `pipeline/raw/` by the last online run. The Gazetteer zips and the curated pages must be in that cache too, so run `npm run data` once first. | No |
-| `npm run horizons:reference` | Re-downloads the 72 JPL Horizons reference positions used to test and measure accuracy (`pipeline/reference/`). Run `npm run data` afterwards to update the measured accuracy shown in the app. | Yes |
+| `npm run horizons:reference` | Re-downloads the 81 JPL Horizons reference positions (72 barycentre samples and 9 Earth-centre samples) used to test and measure accuracy (`pipeline/reference/`). Run `npm run data` afterwards to update the measured accuracy shown in the app. | Yes |
+| `npm run moon:ephemeris` | Downloads the Moon's geocentric vectors from JPL Horizons (1800 to 2051, 3-hour steps, in 1,826-day chunks cached in `pipeline/raw/`), fits the Chebyshev table and writes `public/data/solar-system/ephemeris/moon.json` and `pipeline/reference/horizons-moon-check.json`, with the measured error. The first run takes about 20 minutes. `npm run moon:ephemeris -- --offline` refits from the cache with no network. Run `npm run data` afterwards. | Yes (first run) |
 
 Review the resulting `git diff` before committing refreshed data.
 

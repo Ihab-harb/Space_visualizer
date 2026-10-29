@@ -20,4 +20,13 @@ describe('BodyDetailsSchema', () => {
     expect(BodyDetailsSchema.safeParse({ ...m, interior: { layers: [bad] } }).success).toBe(false);
     expect(BodyDetailsSchema.safeParse({ ...m, interior: { layers: [] } }).success).toBe(false);
   });
+  it('accepts an exosphere with number densities and rejects a percent unit there', () => {
+    const m = makeMarsDetails();
+    const gas = { name: 'Helium 4', formula: '⁴He', amount: 40000, unit: 'cm⁻³', upperLimit: true, sourceId: 's' };
+    const exo = { basis: 'night', kind: 'exosphere', major: [], minor: [], numberDensity: [gas], note: null };
+    expect(BodyDetailsSchema.safeParse({ ...m, atmosphere: exo }).success).toBe(true);
+    expect(BodyDetailsSchema.safeParse({ ...m, atmosphere: { ...exo, numberDensity: [{ ...gas, unit: '%' }] } }).success).toBe(false);
+    expect(BodyDetailsSchema.safeParse({ ...m, atmosphere: { ...exo, numberDensity: [{ ...gas, amount: -1 }] } }).success).toBe(false);
+    expect(BodyDetailsSchema.safeParse({ ...m, atmosphere: { ...exo, kind: 'plasma' } }).success).toBe(false);
+  });
 });

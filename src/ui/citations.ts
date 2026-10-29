@@ -16,6 +16,13 @@ export function citationOrder(body: Body): string[] {
     add(body.orbit.sourceId);
     for (const table of body.orbit.tables) add(table.horizonsCheck?.sourceId);
   }
+  if (body.orbit.type === 'satellite') {
+    add(body.orbit.table.sourceId);
+    add(body.orbit.meanElements.sourceId);
+    add(body.orbit.table.horizonsCheck.sourceId);
+    add(body.orbit.meanElements.horizonsCheck?.sourceId);
+    add(body.orbit.barycentre?.massRatio.sourceId);
+  }
   add(body.rotation?.sourceId);
   add(body.shape.sourceId);
   for (const imageryLine of imageryLines(body)) add(imageryLine.sourceId);
@@ -78,8 +85,14 @@ export function citationModel(
 ): { order: string[]; numbers: Map<string, number>; liveSource: string | null } {
   const order = citationOrder(body);
   const earth = catalog.bodyById.get('earth');
-  const liveSource = body.orbit.type === 'planet-approx' ? body.orbit.sourceId : earth?.orbit.type === 'planet-approx' ? earth.orbit.sourceId : null;
+  const liveSource =
+    body.orbit.type === 'satellite' ? body.orbit.table.sourceId : body.orbit.type === 'planet-approx' ? body.orbit.sourceId : earth?.orbit.type === 'planet-approx' ? earth.orbit.sourceId : null;
   if (liveSource && !order.includes(liveSource)) order.push(liveSource);
+  if (body.orbit.type === 'planet-approx' && body.orbit.represents === 'earth-moon-barycenter') {
+    const moon = catalog.bodies.find((b) => b.parentId === body.id && b.orbit.type === 'satellite');
+    const bary = moon?.orbit.type === 'satellite' ? moon.orbit.barycentre : null;
+    for (const id of [bary?.massRatio.sourceId, body.orbit.centreCheck?.sourceId]) if (id && !order.includes(id)) order.push(id);
+  }
   for (const id of detailsSourceOrder(details)) if (!order.includes(id)) order.push(id);
   return { order, numbers: citationNumbers(order), liveSource };
 }

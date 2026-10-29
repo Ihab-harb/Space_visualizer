@@ -1,5 +1,5 @@
 import type { Body } from '../core/catalog/schema';
-import { formatAu, formatDuration, formatLightTimeShort, formatNumber, formatPeriodDays } from './format';
+import { formatAu, formatDuration, formatKm, formatLightTimeShort, formatNumber, formatPeriodDays } from './format';
 import type { BodyDetails } from '../core/details/schema';
 import type { LiveStats } from './liveStats';
 
@@ -50,6 +50,7 @@ export function buildNarrative(body: Body, stats: LiveStats, opts: { details?: B
   const radius = numeric(f.meanRadiusKm);
   const period = numeric(f.orbitalPeriodDays);
   const sma = numeric(f.semiMajorAxisAu);
+  const parentDistance = numeric(f.meanDistanceFromParentKm);
   const day = numeric(f.lengthOfDayHours);
   const temp = numeric(f.meanTemperatureC);
   const spectral = f.spectralType;
@@ -57,8 +58,12 @@ export function buildNarrative(body: Body, stats: LiveStats, opts: { details?: B
     if (spectral && radius) {
       sentences.push([t(`The ${body.name} is a `), v(String(spectral.value), spectral.sourceId), t(' star with a mean radius of '), v(`${formatNumber(radius.value)} km`, radius.sourceId), t('. ')]);
     }
+  } else if (opts.parent && opts.parent.category !== 'star') {
+    if (period && parentDistance) {
+      sentences.push([t(`${body.name === 'Moon' ? 'The ' : ''}${body.name} orbits ${opts.parent.name} every `), v(formatPeriodDays(period.value), period.sourceId), t(' at an average '), v(formatKm(parentDistance.value), parentDistance.sourceId), t('. ')]);
+    }
   } else if (period && sma) {
-    const around = opts.parent && opts.parent.category !== 'star' ? `${body.name} orbits ${opts.parent.name} every ` : `${body.name} circles the Sun every `;
+    const around = `${body.name} circles the Sun every `;
     sentences.push([t(around), v(formatPeriodDays(period.value), period.sourceId), t(' at an average '), v(`${sma.value.toFixed(2)} AU`, sma.sourceId), t('. ')]);
   }
   const detailsPart = opts.details ? detailsSentence(body, opts.details) : null;
@@ -72,7 +77,7 @@ export function buildNarrative(body: Body, stats: LiveStats, opts: { details?: B
   if (stats.sourceId) {
     if (stats.fromEarthKm !== null && stats.lightTimeS !== null) {
       const light = body.category === 'star' ? 'sunlight' : 'its light';
-      sentences.push([t('Right now it is '), v(formatAu(stats.fromEarthKm), stats.sourceId), t(` from Earth; ${light} takes `), v(formatLightTimeShort(stats.lightTimeS), stats.sourceId), t(' to reach us.')]);
+      sentences.push([t('Right now it is '), v(opts.parent?.id === 'earth' ? formatKm(stats.fromEarthKm) : formatAu(stats.fromEarthKm), stats.sourceId), t(` from Earth; ${light} takes `), v(formatLightTimeShort(stats.lightTimeS), stats.sourceId), t(' to reach us.')]);
     } else if (stats.fromSunKm !== null) {
       sentences.push([t(`Right now ${body.name} is `), v(formatAu(stats.fromSunKm), stats.sourceId), t(' from the Sun.')]);
     }

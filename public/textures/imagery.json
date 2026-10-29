@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-10-07T22:31:45.711Z",
+  "generatedAt": "2026-10-29T22:10:58.941Z",
   "sources": [
     {
       "id": "nasa-blue-marble-ng",
@@ -73,6 +73,14 @@
       "url": "https://planetarymaps.usgs.gov/mosaic/Mercury_Messenger_USGS_DEM_Global_665m_v2.tif",
       "retrievedAt": "2026-10-04",
       "license": "USGS public domain (U.S. Government work)"
+    },
+    {
+      "id": "nasa-svs-cgi-moon-kit",
+      "title": "CGI Moon Kit",
+      "publisher": "NASA's Scientific Visualization Studio",
+      "url": "https://svs.gsfc.nasa.gov/4720",
+      "retrievedAt": "2026-10-29",
+      "license": "NASA media usage guidelines (credit: NASA's Scientific Visualization Studio)"
     },
     {
       "id": "usgs-venus-magellan-c3",
@@ -205,6 +213,28 @@
         },
         "sourceId": "usgs-mercury-dem",
         "derivation": "Normal map derived from the MESSENGER DEM; relief exaggerated ×3.",
+        "illustrative": true
+      }
+    },
+    "moon": {
+      "color": {
+        "tiers": {
+          "1k": "textures/moon/color_1k.webp",
+          "2k": "textures/moon/color_2k.webp",
+          "4k": "textures/moon/color_4k.webp",
+          "8k": "textures/moon/color_8k.webp"
+        },
+        "sourceId": "nasa-svs-cgi-moon-kit",
+        "derivation": "LROC WAC colour mosaic (NASA SVS CGI Moon Kit, 2025); SVS: \"These image is optimized for aesthetics, not science.\""
+      },
+      "normal": {
+        "tiers": {
+          "1k": "textures/moon/normal_1k.webp",
+          "2k": "textures/moon/normal_2k.webp",
+          "4k": "textures/moon/normal_4k.webp"
+        },
+        "sourceId": "nasa-svs-cgi-moon-kit",
+        "derivation": "Normal map derived from LOLA elevation (ldem_16); relief exaggerated ×2.",
         "illustrative": true
       }
     },

@@ -10,7 +10,7 @@ const TOLERANCE_FACTOR = 3;
 const TOLERANCE_OVERRIDES: Record<string, number> = { 'neptune:1800-2050': 10 };
 
 describe('planetApproxState vs JPL Horizons (DE441, system barycentres)', () => {
-  const cases = reference.samples.map((s) => [s.body, s.jdTdb, s] as const);
+  const cases = reference.samples.filter((s) => s.body in APPROX_ORBITS).map((s) => [s.body, s.jdTdb, s] as const);
   it.each(cases)('%s at JD %d', (_body, _jd, sample) => {
     const orbit = APPROX_ORBITS[sample.body as ApproxBodyKey];
     const state = planetApproxState(orbit, sample.jdTdb);

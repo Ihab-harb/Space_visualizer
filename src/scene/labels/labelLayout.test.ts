@@ -23,4 +23,11 @@ describe('label decluttering', () => {
     expect(hov).toBeGreaterThan(big);
     expect(big).toBeGreaterThan(small);
   });
+  it('ignores labels marked hidden, so they neither show nor block others', () => {
+    const hiddenTop: LabelBox = { id: 'moon', left: 0, top: 0, width: 50, height: 20, priority: 99, hidden: true };
+    const other: LabelBox = { id: 'earth', left: 10, top: 5, width: 50, height: 20, priority: 1 };
+    const shown = resolveOverlaps([hiddenTop, other]);
+    expect(shown.has('moon')).toBe(false);
+    expect(shown.has('earth')).toBe(true);
+  });
 });

@@ -4,7 +4,7 @@ import path from 'node:path';
 import { ImageryFileSchema } from '../../src/core/catalog/schema';
 import type { Imagery, ImageryFile, Source, TextureRef, Tier } from '../../src/core/catalog/schema';
 import { toSource } from '../sources/registry';
-import { argmaxLonLat, assertElevationRange, calibrateMask, meanInBox, normalMapFromHeight, rollColumns, sampleEquirect, thresholdMask, type LonLat } from './derive';
+import { argmaxLonLat, argminLonLat, assertElevationRange, calibrateMask, meanInBox, normalMapFromHeight, rollColumns, sampleEquirect, thresholdMask, type LonLat } from './derive';
 import { fetchBinaryCached, type FetchedFile } from './fetchBinary';
 import { imagerySpec, PRODUCTS, type ProductId } from './manifest';
 import { desaturateRgb, imageInfo, readBandFloat, readRgb8, writeWebp } from './rasters';
@@ -40,6 +40,8 @@ export const LAYER_JOBS: LayerJob[] = [
   { body: 'mars', layer: 'normal', product: 'mars-dem', kind: 'normal', illustrative: true, maxTier: '4k', normal: { radiusM: 3_389_500, metersPerUnit: 1, strength: 3 }, derivation: 'Normal map derived from MOLA elevation; relief exaggerated ×3.' },
   { body: 'mercury', layer: 'color', product: 'mercury-color', kind: 'color', maxTier: '8k', desaturate: 0.8, derivation: 'MDIS 3-colour mosaic desaturated 80% toward Mercury’s natural grey-brown.' },
   { body: 'mercury', layer: 'normal', product: 'mercury-dem', kind: 'normal', illustrative: true, maxTier: '4k', normal: { radiusM: 2_439_400, metersPerUnit: 1, strength: 3 }, derivation: 'Normal map derived from the MESSENGER DEM; relief exaggerated ×3.' },
+  { body: 'moon', layer: 'color', product: 'moon-color', kind: 'color', maxTier: '8k', derivation: 'LROC WAC colour mosaic (NASA SVS CGI Moon Kit, 2025); SVS: "These image is optimized for aesthetics, not science."' },
+  { body: 'moon', layer: 'normal', product: 'moon-dem', kind: 'normal', illustrative: true, maxTier: '4k', normal: { radiusM: 1_737_400, metersPerUnit: 0.5, strength: 2 }, derivation: 'Normal map derived from LOLA elevation (ldem_16); relief exaggerated ×2.' },
   { body: 'venus', layer: 'radar', product: 'venus-radar', kind: 'gray', maxTier: '4k', derivation: 'Magellan C3-MDIR radar backscatter mosaic (2025 m/pixel); radar brightness, not visible light.' },
   { body: 'jupiter', layer: 'color', product: 'jupiter-opal', kind: 'color', maxTier: '4k', derivation: 'Hubble OPAL 2024 global map (F395N/F502N/F631N composite); longitude alignment approximate.' },
   { body: 'saturn', layer: 'color', product: 'saturn-opal', kind: 'color', maxTier: '4k', derivation: 'Hubble OPAL 2024 global map (F395N/F502N/F631N composite); longitude alignment approximate.' },
@@ -91,10 +93,39 @@ function luminanceAt(rgb: Uint8Array, w: number, h: number, p: LonLat): number {
   return 0.2126 * sampleEquirect(rgb, w, h, p.lonDeg, p.latDeg, 3, 0) + 0.7152 * sampleEquirect(rgb, w, h, p.lonDeg, p.latDeg, 3, 1) + 0.0722 * sampleEquirect(rgb, w, h, p.lonDeg, p.latDeg, 3, 2);
 }
 
-function validate(job: LayerJob, data: Uint8Array | Float32Array, w: number, h: number): void {
+/** Mean luminance of a lon/lat box in a -180..180 frame; a box with lonMax > 180 wraps past the antimeridian. */
+function lumaBoxMean(rgb: Uint8Array, w: number, h: number, box: { lonMin: number; lonMax: number; latMin: number; latMax: number }): number {
+  const luma = new Float32Array(w * h);
+  for (let i = 0; i < luma.length; i++) luma[i] = 0.2126 * rgb[i * 3]! + 0.7152 * rgb[i * 3 + 1]! + 0.0722 * rgb[i * 3 + 2]!;
+  if (box.lonMax <= 180) return meanInBox(luma, w, h, box);
+  const a = { ...box, lonMax: 180 };
+  const b = { ...box, lonMin: -180, lonMax: box.lonMax - 360 };
+  const wa = 180 - box.lonMin;
+  const wb = box.lonMax - 180;
+  return (meanInBox(luma, w, h, a) * wa + meanInBox(luma, w, h, b) * wb) / (wa + wb);
+}
+
+export function validate(job: LayerJob, data: Uint8Array | Float32Array, w: number, h: number): void {
   if (job.body === 'earth' && job.layer === 'color') {
     const diff = luminanceAt(data as Uint8Array, w, h, EARTH_LAND[0]!) - luminanceAt(data as Uint8Array, w, h, EARTH_WATER[0]!);
     if (diff <= 40) throw new Error(`earth day map orientation check failed: Sahara − Pacific luminance = ${diff.toFixed(1)}`);
+  }
+  if (job.product === 'moon-color') {
+    const maria = lumaBoxMean(data as Uint8Array, w, h, { lonMin: -60, lonMax: -20, latMin: 10, latMax: 40 });
+    const highlands = lumaBoxMean(data as Uint8Array, w, h, { lonMin: 150, lonMax: 200, latMin: -20, latMax: 20 });
+    if (!(maria < 0.8 * highlands)) {
+      throw new Error(`moon colour orientation check failed: near-side maria box mean ${maria.toFixed(1)} is not below 0.8 x the far-side highlands box mean ${highlands.toFixed(1)}: check lonOffsetDeg`);
+    }
+  }
+  if (job.product === 'moon-dem') {
+    // Unsigned 16-bit half-metres relative to a 1727.4 km radius; elevation relative to 1737.4 km = value x 0.5 - 10000 m.
+    const metres = Float32Array.from(data as Float32Array, (v) => v * 0.5 - 10000);
+    assertElevationRange('moon', metres, { minBelow: -8000, maxAbove: 8000 });
+    const low = argminLonLat(metres, w, h);
+    const inAitken = low.latDeg >= -75 && low.latDeg <= -15 && (low.lonDeg >= 150 || low.lonDeg <= -130);
+    if (!inAitken) {
+      throw new Error(`moon DEM minimum at ${low.lonDeg.toFixed(1)}°, ${low.latDeg.toFixed(1)}° is not inside South Pole–Aitken (lat −75…−15, lon 150…230 E): check lonOffsetDeg`);
+    }
   }
   if (job.product === 'mars-dem') {
     assertElevationRange('mars', data, { minBelow: -5000, maxAbove: 15000 });
@@ -131,7 +162,7 @@ async function processLayer(job: LayerJob, file: string, tier: Tier, tmpDir: str
     if (tier === '1k') validate(job, v, w, h);
     await writeWebp(Uint8Array.from(v, (x) => Math.max(0, Math.min(255, Math.round(x)))), w, h, 1, out, { quality: 90 });
   } else if (job.kind === 'normal') {
-    const height = rollColumns(await readBandFloat(file, w, h), w, h, 1, lon);
+    const height = rollColumns(await readBandFloat(file, w, h, 0, { unsigned16: job.product === 'moon-dem' }), w, h, 1, lon);
     if (tier === '1k') validate(job, height, w, h);
     await writeWebp(normalMapFromHeight(height, w, h, job.normal!), w, h, 3, out, { lossless: true });
   } else {

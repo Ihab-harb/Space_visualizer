@@ -10,6 +10,7 @@ interface SignedTiff {
   height: number;
   rowsPerStrip: number;
   littleEndian: boolean;
+  signed: boolean;
   stripOffsets: number[];
 }
 
@@ -18,7 +19,7 @@ interface SignedTiff {
  * below-datum value (Mars and Mercury DEMs). This probes a classic little- or big-endian TIFF header and returns the strip layout
  * only for uncompressed, single-band, signed 16-bit strip data; every other file is left to sharp.
  */
-async function probeSignedTiff(file: string): Promise<SignedTiff | null> {
+async function probeSignedTiff(file: string, want: 'signed' | 'unsigned' = 'signed'): Promise<SignedTiff | null> {
   const fh = await openFile(file, 'r');
   try {
     const head = Buffer.alloc(8);
@@ -45,10 +46,14 @@ async function probeSignedTiff(file: string): Promise<SignedTiff | null> {
       return t.type === 3 ? u16(entries, t.valueAt) : u32(entries, t.valueAt);
     };
     // SampleFormat absent or 1 (unsigned), 3 (float) etc. is positively not signed integer data: sharp handles it.
-    if (scalar(339, 1) !== 2) return null;
+    // The unsigned reader exists because sharp rescales unsigned 16-bit greys to 0..255; it is used only on request.
+    if (want === 'unsigned') {
+      if (scalar(339, 1) !== 1) throw new Error(`${file}: not unsigned 16-bit integer TIFF data (SampleFormat ${scalar(339, 1)})`);
+      if (scalar(258, 8) !== 16) throw new Error(`${file}: not unsigned 16-bit TIFF data (${scalar(258, 8)} bits per sample)`);
+    } else if (scalar(339, 1) !== 2) return null;
     if (scalar(258, 8) !== 16) throw new Error(`${file}: signed TIFF with ${scalar(258, 8)} bits per sample is not supported`);
     if (scalar(259, 1) !== 1 || scalar(277, 1) !== 1 || tags.has(322)) {
-      throw new Error(`${file}: signed 16-bit TIFF is compressed, multi-band or tiled; add a reader before using it`);
+      throw new Error(`${file}: 16-bit TIFF is compressed, multi-band or tiled; add a reader before using it`);
     }
     const width = scalar(256, 0);
     const height = scalar(257, 0);
@@ -67,7 +72,7 @@ async function probeSignedTiff(file: string): Promise<SignedTiff | null> {
     if (width <= 0 || height <= 0 || rowsPerStrip <= 0) throw new Error(`${file}: TIFF has invalid dimensions`);
     const expectedStrips = Math.ceil(height / rowsPerStrip);
     if (stripOffsets.length !== expectedStrips) throw new Error(`${file}: TIFF has ${stripOffsets.length} strips, expected ${expectedStrips}`);
-    return { width, height, rowsPerStrip, littleEndian: le, stripOffsets };
+    return { width, height, rowsPerStrip, littleEndian: le, signed: want === 'signed', stripOffsets };
   } finally {
     await fh.close();
   }
@@ -98,7 +103,7 @@ async function readSignedTiffFloat(file: string, tiff: SignedTiff, width: number
         const rowBase = Math.min(height - 1, Math.floor((y * height) / tiff.height)) * width;
         for (let x = 0; x < tiff.width; x++) {
           const o = (r * tiff.width + x) * 2;
-          const v = tiff.littleEndian ? buf.readInt16LE(o) : buf.readInt16BE(o);
+          const v = tiff.signed ? (tiff.littleEndian ? buf.readInt16LE(o) : buf.readInt16BE(o)) : tiff.littleEndian ? buf.readUInt16LE(o) : buf.readUInt16BE(o);
           const i = rowBase + colBin[x]!;
           sum[i] = sum[i]! + v;
           count[i] = count[i]! + 1;
@@ -116,8 +121,9 @@ async function readSignedTiffFloat(file: string, tiff: SignedTiff, width: number
   return out;
 }
 
-/** One band, resized with a Lanczos filter, as 32-bit floats. Signed 16-bit TIFFs are box-averaged by a dedicated reader so that negatives survive. */
-export async function readBandFloat(file: string, width: number, height: number, band: 0 | 1 | 2 | 3 = 0): Promise<Float32Array> {
+/** One band, resized with a Lanczos filter, as 32-bit floats. Signed 16-bit TIFFs are box-averaged by a dedicated reader so that negatives survive; `unsigned16` does the same for unsigned 16-bit TIFFs, keeping the raw 0..65535 values. */
+export async function readBandFloat(file: string, width: number, height: number, band: 0 | 1 | 2 | 3 = 0, opts: { unsigned16?: boolean } = {}): Promise<Float32Array> {
+  if (opts.unsigned16 && band === 0) return readSignedTiffFloat(file, (await probeSignedTiff(file, 'unsigned'))!, width, height);
   if (band === 0) {
     const signed = await probeSignedTiff(file);
     if (signed) return readSignedTiffFloat(file, signed, width, height);

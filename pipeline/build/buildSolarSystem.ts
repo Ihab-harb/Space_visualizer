@@ -1,16 +1,22 @@
 import type { FactKey } from '../../src/core/catalog/facts';
-import type { ApproxTable, Body, BodiesFile, ImageryFile, PlanetApproxOrbit, Region, Render, RegionsFile, SourcedValue, SourcesFile } from '../../src/core/catalog/schema';
+import type { ApproxTable, Body, BodiesFile, ChebyshevFile, HorizonsCheck, ImageryFile, SatelliteOrbit, PlanetApproxOrbit, Region, Render, RegionsFile, SourcedValue, SourcesFile } from '../../src/core/catalog/schema';
+import { chebyshevRange, evaluateChebyshev } from '../../src/core/ephemeris/chebyshev';
+import { meanElementsGeocentricKm } from '../../src/core/ephemeris/meanElements';
 import { planetApproxState, selectTable } from '../../src/core/ephemeris/planetApprox';
+import { systemState } from '../../src/core/ephemeris/system';
 import { ARCSEC } from '../../src/core/math/angles';
-import { angleBetween, length, type Vec3 } from '../../src/core/math/vec3';
+import { angleBetween, length, sub as vsub, type Vec3 } from '../../src/core/math/vec3';
 import { calendarToJd } from '../../src/core/time/julian';
 import type { FetchedText } from '../lib/fetchCached';
-import type { HorizonsReference } from '../sources/horizons';
+import type { HorizonsMoonCheck, HorizonsReference } from '../sources/horizons';
 import { parseApproxPos, type ApproxPosData, type ApproxRow } from '../sources/jplApproxPos';
+import { parseMoonMeanElements } from '../sources/jplSatElem';
+import { parseGmKernel } from '../sources/naifGm';
 import { parsePckAssignments, radiiFor, rotationModelFor } from '../sources/naifPck';
 import { DESCRIPTION_PAGES, parseMetaDescription } from '../sources/nasaScience';
 import { parsePlanetFactSheet, parseSunFactSheet, parseSunNumber, planetFact, sunFact, type PlanetFactSheet } from '../sources/nssdcFactSheet';
-import { nasaScienceSpec, SOURCE_SPECS, toSource } from '../sources/registry';
+import { parseMoonFactSheet } from '../sources/nssdcMoonSheet';
+import { nasaScienceSpec, planetSheetSpec, SOURCE_SPECS, toSource } from '../sources/registry';
 
 type DescribedBody = keyof typeof DESCRIPTION_PAGES;
 
@@ -19,6 +25,12 @@ export interface PipelineInputs {
   planetSheet: FetchedText;
   sunSheet: FetchedText;
   pck: FetchedText;
+  gmKernel: FetchedText;
+  moonSheet: FetchedText;
+  satElemPage: FetchedText;
+  /** public/data/solar-system/ephemeris/moon.json */
+  moonTable: ChebyshevFile;
+  moonCheck: HorizonsMoonCheck;
   descriptions: Record<DescribedBody, FetchedText>;
   horizons: HorizonsReference;
   imagery: ImageryFile;
@@ -31,7 +43,7 @@ export interface PipelineOutput {
 }
 
 interface PlanetSpec {
-  id: Exclude<DescribedBody, 'sun'>;
+  id: Exclude<DescribedBody, 'sun' | 'moon'>;
   name: string;
   naifId: number;
   column: string;
@@ -90,6 +102,51 @@ const PLANET_FACT_ROWS: Array<{ key: FactKey; row: string; scale?: number; note?
   { key: 'hasRingSystem', row: 'Ring System?' },
   { key: 'hasGlobalMagneticField', row: 'Global Magnetic Field?' },
 ];
+
+const MOON_SHEET_ROWS: Array<{ key: FactKey; row: string; scale?: number; note?: string }> = [
+  { key: 'massKg', row: 'Mass', scale: 1e24 },
+  { key: 'meanRadiusKm', row: 'Volumetric mean radius' },
+  { key: 'densityKgM3', row: 'Mean density' },
+  { key: 'surfaceGravityMS2', row: 'Surface gravity' },
+  { key: 'escapeVelocityKmS', row: 'Escape velocity' },
+  { key: 'meanDistanceFromParentKm', row: 'Semimajor axis', scale: 1e6 },
+  { key: 'periapsisKm', row: 'Perigee', scale: 1e6, note: 'Mean perigee (NSSDCA).' },
+  { key: 'apoapsisKm', row: 'Apogee', scale: 1e6, note: 'Mean apogee (NSSDCA).' },
+  { key: 'orbitalPeriodDays', row: 'Revolution period', note: 'About Earth.' },
+  { key: 'synodicPeriodDays', row: 'Synodic period' },
+  { key: 'meanOrbitalVelocityKmS', row: 'Mean orbital velocity', note: 'About Earth.' },
+  { key: 'orbitalInclinationDeg', row: 'Inclination to ecliptic', note: 'About Earth.' },
+  { key: 'orbitalEccentricity', row: 'Orbit eccentricity', note: 'About Earth.' },
+  { key: 'siderealRotationHours', row: 'Sidereal rotation period' },
+  { key: 'obliquityDeg', row: 'Obliquity to orbit' },
+];
+
+/** From the Planetary Fact Sheet MOON column. Its orbit cells are starred (about Earth), so none are read. */
+const MOON_PLANETARY_ROWS: Array<{ key: FactKey; row: string }> = [
+  { key: 'equatorialDiameterKm', row: 'Diameter' },
+  { key: 'lengthOfDayHours', row: 'Length of Day' },
+  { key: 'meanTemperatureC', row: 'Mean Temperature' },
+  { key: 'surfacePressureBar', row: 'Surface Pressure' },
+  { key: 'moonCount', row: 'Number of Moons' },
+  { key: 'hasRingSystem', row: 'Ring System?' },
+  { key: 'hasGlobalMagneticField', row: 'Global Magnetic Field?' },
+];
+
+function moonFacts(planetSheet: PlanetFactSheet, moonSheet: Map<string, number>): Body['facts'] {
+  const facts: Body['facts'] = {};
+  const sheetId = planetSheetSpec('moon', 'Moon').id;
+  for (const { key, row, scale, note } of MOON_SHEET_ROWS) {
+    const v = moonSheet.get(row);
+    if (v === undefined) throw new Error(`Moon fact sheet row "${row}" not found`);
+    // toPrecision removes float noise from the unit scaling (0.3844 * 1e6 -> 384400).
+    facts[key] = { value: scale ? Number((v * scale).toPrecision(12)) : v, sourceId: sheetId, ...(note ? { note } : {}) };
+  }
+  for (const { key, row } of MOON_PLANETARY_ROWS) {
+    const cell = planetFact(planetSheet, row, 'MOON');
+    if (cell !== undefined) facts[key] = { value: cell, sourceId: SOURCE_SPECS.nssdcaPlanets.id };
+  }
+  return facts;
+}
 
 function planetFacts(sheet: PlanetFactSheet, spec: PlanetSpec, approx: ApproxPosData): Body['facts'] {
   const facts: Body['facts'] = {};
@@ -181,11 +238,121 @@ function withHorizonsCheck(orbit: PlanetApproxOrbit, bodyId: string, horizons: H
   return { ...orbit, tables };
 }
 
+const GM_EARTH_ID = 399;
+const GM_MOON_ID = 301;
+const HELD_OUT_KM_TOLERANCE = 1e-6;
+const HELD_OUT_ARCSEC_TOLERANCE = 1e-4;
+
+/** Fail unless the committed table reproduces its held-out summary on the committed held-out subset. */
+function checkHeldOutAgainstTable(table: ChebyshevFile, check: HorizonsMoonCheck): void {
+  let maxKm = 0;
+  let maxArcsec = 0;
+  let used = 0;
+  for (const sample of check.heldOut) {
+    // The Horizons fetch ran a few days past the table's last segment; those samples say nothing about the table.
+    const p = evaluateChebyshev(table, sample.jdTdb);
+    if (!p) continue;
+    used += 1;
+    maxKm = Math.max(maxKm, length(vsub(p, sample.positionKm)));
+    maxArcsec = Math.max(maxArcsec, angleBetween(p, sample.positionKm) / ARCSEC);
+  }
+  if (used < check.heldOut.length * 0.99) throw new Error(`Moon held-out check: only ${used} of ${check.heldOut.length} samples fall inside the committed table`);
+  const { maxDistanceErrorKm, maxAngularErrorArcsec } = check.heldOutSummary;
+  if (maxKm > maxDistanceErrorKm + HELD_OUT_KM_TOLERANCE || maxArcsec > maxAngularErrorArcsec + HELD_OUT_ARCSEC_TOLERANCE) {
+    throw new Error(
+      `Moon table does not match its held-out summary: recomputed max ${maxKm} km / ${maxArcsec} arcsec on the held-out subset, summary says ${maxDistanceErrorKm} km / ${maxAngularErrorArcsec} arcsec`,
+    );
+  }
+}
+
+/** Mean-elements error against the Horizons Moon positions that fall outside the table (1800-2050) but inside the elements' range. */
+function meanElementsCheck(m: SatelliteOrbit['meanElements'], check: HorizonsMoonCheck): HorizonsCheck | undefined {
+  let count = 0;
+  let maxAngle = 0;
+  let maxDistance = 0;
+  for (const ref of check.referenceDates) {
+    if (ref.jdTdb >= TABLE1_RANGE[0] && ref.jdTdb < TABLE1_RANGE[1]) continue;
+    if (ref.jdTdb < m.validFromJdTdb || ref.jdTdb > m.validToJdTdb) continue;
+    const p = meanElementsGeocentricKm(m, ref.jdTdb);
+    count += 1;
+    maxAngle = Math.max(maxAngle, angleBetween(p, ref.positionKm) / ARCSEC);
+    maxDistance = Math.max(maxDistance, length(vsub(p, ref.positionKm)));
+  }
+  if (count === 0) return undefined;
+  return { sampleCount: count, maxAngularErrorArcsec: Math.round(maxAngle * 10) / 10, maxDistanceErrorKm: Math.round(maxDistance), sourceId: SOURCE_SPECS.jplHorizons.id };
+}
+
+function moonOrbit(inputs: PipelineInputs, gm: Map<number, number>): SatelliteOrbit {
+  const gmEarth = gm.get(GM_EARTH_ID);
+  const gmMoon = gm.get(GM_MOON_ID);
+  if (gmEarth === undefined || gmMoon === undefined) throw new Error('GM kernel: BODY399_GM or BODY301_GM missing');
+  checkHeldOutAgainstTable(inputs.moonTable, inputs.moonCheck);
+  const row = parseMoonMeanElements(inputs.satElemPage.text);
+  if (row.epoch !== '2000-01-01.5') throw new Error(`JPL satellite elements: expected epoch 2000-01-01.5, got ${row.epoch}`);
+  if (!row.hasEphemerisWarning) throw new Error('JPL satellite elements: the "not intended for ephemeris computation" warning is no longer on the page');
+  const range = chebyshevRange(inputs.moonTable);
+  const meanElements: SatelliteOrbit['meanElements'] = {
+    sourceId: SOURCE_SPECS.jplSatElem.id,
+    epochJdTdb: 2451545.0, // 2000-01-01.5 TDB
+    aKm: row.aKm,
+    e: row.e,
+    argPeriDeg: row.argPeriDeg,
+    meanAnomalyDeg: row.meanAnomalyDeg,
+    iDeg: row.iDeg,
+    nodeDeg: row.nodeDeg,
+    siderealPeriodDays: row.siderealPeriodDays,
+    apsisPeriodYears: row.apsisPeriodYears,
+    nodePeriodYears: row.nodePeriodYears,
+    validFromJdTdb: TABLE2_RANGE[0],
+    validToJdTdb: TABLE2_RANGE[1],
+    note: 'JPL warns these mean elements are "not intended for ephemeris computation"; they are used only outside 1800–2050.',
+  };
+  const horizonsCheck = meanElementsCheck(meanElements, inputs.moonCheck);
+  return {
+    type: 'satellite',
+    table: {
+      file: 'solar-system/ephemeris/moon.json',
+      sourceId: inputs.moonTable.sourceId,
+      validFromJdTdb: range.fromJdTdb,
+      validToJdTdb: range.toJdTdb,
+      horizonsCheck: { ...inputs.moonCheck.heldOutSummary, sourceId: SOURCE_SPECS.jplHorizons.id },
+    },
+    meanElements: horizonsCheck ? { ...meanElements, horizonsCheck } : meanElements,
+    barycentre: {
+      massRatio: {
+        value: gmMoon / (gmEarth + gmMoon),
+        sourceId: SOURCE_SPECS.naifGm.id,
+        note: "Moon's share of the Earth–Moon mass (DE440 GM values).",
+      },
+    },
+  };
+}
+
+/** Earth's centre (barycentre corrected by the Moon's share) against Horizons body 399, over the samples inside Table 1. */
+function earthCentreCheck(bodies: readonly Body[], moonTable: ChebyshevFile, horizons: HorizonsReference): HorizonsCheck {
+  const tables = new Map([['moon', moonTable]]);
+  let count = 0;
+  let maxAngle = 0;
+  let maxDistance = 0;
+  for (const sample of horizons.samples.filter((s) => s.body === 'earth-centre')) {
+    if (sample.jdTdb < TABLE1_RANGE[0] || sample.jdTdb >= TABLE1_RANGE[1]) continue;
+    const p = systemState(bodies, tables, sample.jdTdb).get('earth')!.positionKm;
+    const ref = sample.positionKm as unknown as Vec3;
+    count += 1;
+    maxAngle = Math.max(maxAngle, angleBetween(p, ref) / ARCSEC);
+    maxDistance = Math.max(maxDistance, Math.abs(length(p) - length(ref))); // same convention as the planet tables' checks
+  }
+  if (count === 0) throw new Error('No Horizons Earth-centre samples inside 1800–2050');
+  return { sampleCount: count, maxAngularErrorArcsec: Math.round(maxAngle * 10) / 10, maxDistanceErrorKm: Math.round(maxDistance), sourceId: SOURCE_SPECS.jplHorizons.id };
+}
+
 export function buildSolarSystem(inputs: PipelineInputs, generatedAt: string): PipelineOutput {
   const approx = parseApproxPos(inputs.approxPos.text);
   const planetSheet = parsePlanetFactSheet(inputs.planetSheet.text);
   const sunSheet = parseSunFactSheet(inputs.sunSheet.text);
   const pck = parsePckAssignments(inputs.pck.text);
+  const moonSheet = parseMoonFactSheet(inputs.moonSheet.text);
+  const gm = parseGmKernel(inputs.gmKernel.text);
   const pckId = SOURCE_SPECS.naifPck.id;
   const description = (id: DescribedBody) => ({ text: parseMetaDescription(inputs.descriptions[id].text), sourceId: `nasa-science-${id}` });
 
@@ -223,7 +390,35 @@ export function buildSolarSystem(inputs: PipelineInputs, generatedAt: string): P
     display: { color: spec.color, note: 'illustrative' },
   }));
 
+  const moon: Body = {
+    id: 'moon',
+    name: 'Moon',
+    category: 'moon',
+    parentId: 'earth',
+    regionId: SOLAR_SYSTEM_REGION.id,
+    naifId: 301,
+    facts: moonFacts(planetSheet, moonSheet),
+    orbit: moonOrbit(inputs, gm),
+    rotation: { sourceId: pckId, ...rotationModelFor(pck, 301) },
+    shape: { ...radiiFor(pck, 301), sourceId: pckId },
+    description: description('moon'),
+    imagery: inputs.imagery.bodies.moon ?? null,
+    // Tuned in M2b.2 Task 10: pure Lommel-Seeliger gives the evenly bright full Moon.
+    render: { shader: 'rocky', atmosphere: null, lommelSeeliger: 1, normalStrength: 1, bandFlow: false },
+    display: { color: '#c9c5bd', note: 'illustrative' },
+  };
+
+  // Earth is drawn at its own centre (barycentre minus the Moon's share), so its accuracy is measured on the composed system.
+  const earth = planets.find((p) => p.id === 'earth')!;
+  if (earth.orbit.type !== 'planet-approx') throw new Error('Earth must have a planet-approx orbit');
+  earth.orbit = { ...earth.orbit, centreCheck: earthCentreCheck([sun, ...planets, moon], inputs.moonTable, inputs.horizons) };
+
   const sources = [
+    toSource(SOURCE_SPECS.naifGm, inputs.gmKernel.retrievedAt),
+    toSource(SOURCE_SPECS.jplSatElem, inputs.satElemPage.retrievedAt),
+    toSource(planetSheetSpec('moon', 'Moon'), inputs.moonSheet.retrievedAt),
+    toSource(nasaScienceSpec('moon', 'The Moon', DESCRIPTION_PAGES.moon), inputs.descriptions.moon.retrievedAt),
+
     toSource(SOURCE_SPECS.jplApproxPos, inputs.approxPos.retrievedAt),
     toSource(SOURCE_SPECS.jplHorizons, inputs.horizons.retrievedAt),
     toSource(SOURCE_SPECS.nssdcaPlanets, inputs.planetSheet.retrievedAt),
@@ -240,6 +435,6 @@ export function buildSolarSystem(inputs: PipelineInputs, generatedAt: string): P
   return {
     regions: { schemaVersion: 1, regions: [SOLAR_SYSTEM_REGION] },
     sources: { schemaVersion: 1, sources },
-    bodies: { schemaVersion: 1, regionId: SOLAR_SYSTEM_REGION.id, generatedAt, bodies: [sun, ...planets] },
+    bodies: { schemaVersion: 1, regionId: SOLAR_SYSTEM_REGION.id, generatedAt, bodies: [sun, ...planets, moon] },
   };
 }

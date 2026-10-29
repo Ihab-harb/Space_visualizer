@@ -40,6 +40,13 @@ const ErrorFigureSchema = z.object({
   distanceKm: z.number().nonnegative(),
 });
 
+export const HorizonsCheckSchema = z.object({
+  sampleCount: z.number().int().positive(),
+  maxAngularErrorArcsec: z.number().nonnegative(),
+  maxDistanceErrorKm: z.number().nonnegative(),
+  sourceId: SourceIdSchema,
+});
+
 export const ApproxTableSchema = z
   .object({
     id: z.enum(['1800-2050', '3000BC-3000AD']),
@@ -49,14 +56,7 @@ export const ApproxTableSchema = z
     ratesPerCentury: KeplerSetSchema,
     extraTerms: z.object({ b: z.number(), c: z.number(), s: z.number(), f: z.number() }).optional(),
     nominalError: ErrorFigureSchema,
-    horizonsCheck: z
-      .object({
-        sampleCount: z.number().int().positive(),
-        maxAngularErrorArcsec: z.number().nonnegative(),
-        maxDistanceErrorKm: z.number().nonnegative(),
-        sourceId: SourceIdSchema,
-      })
-      .optional(),
+    horizonsCheck: HorizonsCheckSchema.optional(),
   })
   .refine((t) => t.validFromJdTdb < t.validToJdTdb, { message: 'validFromJdTdb must precede validToJdTdb' })
   .refine((t) => t.elements.a > 0 && t.elements.e >= 0 && t.elements.e < 1, { message: 'elements out of range (need a > 0, 0 <= e < 1)' });
@@ -66,6 +66,45 @@ export const PlanetApproxOrbitSchema = z.object({
   sourceId: SourceIdSchema,
   represents: z.enum(['planet', 'earth-moon-barycenter']),
   tables: z.array(ApproxTableSchema).min(1),
+  /** Earth only: the composed Earth position checked against Horizons body 399. */
+  centreCheck: HorizonsCheckSchema.optional(),
+});
+
+export const SatelliteOrbitSchema = z.object({
+  type: z.literal('satellite'),
+  table: z.object({
+    /** Path under data/, e.g. 'solar-system/ephemeris/moon.json'. */
+    file: z.string().min(1),
+    sourceId: SourceIdSchema,
+    validFromJdTdb: z.number(),
+    validToJdTdb: z.number(),
+    horizonsCheck: HorizonsCheckSchema,
+  }),
+  meanElements: z.object({
+    sourceId: SourceIdSchema,
+    epochJdTdb: z.number(),
+    aKm: z.number().positive(),
+    e: z.number().min(0).lt(1),
+    argPeriDeg: z.number(),
+    meanAnomalyDeg: z.number(),
+    iDeg: z.number(),
+    nodeDeg: z.number(),
+    siderealPeriodDays: z.number().positive(),
+    apsisPeriodYears: z.number().positive(),
+    nodePeriodYears: z.number().positive(),
+    validFromJdTdb: z.number(),
+    validToJdTdb: z.number(),
+    horizonsCheck: HorizonsCheckSchema.optional(),
+    note: z.string().min(1),
+  }),
+  /** massRatio.value is mu = GM_satellite / (GM_parent + GM_satellite). */
+  barycentre: z
+    .object({
+      massRatio: SourcedValueSchema.refine((v) => typeof v.value === 'number' && v.value > 0 && v.value < 1, {
+        message: 'massRatio must be a number between 0 and 1 (exclusive)',
+      }),
+    })
+    .nullable(),
 });
 
 export const FixedOrbitSchema = z.object({
@@ -74,7 +113,7 @@ export const FixedOrbitSchema = z.object({
   note: z.string().min(1),
 });
 
-export const OrbitSchema = z.discriminatedUnion('type', [PlanetApproxOrbitSchema, FixedOrbitSchema]);
+export const OrbitSchema = z.discriminatedUnion('type', [PlanetApproxOrbitSchema, FixedOrbitSchema, SatelliteOrbitSchema]);
 
 export const RotationModelSchema = z.object({
   sourceId: SourceIdSchema,
@@ -118,7 +157,8 @@ export const RenderSchema = z.object({
   bandFlow: z.boolean(),
 });
 
-export const BodySchema = z.object({
+export const BodySchema = z
+  .object({
   id: z.string().regex(/^[a-z0-9-]+$/),
   name: z.string().min(1),
   category: z.enum(BODY_CATEGORIES),
@@ -137,7 +177,8 @@ export const BodySchema = z.object({
   imagery: ImagerySchema.nullable(),
   render: RenderSchema,
   display: z.object({ color: z.string().regex(/^#[0-9a-f]{6}$/i), note: z.literal('illustrative') }),
-});
+})
+  .refine((b) => b.orbit.type !== 'satellite' || b.parentId !== null, { message: 'a satellite body needs a parentId', path: ['parentId'] });
 
 export const RegionSchema = z.object({
   id: z.string().regex(/^[a-z0-9-]+$/),
@@ -170,6 +211,8 @@ export type Source = z.infer<typeof SourceSchema>;
 export type SourcedValue = z.infer<typeof SourcedValueSchema>;
 export type ApproxTable = z.infer<typeof ApproxTableSchema>;
 export type PlanetApproxOrbit = z.infer<typeof PlanetApproxOrbitSchema>;
+export type SatelliteOrbit = z.infer<typeof SatelliteOrbitSchema>;
+export type HorizonsCheck = z.infer<typeof HorizonsCheckSchema>;
 export type FixedOrbit = z.infer<typeof FixedOrbitSchema>;
 export type Orbit = z.infer<typeof OrbitSchema>;
 export type RotationModel = z.infer<typeof RotationModelSchema>;
@@ -184,3 +227,27 @@ export type TextureRef = z.infer<typeof TextureRefSchema>;
 export type Imagery = z.infer<typeof ImagerySchema>;
 export type Render = z.infer<typeof RenderSchema>;
 export type ImageryFile = z.infer<typeof ImageryFileSchema>;
+
+export const ChebyshevFileSchema = z
+  .object({
+    schemaVersion: z.literal(1),
+    bodyId: z.string().min(1),
+    centreId: z.string().min(1),
+    frame: z.literal('ecliptic-j2000'),
+    unit: z.literal('km'),
+    sourceId: z.string().min(1),
+    startJdTdb: z.number().finite(),
+    segmentDays: z.number().finite().positive(),
+    degree: z.number().int().min(1).max(30),
+    // Each segment: x coefficients, then y, then z (3 * (degree + 1) numbers).
+    segments: z.array(z.array(z.number().finite())).min(1),
+  })
+  .superRefine((f, ctx) => {
+    const want = 3 * (f.degree + 1);
+    f.segments.forEach((s, i) => {
+      if (s.length !== want) {
+        ctx.addIssue({ code: 'custom', path: ['segments', i], message: `segment must have ${want} coefficients` });
+      }
+    });
+  });
+export type ChebyshevFile = z.infer<typeof ChebyshevFileSchema>;

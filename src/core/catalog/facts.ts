@@ -24,6 +24,10 @@ export const FACT_KEYS = [
   'meanOrbitalVelocityKmS',
   'orbitalInclinationDeg',
   'orbitalEccentricity',
+  'meanDistanceFromParentKm',
+  'periapsisKm',
+  'apoapsisKm',
+  'synodicPeriodDays',
 ] as const;
 
 export type FactKey = (typeof FACT_KEYS)[number];
@@ -55,4 +59,8 @@ export const FACT_DEFS: Record<FactKey, { label: string; unit: string; group: Fa
   meanOrbitalVelocityKmS: { label: 'Mean orbital velocity', unit: 'km/s', group: 'orbit' },
   orbitalInclinationDeg: { label: 'Orbital inclination', unit: '°', group: 'orbit' },
   orbitalEccentricity: { label: 'Orbital eccentricity', unit: '', group: 'orbit' },
+  meanDistanceFromParentKm: { label: 'Mean distance from its planet', unit: 'km', group: 'orbit' },
+  periapsisKm: { label: 'Closest distance (periapsis)', unit: 'km', group: 'orbit' },
+  apoapsisKm: { label: 'Farthest distance (apoapsis)', unit: 'km', group: 'orbit' },
+  synodicPeriodDays: { label: 'Cycle of phases (synodic period)', unit: 'days', group: 'orbit' },
 };
