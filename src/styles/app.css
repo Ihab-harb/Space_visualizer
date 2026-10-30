@@ -485,3 +485,26 @@ button[aria-pressed='true'] {
   .header__actions button { padding: 4px 7px; font-size: 12px; white-space: nowrap; line-height: 1.2; }
   .header__narrative-toggle { display: inline-block; margin-bottom: 8px; padding: 2px 8px; font-size: 12px; color: var(--accent); }
 }
+
+/* Explore: composition chart. One hue for magnitude (--accent); all text in text colours. */
+.composition { display: flex; flex-direction: column; gap: 8px; color: var(--text); }
+.composition__header { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.composition__title { margin: 0; font-size: 14px; font-weight: 600; }
+.composition__toggle { padding: 3px 10px; border: 1px solid var(--hairline); border-radius: 999px; background: none; color: var(--text); font-size: 12px; cursor: pointer; }
+.composition__toggle[aria-pressed='true'] { background: var(--accent-soft); border-color: var(--accent); }
+.composition__plot { position: relative; }
+.composition__svg { display: block; width: 100%; height: auto; font-family: var(--font-ui); }
+.composition__row { outline: none; cursor: default; }
+.composition__row:focus-visible .composition__bar, .composition__row.is-active .composition__bar { fill-opacity: 1; stroke: var(--text); stroke-width: 1; }
+.composition__bar { fill: var(--accent); fill-opacity: 0.8; }
+.composition__grid { stroke: var(--hairline); stroke-width: 1; }
+.composition__name, .composition__value { fill: var(--text); font-size: 12px; }
+.composition__formula, .composition__limit, .composition__tick, .composition__axis-title { fill: var(--text-muted); font-size: 11px; }
+.composition__cite { fill: var(--accent); font-size: 10px; }
+.composition__tooltip { position: absolute; z-index: 2; display: flex; flex-direction: column; gap: 2px; max-width: 260px; padding: 8px 10px; transform: translate(12px, -110%); border: 1px solid var(--hairline); border-radius: var(--radius); background: var(--glass-strong); box-shadow: var(--shadow); font-size: 12px; pointer-events: none; }
+.composition__tooltip-source { color: var(--text-muted); }
+.composition__table { width: 100%; border-collapse: collapse; font-size: 12px; }
+.composition__table th, .composition__table td { padding: 4px 8px; border-bottom: 1px solid var(--hairline); text-align: left; font-weight: 400; }
+.composition__table thead th { color: var(--text-muted); }
+.composition__note { margin: 0; }
+.visually-hidden { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
