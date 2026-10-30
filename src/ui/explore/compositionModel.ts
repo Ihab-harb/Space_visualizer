@@ -1,7 +1,6 @@
 import type { Body } from '../../core/catalog/schema';
 import type { BodyDetails } from '../../core/details/schema';
-import { formatNumber } from '../format';
-import { subscripts } from '../DetailsSections';
+import { formatNumber, subscripts } from '../format';
 
 export interface ChartBar {
   name: string;
@@ -75,7 +74,7 @@ export function compositionModel(body: Body, details: BodyDetails): ChartModel |
 }
 
 /** The strip text: the top two gases, else the cited note, else "No atmosphere". */
-export function compositionPreview(model: ChartModel | null, details: BodyDetails): { parts: Array<{ text: string; sourceId?: string }> } {
+export function compositionPreview(model: ChartModel | null, details: BodyDetails, body?: Body): { parts: Array<{ text: string; sourceId?: string }> } {
   if (model) {
     const parts: Array<{ text: string; sourceId?: string }> = [];
     model.bars.slice(0, 2).forEach((b, i) => {
@@ -86,5 +85,7 @@ export function compositionPreview(model: ChartModel | null, details: BodyDetail
   }
   const note = details.atmosphere?.note;
   if (note) return { parts: [{ text: note.text, sourceId: note.sourceId }] };
-  return { parts: [{ text: 'No atmosphere' }] };
+  // Cited only when the body's own surface-pressure fact says 0 bar; otherwise the claim has no source and stays plain.
+  const pressure = body?.facts.surfacePressureBar;
+  return { parts: [pressure && pressure.value === 0 ? { text: 'No atmosphere', sourceId: pressure.sourceId } : { text: 'No atmosphere' }] };
 }

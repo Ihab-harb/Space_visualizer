@@ -24,13 +24,13 @@ describe('CompositionChart', () => {
   it('draws a titled chart with one cited bar per gas', () => {
     render(<CompositionChart catalog={catalog} body={earth} details={real('earth')} />);
     expect(screen.getByRole('heading', { name: 'Atmosphere · by volume, dry air' })).toBeInTheDocument();
-    const svg = screen.getByRole('group', { name: /Atmosphere/ });
+    const svg = screen.getByRole('list', { name: /Atmosphere/ });
     expect(within(svg).getAllByRole('listitem')).toHaveLength(9);
-    expect(within(svg).getAllByRole('link', { name: /^Source \d+$/ })).toHaveLength(9);
+    expect(within(svg).getAllByRole('link', { name: /^Source \d+ for .+$/ })).toHaveLength(9);
     expect(within(svg).getAllByText(/^\[\d+\]$/)).toHaveLength(9);
     expect(within(svg).getByText('78.08 %')).toBeInTheDocument();
     expect(within(svg).getByText('420 ppm')).toBeInTheDocument();
-    expect(within(svg).getByText('1,000,000')).toBeInTheDocument();
+    expect(screen.getByText('1,000,000')).toBeInTheDocument();
   });
 
   it('toggles to a real table with the same rows', async () => {
@@ -44,7 +44,7 @@ describe('CompositionChart', () => {
     const row = within(table).getByText('Nitrogen').closest('tr')!;
     expect(row).toHaveTextContent('N₂');
     expect(row).toHaveTextContent('78.08 %');
-    expect(within(row).getByRole('link', { name: /^Source \d+$/ })).toBeInTheDocument();
+    expect(within(row).getByRole('link', { name: /^Source \d+ for Nitrogen$/ })).toBeInTheDocument();
   });
 
   it('shows a tooltip with name, value and source title on focus', async () => {
@@ -61,12 +61,12 @@ describe('CompositionChart', () => {
     render(<CompositionChart catalog={catalog} body={catalog.bodyById.get('moon') ?? makeEarth()} details={real('moon')} />);
     expect(screen.getByRole('heading', { name: 'Exosphere · particles per cm³ (upper limits)' })).toBeInTheDocument();
     expect(screen.getAllByText('40,000 per cm³').length).toBeGreaterThan(0);
-    expect(screen.getAllByText(/upper limit/i).length).toBeGreaterThan(0);
+    expect(screen.getAllByRole('listitem')[0]).toHaveAccessibleName(/upper limit/);
   });
 
   it('shows the cited note instead of a chart for a note-only body', () => {
     render(<CompositionChart catalog={catalog} body={earth} details={real('mercury')} />);
-    expect(screen.queryByRole('group')).toBeNull();
+    expect(screen.queryByRole('list')).toBeNull();
     expect(screen.getByText(/surface bounded exosphere/)).toBeInTheDocument();
     expect(screen.getByRole('link', { name: /^Source \d+$/ })).toBeInTheDocument();
   });
@@ -74,5 +74,37 @@ describe('CompositionChart', () => {
   it('says No atmosphere when there is none', () => {
     render(<CompositionChart catalog={catalog} body={earth} details={{ ...real('earth'), atmosphere: null }} />);
     expect(screen.getByText('No atmosphere')).toBeInTheDocument();
+  });
+
+  it('names each citation after its gas', () => {
+    render(<CompositionChart catalog={catalog} body={earth} details={real('earth')} />);
+    expect(screen.getByRole('link', { name: /^Source \d+ for Nitrogen$/ })).toBeInTheDocument();
+  });
+
+  it('keeps the last tick label and marks alternate decades as droppable on narrow widths', () => {
+    const { container } = render(<CompositionChart catalog={catalog} body={earth} details={real('earth')} />);
+    const ticks = [...container.querySelectorAll('.composition__tick')];
+    expect(ticks.at(-1)).not.toHaveAttribute('data-minor');
+    expect(ticks.at(-2)).toHaveAttribute('data-minor');
+    expect(ticks.at(-3)).not.toHaveAttribute('data-minor');
+  });
+
+  it('places the tooltip inside the chart: below the first row, anchored to the end for long bars', async () => {
+    render(<CompositionChart catalog={catalog} body={earth} details={real('earth')} />);
+    const rows = screen.getAllByRole('listitem');
+    rows[0]!.focus();
+    const first = await screen.findByRole('tooltip');
+    expect(first).toHaveClass('composition__tooltip--below');
+    expect(first).toHaveClass('composition__tooltip--end');
+    rows[8]!.focus();
+    const last = await within(rows[8]!).findByRole('tooltip');
+    expect(last).not.toHaveClass('composition__tooltip--below');
+    expect(last).not.toHaveClass('composition__tooltip--end');
+  });
+
+  it('cites "No atmosphere" when the cited surface pressure is 0', () => {
+    const mercury = { ...earth, facts: { ...earth.facts, surfacePressureBar: { value: 0, sourceId: 'nssdca-planetary-fact-sheet' } } };
+    render(<CompositionChart catalog={catalog} body={mercury} details={{ ...real('earth'), atmosphere: null }} />);
+    expect(screen.getByRole('link', { name: /^Source \d+$/ })).toBeInTheDocument();
   });
 });

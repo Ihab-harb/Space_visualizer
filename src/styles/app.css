@@ -486,25 +486,46 @@ button[aria-pressed='true'] {
   .header__narrative-toggle { display: inline-block; margin-bottom: 8px; padding: 2px 8px; font-size: 12px; color: var(--accent); }
 }
 
-/* Explore: composition chart. One hue for magnitude (--accent); all text in text colours. */
-.composition { display: flex; flex-direction: column; gap: 8px; color: var(--text); }
+/* Explore: composition chart. One hue for magnitude (--accent); all text in text colours. HTML layout so text stays 11-12 px at any width. */
+.composition-box { container-type: inline-size; }
+.composition { --name-w: 9em; --cite-w: 2.6em; --label-w: 8.4em; display: flex; flex-direction: column; gap: 8px; color: var(--text); font-size: 12px; }
 .composition__header { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
 .composition__title { margin: 0; font-size: 14px; font-weight: 600; }
 .composition__toggle { padding: 3px 10px; border: 1px solid var(--hairline); border-radius: 999px; background: none; color: var(--text); font-size: 12px; cursor: pointer; }
 .composition__toggle[aria-pressed='true'] { background: var(--accent-soft); border-color: var(--accent); }
 .composition__plot { position: relative; }
-.composition__svg { display: block; width: 100%; height: auto; font-family: var(--font-ui); }
-.composition__row { outline: none; cursor: default; }
-.composition__row:focus-visible .composition__bar, .composition__row.is-active .composition__bar { fill-opacity: 1; stroke: var(--text); stroke-width: 1; }
-.composition__bar { fill: var(--accent); fill-opacity: 0.8; }
-.composition__grid { stroke: var(--hairline); stroke-width: 1; }
-.composition__name, .composition__value { fill: var(--text); font-size: 12px; }
-.composition__formula, .composition__limit, .composition__tick, .composition__axis-title { fill: var(--text-muted); font-size: 11px; }
-.composition__cite { fill: var(--accent); font-size: 10px; }
-.composition__tooltip { position: absolute; z-index: 2; display: flex; flex-direction: column; gap: 2px; max-width: 260px; padding: 8px 10px; transform: translate(12px, -110%); border: 1px solid var(--hairline); border-radius: var(--radius); background: var(--glass-strong); box-shadow: var(--shadow); font-size: 12px; pointer-events: none; }
+.composition__grid-lines { position: absolute; top: 0; bottom: 18px; left: var(--name-w); right: calc(var(--cite-w) + var(--label-w)); pointer-events: none; }
+.composition__gridline { position: absolute; top: 0; bottom: 0; width: 1px; background: var(--hairline); }
+.composition__rows { position: relative; }
+.composition__row { position: relative; display: grid; grid-template-columns: var(--name-w) 1fr var(--cite-w); align-items: center; min-height: 26px; outline: none; }
+.composition__row:focus-visible, .composition__row.is-active { background: rgba(170, 200, 255, 0.06); }
+.composition__row:focus-visible .composition__bar, .composition__row.is-active .composition__bar { opacity: 1; box-shadow: 0 0 0 1px var(--text); }
+.composition__name { color: var(--text); padding-right: 6px; overflow-wrap: anywhere; }
+.composition__formula, .composition__limit { color: var(--text-muted); font-size: 11px; }
+.composition__track { padding-right: var(--label-w); }
+.composition__scale { position: relative; display: block; height: 8px; }
+.composition__bar { position: absolute; left: 0; top: 0; height: 8px; border-radius: 4px; background: var(--accent); opacity: 0.85; }
+.composition__value { position: absolute; top: 50%; margin-left: 8px; transform: translateY(-50%); white-space: nowrap; color: var(--text); }
+.composition .cite { text-align: right; }
+.composition .cite a { font-size: 11px; }
+.composition__axis { position: relative; margin-left: var(--name-w); margin-right: calc(var(--cite-w) + var(--label-w)); padding-top: 4px; }
+.composition__ticks { position: relative; height: 14px; }
+.composition__tick { position: absolute; transform: translateX(-50%); white-space: nowrap; color: var(--text-muted); font-size: 11px; }
+.composition__tick-short { display: none; }
+.composition__axis-title { margin-top: 2px; text-align: center; color: var(--text-muted); font-size: 11px; white-space: nowrap; }
+.composition__tooltip { position: absolute; z-index: 2; bottom: 100%; left: var(--name-w); display: flex; flex-direction: column; gap: 2px; width: max-content; max-width: min(260px, calc(100% - var(--name-w))); padding: 8px 10px; border: 1px solid var(--hairline); border-radius: var(--radius); background: var(--glass-strong); box-shadow: var(--shadow); font-size: 12px; pointer-events: none; }
+.composition__tooltip--below { bottom: auto; top: 100%; }
+.composition__tooltip--end { left: auto; right: 0; }
 .composition__tooltip-source { color: var(--text-muted); }
 .composition__table { width: 100%; border-collapse: collapse; font-size: 12px; }
 .composition__table th, .composition__table td { padding: 4px 8px; border-bottom: 1px solid var(--hairline); text-align: left; font-weight: 400; }
 .composition__table thead th { color: var(--text-muted); }
 .composition__note { margin: 0; }
 .visually-hidden { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+/* Narrow containers: tighter columns, and every other decade label is dropped so tick labels never touch. */
+@container (max-width: 480px) {
+  .composition { --name-w: 7.2em; }
+  .composition__tick[data-minor] { visibility: hidden; }
+  .composition__tick-full { display: none; }
+  .composition__tick-short { display: inline; }
+}

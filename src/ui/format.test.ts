@@ -80,3 +80,10 @@ describe('formatKm', () => {
     expect(formatKm(1000)).toBe('1,000 km');
   });
 });
+
+describe('subscripts', () => {
+  it('turns digits into subscripts', async () => {
+    const { subscripts } = await import('./format');
+    expect(subscripts('CO2')).toBe('CO₂');
+  });
+});

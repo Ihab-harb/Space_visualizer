@@ -61,3 +61,7 @@ export function formatDuration(hours: number): string {
 export function formatPeriodDays(days: number): string {
   return days < 730 ? `${formatNumber(Number(days.toFixed(1)))} days` : `${formatNumber(Number((days / 365.25).toFixed(2)))} years`;
 }
+
+const SUBSCRIPT: Record<string, string> = { '0': '₀', '1': '₁', '2': '₂', '3': '₃', '4': '₄', '5': '₅', '6': '₆', '7': '₇', '8': '₈', '9': '₉' };
+/** Chemical formula digits as subscripts: "CO2" becomes "CO₂". */
+export const subscripts = (formula: string) => formula.replace(/\d/g, (d) => SUBSCRIPT[d] ?? d);

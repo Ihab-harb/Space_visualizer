@@ -91,4 +91,11 @@ describe('compositionPreview', () => {
     const text = compositionPreview(compositionModel(body('moon'), details), details).parts.map((p) => p.text).join('');
     expect(text).toContain('upper limit');
   });
+
+  it('cites No atmosphere with the surface-pressure fact when it is 0 bar, else leaves it uncited', () => {
+    const details = { ...real('earth'), atmosphere: null };
+    const airless = { ...makeEarth(), facts: { ...makeEarth().facts, surfacePressureBar: { value: 0, sourceId: 'nssdca-planetary-fact-sheet' } } };
+    expect(compositionPreview(null, details, airless).parts).toEqual([{ text: 'No atmosphere', sourceId: 'nssdca-planetary-fact-sheet' }]);
+    expect(compositionPreview(null, details, makeEarth()).parts).toEqual([{ text: 'No atmosphere' }]);
+  });
 });

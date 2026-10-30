@@ -1,13 +1,11 @@
 import type { ReactNode } from 'react';
 import type { Atmosphere, BodyDetails, Gas, InteriorLayer, Magnetosphere, Mission, SourcedRange } from '../core/details/schema';
 import { useDetailsStore, type DetailsEntry } from '../state/detailsStore';
-import { formatNumber } from './format';
+import { formatNumber, subscripts } from './format';
 
 type Cite = (sourceId: string) => ReactNode;
 
 const MAX_FEATURES = 10;
-const SUBSCRIPT: Record<string, string> = { '0': '₀', '1': '₁', '2': '₂', '3': '₃', '4': '₄', '5': '₅', '6': '₆', '7': '₇', '8': '₈', '9': '₉' };
-export const subscripts = (formula: string) => formula.replace(/\d/g, (d) => SUBSCRIPT[d] ?? d);
 const rangeText = (min: number, max: number) => (min === max ? formatNumber(min) : `${formatNumber(min)}–${formatNumber(max)}`);
 /** Uncertainties: percent values are written to one decimal in the sheets; ppm values are whole numbers as written. */
 const uncertaintyText = (gas: Gas) => (gas.unit === '%' ? gas.uncertainty!.toFixed(1) : formatNumber(gas.uncertainty!));
