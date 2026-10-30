@@ -42,6 +42,10 @@ Where no official source gives a number (the interiors of Venus and the giant pl
 6. Illustrative size: if no acceptable number is found, write the layer with `sizeKind: "illustrative"` and no `outer` or `inner`. Layers in a run without bounds share the room evenly between the cited layer above and the cited layer below (the whole radius if none, so an interior of only illustrative layers is allowed). The check fails an illustrative layer with no room between its neighbours. It shows no number.
 7. Do not use a preprint that was never published, a press release, an encyclopaedia or an aggregator.
 
+### Documented exceptions
+
+Shah et al. 2022 (Venus core): the quoted sentence says "core size 2930-4350 km", not "core radius". The paper's body, Fig. 8 and its "Core radius" table use the same values as a radius, and a diameter that large is impossible for Venus (mean radius 6,051.8 km), so the layer records it as a radius.
+
 ## Adding an entry
 
 1. Find the NASA page. Add it to the file's `sources` if it is not there (stable URL, publisher, license).

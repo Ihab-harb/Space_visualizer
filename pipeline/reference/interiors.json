@@ -117,7 +117,8 @@
       "license": "Peer-reviewed article; quoted under fair use",
       "kind": "paper",
       "doi": "10.3847/1538-4357/ac410d",
-      "journal": "The Astrophysical Journal"
+      "journal": "The Astrophysical Journal",
+      "quoteUrl": "https://arxiv.org/abs/2112.03225"
     },
     {
       "id": "paper-militzer-2022-jupiter-dilute-core",
@@ -666,7 +667,7 @@
           "state": "liquid",
           "stateSource": {
             "sourceId": "nasa-science-saturn-facts",
-            "quote": "It is enveloped by liquid metallic hydrogen inside a layer of liquid hydrogen"
+            "quote": "It is enveloped by liquid metallic hydrogen inside a layer of liquid hydrogen –similar to Jupiter's core but considerably smaller."
           },
           "composition": {
             "sourceId": "nasa-science-saturn-facts",
@@ -683,7 +684,7 @@
           "state": "liquid",
           "stateSource": {
             "sourceId": "nasa-science-saturn-facts",
-            "quote": "It is enveloped by liquid metallic hydrogen inside a layer of liquid hydrogen"
+            "quote": "It is enveloped by liquid metallic hydrogen inside a layer of liquid hydrogen –similar to Jupiter's core but considerably smaller."
           },
           "composition": null,
           "uncertain": false
