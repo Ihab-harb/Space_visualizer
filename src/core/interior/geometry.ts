@@ -10,7 +10,7 @@ export interface DrawnLayer {
   /** Soft band widths (fraction of radius) where a bound is a range; 0 for a sharp boundary. */
   outerBand: number;
   innerBand: number;
-  /** Drawn thicker than scale (spec section 6, under 1 % of the radius). */
+  /** Drawn thicker than scale (spec section 6, under 1.2 % of the radius). */
   thickened: boolean;
   sizeKind: 'cited' | 'estimate' | 'illustrative';
   state: InteriorLayer['state'];
@@ -18,8 +18,9 @@ export interface DrawnLayer {
 
 /** Smallest gap kept between two radii so a layer never collapses to nothing. */
 const TINY = 1e-6;
-/** Spacing between layers when exploded, in body radii. */
+/** Spacing between layers when exploded, in body radii, and the most the outermost shell may lift in total. */
 const EXPLODE_STEP = 0.3;
+const EXPLODE_MAX = 0.8;
 
 const clamp01 = (x: number) => (Number.isFinite(x) ? Math.min(1, Math.max(0, x)) : 0);
 
@@ -45,7 +46,7 @@ export function drawnLayers(layers: readonly InteriorLayer[], bodyRadiusKm: numb
       thickened = true;
     }
     const sizeKind = range.shared || layer.sizeKind === 'illustrative' ? 'illustrative' : layer.sizeKind === 'estimate' ? 'estimate' : 'cited';
-    const band = (r: { min: number; max: number }) => (range.shared ? 0 : Math.max(0, (r.max - r.min) / bodyRadiusKm));
+    const band = (r: { min: number; max: number }) => (range.shared ? 0 : Math.min(outer - inner, Math.max(0, (r.max - r.min) / bodyRadiusKm)));
     out.push({ id: layer.id, name: layer.name, outer, inner, outerBand: band(range.outer), innerBand: band(range.inner), thickened, sizeKind, state: layer.state });
     ceiling = inner;
   });
@@ -55,7 +56,8 @@ export function drawnLayers(layers: readonly InteriorLayer[], bodyRadiusKm: numb
 /** How far each layer lifts along screen-up, in body radii. Zero at progress 0; the outermost lifts most, the innermost stays. */
 export function explodeOffsets(layers: readonly DrawnLayer[], progress: number): number[] {
   const p = clamp01(progress);
-  return layers.map((_, i) => p * EXPLODE_STEP * (layers.length - 1 - i));
+  const step = layers.length > 1 ? Math.min(EXPLODE_STEP, EXPLODE_MAX / (layers.length - 1)) : 0;
+  return layers.map((_, i) => p * step * (layers.length - 1 - i));
 }
 
 /** What each view shows at an animation progress (0 to 1): whether the wedge is cut away and how far the shells are exploded. */

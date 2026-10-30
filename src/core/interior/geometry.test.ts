@@ -73,6 +73,18 @@ describe('drawnLayers', () => {
       });
     }
   });
+  it('clamps a band to the drawn layer thickness', () => {
+    const d = drawnLayers([layer('a', [10], [4, 6]), layer('b', [4, 6], [0])], 10, { minThickness: 0 });
+    const t = (l: (typeof d)[number]) => l.outer - l.inner;
+    const wide = drawnLayers([layer('a', [10], [9.9, 10.1 - 0.5]), layer('b', [9.9, 9.6], [0])], 10);
+    for (const l of [...d, ...wide]) {
+      expect(l.outerBand).toBeLessThanOrEqual(t(l) + 1e-12);
+      expect(l.innerBand).toBeLessThanOrEqual(t(l) + 1e-12);
+    }
+    const thin = drawnLayers([layer('a', [10], [0, 10])], 10);
+    expect(thin[0]!.innerBand).toBeLessThanOrEqual(thin[0]!.outer - thin[0]!.inner);
+    expect(thin[0]!.innerBand).toBeCloseTo(0.5, 1);
+  });
   it('returns [] for no layers or a bad radius', () => {
     expect(drawnLayers([], 10)).toEqual([]);
     expect(drawnLayers(earth, 0)).toEqual([]);
@@ -87,6 +99,22 @@ describe('explodeOffsets', () => {
     expect(o[0]!).toBeGreaterThan(o[1]!);
     expect(o[1]!).toBeGreaterThan(o[2]!);
     expect(o.every(Number.isFinite)).toBe(true);
+  });
+  it('3 layers keep 0.3 steps', () => {
+    const o = explodeOffsets(d, 1);
+    expect(o[0]!).toBeCloseTo(0.6);
+    expect(o[1]!).toBeCloseTo(0.3);
+    expect(o[2]!).toBe(0);
+  });
+  it('6 layers top out at 0.8 or less', () => {
+    const six = Array.from({ length: 6 }, (_, i) => layer(`l${i}`, [10 - i], [9 - i]));
+    const o = explodeOffsets(drawnLayers(six, 10), 1);
+    expect(Math.max(...o)).toBeLessThanOrEqual(0.8 + 1e-12);
+    expect(o[0]!).toBeGreaterThan(o[1]!);
+  });
+  it('one layer and none', () => {
+    expect(explodeOffsets(d.slice(0, 1), 1)).toEqual([0]);
+    expect(explodeOffsets([], 1)).toEqual([]);
   });
   it('clamps progress', () => expect(explodeOffsets(d, 5)).toEqual(explodeOffsets(d, 1)));
 });
