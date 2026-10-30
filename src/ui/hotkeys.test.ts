@@ -236,7 +236,20 @@ describe('Explore keys', () => {
     useExploreStore.getState().enter('earth');
     fireEvent.keyDown(window, { key: 't' });
     expect(useTourStore.getState().active).toBe(false);
-    expect(hotkeyAction(key('t'))).toBeNull();
-    expect(hotkeyAction(key('x'))).toBeNull();
+    expect(hotkeyAction(key('t'))).toBe('tour');
+    expect(hotkeyAction(key('t'), { active: true })).toBeNull();
+    expect(hotkeyAction(key('x'), { active: true })).toBeNull();
+    expect(hotkeyAction(key('f'), { active: true })).toBeNull();
+    expect(hotkeyAction(key('q'), { active: true })).toBe('quality');
+    expect(hotkeyAction(key('1'), { active: true })).toBe('exploreView1');
+  });
+
+  it('F does not toggle the drawer while active, so it does not pop open on leave', () => {
+    renderHook(() => useHotkeys());
+    useUiStore.setState({ drawerOpen: false });
+    useExploreStore.getState().enter('earth');
+    fireEvent.keyDown(window, { key: 'f' });
+    useExploreStore.getState().leave();
+    expect(useUiStore.getState().drawerOpen).toBe(false);
   });
 });

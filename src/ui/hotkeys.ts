@@ -24,16 +24,17 @@ const KEYS: Record<string, HotkeyAction> = {
 
 /** While Explore is open, 1/2/3 pick the view, Esc steps back and T is ignored. */
 const EXPLORE_KEYS: Record<string, HotkeyAction> = { '1': 'exploreView1', '2': 'exploreView2', '3': 'exploreView3', Escape: 'exploreBack' };
-const BLOCKED_IN_EXPLORE = new Set(['tour', 'explore']);
+/** T would start a tour, X is already in, and F would open a drawer that is not on screen. */
+const BLOCKED_IN_EXPLORE = new Set<HotkeyAction>(['tour', 'explore', 'drawer']);
 
 /** Spec §4 keyboard. Browser shortcuts (Ctrl/Cmd/Alt) and auto-repeat are never ours. */
-export function hotkeyAction(e: { key: string; ctrlKey: boolean; metaKey: boolean; altKey: boolean; repeat: boolean; target: EventTarget | null }): HotkeyAction | null {
+export function hotkeyAction(e: { key: string; ctrlKey: boolean; metaKey: boolean; altKey: boolean; repeat: boolean; target: EventTarget | null }, explore: { active: boolean } = { active: false }): HotkeyAction | null {
   if (isTypingTarget(e.target) || e.ctrlKey || e.metaKey || e.altKey || e.repeat) return null;
-  if (useExploreStore.getState().active) {
+  if (explore.active) {
     const own = EXPLORE_KEYS[e.key];
     if (own) return own;
     const base = KEYS[e.key];
-    return base && !BLOCKED_IN_EXPLORE.has(base) && base !== 'orbit' && base !== 'follow' ? base : null;
+    return base && !BLOCKED_IN_EXPLORE.has(base) ? base : null;
   }
   return KEYS[e.key] ?? null;
 }
@@ -45,7 +46,7 @@ export function useHotkeys(): void {
     const onKey = (e: KeyboardEvent) => {
       // Auto-repeat is never input: holding T must not start the tour and then stop it.
       if (e.repeat) return;
-      const action = hotkeyAction(e);
+      const action = hotkeyAction(e, { active: useExploreStore.getState().active });
       const tour = useTourStore.getState();
       // Spec §5: any user input exits the tour (T toggles it instead).
       // Space and Enter on the Tour button activate it, and its click toggles; stopping here as well would restart the tour.

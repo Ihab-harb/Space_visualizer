@@ -104,7 +104,8 @@ describe('Header', () => {
     useSelectionStore.setState({ selectedId: 'jupiter' });
     render(<Header catalog={catalog} />);
     const button = screen.getByRole('button', { name: /Explore/ });
-    expect(button).toHaveAttribute('aria-pressed', 'false');
+    expect(button).not.toHaveAttribute('aria-pressed');
+    expect(button).toHaveAttribute('aria-keyshortcuts', 'X');
     expect(button).toHaveTextContent('(X)');
     await userEvent.click(button);
     expect(useExploreStore.getState()).toMatchObject({ active: true, bodyId: 'jupiter' });

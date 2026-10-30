@@ -138,7 +138,7 @@ export function Header({ catalog }: { catalog: Catalog }) {
       </button>
       <div className="header__actions">
         <button type="button" onClick={toggleDrawer} title="Facts & sources (key F)">Facts &amp; sources</button>
-        <button type="button" aria-pressed={false} title="Open the inside of this body (key X)" onClick={() => enterExplore(body.id)}>Explore <kbd>(X)</kbd></button>
+        <button type="button" aria-keyshortcuts="X" title="Open the inside of this body (key X)" onClick={() => enterExplore(body.id)}>Explore <kbd>(X)</kbd></button>
         {view === 'orbit' && <button type="button" onClick={() => requestFocus(body.id)}>Centre view</button>}
         <button type="button" aria-label="Deselect" onClick={() => select(null)}>×</button>
       </div>

@@ -66,4 +66,17 @@ describe('exploreStore', () => {
     useSelectionStore.getState().select(null);
     expect(useExploreStore.getState().active).toBe(false);
   });
+
+  it('entering again while active keeps the first saved time state', () => {
+    useExploreStore.getState().enter('earth');
+    useExploreStore.getState().enter('earth');
+    useExploreStore.getState().leave();
+    expect(useTimeStore.getState()).toMatchObject({ playing: true, rateIndex: 3 });
+  });
+
+  it('leave while idle does not change time', () => {
+    useTimeStore.setState({ playing: false, rateIndex: 5 });
+    useExploreStore.getState().leave();
+    expect(useTimeStore.getState()).toMatchObject({ playing: false, rateIndex: 5 });
+  });
 });
