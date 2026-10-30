@@ -3,6 +3,7 @@ import type { Catalog } from '../core/catalog/catalog';
 import type { BodyCategory } from '../core/catalog/schema';
 import { formatUtc } from '../core/time/format';
 import { tdbToUtc } from '../core/time/timescales';
+import { useExploreStore } from '../state/exploreStore';
 import { readyDetails, useBodyDetails } from '../state/detailsStore';
 import { useSceneStatsStore } from '../state/sceneStatsStore';
 import { useSelectionStore } from '../state/selectionStore';
@@ -45,6 +46,7 @@ export function Header({ catalog }: { catalog: Catalog }) {
   const requestFocus = useViewStore((s) => s.requestFocus);
   const inView = useSceneStatsStore((s) => s.bodiesInView);
   const revealSource = useUiStore((s) => s.revealSource);
+  const enterExplore = useExploreStore((s) => s.enter);
   const toggleDrawer = useUiStore((s) => s.toggleDrawer);
   const body = selectedId ? catalog.bodyById.get(selectedId) : undefined;
   const detailsEntry = useBodyDetails(body?.id);
@@ -136,6 +138,7 @@ export function Header({ catalog }: { catalog: Catalog }) {
       </button>
       <div className="header__actions">
         <button type="button" onClick={toggleDrawer} title="Facts & sources (key F)">Facts &amp; sources</button>
+        <button type="button" aria-pressed={false} title="Open the inside of this body (key X)" onClick={() => enterExplore(body.id)}>Explore <kbd>(X)</kbd></button>
         {view === 'orbit' && <button type="button" onClick={() => requestFocus(body.id)}>Centre view</button>}
         <button type="button" aria-label="Deselect" onClick={() => select(null)}>×</button>
       </div>

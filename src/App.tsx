@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { SceneRoot } from './scene/SceneRoot';
+import { useExploreStore } from './state/exploreStore';
 import { useCatalogStore } from './state/catalogStore';
 import { applyUrlOverrides, parseUrlOverrides } from './state/urlParams';
 import { ControlPanel } from './ui/ControlPanel';
@@ -19,6 +20,7 @@ export function App() {
   const catalog = useCatalogStore((s) => s.catalog);
   const error = useCatalogStore((s) => s.error);
   const load = useCatalogStore((s) => s.load);
+  const exploring = useExploreStore((s) => s.active);
 
   useEffect(() => {
     if (webgl && status === 'idle') void load();
@@ -35,10 +37,15 @@ export function App() {
   return (
     <div className="app">
       <SceneRoot catalog={catalog} />
-      <Header catalog={catalog} />
-      <ControlPanel />
-      <FactsDrawer catalog={catalog} />
-      <BottomBar catalog={catalog} />
+      {/* Explore steps the normal interface aside: it is not rendered at all (the overlay comes with Task 7). */}
+      {!exploring && (
+        <>
+          <Header catalog={catalog} />
+          <ControlPanel />
+          <FactsDrawer catalog={catalog} />
+          <BottomBar catalog={catalog} />
+        </>
+      )}
     </div>
   );
 }

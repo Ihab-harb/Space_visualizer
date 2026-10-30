@@ -87,7 +87,7 @@ export function ControlPanel() {
           <input type="checkbox" checked={effects} onChange={toggleEffects} />
           Camera effects
         </label>
-        <p className="control-panel__hint">1/2 view · Q quality · E effects · F facts · T tour · drag, right-drag and scroll to move</p>
+        <p className="control-panel__hint">1/2 view · Q quality · E effects · F facts · X explore · T tour · drag, right-drag and scroll to move</p>
       </div>
     </nav>
   );

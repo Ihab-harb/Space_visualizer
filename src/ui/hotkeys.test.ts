@@ -2,6 +2,7 @@
 import { fireEvent, renderHook } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { beforeEach, describe, expect, it } from 'vitest';
+import { useExploreStore } from '../state/exploreStore';
 import { useRenderStore } from '../state/renderStore';
 import { useSelectionStore } from '../state/selectionStore';
 import { useTourStore } from '../state/tourStore';
@@ -16,7 +17,8 @@ const key = (k: string, extra: Partial<{ ctrlKey: boolean; metaKey: boolean; alt
 describe('hotkeyAction (spec §4 keyboard)', () => {
   it('maps the spec keys', () => {
     expect(['1', '2', 'Escape', 't', 'T', 'q', 'E', 'f'].map((k) => hotkeyAction(key(k)))).toEqual(['orbit', 'follow', 'orbit', 'tour', 'tour', 'quality', 'effects', 'drawer']);
-    expect(hotkeyAction(key('x'))).toBeNull();
+    expect(hotkeyAction(key('x'))).toBe('explore');
+    expect(hotkeyAction(key('z'))).toBeNull();
   });
   it('ignores modifiers and auto-repeat', () => {
     expect(hotkeyAction(key('f', { ctrlKey: true }))).toBeNull();
@@ -182,5 +184,59 @@ describe('useHotkeys', () => {
     useSelectionStore.setState({ selectedId: 'earth' });
     fireEvent.keyDown(window, { key: 'f' });
     expect(useUiStore.getState().drawerOpen).toBe(true);
+  });
+});
+
+describe('Explore keys', () => {
+  beforeEach(() => {
+    useExploreStore.getState().leave();
+    useViewStore.setState({ view: 'orbit' });
+    useTourStore.setState({ active: false, seq: 0 });
+    useSelectionStore.setState({ selectedId: 'earth' });
+  });
+
+  it('X enters only with a selection, and only when not already active', () => {
+    renderHook(() => useHotkeys());
+    useSelectionStore.setState({ selectedId: null });
+    fireEvent.keyDown(window, { key: 'x' });
+    expect(useExploreStore.getState().active).toBe(false);
+    useSelectionStore.setState({ selectedId: 'earth' });
+    fireEvent.keyDown(window, { key: 'X' });
+    expect(useExploreStore.getState()).toMatchObject({ active: true, bodyId: 'earth' });
+  });
+
+  it('1/2/3 pick views only when active; otherwise 1/2 keep orbit/follow and 3 is nothing', () => {
+    renderHook(() => useHotkeys());
+    fireEvent.keyDown(window, { key: '3' });
+    expect(useExploreStore.getState().view).toBe('whole');
+    fireEvent.keyDown(window, { key: '2' });
+    expect(useViewStore.getState().view).toBe('follow');
+    useExploreStore.getState().enter('earth');
+    fireEvent.keyDown(window, { key: '2' });
+    expect(useExploreStore.getState().view).toBe('exploded');
+    fireEvent.keyDown(window, { key: '3' });
+    expect(useExploreStore.getState().view).toBe('section');
+    fireEvent.keyDown(window, { key: '1' });
+    expect(useExploreStore.getState().view).toBe('whole');
+    expect(useViewStore.getState().view).toBe('follow');
+  });
+
+  it('Esc closes the chart first, then leaves', () => {
+    renderHook(() => useHotkeys());
+    useExploreStore.getState().enter('earth');
+    useExploreStore.getState().toggleChart(true);
+    fireEvent.keyDown(window, { key: 'Escape' });
+    expect(useExploreStore.getState()).toMatchObject({ active: true, chartOpen: false });
+    fireEvent.keyDown(window, { key: 'Escape' });
+    expect(useExploreStore.getState().active).toBe(false);
+  });
+
+  it('T and X are ignored while active', () => {
+    renderHook(() => useHotkeys());
+    useExploreStore.getState().enter('earth');
+    fireEvent.keyDown(window, { key: 't' });
+    expect(useTourStore.getState().active).toBe(false);
+    expect(hotkeyAction(key('t'))).toBeNull();
+    expect(hotkeyAction(key('x'))).toBeNull();
   });
 });
