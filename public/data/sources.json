@@ -418,6 +418,78 @@
       "retrievedAt": "2026-10-29"
     },
     {
+      "id": "nasa-science-venus-facts",
+      "title": "Venus Facts",
+      "publisher": "NASA Science",
+      "url": "https://science.nasa.gov/venus/facts/",
+      "license": "NASA public domain (NASA media usage guidelines)",
+      "retrievedAt": "2026-10-30"
+    },
+    {
+      "id": "nasa-science-jupiter-facts",
+      "title": "Jupiter Facts",
+      "publisher": "NASA Science",
+      "url": "https://science.nasa.gov/jupiter/facts/",
+      "license": "NASA public domain (NASA media usage guidelines)",
+      "retrievedAt": "2026-10-30"
+    },
+    {
+      "id": "nasa-science-saturn-facts",
+      "title": "Saturn Facts",
+      "publisher": "NASA Science",
+      "url": "https://science.nasa.gov/saturn/facts/",
+      "license": "NASA public domain (NASA media usage guidelines)",
+      "retrievedAt": "2026-10-30"
+    },
+    {
+      "id": "nasa-science-uranus-facts",
+      "title": "Uranus Facts",
+      "publisher": "NASA Science",
+      "url": "https://science.nasa.gov/uranus/facts/",
+      "license": "NASA public domain (NASA media usage guidelines)",
+      "retrievedAt": "2026-10-30"
+    },
+    {
+      "id": "nasa-science-neptune-facts",
+      "title": "Neptune Facts",
+      "publisher": "NASA Science",
+      "url": "https://science.nasa.gov/neptune/facts/",
+      "license": "NASA public domain (NASA media usage guidelines)",
+      "retrievedAt": "2026-10-30"
+    },
+    {
+      "id": "paper-maia-wieczorek-2022-venus-plateaus",
+      "title": "Lithospheric Structure of Venusian Crustal Plateaus",
+      "publisher": "Journal of Geophysical Research: Planets",
+      "url": "https://doi.org/10.1029/2021JE007004",
+      "license": "Peer-reviewed article; quoted under fair use",
+      "retrievedAt": "2026-10-30"
+    },
+    {
+      "id": "paper-shah-2022-venus-interior",
+      "title": "Possible Chemical Composition and Interior Structure Models of Venus Inferred from Numerical Modelling",
+      "publisher": "The Astrophysical Journal",
+      "url": "https://doi.org/10.3847/1538-4357/ac410d",
+      "license": "Peer-reviewed article; quoted under fair use",
+      "retrievedAt": "2026-10-30"
+    },
+    {
+      "id": "paper-militzer-2022-jupiter-dilute-core",
+      "title": "Juno Spacecraft Measurements of Jupiter's Gravity Imply a Dilute Core",
+      "publisher": "The Planetary Science Journal",
+      "url": "https://doi.org/10.3847/PSJ/ac7ec8",
+      "license": "Peer-reviewed article; quoted under fair use",
+      "retrievedAt": "2026-10-30"
+    },
+    {
+      "id": "paper-mankovich-fuller-2021-saturn-core",
+      "title": "A diffuse core in Saturn revealed by ring seismology",
+      "publisher": "Nature Astronomy",
+      "url": "https://doi.org/10.1038/s41550-021-01448-3",
+      "license": "Peer-reviewed article; quoted under fair use",
+      "retrievedAt": "2026-10-30"
+    },
+    {
       "id": "nasa-spaceplace-mercury",
       "title": "All About Mercury (NASA Space Place)",
       "publisher": "NASA Space Place",
@@ -686,14 +758,6 @@
       "title": "Europa Clipper (NASA Science mission page)",
       "publisher": "NASA Science",
       "url": "https://science.nasa.gov/mission/europa-clipper/",
-      "license": "NASA public domain (NASA media usage guidelines)",
-      "retrievedAt": "2026-10-29"
-    },
-    {
-      "id": "nasa-science-saturn-facts-history",
-      "title": "Saturn: Facts (NASA Science)",
-      "publisher": "NASA Science",
-      "url": "https://science.nasa.gov/saturn/facts/",
       "license": "NASA public domain (NASA media usage guidelines)",
       "retrievedAt": "2026-10-29"
     },
