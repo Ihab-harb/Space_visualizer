@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { OFFICIAL_HOSTS, OPEN_COPY_HOSTS, TRUSTED_JOURNALS, quotePageUrl, type CuratedSource, kmIn, normaliseQuote, numbersIn, pageText, percentIn, quoteHasDate, quoteHasKm, quoteHasNumber, quoteHasPercent, quoteOnPage, verifyInteriors, verifyMissions } from './quotedReference';
+import { OFFICIAL_HOSTS, OPEN_COPY_HOSTS, TRUSTED_JOURNALS, canonicalJournal, quotePageUrl, type CuratedSource, kmIn, normaliseQuote, numbersIn, pageText, percentIn, quoteHasDate, quoteHasKm, quoteHasNumber, quoteHasPercent, quoteOnPage, verifyInteriors, verifyMissions } from './quotedReference';
 
 const html = '<html><script>x</script><p>Mars has a core about 2,100 miles (3,400 km)&nbsp;wide &mdash; it&rsquo;s liquid.</p><p>Mariner 4 launched on Nov. 28, 1964, and flew past Mars on July 14, 1965.</p></html>';
 
@@ -281,7 +281,7 @@ describe('peer-reviewed paper sources (ADR 0009)', () => {
   } as CuratedSource);
   const file = (s: CuratedSource, layers: unknown[] = []) => ({ sources: [s], bodies: { jupiter: { layers } } }) as unknown as Parameters<typeof verifyInteriors>[0];
   const estLayer = (over: Record<string, unknown> = {}) => ({
-    id: 'dilute-core', name: 'Dilute core', from: 'percent', sizeKind: 'estimate',
+    id: 'dilute-core', name: 'Dilute core', from: 'percent', sizeKind: 'estimate', estimate: true,
     outer: { min: 50, max: 50, sourceId: 'juno', quote: Q }, inner: { min: 0, max: 0, sourceId: 'juno', quote: Q },
     state: 'unknown', composition: null, uncertain: true, ...over,
   });
@@ -297,7 +297,40 @@ describe('peer-reviewed paper sources (ADR 0009)', () => {
     expect(verifyInteriors(file(paper({ doi: 'not-a-doi' })), pages).join()).toMatch(/needs a DOI/);
     expect(verifyInteriors(file(paper({ url: 'https://doi.org/10.1038/other' })), pages).join()).toMatch(/url must be https:\/\/doi.org\/10.1038\/s41586-000-0000-0/);
     expect(verifyInteriors(file(paper({ journal: 'Journal of Made Up Results', publisher: 'Journal of Made Up Results' })), pages).join()).toMatch(/journal "Journal of Made Up Results" is not in the trusted list/);
-    expect(verifyInteriors(file(paper({ publisher: 'Science' })), pages).join()).toMatch(/publisher must equal journal/);
+    expect(verifyInteriors(file(paper({ publisher: 'Science' })), pages).join()).toMatch(/publisher must equal the canonical journal title "Nature"/);
+  });
+  it('accepts a journal by full title or alias, with publisher the canonical title', () => {
+    expect(TRUSTED_JOURNALS).toContain('Journal of Geophysical Research: Planets');
+    expect(canonicalJournal('JGR Planets')).toBe('Journal of Geophysical Research: Planets');
+    expect(canonicalJournal('jgr: planets')).toBe('Journal of Geophysical Research: Planets');
+    expect(canonicalJournal('A&A')).toBe('Astronomy & Astrophysics');
+    expect(canonicalJournal('Astronomy and Astrophysics')).toBe('Astronomy & Astrophysics');
+    expect(canonicalJournal('ApJ')).toBe('The Astrophysical Journal');
+    expect(canonicalJournal('PSJ')).toBe('The Planetary Science Journal');
+    expect(canonicalJournal('Made Up')).toBeNull();
+    const full = { journal: 'Journal of Geophysical Research: Planets', publisher: 'Journal of Geophysical Research: Planets' };
+    expect(verifyInteriors(file(paper(full)), pages)).toEqual([]);
+    expect(verifyInteriors(file(paper({ journal: 'JGR Planets', publisher: 'Journal of Geophysical Research: Planets' })), pages)).toEqual([]);
+    expect(verifyInteriors(file(paper({ journal: 'JGR Planets', publisher: 'JGR Planets' })), pages).join()).toMatch(/publisher must equal the canonical journal title "Journal of Geophysical Research: Planets"/);
+  });
+  it('requires https for url and quoteUrl', () => {
+    expect(verifyInteriors(file(paper({ url: 'http://doi.org/10.1038/s41586-000-0000-0' })), pages).join()).toMatch(/url must be https:\/\/doi\.org/);
+    expect(verifyInteriors(file(paper({ quoteUrl: 'http://arxiv.org/abs/1' })), pages).join()).toMatch(/quoteUrl must use https/);
+    const off = { id: 'n', title: 't', publisher: 'NASA', url: 'http://science.nasa.gov/x', license: 'l' };
+    expect(verifyInteriors(file(off), pages).join()).toMatch(/url must use https/);
+  });
+  it('requires estimate: true on any layer that cites a paper in a bound, stateSource or composition', () => {
+    const off = { id: 'o', title: 't', publisher: 'NASA', url: 'https://science.nasa.gov/o', license: 'l' };
+    const f = (layer: unknown) => ({ sources: [paper(), off], bodies: { jupiter: { layers: [layer] } } }) as unknown as Parameters<typeof verifyInteriors>[0];
+    const pg = new Map([['juno', Q + ' and more words'], ['o', Q + ' and more words']]);
+    const offLayer = (over: Record<string, unknown> = {}) => ({ ...estLayer({ sizeKind: undefined, estimate: undefined, outer: { min: 50, max: 50, sourceId: 'o', quote: Q }, inner: { min: 0, max: 0, sourceId: 'o', quote: Q } }), ...over });
+    expect(verifyInteriors(f(offLayer()), pg)).toEqual([]);
+    const note = 'cites a paper source: estimate must be true';
+    expect(verifyInteriors(f(estLayer({ estimate: undefined })), pg).join()).toContain(note);
+    expect(verifyInteriors(f(offLayer({ stateSource: { sourceId: 'juno', quote: Q } })), pg).join()).toContain(note);
+    expect(verifyInteriors(f(offLayer({ composition: { sourceId: 'juno', quote: Q, text: 'x' } })), pg).join()).toContain(note);
+    expect(verifyInteriors(f(offLayer({ estimate: true, composition: { sourceId: 'juno', quote: Q, text: 'x' } })), pg)).toEqual([]);
+    expect(verifyInteriors(f(offLayer({ estimate: true, stateSource: { sourceId: 'juno', quote: Q } })), pg)).toEqual([]);
   });
   it('rejects a quoteUrl on a host that is not an open-copy host, and accepts listed ones', () => {
     expect(verifyInteriors(file(paper({ quoteUrl: 'https://example.com/paper.html' })), pages).join()).toMatch(/quoteUrl host example.com is not an open-copy host/);

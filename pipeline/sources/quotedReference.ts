@@ -199,12 +199,32 @@ export function quoteHasDate(quotes: string[], isoDate: string, opts: DateOption
 
 export const OFFICIAL_HOSTS = ['nasa.gov', 'usgs.gov', 'esa.int', 'jaxa.jp', 'isro.gov.in', 'cnsa.gov.cn'] as const;
 export const MIN_QUOTE_WORDS = 6;
-/** Journals whose papers may be cited as sources (ADR 0009). Matched case-insensitively against `journal`. */
+/** Journals whose papers may be cited as sources (ADR 0009), by canonical full title. */
 export const TRUSTED_JOURNALS = [
-  'Nature', 'Science', 'Nature Astronomy', 'JGR Planets', 'Geophysical Research Letters', 'Icarus',
+  'Nature', 'Science', 'Nature Astronomy', 'Journal of Geophysical Research: Planets', 'Geophysical Research Letters', 'Icarus',
   'The Planetary Science Journal', 'Astronomy & Astrophysics', 'The Astrophysical Journal',
   'Annual Review of Earth and Planetary Sciences', 'Space Science Reviews',
 ] as const;
+/** Other spellings accepted in `journal` (lower case), each mapped to its canonical title. */
+const JOURNAL_ALIASES: Record<string, (typeof TRUSTED_JOURNALS)[number]> = {
+  'jgr planets': 'Journal of Geophysical Research: Planets',
+  'jgr: planets': 'Journal of Geophysical Research: Planets',
+  'jgr-planets': 'Journal of Geophysical Research: Planets',
+  'journal of geophysical research planets': 'Journal of Geophysical Research: Planets',
+  'a&a': 'Astronomy & Astrophysics',
+  'astronomy and astrophysics': 'Astronomy & Astrophysics',
+  'apj': 'The Astrophysical Journal',
+  'astrophysical journal': 'The Astrophysical Journal',
+  'psj': 'The Planetary Science Journal',
+  'planetary science journal': 'The Planetary Science Journal',
+  'grl': 'Geophysical Research Letters',
+};
+/** The canonical title of a trusted journal given its title or a known alias (case-insensitive), else null. */
+export function canonicalJournal(name: string | undefined): (typeof TRUSTED_JOURNALS)[number] | null {
+  const key = name?.trim().toLowerCase();
+  if (!key) return null;
+  return TRUSTED_JOURNALS.find((j) => j.toLowerCase() === key) ?? JOURNAL_ALIASES[key] ?? null;
+}
 /** Hosts of open copies of a published paper that a quote may be checked against (a host or any subdomain). */
 export const OPEN_COPY_HOSTS = ['arxiv.org', 'ncbi.nlm.nih.gov', 'ui.adsabs.harvard.edu'] as const;
 const DOI_PATTERN = /^10\.\d{4,9}\/\S+$/;
@@ -215,6 +235,8 @@ export const isPaper = (s: CuratedSource): boolean => s.kind === 'paper';
 
 const onHost = (host: string, hosts: readonly string[]): boolean => hosts.some((h) => host === h || host.endsWith(`.${h}`));
 
+const isHttps = (url: string): boolean => { try { return new URL(url).protocol === 'https:'; } catch { return false; } };
+
 function hostOf(url: string): string | null {
   try { return new URL(url).hostname.toLowerCase(); } catch { return null; }
 }
@@ -222,13 +244,14 @@ function hostOf(url: string): string | null {
 function checkPaperSource(s: CuratedSource, errors: string[]): void {
   if (s.doi === undefined || !DOI_PATTERN.test(s.doi)) errors.push(`source ${s.id}: a paper needs a DOI like 10.1038/xxxx`);
   else if (s.url !== `https://doi.org/${s.doi}`) errors.push(`source ${s.id}: url must be https://doi.org/${s.doi}`);
-  const journal = s.journal?.trim().toLowerCase();
-  if (!journal || !TRUSTED_JOURNALS.some((j) => j.toLowerCase() === journal)) {
+  const journal = canonicalJournal(s.journal);
+  if (journal === null) {
     errors.push(`source ${s.id}: journal "${s.journal ?? ''}" is not in the trusted list (${TRUSTED_JOURNALS.join(', ')})`);
-  } else if (s.publisher !== s.journal) {
-    errors.push(`source ${s.id}: publisher must equal journal ("${s.journal}")`);
+  } else if (s.publisher !== journal) {
+    errors.push(`source ${s.id}: publisher must equal the canonical journal title "${journal}"`);
   }
   if (s.quoteUrl !== undefined) {
+    if (!isHttps(s.quoteUrl)) errors.push(`source ${s.id}: quoteUrl must use https`);
     const host = hostOf(s.quoteUrl);
     if (host === null || !onHost(host, OPEN_COPY_HOSTS)) errors.push(`source ${s.id}: quoteUrl host ${host ?? s.quoteUrl} is not an open-copy host (${OPEN_COPY_HOSTS.join(', ')})`);
   }
@@ -243,6 +266,7 @@ function checkSources(sources: CuratedSource[], errors: string[]): void {
     for (const key of ['doi', 'journal', 'quoteUrl'] as const) {
       if (s[key] !== undefined) errors.push(`source ${s.id}: only a paper source may carry ${key} (set kind: "paper")`);
     }
+    if (!isHttps(s.url)) errors.push(`source ${s.id}: url must use https`);
     const host = hostOf(s.url);
     if (host === null || !onHost(host, OFFICIAL_HOSTS)) {
       errors.push(`source ${s.id} is not on an official host: ${host ?? s.url}`);
@@ -309,6 +333,10 @@ export function verifyInteriors(file: InteriorsFile, pages: Map<string, string>)
       if (layer.composition) {
         const page = pageFor(pages, file.sources, layer.composition.sourceId, `${where} composition`, errors);
         if (page !== null) checkQuote(layer.composition.quote, page, layer.composition.sourceId, `${where} composition`, errors);
+      }
+      const citedIds = [layer.outer?.sourceId, layer.inner?.sourceId, layer.stateSource?.sourceId, layer.composition?.sourceId];
+      if (citedIds.some((id) => id !== undefined && paperIds.has(id)) && layer.estimate !== true) {
+        errors.push(`${where}: cites a paper source: estimate must be true`);
       }
     }
   }

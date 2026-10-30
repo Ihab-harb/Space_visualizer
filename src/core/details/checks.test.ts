@@ -125,7 +125,7 @@ describe('estimate and illustrative layers (ADR 0009)', () => {
 
   it('accepts an estimate layer sized from percent with its stated numbers', () => {
     const est = { ...cited('core', 1694.75, 0), outerRadiusKm: { min: 1694.75, max: 1694.75, sourceId: PS, from: 'percent' as const, stated: { min: 50, max: 50 } }, from: 'percent' as const, sizeKind: 'estimate' as const, estimate: true };
-    const d = withLayers([cited('shell', R, 1694.75), est].map((l, i) => (i === 1 ? { ...l } : l)));
+    const d = withLayers([cited('shell', R, 1694.75), est]);
     expect(BodyDetailsSchema.safeParse(d).success).toBe(true);
     expect(checkDetails(d, ctx)).toEqual([]);
   });
@@ -157,6 +157,6 @@ describe('estimate and illustrative layers (ADR 0009)', () => {
   });
   it('still checks ordering of numbered layers around illustrative ones', () => {
     const out = checkDetails(withLayers([cited('a', R, 1000), ill('b'), cited('c', 2000, 0)]), ctx).join();
-    expect(out).toMatch(/no room|out of order/);
+    expect(out).toMatch(/illustrative layer b has no room between its neighbours/);
   });
 });
