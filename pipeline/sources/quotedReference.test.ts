@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { OFFICIAL_HOSTS, type CuratedSource, kmIn, normaliseQuote, numbersIn, pageText, percentIn, quoteHasDate, quoteHasKm, quoteHasNumber, quoteHasPercent, quoteOnPage, verifyInteriors, verifyMissions } from './quotedReference';
+import { OFFICIAL_HOSTS, OPEN_COPY_HOSTS, TRUSTED_JOURNALS, quotePageUrl, type CuratedSource, kmIn, normaliseQuote, numbersIn, pageText, percentIn, quoteHasDate, quoteHasKm, quoteHasNumber, quoteHasPercent, quoteOnPage, verifyInteriors, verifyMissions } from './quotedReference';
 
 const html = '<html><script>x</script><p>Mars has a core about 2,100 miles (3,400 km)&nbsp;wide &mdash; it&rsquo;s liquid.</p><p>Mariner 4 launched on Nov. 28, 1964, and flew past Mars on July 14, 1965.</p></html>';
 
@@ -270,5 +270,64 @@ describe('source and quote gates', () => {
     expect(out).toMatch(/composition: quote too short \(2 words\)/);
     const m = verifyMissions({ sources: f.sources, bodies: { x: { discovery: { kind: 'antiquity', sourceId: 'p', quote: 'the inner' }, missions: [] } } }, new Map([['p', 'the inner']]));
     expect(m.join()).toMatch(/discovery: quote too short \(2 words\)/);
+  });
+});
+
+describe('peer-reviewed paper sources (ADR 0009)', () => {
+  const Q = 'the dilute core extends to about 50% of the planet radius in this model';
+  const paper = (over: Record<string, unknown> = {}): CuratedSource => ({
+    id: 'juno', title: 'Jupiter dilute core', publisher: 'Nature', url: 'https://doi.org/10.1038/s41586-000-0000-0', license: 'Peer-reviewed article; quoted under fair use',
+    kind: 'paper', doi: '10.1038/s41586-000-0000-0', journal: 'Nature', ...over,
+  } as CuratedSource);
+  const file = (s: CuratedSource, layers: unknown[] = []) => ({ sources: [s], bodies: { jupiter: { layers } } }) as unknown as Parameters<typeof verifyInteriors>[0];
+  const estLayer = (over: Record<string, unknown> = {}) => ({
+    id: 'dilute-core', name: 'Dilute core', from: 'percent', sizeKind: 'estimate',
+    outer: { min: 50, max: 50, sourceId: 'juno', quote: Q }, inner: { min: 0, max: 0, sourceId: 'juno', quote: Q },
+    state: 'unknown', composition: null, uncertain: true, ...over,
+  });
+  const pages = new Map([['juno', Q + ' and more words']]);
+
+  it('accepts a paper on a listed journal with a DOI url', () => {
+    expect(verifyInteriors(file(paper(), [estLayer()]), pages)).toEqual([]);
+    expect(TRUSTED_JOURNALS).toContain('Nature Astronomy');
+    expect(OPEN_COPY_HOSTS).toEqual(['arxiv.org', 'ncbi.nlm.nih.gov', 'ui.adsabs.harvard.edu']);
+  });
+  it('rejects a paper without a DOI, with a mismatched url, or on a journal not listed', () => {
+    expect(verifyInteriors(file(paper({ doi: undefined })), pages).join()).toMatch(/needs a DOI/);
+    expect(verifyInteriors(file(paper({ doi: 'not-a-doi' })), pages).join()).toMatch(/needs a DOI/);
+    expect(verifyInteriors(file(paper({ url: 'https://doi.org/10.1038/other' })), pages).join()).toMatch(/url must be https:\/\/doi.org\/10.1038\/s41586-000-0000-0/);
+    expect(verifyInteriors(file(paper({ journal: 'Journal of Made Up Results', publisher: 'Journal of Made Up Results' })), pages).join()).toMatch(/journal "Journal of Made Up Results" is not in the trusted list/);
+    expect(verifyInteriors(file(paper({ publisher: 'Science' })), pages).join()).toMatch(/publisher must equal journal/);
+  });
+  it('rejects a quoteUrl on a host that is not an open-copy host, and accepts listed ones', () => {
+    expect(verifyInteriors(file(paper({ quoteUrl: 'https://example.com/paper.html' })), pages).join()).toMatch(/quoteUrl host example.com is not an open-copy host/);
+    expect(verifyInteriors(file(paper({ quoteUrl: 'https://arxiv.org/abs/2000.00000' })), pages)).toEqual([]);
+    expect(verifyInteriors(file(paper({ quoteUrl: 'https://www.ncbi.nlm.nih.gov/pmc/articles/PMC1/' })), pages)).toEqual([]);
+    expect(verifyInteriors(file(paper({ quoteUrl: 'https://ui.adsabs.harvard.edu/abs/2020Natur/abstract' })), pages)).toEqual([]);
+  });
+  it('keeps the official-host rule for official sources, and bars doi/journal/quoteUrl on them', () => {
+    const off = { id: 'n', title: 't', publisher: 'NASA', url: 'https://doi.org/10.1/x', license: 'l' };
+    expect(verifyInteriors(file(off), pages).join()).toMatch(/not on an official host: doi.org/);
+    const withDoi = { ...off, url: 'https://science.nasa.gov/x', doi: '10.1/x' } as CuratedSource;
+    expect(verifyInteriors(file(withDoi), pages).join()).toMatch(/only a paper source may carry doi/);
+  });
+  it('requires sizeKind estimate for a layer sized by a paper, and a paper for an estimate', () => {
+    expect(verifyInteriors(file(paper(), [estLayer({ sizeKind: undefined })]), pages).join()).toMatch(/sized by a paper source: sizeKind must be "estimate"/);
+    const off = { id: 'o', title: 't', publisher: 'NASA', url: 'https://science.nasa.gov/o', license: 'l' };
+    const f = { sources: [off], bodies: { jupiter: { layers: [estLayer({ outer: { min: 50, max: 50, sourceId: 'o', quote: Q }, inner: { min: 0, max: 0, sourceId: 'o', quote: Q } })] } } } as unknown as Parameters<typeof verifyInteriors>[0];
+    expect(verifyInteriors(f, new Map([['o', Q]])).join()).toMatch(/sizeKind "estimate" needs a bound from a paper source/);
+  });
+  it('illustrative layers carry no bounds', () => {
+    const ill = { id: 'mantle', name: 'Mantle', from: 'radius', sizeKind: 'illustrative', state: 'unknown', composition: null, uncertain: true };
+    expect(verifyInteriors(file(paper(), [ill]), pages)).toEqual([]);
+    expect(verifyInteriors(file(paper(), [{ ...ill, outer: estLayer().outer }]), pages).join()).toMatch(/illustrative layer must not carry bounds/);
+    expect(verifyInteriors(file(paper(), [{ ...estLayer(), outer: undefined }]), pages).join()).toMatch(/needs outer and inner bounds/);
+  });
+  it('checks the quote against the page fetched for the paper', () => {
+    expect(verifyInteriors(file(paper(), [estLayer()]), new Map([['juno', 'something else entirely']])).join()).toMatch(/quote not on page of juno/);
+  });
+  it('fetches quoteUrl when present, else the url', () => {
+    expect(quotePageUrl(paper({ quoteUrl: 'https://arxiv.org/abs/1' }))).toBe('https://arxiv.org/abs/1');
+    expect(quotePageUrl(paper())).toBe('https://doi.org/10.1038/s41586-000-0000-0');
   });
 });

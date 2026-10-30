@@ -74,7 +74,7 @@ describe('buildDetails', () => {
     expect(m.features!.items[0]!.name).toBe('Olympus Mons');
     expect(m.features!.sourceId).toBe('usgs-gazetteer-mars');
     expect(m.interior!.layers[0]!.outerRadiusKm).toEqual({ min: 3389.5, max: 3389.5, sourceId: 'test-page', from: 'depth', stated: { min: 0, max: 0 } });
-    expect(m.interior!.layers[0]!.innerRadiusKm.min).toBeCloseTo(1823.5, 6);
+    expect(m.interior!.layers[0]!.innerRadiusKm!.min).toBeCloseTo(1823.5, 6);
     expect(m.missions[0]).not.toHaveProperty('quotes');
     expect(m.discovery).toEqual({ kind: 'antiquity', sourceId: 'test-page' });
     expect(errors).toEqual([]);
@@ -133,10 +133,10 @@ describe('buildDetails', () => {
     const { details, errors } = build({ bodies: [...bodies, earth], interiors: file, missions: { sources: [src], bodies: {} }, curatedPages: new Map([['test-page', fetched(page)]]) });
     expect(errors).toEqual([]);
     const l = details.find((d) => d.bodyId === 'earth')!.interior!.layers;
-    expect(l[0]!.outerRadiusKm.max).toBe(6371);
-    expect(l[0]!.innerRadiusKm.min).toBe(6341);
-    expect(l[1]!.outerRadiusKm.min).toBe(6341);
-    expect(l[1]!.innerRadiusKm.max).toBe(3485);
+    expect(l[0]!.outerRadiusKm!.max).toBe(6371);
+    expect(l[0]!.innerRadiusKm!.min).toBe(6341);
+    expect(l[1]!.outerRadiusKm!.min).toBe(6341);
+    expect(l[1]!.innerRadiusKm!.max).toBe(3485);
     // Each bound records the form its source used, with the numbers as the source states them.
     expect(l[0]!.outerRadiusKm).toMatchObject({ from: 'depth', stated: { min: 0, max: 0 } });
     expect(l[1]!.outerRadiusKm).toMatchObject({ from: 'depth', stated: { min: 30, max: 30 } });
@@ -158,8 +158,8 @@ describe('buildDetails', () => {
     };
     const { details } = build({ interiors: file, missions: { sources: [src], bodies: {} }, curatedPages: new Map([['test-page', fetched(page)]]) });
     const l = details.find((d) => d.bodyId === 'sun')!.interior!.layers;
-    expect(l[0]!.outerRadiusKm.max).toBeCloseTo(486990, 6);
-    expect(l[0]!.innerRadiusKm.min).toBeCloseTo(173925, 6);
+    expect(l[0]!.outerRadiusKm!.max).toBeCloseTo(486990, 6);
+    expect(l[0]!.innerRadiusKm!.min).toBeCloseTo(173925, 6);
     expect(l[0]!.outerRadiusKm).toMatchObject({ from: 'percent', stated: { min: 70, max: 70 } });
     expect(l[0]!.innerRadiusKm).toMatchObject({ from: 'percent', stated: { min: 25, max: 25 } });
   });
@@ -273,9 +273,53 @@ describe('buildDetails', () => {
       ] } } };
       const ok = withMoon({ interiors: file });
       // A single core layer alone is a valid interior.
-      expect(ok.details.find((d) => d.bodyId === 'moon')!.interior!.layers[0]!.outerRadiusKm.max).toBeCloseTo(347.48, 6);
+      expect(ok.details.find((d) => d.bodyId === 'moon')!.interior!.layers[0]!.outerRadiusKm!.max).toBeCloseTo(347.48, 6);
       const bad: InteriorsFile = { sources: [moonSrc], bodies: { moon: { layers: file.bodies.moon!.layers, magneticField: { sourceId: 'moon-page', quote: 'This sentence about the magnetic field is not on the page', text: 'x' } } } };
       expect(withMoon({ interiors: bad }).errors.join()).toContain('magneticField');
+    });
+  });
+
+  describe('paper sources, estimate and illustrative layers (ADR 0009)', () => {
+    const PQ = 'In this model the envelope spans from 100% to 50% of the planetary radius';
+    const paperSrc = { id: 'paper-x', title: 'A paper', publisher: 'Nature', url: 'https://doi.org/10.1038/x1', license: 'Peer-reviewed article; quoted under fair use', kind: 'paper' as const, doi: '10.1038/x1', journal: 'Nature', quoteUrl: 'https://arxiv.org/abs/1' };
+    const file = (): InteriorsFile => ({
+      sources: [paperSrc],
+      bodies: { mars: { layers: [
+        { id: 'envelope', name: 'Envelope', from: 'percent', sizeKind: 'estimate', estimate: true, outer: { min: 100, max: 100, sourceId: 'paper-x', quote: PQ }, inner: { min: 50, max: 50, sourceId: 'paper-x', quote: PQ }, state: 'unknown', composition: null, uncertain: true },
+        { id: 'core', name: 'Core', from: 'radius', sizeKind: 'illustrative', state: 'unknown', composition: null, uncertain: true },
+      ] } },
+    });
+    const run = (f = file()) => build({
+      interiors: f, missions: { sources: [], bodies: {} },
+      curatedPages: new Map([['paper-x', fetched('<p>' + PQ + ' in the published article.</p>')]]),
+    });
+    it('converts an estimate percent bound like M2b.1, keeps stated, and passes an illustrative layer through', () => {
+      const { details, errors } = run();
+      expect(errors).toEqual([]);
+      const [env, core] = details.find((d) => d.bodyId === 'mars')!.interior!.layers;
+      expect(env).toMatchObject({ sizeKind: 'estimate', estimate: true, from: 'percent' });
+      expect(env!.outerRadiusKm).toEqual({ min: 3389.5, max: 3389.5, sourceId: 'paper-x', from: 'percent', stated: { min: 100, max: 100 } });
+      expect(env!.innerRadiusKm).toEqual({ min: 1694.75, max: 1694.75, sourceId: 'paper-x', from: 'percent', stated: { min: 50, max: 50 } });
+      expect(core).toEqual({ id: 'core', name: 'Core', from: 'radius', sizeKind: 'illustrative', state: 'unknown', composition: null, uncertain: true });
+    });
+    it('registers the paper with the Source fields only (url is the DOI, publisher the journal)', () => {
+      const { sources } = run();
+      const s = sources.find((x) => x.id === 'paper-x')!;
+      expect(s).toEqual({ id: 'paper-x', title: 'A paper', publisher: 'Nature', url: 'https://doi.org/10.1038/x1', license: 'Peer-reviewed article; quoted under fair use', retrievedAt: '2026-10-10' });
+    });
+    it('fails the build for a paper on an unlisted journal or a quote off the fetched page', () => {
+      const f = file();
+      f.sources = [{ ...paperSrc, journal: 'Blog of Space', publisher: 'Blog of Space' }];
+      expect(run(f).errors.join()).toMatch(/not in the trusted list/);
+      const g = build({ interiors: file(), missions: { sources: [], bodies: {} }, curatedPages: new Map([['paper-x', fetched('<p>nothing relevant here at all</p>')]]) });
+      expect(g.errors.join()).toMatch(/quote not on page of paper-x/);
+    });
+    it('an all-illustrative interior builds', () => {
+      const f = file();
+      f.bodies.mars!.layers = [{ id: 'a', name: 'A', from: 'radius', sizeKind: 'illustrative', state: 'unknown', composition: null, uncertain: true }, { id: 'b', name: 'B', from: 'radius', sizeKind: 'illustrative', state: 'unknown', composition: null, uncertain: true }];
+      const { details, errors } = run(f);
+      expect(errors).toEqual([]);
+      expect(details.find((d) => d.bodyId === 'mars')!.interior!.layers).toHaveLength(2);
     });
   });
 });

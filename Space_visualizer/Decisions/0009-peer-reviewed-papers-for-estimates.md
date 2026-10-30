@@ -1,0 +1,34 @@
+---
+title: 0009 Peer-reviewed papers for estimates
+tags: [decision]
+---
+
+# 0009 Peer-reviewed papers for estimates
+
+Back to [[Home]] · Spec: [[2026-10-30-m2b3-explore-interior-design]] §4.2 · Date: 2026-10-30 · Status: accepted
+
+## Context
+The project cites official sources only (NASA, JPL, NSSDCA, USGS, ESA, NAIF, IERS, STScI). The Explore interior cutaway needs layer sizes for every body. For Venus and the four giant planets, no official page gives numbers for the interior. NASA describes the layers in words, and the measured sizes live in mission papers (Juno, Cassini, Magellan, Voyager).
+
+## Options
+1. **Keep official sources only.** Venus and the giants would show no interior, or an interior with no cited size.
+2. **Allow any web source for these values.** Breaks the rule that every value is trustworthy and checkable.
+3. **Allow peer-reviewed research papers, and only where official sources give no numbers.**
+
+## Decision
+**Option 3** (the user, 2026-10-30). The source rule is amended for interior layers, with the same verification as every curated value.
+
+Rules, as implemented in `pipeline/sources/quotedReference.ts`:
+- **Order of preference:** an official source with a number, then an official source that names the layer plus a paper for its size, then a paper alone.
+- **What counts as a paper:** `kind: 'paper'` with a DOI (`10.xxxx/...`), `url` equal to `https://doi.org/<doi>`, and `journal` (equal to `publisher`) from `TRUSTED_JOURNALS`: Nature, Science, Nature Astronomy, JGR Planets, Geophysical Research Letters, Icarus, The Planetary Science Journal, Astronomy & Astrophysics, The Astrophysical Journal, Annual Review of Earth and Planetary Sciences, Space Science Reviews. No preprint that was never published, no press release, no encyclopaedia.
+- **Same quote check:** each value keeps the exact sentence it came from, checked against the fetched page. The page is `quoteUrl` when given, else the DOI landing page. `quoteUrl` may only be an open copy of the same paper on `arxiv.org`, `ncbi.nlm.nih.gov` (PubMed Central) or `ui.adsabs.harvard.edu` (`OPEN_COPY_HOSTS`). The page goes into the `pipeline/raw/` cache like every other source. If no copy can be fetched, the value is not used.
+- **Shown as estimates:** a layer sized by a paper has `sizeKind: 'estimate'` and `estimate: true`. The build rejects a paper-sized layer that is not marked, and an estimate with no paper bound.
+- **Fractions and ranges:** a fraction of the radius is a `percent` bound, converted with the body's cited mean radius exactly as M2b.1 does, with the paper's own numbers kept in `stated`. A range stays a range.
+- **Illustrative size:** where no acceptable number is found, the layer has `sizeKind: 'illustrative'` and no bounds. It shares the radius evenly with the other bound-less layers in its run, between its cited neighbours (or the whole radius if there are none). It shows no number. An interior made only of illustrative layers is allowed. The check fails an illustrative layer that has no room between its neighbours.
+- **Source records:** a paper is registered as an ordinary `Source` (title = paper title, publisher = journal, url = DOI link, license "Peer-reviewed article; quoted under fair use"). `kind`, `doi`, `journal` and `quoteUrl` stay in the curated file only, so the app's `Source` schema is unchanged.
+
+## Consequences
+- The curated schema gains `kind`, `doi`, `journal`, `quoteUrl` (sources) and `sizeKind`, `estimate` (layers). The details schema gains `estimate` and `sizeKind`; an illustrative layer may omit both radius bounds. Existing data does not change.
+- The UI must handle layers without bounds (done minimally in M2b.3 Task 3; the Explore view labels them "Illustrative size").
+- A paper's number is only as good as its model. Estimates carry the "Estimate" label and cite the journal article.
+- Revisit the journal list if a needed paper sits in a journal not on it. Adding one is a code change and a new decision note.

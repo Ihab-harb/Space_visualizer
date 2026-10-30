@@ -32,6 +32,8 @@ function boundText(r: SourcedRange): string {
  */
 function layerExtent(layer: InteriorLayer): string {
   const { outerRadiusKm: outer, innerRadiusKm: inner } = layer;
+  // An illustrative layer shows no number (the Explore view labels it "Illustrative size").
+  if (!outer || !inner) return 'illustrative size';
   const stated = (r: SourcedRange) => r.stated ?? { min: r.min, max: r.max };
   const isCentre = (r: SourcedRange) => stated(r).min === 0 && stated(r).max === 0;
   if (outer.from === 'percent' && inner.from === 'percent' && !isCentre(inner)) {
@@ -48,7 +50,7 @@ function Interior({ layers, cite }: { layers: InteriorLayer[]; cite: Cite }) {
         <li key={layer.id} className="details-row">
           <strong>{layer.name}</strong>
           <span className="num">{layerExtent(layer)}</span>
-          {uniq([layer.outerRadiusKm.sourceId, layer.innerRadiusKm.sourceId]).map((id) => (
+          {uniq([layer.outerRadiusKm?.sourceId, layer.innerRadiusKm?.sourceId].filter((id): id is string => id !== undefined)).map((id) => (
             <span key={id}>{cite(id)}</span>
           ))}
           <span className="tag">{layer.state}</span>

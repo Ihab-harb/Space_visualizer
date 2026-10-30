@@ -46,16 +46,26 @@ function boundToRadius(r: QuotedRange, layerFrom: CuratedLayer['from'], radiusKm
 }
 
 function convertLayer(layer: CuratedLayer, radiusKm: number): InteriorLayer {
-  return {
-    id: layer.id,
-    name: layer.name,
-    outerRadiusKm: boundToRadius(layer.outer, layer.from, radiusKm),
-    innerRadiusKm: boundToRadius(layer.inner, layer.from, radiusKm),
+  const rest = {
     from: layer.from,
     state: layer.state,
     ...(layer.stateSource ? { stateSourceId: layer.stateSource.sourceId } : {}),
     composition: layer.composition ? { text: layer.composition.text, sourceId: layer.composition.sourceId } : null,
     uncertain: layer.uncertain,
+  };
+  // An illustrative layer has no bounds: the checks and the cutaway share the radius between its cited neighbours.
+  if (layer.sizeKind === 'illustrative' || !layer.outer || !layer.inner) {
+    return { id: layer.id, name: layer.name, ...rest, sizeKind: 'illustrative', ...(layer.estimate ? { estimate: true } : {}) };
+  }
+  const estimate = layer.sizeKind === 'estimate' || layer.estimate === true;
+  return {
+    id: layer.id,
+    name: layer.name,
+    outerRadiusKm: boundToRadius(layer.outer, layer.from, radiusKm),
+    innerRadiusKm: boundToRadius(layer.inner, layer.from, radiusKm),
+    ...rest,
+    ...(layer.sizeKind === 'estimate' ? { sizeKind: 'estimate' as const } : {}),
+    ...(estimate ? { estimate: true } : {}),
   };
 }
 
@@ -155,7 +165,8 @@ export function buildDetails(inputs: DetailsInputs, generatedAt: string): { deta
     const registered = registeredByUrl.get(s.url);
     if (registered !== undefined && registered !== s.id) { alias.set(s.id, registered); continue; }
     const page = inputs.curatedPages.get(s.id);
-    addSource(s, page?.retrievedAt ?? '');
+    // Only the five Source fields are registered; kind, doi, journal and quoteUrl stay in the curated file.
+    addSource({ id: s.id, title: s.title, publisher: s.publisher, url: s.url, license: s.license }, page?.retrievedAt ?? '');
     registeredByUrl.set(s.url, s.id);
   }
   for (let i = 0; i < details.length; i++) details[i] = aliasSourceIds(details[i]!, alias);
