@@ -90,6 +90,7 @@ export function InteriorModel({ body, bodies }: { body: Body; bodies: readonly B
     // The Sun's own interior is lit from inside: no sunlight term.
     shared.uSunLight!.value = sunId === body.id ? 0 : 1;
     shared.uPlane!.value.set(...ex.planeNormalObj);
+    shared.uUpObj!.value.set(...ex.upObj);
     shared.uPlaneOffset!.value = ex.planeOffset;
     shared.uFlattening!.value = body.shape.polarRadiusKm / body.shape.equatorialRadiusKm;
     shared.uTime!.value = state.clock.elapsedTime;

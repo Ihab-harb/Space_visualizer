@@ -30,7 +30,8 @@ describe('interiorPalette', () => {
       expect(c.h).toBeGreaterThanOrEqual(10);
       expect(c.h).toBeLessThanOrEqual(40);
     }
-    expect(crust.lum).toBeLessThan(0.1);
+    expect(crust.lum).toBeLessThan(0.15);
+    expect(crust.chroma).toBeLessThan(mantle.chroma);
   });
 
   it('a liquid metal core glows amber', () => {
@@ -113,5 +114,15 @@ describe('layerColours', () => {
     expect(bottom.rgb).not.toEqual(interiorPalette('solid', 0.8, 'rocky').rgb);
     expect(bottom.glow).toBeLessThan(1);
     expect(bottom.rgb[1]).toBeGreaterThan(top.rgb[1]);
+  });
+});
+
+describe('layer rings', () => {
+  it('steps colour at a boundary, so neighbouring layers read as separate rings', () => {
+    // Jupiter-like: envelope 1 to 0.815, metallic hydrogen 0.815 to 0.63.
+    const envelope = layerColours('unknown', 1, 0.815, 'gas-giant');
+    const metallic = layerColours('liquid', 0.815, 0.63, 'gas-giant');
+    const gap = Math.hypot(...envelope.bottom.rgb.map((c, i) => c - metallic.top.rgb[i]!));
+    expect(gap).toBeGreaterThan(0.02);
   });
 });

@@ -10,7 +10,7 @@ import type { Vec3 } from '../core/math/vec3';
 export const EXPLORE_CAMERA = {
   frameRadii: 3.4,
   maxRadii: 9,
-  tiltRad: -12 * DEG,
+  tiltRad: -22 * DEG,
 } as const;
 
 /** Screen-up of an orbit view at (azimuth, elevation) about ecliptic north: the explode axis captured at entry. */

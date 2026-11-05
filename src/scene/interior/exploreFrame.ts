@@ -40,9 +40,9 @@ export interface ExploreFrame {
   selectedLayerId: string | null;
 }
 
-/** The Half-section face is turned this far (about the explode axis, toward screen-right) from facing the camera squarely, so
+/** The Half-section face is turned this far (45 degrees, about the explode axis, toward screen-right) from facing the camera squarely, so
  * a crescent of the real surface stays in view beside the face (mockup C). Illustrative, tuned on the screenshots. */
-export const SECTION_YAW_RAD = (35 * Math.PI) / 180;
+export const SECTION_YAW_RAD = (45 * Math.PI) / 180;
 
 const smoothstep = (e0: number, e1: number, x: number) => {
   const t = Math.min(1, Math.max(0, (x - e0) / (e1 - e0)));

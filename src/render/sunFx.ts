@@ -9,6 +9,9 @@ import { sunVisibilityFromObserver } from '../core/shadows/eclipse';
 import { useFrameState } from '../scene/FrameStateContext';
 import { damp, EXPOSURE, flareOpacity, godRayOpacity, sceneExposure, sunFrameWeight } from './exposure';
 
+/** Exposure floor while the Sun is explored (illustrative, Task 6). */
+export const SUN_EXPLORE_EXPOSURE = 0.8;
+
 /** How far the Sun's own Explore view is in focus (0 when another body, or nothing, is explored). */
 export function sunExploreWeight(explore: { bodyId: string; focus: number } | null, sunId: string): number {
   return explore && explore.bodyId === sunId ? explore.focus : 0;
@@ -66,6 +69,9 @@ export function useSunFx(opts: {
     const weight = sunFrameWeight(visible, inFront ? [ndc.x, ndc.y] : null);
     const angularRadius = Math.asin(Math.min(1, sunR / Math.max(length(d), 1e-9)));
     const target = sceneExposure(weight, angularRadius);
+    // Exploring the Sun: the disc fills the frame, but the full dip would grey out its glowing zones (illustrative).
+    const sunExplore = sunExploreWeight(frame.explore, sun.id);
+    target.exposure += (Math.max(target.exposure, SUN_EXPLORE_EXPOSURE) - target.exposure) * sunExplore;
     frame.fx.exposure = damp(frame.fx.exposure, target.exposure, EXPOSURE.damping, delta);
     frame.fx.skyDim = damp(frame.fx.skyDim, target.skyDim, EXPOSURE.damping, delta);
 

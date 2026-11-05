@@ -12,16 +12,21 @@ export const MAX_LAYERS = 8;
  */
 export const INTERIOR_LOOK = {
   /** Emission = colour x (base + glow x gain). */
-  emitBase: 0.28,
-  glowGain: 0.42,
+  emitBase: 0.12,
+  glowGain: 0.34,
   /** Sunlight on the cut face and on the shells. */
-  sunlight: 0.55,
+  sunlight: 0.6,
   /** Brightness of the thin boundary lines on the cut face. */
   line: 0.55,
   /** Unselected layers while another is selected. */
   unselected: 0.35,
   /** The inside of a hollow shell, relative to its colour. */
   hollow: 0.55,
+  /**
+   * The Sun's interior is self-luminous like its photosphere (drawn at 2.2 x its colour, then dimmed by the scene exposure
+   * while the Sun fills the frame): its zones are scaled up by this so the core reads as the hottest, brightest part.
+   */
+  starGain: 2.4,
 } as const;
 
 /** Uniforms shared by every interior material of one body (layer table, cut plane, light). */
@@ -36,8 +41,10 @@ export function createSharedUniforms(): Record<string, IUniform> {
     uBottomColor: { value: Array.from({ length: MAX_LAYERS }, () => new Vector3()) },
     uGlow: { value: Array.from({ length: MAX_LAYERS }, () => new Vector2()) },
     uCells: { value: 0 },
+    uEmitGain: { value: 1 },
     uSelected: { value: -1 },
     uPlane: { value: new Vector3(0, 0, 1) },
+    uUpObj: { value: new Vector3(0, 0, 1) },
     uPlaneOffset: { value: 4 },
     uSunDirObj: { value: new Vector3(1, 0, 0) },
     uSunLight: { value: 1 },
@@ -63,6 +70,7 @@ export function writeLayerTable(shared: Record<string, IUniform>, drawn: readonl
   }
   // Faint convection cells in the Sun's outer zone (illustrative, spec §6).
   shared.uCells!.value = kind === 'star' ? 1 : 0;
+  shared.uEmitGain!.value = kind === 'star' ? INTERIOR_LOOK.starGain : 1;
 }
 
 const VERTEX = /* glsl */ `
@@ -89,8 +97,10 @@ uniform vec3 uTopColor[MAX_LAYERS];
 uniform vec3 uBottomColor[MAX_LAYERS];
 uniform vec2 uGlow[MAX_LAYERS];
 uniform float uCells;
+uniform float uEmitGain;
 uniform int uSelected;
 uniform vec3 uPlane;
+uniform vec3 uUpObj;
 uniform float uPlaneOffset;
 uniform vec3 uSunDirObj;
 uniform float uSunLight;
@@ -113,7 +123,7 @@ vec3 layerColour(int i, float r, out float glow) {
 }
 /** Grain and flow: rock is grainy, deep hot layers swirl slowly; the Sun's outer zone shows cells. All illustrative. */
 float texture3(int i, vec3 p, float r, float glow) {
-  float grain = fbm(p * 22.0) * 0.10;
+  float grain = fbm(p * 14.0) * 0.22 * (1.0 - clamp(glow - 1.0, 0.0, 0.7));
   float swirl = snoise(vec3(p.xy * 5.0, p.z * 5.0) + vec3(0.0, 0.0, uTime * 0.03)) * 0.06 * clamp(glow - 0.6, 0.0, 1.0);
   float cells = 0.0;
   if (uCells > 0.5 && i == 0) {
@@ -124,7 +134,9 @@ float texture3(int i, vec3 p, float r, float glow) {
   return 1.0 + grain + swirl + cells;
 }
 vec3 emit(vec3 colour, float glow, float sun) {
-  return colour * (${INTERIOR_LOOK.emitBase.toFixed(3)} + glow * ${INTERIOR_LOOK.glowGain.toFixed(3)} + sun * ${INTERIOR_LOOK.sunlight.toFixed(3)} * uSunLight);
+  // Hot layers glow on their own; sunlight on them would only wash the colour out under the filmic tone mapping.
+  float lit = sun * ${INTERIOR_LOOK.sunlight.toFixed(3)} * uSunLight * (1.0 - 0.8 * clamp(glow - 0.8, 0.0, 1.0));
+  return colour * ((${INTERIOR_LOOK.emitBase.toFixed(3)} + glow * ${INTERIOR_LOOK.glowGain.toFixed(3)}) * uEmitGain + lit);
 }
 float selectionScale(int i) {
   if (uSelected < 0) return 1.0;
@@ -180,7 +192,7 @@ void main() {
   for (int i = 1; i < MAX_LAYERS; i++) {
     if (i >= uCount) break;
     float d = uOuter[i] - r;
-    if (d >= 0.0) shade = min(shade, mix(0.82, 1.0, smoothstep(0.0, 0.035, d)));
+    if (d >= 0.0) shade = min(shade, mix(0.6, 1.0, smoothstep(0.0, 0.05, d)));
   }
   float sun = max(dot(uPlane, uSunDirObj), 0.0);
   vec3 c = emit(colour, glow, sun) * shade * select;
@@ -202,7 +214,9 @@ void main() {
   float sun = max(dot(n, uSunDirObj), 0.0);
   float facing = max(dot(n, v), 0.0);
   float rim = pow(1.0 - facing, 3.0);
-  vec3 c = emit(colour, g, sun) * (0.75 + 0.25 * facing) + colour * rim * (0.35 + 0.4 * g);
+  // Studio shaping so a cap reads as a dome: darker toward its limb, lit a little from above.
+  float shape = (0.5 + 0.5 * facing) * (0.8 + 0.35 * max(dot(n, uUpObj), 0.0));
+  vec3 c = emit(colour, g, sun) * shape + colour * rim * (0.25 + 0.3 * g);
   gl_FragColor = vec4(c * selectionScale(uLayer), 1.0);
   ${OUTRO}
 }`;
