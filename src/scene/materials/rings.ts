@@ -25,3 +25,8 @@ export function ringShadowCoord(point: Vec3, sunDir: Vec3, inner: number, outer:
 export function ringFaceLighting(sunDirObj: Vec3, camDirObj: Vec3): { litFace: boolean; mu0: number; mu: number } {
   return { litFace: sunDirObj[2] * camDirObj[2] >= 0, mu0: Math.abs(sunDirObj[2]), mu: Math.abs(camDirObj[2]) };
 }
+
+/** Rings show unless their own body is opened in Explore (progress > 0), so they never cross the cut (spec §6). */
+export function ringsVisible(bodyId: string, explore: { bodyId: string; progress: number } | null): boolean {
+  return !(explore && explore.bodyId === bodyId && explore.progress > 0);
+}
