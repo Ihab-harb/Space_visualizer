@@ -46,17 +46,30 @@ function sample(ramp: Ramp, depth: number): InteriorColour {
   return { rgb: [a[0] + (b[0] - a[0]) * t, a[1] + (b[1] - a[1]) * t, a[2] + (b[2] - a[2]) * t], glow: ramp.glow[0] + (ramp.glow[1] - ramp.glow[0]) * d };
 }
 
+function pickRamp(state: LayerState, d: number, kind: InteriorKind): Ramp {
+  if (kind === 'star') return RAMPS.plasma;
+  if (kind === 'gas-giant') return RAMPS.hydrogen;
+  if (kind === 'ice-giant') return RAMPS.ices;
+  if (state === 'plasma') return RAMPS.plasma;
+  if (state === 'liquid') return RAMPS.liquidMetal;
+  if (state === 'solid' && d >= SOLID_CORE_DEPTH) return RAMPS.solidCore;
+  if (state === 'unknown' && d >= METAL_DEPTH) return RAMPS.liquidMetal;
+  return RAMPS.rock;
+}
+
 /** The illustrative colour of interior matter in a given state at a depth fraction (0 surface, 1 centre). */
 export function interiorPalette(state: LayerState, depthFraction: number, kind: InteriorKind): InteriorColour {
   const d = clamp01(depthFraction);
-  if (kind === 'star') return sample(RAMPS.plasma, d);
-  if (kind === 'gas-giant') return sample(RAMPS.hydrogen, d);
-  if (kind === 'ice-giant') return sample(RAMPS.ices, d);
-  if (state === 'plasma') return sample(RAMPS.plasma, d);
-  if (state === 'liquid') return sample(RAMPS.liquidMetal, d);
-  if (state === 'solid' && d >= SOLID_CORE_DEPTH) return sample(RAMPS.solidCore, d);
-  if (state === 'unknown' && d >= METAL_DEPTH) return sample(RAMPS.liquidMetal, d);
-  return sample(RAMPS.rock, d);
+  return sample(pickRamp(state, d, kind), d);
+}
+
+/**
+ * Colours at a layer's top and bottom (radii as fractions, outer > inner). The ramp is chosen once, at the layer's middle,
+ * so a thick layer never changes family across its thickness (the Moon's solid mantle stays rock all the way down).
+ */
+export function layerColours(state: LayerState, outer: number, inner: number, kind: InteriorKind): { top: InteriorColour; bottom: InteriorColour } {
+  const ramp = pickRamp(state, clamp01(1 - (outer + inner) / 2), kind);
+  return { top: sample(ramp, 1 - outer), bottom: sample(ramp, 1 - inner) };
 }
 
 /** NASA calls Uranus and Neptune ice giants; their interiors get the ices ramp. */

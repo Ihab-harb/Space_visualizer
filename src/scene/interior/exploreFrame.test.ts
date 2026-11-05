@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { dot, length, type Vec3 } from '../../core/math/vec3';
 import type { DrawnLayer } from '../../core/interior/geometry';
-import { cutAmounts, drawnExtent, layerAtRadius, rayHitShell, sectionNormal } from './exploreFrame';
+import { cutAmounts, drawnExtent, EXPLORE_DIM, exploreShellUniforms, layerAtRadius, rayHitShell, sectionNormal, type ExploreFrame } from './exploreFrame';
 
 const layer = (id: string, outer: number, inner: number): DrawnLayer => ({
   id, name: id, outer, inner, outerBand: 0, innerBand: 0, thickened: false, sizeKind: 'cited', state: 'solid',
@@ -83,5 +83,24 @@ describe('rayHitShell', () => {
   });
   it('treats a layer with no hollow (inner 0) as solid', () => {
     expect(rayHitShell([5, 0.1, 0], [-1, 0, 0], { outer: 0.2, inner: 0 }, plane)).toBeCloseTo(5);
+  });
+});
+
+describe('exploreShellUniforms', () => {
+  const frame: ExploreFrame = {
+    bodyId: 'earth', view: 'exploded', progress: 1, focus: 0.5, drawn: earth, offsets: [0.8, 0.53, 0.27, 0],
+    upWorld: [0, 0, 1], upObj: [0, 0, 1], planeNormalWorld: [0, 0, -1], planeNormalObj: [0, 0, -1], planeOffset: 0,
+    cutsInnermost: false, shiftRadii: 0.8, selectedLayerId: null,
+  };
+  it('leaves bodies alone outside Explore', () => {
+    expect(exploreShellUniforms(null, 'earth')).toEqual({ clip: null, dim: 1, liftRadii: 0 });
+  });
+  it('cuts and lifts the explored body, and dims the others with the focus', () => {
+    expect(exploreShellUniforms(frame, 'earth')).toEqual({ clip: [0, 0, -1, 0], dim: 1, liftRadii: 0.8 });
+    expect(exploreShellUniforms(frame, 'moon').dim).toBeCloseTo(1 - 0.75 * 0.5);
+    expect(exploreShellUniforms({ ...frame, focus: 1 }, 'moon').dim).toBeCloseTo(EXPLORE_DIM);
+  });
+  it('does not cut while the plane is outside the body', () => {
+    expect(exploreShellUniforms({ ...frame, planeOffset: 1 }, 'earth').clip).toBeNull();
   });
 });

@@ -17,7 +17,29 @@ export function createBaseUniforms(): Record<string, IUniform> {
     uOccluderAtmo: { value: new Vector4() },
     uEarthshine: { value: 0 },
     uEarthshineDir: { value: new Vector3(0, 0, 1) },
+    uClip: { value: new Vector4(0, 0, 1, NO_CLIP) },
+    uDim: { value: 1 },
   };
+}
+
+/** A clip offset this large removes nothing. */
+export const NO_CLIP = 4;
+
+/**
+ * Explore support for every body material (Task 6). The material's own main() is renamed and wrapped: fragments whose
+ * body-frame point (surfacePoint(vUnit) x the shell's radius, in equatorial radii) lies beyond the plane uClip (xyz normal,
+ * w offset) are discarded, so the outer shell opens with the cut; and the colour is scaled by uDim (other bodies fade to
+ * about 25 % in Explore). useBodyUniforms writes both every frame.
+ */
+export function wrapForExplore(fragment: string, clipScale: number): string {
+  const renamed = fragment.replace(/void\s+main\s*\(\s*\)\s*\{/, 'void svBodyMain() {');
+  if (renamed === fragment) throw new Error('createBodyMaterial: the fragment needs a main() to wrap');
+  return `${renamed}
+void main() {
+  if (dot(uClip.xyz, surfacePoint(vUnit) * ${clipScale.toFixed(4)}) > uClip.w) discard;
+  svBodyMain();
+  gl_FragColor.rgb *= uDim;
+}`;
 }
 
 /** Fragment source = shared header + noise + lighting + eclipse helpers + the material's own code (which defines main). */
@@ -30,10 +52,12 @@ export function createBodyMaterial(opts: {
   side?: Side;
   depthWrite?: boolean;
   toneMapped?: boolean;
+  /** Radius of this shell in body equatorial radii (clouds 1.006, atmosphere its outer radius), for the Explore cut. */
+  clipScale?: number;
 }): ShaderMaterial {
   return new ShaderMaterial({
     vertexShader: opts.vertex ?? BODY_VERTEX,
-    fragmentShader: `${FRAG_HEADER}\n${NOISE}\n${LIGHTING}\n${ECLIPSE}\n${opts.fragment}`,
+    fragmentShader: `${FRAG_HEADER}\nuniform vec4 uClip;\nuniform float uDim;\n${NOISE}\n${LIGHTING}\n${ECLIPSE}\n${wrapForExplore(opts.fragment, opts.clipScale ?? 1)}`,
     uniforms: { ...createBaseUniforms(), ...opts.uniforms },
     transparent: opts.transparent ?? false,
     blending: opts.blending ?? NormalBlending,

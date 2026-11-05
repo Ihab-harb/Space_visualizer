@@ -22,6 +22,9 @@ export function OrbitLine({ body }: { body: Body & { orbit: PlanetApproxOrbit } 
   }, [positions, body.display.color]);
 
   useFrame(() => {
+    // Explore hides orbit lines (spec §3.2).
+    line.visible = frame.explore === null;
+    if (!line.visible) return;
     const { table } = selectTable(body.orbit.tables, frame.jdTdb);
     const el = elementsAt(table, frame.jdTdb);
     const points = orbitPolylineKm(el, solveKeplerElliptic(el.meanAnomalyRad, el.e), SEGMENTS);

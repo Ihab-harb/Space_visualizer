@@ -21,6 +21,7 @@ import { useSkyStore } from '../state/skyStore';
 import { useSceneStatsStore } from '../state/sceneStatsStore';
 import { useFrameState } from './FrameStateContext';
 import { useLabelDeclutter } from '../ui/useLabelDeclutter';
+import { ExploreDriver } from './interior/useExploreTransition';
 
 const hasApproxOrbit = (b: Body): b is Body & { orbit: PlanetApproxOrbit } => b.orbit.type === 'planet-approx';
 
@@ -75,6 +76,7 @@ export function SceneRoot({ catalog }: { catalog: Catalog }) {
             <SkyBackground />
             <FrameDriver catalog={catalog} />
             <CameraSystem catalog={catalog} />
+            <ExploreDriver catalog={catalog} />
             <QualityGovernor />
             <BodiesInView />
             {catalog.bodies.map((body) => (

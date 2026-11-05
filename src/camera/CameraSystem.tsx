@@ -6,10 +6,15 @@ import { DEG } from '../core/math/angles';
 import { useFrameState } from '../scene/FrameStateContext';
 import type { FrameState } from '../scene/frameState';
 import { writeMatrix4 } from '../scene/threeMath';
+import { useExploreStore } from '../state/exploreStore';
 import { useSelectionStore } from '../state/selectionStore';
+import { add, scale } from '../core/math/vec3';
+import { EXPLORE_CAMERA, orbitUp } from './explore';
+import { NO_INPUT } from './types';
+import { offsetDirection, type OrbitState } from './orbitController';
 import { useTourStore } from '../state/tourStore';
 import { useViewStore, type ViewId } from '../state/viewStore';
-import { createFollowController } from './followController';
+import { createFollowController, type FollowState } from './followController';
 import { createPointerInput } from './input';
 import { createOrbitController } from './orbitController';
 import { lookRotation } from './rig';
@@ -39,6 +44,8 @@ interface Rig {
   lastCoRotate: boolean;
   lastOverrideSeq: number;
   tour: { seq: number; startedAt: number; stops: TourStop[]; index: number; flightFrom: CameraPose | null } | null;
+  /** Explore: the pose found on entry (restored on leave) and the explode axis captured then. */
+  explore: { bodyId: string; up: [number, number, number]; saved: { view: ViewId; orbit: OrbitState; follow: FollowState } } | null;
 }
 
 export function CameraSystem({ catalog }: { catalog: Catalog }) {
@@ -63,6 +70,7 @@ export function CameraSystem({ catalog }: { catalog: Catalog }) {
       lastCoRotate: false,
       lastOverrideSeq: 0,
       tour: null,
+      explore: null,
     };
   }
 
@@ -70,7 +78,9 @@ export function CameraSystem({ catalog }: { catalog: Catalog }) {
     const r = rig.current!;
     const ctx = makeContext(frame, catalog);
     const override = useViewStore.getState().cameraOverride;
+    let overrideNow = false;
     if (override && override.seq !== r.lastOverrideSeq) {
+      overrideNow = true;
       r.lastOverrideSeq = override.seq;
       useViewStore.getState().setView('orbit');
       r.activeView = 'orbit';
@@ -135,6 +145,57 @@ export function CameraSystem({ catalog }: { catalog: Catalog }) {
     const startTransition = () => {
       if (r.lastPose) r.transition = { from: r.lastPose, startedAt: now };
     };
+    const exploreState = useExploreStore.getState();
+    const exploreBody = exploreState.active ? exploreState.bodyId : null;
+    if (exploreBody && (!r.explore || r.explore.bodyId !== exploreBody)) {
+      // Entering Explore (or another body while in it): save the pose once, then frame the body from the current direction.
+      const saved = r.explore?.saved ?? { view: r.activeView, orbit: r.orbit.getState(), follow: r.follow.getState() };
+      if (r.orbit.getState().targetId !== exploreBody || r.activeView !== 'orbit') r.orbit.enter(r.lastPose, ctx, exploreBody);
+      const st = r.orbit.getState();
+      r.orbit.restore({ ...st, panOffsetKm: [0, 0, 0] });
+      r.orbit.setView({ distanceKm: ctx.bodyRadiusKm(exploreBody) * EXPLORE_CAMERA.frameRadii, elevationRad: st.elevationRad + EXPLORE_CAMERA.tiltRad });
+      r.explore = { bodyId: exploreBody, up: orbitUp(st.azimuthRad, st.elevationRad) as [number, number, number], saved };
+      r.activeView = 'orbit';
+      // A URL that opens Explore starts there; any other entry flies.
+      if (!overrideNow) startTransition();
+    }
+    if (r.explore) {
+      if (!exploreBody && frame.explore === null) {
+        // The interior has closed: put the camera back where it was before Explore.
+        const { saved } = r.explore;
+        r.orbit.restore(saved.orbit);
+        r.follow.restore(saved.follow);
+        r.activeView = saved.view;
+        r.explore = null;
+        frame.exploreCamera = null;
+        startTransition();
+      } else {
+        const id = r.explore.bodyId;
+        const radius = ctx.bodyRadiusKm(id);
+        r.orbit.update(input.consume(), ctx);
+        const st = r.orbit.getState();
+        r.orbit.setView({ distanceKm: Math.min(st.distanceKm, radius * EXPLORE_CAMERA.maxRadii) });
+        let pose = r.orbit.update(NO_INPUT, ctx);
+        // Look at the middle of what is drawn (the exploded caps rise above the centre).
+        const shown = frame.explore?.bodyId === id ? frame.explore : null;
+        if (shown) {
+          const shift = scale(shown.upWorld, shown.shiftRadii * (frame.bodyRenderRadiusKm.get(id) ?? radius));
+          pose = { ...pose, positionKm: add(pose.positionKm, shift), lookAtKm: add(pose.lookAtKm, shift) };
+        }
+        frame.exploreCamera = { upWorld: r.explore.up, toCameraWorld: offsetDirection(st.azimuthRad, st.elevationRad) };
+        if (r.transition) {
+          const s = prefersReducedMotion() ? 1 : (now - r.transition.startedAt) / TRANSITION_SECONDS;
+          pose = interpolatePose(r.transition.from, pose, s);
+          if (s >= 1) r.transition = null;
+        }
+        r.lastPose = pose;
+        r.lastSelectedId = selectedId;
+        frame.cameraPositionKm = pose.positionKm;
+        camera.position.set(0, 0, 0);
+        camera.quaternion.setFromRotationMatrix(writeMatrix4(lookRotation(pose.positionKm, pose.lookAtKm, pose.up), matrix));
+        return;
+      }
+    }
 
     if (view !== r.activeView) {
       if (view === 'follow') r.follow.enter(r.lastPose, ctx, selectedId ?? r.orbit.getState().targetId);

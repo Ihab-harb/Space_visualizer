@@ -9,6 +9,11 @@ import { sunVisibilityFromObserver } from '../core/shadows/eclipse';
 import { useFrameState } from '../scene/FrameStateContext';
 import { damp, EXPOSURE, flareOpacity, godRayOpacity, sceneExposure, sunFrameWeight } from './exposure';
 
+/** How far the Sun's own Explore view is in focus (0 when another body, or nothing, is explored). */
+export function sunExploreWeight(explore: { bodyId: string; focus: number } | null, sunId: string): number {
+  return explore && explore.bodyId === sunId ? explore.focus : 0;
+}
+
 /** After body positions (-0.5) and uniforms (-0.4), before the composer. */
 const SUN_FX_PRIORITY = -0.3;
 /**
@@ -67,9 +72,11 @@ export function useSunFx(opts: {
     const lens = flare.uniforms.get('lensPosition')!.value as Vector2;
     lens.x = inFront ? ndc.x : OFFSCREEN_NDC;
     lens.y = inFront ? ndc.y : OFFSCREEN_NDC;
-    flare.uniforms.get('opacity')!.value = flareOpacity(weight);
+    // Exploring the Sun turns the flare and god rays off so its zones read (spec §6); they fade with the Explore focus.
+    const keep = 1 - sunExploreWeight(frame.explore, sun.id);
+    flare.uniforms.get('opacity')!.value = 1 - (1 - flareOpacity(weight)) * keep;
     const res = flare.uniforms.get('screenRes')!.value as Vector2;
     res.set(state.size.width, state.size.height);
-    if (godRays.current) godRays.current.blendMode.opacity.value = godRayOpacity(visible, inFront, angularRadius);
+    if (godRays.current) godRays.current.blendMode.opacity.value = godRayOpacity(visible, inFront, angularRadius) * keep;
   }, SUN_FX_PRIORITY);
 }

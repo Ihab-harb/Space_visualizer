@@ -13,6 +13,8 @@ import { BodyExtras, BodyMaterial } from './materials/BodyMaterial';
 import { minPixelsFor, pixelsPerRadian, renderRadiusKm } from './scaleMode';
 import { isInflated, satelliteHidden } from './satelliteVisibility';
 import { writeMatrix4 } from './threeMath';
+import { InteriorModel } from './interior/InteriorModel';
+import { useInteriorSession } from './interior/useExploreTransition';
 
 const noRaycast = () => undefined;
 const CLICK_DRAG_TOLERANCE_PX = 4;
@@ -44,6 +46,7 @@ export function BodyMesh({ body, bodies }: { body: Body; bodies: readonly Body[]
   const select = useSelectionStore((s) => s.select);
   const hover = useSelectionStore((s) => s.hover);
   const requestFocus = useViewStore((s) => s.requestFocus);
+  const explored = useInteriorSession((s) => s.bodyId === body.id);
 
   useFrame(() => {
     const position = frame.bodyPositionsKm.get(body.id);
@@ -75,6 +78,13 @@ export function BodyMesh({ body, bodies }: { body: Body; bodies: readonly Body[]
       group.current.visible = shown;
       mesh.current.raycast = shown ? ThreeMesh.prototype.raycast : noRaycast;
     }
+    // Explore: the outer shell lifts with the outermost layer; while the body is open the interior model does the picking
+    // (this sphere's own raycast would hit the cut-away part).
+    const ex = frame.explore?.bodyId === body.id ? frame.explore : null;
+    const lift = ex ? (ex.offsets[0] ?? 0) * radius : 0;
+    mesh.current.position.set(ex ? ex.upWorld[0] * lift : 0, ex ? ex.upWorld[1] * lift : 0, ex ? ex.upWorld[2] * lift : 0);
+    if (ex && ex.progress > 0) mesh.current.raycast = noRaycast;
+    else if (!parent || !frame.bodyHidden.has(body.id)) mesh.current.raycast = ThreeMesh.prototype.raycast;
     const k = radius / equatorialRadiusKm;
     mesh.current.scale.set(equatorialRadiusKm * k, equatorialRadiusKm * k, polarRadiusKm * k);
     const orientation = frame.bodyOrientation.get(body.id);
@@ -106,6 +116,7 @@ export function BodyMesh({ body, bodies }: { body: Body; bodies: readonly Body[]
         <BodyMaterial body={body} bodies={bodies} />
         <BodyExtras body={body} bodies={bodies} />
       </mesh>
+      {explored && <InteriorModel body={body} bodies={bodies} />}
       <BodyLabel body={body} sunId={bodies.find((b) => b.category === 'star')?.id} />
     </group>
   );

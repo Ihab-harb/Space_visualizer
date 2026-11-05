@@ -39,6 +39,10 @@ export function createFollowController(initial: FollowState) {
   return {
     id: 'follow' as const,
     getState: () => state,
+    /** Put back a state saved earlier (Explore restores the pose it found on entry). */
+    restore(saved: FollowState) {
+      state = saved;
+    },
     setTarget(bodyId: string, ctx: ControllerContext) {
       state = { ...state, targetId: bodyId, distanceKm: ctx.bodyRadiusKm(bodyId) * FOLLOW_DISTANCE_RADII };
     },

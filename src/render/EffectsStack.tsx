@@ -3,10 +3,10 @@ import { Bloom, ChromaticAberration, DepthOfField, EffectComposer, EffectGroup, 
 import { ToneMappingMode } from 'postprocessing';
 import { EffectPass } from 'postprocessing';
 import { useEffect, useMemo, useRef, type JSX } from 'react';
-import type { DepthOfFieldEffect, EffectComposer as EffectComposerImpl, GodRaysEffect } from 'postprocessing';
+import type { BloomEffect, DepthOfFieldEffect, EffectComposer as EffectComposerImpl, GodRaysEffect } from 'postprocessing';
 import { Color, Mesh, MeshBasicMaterial, SphereGeometry, Vector2, Vector3 } from 'three';
 import type { Body } from '../core/catalog/schema';
-import { sub } from '../core/math/vec3';
+import { add, scale, sub } from '../core/math/vec3';
 import { useFrameState } from '../scene/FrameStateContext';
 import { useRenderStore } from '../state/renderStore';
 import { useSelectionStore } from '../state/selectionStore';
@@ -15,7 +15,7 @@ import { AnamorphicStreakEffect } from './effects/AnamorphicStreakEffect';
 import { ExposureEffect } from './effects/ExposureEffect';
 import { composerGroups } from './passSegments';
 import { activePasses, PRESETS, type PassId } from './quality';
-import { useSunFx } from './sunFx';
+import { sunExploreWeight, useSunFx } from './sunFx';
 
 /** Filmic operator, chosen over ACES on the golden views (Decision 0007). */
 export const FILMIC_TONE_MAPPING = ToneMappingMode.AGX;
@@ -36,6 +36,8 @@ export const STREAKS = {
 export const FLARE = { glareSize: 0.08, colorGain: [3, 2.7, 2.1] as const } as const;
 export const GOD_RAYS = { weight: 0.3, exposure: 0.35 } as const;
 export const BLOOM_INTENSITY = { effects: 1.1, plain: 0.6 } as const;
+/** Bloom is scaled by this while the Sun is explored, so its zones read (spec §6; illustrative). */
+export const SUN_EXPLORE_BLOOM = 0.35;
 
 const cocStatus = new WeakMap<object, string>();
 
@@ -89,8 +91,15 @@ export function EffectsStack({ bodies }: { bodies: readonly Body[] }) {
   useEffect(() => () => streaks.dispose(), [streaks]);
   const dof = useRef<DepthOfFieldEffect | null>(null);
   const dofTarget = useMemo(() => new Vector3(), []);
+  const bloom = useRef<BloomEffect | null>(null);
   useFrame(() => {
-    const id = useSelectionStore.getState().selectedId;
+    if (!bloom.current) return;
+    const base = effects ? BLOOM_INTENSITY.effects : BLOOM_INTENSITY.plain;
+    bloom.current.intensity = base * (1 - (1 - SUN_EXPLORE_BLOOM) * (sun ? sunExploreWeight(frame.explore, sun.id) : 0));
+  });
+  useFrame(() => {
+    // In Explore the focus is the explored body (its centre, where the cut face and the lifted shells are).
+    const id = frame.explore?.bodyId ?? useSelectionStore.getState().selectedId;
     const effect = dof.current;
     const detail = preset.detailFx;
     if (!effect || detail === 'off') return;
@@ -102,7 +111,9 @@ export function EffectsStack({ bodies }: { bodies: readonly Body[] }) {
     // bokehScale 0 would not: the far-field term is added unscaled.
     effect.blendMode.opacity.value = pos && r ? 1 : 0;
     if (!pos || !r) return;
-    const p = focusPoint(sub(pos, frame.cameraPositionKm), r);
+    const ex = frame.explore?.bodyId === id ? frame.explore : null;
+    const rel = sub(pos, frame.cameraPositionKm);
+    const p = ex ? add(rel, scale(ex.upWorld, ex.shiftRadii * r)) : focusPoint(rel, r);
     dofTarget.set(p[0], p[1], p[2]);
     effect.target = dofTarget;
     const s = dofSettings(Math.hypot(p[0], p[1], p[2]), detail, r);
@@ -134,7 +145,7 @@ export function EffectsStack({ bodies }: { bodies: readonly Body[] }) {
   const element = (pass: PassId): JSX.Element => {
     switch (pass) {
       case 'bloom':
-        return <Bloom key="bloom" mipmapBlur levels={preset.bloomLevels} luminanceThreshold={1} intensity={effects ? BLOOM_INTENSITY.effects : BLOOM_INTENSITY.plain} />;
+        return <Bloom key="bloom" ref={bloom} mipmapBlur levels={preset.bloomLevels} luminanceThreshold={1} intensity={effects ? BLOOM_INTENSITY.effects : BLOOM_INTENSITY.plain} />;
       case 'rays':
         return <GodRays key="rays" ref={godRays} sun={proxy} samples={preset.detailFx === 'full' ? 60 : 40} density={0.96} decay={0.93} weight={GOD_RAYS.weight} exposure={GOD_RAYS.exposure} clampMax={1} blur />;
       case 'flare':

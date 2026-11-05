@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { interiorKind, interiorPalette, type InteriorKind } from './interiorPalette';
+import { interiorKind, interiorPalette, layerColours, type InteriorKind } from './interiorPalette';
 import { makeEarth, makeJupiter, makeMoon, makeSun } from '../../test/fixtures';
 
 /** Hue in degrees, saturation and relative luminance of a linear RGB triple (via sRGB for hue/saturation). */
@@ -103,5 +103,15 @@ describe('interiorKind', () => {
     expect(interiorKind(makeJupiter())).toBe('gas-giant');
     expect(interiorKind({ ...makeJupiter(), id: 'uranus' })).toBe('ice-giant');
     expect(interiorKind({ ...makeJupiter(), id: 'neptune' })).toBe('ice-giant');
+  });
+});
+
+describe('layerColours', () => {
+  it('keeps one family across a thick layer and brightens downward', () => {
+    // The Moon's mantle: solid from near the surface to 0.2 of the radius. Its bottom must stay rock, not turn core-white.
+    const { top, bottom } = layerColours('solid', 0.97, 0.2, 'rocky');
+    expect(bottom.rgb).not.toEqual(interiorPalette('solid', 0.8, 'rocky').rgb);
+    expect(bottom.glow).toBeLessThan(1);
+    expect(bottom.rgb[1]).toBeGreaterThan(top.rgb[1]);
   });
 });

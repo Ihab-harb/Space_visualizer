@@ -131,6 +131,7 @@ export function AtmosphereShell({ body, bodies }: { body: Body; bodies: readonly
       transparent: true,
       blending: AdditiveBlending,
       depthWrite: false,
+      clipScale: preset.outer,
     });
   }, [preset]);
   const samples = useRenderStore((s) => PRESETS[s.level].atmosphereSamples);

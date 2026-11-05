@@ -1,3 +1,4 @@
+import { useFrame } from '@react-three/fiber';
 import { useEffect, useMemo } from 'react';
 import { Color, Vector2 } from 'three';
 import type { Body } from '../../core/catalog/schema';
@@ -5,7 +6,8 @@ import { useMaxTier } from '../../render/useMaxTier';
 import { useTieredTexture } from '../textures/useTieredTexture';
 import { FRAG_OUTRO } from './chunks';
 import { createBodyMaterial } from './createBodyMaterial';
-import { ringRadii } from './rings';
+import { ringRadii, ringsVisible } from './rings';
+import { useFrameState } from '../FrameStateContext';
 import { useBodyUniforms } from './useBodyUniforms';
 
 const FRAGMENT = /* glsl */ `
@@ -77,5 +79,11 @@ export function GiantMaterial({ body, bodies }: { body: Body; bodies: readonly B
   material.uniforms.uRingMap!.value = rings;
   material.uniforms.uHasRings!.value = rings && radii ? 1 : 0;
   useBodyUniforms(body, [material], bodies);
+  // No ring shadow on the globe while the rings are hidden (Explore).
+  const frame = useFrameState();
+  const hasRings = !!(rings && radii);
+  useFrame(() => {
+    material.uniforms.uHasRings!.value = hasRings && ringsVisible(body.id, frame.explore) ? 1 : 0;
+  });
   return <primitive object={material} attach="material" />;
 }

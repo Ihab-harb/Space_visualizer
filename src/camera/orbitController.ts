@@ -63,6 +63,10 @@ export function createOrbitController(initial: OrbitState) {
   return {
     id: 'orbit' as const,
     getState: () => state,
+    /** Put back a state saved earlier (Explore restores the pose it found on entry). */
+    restore(saved: OrbitState) {
+      state = saved;
+    },
     /** Take over from another view; pass targetId to pivot on the body that view was showing. */
     enter(from: CameraPose | null, ctx: ControllerContext, targetId?: string) {
       if (targetId) state = { ...state, targetId, panOffsetKm: ZERO };

@@ -132,3 +132,17 @@ export function rayHitShell(o: Vec3, d: Vec3, shell: { outer: number; inner: num
   }
   return Number.isFinite(best) ? best : null;
 }
+
+/** Other bodies' brightness while Explore is in focus (spec §3.2: a material-level fade to about 25 %). */
+export const EXPLORE_DIM = 0.25;
+
+/**
+ * What a body's own materials need from Explore: the cut for the explored body's outer shell (normal xyz and offset, body
+ * frame; null when nothing is cut), the dimming for every other body, and how far the outer shell is lifted (body radii).
+ */
+export function exploreShellUniforms(explore: ExploreFrame | null, bodyId: string): { clip: [number, number, number, number] | null; dim: number; liftRadii: number } {
+  if (!explore) return { clip: null, dim: 1, liftRadii: 0 };
+  if (explore.bodyId !== bodyId) return { clip: null, dim: 1 - (1 - EXPLORE_DIM) * explore.focus, liftRadii: 0 };
+  const n = explore.planeNormalObj;
+  return { clip: explore.planeOffset < 1 ? [n[0], n[1], n[2], explore.planeOffset] : null, dim: 1, liftRadii: explore.offsets[0] ?? 0 };
+}
