@@ -18,9 +18,15 @@ export interface DrawnLayer {
 
 /** Smallest gap kept between two radii so a layer never collapses to nothing. */
 const TINY = 1e-6;
-/** Spacing between layers when exploded, in body radii, and the most the outermost shell may lift in total. */
-const EXPLODE_STEP = 0.3;
-const EXPLODE_MAX = 0.8;
+/**
+ * Exploded spacing (spec §6, mockup B; tuned on the Task 8 screenshots). Each cap lifts clear of the dome below it, so
+ * EXPLODE_REVEAL of that dome's height shows under the cap's open base, plus EXPLODE_MARGIN of clear space; the cap above
+ * the innermost sphere clears the whole sphere. The outermost shell lifts at most EXPLODE_MAX radii in total (spacing
+ * shrinks evenly past that). Body radii.
+ */
+export const EXPLODE_REVEAL = 0.8;
+export const EXPLODE_MARGIN = 0.08;
+export const EXPLODE_MAX = 1.8;
 
 const clamp01 = (x: number) => (Number.isFinite(x) ? Math.min(1, Math.max(0, x)) : 0);
 
@@ -53,11 +59,20 @@ export function drawnLayers(layers: readonly InteriorLayer[], bodyRadiusKm: numb
   return out;
 }
 
-/** How far each layer lifts along screen-up, in body radii. Zero at progress 0; the outermost lifts most, the innermost stays. */
+/**
+ * How far each layer lifts along screen-up, in body radii. Zero at progress 0; the outermost lifts most, the innermost (a
+ * whole sphere) stays. Built from the inside out: each gap is what the dome below needs to show (see EXPLODE_REVEAL).
+ */
 export function explodeOffsets(layers: readonly DrawnLayer[], progress: number): number[] {
   const p = clamp01(progress);
-  const step = layers.length > 1 ? Math.min(EXPLODE_STEP, EXPLODE_MAX / (layers.length - 1)) : 0;
-  return layers.map((_, i) => p * step * (layers.length - 1 - i));
+  const n = layers.length;
+  const full = new Array<number>(n).fill(0);
+  for (let i = n - 2; i >= 0; i--) {
+    const below = layers[i + 1]!;
+    full[i] = full[i + 1]! + (i + 1 === n - 1 ? below.outer : below.outer * EXPLODE_REVEAL) + EXPLODE_MARGIN;
+  }
+  const fit = n > 1 && full[0]! > EXPLODE_MAX ? EXPLODE_MAX / full[0]! : 1;
+  return full.map((o) => p * o * fit);
 }
 
 /** What each view shows at an animation progress (0 to 1): whether the wedge is cut away and how far the shells are exploded. */

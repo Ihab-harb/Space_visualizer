@@ -14,14 +14,17 @@ export interface InteriorColour { rgb: [number, number, number]; glow: number }
 type Stop = readonly [depth: number, hex: string];
 interface Ramp { stops: readonly Stop[]; glow: readonly [number, number] }
 
-/** Illustrative ramps, sRGB stops by depth (0 surface, 1 centre). Tuned on the Explore screenshots (Task 6). */
+/**
+ * Illustrative ramps, sRGB stops by depth (0 surface, 1 centre). Tuned on the Explore screenshots (Task 6, then Task 8 for
+ * the look under AgX: amber liquid metal, a brighter near-white inner core, plasma through amber to white, browner rock).
+ */
 export const RAMPS = {
   crust: { stops: [[0, '#665850'], [1, '#7a6a5e']], glow: [0.1, 0.2] },
-  rock: { stops: [[0, '#8a3f22'], [0.5, '#c25a2a'], [1, '#e07a3c']], glow: [0.2, 0.55] },
-  liquidMetal: { stops: [[0, '#d8500a'], [0.5, '#f06a0e'], [1, '#ff9a1e']], glow: [1.4, 2.0] },
-  solidCore: { stops: [[0, '#ffd9a0'], [1, '#fffaf0']], glow: [2.2, 2.8] },
-  plasma: { stops: [[0, '#ff4a12'], [0.5, '#ff9a30'], [1, '#fff0c0']], glow: [1.2, 2.6] },
-  hydrogen: { stops: [[0, '#1f3fa8'], [0.25, '#3a36c0'], [0.45, '#6a3ccc'], [0.8, '#a676ec'], [1, '#d6c0ff']], glow: [0.45, 1.05] },
+  rock: { stops: [[0, '#8f4a26'], [0.5, '#b8622e'], [1, '#d8823e']], glow: [0.2, 0.55] },
+  liquidMetal: { stops: [[0, '#e8640a'], [0.5, '#f58212'], [1, '#ffab2e']], glow: [1.4, 2.0] },
+  solidCore: { stops: [[0, '#fff0d8'], [1, '#fffaf2']], glow: [3.4, 4.2] },
+  plasma: { stops: [[0, '#ff5a10'], [0.45, '#ff9a20'], [0.8, '#ffd070'], [1, '#fff4d8']], glow: [1.2, 2.6] },
+  hydrogen: { stops: [[0, '#1f3fa8'], [0.25, '#3a36c0'], [0.45, '#6a3ccc'], [0.8, '#9356e6'], [1, '#c9a6ff']], glow: [0.45, 1.05] },
   ices: { stops: [[0, '#2a6ad0'], [0.5, '#22a9c4'], [1, '#bff0ff']], glow: [0.45, 1.05] },
 } as const satisfies Record<string, Ramp>;
 

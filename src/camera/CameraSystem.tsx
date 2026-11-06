@@ -8,8 +8,8 @@ import type { FrameState } from '../scene/frameState';
 import { writeMatrix4 } from '../scene/threeMath';
 import { useExploreStore } from '../state/exploreStore';
 import { useSelectionStore } from '../state/selectionStore';
-import { add, scale } from '../core/math/vec3';
-import { EXPLORE_CAMERA, exploreFrameRadii, orbitUp } from './explore';
+import { add, scale, sub } from '../core/math/vec3';
+import { EXPLORE_CAMERA, exploreFitScale, exploreFrameRadii, orbitUp } from './explore';
 import { NO_INPUT } from './types';
 import { offsetDirection, type OrbitState } from './orbitController';
 import { useTourStore } from '../state/tourStore';
@@ -178,11 +178,15 @@ export function CameraSystem({ catalog }: { catalog: Catalog }) {
         const st = r.orbit.getState();
         r.orbit.setView({ distanceKm: Math.min(st.distanceKm, radius * EXPLORE_CAMERA.maxRadii) });
         let pose = r.orbit.update(NO_INPUT, ctx);
-        // Look at the middle of what is drawn (the exploded caps rise above the centre).
+        // Look at the middle of what is drawn (the exploded caps rise above the centre), and step back while the stack is
+        // taller than the body, so the whole stack stays in frame with room for the labels.
         const shown = frame.explore?.bodyId === id ? frame.explore : null;
         if (shown) {
           const shift = scale(shown.upWorld, shown.shiftRadii * (frame.bodyRenderRadiusKm.get(id) ?? radius));
-          pose = { ...pose, positionKm: add(pose.positionKm, shift), lookAtKm: add(pose.lookAtKm, shift) };
+          const aspect = gl.domElement.clientWidth / Math.max(gl.domElement.clientHeight, 1);
+          const fit = exploreFitScale(shown.halfHeightRadii, frame.fovRad, aspect);
+          const back = scale(sub(pose.positionKm, pose.lookAtKm), fit - 1);
+          pose = { ...pose, positionKm: add(add(pose.positionKm, shift), back), lookAtKm: add(pose.lookAtKm, shift) };
         }
         frame.exploreCamera = { upWorld: r.explore.up, toCameraWorld: offsetDirection(st.azimuthRad, st.elevationRad) };
         if (r.transition) {

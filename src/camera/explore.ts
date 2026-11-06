@@ -19,6 +19,22 @@ export function orbitUp(azimuthRad: number, elevationRad: number): Vec3 {
   return [-se * Math.cos(azimuthRad), -se * Math.sin(azimuthRad), Math.cos(elevationRad)];
 }
 
+/**
+ * Half-height (body radii) of a drawn model that still fits at the entry framing with room for the top switch and the bottom
+ * strip. The whole body (1) fits with room to spare; a taller Exploded stack makes the camera step back (Task 8).
+ */
+export const EXPLORE_FIT_HALF_HEIGHT = 1.05;
+
+/**
+ * How far to step the camera back (a factor on its distance from the look-at point) so a model of `halfHeightRadii` fits as
+ * well as the whole body does. 1 when it already fits; a portrait phone, framed from further back, needs less.
+ */
+export function exploreFitScale(halfHeightRadii: number, fovRad: number, aspect: number): number {
+  if (!(halfHeightRadii > 0)) return 1;
+  const entry = exploreFrameRadii(fovRad, aspect);
+  return Math.max(1, ((halfHeightRadii / EXPLORE_FIT_HALF_HEIGHT) * EXPLORE_CAMERA.frameRadii) / entry);
+}
+
 /** Half the body's width the framing keeps in view, in body radii (the body plus a little room either side). */
 const FIT_HALF_WIDTH_RADII = 1.2;
 

@@ -116,6 +116,7 @@ export function useExploreTransition(catalog: Catalog): void {
       planeOffset: cut > 0 ? 1 - cut : 2,
       cutsInnermost: next.view === 'section',
       shiftRadii: (extent.bottom + extent.top) / 2,
+      halfHeightRadii: (extent.top - extent.bottom) / 2,
       selectedLayerId: ex.active && ex.bodyId === s.bodyId ? ex.selectedLayerId : null,
     };
     if (ex.active && ex.bodyId === s.bodyId && Math.abs(ex.progress - progress) > 1e-4) ex.setProgress(progress);

@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import type { InteriorLayer } from '../details/schema';
-import { drawnLayers, explodeOffsets, sectionVisible } from './geometry';
+import { drawnLayers, EXPLODE_MARGIN, EXPLODE_MAX, EXPLODE_REVEAL, explodeOffsets, sectionVisible } from './geometry';
 
 const src = { sourceId: 's', from: 'radius' as const };
 const r = (min: number, max = min) => ({ min, max, ...src });
@@ -100,17 +100,35 @@ describe('explodeOffsets', () => {
     expect(o[1]!).toBeGreaterThan(o[2]!);
     expect(o.every(Number.isFinite)).toBe(true);
   });
-  it('3 layers keep 0.3 steps', () => {
+  it('each cap clears the dome below it: the innermost sphere whole, other domes by EXPLODE_REVEAL of their height', () => {
+    // Outer radii 1, 0.6, 0.3 (Task 8: was a flat 0.3 step, which hid most of each dome inside the cap above).
     const o = explodeOffsets(d, 1);
-    expect(o[0]!).toBeCloseTo(0.6);
-    expect(o[1]!).toBeCloseTo(0.3);
     expect(o[2]!).toBe(0);
+    expect(o[1]!).toBeCloseTo(0.3 + EXPLODE_MARGIN, 10);
+    expect(o[0]! - o[1]!).toBeCloseTo(0.6 * EXPLODE_REVEAL + EXPLODE_MARGIN, 10);
   });
-  it('6 layers top out at 0.8 or less', () => {
+  it("Earth's stack shows each dome mostly whole, below the lift cap", () => {
+    const earth = drawnLayers(
+      [layer('crust', [6371], [6341]), layer('mantle', [6341], [3485]), layer('outer-core', [3485], [1221]), layer('inner-core', [1221], [0])],
+      6371,
+    );
+    const o = explodeOffsets(earth, 1);
+    // The visible part of dome i is the gap up to the base of the cap above it.
+    for (let i = 1; i < earth.length - 1; i++) expect((o[i - 1]! - o[i]!) / earth[i]!.outer).toBeGreaterThanOrEqual(0.75);
+    expect(o[2]!).toBeGreaterThan(earth[3]!.outer); // the inner core sits clear below the outer core's cap
+    expect(o[0]!).toBeLessThanOrEqual(EXPLODE_MAX);
+    expect(o[0]!).toBeGreaterThan(1.4); // well apart, as in mockup B
+  });
+  it(`6 layers top out at EXPLODE_MAX (${EXPLODE_MAX}) or less, still in order`, () => {
     const six = Array.from({ length: 6 }, (_, i) => layer(`l${i}`, [10 - i], [9 - i]));
     const o = explodeOffsets(drawnLayers(six, 10), 1);
-    expect(Math.max(...o)).toBeLessThanOrEqual(0.8 + 1e-12);
-    expect(o[0]!).toBeGreaterThan(o[1]!);
+    expect(Math.max(...o)).toBeLessThanOrEqual(EXPLODE_MAX + 1e-12);
+    expect(o[0]!).toBeCloseTo(EXPLODE_MAX, 10);
+    for (let i = 1; i < o.length; i++) expect(o[i - 1]!).toBeGreaterThan(o[i]!);
+  });
+  it('scales with progress', () => {
+    const half = explodeOffsets(d, 0.5);
+    explodeOffsets(d, 1).forEach((v, i) => expect(half[i]!).toBeCloseTo(v / 2, 12));
   });
   it('one layer and none', () => {
     expect(explodeOffsets(d.slice(0, 1), 1)).toEqual([0]);

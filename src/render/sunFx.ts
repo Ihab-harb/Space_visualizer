@@ -17,6 +17,15 @@ export function sunExploreWeight(explore: { bodyId: string; focus: number } | nu
   return explore && explore.bodyId === sunId ? explore.focus : 0;
 }
 
+/**
+ * How much of the lens flare and god rays to keep (1 = all). Any Explore session fades them out with its focus: exploring the
+ * Sun so its zones read (spec §6), exploring another body because the Sun, though dimmed, otherwise throws its starburst and
+ * flare ghosts across the cut face (Task 8 screenshots, Earth with the Sun behind it).
+ */
+export function exploreGlareKeep(explore: { bodyId: string; focus: number } | null): number {
+  return explore ? 1 - Math.min(1, Math.max(0, explore.focus)) : 1;
+}
+
 /** After body positions (-0.5) and uniforms (-0.4), before the composer. */
 const SUN_FX_PRIORITY = -0.3;
 /**
@@ -78,8 +87,8 @@ export function useSunFx(opts: {
     const lens = flare.uniforms.get('lensPosition')!.value as Vector2;
     lens.x = inFront ? ndc.x : OFFSCREEN_NDC;
     lens.y = inFront ? ndc.y : OFFSCREEN_NDC;
-    // Exploring the Sun turns the flare and god rays off so its zones read (spec §6); they fade with the Explore focus.
-    const keep = 1 - sunExploreWeight(frame.explore, sun.id);
+    // Explore turns the flare and god rays off (the Sun's zones, or the explored body, must read); they fade with the focus.
+    const keep = exploreGlareKeep(frame.explore);
     flare.uniforms.get('opacity')!.value = 1 - (1 - flareOpacity(weight)) * keep;
     const res = flare.uniforms.get('screenRes')!.value as Vector2;
     res.set(state.size.width, state.size.height);

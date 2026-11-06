@@ -90,7 +90,7 @@ describe('exploreShellUniforms', () => {
   const frame: ExploreFrame = {
     bodyId: 'earth', view: 'exploded', progress: 1, focus: 0.5, drawn: earth, offsets: [0.8, 0.53, 0.27, 0],
     upWorld: [0, 0, 1], upObj: [0, 0, 1], planeNormalWorld: [0, 0, -1], planeNormalObj: [0, 0, -1], planeOffset: 0,
-    cutsInnermost: false, shiftRadii: 0.8, selectedLayerId: null,
+    cutsInnermost: false, shiftRadii: 0.8, halfHeightRadii: 1.2, selectedLayerId: null,
   };
   it('leaves bodies alone outside Explore', () => {
     expect(exploreShellUniforms(null, 'earth')).toEqual({ clip: null, dim: 1, liftRadii: 0 });

@@ -2,7 +2,7 @@ import { describe, expect, it } from 'vitest';
 import { cross, dot, length, normalize, sub } from '../core/math/vec3';
 import { lookRotation } from './rig';
 import { offsetDirection, orbitPose } from './orbitController';
-import { EXPLORE_CAMERA, exploreFrameRadii, orbitUp } from './explore';
+import { EXPLORE_CAMERA, EXPLORE_FIT_HALF_HEIGHT, exploreFitScale, exploreFrameRadii, orbitUp } from './explore';
 
 describe('orbitUp', () => {
   it('is the screen-up of the orbit view: unit, across the view direction, and equal to the camera up column', () => {
@@ -34,5 +34,29 @@ describe('exploreFrameRadii', () => {
   it('falls back to 3.4 radii for a bad aspect', () => {
     expect(exploreFrameRadii(fov, 0)).toBe(EXPLORE_CAMERA.frameRadii);
     expect(exploreFrameRadii(fov, Number.NaN)).toBe(EXPLORE_CAMERA.frameRadii);
+  });
+});
+
+describe('exploreFitScale', () => {
+  const fov = (50 * Math.PI) / 180;
+  const desktop = 1280 / 720;
+  it('keeps the entry framing while the model is no taller than the body (Whole, Half-section)', () => {
+    expect(exploreFitScale(1, fov, desktop)).toBe(1);
+    expect(exploreFitScale(EXPLORE_FIT_HALF_HEIGHT, fov, desktop)).toBe(1);
+  });
+  it('steps back in proportion for a taller Exploded stack, so it fits as well as the body does', () => {
+    const s = exploreFitScale(1.5, fov, desktop);
+    expect(s).toBeCloseTo(1.5 / EXPLORE_FIT_HALF_HEIGHT, 10);
+    // The visible half-height at the stepped-back distance, in model half-heights, matches the fitting model's.
+    const visible = (scale: number) => Math.tan(fov / 2) * EXPLORE_CAMERA.frameRadii * scale;
+    expect(visible(s) / 1.5).toBeCloseTo(visible(1) / EXPLORE_FIT_HALF_HEIGHT, 10);
+  });
+  it('a portrait phone, already framed from further back, steps back less or not at all', () => {
+    expect(exploreFitScale(1.5, fov, 390 / 844)).toBeLessThan(exploreFitScale(1.5, fov, desktop));
+    expect(exploreFitScale(1.5, fov, 390 / 844)).toBe(1);
+  });
+  it('is 1 for a missing or bad height', () => {
+    expect(exploreFitScale(0, fov, desktop)).toBe(1);
+    expect(exploreFitScale(Number.NaN, fov, desktop)).toBe(1);
   });
 });

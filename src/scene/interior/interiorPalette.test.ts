@@ -72,6 +72,32 @@ describe('interiorPalette', () => {
     expect(ice.h).toBeLessThanOrEqual(240);
   });
 
+  it('under the filmic tone mapping the families stay apart (Task 8): rock earthy, liquid metal amber, core white-hot', () => {
+    // AgX pulls saturated colours toward pastel, so the ramps sit where the tone-mapped result still reads (screenshot loop).
+    const mantle = hsl(interiorPalette('unknown', 0.3, 'rocky').rgb);
+    const outerCore = interiorPalette('liquid', 0.63, 'rocky'); // Earth's outer core, mid-depth
+    const amber = hsl(outerCore.rgb);
+    const innerCore = interiorPalette('solid', 0.9, 'rocky');
+    expect(mantle.h).toBeGreaterThanOrEqual(15);
+    expect(mantle.h).toBeLessThanOrEqual(32);
+    expect(mantle.lum).toBeLessThan(amber.lum);
+    expect(amber.h).toBeGreaterThanOrEqual(28); // amber, not the red-orange that reads salmon after tone mapping
+    expect(amber.h).toBeLessThanOrEqual(45);
+    expect(innerCore.glow).toBeGreaterThanOrEqual(1.5 * outerCore.glow); // white-hot, so it blooms
+    expect(hsl(innerCore.rgb).lum).toBeGreaterThan(0.85);
+  });
+
+  it('plasma passes through amber on its way to white; hydrogen ends deep violet, not lavender', () => {
+    const mid = hsl(interiorPalette('plasma', 0.5, 'star').rgb);
+    expect(mid.h).toBeGreaterThanOrEqual(28);
+    expect(mid.h).toBeLessThanOrEqual(45);
+    expect(mid.chroma).toBeGreaterThan(0.6);
+    const deep = hsl(interiorPalette('unknown', 0.8, 'gas-giant').rgb);
+    expect(deep.h).toBeGreaterThanOrEqual(260);
+    expect(deep.h).toBeLessThanOrEqual(285);
+    expect(deep.chroma).toBeGreaterThan(0.5);
+  });
+
   it('deeper is brighter in every family, and glow never falls with depth', () => {
     const cases: Array<[Parameters<typeof interiorPalette>[0], InteriorKind]> = [
       ['solid', 'rocky'], ['unknown', 'rocky'], ['liquid', 'rocky'], ['plasma', 'star'], ['unknown', 'gas-giant'], ['liquid', 'ice-giant'],

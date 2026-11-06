@@ -27,6 +27,12 @@ export const INTERIOR_LOOK = {
    * while the Sun fills the frame): its zones are scaled up by this so the core reads as the hottest, brightest part.
    */
   starGain: 2.4,
+  /**
+   * The filmic (AgX) tone mapping pulls saturated colours toward pastel: liquid metal came out peach, not amber (Task 8).
+   * Emission is pushed away from its own grey by up to this much (1 + saturation x glow, glow clamped to 1), so hot, glowing
+   * layers keep their hue and cool rock is barely touched. Luma is kept.
+   */
+  saturation: 0.5,
 } as const;
 
 /** Uniforms shared by every interior material of one body (layer table, cut plane, light). */
@@ -136,7 +142,9 @@ float texture3(int i, vec3 p, float r, float glow) {
 vec3 emit(vec3 colour, float glow, float sun) {
   // Hot layers glow on their own; sunlight on them would only wash the colour out under the filmic tone mapping.
   float lit = sun * ${INTERIOR_LOOK.sunlight.toFixed(3)} * uSunLight * (1.0 - 0.8 * clamp(glow - 0.8, 0.0, 1.0));
-  return colour * ((${INTERIOR_LOOK.emitBase.toFixed(3)} + glow * ${INTERIOR_LOOK.glowGain.toFixed(3)}) * uEmitGain + lit);
+  vec3 c = colour * ((${INTERIOR_LOOK.emitBase.toFixed(3)} + glow * ${INTERIOR_LOOK.glowGain.toFixed(3)}) * uEmitGain + lit);
+  float luma = dot(c, vec3(0.2126, 0.7152, 0.0722));
+  return luma + (c - luma) * (1.0 + ${INTERIOR_LOOK.saturation.toFixed(3)} * clamp(glow, 0.0, 1.0));
 }
 float selectionScale(int i) {
   if (uSelected < 0) return 1.0;
@@ -196,7 +204,7 @@ void main() {
   }
   float sun = max(dot(uPlane, uSunDirObj), 0.0);
   vec3 c = emit(colour, glow, sun) * shade * select;
-  c = mix(c, vec3(1.0, 0.94, 0.86) * (0.6 + 0.4 * glow), line * ${INTERIOR_LOOK.line.toFixed(3)});
+  c = mix(c, vec3(1.0, 0.94, 0.86) * (0.6 + 0.4 * min(glow, 2.2)), line * ${INTERIOR_LOOK.line.toFixed(3)});
   gl_FragColor = vec4(c, 1.0);
   ${OUTRO}
 }`;

@@ -37,6 +37,8 @@ export interface ExploreFrame {
   cutsInnermost: boolean;
   /** Centre of the drawn extent along `upWorld` (body radii): the camera looks here. */
   shiftRadii: number;
+  /** Half the drawn extent along `upWorld` (body radii): 1 for the whole body, more while Exploded; the camera fits it. */
+  halfHeightRadii: number;
   selectedLayerId: string | null;
 }
 

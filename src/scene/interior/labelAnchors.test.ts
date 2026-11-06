@@ -26,6 +26,7 @@ function frame(view: ExploreFrame['view'], progress = 1): ExploreFrame {
     planeOffset: 0,
     cutsInnermost: view === 'section',
     shiftRadii: 0,
+    halfHeightRadii: 1,
     selectedLayerId: null,
   };
 }
