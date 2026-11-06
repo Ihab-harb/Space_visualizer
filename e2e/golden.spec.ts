@@ -74,6 +74,58 @@ for (const view of VIEWS) {
 }
 
 /**
+ * Explore golden views (M2b.3 spec §6 and §7), reviewed against the visual bar. The URL opens Explore directly; reduced motion
+ * makes the scene and the overlay cut straight to their final state, so no screenshot catches a CSS fade or a transition
+ * half-way. The wait is for the scene's own signal (`__svExplore`: progress and focus at 1), then for every CSS animation to
+ * finish and the labels to be fully shown.
+ */
+const EXPLORE_VIEWS = [
+  { name: '7-earth-exploded', url: '/?jd=2461317.5&pause=1&target=earth&explore=1&view=exploded&quality=high&fx=1', body: 'earth', view: 'exploded', labels: 4 },
+  { name: '7b-earth-section', url: '/?jd=2461317.5&pause=1&target=earth&explore=1&view=section&quality=high&fx=1', body: 'earth', view: 'section', labels: 4 },
+  { name: '7c-jupiter-section', url: '/?jd=2461317.5&pause=1&target=jupiter&explore=1&view=section&quality=high&fx=1', body: 'jupiter', view: 'section', labels: 3 },
+  { name: '7d-sun-exploded', url: '/?jd=2461317.5&pause=1&target=sun&explore=1&view=exploded&quality=high&fx=1', body: 'sun', view: 'exploded', labels: 3 },
+  { name: '7e-moon-section', url: '/?jd=2461317.5&pause=1&target=moon&explore=1&view=section&quality=high&fx=1', body: 'moon', view: 'section', labels: 3 },
+  { name: '7f-phone-earth-exploded', url: '/?jd=2461317.5&pause=1&target=earth&explore=1&view=exploded&quality=high&fx=1', body: 'earth', view: 'exploded', labels: 4, phone: true },
+] as const;
+
+for (const view of EXPLORE_VIEWS) {
+  test(`golden ${view.name}`, async ({ browser }) => {
+    const phone = 'phone' in view && view.phone;
+    const page = await browser.newPage({ viewport: phone ? { width: 390, height: 844 } : { width: 1280, height: 720 }, reducedMotion: 'reduce' });
+    const errors: string[] = [];
+    page.on('pageerror', (error) => errors.push(error.message));
+    page.on('console', (msg) => {
+      if (msg.type() === 'error' && /Shader Error|THREE\.WebGLProgram/.test(msg.text())) errors.push(msg.text().slice(0, 500));
+    });
+    await page.goto(view.url);
+    await expect(page.locator('canvas')).toBeVisible();
+    await page.waitForSelector('.scene[data-textures-ready="true"]', { timeout: 30_000 }); // a golden fails if textures never load
+    await page.waitForFunction(
+      ({ body, v }) => {
+        const e = window.__svExplore?.();
+        return !!e && e.bodyId === body && e.view === v && e.progress >= 1 && e.focus >= 1;
+      },
+      { body: view.body, v: view.view },
+      { timeout: 60_000 },
+    );
+    // Labels (or a phone's numbered dots) all shown, at full opacity, and no CSS animation still running.
+    const shown = phone ? '.xdot:not([hidden])' : '.xlabel:not([data-mode="hidden"])';
+    await expect(page.locator(shown)).toHaveCount(view.labels, { timeout: 30_000 });
+    await page.waitForFunction(() => {
+      const root = document.querySelector<HTMLElement>('.xlabels');
+      const settled = document.getAnimations().every((a) => a.playState !== 'running');
+      return !!root && root.style.visibility === 'visible' && Number(root.style.opacity || 1) >= 1 && settled;
+    }, null, { timeout: 30_000 });
+    // Spec §4.2: Jupiter's sizes come from a paper, so the view says "Estimate".
+    if (view.body === 'jupiter') await expect(page.locator('.explore-notes .tag--estimate')).toBeVisible();
+    await page.waitForTimeout(1500); // bloom and depth of field settle over a few frames
+    await page.screenshot({ path: `test-results/golden/${view.name}.png` });
+    await page.close();
+    expect(errors).toEqual([]);
+  });
+}
+
+/**
  * Guard against a silent atmosphere failure (NaN/Inf or a grey veil over the night side).
  * Viewport 1280x720, Earth disc centred near (638, 360) with radius about 140 px; azSun=90 puts the day half on the
  * left. Patches are 16x16 px at the disc's vertical centre, about 40% of the radius either side of the centre,
