@@ -1,6 +1,5 @@
 import { useFrame } from '@react-three/fiber';
 import { useEffect, useRef } from 'react';
-import { create } from 'zustand';
 import type { Catalog } from '../../core/catalog/catalog';
 import type { Body } from '../../core/catalog/schema';
 import type { BodyDetails } from '../../core/details/schema';
@@ -8,7 +7,7 @@ import { drawnLayers, explodeOffsets, type DrawnLayer } from '../../core/interio
 import { apply, transpose, type Mat3 } from '../../core/math/mat3';
 import { scale, type Vec3 } from '../../core/math/vec3';
 import { useDetailsStore } from '../../state/detailsStore';
-import { useExploreStore } from '../../state/exploreStore';
+import { useExploreSession, useExploreStore } from '../../state/exploreStore';
 import { useFrameState } from '../FrameStateContext';
 import { cutAmounts, drawnExtent, sectionNormal, SECTION_YAW_RAD } from './exploreFrame';
 import { CLOSED, easeInOut, stepTransition, type TransitionState } from './exploreTransition';
@@ -17,7 +16,7 @@ import { CLOSED, easeInOut, stepTransition, type TransitionState } from './explo
 export const EXPLORE_PRIORITY = -0.9;
 
 /** The body whose interior is mounted. Changes only when a session starts, switches body or ends (not every frame). */
-export const useInteriorSession = create<{ bodyId: string | null }>()(() => ({ bodyId: null }));
+export const useInteriorSession = useExploreSession;
 
 const drawnCache = new WeakMap<BodyDetails, DrawnLayer[]>();
 

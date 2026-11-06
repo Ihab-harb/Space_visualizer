@@ -1,7 +1,8 @@
 import type { ReactNode } from 'react';
-import type { Atmosphere, BodyDetails, Gas, InteriorLayer, Magnetosphere, Mission, SourcedRange } from '../core/details/schema';
+import type { Atmosphere, BodyDetails, Gas, InteriorLayer, Magnetosphere, Mission } from '../core/details/schema';
 import { useDetailsStore, type DetailsEntry } from '../state/detailsStore';
 import { formatNumber, subscripts } from './format';
+import { layerExtent } from './interiorText';
 
 type Cite = (sourceId: string) => ReactNode;
 
@@ -12,42 +13,13 @@ const uncertaintyText = (gas: Gas) => (gas.unit === '%' ? gas.uncertainty!.toFix
 const latText = (lat: number) => `${Math.abs(lat)}° ${lat < 0 ? 'S' : 'N'}`;
 const uniq = (ids: string[]) => [...new Set(ids)];
 
-/** One interior bound in the form its source states it: a depth, a radius, a percent of the radius, or the surface or centre. */
-function boundText(r: SourcedRange): string {
-  const form = r.from ?? 'radius';
-  const stated = r.stated ?? { min: r.min, max: r.max };
-  if (stated.min === 0 && stated.max === 0) return form === 'depth' ? 'the surface' : 'the centre';
-  const range = rangeText(stated.min, stated.max);
-  if (form === 'depth') return `${range} km deep`;
-  if (form === 'percent') return `${range} % of the radius`;
-  return `radius ${range} km`;
-}
-
-/**
- * Interior display rule: each layer reads outside in, "from <outer bound> to <inner bound>", and every bound is printed in
- * the form and with the numbers its source states (km deep, radius in km, or percent of the radius), never a derived figure.
- * The stored radii are untouched; they are for the cutaway, not for display.
- */
-function layerExtent(layer: InteriorLayer): string {
-  const { outerRadiusKm: outer, innerRadiusKm: inner } = layer;
-  // An illustrative layer shows no number (the Explore view labels it "Illustrative size").
-  if (!outer || !inner) return 'illustrative size';
-  const stated = (r: SourcedRange) => r.stated ?? { min: r.min, max: r.max };
-  const isCentre = (r: SourcedRange) => stated(r).min === 0 && stated(r).max === 0;
-  if (outer.from === 'percent' && inner.from === 'percent' && !isCentre(inner)) {
-    const pct = (r: SourcedRange) => `${rangeText(stated(r).min, stated(r).max)} %`;
-    return `from ${pct(outer)} to ${pct(inner)} of the radius`;
-  }
-  return `from ${boundText(outer)} to ${boundText(inner)}`;
-}
-
-function Interior({ layers, cite }: { layers: InteriorLayer[]; cite: Cite }) {
+function Interior({ bodyId, layers, cite }: { bodyId: string; layers: InteriorLayer[]; cite: Cite }) {
   return (
     <ul className="details-list">
       {layers.map((layer) => (
         <li key={layer.id} className="details-row">
           <strong>{layer.name}</strong>
-          <span className="num">{layerExtent(layer)}</span>
+          <span className="num">{layerExtent(bodyId, layer)}</span>
           {uniq([layer.outerRadiusKm?.sourceId, layer.innerRadiusKm?.sourceId].filter((id): id is string => id !== undefined)).map((id) => (
             <span key={id}>{cite(id)}</span>
           ))}
@@ -194,7 +166,7 @@ function Ready({ details, cite }: { details: BodyDetails; cite: Cite }) {
     <>
       {interior && (
         <Section id="interior" title="Interior">
-          <Interior layers={interior.layers} cite={cite} />
+          <Interior bodyId={details.bodyId} layers={interior.layers} cite={cite} />
         </Section>
       )}
       {atmosphere && (

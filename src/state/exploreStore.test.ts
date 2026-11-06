@@ -1,5 +1,5 @@
 import { beforeEach, describe, expect, it } from 'vitest';
-import { useExploreStore } from './exploreStore';
+import { clearLayerOnEmptyClick, useExploreStore } from './exploreStore';
 import { useSelectionStore } from './selectionStore';
 import { useTimeStore } from './timeStore';
 import { useTourStore } from './tourStore';
@@ -78,5 +78,16 @@ describe('exploreStore', () => {
     useTimeStore.setState({ playing: false, rateIndex: 5 });
     useExploreStore.getState().leave();
     expect(useTimeStore.getState()).toMatchObject({ playing: false, rateIndex: 5 });
+  });
+
+  it('a click on empty space in the scene clears the selected layer, and only in Explore', () => {
+    useExploreStore.getState().enter('earth');
+    useExploreStore.getState().selectLayer('mantle');
+    clearLayerOnEmptyClick();
+    expect(useExploreStore.getState().selectedLayerId).toBeNull();
+    useExploreStore.getState().leave();
+    const before = useSelectionStore.getState().selectedId;
+    clearLayerOnEmptyClick();
+    expect(useSelectionStore.getState().selectedId).toBe(before); // never touches the body selection
   });
 });

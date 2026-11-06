@@ -57,3 +57,23 @@ useSelectionStore.subscribe((s) => {
   const e = useExploreStore.getState();
   if (e.active && s.selectedId !== e.bodyId) e.leave();
 });
+
+/**
+ * The scene's Explore session: the body whose interior is on show, from the first frame after `enter` until the body has
+ * fully closed after `leave` (exactly while `frame.explore` is set). Written only by the scene's Explore driver; the
+ * normal interface stays hidden while it is set, so it returns only after the body has closed (spec §3.1).
+ */
+export const useExploreSession = create<{ bodyId: string | null }>()(() => ({ bodyId: null }));
+
+/** True while Explore owns the screen: the store is active, or the scene is still closing the body. */
+export function useExploreOwnsScreen(): boolean {
+  const active = useExploreStore((s) => s.active);
+  const closing = useExploreSession((s) => s.bodyId !== null);
+  return active || closing;
+}
+
+/** A click in the scene that hit nothing (the Canvas's onPointerMissed; drags excluded): clears the selected layer in Explore. */
+export function clearLayerOnEmptyClick(): void {
+  const ex = useExploreStore.getState();
+  if (ex.active && ex.selectedLayerId !== null) ex.selectLayer(null);
+}
