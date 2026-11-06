@@ -148,4 +148,39 @@ describe('labelLayout', () => {
     const placed = labelLayout([anchor('x', Number.NaN, 10, 'right', 1)], desktop, []);
     expect(placed[0]!.mode).toBe('hidden');
   });
+
+  it('phone dots: centred on their anchors, pulled on screen and off the bars, never on top of each other', () => {
+    const phone = { width: 390, height: 844 };
+    const reserved: Rect[] = [
+      { left: 0, top: 0, right: 390, bottom: 130 },
+      { left: 0, top: 740, right: 390, bottom: 844 },
+    ];
+    const dot = { width: 26, height: 26 };
+    const dots = [
+      anchor('crust', 360, 260, 'right', 4, dot, dot),
+      anchor('mantle', -30, 330, 'left', 3, dot, dot), // off screen to the left
+      anchor('outer-core', 200, 420, 'right', 2, dot, dot),
+      anchor('inner-core', 205, 425, 'left', 1, dot, dot), // on top of the outer core's dot
+      anchor('extra', 200, 100, 'right', 0, dot, dot), // under the top bar
+    ];
+    const placed = labelLayout(dots, phone, reserved, { lead: -13, gap: 4 });
+    expect(placed.every((p) => p.mode === 'full')).toBe(true);
+    expectClear(placed, phone, reserved);
+    const crust = placed[0]!.rect;
+    expect((crust.left + crust.right) / 2).toBe(360);
+    expect((crust.top + crust.bottom) / 2).toBe(260);
+  });
+
+  it('keeps labels on one side in the same top-to-bottom order as their anchors, so leaders never cross', () => {
+    const vp = { width: 800, height: 400 };
+    const reserved: Rect[] = [{ left: 400, top: 0, right: 800, bottom: 170 }, { left: 0, top: 0, right: 380, bottom: 400 }];
+    // The higher-priority label's anchor is lower; the other cannot sit at its own height (the reserved rect is above).
+    const placed = labelLayout([anchor('a', 420, 200, 'right', 2), anchor('b', 420, 180, 'right', 1)], vp, reserved);
+    expectClear(placed, vp, reserved);
+    const [a, b] = placed;
+    expect(a!.mode).not.toBe('hidden');
+    expect(b!.mode).not.toBe('hidden');
+    expect(b!.rect.top).toBeLessThan(a!.rect.top);
+  });
 });
+

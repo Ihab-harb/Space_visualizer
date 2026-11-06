@@ -4,6 +4,7 @@ import { useCatalogStore } from './state/catalogStore';
 import { applyUrlOverrides, parseUrlOverrides } from './state/urlParams';
 import { ErrorScreen, LoadingScreen, WebGLUnavailable } from './ui/StatusScreens';
 import { AppChrome } from './ui/AppChrome';
+import { ExploreOverlay } from './ui/explore/ExploreOverlay';
 import { useHotkeys } from './ui/hotkeys';
 import { useTourExit } from './ui/useTourExit';
 import { isWebGLAvailable } from './ui/webgl';
@@ -33,6 +34,7 @@ export function App() {
     <div className="app">
       <SceneRoot catalog={catalog} />
       <AppChrome catalog={catalog} />
+      <ExploreOverlay catalog={catalog} />
     </div>
   );
 }

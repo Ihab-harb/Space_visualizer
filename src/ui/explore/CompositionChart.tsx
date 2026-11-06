@@ -30,7 +30,7 @@ const spoken = (b: ChartBar) =>
 type Numbers = ReadonlyMap<string, number>;
 
 /** The same superscript `[n]` link the facts drawer uses. */
-function Cite({
+export function Cite({
   sourceId,
   numbers,
   forName,

@@ -132,5 +132,44 @@ export function labelLayout(anchors: readonly LabelAnchor[], viewport: Size, res
     const y = Number.isFinite(a.y) ? a.y : 0;
     result.set(a.id, placed ?? { id: a.id, mode: 'hidden', side: a.side, rect: { left: x, top: y, right: x, bottom: y }, leader: null });
   }
+  uncross(anchors, result, blocked, gap, viewport, margin);
   return anchors.map((a) => result.get(a.id)!);
+}
+
+/**
+ * Labels on one side keep the top-to-bottom order of their anchors, so leader lines never cross. A pair out of order
+ * (one moved round an obstacle) trades places within the span the two already cover, if that stays clear of everything.
+ */
+function uncross(anchors: readonly LabelAnchor[], result: Map<string, PlacedLabel>, blocked: readonly Rect[], gap: number, viewport: Size, margin: number): void {
+  const anchorY = new Map(anchors.map((a) => [a.id, a.y]));
+  for (let pass = 0; pass < anchors.length; pass++) {
+    let changed = false;
+    for (const side of ['left', 'right'] as const) {
+      const row = [...result.values()].filter((p) => p.mode !== 'hidden' && p.side === side).sort((p, q) => anchorY.get(p.id)! - anchorY.get(q.id)!);
+      for (let i = 0; i < row.length; i++) {
+        for (let j = i + 1; j < row.length; j++) {
+          const upper = row[i]!; // anchor higher on screen
+          const lower = row[j]!;
+          if (upper.rect.top <= lower.rect.top) continue;
+          const top = Math.min(upper.rect.top, lower.rect.top);
+          const bottom = Math.max(upper.rect.bottom, lower.rect.bottom);
+          const hu = upper.rect.bottom - upper.rect.top;
+          const hl = lower.rect.bottom - lower.rect.top;
+          const u: Rect = { ...upper.rect, top, bottom: top + hu };
+          const l: Rect = { ...lower.rect, top: bottom - hl, bottom };
+          const others = [...result.values()].filter((p) => p.mode !== 'hidden' && p !== upper && p !== lower).map((p) => p.rect);
+          const fits = (r: Rect) =>
+            r.top >= margin && r.bottom <= viewport.height - margin && !blocked.some((b) => rectsOverlap(r, b)) && !others.some((o) => rectsOverlap(grow(r, gap), o));
+          if (rectsOverlap(grow(u, gap), l) || !fits(u) || !fits(l)) continue;
+          for (const [p, r] of [[upper, u], [lower, l]] as const) {
+            result.set(p.id, { ...p, rect: r, leader: p.leader && { ...p.leader, y2: (r.top + r.bottom) / 2 } });
+          }
+          changed = true;
+          row[i] = result.get(upper.id)!;
+          row[j] = result.get(lower.id)!;
+        }
+      }
+    }
+    if (!changed) return;
+  }
 }
