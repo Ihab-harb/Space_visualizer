@@ -9,7 +9,7 @@ import { writeMatrix4 } from '../scene/threeMath';
 import { useExploreStore } from '../state/exploreStore';
 import { useSelectionStore } from '../state/selectionStore';
 import { add, scale } from '../core/math/vec3';
-import { EXPLORE_CAMERA, orbitUp } from './explore';
+import { EXPLORE_CAMERA, exploreFrameRadii, orbitUp } from './explore';
 import { NO_INPUT } from './types';
 import { offsetDirection, type OrbitState } from './orbitController';
 import { useTourStore } from '../state/tourStore';
@@ -153,7 +153,9 @@ export function CameraSystem({ catalog }: { catalog: Catalog }) {
       if (r.orbit.getState().targetId !== exploreBody || r.activeView !== 'orbit') r.orbit.enter(r.lastPose, ctx, exploreBody);
       const st = r.orbit.getState();
       r.orbit.restore({ ...st, panOffsetKm: [0, 0, 0] });
-      r.orbit.setView({ distanceKm: ctx.bodyRadiusKm(exploreBody) * EXPLORE_CAMERA.frameRadii, elevationRad: st.elevationRad + EXPLORE_CAMERA.tiltRad });
+      // A portrait phone frames from further back, so the body's whole width fits.
+      const aspect = gl.domElement.clientWidth / Math.max(gl.domElement.clientHeight, 1);
+      r.orbit.setView({ distanceKm: ctx.bodyRadiusKm(exploreBody) * exploreFrameRadii(frame.fovRad, aspect), elevationRad: st.elevationRad + EXPLORE_CAMERA.tiltRad });
       r.explore = { bodyId: exploreBody, up: orbitUp(st.azimuthRad, st.elevationRad) as [number, number, number], saved };
       r.activeView = 'orbit';
       // A URL that opens Explore starts there; any other entry flies.

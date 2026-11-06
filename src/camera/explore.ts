@@ -18,3 +18,16 @@ export function orbitUp(azimuthRad: number, elevationRad: number): Vec3 {
   const se = Math.sin(elevationRad);
   return [-se * Math.cos(azimuthRad), -se * Math.sin(azimuthRad), Math.cos(elevationRad)];
 }
+
+/** Half the body's width the framing keeps in view, in body radii (the body plus a little room either side). */
+const FIT_HALF_WIDTH_RADII = 1.2;
+
+/**
+ * Entry distance in body radii for a vertical field of view and a screen aspect (width / height). Landscape screens keep
+ * FRAME_RADII; a portrait phone moves back until the body's whole width fits (spec §3.3: the whole body in view).
+ */
+export function exploreFrameRadii(fovRad: number, aspect: number): number {
+  if (!(aspect > 0) || !(fovRad > 0)) return EXPLORE_CAMERA.frameRadii;
+  const fit = FIT_HALF_WIDTH_RADII / (Math.tan(fovRad / 2) * aspect);
+  return Math.min(EXPLORE_CAMERA.maxRadii, Math.max(EXPLORE_CAMERA.frameRadii, fit));
+}
