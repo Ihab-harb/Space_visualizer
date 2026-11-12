@@ -33,6 +33,13 @@ export const INTERIOR_LOOK = {
    * layers keep their hue and cool rock is barely touched. Luma is kept.
    */
   saturation: 0.5,
+  /**
+   * How far below zero a channel may go after that push, as a fraction of the colour's luma. A small negative is
+   * intentional: AgX mixes some red into blue, so amber only survives tone mapping if blue goes slightly below zero (clamped
+   * at zero, the most saturated amber AgX can show is a copper tan, and the outer core reads salmon). It is bounded so blur,
+   * bloom and depth of field only ever see a small negative (Task 8 review, controller ruling: option B).
+   */
+  negativeFloor: 0.25,
 } as const;
 
 /** Uniforms shared by every interior material of one body (layer table, cut plane, light). */
@@ -144,7 +151,9 @@ vec3 emit(vec3 colour, float glow, float sun) {
   float lit = sun * ${INTERIOR_LOOK.sunlight.toFixed(3)} * uSunLight * (1.0 - 0.8 * clamp(glow - 0.8, 0.0, 1.0));
   vec3 c = colour * ((${INTERIOR_LOOK.emitBase.toFixed(3)} + glow * ${INTERIOR_LOOK.glowGain.toFixed(3)}) * uEmitGain + lit);
   float luma = dot(c, vec3(0.2126, 0.7152, 0.0722));
-  return luma + (c - luma) * (1.0 + ${INTERIOR_LOOK.saturation.toFixed(3)} * clamp(glow, 0.0, 1.0));
+  vec3 pushed = luma + (c - luma) * (1.0 + ${INTERIOR_LOOK.saturation.toFixed(3)} * clamp(glow, 0.0, 1.0));
+  // Bounded below zero on purpose (see INTERIOR_LOOK.negativeFloor): amber needs blue a little under zero to survive AgX.
+  return max(pushed, vec3(-${INTERIOR_LOOK.negativeFloor.toFixed(3)}) * luma);
 }
 float selectionScale(int i) {
   if (uSelected < 0) return 1.0;
