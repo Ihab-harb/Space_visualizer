@@ -1,7 +1,7 @@
 ---
 title: M2b.3 Explore mode, interior cutaway and composition charts — Design Spec
 date: 2026-10-30
-status: draft (awaiting the user's review)
+status: approved
 amends: "[[2026-10-04-m2-cinematic-and-rich-bodies-design]]"
 milestone: M2b.3
 tags: [spec, m2b, interior, charts]
@@ -151,3 +151,16 @@ The user's first wince is bodies that "don't look right". The bar is the project
 13. The Sun in Explore: photosphere shell, no corona or flare, reduced bloom, plasma-toned zones.
 14. Rings hidden in Exploded and Half-section; explode along screen-vertical; the Half-section plane faces the camera when chosen, then stays fixed to the body.
 15. Explore always opens; "No interior data yet" if a body has none.
+
+## 11. Amended while building
+Changes made while building, with the reason. The plan's Execution record ([[2026-10-30-m2b3-explore-interior]]) has the rulings and tuned values.
+- **Half-section face (§6):** the face is turned 45 degrees from facing the camera (`SECTION_YAW_RAD`), not square to it. The yaw was tuned on screenshots (35 degrees first, then 45) to keep a crescent of the real surface in view, as in mockup C.
+- **Exploded lift (§3.4, §6):** each cap lifts clear of the dome below it, up to a total of 1.8 body radii (the first plan, a flat 0.3 R step capped at 0.8 R, hid the inner domes). The camera steps back for tall stacks so the whole stack stays in frame.
+- **Phone framing (§3.3):** a portrait phone frames the body from about 5.6 radii (landscape 3.4), so the whole width fits.
+- **Sun effects (§6):** the lens flare and god rays fade in any Explore session, not only when the Sun is explored. The dimmed Sun otherwise threw a starburst across another body's cut face. Bloom and the exposure floor still change only for the Sun's own view.
+- **URL (§3.1):** an Explore URL ignores `dist`; Explore framing wins. Golden views cannot set the distance.
+- **Explore button (§3.1):** it has no `aria-pressed` (it is an action, not a toggle) and carries `aria-keyshortcuts="X"`.
+- **Keys (§3.1):** **F** (the drawer) is blocked in Explore, because the drawer is hidden.
+- **Journal names (§4.2):** `TRUSTED_JOURNALS` holds canonical titles, and a short alias such as `JGR Planets` or `A&A` is accepted and normalised ([[0009-peer-reviewed-papers-for-estimates]]).
+- **Estimate rule (§4.2):** a layer that cites a paper anywhere (size, state or composition) must be marked `estimate`.
+- **Illustrative colours and the card (§3.3, §6):** the layer card carries the note "Illustrative colours: they show state and heat, not real colours".

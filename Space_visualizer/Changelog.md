@@ -134,3 +134,14 @@ Back to [[Home]]
 - Outside the Horizons table the Moon's distances, phase and light time cite the mean elements, and the status bar reads out of range.
 - The Moon's orbit line uses one model, so it has no kink at the table edge.
 - The held-out sample count is 366,720 (it counted samples past the table end before). Doc fixes in [[0008-moon-chebyshev-table]], [[core]] and [[scene]]. Details: [[2026-10-29-m2b2-moon]].
+
+## 2026-11-06 — M2b.3 Explore mode implemented
+- **Explore** (header button, key **X**, or `?target=<id>&explore=1&view=whole|exploded|section`): one body fills the screen and the normal interface steps aside until the body has closed. Views: Whole, **Exploded** (caps lift apart, up to 1.8 body radii) and **Half-section** (a flat cut turned 45 degrees from the camera). Keys 1, 2, 3 switch views, Esc closes the chart and then leaves. Time pauses and returns as it was; the camera returns to where it was.
+- Floating labels with leader lines for each layer (name, state, cited bound, `[n]`, Estimate or Illustrative size tags), a layer card with sources, numbered dots and a Layers list on phones.
+- **Composition chart:** a bottom strip with the top gases, and a full ranked-bar chart on one log scale with a table view. The Moon's exosphere has its own axis (upper limits).
+- **Interiors for Venus, Jupiter, Saturn, Uranus and Neptune** (every body now has one): layer names, states and compositions from NASA, sizes from four peer-reviewed papers where they could be cited, marked **Estimate**. Uranus and Neptune have no citable sizes and read "Layer sizes are not to scale". Decision [[0009-peer-reviewed-papers-for-estimates]]; the papers and rejected candidates are in [[Peer-reviewed papers (interior estimates)]].
+- Schema: interior layers gain `estimate` and `sizeKind` (`cited`, `estimate`, `illustrative`); illustrative layers have no bounds and share the radius evenly (`resolveLayerRanges`). The pipeline accepts paper sources (`kind`, `doi`, `journal`, `quoteUrl`; trusted journals, open-copy hosts), with the same quote check.
+- Scene: a shader-space cut, caps and cut faces per layer, analytic picking, other bodies dimmed to 25 %, rings hidden, the Sun's flare and rays faded in any Explore session. Interior colours are illustrative (labelled) and use a small bounded negative in the saturation push so amber survives AgX.
+- Tests: 988 unit tests, typecheck clean, 118 end-to-end tests passed before the last fix rounds, 25 targeted after. Six golden views in `Assets/m2b3/`.
+- Spec [[2026-10-30-m2b3-explore-interior-design]] (approved, with "Amended while building" notes), plan [[2026-10-30-m2b3-explore-interior]] (rulings and research log in its Execution record), session [[2026-10-30-session-m2b3-explore]]. Carry-over: [[2026-10-05-m2a1-carry-over]] ("From M2b.3").
+- **Status:** on branch `m2b3-explore`, stacked on `cloud-setup` (PR #7). The whole-branch review is still to do. Not pushed; no PR is open.

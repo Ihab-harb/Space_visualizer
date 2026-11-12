@@ -83,8 +83,8 @@ Cloud sessions take well-defined jobs off the user's plate while the user and a 
 In short: a cloud session starts from GitHub, not this PC, so push first. It has no GPU, no `pipeline/raw/` cache and no local Claude memory; this vault is its memory. Inline execution with one final review is cheaper there than subagent-driven execution.
 
 ## 6. Current state
-- **Latest:** see the most recent note in `Sessions/` (currently [[2026-10-29-session-m2b2-moon]]; [[2026-10-04-session-m1-to-m2a3]] records M1 to M2b.1).
-- Other recent session notes: [[2026-10-16-session-cloud-plan]], [[2026-10-29-session-vault-check]].
+- **Latest:** see the most recent note in `Sessions/` (currently [[2026-10-30-session-m2b3-explore]]; [[2026-10-04-session-m1-to-m2a3]] records M1 to M2b.1).
+- Other recent session notes: [[2026-10-29-session-m2b2-moon]], [[2026-10-16-session-cloud-plan]], [[2026-10-29-session-vault-check]].
 - **Cloud sessions:** guide [[Cloud sessions]], jobs [[2026-10-16-cloud-task-queue]], setup [[2026-10-16-cloud-sessions-setup]] (awaiting the user's review).
 - **Cloud setup (2026-10-30):** the cloud notes, root `CLAUDE.md`, `.claude/settings.json` and `scripts/cloud-session-start.sh` are committed on branch `cloud-setup` (stacked on `m2b2-moon`) and open as PR #7. Setup Task 1 (GitHub App and cloud environment) and Task 4 (CI) are still to do. History: [[2026-10-29-session-vault-check]].
 - **As of 2026-10-16:**
@@ -93,5 +93,10 @@ In short: a cloud session starts from GitHub, not this PC, so push first. It has
 - **As of 2026-10-30:**
   - **M2b.2** ([[2026-10-29-m2b2-moon]], spec [[2026-10-29-m2b2-moon-design]], decision [[0008-moon-chebyshev-table]]) is complete on branch `m2b2-moon` (stacked on `m2b1-details`) and open as **PR #6**. The whole-branch review, its fix wave and the re-review are done: 807 unit tests, typecheck clean, 93 end-to-end tests.
   - **Open for the user:** what to do with the Moon's position outside 1800 to 2050 (mean elements, up to about 175 degrees off); the spec §10 calls and the plan's rulings; no Moon Discovery section. See [[2026-10-29-session-m2b2-moon]].
-  - **Next:** M2b.3, the cutaway and charts, per the split in the M2b.1 spec. It starts with a design discussion and a spec on a new branch stacked on `m2b2-moon`.
+  - **Next:** M2b.3, the cutaway and charts, per the split in the M2b.1 spec. **(Done, see below.)**
+- **As of 2026-11-06:**
+  - **M2b.3** ([[2026-10-30-m2b3-explore-interior]], spec [[2026-10-30-m2b3-explore-interior-design]], decision [[0009-peer-reviewed-papers-for-estimates]], data note [[Peer-reviewed papers (interior estimates)]]) is complete on branch `m2b3-explore`, stacked on `cloud-setup` (PR #7). All nine tasks are done and review-clean. The **whole-branch review is still to do**, then one fix wave and a scoped re-review. **Not pushed; no PR is open.** PRs #1 to #7 are still unmerged. 988 unit tests, typecheck clean, 118 end-to-end tests passed before the last fix rounds (25 targeted after).
+  - Explore mode: header button or **X**, `?target=<id>&explore=1&view=whole|exploded|section`; keys 1, 2, 3 and Esc inside it. See [[ui]], [[scene]], [[state]], [[camera]].
+  - **Open for the user:** check Explore on a real GPU (the interior colour push uses a small bounded negative); review the spec §10 calls and the plan's rulings; Uranus and Neptune interiors are schematic; the better Venus papers could not be used. See [[2026-10-30-session-m2b3-explore]].
+  - **Next:** M2b.4, feature pins and fields (feature pins, magnetic field lines and aurora; spec §8 of M2b.3). Explore is the home for it: pins and fields appear in Explore, and the spec built it so they can be added. It starts with a design discussion and a spec on a new branch stacked on `m2b3-explore`.
 - **Known gap:** the per-task rulings of M2a.1 and M2a.2 were not preserved, because those ledgers were deleted before rulings were copied into the vault. Their outcomes are in [[Changelog]], [[2026-10-05-m2a1-carry-over]], [[0007-tone-mapping-and-exposure]] and [[render]].

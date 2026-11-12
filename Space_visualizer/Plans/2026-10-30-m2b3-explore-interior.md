@@ -1,7 +1,7 @@
 ---
 title: M2b.3 Explore mode, interior cutaway and composition charts — Implementation Plan
 date: 2026-10-30
-status: in progress
+status: complete (review pending)
 milestone: M2b.3
 spec: "[[2026-10-30-m2b3-explore-interior-design]]"
 tags: [plan, m2b, interior, charts]
@@ -208,6 +208,122 @@ function compositionPreview(model: ChartModel | null, details: BodyDetails): { p
 
 ## Execution record
 
-Rulings, deferred findings, research results and measured numbers go here as tasks finish.
+Built 2026-10-30 to 2026-11-06, subagent-driven on branch `m2b3-explore` (base `e6c8108`, on `cloud-setup` b1b148c). Implementers: sonnet, with opus for Task 6 (rendering) and Task 8 (visual tuning). Per-task reviews by sonnet; every task finished review-clean. The whole-branch review is still to do. Nothing is pushed and no PR is open.
 
 - 2026-10-30: plan written after the user approved the spec ("yes go ahead … immediately continue with implementation").
+
+### Commits by task
+Order of execution: 1, 3, 2, 4, 5, 6, 7, 8, 9 (ruling R1).
+
+| Task | Commits | What |
+|---|---|---|
+| 1 | `e6c8108..89e74ee` | Explore state, button, keys, URL parameters, AppChrome |
+| 3 | `89e74ee..6ccf241` | paper sources, estimate and illustrative layers, ADR 0009 |
+| 2 | `6ccf241..8cccfda` | interior geometry |
+| 4 | `8cccfda..d8fabc5` | interiors of Venus and the giants (research) |
+| 5 | `d8fabc5..edd915f` | composition chart |
+| 6 | `edd915f..f7e38b2` | interior rendering, transitions, camera, dimming |
+| 7 | `f7e38b2..4c04e2c` | overlay, floating labels, layer card |
+| 8 | `4c04e2c..9fd7281` | end-to-end tests, goldens, tuning, fix rounds |
+| 9 | after `9fd7281` | this documentation |
+
+### Rulings
+Each with its cost if wrong.
+- **R1.** Execute Task 3 before Task 2: Task 2's geometry consumes the schema fields Task 3 adds. Cost: none.
+- **R2.** Task 6 publishes the per-layer transform for the current frame in FrameState (`frame.explore`), and Task 7's labels read it. One source of truth. Cost: labels lag the layers by a frame.
+- **R3.** An all-illustrative interior is allowed (layers share the radius evenly). Cost: an interior drawn with no numbers, clearly tagged.
+- **Task 1:** drop the plan's `aria-pressed=false` on the Explore button (it is an action, not a toggle) and add `aria-keyshortcuts="X"`. A plan error. Cost: none.
+- **Task 3:** `TRUSTED_JOURNALS` uses canonical full titles with an alias table (`JGR Planets` becomes "Journal of Geophysical Research: Planets"; "&" and "and" normalised); `publisher` is the canonical title. Cost: none.
+- **Task 4:** keep Shah et al. 2022 "core size 2930-4350 km" as the Venus core radius range (the paper uses size and radius interchangeably; a diameter that large is impossible). Add `quoteUrl` https://arxiv.org/abs/2112.03225 and record this as a documented exception to README rule 6. Cost: Venus's core drawn twice too large (impossible, so not plausible).
+- **Task 6:** an Explore URL frames the body at 3.4 radii and ignores `dist` (Explore framing wins). Cost: goldens cannot set the distance in Explore.
+- **Task 6:** accept the Half-section face yawed 45 degrees from facing the camera (`SECTION_YAW_RAD`), tuned on screenshots to keep a crescent of the real surface visible; noted in the spec (§11). Cost: the cut face is seen at an angle.
+- **Task 7:** accept the UI wording table (`interiorText.ts`) for "about" and "(global average)" now. Log as debt: move the qualifier into the data (a field filled and checked by the pipeline). Faithful today. Cost: the table drifts if layer ids change.
+- **Task 8:** the interior saturation push keeps a bounded negative, `max(x, -0.25 * luma)`, instead of a zero clamp. A zero clamp returns the pastel look: AgX needs blue below zero for amber. **Open for the user:** check on a real GPU for dark fringes. Cost: faint dark halos around hot layers on some GPUs.
+
+### Tuned values (Task 8, visual loop at 1280 x 720 and 390 x 844)
+- **Exploded spacing** (`core/interior/geometry.ts`): `EXPLODE_REVEAL` 0.8, `EXPLODE_MARGIN` 0.08, `EXPLODE_MAX` 1.8 (was a flat 0.3 step, capped at 0.8). Earth's offsets are 1.67, 0.79, 0.27 and 0 R (were 0.8, 0.53, 0.27, 0). Cost if wrong: a taller model, smaller on screen.
+- **Camera fit** (`camera/explore.ts`): `EXPLORE_FIT_HALF_HEIGHT` 1.05 (1.2 left the core touching the bottom strip). The camera steps back by `halfHeight / 1.05 * 3.4 / entry distance`, never less than 1, following the eased progress. `ExploreFrame` gained `halfHeightRadii`. A phone, framed from about 5.6 R, does not step back.
+- **Saturation push** (`INTERIOR_LOOK.saturation` 0.5): emission = luma + (c - luma) * (1 + 0.5 * min(glow, 1)). Hot layers get up to x1.5; cool rock (glow 0.2 to 0.55) x1.1 to x1.28. Why: AgX desaturates, and even pure `#f06a0e` at the shader's emission comes out terracotta. **Bound** `negativeFloor` 0.25. At that bound the outer core is `#d07604`, against `#d17500` unbounded and `#cf7748` clamped at zero.
+- **Ramps** (`interiorPalette.ts`): rock `#8f4a26 / #b8622e / #d8823e`; liquid metal `#e8640a / #f58212 / #ffab2e`; solid core `#fff0d8 / #fffaf2` with glow 3.4 to 4.2 (was 2.2 to 2.8); plasma `#ff5a10 / #ff9a20 (0.45) / #ffd070 (0.8) / #fff4d8`; hydrogen deep stops `#9356e6 (0.8) / #c9a6ff (1)`. Crust and ices unchanged.
+- **Boundary lines** capped at glow 2.2, so the brighter inner core does not draw a glaring ring.
+- **Glare** (`exploreGlareKeep` in `sunFx.ts`): the flare and god rays fade with the focus of any Explore session. The Sun stays dimmed to 25 %. The bloom cut and the exposure floor stay the Sun's own.
+- **Goldens:** reduced motion for the `7*` views plus explicit waits (scene signal, label opacity, `getAnimations()`), because SwiftShader at High renders a frame every few seconds and CSS fades were caught half-way. The camera uses the URL's default direction (no `az` or `el`).
+- **Earlier values (Task 6, not changed since):** open time 1.2 s, focus time 0.6 s, dimming 25 %, Sun bloom 0.35, Sun exposure floor 0.8, Sun plasma gain 2.4, Explore camera tilt -22 degrees, distance limits 1.2 to 9 R.
+
+### Goldens
+Six views, `quality=high&fx=1`, reduced motion, in `Assets/m2b3/`. After the bounded-negative fix the six were re-shot; the mean pixel difference from the first reviewed set was 0.22, 0.42, 0.04, 1.61, 0.03 and 0.62, in the order below.
+
+**7 Earth Exploded.** Cap with real imagery, rust mantle, amber outer core, white-hot inner core, four labels (mockup B).
+![[7-earth-exploded.png]]
+
+**7b Earth Half-section.** Clean rings, a crescent of Earth on the left (mockup C).
+![[7b-earth-section.png]]
+
+**7c Jupiter Half-section.** Blue, indigo, violet; the Estimate tag.
+![[7c-jupiter-section.png]]
+
+**7d Sun Exploded.** Granulated photosphere cap, orange convection rim, amber radiative dome, pale-gold core; no corona, flare or rays.
+![[7d-sun-exploded.png]]
+
+**7e Moon Half-section.** Grey crescent, rust mantle, amber core; the exosphere strip with upper limits.
+![[7e-moon-section.png]]
+
+**7f Phone Earth Exploded (390 x 844).** The whole stack in frame, four numbered dots, the Layers button and the strip clear.
+![[7f-phone-earth-exploded.png]]
+
+Mockups from the design talk: `mockup-1-cutaway-styles.png`, `mockup-2-composition-styles.png`, `mockup-3-explore-layouts.png`. Saturn Exploded and Uranus Half-section were looked at in Task 6 and 7 scratch rounds only; Saturn and Uranus were not re-shot after the Task 8 palette change.
+
+### Tests
+- Unit: 988 tests in 110 files; `npm run typecheck` clean.
+- Full Playwright run (before the Task 8 fix rounds): 118 passed, 0 failed, 14.7 min. The first run had one failure, the `app.spec.ts` citation-highlight timing flake (fixed in the test; the app is unchanged).
+- After the fix rounds: 25 targeted tests passed (`e2e/explore.spec.ts`, the Explore layout cases, the `7*` goldens). The full run was not repeated.
+- New end-to-end: `e2e/explore.spec.ts` (9 tests), `e2e/layout.spec.ts` (+10 Explore cases at the five viewports), `e2e/golden.spec.ts` (+6). The leave-while-opening test compares the scene (interface hidden) with the frame before Explore: diff 0.006 to 0.007 against idle noise 0.002 to 0.003.
+
+### Research log (Task 4)
+The exact sentences of the kept papers are in [[Peer-reviewed papers (interior estimates)]]. This is the full record of what was tried.
+
+Kept (four papers):
+- **Maia and Wieczorek 2022**, JGR Planets, 10.1029/2021JE007004, open copy arXiv 2202.06971: Venus crust 20 km (global average if the plateaus are in Airy isostasy; uncertain).
+- **Shah et al. 2022**, The Astrophysical Journal, 10.3847/1538-4357/ac410d, open copy arXiv 2112.03225: Venus core "size" 2930 to 4350 km, recorded as radius (documented exception, ruling above).
+- **Militzer et al. 2022** (Juno), The Planetary Science Journal, 10.3847/PSJ/ac7ec8, quoted on the DOI page: Jupiter dilute core to 63 % of the radius.
+- **Mankovich and Fuller 2021**, Nature Astronomy, 10.1038/s41550-021-01448-3, open copy arXiv 2104.13385: Saturn diffuse core to about 60 % of the radius.
+
+Rejected:
+- Liu et al. 2019 (Nature, Jupiter's diluted core by a giant impact): "nearly half" with no digit or percent, and a formation model.
+- Wahl et al. 2017 (GRL): "a significant fraction of the planet's radius"; Wiley 403.
+- Debras and Chabrier 2019, Miguel et al. 2022, Howard et al. 2023 ("20% of Jupiter's mass"), Helled 2022 (Icarus; "30% of the mass"), Stevenson 2020: no radius number in the abstract.
+- Nettelmann et al. 2021 (arXiv 2110.15452): "0.4 RSat" is a fraction without a percent or unit; Mankovich and Fuller is better.
+- Saturn ring seismology (Fuller 2014, Mankovich 2019, Dewberry 2021) and Mankovich and Fuller 2023 ("perhaps out to around one-half"): no usable number.
+- Margot et al. 2021 (Nature Astronomy, Venus spin state): "a rough estimate of the size of the core"; cookie gate.
+- Dumoulin et al. 2017 (JGR Planets): core radius "2900 to 3450 km", narrower than Shah, but Wiley 403 and no open copy; ADS 405.
+- James et al. 2013 (JGR Planets): crust "8-25 km"; Wiley 403, no open copy.
+- Uranus and Neptune: Helled 2011, Neuenschwander and Helled 2022 (MNRAS, not trusted), Morf et al. 2025 (dynamo-region limits only), Helled 2020 (Phil Trans, not trusted), Nettelmann 2013, arXiv 2412.06010 and 2408.10336, Neuenschwander et al. A&A 706 A170 (discontinuities "around 0.65 for Uranus and 0.7 for Neptune", no unit; using it would be interpretation). Left illustrative.
+- Not used by rule: Oxford Research Encyclopedia, EGU and EPSC abstracts, Phil Trans.
+
+Notes: the pipeline's user agent gets 403 from Wiley and a cookie gate from Nature, so papers on those hosts need an arXiv or PubMed Central copy. Saturn's discovery source id was aliased by URL (`nasa-science-saturn-facts-history` to `nasa-science-saturn-facts`). Uranus and Neptune show "Layer sizes are not to scale".
+
+### Notes and carried items
+- Task 1: hidden-while-active has no App-level unit test (WebGL); Task 8's end-to-end covers it. Focus on entry and focus return were carried to Task 7 (done).
+- Task 3: interior layer bounds are optional in the type; consumers must use `resolveLayerRanges`.
+- Task 4: carried to Task 7: Saturn "about 60 %", Uranus and Neptune "Layer sizes are not to scale", Venus crust labelled a global average (all done).
+- Task 6: carried to Task 7: AppChrome stays hidden until the body has closed; clicking empty space clears the layer; subscribe narrowly to `progress` (all done). Carried to Task 8: tune the 0.8 R lift cap, the framing and the pastel colours (done: 1.8 R, fit, saturation push); an end-to-end test for a leave mid-transition (done). A Saturn black equatorial stripe is in the source map.
+- Task 7: portrait phones frame from about 5.6 R (commit `052955d`); the "about" and "(global average)" wording shows in the drawer too; CSS fade-ins were caught mid-way in SwiftShader screenshots (Task 8 used reduced motion and waits). Carried to Task 8: end-to-end for empty-click clearing and for the chrome staying hidden until the body closed (done).
+- Task 8: carried to Task 9 (this record): the Task 8 rulings, the goldens and `frame.explore.halfHeightRadii`.
+
+### Deferred minors
+Grouped by theme in [[2026-10-05-m2a1-carry-over]] ("From M2b.3"). By task, as the ledger recorded them:
+- **Task 1:** the Explore button shows for every body (Task 7 added the "No interior data yet" state).
+- **Task 3:** `quoteUrl` is host-checked only; `DOI_PATTERN` accepts any non-space tail; the drawer's "illustrative size" placeholder; `canonicalJournal` aliases on a plain object.
+- **Task 2:** last layer not forced to the centre; tiny innermost layer flagged thickened; an infinite radius collapses to the floor.
+- **Task 4:** Jupiter's illustrative metallic hydrogen sits outside NASA's "perhaps halfway"; the Venus crust's outer 0 carries the crust quote; the fix commit carries `generatedAt`-only changes.
+- **Task 5:** uncertainty formatting differs from the drawer; zero gases dropped untested; formula-name keys; missing tests (ties, decade boundary, hover, uncertainty column); tick thinning breakpoint; value column width; tooltip closes on focus to the `[n]` link; double quotes in `CompositionChart.tsx`.
+- **Task 6:** `frame.exploreCamera` cleared only at restore; per-frame allocations; Sun bloom stays full when another body is explored; frozen orientation null on the first frame; string-based wrapper test.
+- **Task 7:** per-frame rect reads and opacity writes; bridge fields set during render or stale; camera fit uses the entry aspect; chart dialog without `aria-modal` or a focus trap.
+- **Task 8:** leave-test pixel threshold tight; `app.spec.ts` highlight check loosened; fixed 1,500 ms wait in `golden.spec.ts`.
+
+### Interruptions
+- **Session restart, 2026-11-06:** Task 6 had partial work (two failing test files, no commits). The user asked to "continue". The task was resumed and told to commit in steps (`0e6acd3`, `d84efad`, `f7e38b2`).
+- **5-hour usage limit:** it interrupted Task 8 at about 01:00 on 2026-11-06. At 06:20 the wake-up the user had asked for fired and Task 8 resumed with its uncommitted progress intact; it committed a step commit first (`9da91ff`).
+
+### Whole-branch review
+Not done yet. Next: the whole-branch review on the most capable model, one fix wave and one scoped re-review. Push and open the stacked PR (base `cloud-setup`) only when the user asks.

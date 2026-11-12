@@ -14,6 +14,7 @@ A 3D, time-accurate solar system in the browser — every fact cited to an offic
 - [[2026-10-04-m2-cinematic-and-rich-bodies-design|M2 spec: cinematic graphics and rich bodies]] — approved
 - [[2026-10-10-m2b1-body-details-design|M2b.1 spec: body details data]] — approved
 - [[2026-10-29-m2b2-moon-design|M2b.2 spec: the Moon]] — drafted for the user to review
+- [[2026-10-30-m2b3-explore-interior-design|M2b.3 spec: Explore mode, interior cutaway and composition charts]] — approved
 
 ## Plans
 - [[2026-10-04-m1-foundation|M1 Foundation]] — complete
@@ -23,6 +24,7 @@ A 3D, time-accurate solar system in the browser — every fact cited to an offic
 - [[2026-10-07-m2a3-interface-and-tour|M2a.3 Interface redesign, Tour and Venus radar]] — complete
 - [[2026-10-10-m2b1-body-details|M2b.1 Body details data]] — complete
 - [[2026-10-29-m2b2-moon|M2b.2 The Moon]] — complete (review pending)
+- [[2026-10-30-m2b3-explore-interior|M2b.3 Explore mode, interior cutaway and composition charts]] — complete (review pending)
 - [[2026-10-16-cloud-sessions-setup|Cloud sessions setup]] — awaiting review
 - [[2026-10-16-cloud-task-queue|Cloud task queue]] — open (jobs for cloud sessions)
 
@@ -63,6 +65,7 @@ A 3D, time-accurate solar system in the browser — every fact cited to an offic
 - [[JPL Planetary Satellite Mean Elements]]
 - [[NAIF GM DE440]]
 - [[NSSDCA Moon Fact Sheet]]
+- [[Peer-reviewed papers (interior estimates)]]
 
 ## Decisions
 - [[0002-react-three-fiber]]
@@ -72,6 +75,7 @@ A 3D, time-accurate solar system in the browser — every fact cited to an offic
 - [[0006-webp-tiers-ktx2-deferred]]
 - [[0007-tone-mapping-and-exposure]]
 - [[0008-moon-chebyshev-table]]
+- [[0009-peer-reviewed-papers-for-estimates]]
 
 ## Assets
 - M2a.1 golden screenshots: `Assets/m2a1-golden/` (six PNG views)
@@ -80,6 +84,7 @@ A 3D, time-accurate solar system in the browser — every fact cited to an offic
 
 - M2b.1 screenshots: `Assets/m2b1/` (Mars Interior and Atmosphere, Jupiter Magnetic field; each at 1280x720 and 390x844)
 - M2b.2 golden screenshots: `Assets/m2b2/` (six Moon views: quarter, full, Earth and Moon, the 2024 solar eclipse, the 2025 lunar eclipse, overview with the Moon hidden; `quality=high&fx=1`)
+- M2b.3 golden screenshots: `Assets/m2b3/` (six Explore views: Earth Exploded, Earth Half-section, Jupiter Half-section, the Sun Exploded, the Moon Half-section, phone Earth Exploded; `quality=high&fx=1`, reduced motion; plus the three design mockups)
 
 ## Log
 - [[Changelog]]
@@ -88,5 +93,6 @@ A 3D, time-accurate solar system in the browser — every fact cited to an offic
 Chat history with Claude Code: requests, decisions and open questions, one note per session.
 - [[2026-10-04-session-m1-to-m2a3|2026-10-04 to 2026-10-16: M1 to M2b.1]]
 - [[2026-10-29-session-m2b2-moon|2026-10-29 to 2026-10-30: M2b.2 the Moon]]
+- [[2026-10-30-session-m2b3-explore|2026-10-30 to 2026-11-06: M2b.3 Explore mode]]
 - [[2026-10-16-session-cloud-plan|2026-10-16: cloud sessions plan]]
 - [[2026-10-29-session-vault-check|2026-10-29: vault check]]

@@ -161,3 +161,9 @@ Passes were removed one at a time (a temporary local filter on `activePasses`, n
 | Only bloom and tone mapping (`fx=0`, Medium) | 33.3 ms |
 
 The most expensive pass is god rays plus lens flare (about 33 ms), then depth of field (about 17 ms). Streaks, the display pass and exposure are within the quantisation noise. Even with effects off the scene needs about 33 ms here, so the base scene (shaders, 192-segment spheres, atmosphere samples) already misses 16.7 ms on this GPU, independent of the stack. Run-to-run variation was visible (the first High run read 116.7 ms and the repeat 100.1 ms), so treat each figure as about one vsync step. No preset was changed. Candidates for a later round: a lower-resolution or lower-sample god-ray pass and a half-resolution depth of field.
+
+## Explore (M2b.3)
+- **The Sun explored:** the corona fades with the Explore focus. Bloom is scaled to `SUN_EXPLORE_BLOOM` 0.35 (`EffectsStack.tsx`) and the exposure floor is `SUN_EXPLORE_EXPOSURE` 0.8 (`sunFx.ts`), so the frame-filling Sun does not grey its zones. These two apply only when the Sun itself is explored (`sunExploreWeight`).
+- **Glare in any Explore session:** `exploreGlareKeep(explore)` is `1 - focus`. The lens flare and god rays fade with the Explore focus whichever body is explored. With the Sun behind Earth, the dimmed Sun otherwise threw a starburst and flare ghosts across the cut face. The Sun stays dimmed to 25 % as for every other body. Other bodies' interiors rely on bloom for their glow, so the bloom cut and the exposure floor stay the Sun's own.
+- **Depth of field:** the focus point is the explored body's shifted centre (`frame.explore.shiftRadii` along `upWorld`), where the cut face and the lifted shells are. The pass stays mounted as before.
+- **Effects stay on in Explore.** Dimming is a material-level fade (`uDim`), not a change to the pass stack. See [[scene]].

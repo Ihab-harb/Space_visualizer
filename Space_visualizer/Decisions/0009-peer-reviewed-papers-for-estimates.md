@@ -32,3 +32,12 @@ Rules, as implemented in `pipeline/sources/quotedReference.ts`:
 - The UI must handle layers without bounds (done minimally in M2b.3 Task 3; the Explore view labels them "Illustrative size").
 - A paper's number is only as good as its model. Estimates carry the "Estimate" label and cite the journal article.
 - Revisit the journal list if a needed paper sits in a journal not on it. Adding one is a code change and a new decision note.
+
+## What the build changed (M2b.3, 2026-10-30 to 2026-11-06)
+- **Canonical titles.** The first draft matched `journal` against short names. The build keeps canonical titles in `TRUSTED_JOURNALS` with an alias table (ruling, Task 3), so a curator may write `JGR Planets` and the data holds "Journal of Geophysical Research: Planets". `publisher` is the canonical title.
+- **Estimate rule widened.** A layer that cites a paper for its size, state or composition must be marked `estimate` (review finding, Task 3). A layer sized from a paper must be `sizeKind: 'estimate'`.
+- **https only** for `url` and `quoteUrl`.
+- **Open copy is not proof of version.** `quoteUrl` is host-checked only. The curator confirms the copy is the published or accepted version and records how in [[Peer-reviewed papers (interior estimates)]]. The host check cannot prove it (deferred minor).
+- **One documented exception.** Shah et al. 2022 says "core size 2930-4350 km". It is recorded as the core radius range. See the data note and `pipeline/reference/README.md` ("Documented exceptions").
+- **Coverage reached.** Four papers back Venus (crust, mantle, core), Jupiter's dilute core and Saturn's diffuse core. Uranus and Neptune are illustrative only: no paper gave a layer boundary that could be cited without interpretation. The better Venus papers (Dumoulin 2017, James 2013) could not be used because their pages cannot be fetched for the quote check. Rejected candidates are listed in the data note.
+- **Open for the user:** the journal list and the trusted-paper call are in the spec §10 (call 5). The user has not yet reviewed them.
