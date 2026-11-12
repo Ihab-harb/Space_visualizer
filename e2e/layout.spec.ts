@@ -170,7 +170,9 @@ for (const vp of VIEWPORTS) {
         const e = window.__svExplore?.();
         return !!e && e.view === v && e.progress >= 1 && e.focus >= 1;
       }, view, { timeout: 30_000 });
-      await page.waitForTimeout(500); // a few frames for the label layout
+      // Every Earth layer has its label (or dot), then two frames so the projector has laid them out at their final places.
+      await expect(page.locator('.xlabel:not([data-mode="hidden"]), .xdot:not([hidden])')).toHaveCount(4, { timeout: 30_000 });
+      await page.evaluate(() => new Promise<void>((resolve) => requestAnimationFrame(() => requestAnimationFrame(() => resolve()))));
       const parts = await page.evaluate(() => {
         const rect = (el: Element) => el.getBoundingClientRect().toJSON() as DOMRect;
         const reserved = [...document.querySelectorAll('[data-explore-reserved]')].map((el) => ({ name: `reserved:${(el as HTMLElement).dataset.exploreReserved}`, r: rect(el) }));

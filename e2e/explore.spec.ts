@@ -69,14 +69,17 @@ async function meanDiff(a: Buffer, b: Buffer): Promise<number> {
 const SCENE_ONLY = '.header, .control-panel, .bottom-bar, .drawer, .label-layer { visibility: hidden !important; }';
 const sceneShot = (page: Page) => page.locator('canvas').screenshot({ style: SCENE_ONLY });
 
-/** Screenshots of the scene until two in a row agree (the camera has stopped moving); returns the last one. */
+/** Screenshots of the scene until two in a row agree (the camera has stopped moving); returns the last one. Fails if the
+ * scene is still changing after `timeoutMs`. */
 async function stillCanvas(page: Page, timeoutMs = 20_000): Promise<Buffer> {
   const end = Date.now() + timeoutMs;
   let prev = await sceneShot(page);
   for (;;) {
     await page.waitForTimeout(400);
     const next = await sceneShot(page);
-    if ((await meanDiff(prev, next)) < 0.05 || Date.now() > end) return next;
+    const change = await meanDiff(prev, next);
+    if (change < 0.05) return next;
+    if (Date.now() > end) throw new Error(`the scene did not settle within ${timeoutMs} ms (last change ${change.toFixed(3)})`);
     prev = next;
   }
 }
