@@ -27,3 +27,30 @@ Back to [[Home]]
 
 ## 2026-10-04 — Repository docs
 - Added `README.md` (project description, quick start, data sources) and `docs/SETUP.md` (requirements, running, testing, refreshing data, troubleshooting). Set the GitHub repository description and topics.
+
+## 2026-10-04 — M2 design
+- Feedback after M1: richer per-body detail first, and much more advanced graphics (reference: sael.net and advanced Opus 5.5 projects).
+- Brainstormed and drafted [[2026-10-04-m2-cinematic-and-rich-bodies-design]]: M2a cinematic graphics and Realistic mode, M2b rich body detail, M2c Exhibit mode; later milestones renumbered M3–M7.
+- M2 spec approved.
+
+## 2026-10-05 — M2a.1 plan
+- Wrote [[2026-10-04-m2a1-imagery-and-shading]] (18 tasks). M2a is split in two: M2a.1 covers imagery and Realistic shading; M2a.2 will cover effects, adaptive quality and the new interface.
+- Planning research:
+  - verified every imagery source URL and size (Blue Marble, Black Marble, GEBCO, USGS Mars Viking/MOLA and Mercury MESSENGER, Hubble OPAL, NASA SVS Deep Star Maps);
+  - worked out the star map's orientation from catalogue stars;
+  - confirmed that three's EXR loader runs in Node;
+  - confirmed that the NSSDCA ring fact sheets give official ring radii, optical depth and albedo.
+- Scope rulings, recorded in the plan:
+  - one Blue Marble month and the latest OPAL map per planet;
+  - Moon imagery moves to M2b and the Venus radar view to M2a.2;
+  - KTX2 is deferred (WebP tiers are used instead).
+
+## 2026-10-05 — M2a.1 Imagery and Realistic shading implemented
+- Official imagery from 13 sources (NASA Blue Marble, Black Marble, clouds, GEBCO; USGS Mars and Mercury; Hubble OPAL giant-planet maps; NASA Deep Star Maps sky), built into WebP tiers by `npm run textures` ([[0006-webp-tiers-ktx2-deferred]]). About 13.1 MB committed.
+- Custom WebGL2 shaders per body type: terminator, Lommel-Seeliger and GGX, Earth night lights and cloud shadows, atmosphere scattering, eclipses ([[0005-webgl2-custom-shaders]]).
+- Saturn and Uranus rings from NSSDCA ring tables with ring and planet shadows; illustrative Venus clouds, Sun surface and corona.
+- NASA Deep Star Maps sky with credit.
+- Shareable URL views (`jd`, `date`, `pause`, `target`, `dist`, `az`, `azSun`, `el`, `tier`).
+- Info panel Imagery section: every layer cited, procedural visuals labelled illustrative.
+- Six golden screenshots in `Assets/m2a1-golden/`; an e2e pixel guard on the Earth view. Details in [[scene]] and [[pipeline]].
+- Final-review fixes: no impossible texture tiers (imagery.json lists only what the build produces; OPAL tiers never exceed their source width), a shared ref-counted texture cache (night, clouds and ring textures upload once), exaggerated relief labelled illustrative, Saturn outer ring edge is the cited F ring radius (139,826 km).

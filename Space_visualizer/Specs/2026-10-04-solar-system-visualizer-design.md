@@ -251,6 +251,8 @@ Across all views: the camera never enters a body, and the selected body stays hi
 
 ## 10. Milestones
 
+> **Amended 2026-10-04:** from M2 on, the milestone plan, imagery rules and interface are superseded by [[2026-10-04-m2-cinematic-and-rich-bodies-design]] (M2a cinematic graphics, M2b rich body detail, M2c exhibit mode; the milestones below shift to M3–M7). The table below is kept for history.
+
 Each milestone ends with a working app and updated vault notes. Each gets its own implementation plan under `Plans/`.
 
 | # | Milestone | Scope |

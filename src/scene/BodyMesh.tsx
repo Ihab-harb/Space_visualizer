@@ -1,12 +1,13 @@
 import { useFrame, type ThreeEvent } from '@react-three/fiber';
 import { useMemo, useRef } from 'react';
-import { Color, Matrix4, SphereGeometry, type Group, type Mesh } from 'three';
+import { Matrix4, SphereGeometry, type Group, type Mesh } from 'three';
 import type { Body } from '../core/catalog/schema';
 import { length, sub } from '../core/math/vec3';
 import { useSelectionStore } from '../state/selectionStore';
 import { useViewStore } from '../state/viewStore';
 import { BodyLabel } from './BodyLabel';
 import { useFrameState } from './FrameStateContext';
+import { BodyExtras, BodyMaterial } from './materials/BodyMaterial';
 import { MIN_PIXELS, pixelsPerRadian, renderRadiusKm } from './scaleMode';
 import { writeMatrix4 } from './threeMath';
 
@@ -17,18 +18,17 @@ const CLICK_DRAG_TOLERANCE_PX = 4;
  */
 const POSITION_PRIORITY = -0.5;
 
-export function BodyMesh({ body }: { body: Body }) {
+export function BodyMesh({ body, bodies }: { body: Body; bodies: readonly Body[] }) {
   const frame = useFrameState();
   const group = useRef<Group>(null);
   const mesh = useRef<Mesh>(null);
   const matrix = useMemo(() => new Matrix4(), []);
   const isStar = body.category === 'star';
   const geometry = useMemo(() => {
-    const g = new SphereGeometry(1, 64, 32);
+    const g = new SphereGeometry(1, 128, 64);
     g.rotateX(Math.PI / 2); // Three's sphere poles are on +Y; body-fixed poles are on +Z
     return g;
   }, []);
-  const starColor = useMemo(() => new Color(body.display.color).multiplyScalar(2.2), [body.display.color]);
   const select = useSelectionStore((s) => s.select);
   const hover = useSelectionStore((s) => s.hover);
   const requestFocus = useViewStore((s) => s.requestFocus);
@@ -46,6 +46,7 @@ export function BodyMesh({ body }: { body: Body }) {
       isStar ? MIN_PIXELS.star : MIN_PIXELS.body,
       pixelsPerRadian(frame.viewportHeightPx, frame.fovRad),
     );
+    frame.bodyRenderRadiusKm.set(body.id, radius);
     const k = radius / equatorialRadiusKm;
     mesh.current.scale.set(equatorialRadiusKm * k, equatorialRadiusKm * k, polarRadiusKm * k);
     const orientation = frame.bodyOrientation.get(body.id);
@@ -74,11 +75,8 @@ export function BodyMesh({ body }: { body: Body }) {
         }}
         onPointerOut={() => hover(null)}
       >
-        {isStar ? (
-          <meshBasicMaterial color={starColor} toneMapped={false} />
-        ) : (
-          <meshStandardMaterial color={body.display.color} roughness={1} metalness={0} />
-        )}
+        <BodyMaterial body={body} bodies={bodies} />
+        <BodyExtras body={body} bodies={bodies} />
       </mesh>
       <BodyLabel body={body} />
     </group>

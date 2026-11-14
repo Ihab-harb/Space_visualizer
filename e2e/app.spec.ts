@@ -1,10 +1,15 @@
 import { expect, test } from '@playwright/test';
 
 let pageErrors: string[] = [];
+let shaderErrors: string[] = [];
 
 test.beforeEach(async ({ page }) => {
   pageErrors = [];
   page.on('pageerror', (error) => pageErrors.push(error.message));
+  shaderErrors = [];
+  page.on('console', (msg) => {
+    if (msg.type() === 'error' && /Shader Error|THREE\.WebGLProgram/.test(msg.text())) shaderErrors.push(msg.text().slice(0, 500));
+  });
   await page.goto('/');
   await expect(page.locator('canvas')).toBeVisible();
   await page.waitForTimeout(1500); // let a few frames render
@@ -13,6 +18,7 @@ test.beforeEach(async ({ page }) => {
 // Checked after every test, so errors caused by interactions are caught too.
 test.afterEach(() => {
   expect(pageErrors).toEqual([]);
+  expect(shaderErrors).toEqual([]);
 });
 
 test('follows a planet with co-rotation while time runs', async ({ page }) => {
@@ -85,4 +91,13 @@ test('jumps in time and warns about accuracy', async ({ page }) => {
   await expect(page.getByRole('status')).toContainText('Outside 1800–2050');
   await page.getByRole('button', { name: 'Now' }).click();
   await expect(page.getByRole('status')).toHaveCount(0);
+});
+
+test('cites the official imagery for Earth', async ({ page }) => {
+  await page.goto('/?target=earth&pause=1');
+  const panel = page.getByRole('complementary', { name: 'Body information' });
+  const imagery = panel.locator('section', { has: page.getByRole('heading', { name: 'Imagery' }) });
+  await expect(imagery).toContainText('Surface');
+  await expect(imagery).toContainText('Night lights');
+  await expect(panel.locator('.sources')).toContainText('Blue Marble');
 });

@@ -1,7 +1,17 @@
 import { create } from 'zustand';
+import type { Tier } from '../core/catalog/schema';
 
 export type ViewId = 'orbit' | 'follow';
 export type ScaleMode = 'readable' | 'true';
+
+export interface CameraOverride {
+  targetId: string;
+  distanceKm?: number;
+  azDeg?: number;
+  azFromSunDeg?: number;
+  elDeg?: number;
+  seq: number;
+}
 
 interface ViewState {
   view: ViewId;
@@ -9,6 +19,10 @@ interface ViewState {
   scaleMode: ScaleMode;
   /** Orbit view: move the pivot to this body. seq makes repeated requests distinct. */
   focusRequest: { bodyId: string; seq: number } | null;
+  textureTier: Tier;
+  cameraOverride: CameraOverride | null;
+  setTextureTier(tier: Tier): void;
+  requestCameraOverride(o: Omit<CameraOverride, 'seq'>): void;
   setView(view: ViewId): void;
   toggleCoRotate(): void;
   setScaleMode(mode: ScaleMode): void;
@@ -20,6 +34,10 @@ export const useViewStore = create<ViewState>()((set) => ({
   coRotate: false,
   scaleMode: 'readable',
   focusRequest: null,
+  textureTier: '2k',
+  cameraOverride: null,
+  setTextureTier: (textureTier) => set({ textureTier }),
+  requestCameraOverride: (o) => set((s) => ({ cameraOverride: { ...o, seq: (s.cameraOverride?.seq ?? 0) + 1 } })),
   setView: (view) => set({ view }),
   toggleCoRotate: () => set((s) => ({ coRotate: !s.coRotate })),
   setScaleMode: (scaleMode) => set({ scaleMode }),

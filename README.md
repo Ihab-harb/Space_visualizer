@@ -12,8 +12,9 @@ The Solar System is the first "region" of a project designed to grow outward lat
 - **Camera views:** *Orbit* (rotate, pan and zoom around any body) and *Follow* (track a body, optionally rotating with its surface), with smooth fly-to transitions. The view stays precise from a planet's surface out to the edge of the Solar System.
 - **Info panel with sources:** NASA descriptions, physical and orbital facts, live distances and light travel time. Every value links to its source.
 - **Readable or true scale:** enlarged bodies that stay visible, or real sizes and distances.
+- **Official imagery and shading (M2a.1):** NASA, USGS and STScI surface maps, rings and sky, lit by custom shaders (terminator, night lights, clouds, atmospheres, ring shadows), each image cited in the info panel.
 
-Still to come: moons, dwarf planets, asteroids and comets, spacecraft, filters and search, more camera views (top-down, view from a body, fly), official surface textures, and, later, regions beyond the Solar System.
+Still to come: moons, dwarf planets, asteroids and comets, spacecraft, filters and search, more camera views (top-down, view from a body, fly), cinematic effects and quality settings, and, later, regions beyond the Solar System.
 
 ## Quick start
 
@@ -57,7 +58,16 @@ Then open the address Vite prints (normally <http://localhost:5173/>). No server
 | [NASA Science](https://science.nasa.gov/) | Body descriptions |
 | [IERS](https://hpiers.obspm.fr/iers/bul/bulc/Leap_Second.dat) and [NASA ΔT polynomials](https://eclipse.gsfc.nasa.gov/SEhelp/deltatpoly2004.html) | Converting between UTC and the time scale of the orbit formulas |
 
-Planet colours are illustrative until official NASA/USGS surface maps are added.
+## Imagery
+
+Planet surfaces, rings and the star sky come from official NASA, USGS and STScI products. Each image is cited in the app's info panel.
+
+- `npm run textures`: downloads the source products (about 5 GB, cached in `pipeline/raw/textures/`) and builds the committed 1k/2k textures in `public/textures/`.
+- `npm run textures:hd`: also builds 4k/8k textures locally (not committed). Open the app with `?tier=4k` or `?tier=8k` to use them; missing tiers fall back to 2k.
+- `npm run textures -- --offline`: rebuilds from the cache without network access.
+- `npm run textures:verify`: checks that every source URL still responds.
+
+Procedural visuals (Venus clouds, Sun surface, band flow, cloud drift) are labelled illustrative in the app.
 
 ## Tech stack
 

@@ -75,6 +75,12 @@ describe('orbit controller', () => {
     expect(c.getState().distanceKm).toBeCloseTo(5e5, 3);
     expect(c.getState().elevationRad).toBeCloseTo(MAX_ELEVATION_RAD, 9);
   });
+  it('setView jumps straight to a distance and angles, clamped like user input', () => {
+    const c = createOrbitController(base);
+    c.setView({ distanceKm: 1, azimuthRad: 1, elevationRad: 2 });
+    expect(c.getState()).toMatchObject({ azimuthRad: 1, elevationRad: MAX_ELEVATION_RAD });
+    expect(c.getState().distanceKm).toBe(1);
+  });
 });
 
 describe('follow controller', () => {

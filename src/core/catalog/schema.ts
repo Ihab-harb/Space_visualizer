@@ -89,6 +89,34 @@ export const RotationModelSchema = z.object({
 
 export const BODY_CATEGORIES = ['star', 'planet', 'dwarf-planet', 'moon', 'asteroid', 'comet', 'spacecraft'] as const;
 
+export const TIERS = ['1k', '2k', '4k', '8k'] as const;
+
+export const TextureRefSchema = z
+  .object({
+    tiers: z.partialRecord(z.enum(TIERS), z.string().min(1)),
+    sourceId: SourceIdSchema,
+    derivation: z.string().min(1).optional(),
+    illustrative: z.boolean().optional(),
+  })
+  .refine((t) => Object.keys(t.tiers).length > 0, { message: 'texture needs at least one tier' });
+
+export const ImagerySchema = z.object({
+  color: TextureRefSchema.optional(),
+  normal: TextureRefSchema.optional(),
+  night: TextureRefSchema.optional(),
+  clouds: TextureRefSchema.optional(),
+  specular: TextureRefSchema.optional(),
+  rings: z.object({ texture: TextureRefSchema, innerKm: SourcedValueSchema, outerKm: SourcedValueSchema }).optional(),
+});
+
+export const RenderSchema = z.object({
+  shader: z.enum(['earth', 'rocky', 'giant', 'venus', 'sun']),
+  atmosphere: z.enum(['earth', 'mars', 'venus']).nullable(),
+  lommelSeeliger: z.number().min(0).max(1),
+  normalStrength: z.number().nonnegative(),
+  bandFlow: z.boolean(),
+});
+
 export const BodySchema = z.object({
   id: z.string().regex(/^[a-z0-9-]+$/),
   name: z.string().min(1),
@@ -105,7 +133,8 @@ export const BodySchema = z.object({
     sourceId: SourceIdSchema,
   }),
   description: z.object({ text: z.string().min(1), sourceId: SourceIdSchema }).nullable(),
-  texture: z.object({ url: z.string().min(1), sourceId: SourceIdSchema }).nullable(),
+  imagery: ImagerySchema.nullable(),
+  render: RenderSchema,
   display: z.object({ color: z.string().regex(/^#[0-9a-f]{6}$/i), note: z.literal('illustrative') }),
 });
 
@@ -129,6 +158,13 @@ export const BodiesFileSchema = z.object({
   bodies: z.array(BodySchema).min(1),
 });
 
+export const ImageryFileSchema = z.object({
+  schemaVersion: z.literal(1),
+  generatedAt: z.iso.datetime(),
+  sources: z.array(SourceSchema),
+  bodies: z.record(z.string(), ImagerySchema),
+});
+
 export type Source = z.infer<typeof SourceSchema>;
 export type SourcedValue = z.infer<typeof SourcedValueSchema>;
 export type ApproxTable = z.infer<typeof ApproxTableSchema>;
@@ -142,3 +178,8 @@ export type Region = z.infer<typeof RegionSchema>;
 export type RegionsFile = z.infer<typeof RegionsFileSchema>;
 export type SourcesFile = z.infer<typeof SourcesFileSchema>;
 export type BodiesFile = z.infer<typeof BodiesFileSchema>;
+export type Tier = (typeof TIERS)[number];
+export type TextureRef = z.infer<typeof TextureRefSchema>;
+export type Imagery = z.infer<typeof ImagerySchema>;
+export type Render = z.infer<typeof RenderSchema>;
+export type ImageryFile = z.infer<typeof ImageryFileSchema>;

@@ -1,5 +1,6 @@
 import { mkdir, readFile, writeFile } from 'node:fs/promises';
 import path from 'node:path';
+import { ImageryFileSchema } from '../src/core/catalog/schema';
 import { buildSolarSystem } from './build/buildSolarSystem';
 import { validateOutput } from './build/validate';
 import { fetchCached, type FetchedText, type FetchOptions } from './lib/fetchCached';
@@ -30,7 +31,9 @@ try {
   }
   const horizons = JSON.parse(await readFile('pipeline/reference/horizons-heliocentric.json', 'utf8')) as HorizonsReference;
 
-  const output = buildSolarSystem({ approxPos, planetSheet, sunSheet, pck, descriptions, horizons }, new Date().toISOString());
+  const imagery = ImageryFileSchema.parse(JSON.parse(await readFile('public/textures/imagery.json', 'utf8')));
+
+  const output = buildSolarSystem({ approxPos, planetSheet, sunSheet, pck, descriptions, horizons, imagery }, new Date().toISOString());
   const errors = validateOutput(output);
   if (errors.length > 0) {
     console.error(`Validation failed; public/data was NOT changed:\n${errors.join('\n')}`);

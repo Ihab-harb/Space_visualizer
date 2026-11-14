@@ -5,6 +5,7 @@ import { angleBetween } from '../../src/core/math/vec3';
 import { orbitNormal } from '../../src/core/ephemeris/conic';
 import { elementsAt } from '../../src/core/ephemeris/planetApprox';
 import { poleEcliptic } from '../../src/core/frames/rotation';
+import type { ImageryFile } from '../../src/core/catalog/schema';
 import type { FetchedText } from '../lib/fetchCached';
 import { DESCRIPTION_PAGES } from '../sources/nasaScience';
 import type { HorizonsReference } from '../sources/horizons';
@@ -16,9 +17,10 @@ const descriptions = Object.fromEntries(
   Object.keys(DESCRIPTION_PAGES).map((id) => [id, { text: `<meta name="description" content="Test description for ${id}.">`, retrievedAt: '2026-10-04', fromCache: true }]),
 ) as Record<keyof typeof DESCRIPTION_PAGES, FetchedText>;
 const horizons = JSON.parse(readFileSync('pipeline/reference/horizons-heliocentric.json', 'utf8')) as HorizonsReference;
+const imagery = JSON.parse(readFileSync('public/textures/imagery.json', 'utf8')) as ImageryFile;
 
 const out = buildSolarSystem(
-  { approxPos: fixture('approx_pos.html'), planetSheet: fixture('planet-factsheet.html'), sunSheet: fixture('sun-factsheet.html'), pck: fixture('pck00011.tpc'), descriptions, horizons },
+  { approxPos: fixture('approx_pos.html'), planetSheet: fixture('planet-factsheet.html'), sunSheet: fixture('sun-factsheet.html'), pck: fixture('pck00011.tpc'), descriptions, horizons, imagery },
   '2026-10-04T12:00:00.000Z',
 );
 const body = (id: string) => out.bodies.bodies.find((b) => b.id === id)!;
@@ -79,6 +81,14 @@ describe('buildSolarSystem', () => {
       const expected = obliquity > 90 ? 180 - obliquity : obliquity;
       expect(Math.abs(angle - expected), id).toBeLessThanOrEqual(0.15);
     }
+  });
+
+  it('attaches official imagery to planets and cites every image', () => {
+    expect(body('earth').imagery?.color?.sourceId).toBe('nasa-blue-marble-ng');
+    expect(body('saturn').imagery?.rings?.innerKm.value).toBeGreaterThan(70000);
+    expect(body('venus').imagery).toBeNull();
+    expect(out.sources.sources.map((s) => s.id)).toEqual(expect.arrayContaining(['stsci-opal', 'nssdca-saturn-rings', 'nasa-svs-deep-star-maps']));
+    expect(validateOutput(out)).toEqual([]);
   });
 
   it('fails validation when a referenced source is missing', () => {

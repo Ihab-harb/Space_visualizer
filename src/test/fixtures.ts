@@ -32,7 +32,8 @@ export function makeSun(): Body {
     rotation: { sourceId: 'naif-pck00011', poleRa: [286.13, 0, 0], poleDec: [63.87, 0, 0], pm: [84.176, 14.1844, 0], nutPrecRa: [], nutPrecDec: [], nutPrecPm: [], nutPrecAngles: [] },
     shape: { equatorialRadiusKm: 695700, polarRadiusKm: 695700, sourceId: 'naif-pck00011' },
     description: { text: 'The Sun is the star at the heart of our solar system. Its gravity holds the solar system together, keeping everything – from the biggest planets to the smallest bits of debris – in its orbit.', sourceId: 'nasa-science-sun' },
-    texture: null,
+    imagery: null,
+    render: { shader: 'sun', atmosphere: null, lommelSeeliger: 0, normalStrength: 0, bandFlow: false },
     display: { color: '#ffd27a', note: 'illustrative' },
   };
 }
@@ -51,7 +52,8 @@ export function makeEarth(): Body {
     rotation: { sourceId: 'naif-pck00011', poleRa: [0, -0.641, 0], poleDec: [90, -0.557, 0], pm: [190.147, 360.9856235, 0], nutPrecRa: [], nutPrecDec: [], nutPrecPm: [], nutPrecAngles: [] },
     shape: { equatorialRadiusKm: 6378.1366, polarRadiusKm: 6356.7519, sourceId: 'naif-pck00011' },
     description: { text: "Earth is the third planet from the Sun, and the fifth largest planet. It's the only place we know of inhabited by living things.", sourceId: 'nasa-science-earth' },
-    texture: null,
+    imagery: null,
+    render: { shader: 'earth', atmosphere: 'earth', lommelSeeliger: 0, normalStrength: 1, bandFlow: false },
     display: { color: '#4c7bd0', note: 'illustrative' },
   };
 }
@@ -81,7 +83,8 @@ export function makeJupiter(): Body {
     rotation: { sourceId: 'naif-pck00011', poleRa: [268.056595, -0.006499, 0], poleDec: [64.495303, 0.002413, 0], pm: [284.95, 870.536, 0], nutPrecRa: [], nutPrecDec: [], nutPrecPm: [], nutPrecAngles: [] },
     shape: { equatorialRadiusKm: 71492, polarRadiusKm: 66854, sourceId: 'naif-pck00011' },
     description: { text: 'Jupiter is the fifth planet from the Sun, and the largest in the solar system – more than twice as massive as the other planets combined.', sourceId: 'nasa-science-jupiter' },
-    texture: null,
+    imagery: null,
+    render: { shader: 'giant', atmosphere: null, lommelSeeliger: 0, normalStrength: 0, bandFlow: true },
     display: { color: '#d6b48a', note: 'illustrative' },
   };
 }

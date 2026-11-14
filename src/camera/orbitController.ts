@@ -73,6 +73,14 @@ export function createOrbitController(initial: OrbitState) {
     focus(bodyId: string, ctx: ControllerContext) {
       state = { ...state, targetId: bodyId, panOffsetKm: ZERO, distanceKm: ctx.bodyRadiusKm(bodyId) * FOCUS_DISTANCE_RADII };
     },
+    setView(view: { distanceKm?: number; azimuthRad?: number; elevationRad?: number }) {
+      state = {
+        ...state,
+        ...(view.distanceKm !== undefined ? { distanceKm: Math.min(MAX_DISTANCE_KM, Math.max(0, view.distanceKm)) } : {}),
+        ...(view.azimuthRad !== undefined ? { azimuthRad: view.azimuthRad } : {}),
+        ...(view.elevationRad !== undefined ? { elevationRad: clamp(view.elevationRad, -MAX_ELEVATION_RAD, MAX_ELEVATION_RAD) } : {}),
+      };
+    },
     update(input: InputDeltas, ctx: ControllerContext): CameraPose {
       const radius = ctx.bodyRadiusKm(state.targetId);
       state = applyOrbitInput(state, input, radius);

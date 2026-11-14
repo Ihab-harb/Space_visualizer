@@ -13,3 +13,8 @@ pipeline/raw/
 Space_visualizer/.obsidian/workspace.json
 Space_visualizer/.obsidian/workspace-mobile.json
 Space_visualizer/.trash/
+
+# Texture tiers generated locally by `npm run textures:hd`
+public/textures/**/*_4k.webp
+public/textures/**/*_8k.webp
+!public/textures/sky/color_4k.webp

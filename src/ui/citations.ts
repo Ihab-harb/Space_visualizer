@@ -1,5 +1,6 @@
 import { FACT_KEYS } from '../core/catalog/facts';
 import type { Body } from '../core/catalog/schema';
+import { imageryLines } from './imagery';
 
 /** Unique source ids in the order the panel displays them. */
 export function citationOrder(body: Body): string[] {
@@ -15,6 +16,9 @@ export function citationOrder(body: Body): string[] {
   }
   add(body.rotation?.sourceId);
   add(body.shape.sourceId);
+  for (const imageryLine of imageryLines(body)) add(imageryLine.sourceId);
+  add(body.imagery?.rings?.innerKm.sourceId);
+  add(body.imagery?.rings?.outerKm.sourceId);
   return ids;
 }
 

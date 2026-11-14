@@ -35,6 +35,7 @@ interface Rig {
   lastFocusSeq: number;
   lastSelectedId: string | null;
   lastCoRotate: boolean;
+  lastOverrideSeq: number;
 }
 
 export function CameraSystem({ catalog }: { catalog: Catalog }) {
@@ -57,12 +58,29 @@ export function CameraSystem({ catalog }: { catalog: Catalog }) {
       lastFocusSeq: 0,
       lastSelectedId: null,
       lastCoRotate: false,
+      lastOverrideSeq: 0,
     };
   }
 
   useFrame((state) => {
     const r = rig.current!;
     const ctx = makeContext(frame, catalog);
+    const override = useViewStore.getState().cameraOverride;
+    if (override && override.seq !== r.lastOverrideSeq) {
+      r.lastOverrideSeq = override.seq;
+      useViewStore.getState().setView('orbit');
+      r.activeView = 'orbit';
+      r.orbit.focus(override.targetId, ctx);
+      let azimuthRad = override.azDeg !== undefined ? override.azDeg * DEG : undefined;
+      if (override.azFromSunDeg !== undefined) {
+        const body = ctx.bodyPosition(override.targetId) ?? [0, 0, 0];
+        const sunId = catalog.bodies.find((b) => b.category === 'star')?.id;
+        const sun = (sunId && ctx.bodyPosition(sunId)) || [0, 0, 0];
+        azimuthRad = Math.atan2(sun[1] - body[1], sun[0] - body[0]) + override.azFromSunDeg * DEG;
+      }
+      r.orbit.setView({ distanceKm: override.distanceKm, azimuthRad, elevationRad: override.elDeg !== undefined ? override.elDeg * DEG : undefined });
+      r.transition = null;
+    }
     const now = state.clock.elapsedTime;
     const { view, coRotate, focusRequest } = useViewStore.getState();
     const selectedId = useSelectionStore.getState().selectedId;
