@@ -36,7 +36,7 @@ Layer names, states and compositions come from the NASA `/facts/` pages of each 
 - **Journal:** The Planetary Science Journal, DOI [10.3847/PSJ/ac7ec8](https://doi.org/10.3847/PSJ/ac7ec8).
 - **Open copy used:** none needed. The quote is on the DOI landing page (IOP, open access), which the pipeline fetches.
 - **Quote:** "a dilute core of heavy elements that are distributed as far out as 63% of the planet's radius"
-- **Backs:** the Jupiter dilute core, 0 to 63 % of the radius (44,043.9 km on the built data). `uncertain`. The envelope and metallic hydrogen layers above it share 100 % to 63 % evenly, as illustrative sizes with no number.
+- **Backs:** the Jupiter dilute core, 0 to 63 % of the radius (44,043.9 km on the built data). `uncertain`. The envelope and metallic hydrogen layers above it share 100 % to 63 % evenly, as illustrative sizes with no number. The core's gradual outer boundary is cited to NASA's Jupiter facts page ("no clear separation from the metallic hydrogen around it ... dilute, or "fuzzy""), not to this paper.
 
 ### Mankovich and Fuller 2021 (Saturn diffuse core)
 - **Authors, year:** Mankovich and Fuller, 2021.
@@ -44,7 +44,7 @@ Layer names, states and compositions come from the NASA `/facts/` pages of each 
 - **Journal:** Nature Astronomy, DOI [10.1038/s41550-021-01448-3](https://doi.org/10.1038/s41550-021-01448-3).
 - **Open copy used:** arXiv [2104.13385](https://arxiv.org/abs/2104.13385), v2 of 3 May 2021 (before the 16 August 2021 publication; no journal-ref field). The published Nature Astronomy page, fetched with a browser user agent, carries the identical sentence (the pipeline's own user agent is redirected to a cookie gate there). Semantic Scholar lists the arXiv PDF as the open copy of this DOI.
 - **Quote:** "a diffuse, stably stratified core-envelope transition region in Saturn extending to approximately 60% of the planet's radius and containing approximately 17 Earth masses of ice and rock"
-- **Backs:** the Saturn diffuse core, 0 to 60 % of the radius (34,939.2 km), its composition text and its state. `uncertain`. The UI says "about 60 % of the radius" (wording table, because the data has no field for "approximately").
+- **Backs:** the Saturn diffuse core, 0 to 60 % of the radius (34,939.2 km), its composition text and its gradual outer boundary ("diffuse ... transition region", drawn as a soft band). Not its state: the layer's state is `unknown` and shows no citation. `uncertain`. The UI says "about 60 % of the radius" (wording table, because the data has no field for "approximately").
 
 ## Candidates kept as official only
 NASA `/facts/` pages used for names, order, states and compositions: Venus, Jupiter, Saturn, Uranus and Neptune. For Uranus and Neptune the layers are all `illustrative`: the NASA sentence "Most (80% or more) of the planet's mass is made up of a hot dense fluid of "icy" materials - water, methane, and ammonia - above a small rocky core" gives the order, not sizes. The UI shows "Layer sizes are not to scale" and the radius is shared in thirds, which overstates the core and the envelope-mantle position.
