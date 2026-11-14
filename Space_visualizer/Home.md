@@ -23,8 +23,8 @@ A 3D, time-accurate solar system in the browser — every fact cited to an offic
 - [[2026-10-05-m2a2-cinematic-effects-and-quality|M2a.2 Cinematic effects and adaptive quality]] — complete
 - [[2026-10-07-m2a3-interface-and-tour|M2a.3 Interface redesign, Tour and Venus radar]] — complete
 - [[2026-10-10-m2b1-body-details|M2b.1 Body details data]] — complete
-- [[2026-10-29-m2b2-moon|M2b.2 The Moon]] — complete (review pending)
-- [[2026-10-30-m2b3-explore-interior|M2b.3 Explore mode, interior cutaway and composition charts]] — complete (review pending)
+- [[2026-10-29-m2b2-moon|M2b.2 The Moon]] — complete (reviewed; PR #6)
+- [[2026-10-30-m2b3-explore-interior|M2b.3 Explore mode, interior cutaway and composition charts]] — complete (reviewed; not pushed)
 - [[2026-10-16-cloud-sessions-setup|Cloud sessions setup]] — awaiting review
 - [[2026-10-16-cloud-task-queue|Cloud task queue]] — open (jobs for cloud sessions)
 
