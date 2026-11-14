@@ -38,7 +38,7 @@ This note gives a new chat, or a new person, what it needs to carry on: the goal
   See [[Overview]].
 
 ## 3. Working agreements (decided by the user)
-- **Sections and pull requests:** work proceeds in sections (M2a.1, M2a.2, M2a.3, M2b.1 and so on), each on its own branch with **its own PR**. If the previous section's PR is unmerged, branch from that section's branch and target the PR at it, so it is stacked. Branches are created **in place**, not in a git worktree, so the Obsidian vault shows changes live.
+- **Sections and pull requests:** work proceeds in sections (M2a.1, M2a.2, M2a.3, M2b.1 and so on), each on its own branch with **its own PR**. If the previous section's PR is unmerged, branch from that section's branch and target the PR at it, so it is stacked. **A completed section is merged into `main`** (the user, 2026-11-15): bottom-up, with merge commits (never squash, it breaks the stack), each PR pointed at `main` first; branches are kept. A section with open steps waits. Branches are created **in place**, not in a git worktree, so the Obsidian vault shows changes live.
 - **Commits and pushes:** only when asked, or as the agreed end-of-section step. Every commit message ends with:
   `Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>`
   PR descriptions end with `🤖 Generated with [Claude Code](https://claude.com/claude-code)`.
@@ -102,5 +102,6 @@ In short: a cloud session starts from GitHub, not this PC, so push first. It has
 - **As of 2026-11-15:**
   - **M2b.3 is finished:** the whole-branch review, its fix wave (depth ruler, soft bands for gradual cores, loading and error states, and more) and the scoped re-review are all done, and the re-review's minors are fixed. 1,033 unit tests, typecheck clean, full end-to-end 121 of 122 in one pass (the one failure is a timing test under machine load; it passed in the rerun). **Still not pushed; no PR is open.** The user decides: push and open the PR on `cloud-setup`, merge locally, or keep the branch.
   - **Open for the user:** the list in [[2026-10-30-session-m2b3-explore]] ("Open for the user"), items 1 to 8.
+  - **PRs merged (2026-11-15):** #1 to #6 (M1, M2a.1, M2a.2, M2a.3, M2b.1, M2b.2) are merged into `main` with merge commits, at the user's request that completed sections be merged. **#7 (cloud setup) is open**, now based on `main`; it waits because setup Task 1 (GitHub App and cloud environment) and Task 4 (CI) are still to do. M2b.3 stacks on it.
   - **Next:** unchanged, M2b.4 (above), then M2b.5 (chapters), then M2c (Exhibit mode). The milestone table is in M2 spec §3.
 - **Known gap:** the per-task rulings of M2a.1 and M2a.2 were not preserved, because those ledgers were deleted before rulings were copied into the vault. Their outcomes are in [[Changelog]], [[2026-10-05-m2a1-carry-over]], [[0007-tone-mapping-and-exposure]] and [[render]].

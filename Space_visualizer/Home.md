@@ -17,13 +17,13 @@ A 3D, time-accurate solar system in the browser — every fact cited to an offic
 - [[2026-10-30-m2b3-explore-interior-design|M2b.3 spec: Explore mode, interior cutaway and composition charts]] — approved
 
 ## Plans
-- [[2026-10-04-m1-foundation|M1 Foundation]] — complete
-- [[2026-10-04-m2a1-imagery-and-shading|M2a.1 Imagery and Realistic shading]] — complete
+- [[2026-10-04-m1-foundation|M1 Foundation]] — complete (merged, PR #1)
+- [[2026-10-04-m2a1-imagery-and-shading|M2a.1 Imagery and Realistic shading]] — complete (merged, PR #2)
 - [[2026-10-05-m2a1-carry-over|M2a.1 carry-over items]] — open (M2a.3 items done; M2b and M2c items remain)
-- [[2026-10-05-m2a2-cinematic-effects-and-quality|M2a.2 Cinematic effects and adaptive quality]] — complete
-- [[2026-10-07-m2a3-interface-and-tour|M2a.3 Interface redesign, Tour and Venus radar]] — complete
-- [[2026-10-10-m2b1-body-details|M2b.1 Body details data]] — complete
-- [[2026-10-29-m2b2-moon|M2b.2 The Moon]] — complete (reviewed; PR #6)
+- [[2026-10-05-m2a2-cinematic-effects-and-quality|M2a.2 Cinematic effects and adaptive quality]] — complete (merged, PR #3)
+- [[2026-10-07-m2a3-interface-and-tour|M2a.3 Interface redesign, Tour and Venus radar]] — complete (merged, PR #4)
+- [[2026-10-10-m2b1-body-details|M2b.1 Body details data]] — complete (merged, PR #5)
+- [[2026-10-29-m2b2-moon|M2b.2 The Moon]] — complete (merged, PR #6)
 - [[2026-10-30-m2b3-explore-interior|M2b.3 Explore mode, interior cutaway and composition charts]] — complete (reviewed; not pushed)
 - [[2026-10-16-cloud-sessions-setup|Cloud sessions setup]] — awaiting review
 - [[2026-10-16-cloud-task-queue|Cloud task queue]] — open (jobs for cloud sessions)
