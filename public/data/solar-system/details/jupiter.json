@@ -1,0 +1,186 @@
+{
+  "schemaVersion": 1,
+  "bodyId": "jupiter",
+  "generatedAt": "2026-10-15T22:30:26.775Z",
+  "interior": null,
+  "atmosphere": {
+    "basis": "by volume, uncertainty in parentheses",
+    "major": [
+      {
+        "name": "Molecular hydrogen",
+        "formula": "H2",
+        "amount": 89.8,
+        "uncertainty": 2,
+        "unit": "%",
+        "sourceId": "nssdca-jupiter-fact-sheet"
+      },
+      {
+        "name": "Helium",
+        "formula": "He",
+        "amount": 10.2,
+        "uncertainty": 2,
+        "unit": "%",
+        "sourceId": "nssdca-jupiter-fact-sheet"
+      }
+    ],
+    "minor": [
+      {
+        "name": "Methane",
+        "formula": "CH4",
+        "amount": 3000,
+        "uncertainty": 1000,
+        "unit": "ppm",
+        "sourceId": "nssdca-jupiter-fact-sheet"
+      },
+      {
+        "name": "Ammonia",
+        "formula": "NH3",
+        "amount": 260,
+        "uncertainty": 40,
+        "unit": "ppm",
+        "sourceId": "nssdca-jupiter-fact-sheet"
+      },
+      {
+        "name": "Hydrogen Deuteride",
+        "formula": "HD",
+        "amount": 28,
+        "uncertainty": 10,
+        "unit": "ppm",
+        "sourceId": "nssdca-jupiter-fact-sheet"
+      },
+      {
+        "name": "Ethane",
+        "formula": "C2H6",
+        "amount": 5.8,
+        "uncertainty": 1.5,
+        "unit": "ppm",
+        "sourceId": "nssdca-jupiter-fact-sheet"
+      },
+      {
+        "name": "Water",
+        "formula": "H2O",
+        "amount": 4,
+        "uncertainty": null,
+        "unit": "ppm",
+        "sourceId": "nssdca-jupiter-fact-sheet"
+      }
+    ],
+    "note": {
+      "text": "Aerosols: Ammonia ice, water ice, ammonia hydrosulfide",
+      "sourceId": "nssdca-jupiter-fact-sheet"
+    }
+  },
+  "magnetosphere": {
+    "kind": "dipole",
+    "strengthGaussR3": {
+      "value": 4.3,
+      "sourceId": "nssdca-jupiter-fact-sheet"
+    },
+    "tiltDeg": {
+      "value": 9.4,
+      "sourceId": "nssdca-jupiter-fact-sheet"
+    },
+    "tiltLongitudeDeg": {
+      "value": 200.1,
+      "sourceId": "nssdca-jupiter-fact-sheet"
+    },
+    "dipolePole": null,
+    "offsetRadii": {
+      "value": 0.119,
+      "sourceId": "nssdca-jupiter-fact-sheet"
+    },
+    "referenceRadiusKm": {
+      "value": 71398,
+      "sourceId": "nssdca-jupiter-fact-sheet"
+    },
+    "surfaceFieldGauss": {
+      "min": 4,
+      "max": 13,
+      "sourceId": "nssdca-jupiter-fact-sheet"
+    }
+  },
+  "missions": [
+    {
+      "id": "pioneer-10",
+      "name": "Pioneer 10",
+      "agency": "NASA",
+      "type": "flyby",
+      "launchDate": "1972-03-02",
+      "arrivalDate": "1973-12-04",
+      "endDate": "2003-01-23",
+      "outcome": "success",
+      "sourceId": "nasa-mission-pioneer-10"
+    },
+    {
+      "id": "voyager-2",
+      "name": "Voyager 2",
+      "agency": "NASA",
+      "type": "flyby",
+      "launchDate": "1977-08-20",
+      "arrivalDate": "1979-07-09",
+      "endDate": null,
+      "outcome": "ongoing",
+      "sourceId": "nasa-mission-voyager-2"
+    },
+    {
+      "id": "voyager-1",
+      "name": "Voyager 1",
+      "agency": "NASA",
+      "type": "flyby",
+      "launchDate": "1977-09-05",
+      "arrivalDate": "1979-03-05",
+      "endDate": null,
+      "outcome": "ongoing",
+      "sourceId": "nasa-mission-voyager-1"
+    },
+    {
+      "id": "galileo",
+      "name": "Galileo",
+      "agency": "NASA",
+      "type": "orbiter",
+      "launchDate": "1989-10-18",
+      "arrivalDate": "1995-12-07",
+      "endDate": "2003-09-21",
+      "outcome": "success",
+      "sourceId": "nasa-mission-galileo"
+    },
+    {
+      "id": "juno",
+      "name": "Juno",
+      "agency": "NASA",
+      "type": "orbiter",
+      "launchDate": "2011-08-05",
+      "arrivalDate": "2016-07-04",
+      "endDate": null,
+      "outcome": "ongoing",
+      "sourceId": "nasa-mission-juno"
+    },
+    {
+      "id": "juice",
+      "name": "Juice",
+      "agency": "ESA",
+      "type": "orbiter",
+      "launchDate": "2023-04-14",
+      "arrivalDate": null,
+      "endDate": null,
+      "outcome": "ongoing",
+      "sourceId": "nasa-mission-juice"
+    },
+    {
+      "id": "europa-clipper",
+      "name": "Europa Clipper",
+      "agency": "NASA",
+      "type": "orbiter",
+      "launchDate": "2024-10-14",
+      "arrivalDate": null,
+      "endDate": null,
+      "outcome": "ongoing",
+      "sourceId": "nasa-mission-europa-clipper"
+    }
+  ],
+  "discovery": {
+    "kind": "antiquity",
+    "sourceId": "nasa-spaceplace-jupiter"
+  },
+  "features": null
+}

@@ -99,6 +99,8 @@ test('jumps in time and warns about accuracy', async ({ page }) => {
 
 test('cites the official imagery for Earth', async ({ page }) => {
   await page.goto('/?target=earth&pause=1&quality=low');
+  // F needs the URL target's selection, which lands with the canvas.
+  await expect(page.locator('canvas')).toBeVisible();
   await page.keyboard.press('f');
   const panel = page.getByRole('complementary', { name: 'Body information' });
   const imagery = panel.locator('section', { has: page.getByRole('heading', { name: 'Imagery' }) });

@@ -1,0 +1,142 @@
+{
+  "schemaVersion": 1,
+  "bodyId": "saturn",
+  "generatedAt": "2026-10-15T22:30:26.775Z",
+  "interior": null,
+  "atmosphere": {
+    "basis": "by volume, uncertainty in parentheses",
+    "major": [
+      {
+        "name": "Molecular hydrogen",
+        "formula": "H2",
+        "amount": 96.3,
+        "uncertainty": 2.4,
+        "unit": "%",
+        "sourceId": "nssdca-saturn-fact-sheet"
+      },
+      {
+        "name": "Helium",
+        "formula": "He",
+        "amount": 3.25,
+        "uncertainty": 2.4,
+        "unit": "%",
+        "sourceId": "nssdca-saturn-fact-sheet"
+      }
+    ],
+    "minor": [
+      {
+        "name": "Methane",
+        "formula": "CH4",
+        "amount": 4500,
+        "uncertainty": 2000,
+        "unit": "ppm",
+        "sourceId": "nssdca-saturn-fact-sheet"
+      },
+      {
+        "name": "Ammonia",
+        "formula": "NH3",
+        "amount": 125,
+        "uncertainty": 75,
+        "unit": "ppm",
+        "sourceId": "nssdca-saturn-fact-sheet"
+      },
+      {
+        "name": "Hydrogen Deuteride",
+        "formula": "HD",
+        "amount": 110,
+        "uncertainty": 58,
+        "unit": "ppm",
+        "sourceId": "nssdca-saturn-fact-sheet"
+      },
+      {
+        "name": "Ethane",
+        "formula": "C2H6",
+        "amount": 7,
+        "uncertainty": 1.5,
+        "unit": "ppm",
+        "sourceId": "nssdca-saturn-fact-sheet"
+      }
+    ],
+    "note": {
+      "text": "Aerosols: Ammonia ice, water ice, ammonia hydrosulfide",
+      "sourceId": "nssdca-saturn-fact-sheet"
+    }
+  },
+  "magnetosphere": {
+    "kind": "dipole",
+    "strengthGaussR3": {
+      "value": 0.215,
+      "sourceId": "nssdca-saturn-fact-sheet"
+    },
+    "tiltDeg": {
+      "value": 0,
+      "sourceId": "nssdca-saturn-fact-sheet"
+    },
+    "tiltLongitudeDeg": null,
+    "dipolePole": null,
+    "offsetRadii": {
+      "value": 0.038,
+      "sourceId": "nssdca-saturn-fact-sheet"
+    },
+    "referenceRadiusKm": {
+      "value": 60330,
+      "sourceId": "nssdca-saturn-fact-sheet"
+    },
+    "surfaceFieldGauss": {
+      "min": 0.18,
+      "max": 0.84,
+      "sourceId": "nssdca-saturn-fact-sheet"
+    }
+  },
+  "missions": [
+    {
+      "id": "pioneer-11",
+      "name": "Pioneer 11",
+      "agency": "NASA",
+      "type": "flyby",
+      "launchDate": "1973-04-06",
+      "arrivalDate": "1979-09-01",
+      "endDate": "1995-11-24",
+      "outcome": "success",
+      "sourceId": "nasa-mission-pioneer-11"
+    },
+    {
+      "id": "voyager-2",
+      "name": "Voyager 2",
+      "agency": "NASA",
+      "type": "flyby",
+      "launchDate": "1977-08-20",
+      "arrivalDate": "1981-08-25",
+      "endDate": null,
+      "outcome": "ongoing",
+      "sourceId": "nasa-mission-voyager-2"
+    },
+    {
+      "id": "voyager-1",
+      "name": "Voyager 1",
+      "agency": "NASA",
+      "type": "flyby",
+      "launchDate": "1977-09-05",
+      "arrivalDate": "1980-11-12",
+      "endDate": null,
+      "outcome": "ongoing",
+      "sourceId": "nasa-mission-voyager-1"
+    },
+    {
+      "id": "cassini-huygens",
+      "name": "Cassini-Huygens",
+      "agency": "NASA/ESA/ASI",
+      "type": "orbiter",
+      "launchDate": "1997-10-15",
+      "arrivalDate": "2004-06-30",
+      "endDate": "2017-09-15",
+      "outcome": "success",
+      "sourceId": "nasa-jpl-cassini"
+    }
+  ],
+  "discovery": {
+    "kind": "antiquity",
+    "sourceId": "nasa-science-saturn-facts-history"
+  },
+  "features": null
+}

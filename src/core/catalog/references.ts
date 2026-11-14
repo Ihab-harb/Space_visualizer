@@ -5,7 +5,7 @@ export function collectSourceIds(value: unknown, path: string[] = []): Array<{ p
   if (value !== null && typeof value === 'object') {
     const found: Array<{ path: string; sourceId: string }> = [];
     for (const [key, child] of Object.entries(value)) {
-      if (key === 'sourceId' && typeof child === 'string') found.push({ path: [...path, key].join('.'), sourceId: child });
+      if ((key === 'sourceId' || key.endsWith('SourceId')) && typeof child === 'string') found.push({ path: [...path, key].join('.'), sourceId: child });
       else found.push(...collectSourceIds(child, [...path, key]));
     }
     return found;

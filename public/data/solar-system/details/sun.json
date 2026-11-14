@@ -1,0 +1,258 @@
+{
+  "schemaVersion": 1,
+  "bodyId": "sun",
+  "generatedAt": "2026-10-15T22:30:26.775Z",
+  "interior": {
+    "layers": [
+      {
+        "id": "convection-zone",
+        "name": "Convection zone",
+        "outerRadiusKm": {
+          "min": 695700,
+          "max": 695700,
+          "sourceId": "nasa-msfc-solar-interior",
+          "from": "depth",
+          "stated": {
+            "min": 0,
+            "max": 0
+          }
+        },
+        "innerRadiusKm": {
+          "min": 495700,
+          "max": 495700,
+          "sourceId": "nasa-msfc-solar-interior",
+          "from": "depth",
+          "stated": {
+            "min": 200000,
+            "max": 200000
+          }
+        },
+        "from": "depth",
+        "state": "plasma",
+        "composition": null,
+        "uncertain": false
+      },
+      {
+        "id": "radiative-zone",
+        "name": "Radiative zone",
+        "outerRadiusKm": {
+          "min": 493947,
+          "max": 493947,
+          "sourceId": "nasa-gsfc-sun-structure",
+          "from": "percent",
+          "stated": {
+            "min": 71,
+            "max": 71
+          }
+        },
+        "innerRadiusKm": {
+          "min": 173925,
+          "max": 173925,
+          "sourceId": "nasa-msfc-solar-interior",
+          "from": "percent",
+          "stated": {
+            "min": 25,
+            "max": 25
+          }
+        },
+        "from": "percent",
+        "state": "plasma",
+        "composition": null,
+        "uncertain": false
+      },
+      {
+        "id": "core",
+        "name": "Core",
+        "outerRadiusKm": {
+          "min": 173925,
+          "max": 173925,
+          "sourceId": "nasa-gsfc-sun-structure",
+          "from": "percent",
+          "stated": {
+            "min": 25,
+            "max": 25
+          }
+        },
+        "innerRadiusKm": {
+          "min": 0,
+          "max": 0,
+          "sourceId": "nasa-gsfc-sun-structure",
+          "from": "percent",
+          "stated": {
+            "min": 0,
+            "max": 0
+          }
+        },
+        "from": "percent",
+        "state": "plasma",
+        "composition": null,
+        "uncertain": false
+      }
+    ]
+  },
+  "atmosphere": {
+    "basis": "photosphere",
+    "major": [
+      {
+        "name": "Hydrogen",
+        "formula": "H",
+        "amount": 90.965,
+        "uncertainty": null,
+        "unit": "%",
+        "sourceId": "nssdca-sun-fact-sheet"
+      },
+      {
+        "name": "Helium",
+        "formula": "He",
+        "amount": 8.889,
+        "uncertainty": null,
+        "unit": "%",
+        "sourceId": "nssdca-sun-fact-sheet"
+      }
+    ],
+    "minor": [
+      {
+        "name": "Oxygen",
+        "formula": "O",
+        "amount": 774,
+        "uncertainty": null,
+        "unit": "ppm",
+        "sourceId": "nssdca-sun-fact-sheet"
+      },
+      {
+        "name": "Carbon",
+        "formula": "C",
+        "amount": 330,
+        "uncertainty": null,
+        "unit": "ppm",
+        "sourceId": "nssdca-sun-fact-sheet"
+      },
+      {
+        "name": "Neon",
+        "formula": "Ne",
+        "amount": 112,
+        "uncertainty": null,
+        "unit": "ppm",
+        "sourceId": "nssdca-sun-fact-sheet"
+      },
+      {
+        "name": "Nitrogen",
+        "formula": "N",
+        "amount": 102,
+        "uncertainty": null,
+        "unit": "ppm",
+        "sourceId": "nssdca-sun-fact-sheet"
+      },
+      {
+        "name": "Iron",
+        "formula": "Fe",
+        "amount": 43,
+        "uncertainty": null,
+        "unit": "ppm",
+        "sourceId": "nssdca-sun-fact-sheet"
+      },
+      {
+        "name": "Magnesium",
+        "formula": "Mg",
+        "amount": 35,
+        "uncertainty": null,
+        "unit": "ppm",
+        "sourceId": "nssdca-sun-fact-sheet"
+      },
+      {
+        "name": "Silicon",
+        "formula": "Si",
+        "amount": 32,
+        "uncertainty": null,
+        "unit": "ppm",
+        "sourceId": "nssdca-sun-fact-sheet"
+      },
+      {
+        "name": "Sulfur",
+        "formula": "S",
+        "amount": 15,
+        "uncertainty": null,
+        "unit": "ppm",
+        "sourceId": "nssdca-sun-fact-sheet"
+      }
+    ],
+    "note": null
+  },
+  "magnetosphere": {
+    "kind": "other",
+    "note": {
+      "text": "Typical field strengths (Gauss): Polar field 1–2 G; Sunspots 3000 G; Prominences 10–100 G; Chromospheric plages 200 G; Bright chromospheric network 25 G; Ephemeral (unipolar) active regions 20 G",
+      "sourceId": "nssdca-sun-fact-sheet"
+    }
+  },
+  "missions": [
+    {
+      "id": "helios-1",
+      "name": "Helios 1",
+      "agency": "NASA/DLR",
+      "type": "probe",
+      "launchDate": "1974-12-10",
+      "arrivalDate": null,
+      "endDate": null,
+      "outcome": "success",
+      "sourceId": "nasa-mission-helios-1"
+    },
+    {
+      "id": "ulysses",
+      "name": "Ulysses",
+      "agency": "ESA/NASA",
+      "type": "orbiter",
+      "launchDate": "1990-10-06",
+      "arrivalDate": null,
+      "endDate": "2009-06-30",
+      "outcome": "success",
+      "sourceId": "nasa-mission-ulysses"
+    },
+    {
+      "id": "soho",
+      "name": "SOHO",
+      "agency": "ESA/NASA",
+      "type": "orbiter",
+      "launchDate": "1995-12-02",
+      "arrivalDate": null,
+      "endDate": null,
+      "outcome": "ongoing",
+      "sourceId": "nasa-mission-soho"
+    },
+    {
+      "id": "sdo",
+      "name": "Solar Dynamics Observatory",
+      "agency": "NASA",
+      "type": "observatory",
+      "launchDate": "2010-02-11",
+      "arrivalDate": null,
+      "endDate": null,
+      "outcome": "ongoing",
+      "sourceId": "nasa-mission-sdo"
+    },
+    {
+      "id": "parker-solar-probe",
+      "name": "Parker Solar Probe",
+      "agency": "NASA",
+      "type": "orbiter",
+      "launchDate": "2018-08-12",
+      "arrivalDate": null,
+      "endDate": null,
+      "outcome": "ongoing",
+      "sourceId": "nasa-mission-parker-solar-probe"
+    },
+    {
+      "id": "solar-orbiter",
+      "name": "Solar Orbiter",
+      "agency": "ESA/NASA",
+      "type": "orbiter",
+      "launchDate": "2020-02-09",
+      "arrivalDate": null,
+      "endDate": null,
+      "outcome": "ongoing",
+      "sourceId": "nasa-mission-solar-orbiter"
+    }
+  ],
+  "discovery": null,
+  "features": null
+}

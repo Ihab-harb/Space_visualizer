@@ -1,0 +1,1026 @@
+{
+  "sources": [
+    {
+      "id": "nasa-spaceplace-mercury",
+      "title": "All About Mercury (NASA Space Place)",
+      "publisher": "NASA Space Place",
+      "url": "https://spaceplace.nasa.gov/all-about-mercury/en/",
+      "license": "NASA public domain (NASA media usage guidelines)"
+    },
+    {
+      "id": "nssdca-mariner-10",
+      "title": "Mariner 10 (NSSDCA Master Catalog)",
+      "publisher": "NASA NSSDCA",
+      "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1973-085A",
+      "license": "NASA public domain (NASA media usage guidelines)"
+    },
+    {
+      "id": "nssdca-messenger",
+      "title": "MESSENGER (NSSDCA Master Catalog)",
+      "publisher": "NASA NSSDCA",
+      "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=2004-030A",
+      "license": "NASA public domain (NASA media usage guidelines)"
+    },
+    {
+      "id": "nasa-mission-bepicolombo",
+      "title": "BepiColombo (NASA Science mission page)",
+      "publisher": "NASA Science",
+      "url": "https://science.nasa.gov/mission/bepicolombo/",
+      "license": "NASA public domain (NASA media usage guidelines)"
+    },
+    {
+      "id": "nasa-spaceplace-venus",
+      "title": "All About Venus (NASA Space Place)",
+      "publisher": "NASA Space Place",
+      "url": "https://spaceplace.nasa.gov/all-about-venus/en/",
+      "license": "NASA public domain (NASA media usage guidelines)"
+    },
+    {
+      "id": "nasa-mission-mariner-2",
+      "title": "Mariner 2 (NASA Science mission page)",
+      "publisher": "NASA Science",
+      "url": "https://science.nasa.gov/mission/mariner-2/",
+      "license": "NASA public domain (NASA media usage guidelines)"
+    },
+    {
+      "id": "nssdca-planetary-chronology",
+      "title": "Chronology of Lunar and Planetary Exploration (NSSDCA)",
+      "publisher": "NASA NSSDCA",
+      "url": "https://nssdc.gsfc.nasa.gov/planetary/chronology.html",
+      "license": "NASA public domain (NASA media usage guidelines)"
+    },
+    {
+      "id": "nasa-mission-magellan",
+      "title": "Magellan (NASA Science mission page)",
+      "publisher": "NASA Science",
+      "url": "https://science.nasa.gov/mission/magellan/",
+      "license": "NASA public domain (NASA media usage guidelines)"
+    },
+    {
+      "id": "nasa-mission-venus-express",
+      "title": "Venus Express (NASA Science mission page)",
+      "publisher": "NASA Science",
+      "url": "https://science.nasa.gov/mission/venus-express/",
+      "license": "NASA public domain (NASA media usage guidelines)"
+    },
+    {
+      "id": "nasa-mission-akatsuki",
+      "title": "Akatsuki (NASA Science mission page)",
+      "publisher": "NASA Science",
+      "url": "https://science.nasa.gov/mission/akatsuki/",
+      "license": "NASA public domain (NASA media usage guidelines)"
+    },
+    {
+      "id": "nasa-sputnik-1",
+      "title": "Sputnik 1 (NASA Image Article)",
+      "publisher": "NASA",
+      "url": "https://www.nasa.gov/image-article/sputnik-1/",
+      "license": "NASA public domain (NASA media usage guidelines)"
+    },
+    {
+      "id": "nasa-mission-explorer-1",
+      "title": "Explorer 1 (NASA Science mission page)",
+      "publisher": "NASA Science",
+      "url": "https://science.nasa.gov/mission/explorer-1/",
+      "license": "NASA public domain (NASA media usage guidelines)"
+    },
+    {
+      "id": "nssdca-tiros-1",
+      "title": "TIROS 1 (NSSDCA Master Catalog)",
+      "publisher": "NASA NSSDCA",
+      "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1960-002B",
+      "license": "NASA public domain (NASA media usage guidelines)"
+    },
+    {
+      "id": "nasa-mission-landsat-1",
+      "title": "Landsat 1 (NASA Science mission page)",
+      "publisher": "NASA Science",
+      "url": "https://science.nasa.gov/mission/landsat-1/",
+      "license": "NASA public domain (NASA media usage guidelines)"
+    },
+    {
+      "id": "nasa-mission-landsat-9",
+      "title": "Landsat 9 (NASA Science mission page)",
+      "publisher": "NASA Science",
+      "url": "https://science.nasa.gov/mission/landsat-9/",
+      "license": "NASA public domain (NASA media usage guidelines)"
+    },
+    {
+      "id": "nasa-spaceplace-mars",
+      "title": "All About Mars (NASA Space Place)",
+      "publisher": "NASA Space Place",
+      "url": "https://spaceplace.nasa.gov/all-about-mars/en/",
+      "license": "NASA public domain (NASA media usage guidelines)"
+    },
+    {
+      "id": "nasa-mission-mariner-4",
+      "title": "Mariner 4 (NASA Science mission page)",
+      "publisher": "NASA Science",
+      "url": "https://science.nasa.gov/mission/mariner-4/",
+      "license": "NASA public domain (NASA media usage guidelines)"
+    },
+    {
+      "id": "nasa-mission-mariner-9",
+      "title": "Mariner 9 (NASA Science mission page)",
+      "publisher": "NASA Science",
+      "url": "https://science.nasa.gov/mission/mariner-9/",
+      "license": "NASA public domain (NASA media usage guidelines)"
+    },
+    {
+      "id": "nasa-mission-viking-1",
+      "title": "Viking 1 (NASA Science mission page)",
+      "publisher": "NASA Science",
+      "url": "https://science.nasa.gov/mission/viking-1/",
+      "license": "NASA public domain (NASA media usage guidelines)"
+    },
+    {
+      "id": "nasa-mission-mars-pathfinder",
+      "title": "Mars Pathfinder (NASA Science mission page)",
+      "publisher": "NASA Science",
+      "url": "https://science.nasa.gov/mission/mars-pathfinder/",
+      "license": "NASA public domain (NASA media usage guidelines)"
+    },
+    {
+      "id": "nasa-mission-mars-global-surveyor",
+      "title": "Mars Global Surveyor (NASA Science mission page)",
+      "publisher": "NASA Science",
+      "url": "https://science.nasa.gov/mission/mars-global-surveyor/",
+      "license": "NASA public domain (NASA media usage guidelines)"
+    },
+    {
+      "id": "nssdca-spirit",
+      "title": "Spirit (Mars Exploration Rover A) (NSSDCA Master Catalog)",
+      "publisher": "NASA NSSDCA",
+      "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=2003-027A",
+      "license": "NASA public domain (NASA media usage guidelines)"
+    },
+    {
+      "id": "nssdca-opportunity",
+      "title": "Opportunity (Mars Exploration Rover B) (NSSDCA Master Catalog)",
+      "publisher": "NASA NSSDCA",
+      "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=2003-032A",
+      "license": "NASA public domain (NASA media usage guidelines)"
+    },
+    {
+      "id": "nasa-mission-msl-curiosity",
+      "title": "Mars Science Laboratory: Curiosity Rover (NASA Science mission page)",
+      "publisher": "NASA Science",
+      "url": "https://science.nasa.gov/mission/msl-curiosity/",
+      "license": "NASA public domain (NASA media usage guidelines)"
+    },
+    {
+      "id": "nasa-mission-insight",
+      "title": "InSight (NASA Science mission page)",
+      "publisher": "NASA Science",
+      "url": "https://science.nasa.gov/mission/insight/",
+      "license": "NASA public domain (NASA media usage guidelines)"
+    },
+    {
+      "id": "nssdca-perseverance",
+      "title": "Mars 2020 (Perseverance) (NSSDCA Master Catalog)",
+      "publisher": "NASA NSSDCA",
+      "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=2020-052A",
+      "license": "NASA public domain (NASA media usage guidelines)"
+    },
+    {
+      "id": "nasa-spaceplace-jupiter",
+      "title": "All About Jupiter (NASA Space Place)",
+      "publisher": "NASA Space Place",
+      "url": "https://spaceplace.nasa.gov/all-about-jupiter/en/",
+      "license": "NASA public domain (NASA media usage guidelines)"
+    },
+    {
+      "id": "nasa-mission-pioneer-10",
+      "title": "Pioneer 10 (NASA Science mission page)",
+      "publisher": "NASA Science",
+      "url": "https://science.nasa.gov/mission/pioneer-10/",
+      "license": "NASA public domain (NASA media usage guidelines)"
+    },
+    {
+      "id": "nasa-mission-voyager-1",
+      "title": "Voyager 1 (NASA Science mission page)",
+      "publisher": "NASA Science",
+      "url": "https://science.nasa.gov/mission/voyager-1/",
+      "license": "NASA public domain (NASA media usage guidelines)"
+    },
+    {
+      "id": "nasa-mission-voyager-2",
+      "title": "Voyager 2 (NASA Science mission page)",
+      "publisher": "NASA Science",
+      "url": "https://science.nasa.gov/mission/voyager-2/",
+      "license": "NASA public domain (NASA media usage guidelines)"
+    },
+    {
+      "id": "nasa-mission-galileo",
+      "title": "Galileo (NASA Science mission page)",
+      "publisher": "NASA Science",
+      "url": "https://science.nasa.gov/mission/galileo/",
+      "license": "NASA public domain (NASA media usage guidelines)"
+    },
+    {
+      "id": "nasa-mission-juno",
+      "title": "Juno (NASA Science mission page)",
+      "publisher": "NASA Science",
+      "url": "https://science.nasa.gov/mission/juno/",
+      "license": "NASA public domain (NASA media usage guidelines)"
+    },
+    {
+      "id": "nasa-mission-juice",
+      "title": "Juice (NASA Science mission page)",
+      "publisher": "NASA Science",
+      "url": "https://science.nasa.gov/mission/juice/",
+      "license": "NASA public domain (NASA media usage guidelines)"
+    },
+    {
+      "id": "nasa-mission-europa-clipper",
+      "title": "Europa Clipper (NASA Science mission page)",
+      "publisher": "NASA Science",
+      "url": "https://science.nasa.gov/mission/europa-clipper/",
+      "license": "NASA public domain (NASA media usage guidelines)"
+    },
+    {
+      "id": "nasa-science-saturn-facts-history",
+      "title": "Saturn: Facts (NASA Science)",
+      "publisher": "NASA Science",
+      "url": "https://science.nasa.gov/saturn/facts/",
+      "license": "NASA public domain (NASA media usage guidelines)"
+    },
+    {
+      "id": "nasa-mission-pioneer-11",
+      "title": "Pioneer 11 (NASA Science mission page)",
+      "publisher": "NASA Science",
+      "url": "https://science.nasa.gov/mission/pioneer-11/",
+      "license": "NASA public domain (NASA media usage guidelines)"
+    },
+    {
+      "id": "nasa-jpl-cassini",
+      "title": "Cassini-Huygens (NASA JPL mission page)",
+      "publisher": "NASA Jet Propulsion Laboratory",
+      "url": "https://www.jpl.nasa.gov/missions/cassini-huygens/",
+      "license": "NASA public domain (NASA media usage guidelines)"
+    },
+    {
+      "id": "nssdca-uranus-fact",
+      "title": "Uranus Fact Sheet (NSSDCA)",
+      "publisher": "NASA NSSDCA",
+      "url": "https://nssdc.gsfc.nasa.gov/planetary/factsheet/uranusfact.html",
+      "license": "NASA public domain (NASA media usage guidelines)"
+    },
+    {
+      "id": "nssdca-neptune-fact",
+      "title": "Neptune Fact Sheet (NSSDCA)",
+      "publisher": "NASA NSSDCA",
+      "url": "https://nssdc.gsfc.nasa.gov/planetary/factsheet/neptunefact.html",
+      "license": "NASA public domain (NASA media usage guidelines)"
+    },
+    {
+      "id": "nasa-mission-helios-1",
+      "title": "Helios 1 (NASA Science mission page)",
+      "publisher": "NASA Science",
+      "url": "https://science.nasa.gov/mission/helios-1/",
+      "license": "NASA public domain (NASA media usage guidelines)"
+    },
+    {
+      "id": "nasa-mission-ulysses",
+      "title": "Ulysses (NASA Science mission page)",
+      "publisher": "NASA Science",
+      "url": "https://science.nasa.gov/mission/ulysses/",
+      "license": "NASA public domain (NASA media usage guidelines)"
+    },
+    {
+      "id": "nasa-mission-soho",
+      "title": "SOHO (NASA Science mission page)",
+      "publisher": "NASA Science",
+      "url": "https://science.nasa.gov/mission/soho/",
+      "license": "NASA public domain (NASA media usage guidelines)"
+    },
+    {
+      "id": "nasa-mission-sdo",
+      "title": "Solar Dynamics Observatory (NASA Science mission page)",
+      "publisher": "NASA Science",
+      "url": "https://science.nasa.gov/mission/sdo/",
+      "license": "NASA public domain (NASA media usage guidelines)"
+    },
+    {
+      "id": "nasa-mission-parker-solar-probe",
+      "title": "Parker Solar Probe (NASA Science mission page)",
+      "publisher": "NASA Science",
+      "url": "https://science.nasa.gov/mission/parker-solar-probe/",
+      "license": "NASA public domain (NASA media usage guidelines)"
+    },
+    {
+      "id": "nasa-mission-solar-orbiter",
+      "title": "Solar Orbiter (NASA Science mission page)",
+      "publisher": "NASA Science",
+      "url": "https://science.nasa.gov/mission/solar-orbiter/",
+      "license": "NASA public domain (NASA media usage guidelines)"
+    }
+  ],
+  "bodies": {
+    "sun": {
+      "discovery": null,
+      "missions": [
+        {
+          "id": "helios-1",
+          "name": "Helios 1",
+          "agency": "NASA/DLR",
+          "type": "probe",
+          "launchDate": "1974-12-10",
+          "arrivalDate": null,
+          "endDate": null,
+          "outcome": "success",
+          "sourceId": "nasa-mission-helios-1",
+          "quotes": [
+            "Helios 1 Type Probe Launch Dec. 10, 1974 Target Sun-Earth Interaction Objective Study solar processes"
+          ]
+        },
+        {
+          "id": "ulysses",
+          "name": "Ulysses",
+          "agency": "ESA/NASA",
+          "type": "orbiter",
+          "launchDate": "1990-10-06",
+          "arrivalDate": null,
+          "endDate": "2009-06-30",
+          "outcome": "success",
+          "sourceId": "nasa-mission-ulysses",
+          "quotes": [
+            "Key Dates Oct. 6, 1990: Launch from the cargo bay of Space Shuttle Discovery Feb. 8, 1992: Ulysses became the fifth spacecraft to reach Jupiter",
+            "Oct. 1, 1995: ESA extended Ulysses' mission and renamed it Second Solar Orbit June 30, 2009: L oss of contact with spacecraft",
+            "Ulysses Type Orbiter Launch Oct. 6, 1990 Target Sun Objective Survey the"
+          ]
+        },
+        {
+          "id": "soho",
+          "name": "SOHO",
+          "agency": "ESA/NASA",
+          "type": "orbiter",
+          "launchDate": "1995-12-02",
+          "arrivalDate": null,
+          "endDate": null,
+          "outcome": "ongoing",
+          "sourceId": "nasa-mission-soho",
+          "quotes": [
+            "Key Dates Dec. 2, 1995: Launch Feb. 14, 1996: Sun-Earth L1 orbit insertion March 25, 2024: 5,000 comets discovered",
+            "Type Orbiter Launch Dec. 2, 1995 Target Sun Objective Study the"
+          ]
+        },
+        {
+          "id": "sdo",
+          "name": "Solar Dynamics Observatory",
+          "agency": "NASA",
+          "type": "observatory",
+          "launchDate": "2010-02-11",
+          "arrivalDate": null,
+          "endDate": null,
+          "outcome": "ongoing",
+          "sourceId": "nasa-mission-sdo",
+          "quotes": [
+            "Type Space Observatory Launch Feb. 11, 2010 Target Sun Objective Study how solar activity"
+          ]
+        },
+        {
+          "id": "parker-solar-probe",
+          "name": "Parker Solar Probe",
+          "agency": "NASA",
+          "type": "orbiter",
+          "launchDate": "2018-08-12",
+          "arrivalDate": null,
+          "endDate": null,
+          "outcome": "ongoing",
+          "sourceId": "nasa-mission-parker-solar-probe",
+          "quotes": [
+            "Type Orbiter Launch Aug. 12, 2018 Target Sun Status Primary Mission in Progress"
+          ]
+        },
+        {
+          "id": "solar-orbiter",
+          "name": "Solar Orbiter",
+          "agency": "ESA/NASA",
+          "type": "orbiter",
+          "launchDate": "2020-02-09",
+          "arrivalDate": null,
+          "endDate": null,
+          "outcome": "ongoing",
+          "sourceId": "nasa-mission-solar-orbiter",
+          "quotes": [
+            "Type Orbiter Launch Feb. 9, 2020 Target Sun Objective Take close-up images of the Sun"
+          ]
+        }
+      ]
+    },
+    "mercury": {
+      "discovery": {
+        "kind": "antiquity",
+        "sourceId": "nasa-spaceplace-mercury",
+        "quote": "Mercury has been known since ancient times because it can be seen without advanced telescopes."
+      },
+      "missions": [
+        {
+          "id": "mariner-10",
+          "name": "Mariner 10",
+          "agency": "NASA",
+          "type": "flyby",
+          "launchDate": "1973-11-03",
+          "arrivalDate": "1974-03-29",
+          "endDate": "1975-03-24",
+          "outcome": "success",
+          "sourceId": "nssdca-mariner-10",
+          "quotes": [
+            "Facts in Brief Launch Date: 1973-11-03 Launch Vehicle: Atlas-Centaur Launch Site: Cape Canaveral",
+            "Mariner 10 crossed the orbit of Mercury on 29 March 1974, at 20:46 UT, at a distance of about 704 km from the surface.",
+            "Engineering tests were continued until 24 March 1975, when the supply of attitude-control gas was depleted and the mission was terminated."
+          ]
+        },
+        {
+          "id": "messenger",
+          "name": "MESSENGER",
+          "agency": "NASA",
+          "type": "orbiter",
+          "launchDate": "2004-08-03",
+          "arrivalDate": "2011-03-18",
+          "endDate": "2015-04-30",
+          "outcome": "success",
+          "sourceId": "nssdca-messenger",
+          "quotes": [
+            "MESSENGER launched on 3 August 2004 at 6:15:56 UT (2:15:56 a.m. EDT) on a Delta 7925H",
+            "Mercury orbit insertion took place with a 15 minute burn starting at 00:45 UT on 18 March 2011",
+            "The MESSENGER spacecraft impacted the surface of Mercury as planned on 30 April 2015 at 19:26 UT"
+          ]
+        },
+        {
+          "id": "bepicolombo",
+          "name": "BepiColombo",
+          "agency": "ESA/JAXA",
+          "type": "orbiter",
+          "launchDate": "2018-10-20",
+          "arrivalDate": null,
+          "endDate": null,
+          "outcome": "ongoing",
+          "sourceId": "nasa-mission-bepicolombo",
+          "quotes": [
+            "Launch Date and Time Oct. 20, 2018 | 01:45:28 UT Launch Site Guiana Space Centre, Kourou, French Guiana"
+          ]
+        }
+      ]
+    },
+    "venus": {
+      "discovery": {
+        "kind": "antiquity",
+        "sourceId": "nasa-spaceplace-venus",
+        "quote": "Venus has been known since ancient times because it can be seen easily without a telescope."
+      },
+      "missions": [
+        {
+          "id": "mariner-2",
+          "name": "Mariner 2",
+          "agency": "NASA",
+          "type": "flyby",
+          "launchDate": "1962-08-27",
+          "arrivalDate": "1962-12-14",
+          "endDate": "1963-01-03",
+          "outcome": "success",
+          "sourceId": "nasa-mission-mariner-2",
+          "quotes": [
+            "Launch Date Aug. 27, 1962 / 06:53:14 UT Launch Site Cape Canaveral Fla. / Launch Complex 12",
+            "the spacecraft flew by Venus at a range of 21,660 miles (34,854 kilometers) at 19:59:28 UT Dec. 14, 1962.",
+            "NASA maintained contact until 07:00 UT Jan. 3, 1963, when the spacecraft was 53.9 million miles"
+          ]
+        },
+        {
+          "id": "venera-7",
+          "name": "Venera 7",
+          "agency": "USSR",
+          "type": "lander",
+          "launchDate": "1970-08-17",
+          "arrivalDate": null,
+          "endDate": null,
+          "outcome": "success",
+          "sourceId": "nssdca-planetary-chronology",
+          "quotes": [
+            "17 August 1970 - Venus Lander Cosmos 359 - 22 August 1970 - Attempted"
+          ]
+        },
+        {
+          "id": "venera-13",
+          "name": "Venera 13",
+          "agency": "USSR",
+          "type": "lander",
+          "launchDate": "1981-10-30",
+          "arrivalDate": null,
+          "endDate": null,
+          "outcome": "success",
+          "sourceId": "nssdca-planetary-chronology",
+          "quotes": [
+            "30 October 1981 - Venus Orbiter and Lander Venera 14 - 4 November 1981"
+          ]
+        },
+        {
+          "id": "magellan",
+          "name": "Magellan",
+          "agency": "NASA",
+          "type": "orbiter",
+          "launchDate": "1989-05-04",
+          "arrivalDate": "1990-08-10",
+          "endDate": "1994-10-13",
+          "outcome": "success",
+          "sourceId": "nasa-mission-magellan",
+          "quotes": [
+            "Key Dates May 4, 1989: Launch May 5, 1989: Deployed from cargo bay of Space Shuttle Atlantis Aug. 10, 1990: Arrived in Venus orbit Oct. 13, 1994: Contact lost after Magellan was commanded to plunge into the atmosphere of Venus"
+          ]
+        },
+        {
+          "id": "venus-express",
+          "name": "Venus Express",
+          "agency": "ESA",
+          "type": "orbiter",
+          "launchDate": "2005-11-09",
+          "arrivalDate": "2006-04-11",
+          "endDate": "2014-12-16",
+          "outcome": "success",
+          "sourceId": "nasa-mission-venus-express",
+          "quotes": [
+            "Key Dates Nov. 9, 2005: Launch April 11, 2006: Venus orbit insertion Nov. 28, 2014: Contact lost Dec. 16, 2014: ESA officially announced end of the mission"
+          ]
+        },
+        {
+          "id": "akatsuki",
+          "name": "Akatsuki",
+          "agency": "JAXA",
+          "type": "orbiter",
+          "launchDate": "2010-05-21",
+          "arrivalDate": "2015-12-07",
+          "endDate": null,
+          "outcome": "success",
+          "sourceId": "nasa-mission-akatsuki",
+          "quotes": [
+            "Key Dates May 21, 2010: Launch Dec. 6, 2010: Venus Orbit Insertion - 1st Attempt Dec. 7, 2015: Successful Venus Orbit Insertion"
+          ]
+        }
+      ]
+    },
+    "earth": {
+      "discovery": null,
+      "missions": [
+        {
+          "id": "sputnik-1",
+          "name": "Sputnik 1",
+          "agency": "USSR",
+          "type": "orbiter",
+          "launchDate": "1957-10-04",
+          "arrivalDate": null,
+          "endDate": null,
+          "outcome": "success",
+          "sourceId": "nasa-sputnik-1",
+          "quotes": [
+            "On Oct. 4, 1957, Sputnik 1 successfully launched and entered Earth's orbit."
+          ]
+        },
+        {
+          "id": "explorer-1",
+          "name": "Explorer 1",
+          "agency": "NASA",
+          "type": "orbiter",
+          "launchDate": "1958-01-31",
+          "arrivalDate": null,
+          "endDate": "1958-05-23",
+          "outcome": "success",
+          "sourceId": "nasa-mission-explorer-1",
+          "quotes": [
+            "Mission Type First Satellite Partners Jet Propulsion Laboratory Launch Jan. 31, 1958 Last Transmission May 23, 1958"
+          ]
+        },
+        {
+          "id": "tiros-1",
+          "name": "TIROS 1",
+          "agency": "NASA",
+          "type": "orbiter",
+          "launchDate": "1960-04-01",
+          "arrivalDate": null,
+          "endDate": "1960-06-15",
+          "outcome": "success",
+          "sourceId": "nssdca-tiros-1",
+          "quotes": [
+            "Facts in Brief Launch Date: 1960-04-01 Launch Vehicle: Thor Launch Site: Cape Canaveral",
+            "The satellite performed normally from launch until June 15, 1960, when an electrical power failure prevented further useful TV transmission."
+          ]
+        },
+        {
+          "id": "landsat-1",
+          "name": "Landsat 1",
+          "agency": "NASA/USGS",
+          "type": "observatory",
+          "launchDate": "1972-07-23",
+          "arrivalDate": null,
+          "endDate": "1978-01-06",
+          "outcome": "success",
+          "sourceId": "nasa-mission-landsat-1",
+          "quotes": [
+            "Landsat 1 (originally ERTS-1) launched on July 23, 1972, marking the beginning of the world's longest-running Earth observation",
+            "Operating until January 6, 1978, Landsat 1 demonstrated that digital multispectral observations"
+          ]
+        },
+        {
+          "id": "landsat-9",
+          "name": "Landsat 9",
+          "agency": "NASA/USGS",
+          "type": "observatory",
+          "launchDate": "2021-09-27",
+          "arrivalDate": null,
+          "endDate": null,
+          "outcome": "ongoing",
+          "sourceId": "nasa-mission-landsat-9",
+          "quotes": [
+            "Mission Type Earth Observation Partner USGS Launch September 27, 2021 Type Orbiter"
+          ]
+        }
+      ]
+    },
+    "mars": {
+      "discovery": {
+        "kind": "antiquity",
+        "sourceId": "nasa-spaceplace-mars",
+        "quote": "Mars has been known since ancient times because it can be seen without advanced telescopes."
+      },
+      "missions": [
+        {
+          "id": "mariner-4",
+          "name": "Mariner 4",
+          "agency": "NASA",
+          "type": "flyby",
+          "launchDate": "1964-11-28",
+          "arrivalDate": "1965-07-14",
+          "endDate": "1965-10-01",
+          "outcome": "success",
+          "sourceId": "nasa-mission-mariner-4",
+          "quotes": [
+            "Type Flyby Launch Nov. 28, 1964 Target Mars flyby July 14, 1965 The first successful mission to Mars",
+            "NASA maintained contact with the spacecraft until Oct. 1, 1965, when the probe was 192 million miles"
+          ]
+        },
+        {
+          "id": "mariner-9",
+          "name": "Mariner 9",
+          "agency": "NASA",
+          "type": "orbiter",
+          "launchDate": "1971-05-30",
+          "arrivalDate": "1971-11-14",
+          "endDate": "1972-10-27",
+          "outcome": "success",
+          "sourceId": "nasa-mission-mariner-9",
+          "quotes": [
+            "Type Orbiter Launch May 30, 1971 Target Mars entered mars orbit Nov. 14, 1971",
+            "By the time of last contact at 22:32 UT Oct. 27, 1972, when it exhausted gaseous nitrogen for attitude control"
+          ]
+        },
+        {
+          "id": "viking-1",
+          "name": "Viking 1",
+          "agency": "NASA",
+          "type": "lander",
+          "launchDate": "1975-08-20",
+          "arrivalDate": "1976-07-20",
+          "endDate": "1982-11-11",
+          "outcome": "success",
+          "sourceId": "nasa-mission-viking-1",
+          "quotes": [
+            "Key Dates Aug. 20, 1975: Launch June 19, 1976: Spacecraft entered orbit around Mars July 20, 1976: Lander touched down Aug. 7, 1980: Orbiter was shut down after running out of attitude-control propellant Nov. 11, 1982: Lander stopped operating after getting a faulty command"
+          ]
+        },
+        {
+          "id": "mars-pathfinder",
+          "name": "Mars Pathfinder",
+          "agency": "NASA",
+          "type": "lander",
+          "launchDate": "1996-12-04",
+          "arrivalDate": "1997-07-04",
+          "endDate": "1997-09-27",
+          "outcome": "success",
+          "sourceId": "nasa-mission-mars-pathfinder",
+          "quotes": [
+            "Key Facts Launch Dec. 4, 1996 UTC Launch Location Cape Canaveral Air Force Station, Florida Rocket Delta II 7925 Mars Landing July 4, 1997 Landing Site: Ares Vallis, Mars End of Mission Sept. 27, 1997"
+          ]
+        },
+        {
+          "id": "mars-global-surveyor",
+          "name": "Mars Global Surveyor",
+          "agency": "NASA",
+          "type": "orbiter",
+          "launchDate": "1996-11-07",
+          "arrivalDate": "1997-09-12",
+          "endDate": "2006-11-14",
+          "outcome": "success",
+          "sourceId": "nasa-mission-mars-global-surveyor",
+          "quotes": [
+            "Key Dates Launch Date: Nov. 7, 1996 UTC Orbit Insertion: Sept. 12, 1997 End of Mission: Nov. 14, 2006"
+          ]
+        },
+        {
+          "id": "spirit",
+          "name": "Spirit (Mars Exploration Rover A)",
+          "agency": "NASA",
+          "type": "rover",
+          "launchDate": "2003-06-10",
+          "arrivalDate": "2004-01-04",
+          "endDate": "2010-03-22",
+          "outcome": "success",
+          "sourceId": "nssdca-spirit",
+          "quotes": [
+            "Spirit was launched on a standard Delta II 7925 on 10 June 2003 at 17:58:46.773 UT.",
+            "The approach phase lasted from this date until martian atmospheric entry on 4 January 2004.",
+            "The last transmission from Spirit occurred on 22 March 2010."
+          ]
+        },
+        {
+          "id": "opportunity",
+          "name": "Opportunity (Mars Exploration Rover B)",
+          "agency": "NASA",
+          "type": "rover",
+          "launchDate": "2003-07-08",
+          "arrivalDate": "2004-01-25",
+          "endDate": "2018-06-10",
+          "outcome": "success",
+          "sourceId": "nssdca-opportunity",
+          "quotes": [
+            "Opportunity was launched on a heavy Delta II 7925H on 8 July 2003 at 03:18:15 UT",
+            "The approach phase lasted from this date until martian atmospheric entry on 25 January 2004.",
+            "The final communication from the rover was received on 10 June 2018."
+          ]
+        },
+        {
+          "id": "curiosity",
+          "name": "Curiosity (Mars Science Laboratory)",
+          "agency": "NASA",
+          "type": "rover",
+          "launchDate": "2011-11-26",
+          "arrivalDate": "2012-08-06",
+          "endDate": null,
+          "outcome": "ongoing",
+          "sourceId": "nasa-mission-msl-curiosity",
+          "quotes": [
+            "Type Rover Launch / Landing Nov. 26, 2011 / Aug. 6, 2012 Target Mars Objective Determine"
+          ]
+        },
+        {
+          "id": "insight",
+          "name": "InSight",
+          "agency": "NASA",
+          "type": "lander",
+          "launchDate": "2018-05-05",
+          "arrivalDate": "2018-11-26",
+          "endDate": "2022-12-15",
+          "outcome": "success",
+          "sourceId": "nasa-mission-insight",
+          "quotes": [
+            "Key Dates Launched: May 5, 2018 (4:05 a.m. PT/7:05 a.m. ET) Launch Vehicle: Atlas V-401 Launch Location: Vandenberg Air Force Base, California Landed: Nov. 26, 2018, at 11:52:59 a.m. PT (2:52:59 p.m. ET) Landing Site: Elysium Planitia, Mars End of Mission: Dec. 15, 2022"
+          ]
+        },
+        {
+          "id": "perseverance",
+          "name": "Perseverance (Mars 2020)",
+          "agency": "NASA",
+          "type": "rover",
+          "launchDate": "2020-07-30",
+          "arrivalDate": "2021-02-18",
+          "endDate": null,
+          "outcome": "ongoing",
+          "sourceId": "nssdca-perseverance",
+          "quotes": [
+            "Mars 2020 launched on 30 July 2020 at 11:50 UT on an Atlas V-541 from Cape Canaveral Air Force Station.",
+            "After a 7 month cruise, landing took place on 18 February 2021 at 20:55 UT"
+          ]
+        }
+      ]
+    },
+    "jupiter": {
+      "discovery": {
+        "kind": "antiquity",
+        "sourceId": "nasa-spaceplace-jupiter",
+        "quote": "Jupiter has been known since ancient times because it can easily be seen with just our eyes."
+      },
+      "missions": [
+        {
+          "id": "pioneer-10",
+          "name": "Pioneer 10",
+          "agency": "NASA",
+          "type": "flyby",
+          "launchDate": "1972-03-02",
+          "arrivalDate": "1973-12-04",
+          "endDate": "2003-01-23",
+          "outcome": "success",
+          "sourceId": "nasa-mission-pioneer-10",
+          "quotes": [
+            "Key Dates March 2, 1972: Launch July 15, 1972: Spacecraft entered the asteroid belt Dec. 4, 1973: Pioneer 10's closest approach to Jupiter",
+            "Jan. 23, 2003: Pioneer 10's last signal is received on Earth"
+          ]
+        },
+        {
+          "id": "voyager-1",
+          "name": "Voyager 1",
+          "agency": "NASA",
+          "type": "flyby",
+          "launchDate": "1977-09-05",
+          "arrivalDate": "1979-03-05",
+          "endDate": null,
+          "outcome": "ongoing",
+          "sourceId": "nasa-mission-voyager-1",
+          "quotes": [
+            "Launch Date and Time Sept. 5, 1977 / 12:56:01 UT Key Dates March 5, 1979: Jupiter flyby - closest approach Nov. 12, 1980: Saturn flyby - closest approach"
+          ]
+        },
+        {
+          "id": "voyager-2",
+          "name": "Voyager 2",
+          "agency": "NASA",
+          "type": "flyby",
+          "launchDate": "1977-08-20",
+          "arrivalDate": "1979-07-09",
+          "endDate": null,
+          "outcome": "ongoing",
+          "sourceId": "nasa-mission-voyager-2",
+          "quotes": [
+            "Launch Date and Time Aug. 20, 1977 / 14:29:44 UT Key Dates July 9, 1979: Jupiter Flyby Aug 25, 1981: Saturn Flyby Jan 24, 1986: Uranus Flyby Aug 25, 1989: Neptune Flyby"
+          ]
+        },
+        {
+          "id": "galileo",
+          "name": "Galileo",
+          "agency": "NASA",
+          "type": "orbiter",
+          "launchDate": "1989-10-18",
+          "arrivalDate": "1995-12-07",
+          "endDate": "2003-09-21",
+          "outcome": "success",
+          "sourceId": "nasa-mission-galileo",
+          "quotes": [
+            "Mission Launch: Oct. 18, 1989 from Kennedy Space Center, Florida, on space shuttle Atlantis",
+            "Jupiter arrival and orbit insertion: Dec. 7, 1995",
+            "The mission ended when the spacecraft deliberately impacted Jupiter on Sept. 21, 2003."
+          ]
+        },
+        {
+          "id": "juno",
+          "name": "Juno",
+          "agency": "NASA",
+          "type": "orbiter",
+          "launchDate": "2011-08-05",
+          "arrivalDate": "2016-07-04",
+          "endDate": null,
+          "outcome": "ongoing",
+          "sourceId": "nasa-mission-juno",
+          "quotes": [
+            "Type Orbiter Launch Aug. 5, 2011 Target Jupiter Objective Explore the Jovian system",
+            "the Juno spacecraft entered orbit around Jupiter on July 4, 2016."
+          ]
+        },
+        {
+          "id": "juice",
+          "name": "Juice",
+          "agency": "ESA",
+          "type": "orbiter",
+          "launchDate": "2023-04-14",
+          "arrivalDate": null,
+          "endDate": null,
+          "outcome": "ongoing",
+          "sourceId": "nasa-mission-juice",
+          "quotes": [
+            "Type Flyby, Orbiter Launch April 14, 2023 Target Jupiter and its Moons"
+          ]
+        },
+        {
+          "id": "europa-clipper",
+          "name": "Europa Clipper",
+          "agency": "NASA",
+          "type": "orbiter",
+          "launchDate": "2024-10-14",
+          "arrivalDate": null,
+          "endDate": null,
+          "outcome": "ongoing",
+          "sourceId": "nasa-mission-europa-clipper",
+          "quotes": [
+            "Type Orbiter/Flyby LaunchED Oct. 14, 2024 Target Europa: Arrives 2030"
+          ]
+        }
+      ]
+    },
+    "saturn": {
+      "discovery": {
+        "kind": "antiquity",
+        "sourceId": "nasa-science-saturn-facts-history",
+        "quote": "The farthest planet from Earth discovered by the unaided human eye, Saturn has been known since ancient times."
+      },
+      "missions": [
+        {
+          "id": "pioneer-11",
+          "name": "Pioneer 11",
+          "agency": "NASA",
+          "type": "flyby",
+          "launchDate": "1973-04-06",
+          "arrivalDate": "1979-09-01",
+          "endDate": "1995-11-24",
+          "outcome": "success",
+          "sourceId": "nasa-mission-pioneer-11",
+          "quotes": [
+            "Key Dates April 6, 1973: Launch Mid-March, 1974 : Flew through the asteroid belt Dec. 3, 1974: Jupiter flyby Sept. 1, 1979: Saturn flyby Feb. 23, 1990: Crossed the orbit of Neptune Sept. 30, 1995: NASA Ames Research Center made last contact with the spacecraft Nov. 24, 1995: Scientists received last engineering data from Pioneer 11"
+          ]
+        },
+        {
+          "id": "voyager-1",
+          "name": "Voyager 1",
+          "agency": "NASA",
+          "type": "flyby",
+          "launchDate": "1977-09-05",
+          "arrivalDate": "1980-11-12",
+          "endDate": null,
+          "outcome": "ongoing",
+          "sourceId": "nasa-mission-voyager-1",
+          "quotes": [
+            "Launch Date and Time Sept. 5, 1977 / 12:56:01 UT Key Dates March 5, 1979: Jupiter flyby - closest approach Nov. 12, 1980: Saturn flyby - closest approach"
+          ]
+        },
+        {
+          "id": "voyager-2",
+          "name": "Voyager 2",
+          "agency": "NASA",
+          "type": "flyby",
+          "launchDate": "1977-08-20",
+          "arrivalDate": "1981-08-25",
+          "endDate": null,
+          "outcome": "ongoing",
+          "sourceId": "nasa-mission-voyager-2",
+          "quotes": [
+            "Launch Date and Time Aug. 20, 1977 / 14:29:44 UT Key Dates July 9, 1979: Jupiter Flyby Aug 25, 1981: Saturn Flyby Jan 24, 1986: Uranus Flyby Aug 25, 1989: Neptune Flyby"
+          ]
+        },
+        {
+          "id": "cassini-huygens",
+          "name": "Cassini-Huygens",
+          "agency": "NASA/ESA/ASI",
+          "type": "orbiter",
+          "launchDate": "1997-10-15",
+          "arrivalDate": "2004-06-30",
+          "endDate": "2017-09-15",
+          "outcome": "success",
+          "sourceId": "nasa-jpl-cassini",
+          "quotes": [
+            "Mission Statistics Launch Date Oct. 15, 1997 Type Orbiter, Flyby Spacecraft Target Saturn",
+            "June 30, 2004 Cassini arrives at Saturn. Dec. 13, 2004 Cassini-Huygens makes its first flyby",
+            "Sept. 15, 2017 End of Mission as Cassini begins Final Entry into Saturn's Atmosphere."
+          ]
+        }
+      ]
+    },
+    "uranus": {
+      "discovery": {
+        "kind": "discovered",
+        "sourceId": "nssdca-uranus-fact",
+        "by": "William Herschel",
+        "date": "1781-03-13",
+        "method": "telescopic observation",
+        "quote": "Uranus Observational Parameters Discoverer: William Herschel Discovery Date: 13 March 1781 Distance from Earth Minimum"
+      },
+      "missions": [
+        {
+          "id": "voyager-2",
+          "name": "Voyager 2",
+          "agency": "NASA",
+          "type": "flyby",
+          "launchDate": "1977-08-20",
+          "arrivalDate": "1986-01-24",
+          "endDate": null,
+          "outcome": "ongoing",
+          "sourceId": "nasa-mission-voyager-2",
+          "quotes": [
+            "Launch Date and Time Aug. 20, 1977 / 14:29:44 UT Key Dates July 9, 1979: Jupiter Flyby Aug 25, 1981: Saturn Flyby Jan 24, 1986: Uranus Flyby Aug 25, 1989: Neptune Flyby"
+          ]
+        }
+      ]
+    },
+    "neptune": {
+      "discovery": {
+        "kind": "discovered",
+        "sourceId": "nssdca-neptune-fact",
+        "by": "Johann Gottfried Galle (based on predictions by John Couch Adams and Urbain Leverrier)",
+        "date": "1846-09-23",
+        "method": "telescopic search at a mathematically predicted position",
+        "quote": "Neptune Observational Parameters Discoverer: Johann Gottfried Galle (based on predictions by John Couch Adams and Urbain Leverrier) Discovery Date: 23 September 1846 Distance from Earth Minimum"
+      },
+      "missions": [
+        {
+          "id": "voyager-2",
+          "name": "Voyager 2",
+          "agency": "NASA",
+          "type": "flyby",
+          "launchDate": "1977-08-20",
+          "arrivalDate": "1989-08-25",
+          "endDate": null,
+          "outcome": "ongoing",
+          "sourceId": "nasa-mission-voyager-2",
+          "quotes": [
+            "Launch Date and Time Aug. 20, 1977 / 14:29:44 UT Key Dates July 9, 1979: Jupiter Flyby Aug 25, 1981: Saturn Flyby Jan 24, 1986: Uranus Flyby Aug 25, 1989: Neptune Flyby"
+          ]
+        }
+      ]
+    }
+  }
+}

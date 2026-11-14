@@ -7,6 +7,8 @@ import { useSelectionStore } from '../state/selectionStore';
 import { useUiStore } from '../state/uiStore';
 import { useTimeStore } from '../state/timeStore';
 import { useViewStore } from '../state/viewStore';
+import { useDetailsStore } from '../state/detailsStore';
+import { makeJupiterDetails } from '../test/detailsFixtures';
 import { makeCatalogFiles } from '../test/fixtures';
 import { citationModel } from './citations';
 import { FactsDrawer } from './FactsDrawer';
@@ -15,6 +17,7 @@ const files = makeCatalogFiles();
 const catalog = createCatalog(files.regions, files.sources, [files.bodies]);
 
 beforeEach(() => {
+  useDetailsStore.setState({ entries: {} });
   useTimeStore.setState({ jdTdb: 2451545, playing: false });
   useViewStore.setState({ view: 'orbit', focusRequest: null });
   useSelectionStore.setState({ selectedId: 'jupiter' });
@@ -133,5 +136,28 @@ describe('FactsDrawer', () => {
     render(<FactsDrawer catalog={catalog} />);
     expect(scroll).toHaveBeenCalled();
     expect(useUiStore.getState().focusSource).toBeNull();
+  });
+
+  it('appends the details sources after the existing ones and shows the sections', () => {
+    const details = makeJupiterDetails();
+    details.discovery = { kind: 'antiquity', sourceId: 'nasa-science-sun' }; // a source the body does not otherwise cite
+    useDetailsStore.setState({ entries: { jupiter: { status: 'ready', details } } });
+    render(<FactsDrawer catalog={catalog} />);
+    const jupiter = catalog.bodyById.get('jupiter')!;
+    const before = citationModel(catalog, jupiter).order;
+    const after = citationModel(catalog, jupiter, details).order;
+    expect(after.slice(0, before.length)).toEqual(before);
+    expect(after.length).toBeGreaterThan(before.length);
+    const items = within(panel()).getAllByRole('listitem').filter((li) => li.id.startsWith('source-'));
+    expect(items.map((li) => li.id.replace('source-', ''))).toEqual(after.filter((id) => catalog.sources.has(id)));
+    expect(within(panel()).getByRole('heading', { name: 'Magnetic field' })).toBeInTheDocument();
+    expect(within(panel()).getByRole('heading', { name: 'Imagery' })).toBeInTheDocument();
+  });
+
+  it('shows the loading line, then keeps the existing sections', () => {
+    useDetailsStore.setState({ entries: { jupiter: { status: 'loading' } } });
+    render(<FactsDrawer catalog={catalog} />);
+    expect(within(panel()).getByRole('status')).toHaveTextContent('Loading details…');
+    expect(within(panel()).getByRole('heading', { name: 'Position accuracy' })).toBeInTheDocument();
   });
 });
