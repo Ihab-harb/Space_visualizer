@@ -179,6 +179,9 @@
 .explore-card__notes li:focus { outline: none; border-left-color: var(--accent); color: var(--text); }
 .explore-card__sources { display: grid; gap: 4px; margin: 12px 0 0; padding: 10px 0 0; border-top: 1px solid var(--hairline); list-style: none; color: var(--text-muted); font-size: 11.5px; }
 .explore-card__sources a { color: var(--accent); }
+.explore-sources { display: grid; gap: 4px; margin: 12px 0 0; padding: 10px 0 0; border-top: 1px solid var(--hairline); list-style: none; color: var(--text-muted); font-size: 11.5px; }
+.explore-sources a { color: var(--accent); }
+.explore-sources li:focus, .explore-card__sources li:focus { outline: 1px solid var(--accent); outline-offset: 2px; border-radius: 4px; }
 
 /* Floating layer labels (InteriorLabels), drawn in the scene's label layer. Positions are written each frame. */
 .xlabels { position: absolute; inset: 0; pointer-events: none; }

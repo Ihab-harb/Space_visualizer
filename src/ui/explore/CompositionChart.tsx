@@ -1,4 +1,4 @@
-import { useId, useState, type CSSProperties, type ReactNode } from "react";
+import { createContext, useContext, useId, useState, type CSSProperties, type ReactNode } from "react";
 import type { Catalog } from "../../core/catalog/catalog";
 import type { Body } from "../../core/catalog/schema";
 import type { BodyDetails } from "../../core/details/schema";
@@ -29,6 +29,18 @@ const spoken = (b: ChartBar) =>
 
 type Numbers = ReadonlyMap<string, number>;
 
+/**
+ * Where a `[n]` link points and what it says on hover. The facts drawer (the default) lists its sources as `#source-<id>`. In
+ * Explore the drawer is not on screen, so the overlay sets a target that is: the chart panel's Sources list
+ * (`#chart-source-<id>`) with a tooltip naming the source, and `follow` opens that panel first (the strip).
+ */
+export interface CiteTarget {
+  prefix: string;
+  title?: (sourceId: string) => string | undefined;
+  follow?: (sourceId: string) => void;
+}
+export const CiteTargetContext = createContext<CiteTarget>({ prefix: "source-" });
+
 /** The same superscript `[n]` link the facts drawer uses. */
 export function Cite({
   sourceId,
@@ -39,10 +51,20 @@ export function Cite({
   numbers: Numbers;
   forName?: string;
 }) {
+  const target = useContext(CiteTargetContext);
   return (
     <sup className="cite">
       <a
-        href={`#source-${sourceId}`}
+        href={`#${target.prefix}${sourceId}`}
+        title={target.title?.(sourceId)}
+        onClick={
+          target.follow
+            ? (e) => {
+                e.preventDefault();
+                target.follow!(sourceId);
+              }
+            : undefined
+        }
         aria-label={
           forName
             ? `Source ${numbers.get(sourceId)} for ${forName}`

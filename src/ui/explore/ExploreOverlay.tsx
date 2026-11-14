@@ -7,9 +7,10 @@ import { readyDetails, useBodyDetails, useDetailsStore } from '../../state/detai
 import { useExploreStore, type ExploreView } from '../../state/exploreStore';
 import { citationModel } from '../citations';
 import { interiorNotes, layerLabelText } from '../interiorText';
-import { CompositionChart, Cite } from './CompositionChart';
+import { CompositionChart, Cite, CiteTargetContext, type CiteTarget } from './CompositionChart';
 import { compositionModel, compositionPreview } from './compositionModel';
 import { COLOURS_NOTE_ID, LayerCard } from './LayerCard';
+import { SourcesList, sourceTitle } from './SourcesList';
 
 /** Phone width (spec §3.3): floating labels become numbered dots with a tap-to-open list. */
 export const NARROW_QUERY = '(max-width: 720px)';
@@ -108,12 +109,24 @@ function CompositionStrip({ catalog, body, details, openRef }: { catalog: Catalo
   );
 }
 
-/** The full ranked-bar chart, slid up over the strip (a bottom sheet on phones). ✕ or Esc closes it. */
-function ChartPanel({ catalog, body, details }: { catalog: Catalog; body: Body; details: BodyDetails }) {
+/** Prefix of the chart panel's source items: the target of every `[n]` in the strip and the chart while exploring. */
+const CHART_SOURCE = 'chart-source-';
+
+/**
+ * The full ranked-bar chart, slid up over the strip (a bottom sheet on phones), with the sources its values cite. ✕ or Esc
+ * closes it. Opened from a strip citation, focus goes to that source; otherwise to ✕.
+ */
+function ChartPanel({ catalog, body, details, focusSourceId }: { catalog: Catalog; body: Body; details: BodyDetails; focusSourceId: string | null }) {
   const toggleChart = useExploreStore((s) => s.toggleChart);
   const close = useRef<HTMLButtonElement>(null);
   const titleId = useId();
-  useEffect(() => close.current?.focus(), []);
+  const { numbers } = citationModel(catalog, body, details);
+  const model = compositionModel(body, details);
+  const ids = [...new Set([...(model?.bars.map((b) => b.sourceId) ?? []), ...compositionPreview(model, details, body).parts.flatMap((p) => (p.sourceId ? [p.sourceId] : []))])];
+  useEffect(() => {
+    const target = focusSourceId ? document.getElementById(`${CHART_SOURCE}${focusSourceId}`) : null;
+    (target ?? close.current)?.focus();
+  }, [focusSourceId]);
   return (
     <section className="explore-chart glass" role="dialog" aria-labelledby={titleId} data-explore-reserved="chart">
       <div className="explore-chart__head">
@@ -126,6 +139,7 @@ function ChartPanel({ catalog, body, details }: { catalog: Catalog; body: Body; 
       </div>
       <div className="composition-box explore-chart__body">
         <CompositionChart catalog={catalog} body={body} details={details} />
+        <SourcesList catalog={catalog} numbers={numbers} ids={ids} idPrefix={CHART_SOURCE} className="explore-sources" />
       </div>
     </section>
   );
@@ -195,6 +209,21 @@ function Overlay({ catalog, body }: { catalog: Catalog; body: Body }) {
   const root = useRef<HTMLDivElement>(null);
   const openChart = useRef<HTMLButtonElement>(null);
   const [focusNote, setFocusNote] = useState(false);
+  const [chartSourceId, setChartSourceId] = useState<string | null>(null);
+  const toggleChart = useExploreStore((s) => s.toggleChart);
+  // Explore's [n] links: a tooltip naming the source, and a target on screen (the chart panel's Sources list, opened if needed).
+  const citeTarget = useMemo<CiteTarget>(
+    () => ({
+      prefix: CHART_SOURCE,
+      title: (id) => sourceTitle(catalog, id),
+      follow: (id) => {
+        setChartSourceId(id);
+        if (!useExploreStore.getState().chartOpen) toggleChart(true);
+        else document.getElementById(`${CHART_SOURCE}${id}`)?.focus();
+      },
+    }),
+    [catalog, toggleChart],
+  );
   const retry = useDetailsStore((s) => s.retry);
   const drawn = useMemo(() => drawnForDetails(body, details), [body, details]);
   const layers = details?.interior?.layers ?? [];
@@ -210,7 +239,10 @@ function Overlay({ catalog, body }: { catalog: Catalog; body: Body }) {
   // After the chart closes, focus returns to the button that opened it.
   const wasOpen = useRef(chartOpen);
   useEffect(() => {
-    if (wasOpen.current && !chartOpen) openChart.current?.focus();
+    if (wasOpen.current && !chartOpen) {
+      openChart.current?.focus();
+      setChartSourceId(null);
+    }
     wasOpen.current = chartOpen;
   }, [chartOpen]);
   useEffect(() => {
@@ -220,65 +252,67 @@ function Overlay({ catalog, body }: { catalog: Catalog; body: Body }) {
   }, [focusNote, selectedLayerId]);
 
   return (
-    <div ref={root} className={narrow ? 'explore-overlay is-narrow' : 'explore-overlay'} style={{ ['--body-accent' as string]: body.display.color } as CSSProperties}>
-      <div className="explore-top">
-        <div className="explore-title" data-explore-reserved="title">
-          <p className="explore-kicker">Explore · Interior</p>
-          <h1 className="explore-title__name">{body.name}</h1>
-        </div>
-        {status === 'loading' ? (
-          <p className="explore-switch explore-switch--empty glass" role="status" data-explore-reserved="switch">
-            Loading the interior…
-          </p>
-        ) : status === 'error' ? (
-          <div className="explore-switch explore-switch--empty explore-switch--error glass" role="alert" data-explore-reserved="switch">
-            <span>Could not load the interior.</span>
-            <button type="button" className="explore-link" onClick={() => void retry(body.id)}>
-              Retry
-            </button>
+    <CiteTargetContext.Provider value={citeTarget}>
+      <div ref={root} className={narrow ? 'explore-overlay is-narrow' : 'explore-overlay'} style={{ ['--body-accent' as string]: body.display.color } as CSSProperties}>
+        <div className="explore-top">
+          <div className="explore-title" data-explore-reserved="title">
+            <p className="explore-kicker">Explore · Interior</p>
+            <h1 className="explore-title__name">{body.name}</h1>
           </div>
-        ) : noInterior ? (
-          <p className="explore-switch explore-switch--empty glass" data-explore-reserved="switch">
-            No interior data yet
-          </p>
-        ) : (
-          <ViewSwitch />
-        )}
-        <button type="button" className="explore-leave explore-icon-button glass" aria-label="Leave Explore" title="Leave Explore (Esc)" onClick={leave} data-explore-reserved="leave">
-          ✕
-        </button>
-        {layers.length > 0 && (
-          <p className="explore-notes" data-explore-reserved="notes">
-            {notes.estimate && (
-              <span className="tag tag--estimate" title="Some layer sizes come from peer-reviewed research papers">
-                Estimate
-              </span>
-            )}
-            {notes.notToScale && <span className="tag tag--illustrative">Layer sizes are not to scale</span>}
-            <button
-              type="button"
-              className="explore-link"
-              aria-controls={COLOURS_NOTE_ID}
-              onClick={() => {
-                if (!selectedLayerId && layers[0]) selectLayer(layers[0].id);
-                setFocusNote(true);
-              }}
-            >
-              Illustrative colours
-            </button>
-          </p>
-        )}
-      </div>
-      {details && selectedLayerId && (
-        <LayerCard catalog={catalog} body={body} details={details} layerId={selectedLayerId} drawn={drawn} onClose={() => selectLayer(null)} />
-      )}
-      {details && (
-        <div className="explore-bottom">
-          {narrow && <LayerList body={body} details={details} drawnIds={drawn.map((d) => d.id)} />}
-          <CompositionStrip catalog={catalog} body={body} details={details} openRef={openChart} />
+          {status === 'loading' ? (
+            <p className="explore-switch explore-switch--empty glass" role="status" data-explore-reserved="switch">
+              Loading the interior…
+            </p>
+          ) : status === 'error' ? (
+            <div className="explore-switch explore-switch--empty explore-switch--error glass" role="alert" data-explore-reserved="switch">
+              <span>Could not load the interior.</span>
+              <button type="button" className="explore-link" onClick={() => void retry(body.id)}>
+                Retry
+              </button>
+            </div>
+          ) : noInterior ? (
+            <p className="explore-switch explore-switch--empty glass" data-explore-reserved="switch">
+              No interior data yet
+            </p>
+          ) : (
+            <ViewSwitch />
+          )}
+          <button type="button" className="explore-leave explore-icon-button glass" aria-label="Leave Explore" title="Leave Explore (Esc)" onClick={leave} data-explore-reserved="leave">
+            ✕
+          </button>
+          {layers.length > 0 && (
+            <p className="explore-notes" data-explore-reserved="notes">
+              {notes.estimate && (
+                <span className="tag tag--estimate" title="Some layer sizes come from peer-reviewed research papers">
+                  Estimate
+                </span>
+              )}
+              {notes.notToScale && <span className="tag tag--illustrative">Layer sizes are not to scale</span>}
+              <button
+                type="button"
+                className="explore-link"
+                aria-controls={COLOURS_NOTE_ID}
+                onClick={() => {
+                  if (!selectedLayerId && layers[0]) selectLayer(layers[0].id);
+                  setFocusNote(true);
+                }}
+              >
+                Illustrative colours
+              </button>
+            </p>
+          )}
         </div>
-      )}
-      {details && chartOpen && <ChartPanel catalog={catalog} body={body} details={details} />}
-    </div>
+        {details && selectedLayerId && (
+          <LayerCard catalog={catalog} body={body} details={details} layerId={selectedLayerId} drawn={drawn} onClose={() => selectLayer(null)} />
+        )}
+        {details && (
+          <div className="explore-bottom">
+            {narrow && <LayerList body={body} details={details} drawnIds={drawn.map((d) => d.id)} />}
+            <CompositionStrip catalog={catalog} body={body} details={details} openRef={openChart} />
+          </div>
+        )}
+        {details && chartOpen && <ChartPanel catalog={catalog} body={body} details={details} focusSourceId={chartSourceId} />}
+      </div>
+    </CiteTargetContext.Provider>
   );
 }

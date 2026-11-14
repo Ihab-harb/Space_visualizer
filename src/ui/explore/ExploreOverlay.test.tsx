@@ -141,6 +141,30 @@ describe('ExploreOverlay', () => {
     expect(screen.getByText('No interior data yet')).toBeInTheDocument();
   });
 
+  it('every [n] in Explore has somewhere to go: a tooltip naming the source, and a Sources list in the chart panel', async () => {
+    explore('earth');
+    render(<ExploreOverlay catalog={catalog} />);
+    const strip = screen.getByRole('region', { name: 'Composition' });
+    const stripLink = within(strip).getAllByRole('link')[0]!;
+    const sourceId = stripLink.getAttribute('href')!.replace('#chart-source-', '');
+    const source = catalog.sources.get(sourceId)!;
+    expect(stripLink).toHaveAttribute('title', `${source.title} · ${source.publisher}`);
+    // A strip citation opens the full chart on its source.
+    await userEvent.click(stripLink);
+    const panel = screen.getByRole('dialog', { name: 'Composition chart' });
+    const list = within(panel).getByRole('list', { name: 'Sources' });
+    const item = document.getElementById(`chart-source-${sourceId}`)!;
+    expect(list.contains(item)).toBe(true);
+    expect(item).toHaveTextContent(source.title);
+    expect(document.activeElement).toBe(item);
+    // Every citation in the panel points at an item of that list.
+    for (const a of within(panel).getAllByRole('link').filter((l) => l.getAttribute('href')?.startsWith('#'))) {
+      const target = document.getElementById(a.getAttribute('href')!.slice(1));
+      expect(target, a.getAttribute('href')!).not.toBeNull();
+      expect(list.contains(target)).toBe(true);
+    }
+  });
+
   describe('details not ready', () => {
     const enterWith = (entry: Partial<ReturnType<typeof useDetailsStore.getState>>) => {
       useDetailsStore.setState(entry);
