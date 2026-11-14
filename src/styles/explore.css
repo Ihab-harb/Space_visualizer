@@ -91,6 +91,8 @@
 .explore-switch [role='radio']:hover { color: var(--text); }
 .explore-switch [role='radio'][aria-checked='true'] { background: var(--accent-soft); box-shadow: inset 0 0 0 1px var(--accent); color: #fff; }
 .explore-switch--empty { padding: 7px 16px; color: var(--text-muted); font-size: 13px; }
+.explore-switch--error { align-items: center; gap: 10px; color: var(--text); }
+.explore-switch--error .explore-link { font-size: 13px; }
 
 .explore-icon-button {
   display: inline-grid;

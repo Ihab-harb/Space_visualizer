@@ -74,15 +74,17 @@ export function LayerCard({ catalog, body, details, layerId, drawn, onClose }: L
         {shape?.thickened && <span className="tag tag--illustrative">Drawn thicker than scale</span>}
       </p>
       <dl className="explore-card__facts">
-        <div>
-          <dt>Extent</dt>
-          <dd className="num">
-            {extent}
-            {boundSources.map((id) => (
-              <span key={id}>{cite(id)}</span>
-            ))}
-          </dd>
-        </div>
+        {extent && (
+          <div>
+            <dt>Extent</dt>
+            <dd className="num">
+              {extent}
+              {boundSources.map((id) => (
+                <span key={id}>{cite(id)}</span>
+              ))}
+            </dd>
+          </div>
+        )}
         {layer.composition && (
           <div>
             <dt>Made of</dt>

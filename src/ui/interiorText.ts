@@ -44,10 +44,10 @@ export function boundText(r: SourcedRange, w: BoundWording = {}): string {
  * bound is printed in the form and with the numbers its source states (km deep, radius in km, or percent of the radius), never
  * a derived figure. The stored radii are untouched; they are for the cutaway, not for display.
  */
-export function layerExtent(bodyId: string, layer: InteriorLayer): string {
+export function layerExtent(bodyId: string, layer: InteriorLayer): string | null {
   const { outerRadiusKm: outer, innerRadiusKm: inner } = layer;
-  // An illustrative layer shows no number (the Explore view labels it "Illustrative size").
-  if (!outer || !inner) return 'illustrative size';
+  // An illustrative layer has no extent to show; the drawer and the card tag it "Illustrative size" instead.
+  if (!outer || !inner) return null;
   const wo = boundWording(bodyId, layer.id, 'outer');
   const wi = boundWording(bodyId, layer.id, 'inner');
   if (outer.from === 'percent' && inner.from === 'percent' && !isZero(inner) && !wo.about && !wi.about) {

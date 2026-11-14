@@ -3,7 +3,7 @@ import type { Catalog } from '../../core/catalog/catalog';
 import type { Body } from '../../core/catalog/schema';
 import type { BodyDetails } from '../../core/details/schema';
 import { drawnForDetails } from '../../scene/interior/useExploreTransition';
-import { readyDetails, useBodyDetails } from '../../state/detailsStore';
+import { readyDetails, useBodyDetails, useDetailsStore } from '../../state/detailsStore';
 import { useExploreStore, type ExploreView } from '../../state/exploreStore';
 import { citationModel } from '../citations';
 import { interiorNotes, layerLabelText } from '../interiorText';
@@ -195,10 +195,13 @@ function Overlay({ catalog, body }: { catalog: Catalog; body: Body }) {
   const root = useRef<HTMLDivElement>(null);
   const openChart = useRef<HTMLButtonElement>(null);
   const [focusNote, setFocusNote] = useState(false);
+  const retry = useDetailsStore((s) => s.retry);
   const drawn = useMemo(() => drawnForDetails(body, details), [body, details]);
   const layers = details?.interior?.layers ?? [];
   const notes = interiorNotes(layers, drawn);
-  const noInterior = !!details && !details.interior;
+  // What stands in for the view switch when nothing can open: still loading, no details file, a failed load, or no interior.
+  const status = entry?.status ?? 'loading';
+  const noInterior = status === 'missing' || (!!details && !details.interior);
 
   // On entry, focus moves into the overlay: the checked view (or ✕ when there is no switch).
   useEffect(() => {
@@ -223,7 +226,18 @@ function Overlay({ catalog, body }: { catalog: Catalog; body: Body }) {
           <p className="explore-kicker">Explore · Interior</p>
           <h1 className="explore-title__name">{body.name}</h1>
         </div>
-        {noInterior ? (
+        {status === 'loading' ? (
+          <p className="explore-switch explore-switch--empty glass" role="status" data-explore-reserved="switch">
+            Loading the interior…
+          </p>
+        ) : status === 'error' ? (
+          <div className="explore-switch explore-switch--empty explore-switch--error glass" role="alert" data-explore-reserved="switch">
+            <span>Could not load the interior.</span>
+            <button type="button" className="explore-link" onClick={() => void retry(body.id)}>
+              Retry
+            </button>
+          </div>
+        ) : noInterior ? (
           <p className="explore-switch explore-switch--empty glass" data-explore-reserved="switch">
             No interior data yet
           </p>

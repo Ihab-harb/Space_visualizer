@@ -141,6 +141,43 @@ describe('ExploreOverlay', () => {
     expect(screen.getByText('No interior data yet')).toBeInTheDocument();
   });
 
+  describe('details not ready', () => {
+    const enterWith = (entry: Partial<ReturnType<typeof useDetailsStore.getState>>) => {
+      useDetailsStore.setState(entry);
+      useSelectionStore.setState({ selectedId: 'earth' });
+      act(() => useExploreStore.getState().enter('earth'));
+      render(<ExploreOverlay catalog={catalog} />);
+    };
+
+    it('while loading: a short hint and no live view switch', () => {
+      enterWith({ entries: { earth: { status: 'loading' } } });
+      expect(screen.getByRole('status')).toHaveTextContent('Loading the interior…');
+      expect(screen.queryByRole('radiogroup')).toBeNull();
+      expect(screen.queryByRole('region', { name: 'Composition' })).toBeNull();
+    });
+
+    it('when the body has no details file: "No interior data yet" and no switch', () => {
+      enterWith({ entries: { earth: { status: 'missing' } } });
+      expect(screen.getByText('No interior data yet')).toBeInTheDocument();
+      expect(screen.queryByRole('radiogroup')).toBeNull();
+    });
+
+    it('when loading failed: a short message and Retry, which loads again', async () => {
+      const retry = vi.fn().mockResolvedValue(undefined);
+      enterWith({ entries: { earth: { status: 'error', message: 'Could not load details for earth (HTTP 500).' } }, retry });
+      const alert = screen.getByRole('alert');
+      expect(alert).toHaveTextContent('Could not load the interior.');
+      expect(screen.queryByRole('radiogroup')).toBeNull();
+      await userEvent.click(within(alert).getByRole('button', { name: 'Retry' }));
+      expect(retry).toHaveBeenCalledWith('earth');
+    });
+
+    it('focuses the leave button when there is no switch', () => {
+      enterWith({ entries: { earth: { status: 'missing' } } });
+      expect(document.activeElement).toBe(screen.getByRole('button', { name: 'Leave Explore' }));
+    });
+  });
+
   describe('phone width (≤ 720 px)', () => {
     beforeEach(() => setWidth(true));
 

@@ -64,7 +64,7 @@ describe('layerExtent (drawer and layer card)', () => {
     expect(layerExtent('venus', layersOf('venus')[0]!)).toBe('from the surface to about 20 km deep (global average)');
     expect(layerExtent('venus', layersOf('venus')[1]!)).toBe('from about 20 km deep (global average) to radius 2,930–4,350 km');
     expect(layerExtent('sun', layersOf('sun')[1]!)).toBe('from 71 % to 25 % of the radius');
-    expect(layerExtent('jupiter', layersOf('jupiter')[0]!)).toBe('illustrative size');
+    expect(layerExtent('jupiter', layersOf('jupiter')[0]!)).toBeNull();
   });
 });
 

@@ -2,7 +2,7 @@ import type { ReactNode } from 'react';
 import type { Atmosphere, BodyDetails, Gas, InteriorLayer, Magnetosphere, Mission } from '../core/details/schema';
 import { useDetailsStore, type DetailsEntry } from '../state/detailsStore';
 import { formatNumber, subscripts } from './format';
-import { layerExtent } from './interiorText';
+import { layerExtent, layerLabelText } from './interiorText';
 
 type Cite = (sourceId: string) => ReactNode;
 
@@ -16,24 +16,30 @@ const uniq = (ids: string[]) => [...new Set(ids)];
 function Interior({ bodyId, layers, cite }: { bodyId: string; layers: InteriorLayer[]; cite: Cite }) {
   return (
     <ul className="details-list">
-      {layers.map((layer) => (
-        <li key={layer.id} className="details-row">
-          <strong>{layer.name}</strong>
-          <span className="num">{layerExtent(bodyId, layer)}</span>
-          {uniq([layer.outerRadiusKm?.sourceId, layer.innerRadiusKm?.sourceId].filter((id): id is string => id !== undefined)).map((id) => (
-            <span key={id}>{cite(id)}</span>
-          ))}
-          <span className="tag">{layer.state}</span>
-          {layer.stateSourceId && cite(layer.stateSourceId)}
-          {layer.uncertain && <span className="tag uncertain">uncertain</span>}
-          {layer.composition && (
-            <span className="details-row__text">
-              {layer.composition.text}
-              {cite(layer.composition.sourceId)}
-            </span>
-          )}
-        </li>
-      ))}
+      {layers.map((layer, i) => {
+        const extent = layerExtent(bodyId, layer);
+        // The same tags as the Explore layer card: a paper size is an estimate; an unsized layer has an illustrative size.
+        const { tag } = layerLabelText(bodyId, layer, i === layers.length - 1);
+        return (
+          <li key={layer.id} className="details-row">
+            <strong>{layer.name}</strong>
+            {extent && <span className="num">{extent}</span>}
+            {uniq([layer.outerRadiusKm?.sourceId, layer.innerRadiusKm?.sourceId].filter((id): id is string => id !== undefined)).map((id) => (
+              <span key={id}>{cite(id)}</span>
+            ))}
+            {tag && <span className={tag === 'Estimate' ? 'tag tag--estimate' : 'tag tag--illustrative'}>{tag}</span>}
+            <span className="tag">{layer.state}</span>
+            {layer.stateSourceId && cite(layer.stateSourceId)}
+            {layer.uncertain && <span className="tag uncertain">uncertain</span>}
+            {layer.composition && (
+              <span className="details-row__text">
+                {layer.composition.text}
+                {cite(layer.composition.sourceId)}
+              </span>
+            )}
+          </li>
+        );
+      })}
     </ul>
   );
 }

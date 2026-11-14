@@ -93,6 +93,18 @@ describe('DetailsSections', () => {
     expect(row('Mantle').textContent).not.toMatch(/2,886/);
   });
 
+  it('tags each row like the layer card: "Estimate" for a paper size, "Illustrative size" (and no extent) for an unsized layer', () => {
+    const row = interiorRows([
+      { id: 'envelope', name: 'Envelope', from: 'percent', sizeKind: 'illustrative', state: 'unknown', composition: { text: 'Mostly hydrogen and helium.', sourceId: 'src' }, uncertain: false },
+      layer('core', 'Dilute core', bound(0, 0, 'percent', { min: 63, max: 63 }, [44043.93, 44043.93]), bound(0, 0, 'percent', { min: 0, max: 0 }, [0, 0]), { from: 'percent', sizeKind: 'estimate', estimate: true, state: 'unknown' }),
+    ]);
+    expect(within(row('Envelope')).getByText('Illustrative size', { selector: '.tag' })).toBeInTheDocument();
+    expect(row('Envelope').textContent).not.toMatch(/illustrative size/);
+    expect(within(row('Dilute core')).getByText('Estimate', { selector: '.tag' })).toBeInTheDocument();
+    expect(row('Dilute core')).toHaveTextContent('from 63 % of the radius to the centre');
+    expect(within(row('Envelope')).queryByText('Estimate', { selector: '.tag' })).toBeNull();
+  });
+
   it('shows the Jupiter dipole field and omits sections with no data', () => {
     show('jupiter', ready(makeJupiterDetails()));
     expect(screen.getByText('4.3 G·R³')).toBeInTheDocument();
