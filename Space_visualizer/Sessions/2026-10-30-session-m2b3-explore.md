@@ -21,6 +21,7 @@ Back to [[Home]] · Previous: [[2026-10-29-session-m2b2-moon]]
   - "go ahead", then "yes go ahead, and after you finish planning immediately continue with implementation. also dont forget to trigger continue working at precisely 4:11 am".
 - The 4:11 prompt (scheduled on 2026-10-29) fired at 04:11:14; work continued with the plan and the build.
 - 2026-11-15: **"in regards to the PRs the sections that have been fully completed should be merged"**. PRs #1 to #6 were merged into `main` (merge commits, bottom-up). #7 (cloud setup) was left open: its GitHub App and CI steps are not done.
+- 2026-11-15: on M2b.3 and #7, **"disregrad the cloud setup"**, then: **"it means that im no longer going to use claude cloud for work on this project in the forseeable future"**. Cloud sessions are marked shelved in the vault and `CLAUDE.md`; #7 is to be merged as it is, then M2b.3. The merge of #7 was stopped by Claude Code's permission check and waits for the user.
 - 2026-11-06: **"continue"** (after a session restart) and a **6:20 wake-up** the user asked for, which fired at 06:20. Both resumed the build: the restart found Task 6 half done, and the 6:20 wake-up resumed Task 8 after the usage limit.
 
 ## Decisions

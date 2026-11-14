@@ -7,7 +7,7 @@ tags: [index]
 
 A 3D, time-accurate solar system in the browser — every fact cited to an official source — designed to grow to stars and galaxies.
 
-**New chat or new contributor? Read [[Start here]] first**, then the latest note in `Sessions/`. **Cloud session? Read [[Cloud sessions]] first.**
+**New chat or new contributor? Read [[Start here]] first**, then the latest note in `Sessions/`. (Cloud sessions are shelved since 2026-11-15; [[Cloud sessions]] is kept for reference.)
 
 ## Specs
 - [[2026-10-04-solar-system-visualizer-design|Design spec (2026-10-04)]] — approved
@@ -25,8 +25,8 @@ A 3D, time-accurate solar system in the browser — every fact cited to an offic
 - [[2026-10-10-m2b1-body-details|M2b.1 Body details data]] — complete (merged, PR #5)
 - [[2026-10-29-m2b2-moon|M2b.2 The Moon]] — complete (merged, PR #6)
 - [[2026-10-30-m2b3-explore-interior|M2b.3 Explore mode, interior cutaway and composition charts]] — complete (reviewed; not pushed)
-- [[2026-10-16-cloud-sessions-setup|Cloud sessions setup]] — awaiting review
-- [[2026-10-16-cloud-task-queue|Cloud task queue]] — open (jobs for cloud sessions)
+- [[2026-10-16-cloud-sessions-setup|Cloud sessions setup]] — shelved
+- [[2026-10-16-cloud-task-queue|Cloud task queue]] — shelved
 
 ## Architecture
 - [[Overview]]

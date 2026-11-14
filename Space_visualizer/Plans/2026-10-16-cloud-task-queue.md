@@ -1,7 +1,7 @@
 ---
 title: Cloud task queue
 date: 2026-10-16
-status: open
+status: shelved (2026-11-15: the user no longer uses Claude cloud sessions for this project)
 milestone: process
 tags: [plan, process, cloud, backlog]
 ---

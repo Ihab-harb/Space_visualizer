@@ -6,6 +6,8 @@ tags: [index, process, cloud]
 
 # Cloud sessions: how to use them in this project
 
+> **Shelved (2026-11-15):** the user no longer uses Claude cloud sessions for this project, for the foreseeable future. This note is kept for reference.
+
 Back to [[Home]] · [[Start here]] · Work list: [[2026-10-16-cloud-task-queue]] · One-time setup: [[2026-10-16-cloud-sessions-setup]]
 
 **Why they exist here:** to get work out of the way while the user and a local session focus on design, visuals and performance. A cloud session takes one well-defined job from the [[2026-10-16-cloud-task-queue|cloud task queue]], does it on its own branch, and hands back a pushed branch, a PR and a short note.
