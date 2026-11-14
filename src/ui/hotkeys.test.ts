@@ -221,12 +221,15 @@ describe('Explore keys', () => {
     expect(useViewStore.getState().view).toBe('follow');
   });
 
-  it('Esc closes the chart first, then leaves', () => {
+  it('Esc steps back one thing at a time: the chart, then the layer card, then Explore', () => {
     renderHook(() => useHotkeys());
     useExploreStore.getState().enter('earth');
+    useExploreStore.getState().selectLayer('mantle');
     useExploreStore.getState().toggleChart(true);
     fireEvent.keyDown(window, { key: 'Escape' });
-    expect(useExploreStore.getState()).toMatchObject({ active: true, chartOpen: false });
+    expect(useExploreStore.getState()).toMatchObject({ active: true, chartOpen: false, selectedLayerId: 'mantle' });
+    fireEvent.keyDown(window, { key: 'Escape' });
+    expect(useExploreStore.getState()).toMatchObject({ active: true, chartOpen: false, selectedLayerId: null });
     fireEvent.keyDown(window, { key: 'Escape' });
     expect(useExploreStore.getState().active).toBe(false);
   });

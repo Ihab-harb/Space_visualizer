@@ -9,7 +9,7 @@ import { writeMatrix4 } from '../scene/threeMath';
 import { useExploreStore } from '../state/exploreStore';
 import { useSelectionStore } from '../state/selectionStore';
 import { add, scale, sub } from '../core/math/vec3';
-import { EXPLORE_CAMERA, exploreFitScale, exploreFrameRadii, orbitUp } from './explore';
+import { EXPLORE_CAMERA, exploreFitScale, exploreFrameRadii, exploreInput, orbitUp, reframeDistanceKm } from './explore';
 import { NO_INPUT } from './types';
 import { offsetDirection, type OrbitState } from './orbitController';
 import { useTourStore } from '../state/tourStore';
@@ -45,7 +45,7 @@ interface Rig {
   lastOverrideSeq: number;
   tour: { seq: number; startedAt: number; stops: TourStop[]; index: number; flightFrom: CameraPose | null } | null;
   /** Explore: the pose found on entry (restored on leave) and the explode axis captured then. */
-  explore: { bodyId: string; up: [number, number, number]; saved: { view: ViewId; orbit: OrbitState; follow: FollowState } } | null;
+  explore: { bodyId: string; up: [number, number, number]; aspect: number; saved: { view: ViewId; orbit: OrbitState; follow: FollowState } } | null;
 }
 
 export function CameraSystem({ catalog }: { catalog: Catalog }) {
@@ -156,7 +156,7 @@ export function CameraSystem({ catalog }: { catalog: Catalog }) {
       // A portrait phone frames from further back, so the body's whole width fits.
       const aspect = gl.domElement.clientWidth / Math.max(gl.domElement.clientHeight, 1);
       r.orbit.setView({ distanceKm: ctx.bodyRadiusKm(exploreBody) * exploreFrameRadii(frame.fovRad, aspect), elevationRad: st.elevationRad + EXPLORE_CAMERA.tiltRad });
-      r.explore = { bodyId: exploreBody, up: orbitUp(st.azimuthRad, st.elevationRad) as [number, number, number], saved };
+      r.explore = { bodyId: exploreBody, up: orbitUp(st.azimuthRad, st.elevationRad) as [number, number, number], aspect, saved };
       r.activeView = 'orbit';
       // A URL that opens Explore starts there; any other entry flies.
       if (!overrideNow) startTransition();
@@ -174,7 +174,14 @@ export function CameraSystem({ catalog }: { catalog: Catalog }) {
       } else {
         const id = r.explore.bodyId;
         const radius = ctx.bodyRadiusKm(id);
-        r.orbit.update(input.consume(), ctx);
+        const aspectNow = gl.domElement.clientWidth / Math.max(gl.domElement.clientHeight, 1);
+        if (Math.abs(aspectNow - r.explore.aspect) > 1e-3) {
+          // The screen turned (or the window was resized): the framing for the new shape is a floor on the distance.
+          r.orbit.setView({ distanceKm: reframeDistanceKm(r.orbit.getState().distanceKm, radius, frame.fovRad, r.explore.aspect, aspectNow) });
+          r.explore.aspect = aspectNow;
+        }
+        // Orbit and zoom only: a pan would move the body off centre stage.
+        r.orbit.update(exploreInput(input.consume()), ctx);
         const st = r.orbit.getState();
         r.orbit.setView({ distanceKm: Math.min(st.distanceKm, radius * EXPLORE_CAMERA.maxRadii) });
         let pose = r.orbit.update(NO_INPUT, ctx);

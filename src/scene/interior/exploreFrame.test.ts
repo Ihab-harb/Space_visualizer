@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { dot, length, type Vec3 } from '../../core/math/vec3';
 import type { DrawnLayer } from '../../core/interior/geometry';
-import { cutAmounts, drawnExtent, EXPLORE_DIM, exploreShellUniforms, layerAtRadius, rayHitShell, sectionNormal, type ExploreFrame } from './exploreFrame';
+import { bodyPickable, cutAmounts, drawnExtent, EXPLORE_DIM, exploreShellUniforms, layerAtRadius, rayHitShell, sectionNormal, type ExploreFrame } from './exploreFrame';
 
 const layer = (id: string, outer: number, inner: number): DrawnLayer => ({
   id, name: id, outer, inner, outerBand: 0, innerBand: 0, thickened: false, sizeKind: 'cited', state: 'solid', gradual: false,
@@ -102,5 +102,21 @@ describe('exploreShellUniforms', () => {
   });
   it('does not cut while the plane is outside the body', () => {
     expect(exploreShellUniforms({ ...frame, planeOffset: 1 }, 'earth').clip).toBeNull();
+  });
+});
+
+describe('bodyPickable', () => {
+  const ex = (bodyId: string, progress: number) => ({ bodyId, progress }) as ExploreFrame;
+  it('outside Explore every shown body can be clicked; a hidden satellite cannot', () => {
+    expect(bodyPickable(null, 'mars', true)).toBe(true);
+    expect(bodyPickable(null, 'moon', false)).toBe(false);
+  });
+  it('in Explore no other body can be clicked (a click on a dimmed planet must not end Explore)', () => {
+    expect(bodyPickable(ex('earth', 0), 'mars', true)).toBe(false);
+    expect(bodyPickable(ex('earth', 1), 'moon', true)).toBe(false);
+  });
+  it('the explored body is clicked through its own sphere only while closed (Whole); open, its interior does the picking', () => {
+    expect(bodyPickable(ex('earth', 0), 'earth', true)).toBe(true);
+    expect(bodyPickable(ex('earth', 0.4), 'earth', true)).toBe(false);
   });
 });

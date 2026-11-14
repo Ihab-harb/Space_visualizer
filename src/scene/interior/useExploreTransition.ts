@@ -20,7 +20,14 @@ export const useInteriorSession = useExploreSession;
 
 const drawnCache = new WeakMap<BodyDetails, DrawnLayer[]>();
 
-/** The body's mean radius: the radius its cited layer bounds are measured against (as the details build does). */
+/**
+ * The radius the drawn layer fractions are taken against: the catalogue's mean radius where it has one (the Sun and the Moon),
+ * else the equatorial radius (the planets). The details build converted the planets' bounds with the fact-sheet mean radius
+ * (`interior.radiusKm`), so a planet's rings sit a little inward of their true fraction: at most 3.4 % (Saturn, mean
+ * 58,232 km against equatorial 60,268 km), well under a ring's width. That is acceptable because the globe itself is drawn at
+ * the equatorial radius, so these fractions keep every ring inside it, and no number on screen comes from them: labels, the
+ * card and the depth ruler show the cited bounds.
+ */
 export function interiorRadiusKm(body: Body): number {
   const mean = body.facts.meanRadiusKm?.value;
   return typeof mean === 'number' && mean > 0 ? mean : body.shape.equatorialRadiusKm;

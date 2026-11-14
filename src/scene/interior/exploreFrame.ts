@@ -135,6 +135,16 @@ export function rayHitShell(o: Vec3, d: Vec3, shell: { outer: number; inner: num
   return Number.isFinite(best) ? best : null;
 }
 
+/**
+ * Whether a body's own sphere takes clicks. Outside Explore: when it is shown (`shown` false for a satellite hidden inside its
+ * planet's disc). In Explore: only the explored body, and only while it is closed (open, its interior model does the picking).
+ * Other bodies never do, so a click on a dimmed planet in the background does not select it and end Explore.
+ */
+export function bodyPickable(explore: Pick<ExploreFrame, 'bodyId' | 'progress'> | null, bodyId: string, shown: boolean): boolean {
+  if (!explore) return shown;
+  return explore.bodyId === bodyId && explore.progress <= 0 && shown;
+}
+
 /** Other bodies' brightness while Explore is in focus (spec §3.2: a material-level fade to about 25 %). */
 export const EXPLORE_DIM = 0.25;
 

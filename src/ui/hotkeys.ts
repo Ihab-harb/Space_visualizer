@@ -66,8 +66,10 @@ export function useHotkeys(): void {
       else if (action === 'exploreView2') useExploreStore.getState().setView('exploded');
       else if (action === 'exploreView3') useExploreStore.getState().setView('section');
       else if (action === 'exploreBack') {
+        // Esc steps back one thing at a time: the open chart, then the open layer card, then Explore itself.
         const ex = useExploreStore.getState();
         if (ex.chartOpen) ex.toggleChart(false);
+        else if (ex.selectedLayerId !== null) ex.selectLayer(null);
         else ex.leave();
       } else if (action === 'drawer' && useSelectionStore.getState().selectedId) useUiStore.getState().toggleDrawer();
     };

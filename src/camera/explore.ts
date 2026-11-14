@@ -1,5 +1,6 @@
 import { DEG } from '../core/math/angles';
 import type { Vec3 } from '../core/math/vec3';
+import type { InputDeltas } from './types';
 
 /**
  * Explore framing (spec §3.3, Task 6). On entry the camera keeps its direction, moves to FRAME_RADII body radii (the whole
@@ -46,4 +47,20 @@ export function exploreFrameRadii(fovRad: number, aspect: number): number {
   if (!(aspect > 0) || !(fovRad > 0)) return EXPLORE_CAMERA.frameRadii;
   const fit = FIT_HALF_WIDTH_RADII / (Math.tan(fovRad / 2) * aspect);
   return Math.min(EXPLORE_CAMERA.maxRadii, Math.max(EXPLORE_CAMERA.frameRadii, fit));
+}
+
+/** Explore's camera input: orbit and zoom only. Pan is dropped, so the body stays centre stage (spec §3.3). */
+export function exploreInput(d: InputDeltas): InputDeltas {
+  return { ...d, panX: 0, panY: 0 };
+}
+
+/**
+ * The orbit distance after the screen's aspect changes in Explore (a phone turned). When the new shape needs more room than the
+ * old one (landscape to portrait), its entry framing becomes a floor, so the whole body fits again; a user who zoomed out
+ * further keeps their distance. A change that needs no more room keeps the user's zoom.
+ */
+export function reframeDistanceKm(distanceKm: number, radiusKm: number, fovRad: number, prevAspect: number, aspect: number): number {
+  const need = exploreFrameRadii(fovRad, aspect);
+  if (need <= exploreFrameRadii(fovRad, prevAspect) + 1e-9) return distanceKm;
+  return Math.max(distanceKm, radiusKm * need);
 }
