@@ -1,3 +1,4 @@
+import type { Catalog } from '../core/catalog/catalog';
 import { FACT_KEYS } from '../core/catalog/facts';
 import type { Body } from '../core/catalog/schema';
 import { imageryLines } from './imagery';
@@ -24,4 +25,13 @@ export function citationOrder(body: Body): string[] {
 
 export function citationNumbers(order: string[]): Map<string, number> {
   return new Map(order.map((id, i) => [id, i + 1]));
+}
+
+/** The one numbering shared by the header and the drawer: the body's own sources, then the live position model. */
+export function citationModel(catalog: Catalog, body: Body): { order: string[]; numbers: Map<string, number>; liveSource: string | null } {
+  const order = citationOrder(body);
+  const earth = catalog.bodyById.get('earth');
+  const liveSource = body.orbit.type === 'planet-approx' ? body.orbit.sourceId : earth?.orbit.type === 'planet-approx' ? earth.orbit.sourceId : null;
+  if (liveSource && !order.includes(liveSource)) order.push(liveSource);
+  return { order, numbers: citationNumbers(order), liveSource };
 }

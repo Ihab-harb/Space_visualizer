@@ -186,6 +186,14 @@
       "license": "USGS public domain (U.S. Government work)"
     },
     {
+      "id": "usgs-venus-magellan-c3",
+      "title": "Venus Magellan Global C3-MDIR Mosaic 2025m",
+      "publisher": "USGS Astrogeology Science Center (NASA Magellan data)",
+      "url": "https://astrogeology.usgs.gov/search/map/venus_magellan_global_c3_mdir_mosaic_2025m",
+      "retrievedAt": "2026-10-07",
+      "license": "USGS public domain (U.S. Government work)"
+    },
+    {
       "id": "stsci-opal",
       "title": "Outer Planet Atmospheres Legacy (OPAL) global maps",
       "publisher": "NASA/ESA Hubble Space Telescope via STScI MAST (OPAL program, PI A. Simon)",

@@ -109,7 +109,7 @@ test('selecting and deselecting keeps the composer: depth of field stays mounted
   await page.evaluate(() => {
     (window as unknown as { __svComposerBefore: unknown }).__svComposerBefore = window.__svComposer!();
   });
-  await page.getByRole('button', { name: 'Close' }).click();
+  await page.getByRole('button', { name: 'Deselect' }).click();
   await expect(page.locator('.body-label.is-selected')).toHaveCount(0);
   await page.waitForTimeout(800);
   await expect(page.locator('.scene')).toHaveAttribute('data-fx', fx);

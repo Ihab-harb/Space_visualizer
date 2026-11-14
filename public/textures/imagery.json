@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-10-05T17:46:38.275Z",
+  "generatedAt": "2026-10-07T22:31:45.711Z",
   "sources": [
     {
       "id": "nasa-blue-marble-ng",
@@ -72,6 +72,14 @@
       "publisher": "USGS Astrogeology Science Center (NASA MESSENGER data)",
       "url": "https://planetarymaps.usgs.gov/mosaic/Mercury_Messenger_USGS_DEM_Global_665m_v2.tif",
       "retrievedAt": "2026-10-04",
+      "license": "USGS public domain (U.S. Government work)"
+    },
+    {
+      "id": "usgs-venus-magellan-c3",
+      "title": "Venus Magellan Global C3-MDIR Mosaic 2025m",
+      "publisher": "USGS Astrogeology Science Center (NASA Magellan data)",
+      "url": "https://astrogeology.usgs.gov/search/map/venus_magellan_global_c3_mdir_mosaic_2025m",
+      "retrievedAt": "2026-10-07",
       "license": "USGS public domain (U.S. Government work)"
     },
     {
@@ -198,6 +206,17 @@
         "sourceId": "usgs-mercury-dem",
         "derivation": "Normal map derived from the MESSENGER DEM; relief exaggerated ×3.",
         "illustrative": true
+      }
+    },
+    "venus": {
+      "radar": {
+        "tiers": {
+          "1k": "textures/venus/radar_1k.webp",
+          "2k": "textures/venus/radar_2k.webp",
+          "4k": "textures/venus/radar_4k.webp"
+        },
+        "sourceId": "usgs-venus-magellan-c3",
+        "derivation": "Magellan C3-MDIR radar backscatter mosaic (2025 m/pixel); radar brightness, not visible light."
       }
     },
     "jupiter": {

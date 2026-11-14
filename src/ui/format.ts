@@ -35,3 +35,23 @@ export function formatLightTime(seconds: number): string {
   const wholeMinutes = Math.round(seconds / 60);
   return `${Math.floor(wholeMinutes / 60)} h ${wholeMinutes % 60} min`;
 }
+
+export function formatAu(km: number): string {
+  const au = km / AU_KM;
+  return `${au < 1 ? au.toFixed(3) : au.toFixed(2)} AU`;
+}
+
+export function formatLightTimeShort(seconds: number): string {
+  if (seconds < 60) return `${seconds.toFixed(1)} s`;
+  const min = seconds / 60;
+  return min < 10 ? `${min.toFixed(1)} min` : min < 120 ? `${Math.round(min)} min` : `${(min / 60).toFixed(1)} h`;
+}
+
+export function formatDuration(hours: number): string {
+  const h = Math.abs(hours);
+  return h < 48 ? `${formatNumber(Number(h.toFixed(1)))} hours` : `${formatNumber(Number((h / 24).toFixed(1)))} days`;
+}
+
+export function formatPeriodDays(days: number): string {
+  return days < 730 ? `${formatNumber(Number(days.toFixed(1)))} days` : `${formatNumber(Number((days / 365.25).toFixed(2)))} years`;
+}

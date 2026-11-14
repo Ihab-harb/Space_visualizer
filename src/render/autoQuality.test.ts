@@ -79,17 +79,17 @@ function simulate(ctrl: ReturnType<typeof createAutoQuality>, frameMsAt: (level:
 }
 
 describe('Auto quality: sustained long frames (C1)', () => {
-  it('drops straight to Low within about 1-2 s when every frame takes 400 ms, ignoring the warm-up', () => {
+  it('drops straight to Low within 7 s when every frame takes 400 ms, once the start-up cooldown is over (ignores the warm-up)', () => {
     const c = createAutoQuality('high');
     const changes = simulate(c, () => 400, 10000);
     expect(changes.map((x) => x.to)).toEqual(['low']);
-    expect(changes[0]!.t).toBeLessThanOrEqual(2000);
+    expect(changes[0]!.t).toBeLessThanOrEqual(7000);
   });
   it('drops to Low on a 1 fps renderer (SwiftShader-like) too', () => {
     const c = createAutoQuality('high');
     const changes = simulate(c, () => 1000, 10000);
     expect(changes.map((x) => x.to)).toEqual(['low']);
-    expect(changes[0]!.t).toBeLessThanOrEqual(2000);
+    expect(changes[0]!.t).toBeLessThanOrEqual(7000);
   });
   it('ignores one isolated 5 s gap', () => {
     const c = createAutoQuality('high');
@@ -179,5 +179,38 @@ describe('resyncAuto (QualityGovernor)', () => {
     expect(next).not.toBe(c);
     expect(next.level).toBe('low');
     expect(resyncAuto(null, 'medium').level).toBe('medium');
+  });
+});
+
+describe('Auto start-up hitches (M2a.2 residual)', () => {
+  /** Real traces measured on the dev machine: two compile/upload hitches about 1 s apart with normal frames between. */
+  function feed(c: ReturnType<typeof createAutoQuality>, frames: Array<[number, number]>): string[] {
+    let t = 0;
+    const out: string[] = [];
+    for (const [ms, count] of frames) {
+      for (let i = 0; i < count; i++) {
+        t += ms;
+        const next = c.sample(ms, t);
+        if (next) out.push(next);
+      }
+    }
+    return out;
+  }
+  it('does not drop for start-up hitches separated by normal frames', () => {
+    const c = createAutoQuality('high');
+    expect(feed(c, [[16.7, 30], [880, 1], [16.7, 60], [440, 1], [16.7, 600]])).toEqual([]);
+    expect(c.level).toBe('high');
+  });
+  it('does not drop within the cooldown that starts at the first sample', () => {
+    const c = createAutoQuality('high');
+    expect(feed(c, [[400, 5]])).toEqual([]); // 2 s of consecutive long frames, inside the first 5 s
+  });
+  it('still drops on sustained long frames once the start-up cooldown is over', () => {
+    const c = createAutoQuality('high');
+    expect(feed(c, [[16.7, 330], [400, 4]])).toEqual(['low']); // ~5.5 s of normal frames, then 4 x 400 ms in a row
+  });
+  it('drops on two consecutive long frames totalling more than a second', () => {
+    const c = createAutoQuality('high');
+    expect(feed(c, [[16.7, 330], [600, 2]])).toEqual(['low']);
   });
 });

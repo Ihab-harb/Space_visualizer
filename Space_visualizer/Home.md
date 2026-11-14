@@ -14,9 +14,9 @@ A 3D, time-accurate solar system in the browser — every fact cited to an offic
 ## Plans
 - [[2026-10-04-m1-foundation|M1 Foundation]] — complete
 - [[2026-10-04-m2a1-imagery-and-shading|M2a.1 Imagery and Realistic shading]] — complete
-- [[2026-10-05-m2a1-carry-over|M2a.1 carry-over items]] — open, input to M2a.2
+- [[2026-10-05-m2a1-carry-over|M2a.1 carry-over items]] — open (M2a.3 items done; M2b and M2c items remain)
 - [[2026-10-05-m2a2-cinematic-effects-and-quality|M2a.2 Cinematic effects and adaptive quality]] — complete
-- M2a.3 Interface redesign and Tour — to be planned after M2a.2
+- [[2026-10-07-m2a3-interface-and-tour|M2a.3 Interface redesign, Tour and Venus radar]] — complete
 
 ## Architecture
 - [[Overview]]
@@ -44,6 +44,7 @@ A 3D, time-accurate solar system in the browser — every fact cited to an offic
 - [[USGS Mars Viking Color Mosaic]]
 - [[USGS Mars MOLA DEM]]
 - [[USGS Mercury MESSENGER Mosaics]]
+- [[USGS Venus Magellan C3-MDIR Mosaic]]
 - [[Hubble OPAL Global Maps]]
 - [[NASA SVS Deep Star Maps 2020]]
 - [[NSSDCA Ring Fact Sheets]]
@@ -59,6 +60,11 @@ A 3D, time-accurate solar system in the browser — every fact cited to an offic
 ## Assets
 - M2a.1 golden screenshots: `Assets/m2a1-golden/` (six PNG views)
 - M2a.2 golden screenshots: `Assets/m2a2-golden/` (nine golden views plus the phone view, AgX, `quality=high&fx=1`)
+- M2a.3 golden screenshots: `Assets/m2a3-golden/` (twelve views: the ten M2a.2 views redone with the new interface, plus `0b-venus-radar` and `5b-phone-drawer`; `quality=high&fx=1`)
 
 ## Log
 - [[Changelog]]
+
+## Sessions
+Chat history with Claude Code: requests, decisions and open questions, one note per session.
+- [[2026-10-04-session-m1-to-m2a3|2026-10-04 to 2026-10-08: M1 to M2a.3]]

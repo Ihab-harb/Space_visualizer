@@ -7,12 +7,14 @@ import { useFrameState } from '../scene/FrameStateContext';
 import type { FrameState } from '../scene/frameState';
 import { writeMatrix4 } from '../scene/threeMath';
 import { useSelectionStore } from '../state/selectionStore';
+import { useTourStore } from '../state/tourStore';
 import { useViewStore, type ViewId } from '../state/viewStore';
 import { createFollowController } from './followController';
 import { createPointerInput } from './input';
 import { createOrbitController } from './orbitController';
 import { lookRotation } from './rig';
 import { interpolatePose, TRANSITION_SECONDS } from './transition';
+import { buildTour, litAzimuth, stopPose, TOUR, tourPhase, type TourStop } from './tour';
 import type { CameraPose, ControllerContext } from './types';
 
 const INITIAL_DISTANCE_KM = 2.2e9; // ~14.7 AU: the inner system and Jupiter comfortably in view
@@ -36,6 +38,7 @@ interface Rig {
   lastSelectedId: string | null;
   lastCoRotate: boolean;
   lastOverrideSeq: number;
+  tour: { seq: number; startedAt: number; stops: TourStop[]; index: number; flightFrom: CameraPose | null } | null;
 }
 
 export function CameraSystem({ catalog }: { catalog: Catalog }) {
@@ -59,6 +62,7 @@ export function CameraSystem({ catalog }: { catalog: Catalog }) {
       lastSelectedId: null,
       lastCoRotate: false,
       lastOverrideSeq: 0,
+      tour: null,
     };
   }
 
@@ -82,6 +86,50 @@ export function CameraSystem({ catalog }: { catalog: Catalog }) {
       r.transition = null;
     }
     const now = state.clock.elapsedTime;
+    const tourState = useTourStore.getState();
+    if (tourState.active) {
+      if (!r.tour || r.tour.seq !== tourState.seq) {
+        r.tour = { seq: tourState.seq, startedAt: now, stops: buildTour(catalog.bodies), index: -1, flightFrom: r.lastPose };
+        useViewStore.getState().setView('orbit');
+        r.activeView = 'orbit';
+        r.transition = null;
+      }
+      const deltas = input.consume();
+      const moved = deltas.rotateX || deltas.rotateY || deltas.panX || deltas.panY || deltas.zoom;
+      const phase = tourPhase(r.tour.stops.length, now - r.tour.startedAt);
+      if (moved || !phase) {
+        useTourStore.getState().stop();
+      } else {
+        if (phase.index !== r.tour.index) {
+          r.tour.index = phase.index;
+          r.tour.flightFrom = r.lastPose;
+          useSelectionStore.getState().select(r.tour.stops[phase.index]!.selectId);
+        }
+        const stop = r.tour.stops[phase.index]!;
+        const sunId = catalog.bodies.find((b) => b.category === 'star')?.id;
+        const bodyKm = ctx.bodyPosition(stop.targetId) ?? [0, 0, 0];
+        const sunKm = (sunId && ctx.bodyPosition(sunId)) || [0, 0, 0];
+        const az = (stop.targetId === sunId ? -90 * DEG : litAzimuth(bodyKm, sunKm)) + (phase.phase === 'dwell' ? phase.t * TOUR.dwellS * TOUR.orbitRadPerS : 0);
+        const target = stopPose(stop, ctx, az);
+        if (target) {
+          const pose = phase.phase === 'flight' && r.tour.flightFrom && !prefersReducedMotion() ? interpolatePose(r.tour.flightFrom, target, phase.t) : target;
+          r.lastPose = pose;
+          frame.cameraPositionKm = pose.positionKm;
+          camera.position.set(0, 0, 0);
+          camera.quaternion.setFromRotationMatrix(writeMatrix4(lookRotation(pose.positionKm, pose.lookAtKm, pose.up), matrix));
+          return;
+        }
+      }
+    }
+    if (r.tour) {
+      // Tour ended (input, completion or toggle): hand control back to Orbit around the current stop, from where we are.
+      const current = r.tour.stops[Math.max(0, r.tour.index)];
+      r.orbit.enter(r.lastPose, ctx, current?.targetId);
+      // The view store is left alone: a key 2 that ended the tour has already asked for Follow, and the normal path below enters it from this pose.
+      r.activeView = 'orbit';
+      r.tour = null;
+      r.transition = null;
+    }
     const { view, coRotate, focusRequest } = useViewStore.getState();
     const selectedId = useSelectionStore.getState().selectedId;
     const startTransition = () => {

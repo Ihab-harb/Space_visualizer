@@ -13,6 +13,7 @@ export const TEST_SOURCES: Source[] = [
   { id: 'nasa-science-sun', title: 'The Sun - NASA Science', publisher: 'NASA', url: 'https://science.nasa.gov/sun/', retrievedAt: '2026-10-04', license: 'NASA public domain (NASA media usage guidelines)' },
   { id: 'nasa-science-earth', title: 'Earth Facts - NASA Science', publisher: 'NASA', url: 'https://science.nasa.gov/earth/facts/', retrievedAt: '2026-10-04', license: 'NASA public domain (NASA media usage guidelines)' },
   { id: 'nasa-science-jupiter', title: 'Jupiter - NASA Science', publisher: 'NASA', url: 'https://science.nasa.gov/jupiter/', retrievedAt: '2026-10-04', license: 'NASA public domain (NASA media usage guidelines)' },
+  { id: 'nasa-svs-deep-star-maps', title: 'Deep Star Maps 2020', publisher: 'NASA Goddard Scientific Visualization Studio', url: 'https://svs.gsfc.nasa.gov/4851', retrievedAt: '2026-10-04', license: 'NASA public domain (credit NASA/Goddard SVS; Gaia DR2: ESA/Gaia/DPAC)' },
 ];
 
 const PS = 'nssdca-planetary-fact-sheet';

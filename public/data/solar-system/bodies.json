@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "regionId": "solar-system",
-  "generatedAt": "2026-10-05T17:46:39.087Z",
+  "generatedAt": "2026-10-07T22:31:57.648Z",
   "bodies": [
     {
       "id": "sun",
@@ -580,7 +580,17 @@
         "text": "Venus is the second planet from the Sun, and the sixth largest planet. It’s the hottest planet in our solar system.",
         "sourceId": "nasa-science-venus"
       },
-      "imagery": null,
+      "imagery": {
+        "radar": {
+          "tiers": {
+            "1k": "textures/venus/radar_1k.webp",
+            "2k": "textures/venus/radar_2k.webp",
+            "4k": "textures/venus/radar_4k.webp"
+          },
+          "sourceId": "usgs-venus-magellan-c3",
+          "derivation": "Magellan C3-MDIR radar backscatter mosaic (2025 m/pixel); radar brightness, not visible light."
+        }
+      },
       "render": {
         "shader": "venus",
         "atmosphere": "venus",

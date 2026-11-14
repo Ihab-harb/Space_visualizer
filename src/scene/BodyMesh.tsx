@@ -82,7 +82,7 @@ export function BodyMesh({ body, bodies }: { body: Body; bodies: readonly Body[]
         <BodyMaterial body={body} bodies={bodies} />
         <BodyExtras body={body} bodies={bodies} />
       </mesh>
-      <BodyLabel body={body} />
+      <BodyLabel body={body} sunId={bodies.find((b) => b.category === 'star')?.id} />
     </group>
   );
 }

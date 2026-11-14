@@ -20,6 +20,7 @@ export interface UrlOverrides {
   tier?: Tier;
   quality?: QualityMode;
   effects?: boolean;
+  venusRadar?: boolean;
 }
 
 export function parseUrlOverrides(search: string): UrlOverrides {
@@ -57,6 +58,7 @@ export function parseUrlOverrides(search: string): UrlOverrides {
   if (quality) o.quality = quality;
   const fx = p.get('fx');
   if (fx === '0' || fx === '1') o.effects = fx === '1';
+  if (p.get('radar') === '1') o.venusRadar = true;
   return o;
 }
 
@@ -67,6 +69,7 @@ export function applyUrlOverrides(o: UrlOverrides, catalog: Catalog): void {
   if (o.rateIndex !== undefined) time.setRateIndex(o.rateIndex);
   if (o.tier) useViewStore.getState().setTextureTierOverride(o.tier);
   if (o.quality) useRenderStore.getState().setMode(o.quality);
+  if (o.venusRadar) useViewStore.getState().setVenusRadar(true);
   if (o.effects !== undefined) useRenderStore.getState().setEffects(o.effects);
   if (o.target && catalog.bodyById.has(o.target)) {
     useSelectionStore.getState().select(o.target);

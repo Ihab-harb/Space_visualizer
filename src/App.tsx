@@ -2,14 +2,18 @@ import { useEffect, useState } from 'react';
 import { SceneRoot } from './scene/SceneRoot';
 import { useCatalogStore } from './state/catalogStore';
 import { applyUrlOverrides, parseUrlOverrides } from './state/urlParams';
-import { InfoPanel } from './ui/InfoPanel';
+import { ControlPanel } from './ui/ControlPanel';
+import { Header } from './ui/Header';
+import { FactsDrawer } from './ui/FactsDrawer';
 import { ErrorScreen, LoadingScreen, WebGLUnavailable } from './ui/StatusScreens';
-import { SkyCredit } from './ui/SkyCredit';
-import { TimeBar } from './ui/TimeBar';
-import { TopBar } from './ui/TopBar';
+import { BottomBar } from './ui/BottomBar';
+import { useHotkeys } from './ui/hotkeys';
+import { useTourExit } from './ui/useTourExit';
 import { isWebGLAvailable } from './ui/webgl';
 
 export function App() {
+  useHotkeys();
+  useTourExit();
   const [webgl] = useState(() => isWebGLAvailable());
   const status = useCatalogStore((s) => s.status);
   const catalog = useCatalogStore((s) => s.catalog);
@@ -31,10 +35,10 @@ export function App() {
   return (
     <div className="app">
       <SceneRoot catalog={catalog} />
-      <TopBar />
-      <InfoPanel catalog={catalog} />
-      <TimeBar catalog={catalog} />
-      <SkyCredit catalog={catalog} />
+      <Header catalog={catalog} />
+      <ControlPanel />
+      <FactsDrawer catalog={catalog} />
+      <BottomBar catalog={catalog} />
     </div>
   );
 }

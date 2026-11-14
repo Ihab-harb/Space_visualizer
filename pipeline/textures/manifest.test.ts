@@ -9,6 +9,10 @@ describe('imagery manifest', () => {
       expect(p.url.startsWith('https://'), id).toBe(true);
     }
   });
+  it('lists 18 products including the Venus radar mosaic', () => {
+    expect(Object.keys(PRODUCTS)).toHaveLength(18);
+    expect(PRODUCTS['venus-radar']!.sourceId).toBe('usgs-venus-magellan-c3');
+  });
   it('has unique source ids and cache names', () => {
     const ids = IMAGERY_SOURCE_SPECS.map((s) => s.id);
     expect(new Set(ids).size).toBe(ids.length);

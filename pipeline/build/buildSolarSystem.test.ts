@@ -86,7 +86,8 @@ describe('buildSolarSystem', () => {
   it('attaches official imagery to planets and cites every image', () => {
     expect(body('earth').imagery?.color?.sourceId).toBe('nasa-blue-marble-ng');
     expect(body('saturn').imagery?.rings?.innerKm.value).toBeGreaterThan(70000);
-    expect(body('venus').imagery).toBeNull();
+    expect(body('venus').imagery?.color).toBeUndefined();
+    expect(body('venus').imagery?.radar?.sourceId).toBe('usgs-venus-magellan-c3');
     expect(out.sources.sources.map((s) => s.id)).toEqual(expect.arrayContaining(['stsci-opal', 'nssdca-saturn-rings', 'nasa-svs-deep-star-maps']));
     expect(validateOutput(out)).toEqual([]);
   });

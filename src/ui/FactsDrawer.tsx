@@ -1,48 +1,48 @@
+import { useEffect, useRef } from 'react';
 import type { Catalog } from '../core/catalog/catalog';
 import { FACT_DEFS, FACT_KEYS, type FactGroup } from '../core/catalog/facts';
-import type { Body, BodyCategory } from '../core/catalog/schema';
-import { bodyState } from '../core/ephemeris/state';
-import { distance } from '../core/math/vec3';
-import { SPEED_OF_LIGHT_KM_S } from '../core/units';
+import type { BodyCategory } from '../core/catalog/schema';
 import { useSelectionStore } from '../state/selectionStore';
-import { useTimeStore } from '../state/timeStore';
 import { useViewStore } from '../state/viewStore';
+import { useUiStore } from '../state/uiStore';
 import { accuracyLines } from './accuracy';
-import { citationNumbers, citationOrder } from './citations';
+import { citationModel } from './citations';
 import { formatDistanceKm, formatFact, formatLightTime } from './format';
 import { illustrativeNotes, imageryLines } from './imagery';
+import { liveStats } from './liveStats';
+import { useThrottledJd } from './useThrottledJd';
 
 const CATEGORY_LABELS: Record<BodyCategory, string> = {
   star: 'Star', planet: 'Planet', 'dwarf-planet': 'Dwarf planet', moon: 'Moon', asteroid: 'Asteroid', comet: 'Comet', spacecraft: 'Spacecraft',
 };
 const GROUP_TITLES: Record<FactGroup, string> = { physical: 'Physical characteristics', orbit: 'Orbit' };
 
-function liveDistances(catalog: Catalog, body: Body, jdTdb: number) {
-  const position = bodyState(body, jdTdb).positionKm;
-  const sun = catalog.bodies.find((b) => b.category === 'star');
-  const earth = catalog.bodyById.get('earth');
-  return {
-    fromSunKm: sun && sun.id !== body.id ? distance(position, bodyState(sun, jdTdb).positionKm) : null,
-    fromEarthKm: earth && earth.id !== body.id ? distance(position, bodyState(earth, jdTdb).positionKm) : null,
-  };
-}
-
-export function InfoPanel({ catalog }: { catalog: Catalog }) {
+export function FactsDrawer({ catalog }: { catalog: Catalog }) {
   const selectedId = useSelectionStore((s) => s.selectedId);
-  const select = useSelectionStore((s) => s.select);
-  const view = useViewStore((s) => s.view);
-  const requestFocus = useViewStore((s) => s.requestFocus);
-  const jdTdb = useTimeStore((s) => s.jdTdb);
+  const open = useUiStore((s) => s.drawerOpen);
+  const setOpen = useUiStore((s) => s.setDrawerOpen);
+  const venusRadar = useViewStore((s) => s.venusRadar);
+  const setVenusRadar = useViewStore((s) => s.setVenusRadar);
+  const focusSource = useUiStore((s) => s.focusSource);
+  const clearFocusSource = useUiStore((s) => s.clearFocusSource);
+  const ref = useRef<HTMLElement>(null);
+  useEffect(() => {
+    if (!open || !focusSource) return;
+    // jsdom has no CSS.escape; source ids are kebab-case so the raw id is safe there.
+    const id = typeof CSS !== 'undefined' && CSS.escape ? CSS.escape(focusSource) : focusSource;
+    const el = ref.current?.querySelector<HTMLElement>(`#source-${id}`);
+    if (el) {
+      el.scrollIntoView({ block: 'center', behavior: window.matchMedia?.('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' });
+      el.classList.add('is-highlighted');
+      window.setTimeout(() => el.classList.remove('is-highlighted'), 1500);
+    }
+    clearFocusSource();
+  }, [open, focusSource, clearFocusSource]);
+  const jdTdb = useThrottledJd();
   const body = selectedId ? catalog.bodyById.get(selectedId) : undefined;
   if (!body) return null;
 
-  const earth = catalog.bodyById.get('earth');
-  // Live distances come from the selected body's position model, or Earth's when the body is fixed (the Sun).
-  const liveSource =
-    body.orbit.type === 'planet-approx' ? body.orbit.sourceId : earth?.orbit.type === 'planet-approx' ? earth.orbit.sourceId : null;
-  const order = citationOrder(body);
-  if (liveSource && !order.includes(liveSource)) order.push(liveSource);
-  const numbers = citationNumbers(order);
+  const { order, numbers, liveSource } = citationModel(catalog, body);
   const cite = (sourceId: string) => (
     <sup className="cite">
       <a href={`#source-${sourceId}`} aria-label={`Source ${numbers.get(sourceId)}`}>
@@ -51,10 +51,10 @@ export function InfoPanel({ catalog }: { catalog: Catalog }) {
     </sup>
   );
   const parent = body.parentId ? catalog.bodyById.get(body.parentId) : undefined;
-  const live = liveDistances(catalog, body, jdTdb);
+  const live = liveStats(catalog, body, jdTdb);
 
   return (
-    <aside className="panel info-panel" aria-label="Body information">
+    <aside ref={ref} className={open ? 'glass drawer is-open' : 'glass drawer'} aria-label="Body information" aria-hidden={!open} inert={!open} role="complementary">
       <header className="info-panel__header">
         <div>
           <h2>{body.name}</h2>
@@ -63,16 +63,9 @@ export function InfoPanel({ catalog }: { catalog: Catalog }) {
             {parent ? ` · orbits the ${parent.name}` : ''}
           </p>
         </div>
-        <div className="info-panel__actions">
-          {view === 'orbit' && (
-            <button type="button" onClick={() => requestFocus(body.id)}>
-              Centre view
-            </button>
-          )}
-          <button type="button" aria-label="Close" onClick={() => select(null)}>
-            ×
-          </button>
-        </div>
+        <button type="button" aria-label="Close facts" onClick={() => setOpen(false)}>
+          ×
+        </button>
       </header>
 
       {body.description && (
@@ -132,7 +125,7 @@ export function InfoPanel({ catalog }: { catalog: Catalog }) {
                 <div className="facts__row">
                   <dt>Light travel time from Earth</dt>
                   <dd>
-                    {formatLightTime(live.fromEarthKm / SPEED_OF_LIGHT_KM_S)}
+                    {formatLightTime(live.lightTimeS ?? 0)}
                     {cite(liveSource)}
                     <span className="facts__note">Distance ÷ speed of light (299,792.458 km/s, exact SI value).</span>
                   </dd>
@@ -171,7 +164,13 @@ export function InfoPanel({ catalog }: { catalog: Catalog }) {
             ))}
           </ul>
         )}
-        {illustrativeNotes(body).map((note) => (
+        {body.imagery?.radar && (
+          <label className="toggle">
+            <input type="checkbox" checked={venusRadar} onChange={(e) => setVenusRadar(e.target.checked)} />
+            Show Magellan radar (surface under the clouds)
+          </label>
+        )}
+        {illustrativeNotes(body, { venusRadar }).map((note) => (
           <p key={note} className="info-panel__note">
             {note}
           </p>
