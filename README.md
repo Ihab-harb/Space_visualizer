@@ -1,0 +1,72 @@
+# Solar System Visualizer
+
+A 3D, time-accurate model of the Solar System that runs in the browser. Every planet is drawn where it really is on the date you choose, and every fact shown comes from an official source (NASA, JPL, IAU) with a citation you can follow.
+
+The Solar System is the first "region" of a project designed to grow outward later: to nearby stars, the Milky Way and other galaxies.
+
+## Features (Milestone 1)
+
+- **Real positions for any date** from 4713 BC to AD 9999, computed with JPL's [Approximate Positions of the Planets](https://ssd.jpl.nasa.gov/planets/approx_pos.html). The code is tested against [JPL Horizons](https://ssd.jpl.nasa.gov/horizons/), and the app shows each planet's *measured* accuracy, not only the published figure.
+- **True orientation and shape:** each planet is tilted, spun and flattened using the IAU rotation models and radii published by NASA/JPL [NAIF](https://naif.jpl.nasa.gov/).
+- **Time controls:** play, pause, reverse, speeds from real time up to 1 year per second, and jumping to any date. The app warns when a date is outside the range where the formulas are accurate.
+- **Camera views:** *Orbit* (rotate, pan and zoom around any body) and *Follow* (track a body, optionally rotating with its surface), with smooth fly-to transitions. The view stays precise from a planet's surface out to the edge of the Solar System.
+- **Info panel with sources:** NASA descriptions, physical and orbital facts, live distances and light travel time. Every value links to its source.
+- **Readable or true scale:** enlarged bodies that stay visible, or real sizes and distances.
+
+Still to come: moons, dwarf planets, asteroids and comets, spacecraft, filters and search, more camera views (top-down, view from a body, fly), official surface textures, and, later, regions beyond the Solar System.
+
+## Quick start
+
+**Requirements:** [Node.js](https://nodejs.org/) 24.15 or newer (includes npm), [Git](https://git-scm.com/), and a current browser with WebGL (Chrome, Edge, Firefox or Safari, with hardware acceleration on).
+
+```bash
+git clone https://github.com/Ihab-harb/Space_visualizer.git
+cd Space_visualizer
+npm install
+npm run dev
+```
+
+Then open the address Vite prints (normally <http://localhost:5173/>). No server, database or API key is needed: the data is committed to the repository.
+
+**Controls:**
+- Drag to rotate, right-drag or Shift-drag to pan, scroll to zoom.
+- Click a body (or its label) for its info panel; double-click to centre the view on it.
+- Keys **1** / **2** switch between Orbit and Follow; **Esc** returns to Orbit.
+
+## Commands
+
+| Command | What it does |
+|---|---|
+| `npm run dev` | Starts the development server |
+| `npm run build` / `npm run preview` | Builds the static production site into `dist/` / serves it locally |
+| `npm test` | Runs the unit tests |
+| `npm run typecheck` | Checks TypeScript types |
+| `npm run e2e` | Runs the end-to-end browser tests (first run `npx playwright install chromium`) |
+| `npm run data` | Re-downloads and validates the official source data (needs internet; optional) |
+
+**[docs/SETUP.md](docs/SETUP.md)** has the full guide: installation, every command, how to use the app, refreshing the data, and troubleshooting.
+
+## Data sources
+
+| Source | Used for |
+|---|---|
+| [JPL Approximate Positions of the Planets](https://ssd.jpl.nasa.gov/planets/approx_pos.html) | Planet orbits and published accuracy |
+| [JPL Horizons](https://ssd.jpl.nasa.gov/horizons/) | Reference positions used to test and measure accuracy |
+| [NASA NSSDCA Planetary](https://nssdc.gsfc.nasa.gov/planetary/factsheet/) and [Sun](https://nssdc.gsfc.nasa.gov/planetary/factsheet/sunfact.html) fact sheets | Physical and orbital facts |
+| [NASA/JPL NAIF PCK00011](https://naif.jpl.nasa.gov/pub/naif/generic_kernels/pck/pck00011.tpc) | IAU rotation models and shape radii |
+| [NASA Science](https://science.nasa.gov/) | Body descriptions |
+| [IERS](https://hpiers.obspm.fr/iers/bul/bulc/Leap_Second.dat) and [NASA ΔT polynomials](https://eclipse.gsfc.nasa.gov/SEhelp/deltatpoly2004.html) | Converting between UTC and the time scale of the orbit formulas |
+
+Planet colours are illustrative until official NASA/USGS surface maps are added.
+
+## Tech stack
+
+TypeScript, React, [Three.js](https://threejs.org/) with [React Three Fiber](https://r3f.docs.pmnd.rs/) and drei, Zustand, Zod, Vite, Vitest and Playwright. The astronomy code in `src/core/` is plain TypeScript with no UI dependencies.
+
+## Documentation
+
+The design spec, implementation plans, architecture notes, one note per data source, decision records and the changelog live in [`Space_visualizer/`](Space_visualizer/Home.md). It is an [Obsidian](https://obsidian.md/) vault, but the notes are plain Markdown and readable on GitHub.
+
+## License
+
+No license has been chosen yet, so all rights are reserved by default. The source data comes from NASA/JPL and IERS public material; see each source's own terms.

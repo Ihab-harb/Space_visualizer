@@ -1,0 +1,107 @@
+# Setup and running guide
+
+This guide covers everything needed to install, run, test and refresh the data for the Solar System Visualizer on a fresh machine. For an overview of the project, see the [README](../README.md).
+
+## 1. What to install
+
+| Tool | Version | Why | Check with |
+|---|---|---|---|
+| [Node.js](https://nodejs.org/) | **24.15 or newer** (24.x LTS recommended) | Runs the dev server, tests and data pipeline. `package.json` requires ≥ 24; the jsdom test library asks for ≥ 24.15. | `node --version` |
+| npm | Comes with Node.js (11.x) | Installs dependencies, runs scripts | `npm --version` |
+| [Git](https://git-scm.com/) | Any recent version | Clone the repository | `git --version` |
+| A web browser with **WebGL** | Current Chrome, Edge, Firefox or Safari, with hardware acceleration on | Shows the 3D scene | Visit [get.webgl.org](https://get.webgl.org/) |
+
+Everything else (React, Three.js, Vite, test tools) is installed by npm in step 2. No database, server or API key is needed: the app runs entirely in the browser from data files committed to the repository.
+
+## 2. Get the code and install dependencies
+
+```bash
+git clone https://github.com/Ihab-harb/Space_visualizer.git
+cd Space_visualizer
+npm install
+```
+
+To run the end-to-end browser tests (optional), also download Playwright's Chromium once:
+
+```bash
+npx playwright install chromium
+```
+
+## 3. Run the app
+
+```bash
+npm run dev
+```
+
+Vite prints a local address, normally <http://localhost:5173/>. Open it in your browser. The page reloads automatically when you edit the code. Stop the server with `Ctrl+C`.
+
+### Production build
+
+```bash
+npm run build     # type-checks, then writes an optimized static site to dist/
+npm run preview   # serves dist/ locally to try the production build
+```
+
+The contents of `dist/` can be hosted on any static web host.
+
+## 4. Using the app
+
+| Action | How |
+|---|---|
+| Rotate the view | Drag with the left mouse button (one finger on touch screens) |
+| Pan | Right-drag, or Shift + drag |
+| Zoom | Mouse wheel, or pinch |
+| Select a body | Click the body or its label: the info panel opens on the right |
+| Centre the view on a body | Double-click it, or press **Centre view** in the info panel |
+| Orbit view / Follow view | Buttons in the top bar, or keys **1** / **2**; **Esc** returns to Orbit |
+| Keep a body's surface still under the camera | In Follow view, tick **Rotate with body** |
+| Real sizes instead of enlarged bodies | **True scale** in the top bar |
+| Control time | Bottom bar: Reverse, Play/Pause, Speed (real time up to 1 year per second), **Now** |
+| Jump to a date | Type `YYYY-MM-DD` or `YYYY-MM-DD HH:MM` (UTC) and press **Go**. Use negative years for BC (0 = 1 BC, −1000 = 1001 BC). Supported years: −4712 to 9999. Dates before 15 Oct 1582 use the Julian calendar. |
+
+An amber note in the time bar means the date is outside 1800–2050, where JPL's lower-accuracy long-range elements are used. Outside 3000 BC–AD 3000, positions are extrapolated.
+
+## 5. Tests and checks
+
+| Command | What it does |
+|---|---|
+| `npm test` | Runs all unit tests once (Vitest) |
+| `npm run test:watch` | Re-runs unit tests as you edit |
+| `npm run typecheck` | Checks TypeScript types without building |
+| `npm run e2e` | Runs end-to-end tests in headless Chromium (Playwright); starts the dev server automatically if it isn't running |
+
+## 6. Refreshing the data (optional)
+
+The app reads `public/data/*.json`, which is generated from official sources and committed to the repository, so you do **not** need to run the pipeline to use the app.
+
+| Command | What it does | Needs internet |
+|---|---|---|
+| `npm run data` | Downloads the JPL, NASA NSSDCA, NASA NAIF and NASA Science sources, validates them, measures accuracy against the Horizons reference, and rewrites `public/data/`. If anything fails, nothing is written. | Yes |
+| `npm run data:offline` | Same, using only the copies cached in `pipeline/raw/` by the last online run | No |
+| `npm run horizons:reference` | Re-downloads the 72 JPL Horizons reference positions used to test and measure accuracy (`pipeline/reference/`). Run `npm run data` afterwards to update the measured accuracy shown in the app. | Yes |
+
+Review the resulting `git diff` before committing refreshed data.
+
+## 7. Troubleshooting
+
+| Symptom | Fix |
+|---|---|
+| "3D graphics are not available" | WebGL is off or unsupported. Turn on hardware acceleration in the browser settings and update the browser and graphics driver. |
+| "Could not load the data" | `public/data/` is missing or invalid. Run `git checkout -- public/data` to restore the committed files, or `npm run data` to regenerate them. |
+| `npm install` prints `EBADENGINE` warnings | Your Node.js is older than a dependency wants. Upgrade to Node.js 24.15 or newer. |
+| Port 5173 already in use | Vite picks the next free port and prints it; use that address. |
+| `npm run e2e` says the browser is missing | Run `npx playwright install chromium`. |
+| `npm run data` fails with a network error | A source may be temporarily down. Run `npm run data:offline` to rebuild from the cache, or try again later. The committed data stays unchanged on failure. |
+
+## 8. Where things are
+
+| Path | Contents |
+|---|---|
+| `src/core/` | Astronomy and data logic in pure TypeScript: time scales, orbit calculations, rotation models, data schemas |
+| `src/state/` | App state (time, selection, view, loaded catalogue) |
+| `src/scene/`, `src/camera/` | 3D scene and camera views (React Three Fiber) |
+| `src/ui/` | Panels: top bar, time bar, info panel |
+| `pipeline/` | Data pipeline: downloads, parsers, validation, Horizons reference |
+| `public/data/` | Generated data the app loads |
+| `e2e/` | End-to-end browser tests |
+| `Space_visualizer/` | Project documentation as an [Obsidian](https://obsidian.md/) vault: design spec, plans, architecture notes, data-source notes, decisions, changelog. The notes are plain Markdown and also readable on GitHub. |

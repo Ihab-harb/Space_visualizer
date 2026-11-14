@@ -1,0 +1,332 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+  margin: 0;
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font: 14px/1.45 var(--font-ui);
+  -webkit-font-smoothing: antialiased;
+  overflow: hidden;
+}
+
+button,
+input,
+select {
+  font: inherit;
+  color: inherit;
+}
+
+button,
+select,
+input {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--panel-border);
+  border-radius: 7px;
+  padding: 6px 10px;
+}
+
+button {
+  cursor: pointer;
+}
+
+button:hover {
+  border-color: rgba(124, 196, 255, 0.45);
+}
+
+button.primary,
+button[aria-pressed='true'] {
+  background: var(--accent-soft);
+  border-color: var(--accent);
+  color: #fff;
+}
+
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.app {
+  position: fixed;
+  inset: 0;
+}
+
+.scene {
+  position: absolute;
+  inset: 0;
+  touch-action: none;
+  isolation: isolate; /* keeps label z-indexes inside the scene, below the panels */
+}
+
+/* Labels sit above the canvas; the layer itself lets pointer input through to the canvas. */
+.label-layer {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.panel {
+  position: absolute;
+  background: var(--panel);
+  border: 1px solid var(--panel-border);
+  border-radius: var(--radius);
+  backdrop-filter: blur(10px);
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.45);
+}
+
+/* Top bar */
+.top-bar {
+  top: var(--gutter);
+  left: var(--gutter);
+  right: var(--gutter);
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--gap);
+  padding: 10px 14px;
+}
+
+.top-bar__title {
+  margin: 0 8px 0 0;
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.top-bar__hint {
+  margin: 0 0 0 auto;
+  color: var(--text-muted);
+  font-size: 12px;
+}
+
+.segmented {
+  display: inline-flex;
+  gap: 4px;
+}
+
+.toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--text-muted);
+}
+
+/* Info panel */
+.info-panel {
+  top: 84px;
+  right: var(--gutter);
+  bottom: 150px;
+  width: min(380px, calc(100% - 2 * var(--gutter)));
+  overflow-y: auto;
+  padding: 16px 18px;
+}
+
+.info-panel__header {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--gap);
+}
+
+.info-panel h2 {
+  margin: 0;
+  font-size: 22px;
+}
+
+.info-panel h3 {
+  margin: 18px 0 6px;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.info-panel__kind {
+  margin: 2px 0 0;
+  color: var(--text-muted);
+}
+
+.info-panel__actions {
+  display: flex;
+  align-items: flex-start;
+  gap: 6px;
+}
+
+.info-panel__description {
+  margin: 14px 0 0;
+  padding-left: 10px;
+  border-left: 2px solid var(--accent);
+  color: var(--text);
+}
+
+.facts {
+  margin: 0;
+}
+
+.facts__row {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 2px 12px;
+  padding: 5px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.facts dt {
+  color: var(--text-muted);
+}
+
+.facts dd {
+  margin: 0;
+  text-align: right;
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+}
+
+.facts__note {
+  display: block;
+  font-family: var(--font-ui);
+  font-size: 12px;
+  color: var(--text-muted);
+  text-align: right;
+}
+
+.cite a {
+  margin-left: 3px;
+  color: var(--accent);
+  font-size: 10px;
+  text-decoration: none;
+}
+
+.info-panel__accuracy,
+.sources {
+  margin: 0;
+  padding-left: 18px;
+  color: var(--text-muted);
+  font-size: 12.5px;
+}
+
+.sources a {
+  color: var(--accent);
+}
+
+.info-panel__note {
+  margin: 14px 0 0;
+  font-size: 12px;
+  color: var(--text-muted);
+}
+
+/* Time bar */
+.time-bar {
+  left: var(--gutter);
+  right: var(--gutter);
+  bottom: var(--gutter);
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--gap) 20px;
+  padding: 12px 16px;
+}
+
+.time-bar__date {
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+  font-size: 16px;
+  min-width: 25ch;
+}
+
+.time-bar__controls,
+.time-bar__jump,
+.time-bar__speed {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.time-bar__jump input {
+  width: 24ch;
+  font-family: var(--font-mono);
+}
+
+.time-bar__error {
+  margin: 0;
+  color: var(--danger);
+}
+
+.time-bar__warning {
+  flex-basis: 100%;
+  margin: 0;
+  color: var(--warning);
+}
+
+/* Labels drawn over the scene */
+.body-label {
+  transform: translateY(16px);
+  padding: 1px 7px;
+  border: 0;
+  border-radius: 999px;
+  background: rgba(3, 5, 11, 0.55);
+  color: var(--text);
+  font-size: 12px;
+  white-space: nowrap;
+  pointer-events: auto;
+}
+
+.body-label.is-selected {
+  background: var(--accent-soft);
+  outline: 1px solid var(--accent);
+}
+
+/* Loading / error / no-WebGL */
+.status-screen {
+  display: grid;
+  place-content: center;
+  gap: 12px;
+  height: 100%;
+  padding: var(--gutter);
+  text-align: center;
+}
+
+.status-screen__detail {
+  max-width: 70ch;
+  white-space: pre-wrap;
+  text-align: left;
+  color: var(--text-muted);
+}
+
+/* Phones: panels become sheets */
+@media (max-width: 720px) {
+  .top-bar__hint {
+    display: none;
+  }
+  .info-panel {
+    top: auto;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: auto;
+    max-height: 55vh;
+    border-radius: var(--radius) var(--radius) 0 0;
+    z-index: 2;
+  }
+  .time-bar__date {
+    min-width: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    transition: none !important;
+    animation: none !important;
+  }
+}

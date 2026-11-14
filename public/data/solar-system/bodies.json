@@ -1,0 +1,2213 @@
+{
+  "schemaVersion": 1,
+  "regionId": "solar-system",
+  "generatedAt": "2026-10-04T17:15:59.042Z",
+  "bodies": [
+    {
+      "id": "sun",
+      "name": "Sun",
+      "category": "star",
+      "parentId": null,
+      "regionId": "solar-system",
+      "naifId": 10,
+      "facts": {
+        "massKg": {
+          "value": 1.9884e+30,
+          "sourceId": "nssdca-sun-fact-sheet"
+        },
+        "meanRadiusKm": {
+          "value": 695700,
+          "sourceId": "nssdca-sun-fact-sheet"
+        },
+        "densityKgM3": {
+          "value": 1408,
+          "sourceId": "nssdca-sun-fact-sheet"
+        },
+        "surfaceGravityMS2": {
+          "value": 274,
+          "sourceId": "nssdca-sun-fact-sheet",
+          "note": "At the equator."
+        },
+        "escapeVelocityKmS": {
+          "value": 617.6,
+          "sourceId": "nssdca-sun-fact-sheet"
+        },
+        "absoluteMagnitude": {
+          "value": 4.83,
+          "sourceId": "nssdca-sun-fact-sheet"
+        },
+        "luminosityW": {
+          "value": 3.828e+26,
+          "sourceId": "nssdca-sun-fact-sheet"
+        },
+        "spectralType": {
+          "value": "G2 V",
+          "sourceId": "nssdca-sun-fact-sheet"
+        },
+        "siderealRotationHours": {
+          "value": 609.12,
+          "sourceId": "nssdca-sun-fact-sheet",
+          "note": "Adopted period at 16° latitude; the Sun's rotation rate varies with latitude."
+        },
+        "obliquityDeg": {
+          "value": 7.25,
+          "sourceId": "nssdca-sun-fact-sheet",
+          "note": "Tilt of the Sun's equator relative to the ecliptic."
+        }
+      },
+      "orbit": {
+        "type": "fixed",
+        "positionKm": [
+          0,
+          0,
+          0
+        ],
+        "note": "The Sun is the origin of the heliocentric frame used for all positions."
+      },
+      "rotation": {
+        "sourceId": "naif-pck00011",
+        "poleRa": [
+          286.13,
+          0,
+          0
+        ],
+        "poleDec": [
+          63.87,
+          0,
+          0
+        ],
+        "pm": [
+          84.176,
+          14.1844,
+          0
+        ],
+        "nutPrecRa": [],
+        "nutPrecDec": [],
+        "nutPrecPm": [],
+        "nutPrecAngles": []
+      },
+      "shape": {
+        "equatorialRadiusKm": 695700,
+        "polarRadiusKm": 695700,
+        "sourceId": "naif-pck00011"
+      },
+      "description": {
+        "text": "The Sun is the star at the heart of our solar system. Its gravity holds the solar system together, keeping everything – from the biggest planets to the smallest bits of debris – in its orbit.",
+        "sourceId": "nasa-science-sun"
+      },
+      "texture": null,
+      "display": {
+        "color": "#ffd27a",
+        "note": "illustrative"
+      }
+    },
+    {
+      "id": "mercury",
+      "name": "Mercury",
+      "category": "planet",
+      "parentId": "sun",
+      "regionId": "solar-system",
+      "naifId": 199,
+      "facts": {
+        "massKg": {
+          "value": 3.3e+23,
+          "sourceId": "nssdca-planetary-fact-sheet"
+        },
+        "equatorialDiameterKm": {
+          "value": 4879,
+          "sourceId": "nssdca-planetary-fact-sheet"
+        },
+        "densityKgM3": {
+          "value": 5429,
+          "sourceId": "nssdca-planetary-fact-sheet"
+        },
+        "surfaceGravityMS2": {
+          "value": 3.7,
+          "sourceId": "nssdca-planetary-fact-sheet"
+        },
+        "escapeVelocityKmS": {
+          "value": 4.3,
+          "sourceId": "nssdca-planetary-fact-sheet"
+        },
+        "siderealRotationHours": {
+          "value": 1407.6,
+          "sourceId": "nssdca-planetary-fact-sheet",
+          "note": "Negative values indicate retrograde rotation (NSSDCA convention)."
+        },
+        "lengthOfDayHours": {
+          "value": 4222.6,
+          "sourceId": "nssdca-planetary-fact-sheet"
+        },
+        "meanDistanceFromSunKm": {
+          "value": 57900000,
+          "sourceId": "nssdca-planetary-fact-sheet"
+        },
+        "perihelionKm": {
+          "value": 46000000,
+          "sourceId": "nssdca-planetary-fact-sheet"
+        },
+        "aphelionKm": {
+          "value": 69800000,
+          "sourceId": "nssdca-planetary-fact-sheet"
+        },
+        "orbitalPeriodDays": {
+          "value": 88,
+          "sourceId": "nssdca-planetary-fact-sheet"
+        },
+        "meanOrbitalVelocityKmS": {
+          "value": 47.4,
+          "sourceId": "nssdca-planetary-fact-sheet"
+        },
+        "orbitalInclinationDeg": {
+          "value": 7,
+          "sourceId": "nssdca-planetary-fact-sheet"
+        },
+        "orbitalEccentricity": {
+          "value": 0.206,
+          "sourceId": "nssdca-planetary-fact-sheet"
+        },
+        "obliquityDeg": {
+          "value": 0.034,
+          "sourceId": "nssdca-planetary-fact-sheet"
+        },
+        "meanTemperatureC": {
+          "value": 167,
+          "sourceId": "nssdca-planetary-fact-sheet"
+        },
+        "surfacePressureBar": {
+          "value": 0,
+          "sourceId": "nssdca-planetary-fact-sheet"
+        },
+        "moonCount": {
+          "value": 0,
+          "sourceId": "nssdca-planetary-fact-sheet"
+        },
+        "hasRingSystem": {
+          "value": false,
+          "sourceId": "nssdca-planetary-fact-sheet"
+        },
+        "hasGlobalMagneticField": {
+          "value": true,
+          "sourceId": "nssdca-planetary-fact-sheet"
+        },
+        "semiMajorAxisAu": {
+          "value": 0.38709927,
+          "note": "J2000 value from JPL Table 1 (1800–2050) elements.",
+          "sourceId": "jpl-approx-pos"
+        }
+      },
+      "orbit": {
+        "type": "planet-approx",
+        "sourceId": "jpl-approx-pos",
+        "represents": "planet",
+        "tables": [
+          {
+            "id": "1800-2050",
+            "validFromJdTdb": 2378496.5,
+            "validToJdTdb": 2470172.5,
+            "elements": {
+              "a": 0.38709927,
+              "e": 0.20563593,
+              "I": 7.00497902,
+              "L": 252.2503235,
+              "varpi": 77.45779628,
+              "Omega": 48.33076593
+            },
+            "ratesPerCentury": {
+              "a": 3.7e-7,
+              "e": 0.00001906,
+              "I": -0.00594749,
+              "L": 149472.67411175,
+              "varpi": 0.16047689,
+              "Omega": -0.12534081
+            },
+            "nominalError": {
+              "longitudeArcsec": 15,
+              "latitudeArcsec": 1,
+              "distanceKm": 1000
+            },
+            "horizonsCheck": {
+              "sampleCount": 6,
+              "maxAngularErrorArcsec": 11.7,
+              "maxDistanceErrorKm": 1212,
+              "sourceId": "jpl-horizons"
+            }
+          },
+          {
+            "id": "3000BC-3000AD",
+            "validFromJdTdb": 625673.5,
+            "validToJdTdb": 2817152.5,
+            "elements": {
+              "a": 0.38709843,
+              "e": 0.20563661,
+              "I": 7.00559432,
+              "L": 252.25166724,
+              "varpi": 77.45771895,
+              "Omega": 48.33961819
+            },
+            "ratesPerCentury": {
+              "a": 0,
+              "e": 0.00002123,
+              "I": -0.00590158,
+              "L": 149472.67486623,
+              "varpi": 0.15940013,
+              "Omega": -0.12214182
+            },
+            "nominalError": {
+              "longitudeArcsec": 20,
+              "latitudeArcsec": 15,
+              "distanceKm": 1000
+            },
+            "horizonsCheck": {
+              "sampleCount": 3,
+              "maxAngularErrorArcsec": 23.2,
+              "maxDistanceErrorKm": 1025,
+              "sourceId": "jpl-horizons"
+            }
+          }
+        ]
+      },
+      "rotation": {
+        "sourceId": "naif-pck00011",
+        "poleRa": [
+          281.0103,
+          -0.0328,
+          0
+        ],
+        "poleDec": [
+          61.4155,
+          -0.0049,
+          0
+        ],
+        "pm": [
+          329.5988,
+          6.1385108,
+          0
+        ],
+        "nutPrecRa": [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "nutPrecDec": [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "nutPrecPm": [
+          0.01067257,
+          -0.00112309,
+          -0.0001104,
+          -0.00002539,
+          -0.00000571
+        ],
+        "nutPrecAngles": [
+          [
+            174.7910857,
+            149472.53587500003,
+            0
+          ],
+          [
+            349.5821714,
+            298945.07175000006,
+            0
+          ],
+          [
+            164.3732571,
+            448417.60762500006,
+            0
+          ],
+          [
+            339.1643429,
+            597890.1435000001,
+            0
+          ],
+          [
+            153.9554286,
+            747362.679375,
+            0
+          ]
+        ]
+      },
+      "shape": {
+        "equatorialRadiusKm": 2440.53,
+        "polarRadiusKm": 2438.26,
+        "sourceId": "naif-pck00011"
+      },
+      "description": {
+        "text": "Mercury is the closest planet to the Sun, and the smallest planet in our solar system - only slightly larger than Earth's Moon.",
+        "sourceId": "nasa-science-mercury"
+      },
+      "texture": null,
+      "display": {
+        "color": "#9a9894",
+        "note": "illustrative"
+      }
+    },
+    {
+      "id": "venus",
+      "name": "Venus",
+      "category": "planet",
+      "parentId": "sun",
+      "regionId": "solar-system",
+      "naifId": 299,
+      "facts": {
+        "massKg": {
+          "value": 4.87e+24,
+          "sourceId": "nssdca-planetary-fact-sheet"
+        },
+        "equatorialDiameterKm": {
+          "value": 12104,
+          "sourceId": "nssdca-planetary-fact-sheet"
+        },
+        "densityKgM3": {
+          "value": 5243,
+          "sourceId": "nssdca-planetary-fact-sheet"
+        },
+        "surfaceGravityMS2": {
+          "value": 8.9,
+          "sourceId": "nssdca-planetary-fact-sheet"
+        },
+        "escapeVelocityKmS": {
+          "value": 10.4,
+          "sourceId": "nssdca-planetary-fact-sheet"
+        },
+        "siderealRotationHours": {
+          "value": -5832.5,
+          "sourceId": "nssdca-planetary-fact-sheet",
+          "note": "Negative values indicate retrograde rotation (NSSDCA convention)."
+        },
+        "lengthOfDayHours": {
+          "value": 2802,
+          "sourceId": "nssdca-planetary-fact-sheet"
+        },
+        "meanDistanceFromSunKm": {
+          "value": 108200000,
+          "sourceId": "nssdca-planetary-fact-sheet"
+        },
+        "perihelionKm": {
+          "value": 107500000,
+          "sourceId": "nssdca-planetary-fact-sheet"
+        },
+        "aphelionKm": {
+          "value": 108900000,
+          "sourceId": "nssdca-planetary-fact-sheet"
+        },
+        "orbitalPeriodDays": {
+          "value": 224.7,
+          "sourceId": "nssdca-planetary-fact-sheet"
+        },
+        "meanOrbitalVelocityKmS": {
+          "value": 35,
+          "sourceId": "nssdca-planetary-fact-sheet"
+        },
+        "orbitalInclinationDeg": {
+          "value": 3.4,
+          "sourceId": "nssdca-planetary-fact-sheet"
+        },
+        "orbitalEccentricity": {
+          "value": 0.007,
+          "sourceId": "nssdca-planetary-fact-sheet"
+        },
+        "obliquityDeg": {
+          "value": 177.4,
+          "sourceId": "nssdca-planetary-fact-sheet"
+        },
+        "meanTemperatureC": {
+          "value": 464,
+          "sourceId": "nssdca-planetary-fact-sheet"
+        },
+        "surfacePressureBar": {
+          "value": 92,
+          "sourceId": "nssdca-planetary-fact-sheet"
+        },
+        "moonCount": {
+          "value": 0,
+          "sourceId": "nssdca-planetary-fact-sheet"
+        },
+        "hasRingSystem": {
+          "value": false,
+          "sourceId": "nssdca-planetary-fact-sheet"
+        },
+        "hasGlobalMagneticField": {
+          "value": false,
+          "sourceId": "nssdca-planetary-fact-sheet"
+        },
+        "semiMajorAxisAu": {
+          "value": 0.72333566,
+          "note": "J2000 value from JPL Table 1 (1800–2050) elements.",
+          "sourceId": "jpl-approx-pos"
+        }
+      },
+      "orbit": {
+        "type": "planet-approx",
+        "sourceId": "jpl-approx-pos",
+        "represents": "planet",
+        "tables": [
+          {
+            "id": "1800-2050",
+            "validFromJdTdb": 2378496.5,
+            "validToJdTdb": 2470172.5,
+            "elements": {
+              "a": 0.72333566,
+              "e": 0.00677672,
+              "I": 3.39467605,
+              "L": 181.9790995,
+              "varpi": 131.60246718,
+              "Omega": 76.67984255
+            },
+            "ratesPerCentury": {
+              "a": 0.0000039,
+              "e": -0.00004107,
+              "I": -0.0007889,
+              "L": 58517.81538729,
+              "varpi": 0.00268329,
+              "Omega": -0.27769418
+            },
+            "nominalError": {
+              "longitudeArcsec": 20,
+              "latitudeArcsec": 1,
+              "distanceKm": 4000
+            },
+            "horizonsCheck": {
+              "sampleCount": 6,
+              "maxAngularErrorArcsec": 14.8,
+              "maxDistanceErrorKm": 4091,
+              "sourceId": "jpl-horizons"
+            }
+          },
+          {
+            "id": "3000BC-3000AD",
+            "validFromJdTdb": 625673.5,
+            "validToJdTdb": 2817152.5,
+            "elements": {
+              "a": 0.72332102,
+              "e": 0.00676399,
+              "I": 3.39777545,
+              "L": 181.9797085,
+              "varpi": 131.76755713,
+              "Omega": 76.67261496
+            },
+            "ratesPerCentury": {
+              "a": -2.6e-7,
+              "e": -0.00005107,
+              "I": 0.00043494,
+              "L": 58517.8156026,
+              "varpi": 0.05679648,
+              "Omega": -0.27274174
+            },
+            "nominalError": {
+              "longitudeArcsec": 40,
+              "latitudeArcsec": 30,
+              "distanceKm": 8000
+            },
+            "horizonsCheck": {
+              "sampleCount": 3,
+              "maxAngularErrorArcsec": 74.6,
+              "maxDistanceErrorKm": 7046,
+              "sourceId": "jpl-horizons"
+            }
+          }
+        ]
+      },
+      "rotation": {
+        "sourceId": "naif-pck00011",
+        "poleRa": [
+          272.76,
+          0,
+          0
+        ],
+        "poleDec": [
+          67.16,
+          0,
+          0
+        ],
+        "pm": [
+          160.2,
+          -1.4813688,
+          0
+        ],
+        "nutPrecRa": [],
+        "nutPrecDec": [],
+        "nutPrecPm": [],
+        "nutPrecAngles": []
+      },
+      "shape": {
+        "equatorialRadiusKm": 6051.8,
+        "polarRadiusKm": 6051.8,
+        "sourceId": "naif-pck00011"
+      },
+      "description": {
+        "text": "Venus is the second planet from the Sun, and the sixth largest planet. It’s the hottest planet in our solar system.",
+        "sourceId": "nasa-science-venus"
+      },
+      "texture": null,
+      "display": {
+        "color": "#e2c48e",
+        "note": "illustrative"
+      }
+    },
+    {
+      "id": "earth",
+      "name": "Earth",
+      "category": "planet",
+      "parentId": "sun",
+      "regionId": "solar-system",
+      "naifId": 399,
+      "facts": {
+        "massKg": {
+          "value": 5.969999999999999e+24,
+          "sourceId": "nssdca-planetary-fact-sheet"
+        },
+        "equatorialDiameterKm": {
+          "value": 12756,
+          "sourceId": "nssdca-planetary-fact-sheet"
+        },
+        "densityKgM3": {
+          "value": 5514,
+          "sourceId": "nssdca-planetary-fact-sheet"
+        },
+        "surfaceGravityMS2": {
+          "value": 9.8,
+          "sourceId": "nssdca-planetary-fact-sheet"
+        },
+        "escapeVelocityKmS": {
+          "value": 11.2,
+          "sourceId": "nssdca-planetary-fact-sheet"
+        },
+        "siderealRotationHours": {
+          "value": 23.9,
+          "sourceId": "nssdca-planetary-fact-sheet",
+          "note": "Negative values indicate retrograde rotation (NSSDCA convention)."
+        },
+        "lengthOfDayHours": {
+          "value": 24,
+          "sourceId": "nssdca-planetary-fact-sheet"
+        },
+        "meanDistanceFromSunKm": {
+          "value": 149600000,
+          "sourceId": "nssdca-planetary-fact-sheet"
+        },
+        "perihelionKm": {
+          "value": 147100000,
+          "sourceId": "nssdca-planetary-fact-sheet"
+        },
+        "aphelionKm": {
+          "value": 152100000,
+          "sourceId": "nssdca-planetary-fact-sheet"
+        },
+        "orbitalPeriodDays": {
+          "value": 365.2,
+          "sourceId": "nssdca-planetary-fact-sheet"
+        },
+        "meanOrbitalVelocityKmS": {
+          "value": 29.8,
+          "sourceId": "nssdca-planetary-fact-sheet"
+        },
+        "orbitalInclinationDeg": {
+          "value": 0,
+          "sourceId": "nssdca-planetary-fact-sheet"
+        },
+        "orbitalEccentricity": {
+          "value": 0.017,
+          "sourceId": "nssdca-planetary-fact-sheet"
+        },
+        "obliquityDeg": {
+          "value": 23.4,
+          "sourceId": "nssdca-planetary-fact-sheet"
+        },
+        "meanTemperatureC": {
+          "value": 15,
+          "sourceId": "nssdca-planetary-fact-sheet"
+        },
+        "surfacePressureBar": {
+          "value": 1,
+          "sourceId": "nssdca-planetary-fact-sheet"
+        },
+        "moonCount": {
+          "value": 1,
+          "sourceId": "nssdca-planetary-fact-sheet"
+        },
+        "hasRingSystem": {
+          "value": false,
+          "sourceId": "nssdca-planetary-fact-sheet"
+        },
+        "hasGlobalMagneticField": {
+          "value": true,
+          "sourceId": "nssdca-planetary-fact-sheet"
+        },
+        "semiMajorAxisAu": {
+          "value": 1.00000261,
+          "note": "J2000 value from JPL Table 1 (1800–2050) elements.",
+          "sourceId": "jpl-approx-pos"
+        }
+      },
+      "orbit": {
+        "type": "planet-approx",
+        "sourceId": "jpl-approx-pos",
+        "represents": "earth-moon-barycenter",
+        "tables": [
+          {
+            "id": "1800-2050",
+            "validFromJdTdb": 2378496.5,
+            "validToJdTdb": 2470172.5,
+            "elements": {
+              "a": 1.00000261,
+              "e": 0.01671123,
+              "I": -0.00001531,
+              "L": 100.46457166,
+              "varpi": 102.93768193,
+              "Omega": 0
+            },
+            "ratesPerCentury": {
+              "a": 0.00000562,
+              "e": -0.00004392,
+              "I": -0.01294668,
+              "L": 35999.37244981,
+              "varpi": 0.32327364,
+              "Omega": 0
+            },
+            "nominalError": {
+              "longitudeArcsec": 20,
+              "latitudeArcsec": 8,
+              "distanceKm": 6000
+            },
+            "horizonsCheck": {
+              "sampleCount": 6,
+              "maxAngularErrorArcsec": 11.8,
+              "maxDistanceErrorKm": 2190,
+              "sourceId": "jpl-horizons"
+            }
+          },
+          {
+            "id": "3000BC-3000AD",
+            "validFromJdTdb": 625673.5,
+            "validToJdTdb": 2817152.5,
+            "elements": {
+              "a": 1.00000018,
+              "e": 0.01673163,
+              "I": -0.00054346,
+              "L": 100.46691572,
+              "varpi": 102.93005885,
+              "Omega": -5.11260389
+            },
+            "ratesPerCentury": {
+              "a": -3e-8,
+              "e": -0.00003661,
+              "I": -0.01337178,
+              "L": 35999.37306329,
+              "varpi": 0.3179526,
+              "Omega": -0.24123856
+            },
+            "nominalError": {
+              "longitudeArcsec": 40,
+              "latitudeArcsec": 15,
+              "distanceKm": 15000
+            },
+            "horizonsCheck": {
+              "sampleCount": 3,
+              "maxAngularErrorArcsec": 20.5,
+              "maxDistanceErrorKm": 14257,
+              "sourceId": "jpl-horizons"
+            }
+          }
+        ]
+      },
+      "rotation": {
+        "sourceId": "naif-pck00011",
+        "poleRa": [
+          0,
+          -0.641,
+          0
+        ],
+        "poleDec": [
+          90,
+          -0.557,
+          0
+        ],
+        "pm": [
+          190.147,
+          360.9856235,
+          0
+        ],
+        "nutPrecRa": [],
+        "nutPrecDec": [],
+        "nutPrecPm": [],
+        "nutPrecAngles": []
+      },
+      "shape": {
+        "equatorialRadiusKm": 6378.1366,
+        "polarRadiusKm": 6356.7519,
+        "sourceId": "naif-pck00011"
+      },
+      "description": {
+        "text": "Earth is the third planet from the Sun, and the fifth largest planet. It's the only place we know of inhabited by living things.",
+        "sourceId": "nasa-science-earth"
+      },
+      "texture": null,
+      "display": {
+        "color": "#4c7bd0",
+        "note": "illustrative"
+      }
+    },
+    {
+      "id": "mars",
+      "name": "Mars",
+      "category": "planet",
+      "parentId": "sun",
+      "regionId": "solar-system",
+      "naifId": 499,
+      "facts": {
+        "massKg": {
+          "value": 6.42e+23,
+          "sourceId": "nssdca-planetary-fact-sheet"
+        },
+        "equatorialDiameterKm": {
+          "value": 6792,
+          "sourceId": "nssdca-planetary-fact-sheet"
+        },
+        "densityKgM3": {
+          "value": 3934,
+          "sourceId": "nssdca-planetary-fact-sheet"
+        },
+        "surfaceGravityMS2": {
+          "value": 3.7,
+          "sourceId": "nssdca-planetary-fact-sheet"
+        },
+        "escapeVelocityKmS": {
+          "value": 5,
+          "sourceId": "nssdca-planetary-fact-sheet"
+        },
+        "siderealRotationHours": {
+          "value": 24.6,
+          "sourceId": "nssdca-planetary-fact-sheet",
+          "note": "Negative values indicate retrograde rotation (NSSDCA convention)."
+        },
+        "lengthOfDayHours": {
+          "value": 24.7,
+          "sourceId": "nssdca-planetary-fact-sheet"
+        },
+        "meanDistanceFromSunKm": {
+          "value": 228000000,
+          "sourceId": "nssdca-planetary-fact-sheet"
+        },
+        "perihelionKm": {
+          "value": 206700000,
+          "sourceId": "nssdca-planetary-fact-sheet"
+        },
+        "aphelionKm": {
+          "value": 249300000,
+          "sourceId": "nssdca-planetary-fact-sheet"
+        },
+        "orbitalPeriodDays": {
+          "value": 687,
+          "sourceId": "nssdca-planetary-fact-sheet"
+        },
+        "meanOrbitalVelocityKmS": {
+          "value": 24.1,
+          "sourceId": "nssdca-planetary-fact-sheet"
+        },
+        "orbitalInclinationDeg": {
+          "value": 1.8,
+          "sourceId": "nssdca-planetary-fact-sheet"
+        },
+        "orbitalEccentricity": {
+          "value": 0.094,
+          "sourceId": "nssdca-planetary-fact-sheet"
+        },
+        "obliquityDeg": {
+          "value": 25.2,
+          "sourceId": "nssdca-planetary-fact-sheet"
+        },
+        "meanTemperatureC": {
+          "value": -65,
+          "sourceId": "nssdca-planetary-fact-sheet"
+        },
+        "surfacePressureBar": {
+          "value": 0.01,
+          "sourceId": "nssdca-planetary-fact-sheet"
+        },
+        "moonCount": {
+          "value": 2,
+          "sourceId": "nssdca-planetary-fact-sheet"
+        },
+        "hasRingSystem": {
+          "value": false,
+          "sourceId": "nssdca-planetary-fact-sheet"
+        },
+        "hasGlobalMagneticField": {
+          "value": false,
+          "sourceId": "nssdca-planetary-fact-sheet"
+        },
+        "semiMajorAxisAu": {
+          "value": 1.52371034,
+          "note": "J2000 value from JPL Table 1 (1800–2050) elements.",
+          "sourceId": "jpl-approx-pos"
+        }
+      },
+      "orbit": {
+        "type": "planet-approx",
+        "sourceId": "jpl-approx-pos",
+        "represents": "planet",
+        "tables": [
+          {
+            "id": "1800-2050",
+            "validFromJdTdb": 2378496.5,
+            "validToJdTdb": 2470172.5,
+            "elements": {
+              "a": 1.52371034,
+              "e": 0.0933941,
+              "I": 1.84969142,
+              "L": -4.55343205,
+              "varpi": -23.94362959,
+              "Omega": 49.55953891
+            },
+            "ratesPerCentury": {
+              "a": 0.00001847,
+              "e": 0.00007882,
+              "I": -0.00813131,
+              "L": 19140.30268499,
+              "varpi": 0.44441088,
+              "Omega": -0.29257343
+            },
+            "nominalError": {
+              "longitudeArcsec": 40,
+              "latitudeArcsec": 2,
+              "distanceKm": 25000
+            },
+            "horizonsCheck": {
+              "sampleCount": 6,
+              "maxAngularErrorArcsec": 65.8,
+              "maxDistanceErrorKm": 19030,
+              "sourceId": "jpl-horizons"
+            }
+          },
+          {
+            "id": "3000BC-3000AD",
+            "validFromJdTdb": 625673.5,
+            "validToJdTdb": 2817152.5,
+            "elements": {
+              "a": 1.52371243,
+              "e": 0.09336511,
+              "I": 1.85181869,
+              "L": -4.56813164,
+              "varpi": -23.91744784,
+              "Omega": 49.71320984
+            },
+            "ratesPerCentury": {
+              "a": 9.7e-7,
+              "e": 0.00009149,
+              "I": -0.00724757,
+              "L": 19140.29934243,
+              "varpi": 0.45223625,
+              "Omega": -0.26852431
+            },
+            "nominalError": {
+              "longitudeArcsec": 100,
+              "latitudeArcsec": 40,
+              "distanceKm": 30000
+            },
+            "horizonsCheck": {
+              "sampleCount": 3,
+              "maxAngularErrorArcsec": 158.4,
+              "maxDistanceErrorKm": 40314,
+              "sourceId": "jpl-horizons"
+            }
+          }
+        ]
+      },
+      "rotation": {
+        "sourceId": "naif-pck00011",
+        "poleRa": [
+          317.269202,
+          -0.10927547,
+          0
+        ],
+        "poleDec": [
+          54.432516,
+          -0.05827105,
+          0
+        ],
+        "pm": [
+          176.049863,
+          350.891982443297,
+          0
+        ],
+        "nutPrecRa": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0.000068,
+          0.000238,
+          0.000052,
+          0.000009,
+          0.419057
+        ],
+        "nutPrecDec": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0.000051,
+          0.000141,
+          0.000031,
+          0.000005,
+          1.591274
+        ],
+        "nutPrecPm": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0.000145,
+          0.000157,
+          0.00004,
+          0.000001,
+          0.000001,
+          0.584542
+        ],
+        "nutPrecAngles": [
+          [
+            190.72646643,
+            15917.10818695,
+            0
+          ],
+          [
+            21.4689247,
+            31834.27934054,
+            0
+          ],
+          [
+            332.86082793,
+            19139.89694742,
+            0
+          ],
+          [
+            394.93256437,
+            38280.79631835,
+            0
+          ],
+          [
+            189.6327156,
+            41215158.1842005,
+            12.711923222
+          ],
+          [
+            121.46893664,
+            660.22803474,
+            0
+          ],
+          [
+            231.05028581,
+            660.9912354,
+            0
+          ],
+          [
+            251.37314025,
+            1320.50145245,
+            0
+          ],
+          [
+            217.98635955,
+            38279.9612555,
+            0
+          ],
+          [
+            196.19729402,
+            19139.83628608,
+            0
+          ],
+          [
+            198.991226,
+            19139.4819985,
+            0
+          ],
+          [
+            226.292679,
+            38280.8511281,
+            0
+          ],
+          [
+            249.663391,
+            57420.7251593,
+            0
+          ],
+          [
+            266.18351,
+            76560.636795,
+            0
+          ],
+          [
+            79.398797,
+            0.5042615,
+            0
+          ],
+          [
+            122.433576,
+            19139.9407476,
+            0
+          ],
+          [
+            43.058401,
+            38280.8753272,
+            0
+          ],
+          [
+            57.663379,
+            57420.7517205,
+            0
+          ],
+          [
+            79.476401,
+            76560.6495004,
+            0
+          ],
+          [
+            166.325722,
+            0.5042615,
+            0
+          ],
+          [
+            129.071773,
+            19140.0328244,
+            0
+          ],
+          [
+            36.352167,
+            38281.0473591,
+            0
+          ],
+          [
+            56.668646,
+            57420.929536,
+            0
+          ],
+          [
+            67.364003,
+            76560.2552215,
+            0
+          ],
+          [
+            104.79268,
+            95700.4387578,
+            0
+          ],
+          [
+            95.391654,
+            0.5042615,
+            0
+          ]
+        ]
+      },
+      "shape": {
+        "equatorialRadiusKm": 3396.19,
+        "polarRadiusKm": 3376.2,
+        "sourceId": "naif-pck00011"
+      },
+      "description": {
+        "text": "Mars is the fourth planet from the Sun, and the seventh largest. It’s the only planet we know of inhabited entirely by robots.",
+        "sourceId": "nasa-science-mars"
+      },
+      "texture": null,
+      "display": {
+        "color": "#c4673d",
+        "note": "illustrative"
+      }
+    },
+    {
+      "id": "jupiter",
+      "name": "Jupiter",
+      "category": "planet",
+      "parentId": "sun",
+      "regionId": "solar-system",
+      "naifId": 599,
+      "facts": {
+        "massKg": {
+          "value": 1.898e+27,
+          "sourceId": "nssdca-planetary-fact-sheet"
+        },
+        "equatorialDiameterKm": {
+          "value": 142984,
+          "sourceId": "nssdca-planetary-fact-sheet"
+        },
+        "densityKgM3": {
+          "value": 1326,
+          "sourceId": "nssdca-planetary-fact-sheet"
+        },
+        "surfaceGravityMS2": {
+          "value": 23.1,
+          "sourceId": "nssdca-planetary-fact-sheet"
+        },
+        "escapeVelocityKmS": {
+          "value": 59.5,
+          "sourceId": "nssdca-planetary-fact-sheet"
+        },
+        "siderealRotationHours": {
+          "value": 9.9,
+          "sourceId": "nssdca-planetary-fact-sheet",
+          "note": "Negative values indicate retrograde rotation (NSSDCA convention)."
+        },
+        "lengthOfDayHours": {
+          "value": 9.9,
+          "sourceId": "nssdca-planetary-fact-sheet"
+        },
+        "meanDistanceFromSunKm": {
+          "value": 778500000,
+          "sourceId": "nssdca-planetary-fact-sheet"
+        },
+        "perihelionKm": {
+          "value": 740600000,
+          "sourceId": "nssdca-planetary-fact-sheet"
+        },
+        "aphelionKm": {
+          "value": 816400000,
+          "sourceId": "nssdca-planetary-fact-sheet"
+        },
+        "orbitalPeriodDays": {
+          "value": 4331,
+          "sourceId": "nssdca-planetary-fact-sheet"
+        },
+        "meanOrbitalVelocityKmS": {
+          "value": 13.1,
+          "sourceId": "nssdca-planetary-fact-sheet"
+        },
+        "orbitalInclinationDeg": {
+          "value": 1.3,
+          "sourceId": "nssdca-planetary-fact-sheet"
+        },
+        "orbitalEccentricity": {
+          "value": 0.049,
+          "sourceId": "nssdca-planetary-fact-sheet"
+        },
+        "obliquityDeg": {
+          "value": 3.1,
+          "sourceId": "nssdca-planetary-fact-sheet"
+        },
+        "meanTemperatureC": {
+          "value": -110,
+          "sourceId": "nssdca-planetary-fact-sheet"
+        },
+        "moonCount": {
+          "value": 95,
+          "sourceId": "nssdca-planetary-fact-sheet"
+        },
+        "hasRingSystem": {
+          "value": true,
+          "sourceId": "nssdca-planetary-fact-sheet"
+        },
+        "hasGlobalMagneticField": {
+          "value": true,
+          "sourceId": "nssdca-planetary-fact-sheet"
+        },
+        "semiMajorAxisAu": {
+          "value": 5.202887,
+          "note": "J2000 value from JPL Table 1 (1800–2050) elements.",
+          "sourceId": "jpl-approx-pos"
+        }
+      },
+      "orbit": {
+        "type": "planet-approx",
+        "sourceId": "jpl-approx-pos",
+        "represents": "planet",
+        "tables": [
+          {
+            "id": "1800-2050",
+            "validFromJdTdb": 2378496.5,
+            "validToJdTdb": 2470172.5,
+            "elements": {
+              "a": 5.202887,
+              "e": 0.04838624,
+              "I": 1.30439695,
+              "L": 34.39644051,
+              "varpi": 14.72847983,
+              "Omega": 100.47390909
+            },
+            "ratesPerCentury": {
+              "a": -0.00011607,
+              "e": -0.00013253,
+              "I": -0.00183714,
+              "L": 3034.74612775,
+              "varpi": 0.21252668,
+              "Omega": 0.20469106
+            },
+            "nominalError": {
+              "longitudeArcsec": 400,
+              "latitudeArcsec": 10,
+              "distanceKm": 600000
+            },
+            "horizonsCheck": {
+              "sampleCount": 6,
+              "maxAngularErrorArcsec": 309,
+              "maxDistanceErrorKm": 549429,
+              "sourceId": "jpl-horizons"
+            }
+          },
+          {
+            "id": "3000BC-3000AD",
+            "validFromJdTdb": 625673.5,
+            "validToJdTdb": 2817152.5,
+            "elements": {
+              "a": 5.20248019,
+              "e": 0.0485359,
+              "I": 1.29861416,
+              "L": 34.33479152,
+              "varpi": 14.27495244,
+              "Omega": 100.29282654
+            },
+            "ratesPerCentury": {
+              "a": -0.00002864,
+              "e": 0.00018026,
+              "I": -0.00322699,
+              "L": 3034.90371757,
+              "varpi": 0.18199196,
+              "Omega": 0.13024619
+            },
+            "nominalError": {
+              "longitudeArcsec": 600,
+              "latitudeArcsec": 100,
+              "distanceKm": 1000000
+            },
+            "extraTerms": {
+              "b": -0.00012452,
+              "c": 0.0606406,
+              "s": -0.35635438,
+              "f": 38.35125
+            },
+            "horizonsCheck": {
+              "sampleCount": 3,
+              "maxAngularErrorArcsec": 187.2,
+              "maxDistanceErrorKm": 428947,
+              "sourceId": "jpl-horizons"
+            }
+          }
+        ]
+      },
+      "rotation": {
+        "sourceId": "naif-pck00011",
+        "poleRa": [
+          268.056595,
+          -0.006499,
+          0
+        ],
+        "poleDec": [
+          64.495303,
+          0.002413,
+          0
+        ],
+        "pm": [
+          284.95,
+          870.536,
+          0
+        ],
+        "nutPrecRa": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0.000117,
+          0.000938,
+          0.001432,
+          0.00003,
+          0.00215
+        ],
+        "nutPrecDec": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0.00005,
+          0.000404,
+          0.000617,
+          -0.000013,
+          0.000926
+        ],
+        "nutPrecPm": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "nutPrecAngles": [
+          [
+            73.32,
+            91472.9,
+            0
+          ],
+          [
+            24.62,
+            45137.2,
+            0
+          ],
+          [
+            283.9,
+            4850.7,
+            0
+          ],
+          [
+            355.8,
+            1191.3,
+            0
+          ],
+          [
+            119.9,
+            262.1,
+            0
+          ],
+          [
+            229.8,
+            64.3,
+            0
+          ],
+          [
+            352.25,
+            2382.6,
+            0
+          ],
+          [
+            113.35,
+            6070,
+            0
+          ],
+          [
+            146.64,
+            182945.8,
+            0
+          ],
+          [
+            49.24,
+            90274.4,
+            0
+          ],
+          [
+            99.360714,
+            4850.4046,
+            0
+          ],
+          [
+            175.895369,
+            1191.9605,
+            0
+          ],
+          [
+            300.323162,
+            262.5475,
+            0
+          ],
+          [
+            114.012305,
+            6070.2476,
+            0
+          ],
+          [
+            49.511251,
+            64.3,
+            0
+          ]
+        ]
+      },
+      "shape": {
+        "equatorialRadiusKm": 71492,
+        "polarRadiusKm": 66854,
+        "sourceId": "naif-pck00011"
+      },
+      "description": {
+        "text": "Jupiter is the fifth planet from the Sun, and the largest in the solar system – more than twice as massive as the other planets combined.",
+        "sourceId": "nasa-science-jupiter"
+      },
+      "texture": null,
+      "display": {
+        "color": "#d6b48a",
+        "note": "illustrative"
+      }
+    },
+    {
+      "id": "saturn",
+      "name": "Saturn",
+      "category": "planet",
+      "parentId": "sun",
+      "regionId": "solar-system",
+      "naifId": 699,
+      "facts": {
+        "massKg": {
+          "value": 5.68e+26,
+          "sourceId": "nssdca-planetary-fact-sheet"
+        },
+        "equatorialDiameterKm": {
+          "value": 120536,
+          "sourceId": "nssdca-planetary-fact-sheet"
+        },
+        "densityKgM3": {
+          "value": 687,
+          "sourceId": "nssdca-planetary-fact-sheet"
+        },
+        "surfaceGravityMS2": {
+          "value": 9,
+          "sourceId": "nssdca-planetary-fact-sheet"
+        },
+        "escapeVelocityKmS": {
+          "value": 35.5,
+          "sourceId": "nssdca-planetary-fact-sheet"
+        },
+        "siderealRotationHours": {
+          "value": 10.7,
+          "sourceId": "nssdca-planetary-fact-sheet",
+          "note": "Negative values indicate retrograde rotation (NSSDCA convention)."
+        },
+        "lengthOfDayHours": {
+          "value": 10.7,
+          "sourceId": "nssdca-planetary-fact-sheet"
+        },
+        "meanDistanceFromSunKm": {
+          "value": 1432000000,
+          "sourceId": "nssdca-planetary-fact-sheet"
+        },
+        "perihelionKm": {
+          "value": 1357600000,
+          "sourceId": "nssdca-planetary-fact-sheet"
+        },
+        "aphelionKm": {
+          "value": 1506500000,
+          "sourceId": "nssdca-planetary-fact-sheet"
+        },
+        "orbitalPeriodDays": {
+          "value": 10747,
+          "sourceId": "nssdca-planetary-fact-sheet"
+        },
+        "meanOrbitalVelocityKmS": {
+          "value": 9.7,
+          "sourceId": "nssdca-planetary-fact-sheet"
+        },
+        "orbitalInclinationDeg": {
+          "value": 2.5,
+          "sourceId": "nssdca-planetary-fact-sheet"
+        },
+        "orbitalEccentricity": {
+          "value": 0.052,
+          "sourceId": "nssdca-planetary-fact-sheet"
+        },
+        "obliquityDeg": {
+          "value": 26.7,
+          "sourceId": "nssdca-planetary-fact-sheet"
+        },
+        "meanTemperatureC": {
+          "value": -140,
+          "sourceId": "nssdca-planetary-fact-sheet"
+        },
+        "moonCount": {
+          "value": 274,
+          "sourceId": "nssdca-planetary-fact-sheet"
+        },
+        "hasRingSystem": {
+          "value": true,
+          "sourceId": "nssdca-planetary-fact-sheet"
+        },
+        "hasGlobalMagneticField": {
+          "value": true,
+          "sourceId": "nssdca-planetary-fact-sheet"
+        },
+        "semiMajorAxisAu": {
+          "value": 9.53667594,
+          "note": "J2000 value from JPL Table 1 (1800–2050) elements.",
+          "sourceId": "jpl-approx-pos"
+        }
+      },
+      "orbit": {
+        "type": "planet-approx",
+        "sourceId": "jpl-approx-pos",
+        "represents": "planet",
+        "tables": [
+          {
+            "id": "1800-2050",
+            "validFromJdTdb": 2378496.5,
+            "validToJdTdb": 2470172.5,
+            "elements": {
+              "a": 9.53667594,
+              "e": 0.05386179,
+              "I": 2.48599187,
+              "L": 49.95424423,
+              "varpi": 92.59887831,
+              "Omega": 113.66242448
+            },
+            "ratesPerCentury": {
+              "a": -0.0012506,
+              "e": -0.00050991,
+              "I": 0.00193609,
+              "L": 1222.49362201,
+              "varpi": -0.41897216,
+              "Omega": -0.28867794
+            },
+            "nominalError": {
+              "longitudeArcsec": 600,
+              "latitudeArcsec": 25,
+              "distanceKm": 1500000
+            },
+            "horizonsCheck": {
+              "sampleCount": 6,
+              "maxAngularErrorArcsec": 544.9,
+              "maxDistanceErrorKm": 1873831,
+              "sourceId": "jpl-horizons"
+            }
+          },
+          {
+            "id": "3000BC-3000AD",
+            "validFromJdTdb": 625673.5,
+            "validToJdTdb": 2817152.5,
+            "elements": {
+              "a": 9.54149883,
+              "e": 0.05550825,
+              "I": 2.49424102,
+              "L": 50.07571329,
+              "varpi": 92.86136063,
+              "Omega": 113.63998702
+            },
+            "ratesPerCentury": {
+              "a": -0.00003065,
+              "e": -0.00032044,
+              "I": 0.00451969,
+              "L": 1222.11494724,
+              "varpi": 0.54179478,
+              "Omega": -0.25015002
+            },
+            "nominalError": {
+              "longitudeArcsec": 1000,
+              "latitudeArcsec": 100,
+              "distanceKm": 4000000
+            },
+            "extraTerms": {
+              "b": 0.00025899,
+              "c": -0.13434469,
+              "s": 0.87320147,
+              "f": 38.35125
+            },
+            "horizonsCheck": {
+              "sampleCount": 3,
+              "maxAngularErrorArcsec": 706.3,
+              "maxDistanceErrorKm": 1320710,
+              "sourceId": "jpl-horizons"
+            }
+          }
+        ]
+      },
+      "rotation": {
+        "sourceId": "naif-pck00011",
+        "poleRa": [
+          40.589,
+          -0.036,
+          0
+        ],
+        "poleDec": [
+          83.537,
+          -0.004,
+          0
+        ],
+        "pm": [
+          38.9,
+          810.7939024,
+          0
+        ],
+        "nutPrecRa": [],
+        "nutPrecDec": [],
+        "nutPrecPm": [],
+        "nutPrecAngles": []
+      },
+      "shape": {
+        "equatorialRadiusKm": 60268,
+        "polarRadiusKm": 54364,
+        "sourceId": "naif-pck00011"
+      },
+      "description": {
+        "text": "Saturn is the sixth planet from the Sun, and the second largest in the solar system. It’s surrounded by beautiful rings.",
+        "sourceId": "nasa-science-saturn"
+      },
+      "texture": null,
+      "display": {
+        "color": "#e5d09c",
+        "note": "illustrative"
+      }
+    },
+    {
+      "id": "uranus",
+      "name": "Uranus",
+      "category": "planet",
+      "parentId": "sun",
+      "regionId": "solar-system",
+      "naifId": 799,
+      "facts": {
+        "massKg": {
+          "value": 8.68e+25,
+          "sourceId": "nssdca-planetary-fact-sheet"
+        },
+        "equatorialDiameterKm": {
+          "value": 51118,
+          "sourceId": "nssdca-planetary-fact-sheet"
+        },
+        "densityKgM3": {
+          "value": 1270,
+          "sourceId": "nssdca-planetary-fact-sheet"
+        },
+        "surfaceGravityMS2": {
+          "value": 8.7,
+          "sourceId": "nssdca-planetary-fact-sheet"
+        },
+        "escapeVelocityKmS": {
+          "value": 21.3,
+          "sourceId": "nssdca-planetary-fact-sheet"
+        },
+        "siderealRotationHours": {
+          "value": -17.2,
+          "sourceId": "nssdca-planetary-fact-sheet",
+          "note": "Negative values indicate retrograde rotation (NSSDCA convention)."
+        },
+        "lengthOfDayHours": {
+          "value": 17.2,
+          "sourceId": "nssdca-planetary-fact-sheet"
+        },
+        "meanDistanceFromSunKm": {
+          "value": 2867000000,
+          "sourceId": "nssdca-planetary-fact-sheet"
+        },
+        "perihelionKm": {
+          "value": 2732700000,
+          "sourceId": "nssdca-planetary-fact-sheet"
+        },
+        "aphelionKm": {
+          "value": 3001400000,
+          "sourceId": "nssdca-planetary-fact-sheet"
+        },
+        "orbitalPeriodDays": {
+          "value": 30589,
+          "sourceId": "nssdca-planetary-fact-sheet"
+        },
+        "meanOrbitalVelocityKmS": {
+          "value": 6.8,
+          "sourceId": "nssdca-planetary-fact-sheet"
+        },
+        "orbitalInclinationDeg": {
+          "value": 0.8,
+          "sourceId": "nssdca-planetary-fact-sheet"
+        },
+        "orbitalEccentricity": {
+          "value": 0.047,
+          "sourceId": "nssdca-planetary-fact-sheet"
+        },
+        "obliquityDeg": {
+          "value": 97.8,
+          "sourceId": "nssdca-planetary-fact-sheet"
+        },
+        "meanTemperatureC": {
+          "value": -195,
+          "sourceId": "nssdca-planetary-fact-sheet"
+        },
+        "moonCount": {
+          "value": 28,
+          "sourceId": "nssdca-planetary-fact-sheet"
+        },
+        "hasRingSystem": {
+          "value": true,
+          "sourceId": "nssdca-planetary-fact-sheet"
+        },
+        "hasGlobalMagneticField": {
+          "value": true,
+          "sourceId": "nssdca-planetary-fact-sheet"
+        },
+        "semiMajorAxisAu": {
+          "value": 19.18916464,
+          "note": "J2000 value from JPL Table 1 (1800–2050) elements.",
+          "sourceId": "jpl-approx-pos"
+        }
+      },
+      "orbit": {
+        "type": "planet-approx",
+        "sourceId": "jpl-approx-pos",
+        "represents": "planet",
+        "tables": [
+          {
+            "id": "1800-2050",
+            "validFromJdTdb": 2378496.5,
+            "validToJdTdb": 2470172.5,
+            "elements": {
+              "a": 19.18916464,
+              "e": 0.04725744,
+              "I": 0.77263783,
+              "L": 313.23810451,
+              "varpi": 170.9542763,
+              "Omega": 74.01692503
+            },
+            "ratesPerCentury": {
+              "a": -0.00196176,
+              "e": -0.00004397,
+              "I": -0.00242939,
+              "L": 428.48202785,
+              "varpi": 0.40805281,
+              "Omega": 0.04240589
+            },
+            "nominalError": {
+              "longitudeArcsec": 50,
+              "latitudeArcsec": 2,
+              "distanceKm": 1000000
+            },
+            "horizonsCheck": {
+              "sampleCount": 6,
+              "maxAngularErrorArcsec": 79,
+              "maxDistanceErrorKm": 1214582,
+              "sourceId": "jpl-horizons"
+            }
+          },
+          {
+            "id": "3000BC-3000AD",
+            "validFromJdTdb": 625673.5,
+            "validToJdTdb": 2817152.5,
+            "elements": {
+              "a": 19.18797948,
+              "e": 0.0468574,
+              "I": 0.77298127,
+              "L": 314.20276625,
+              "varpi": 172.43404441,
+              "Omega": 73.96250215
+            },
+            "ratesPerCentury": {
+              "a": -0.00020455,
+              "e": -0.0000155,
+              "I": -0.00180155,
+              "L": 428.49512595,
+              "varpi": 0.09266985,
+              "Omega": 0.05739699
+            },
+            "nominalError": {
+              "longitudeArcsec": 2000,
+              "latitudeArcsec": 30,
+              "distanceKm": 8000000
+            },
+            "extraTerms": {
+              "b": 0.00058331,
+              "c": -0.97731848,
+              "s": 0.17689245,
+              "f": 7.67025
+            },
+            "horizonsCheck": {
+              "sampleCount": 3,
+              "maxAngularErrorArcsec": 1038.3,
+              "maxDistanceErrorKm": 8445232,
+              "sourceId": "jpl-horizons"
+            }
+          }
+        ]
+      },
+      "rotation": {
+        "sourceId": "naif-pck00011",
+        "poleRa": [
+          257.311,
+          0,
+          0
+        ],
+        "poleDec": [
+          -15.175,
+          0,
+          0
+        ],
+        "pm": [
+          203.81,
+          -501.1600928,
+          0
+        ],
+        "nutPrecRa": [],
+        "nutPrecDec": [],
+        "nutPrecPm": [],
+        "nutPrecAngles": []
+      },
+      "shape": {
+        "equatorialRadiusKm": 25559,
+        "polarRadiusKm": 24973,
+        "sourceId": "naif-pck00011"
+      },
+      "description": {
+        "text": "Uranus is the seventh planet from the Sun, and the third largest planet in our solar system. It appears to spin sideways.",
+        "sourceId": "nasa-science-uranus"
+      },
+      "texture": null,
+      "display": {
+        "color": "#a3dbe2",
+        "note": "illustrative"
+      }
+    },
+    {
+      "id": "neptune",
+      "name": "Neptune",
+      "category": "planet",
+      "parentId": "sun",
+      "regionId": "solar-system",
+      "naifId": 899,
+      "facts": {
+        "massKg": {
+          "value": 1.0199999999999999e+26,
+          "sourceId": "nssdca-planetary-fact-sheet"
+        },
+        "equatorialDiameterKm": {
+          "value": 49528,
+          "sourceId": "nssdca-planetary-fact-sheet"
+        },
+        "densityKgM3": {
+          "value": 1638,
+          "sourceId": "nssdca-planetary-fact-sheet"
+        },
+        "surfaceGravityMS2": {
+          "value": 11,
+          "sourceId": "nssdca-planetary-fact-sheet"
+        },
+        "escapeVelocityKmS": {
+          "value": 23.5,
+          "sourceId": "nssdca-planetary-fact-sheet"
+        },
+        "siderealRotationHours": {
+          "value": 16.1,
+          "sourceId": "nssdca-planetary-fact-sheet",
+          "note": "Negative values indicate retrograde rotation (NSSDCA convention)."
+        },
+        "lengthOfDayHours": {
+          "value": 16.1,
+          "sourceId": "nssdca-planetary-fact-sheet"
+        },
+        "meanDistanceFromSunKm": {
+          "value": 4515000000,
+          "sourceId": "nssdca-planetary-fact-sheet"
+        },
+        "perihelionKm": {
+          "value": 4471100000,
+          "sourceId": "nssdca-planetary-fact-sheet"
+        },
+        "aphelionKm": {
+          "value": 4558900000,
+          "sourceId": "nssdca-planetary-fact-sheet"
+        },
+        "orbitalPeriodDays": {
+          "value": 59800,
+          "sourceId": "nssdca-planetary-fact-sheet"
+        },
+        "meanOrbitalVelocityKmS": {
+          "value": 5.4,
+          "sourceId": "nssdca-planetary-fact-sheet"
+        },
+        "orbitalInclinationDeg": {
+          "value": 1.8,
+          "sourceId": "nssdca-planetary-fact-sheet"
+        },
+        "orbitalEccentricity": {
+          "value": 0.01,
+          "sourceId": "nssdca-planetary-fact-sheet"
+        },
+        "obliquityDeg": {
+          "value": 28.3,
+          "sourceId": "nssdca-planetary-fact-sheet"
+        },
+        "meanTemperatureC": {
+          "value": -200,
+          "sourceId": "nssdca-planetary-fact-sheet"
+        },
+        "moonCount": {
+          "value": 16,
+          "sourceId": "nssdca-planetary-fact-sheet"
+        },
+        "hasRingSystem": {
+          "value": true,
+          "sourceId": "nssdca-planetary-fact-sheet"
+        },
+        "hasGlobalMagneticField": {
+          "value": true,
+          "sourceId": "nssdca-planetary-fact-sheet"
+        },
+        "semiMajorAxisAu": {
+          "value": 30.06992276,
+          "note": "J2000 value from JPL Table 1 (1800–2050) elements.",
+          "sourceId": "jpl-approx-pos"
+        }
+      },
+      "orbit": {
+        "type": "planet-approx",
+        "sourceId": "jpl-approx-pos",
+        "represents": "planet",
+        "tables": [
+          {
+            "id": "1800-2050",
+            "validFromJdTdb": 2378496.5,
+            "validToJdTdb": 2470172.5,
+            "elements": {
+              "a": 30.06992276,
+              "e": 0.00859048,
+              "I": 1.77004347,
+              "L": -55.12002969,
+              "varpi": 44.96476227,
+              "Omega": 131.78422574
+            },
+            "ratesPerCentury": {
+              "a": 0.00026291,
+              "e": 0.00005105,
+              "I": 0.00035372,
+              "L": 218.45945325,
+              "varpi": -0.32241464,
+              "Omega": -0.00508664
+            },
+            "nominalError": {
+              "longitudeArcsec": 10,
+              "latitudeArcsec": 1,
+              "distanceKm": 200000
+            },
+            "horizonsCheck": {
+              "sampleCount": 6,
+              "maxAngularErrorArcsec": 45,
+              "maxDistanceErrorKm": 1423141,
+              "sourceId": "jpl-horizons"
+            }
+          },
+          {
+            "id": "3000BC-3000AD",
+            "validFromJdTdb": 625673.5,
+            "validToJdTdb": 2817152.5,
+            "elements": {
+              "a": 30.06952752,
+              "e": 0.00895439,
+              "I": 1.7700552,
+              "L": 304.22289287,
+              "varpi": 46.68158724,
+              "Omega": 131.78635853
+            },
+            "ratesPerCentury": {
+              "a": 0.00006447,
+              "e": 0.00000818,
+              "I": 0.000224,
+              "L": 218.46515314,
+              "varpi": 0.01009938,
+              "Omega": -0.00606302
+            },
+            "nominalError": {
+              "longitudeArcsec": 400,
+              "latitudeArcsec": 15,
+              "distanceKm": 4000000
+            },
+            "extraTerms": {
+              "b": -0.00041348,
+              "c": 0.68346318,
+              "s": -0.10162547,
+              "f": 7.67025
+            },
+            "horizonsCheck": {
+              "sampleCount": 3,
+              "maxAngularErrorArcsec": 250,
+              "maxDistanceErrorKm": 3853115,
+              "sourceId": "jpl-horizons"
+            }
+          }
+        ]
+      },
+      "rotation": {
+        "sourceId": "naif-pck00011",
+        "poleRa": [
+          299.36,
+          0,
+          0
+        ],
+        "poleDec": [
+          43.46,
+          0,
+          0
+        ],
+        "pm": [
+          249.978,
+          541.1397757,
+          0
+        ],
+        "nutPrecRa": [
+          0.7,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "nutPrecDec": [
+          -0.51,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "nutPrecPm": [
+          -0.48,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "nutPrecAngles": [
+          [
+            357.85,
+            52.316,
+            0
+          ],
+          [
+            323.92,
+            62606.6,
+            0
+          ],
+          [
+            220.51,
+            55064.2,
+            0
+          ],
+          [
+            354.27,
+            46564.5,
+            0
+          ],
+          [
+            75.31,
+            26109.4,
+            0
+          ],
+          [
+            35.36,
+            14325.4,
+            0
+          ],
+          [
+            142.61,
+            2824.6,
+            0
+          ],
+          [
+            177.85,
+            52.316,
+            0
+          ],
+          [
+            647.84,
+            125213.2,
+            0
+          ],
+          [
+            355.7,
+            104.632,
+            0
+          ],
+          [
+            533.55,
+            156.948,
+            0
+          ],
+          [
+            711.4,
+            209.264,
+            0
+          ],
+          [
+            889.25,
+            261.58,
+            0
+          ],
+          [
+            1067.1,
+            313.896,
+            0
+          ],
+          [
+            1244.95,
+            366.212,
+            0
+          ],
+          [
+            1422.8,
+            418.528,
+            0
+          ],
+          [
+            1600.65,
+            470.844,
+            0
+          ]
+        ]
+      },
+      "shape": {
+        "equatorialRadiusKm": 24764,
+        "polarRadiusKm": 24341,
+        "sourceId": "naif-pck00011"
+      },
+      "description": {
+        "text": "Neptune is the eighth and most distant planet from the Sun. It’s the fourth largest, and the first planet discovered with math.",
+        "sourceId": "nasa-science-neptune"
+      },
+      "texture": null,
+      "display": {
+        "color": "#4b70d8",
+        "note": "illustrative"
+      }
+    }
+  ]
+}
