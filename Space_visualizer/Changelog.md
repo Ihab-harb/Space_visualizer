@@ -113,6 +113,11 @@ Back to [[Home]]
 - Carry-over: [[2026-10-05-m2a1-carry-over]] ("From M2b.1" lists what was deferred).
 - **Pull request:** `m2b1-details` was pushed as PR #5, stacked on #4 (base `m2a3-interface`). The stack #1 → #5 is open and not merged.
 
+## 2026-10-16 to 2026-10-29 — Cloud sessions plan (not committed yet)
+- **Cloud notes:** a plan for using Claude Code cloud sessions to speed up the work: [[Cloud sessions]] (the guide a cloud session reads first), [[2026-10-16-cloud-task-queue]] (ten self-contained jobs, Q1–Q10, in parallel waves) and [[2026-10-16-cloud-sessions-setup]] (GitHub App, an environment with Node 24 and Chromium, a network allowlist for the science sites, CI). Linked from [[Start here]] and Home.
+- **Repo files:** on 2026-10-29 the repo-root `CLAUDE.md`, a cloud-only `SessionStart` hook (`.claude/settings.json`, `scripts/cloud-session-start.sh`) and a local branch `cloud-setup` were added.
+- **Status:** none of this is committed or pushed yet. No app code has changed since M2b.1. See [[2026-10-29-session-vault-check]].
+
 ## 2026-10-30 — M2b.2 The Moon implemented
 - **The Moon at its real position** for 1800 to 2051: JPL Horizons geocentric vectors compressed to a Chebyshev table (16-day segments, degree 12, 1.88 MB), within 0.904 km (0.4792 arcsec) of Horizons on 366,720 held-out samples. Outside that range the JPL mean elements give the position; they are off by up to about 175 degrees at the far dates, and the app shows that number. Decision: [[0008-moon-chebyshev-table]]. Code: `chebyshev`, `meanElements`, `system`, `phase` in [[core]].
 - **Earth moved off the barycentre:** it now sits at the Earth-Moon barycentre minus 0.0121506 times the Moon's offset (mass ratio from [[NAIF GM DE440]]). A new Earth centre check against Horizons reads 2,190 km (11.8 arcsec), which is Earth's own approximate-barycentre error.
@@ -122,7 +127,7 @@ Back to [[Home]]
 - **Imagery:** [[NASA SVS CGI Moon Kit]] colour (LROC) and relief (LOLA, x2, illustrative); 17.5 MB committed. Reader fix: sharp rescaled unsigned 16-bit greys, so a repo reader handles them.
 - **Sources and pipeline:** [[JPL Planetary Satellite Mean Elements]], [[NAIF GM DE440]], [[NSSDCA Moon Fact Sheet]]; `npm run moon:ephemeris` (about 20 minutes first run); the Horizons reference grew from 72 to 81 vectors. See [[pipeline]].
 - **Tests:** 797 unit tests, typecheck clean, 93 end-to-end tests. Six Moon golden views in `Assets/m2b2/`, with the tuned shading values, in [[2026-10-29-m2b2-moon]].
-- Not pushed yet; the whole-branch review is pending. Open questions are in [[2026-10-29-session-m2b2-moon]]. Carry-over: [[2026-10-05-m2a1-carry-over]] ("From M2b.2").
+- Whole-branch review done (entry below); pushed on 2026-10-30 as PR #6. Open questions are in [[2026-10-29-session-m2b2-moon]]. Carry-over: [[2026-10-05-m2a1-carry-over]] ("From M2b.2").
 
 ## 2026-10-30 — M2b.2 whole-branch review fixes
 - The Moon is no longer hidden when Earth is behind it close up; hiding applies only when readable-scale inflation causes the overlap.

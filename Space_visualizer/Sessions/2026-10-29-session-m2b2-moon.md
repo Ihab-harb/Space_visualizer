@@ -37,10 +37,17 @@ See the spec §10 (nine calls) and the rulings in the plan's Execution record. T
 - The whole-branch review, its fix wave and the scoped re-review are done (see the plan's "Whole-branch review"). The branch is **not pushed** and **no PR** is open.
 - Next section: M2b.3 (cutaway and charts), per the M2b.1 spec's split.
 
+## Push and branches (2026-10-30)
+- Request: "push everything and arrange the prs and branches".
+- Pushed `m2b2-moon` and opened **PR #6** (base `m2b1-details`).
+- Moved the local `cloud-setup` branch (no commits of its own) onto `m2b2-moon`, committed the cloud notes, `CLAUDE.md`, `.claude/settings.json` and `scripts/cloud-session-start.sh` there, and opened **PR #7** (base `m2b2-moon`). `.claude/scheduled_tasks.lock` is git-ignored.
+- The cloud task queue's base branch is now `cloud-setup`.
+- Local tidy-up: `m2a1-imagery` pointed back to its pushed commit (it had drifted onto the M2a.2 commits); the local-only `m2-planning` branch, already contained in the stack, was deleted.
+
 ## Open for the user
 1. **The Moon's position outside 1800 to 2050.** There it uses JPL mean elements, which are off by up to about 175 degrees (784,535 km) at the far reference dates. The final review made the status bar read "out of range" for the Moon outside the table, and the Phase chip and distances there cite the mean elements. You may still choose to extend the Horizons table (more years, bigger download), or keep it as it is. See [[0008-moon-chebyshev-table]].
 2. **Review the spec §10 calls** and the plan's rulings ([[2026-10-29-m2b2-moon]], Execution record).
 3. **The Moon has no Discovery section.** No official "known since antiquity" sentence was found; the app shows nothing rather than an uncited line.
 4. **A bright atmosphere and bloom haze** shows on Earth's full day side at close range (golden 6d). It was there before this section. A shell and bloom tuning pass is suggested.
-5. **The cloud-setup files remain uncommitted** (see [[2026-10-29-session-vault-check]]).
-6. **The branch is not pushed and no PR is open.** Say when to push and open the stacked PR (base `m2b1-details`).
+5. **Cloud setup:** now committed and open as PR #7 (see "Push and branches" above). Setup Task 1 (GitHub App and cloud environment, in the browser) and Task 4 (CI) are still yours to do or request.
+6. **Merging:** PRs #1–#7 are open and stacked; none is merged. Merge them in order, starting with #1.

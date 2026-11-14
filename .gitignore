@@ -18,3 +18,7 @@ Space_visualizer/.trash/
 public/textures/**/*_4k.webp
 public/textures/**/*_8k.webp
 !public/textures/sky/color_4k.webp
+
+# Claude Code runtime files (local, per session)
+.claude/scheduled_tasks.lock
+.claude/settings.local.json
