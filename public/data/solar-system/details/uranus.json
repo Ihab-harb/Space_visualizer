@@ -1,8 +1,12 @@
 {
   "schemaVersion": 1,
   "bodyId": "uranus",
-  "generatedAt": "2026-10-30T02:50:44.473Z",
+  "generatedAt": "2026-11-14T12:43:12.320Z",
   "interior": {
+    "radiusKm": {
+      "value": 25362,
+      "sourceId": "nssdca-uranus-fact-sheet"
+    },
     "layers": [
       {
         "id": "envelope",

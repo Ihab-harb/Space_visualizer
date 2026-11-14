@@ -274,6 +274,8 @@ describe('buildDetails', () => {
       const ok = withMoon({ interiors: file });
       // A single core layer alone is a valid interior.
       expect(ok.details.find((d) => d.bodyId === 'moon')!.interior!.layers[0]!.outerRadiusKm!.max).toBeCloseTo(347.48, 6);
+      // The Moon has no planet-sheet row: the radius is the catalogue's cited mean radius.
+      expect(ok.details.find((d) => d.bodyId === 'moon')!.interior!.radiusKm).toEqual({ value: 1737.4, sourceId: MS });
       const bad: InteriorsFile = { sources: [moonSrc], bodies: { moon: { layers: file.bodies.moon!.layers, magneticField: { sourceId: 'moon-page', quote: 'This sentence about the magnetic field is not on the page', text: 'x' } } } };
       expect(withMoon({ interiors: bad }).errors.join()).toContain('magneticField');
     });
@@ -313,6 +315,24 @@ describe('buildDetails', () => {
       expect(run(f).errors.join()).toMatch(/not in the trusted list/);
       const g = build({ interiors: file(), missions: { sources: [], bodies: {} }, curatedPages: new Map([['paper-x', fetched('<p>nothing relevant here at all</p>')]]) });
       expect(g.errors.join()).toMatch(/quote not on page of paper-x/);
+    });
+    it('carries a gradual boundary as its cited source only, and records the radius the bounds were converted with', () => {
+      const GQ = 'In this model the core is dilute, with no clear boundary to the envelope above it';
+      const f = file();
+      f.bodies.mars!.layers[1] = { ...f.bodies.mars!.layers[1]!, estimate: true, gradual: { sourceId: 'paper-x', quote: GQ } };
+      const { details, errors } = build({
+        interiors: f, missions: { sources: [], bodies: {} },
+        curatedPages: new Map([['paper-x', fetched('<p>' + PQ + ' in the published article. ' + GQ + '.</p>')]]),
+      });
+      expect(errors).toEqual([]);
+      const interior = details.find((d) => d.bodyId === 'mars')!.interior!;
+      expect(interior.layers[1]).toMatchObject({ id: 'core', gradual: { sourceId: 'paper-x' } });
+      expect(interior.layers[1]!.gradual).not.toHaveProperty('quote');
+      expect(interior.layers[0]).not.toHaveProperty('gradual');
+      // Mars: the Planetary Fact Sheet's mean radius, cited to that sheet.
+      expect(interior.radiusKm).toEqual({ value: 3389.5, sourceId: 'nssdca-mars-fact-sheet' });
+      const sun = run().details.find((d) => d.bodyId === 'sun')!;
+      expect(sun.interior).toBeNull();
     });
     it('an all-illustrative interior builds', () => {
       const f = file();

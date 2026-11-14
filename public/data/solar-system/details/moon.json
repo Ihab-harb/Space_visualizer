@@ -1,8 +1,12 @@
 {
   "schemaVersion": 1,
   "bodyId": "moon",
-  "generatedAt": "2026-10-29T21:43:54.403Z",
+  "generatedAt": "2026-11-14T12:43:12.320Z",
   "interior": {
+    "radiusKm": {
+      "value": 1737.4,
+      "sourceId": "nssdca-moon-fact-sheet"
+    },
     "layers": [
       {
         "id": "crust",

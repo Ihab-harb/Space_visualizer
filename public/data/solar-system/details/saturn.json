@@ -1,8 +1,12 @@
 {
   "schemaVersion": 1,
   "bodyId": "saturn",
-  "generatedAt": "2026-10-30T02:50:44.473Z",
+  "generatedAt": "2026-11-14T12:43:12.320Z",
   "interior": {
+    "radiusKm": {
+      "value": 58232,
+      "sourceId": "nssdca-saturn-fact-sheet"
+    },
     "layers": [
       {
         "id": "envelope",
@@ -57,6 +61,9 @@
           "sourceId": "paper-mankovich-fuller-2021-saturn-core"
         },
         "uncertain": true,
+        "gradual": {
+          "sourceId": "paper-mankovich-fuller-2021-saturn-core"
+        },
         "sizeKind": "estimate",
         "estimate": true
       }

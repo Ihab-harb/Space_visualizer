@@ -4,7 +4,7 @@ import type { DrawnLayer } from '../../core/interior/geometry';
 import { cutAmounts, drawnExtent, EXPLORE_DIM, exploreShellUniforms, layerAtRadius, rayHitShell, sectionNormal, type ExploreFrame } from './exploreFrame';
 
 const layer = (id: string, outer: number, inner: number): DrawnLayer => ({
-  id, name: id, outer, inner, outerBand: 0, innerBand: 0, thickened: false, sizeKind: 'cited', state: 'solid',
+  id, name: id, outer, inner, outerBand: 0, innerBand: 0, thickened: false, sizeKind: 'cited', state: 'solid', gradual: false,
 });
 const earth = [layer('crust', 1, 0.988), layer('mantle', 0.988, 0.547), layer('outer-core', 0.547, 0.192), layer('inner-core', 0.192, 0)];
 

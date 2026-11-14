@@ -61,6 +61,23 @@ describe('LayerCard', () => {
     expect(card).toHaveTextContent('soft band');
   });
 
+  it('says a gradual core has no sharp edge, cites the sentence, and calls the soft edge illustrative (Jupiter, Saturn)', () => {
+    const { body, details, card } = show('jupiter', 'dilute-core');
+    const n = citationModel(catalog, body, details).numbers.get('nasa-science-jupiter-facts')!;
+    const note = within(card).getByText(/No sharp edge/);
+    expect(note).toHaveTextContent('the source describes a gradual change into the layer above');
+    expect(note).toHaveTextContent('The soft edge is illustrative');
+    expect(within(note).getByRole('link', { name: `Source ${n}` })).toBeInTheDocument();
+    expect(card).not.toHaveTextContent('The source gives a range');
+  });
+
+  it('notes the soft lower edge on the layer above a gradual core, and no range note there', () => {
+    const { card } = show('saturn', 'metallic-hydrogen');
+    expect(card).toHaveTextContent('No sharp lower edge: the source describes a gradual change into the diffuse core below');
+    expect(card).toHaveTextContent('The soft edge is illustrative');
+    expect(card).not.toHaveTextContent('The source gives a range');
+  });
+
   it('closes with its ✕', async () => {
     const { onClose } = show('earth', 'mantle');
     await userEvent.click(screen.getByRole('button', { name: 'Close layer card' }));

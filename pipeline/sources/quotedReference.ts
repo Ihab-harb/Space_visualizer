@@ -32,7 +32,15 @@ export interface CuratedLayer {
   stateSource?: Quoted;
   composition: (Quoted & { text: string }) | null;
   uncertain: boolean;
+  /**
+   * A sentence that says the layer's outer boundary has no sharp edge (a dilute or diffuse core). The cutaway then draws that
+   * boundary as an illustrative soft band with no line. Not allowed on the outermost layer (its outer edge is the surface).
+   */
+  gradual?: Quoted;
 }
+
+/** Words a `gradual` quote must contain, so the sentence really describes a boundary without a sharp edge. */
+export const GRADUAL_WORDS = ['gradual', 'dilute', 'diffuse', 'fuzzy', 'no clear separation', 'no sharp'] as const;
 export interface CuratedMission { id: string; name: string; agency: string; type: MissionType; launchDate: string; arrivalDate: string | null; endDate: string | null; outcome: MissionOutcome; sourceId: string; quotes: string[] }
 export type CuratedDiscovery = (Quoted & { kind: 'antiquity' }) | (Quoted & { kind: 'discovered'; by: string; date: string; method: string });
 export interface InteriorsFile {
@@ -297,8 +305,16 @@ export function verifyInteriors(file: InteriorsFile, pages: Map<string, string>)
       const page = pageFor(pages, file.sources, magneticField.sourceId, where, errors);
       if (page !== null) checkQuote(magneticField.quote, page, magneticField.sourceId, where, errors);
     }
-    for (const layer of layers) {
+    for (const [index, layer] of layers.entries()) {
       const where = `${body}/${layer.id}`;
+      if (layer.gradual) {
+        const w = `${where} gradual`;
+        if (index === 0) errors.push(`${w}: the outermost layer's outer edge is the surface, not a gradual boundary`);
+        const page = pageFor(pages, file.sources, layer.gradual.sourceId, w, errors);
+        if (page !== null) checkQuote(layer.gradual.quote, page, layer.gradual.sourceId, w, errors);
+        const q = normaliseQuote(layer.gradual.quote).toLowerCase();
+        if (!GRADUAL_WORDS.some((word) => q.includes(word))) errors.push(`${w}: the quote does not describe a gradual boundary (${GRADUAL_WORDS.join(', ')}): "${layer.gradual.quote}"`);
+      }
       const kind = layer.sizeKind ?? 'cited';
       const ranges: [string, QuotedRange][] = [];
       if (kind === 'illustrative') {
@@ -334,7 +350,7 @@ export function verifyInteriors(file: InteriorsFile, pages: Map<string, string>)
         const page = pageFor(pages, file.sources, layer.composition.sourceId, `${where} composition`, errors);
         if (page !== null) checkQuote(layer.composition.quote, page, layer.composition.sourceId, `${where} composition`, errors);
       }
-      const citedIds = [layer.outer?.sourceId, layer.inner?.sourceId, layer.stateSource?.sourceId, layer.composition?.sourceId];
+      const citedIds = [layer.outer?.sourceId, layer.inner?.sourceId, layer.stateSource?.sourceId, layer.composition?.sourceId, layer.gradual?.sourceId];
       if (citedIds.some((id) => id !== undefined && paperIds.has(id)) && layer.estimate !== true) {
         errors.push(`${where}: cites a paper source: estimate must be true`);
       }

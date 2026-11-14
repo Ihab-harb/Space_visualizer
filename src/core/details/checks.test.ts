@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { makeJupiterDetails, makeMarsDetails, makeSunDetails } from '../../test/detailsFixtures';
 import { TEST_SOURCES } from '../../test/fixtures';
-import { checkDetails, resolveLayerRanges } from './checks';
+import { checkDetails, MAX_INTERIOR_LAYERS, resolveLayerRanges } from './checks';
 import { BodyDetailsSchema } from './schema';
 
 const ctx = { radiusKm: 3389.5, knownSources: new Set(TEST_SOURCES.map((s) => s.id)) };
@@ -158,5 +158,34 @@ describe('estimate and illustrative layers (ADR 0009)', () => {
   it('still checks ordering of numbered layers around illustrative ones', () => {
     const out = checkDetails(withLayers([cited('a', R, 1000), ill('b'), cited('c', 2000, 0)]), ctx).join();
     expect(out).toMatch(/illustrative layer b has no room between its neighbours/);
+  });
+});
+
+describe('layer count and gradual boundaries (M2b.3 review)', () => {
+  const PS = 'nssdca-planetary-fact-sheet';
+  const ill = (id: string, over: Record<string, unknown> = {}) => ({ id, name: id, from: 'radius' as const, sizeKind: 'illustrative' as const, state: 'unknown' as const, composition: null, uncertain: true, ...over });
+  const withLayers = (layers: unknown[]) => ({ ...makeMarsDetails(), interior: { layers } }) as unknown as ReturnType<typeof makeMarsDetails>;
+
+  it(`rejects more than ${MAX_INTERIOR_LAYERS} layers (the cutaway draws at most that many)`, () => {
+    expect(MAX_INTERIOR_LAYERS).toBe(8);
+    const many = (n: number) => withLayers(Array.from({ length: n }, (_, i) => ill(`l${i}`)));
+    expect(checkDetails(many(8), ctx)).toEqual([]);
+    expect(checkDetails(many(9), ctx)).toContain(`details/mars.json: interior has 9 layers; the cutaway draws at most ${MAX_INTERIOR_LAYERS}`);
+  });
+  it('schema: a layer may carry a cited gradual outer boundary, and an interior its cited radius', () => {
+    const d = withLayers([ill('a'), ill('b', { gradual: { sourceId: PS } })]);
+    expect(BodyDetailsSchema.safeParse(d).success).toBe(true);
+    expect(BodyDetailsSchema.safeParse(withLayers([ill('a'), ill('b', { gradual: {} })])).success).toBe(false);
+    expect(BodyDetailsSchema.safeParse({ ...d, interior: { ...d.interior, radiusKm: { value: 3389.5, sourceId: PS } } }).success).toBe(true);
+    expect(checkDetails(d, ctx)).toEqual([]);
+  });
+  it('rejects a gradual boundary on the outermost layer (its outer edge is the surface)', () => {
+    expect(checkDetails(withLayers([ill('a', { gradual: { sourceId: PS } }), ill('b')]), ctx)).toContain('details/mars.json: interior a is the outermost layer: its outer edge is the surface, not a gradual boundary');
+  });
+  it('rejects an interior radius that does not match the outermost bound it was converted with', () => {
+    const d = makeMarsDetails();
+    const ok = { ...d, interior: { ...d.interior!, radiusKm: { value: 3389.5, sourceId: PS } } };
+    expect(checkDetails(ok, ctx)).toEqual([]);
+    expect(checkDetails({ ...ok, interior: { ...ok.interior, radiusKm: { value: 3000, sourceId: PS } } }, ctx).join()).toContain('interior radius 3000 km is not the radius the bounds use (3389.5 km)');
   });
 });

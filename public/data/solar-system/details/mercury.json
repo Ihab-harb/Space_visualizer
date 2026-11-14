@@ -1,8 +1,12 @@
 {
   "schemaVersion": 1,
   "bodyId": "mercury",
-  "generatedAt": "2026-10-15T22:30:26.775Z",
+  "generatedAt": "2026-11-14T12:43:12.320Z",
   "interior": {
+    "radiusKm": {
+      "value": 2439.7,
+      "sourceId": "nssdca-mercury-fact-sheet"
+    },
     "layers": [
       {
         "id": "mantle-crust",

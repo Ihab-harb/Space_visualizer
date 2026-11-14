@@ -47,14 +47,21 @@ export function resolveLayerRanges(layers: readonly InteriorLayer[], radiusKm: n
   return out;
 }
 
+/** Most layers the cutaway draws (its shaders hold a fixed-size layer table). More would be dropped silently, so the build fails. */
+export const MAX_INTERIOR_LAYERS = 8;
+
 /** Spec §5 build checks. Returns one message per failed rule; empty means the file is consistent. */
 export function checkDetails(details: BodyDetails, ctx: { radiusKm: number; knownSources: ReadonlySet<string> }): string[] {
   const p = `details/${details.bodyId}.json:`;
   const errors: string[] = [];
   const layers = details.interior?.layers ?? [];
   const ranges = resolveLayerRanges(layers, ctx.radiusKm);
+  if (layers.length > MAX_INTERIOR_LAYERS) errors.push(`${p} interior has ${layers.length} layers; the cutaway draws at most ${MAX_INTERIOR_LAYERS}`);
+  const stated = details.interior?.radiusKm;
+  if (stated && Math.abs(stated.value - ctx.radiusKm) > EPS) errors.push(`${p} interior radius ${stated.value} km is not the radius the bounds use (${ctx.radiusKm} km)`);
   layers.forEach((layer, i) => {
     const cur = ranges[i]!;
+    if (i === 0 && layer.gradual) errors.push(`${p} interior ${layer.id} is the outermost layer: its outer edge is the surface, not a gradual boundary`);
     if (!hasBounds(layer) && (layer.outerRadiusKm !== undefined || layer.innerRadiusKm !== undefined)) {
       errors.push(`${p} interior illustrative layer ${layer.id} must have both bounds or none`);
     }

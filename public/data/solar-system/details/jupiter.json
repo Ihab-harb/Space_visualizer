@@ -1,8 +1,12 @@
 {
   "schemaVersion": 1,
   "bodyId": "jupiter",
-  "generatedAt": "2026-10-30T02:50:44.473Z",
+  "generatedAt": "2026-11-14T12:43:12.320Z",
   "interior": {
+    "radiusKm": {
+      "value": 69911,
+      "sourceId": "nssdca-jupiter-fact-sheet"
+    },
     "layers": [
       {
         "id": "envelope",
@@ -59,6 +63,9 @@
           "sourceId": "nasa-science-jupiter-facts"
         },
         "uncertain": true,
+        "gradual": {
+          "sourceId": "nasa-science-jupiter-facts"
+        },
         "sizeKind": "estimate",
         "estimate": true
       }

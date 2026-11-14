@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import type { InteriorLayer } from '../details/schema';
-import { drawnLayers, EXPLODE_MARGIN, EXPLODE_MAX, EXPLODE_REVEAL, explodeOffsets, sectionVisible } from './geometry';
+import { drawnLayers, EXPLODE_MARGIN, EXPLODE_MAX, EXPLODE_REVEAL, explodeOffsets, GRADUAL_BAND, sectionVisible } from './geometry';
 
 const src = { sourceId: 's', from: 'radius' as const };
 const r = (min: number, max = min) => ({ min, max, ...src });
@@ -88,6 +88,22 @@ describe('drawnLayers', () => {
   it('returns [] for no layers or a bad radius', () => {
     expect(drawnLayers([], 10)).toEqual([]);
     expect(drawnLayers(earth, 0)).toEqual([]);
+  });
+  it('a gradual boundary (a dilute core) is drawn as an illustrative soft band on both sides, with no sharp edge', () => {
+    // Jupiter: two illustrative layers above a dilute core to 63 % of the radius.
+    const d = drawnLayers([illus('envelope'), illus('metallic'), layer('core', [63], [0], { gradual: { sourceId: 's' } })], 100);
+    expect(d.map((l) => l.gradual)).toEqual([false, false, true]);
+    expect(d[2]!.outerBand).toBeCloseTo(GRADUAL_BAND, 10);
+    expect(d[1]!.innerBand).toBeCloseTo(GRADUAL_BAND, 10);
+    expect(d[0]!.innerBand).toBe(0);
+    expect(d[2]!.outer).toBeCloseTo(0.63, 10); // the stated bound stays the band's middle
+    // Never wider than either layer it joins.
+    const thin = drawnLayers([layer('a', [100], [60]), layer('b', [60], [57]), layer('c', [57], [0], { gradual: { sourceId: 's' } })], 100);
+    expect(thin[2]!.outerBand).toBeCloseTo(0.03, 10);
+    expect(thin[1]!.innerBand).toBeCloseTo(0.03, 10);
+    // A range bound keeps its own band when it is wider.
+    const wide = drawnLayers([layer('a', [100], [20, 60]), layer('b', [20, 60], [0], { gradual: { sourceId: 's' } })], 100);
+    expect(wide[1]!.outerBand).toBeCloseTo(0.4, 10);
   });
 });
 

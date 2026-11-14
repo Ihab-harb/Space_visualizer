@@ -653,7 +653,11 @@
             "quote": "Instead, it’s partially dissolved, with no clear separation from the metallic hydrogen around it, leading researchers to describe the core as dilute, or “fuzzy.”",
             "text": "Partially dissolved, with no clear separation from the metallic hydrogen around it."
           },
-          "uncertain": true
+          "uncertain": true,
+          "gradual": {
+            "sourceId": "nasa-science-jupiter-facts",
+            "quote": "Instead, it’s partially dissolved, with no clear separation from the metallic hydrogen around it, leading researchers to describe the core as dilute, or “fuzzy.”"
+          }
         }
       ]
     },
@@ -713,7 +717,11 @@
             "quote": "a diffuse, stably stratified core-envelope transition region in Saturn extending to approximately 60% of the planet's radius and containing approximately 17 Earth masses of ice and rock",
             "text": "About 17 Earth masses of ice and rock, mixed into the layer above."
           },
-          "uncertain": true
+          "uncertain": true,
+          "gradual": {
+            "sourceId": "paper-mankovich-fuller-2021-saturn-core",
+            "quote": "a diffuse, stably stratified core-envelope transition region in Saturn extending to approximately 60% of the planet's radius and containing approximately 17 Earth masses of ice and rock"
+          }
         }
       ]
     },

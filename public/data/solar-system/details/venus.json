@@ -1,8 +1,12 @@
 {
   "schemaVersion": 1,
   "bodyId": "venus",
-  "generatedAt": "2026-10-30T02:50:44.473Z",
+  "generatedAt": "2026-11-14T12:43:12.320Z",
   "interior": {
+    "radiusKm": {
+      "value": 6051.8,
+      "sourceId": "nssdca-venus-fact-sheet"
+    },
     "layers": [
       {
         "id": "crust",

@@ -1,10 +1,11 @@
 import { BackSide, DoubleSide, FrontSide, Matrix4, ShaderMaterial, Vector2, Vector3, type IUniform } from 'three';
+import { MAX_INTERIOR_LAYERS } from '../../core/details/checks';
 import type { DrawnLayer } from '../../core/interior/geometry';
 import { NOISE } from '../materials/chunks';
 import { layerColours, type InteriorKind } from './interiorPalette';
 
-/** Most layers an interior may have (the data has at most four). */
-export const MAX_LAYERS = 8;
+/** Most layers an interior may have (the data has at most four); the details build fails above it (checkDetails). */
+export const MAX_LAYERS = MAX_INTERIOR_LAYERS;
 
 /**
  * Look constants of the interior (illustrative, tuned on the Explore screenshots, Task 6). The interior emits most of its
@@ -208,6 +209,8 @@ void main() {
   float shade = 1.0;
   for (int i = 1; i < MAX_LAYERS; i++) {
     if (i >= uCount) break;
+    // A band (a cited range or a gradual boundary) blends; a step in shading there would draw the hard edge back in.
+    if (uBandTop[i] > 0.0) continue;
     float d = uOuter[i] - r;
     if (d >= 0.0) shade = min(shade, mix(0.6, 1.0, smoothstep(0.0, 0.05, d)));
   }
@@ -231,6 +234,15 @@ void main() {
   float sun = max(dot(n, uSunDirObj), 0.0);
   float facing = max(dot(n, v), 0.0);
   float rim = pow(1.0 - facing, 3.0);
+  // A soft outer boundary (a range, or a gradual dilute core): toward its limb the dome takes on the colour of the layer
+  // above, with a little noise, so its edge reads as a blend rather than a hard skin (illustrative).
+  if (uLayer > 0 && uBandTop[uLayer] > 0.0) {
+    float fuzz = clamp(pow(1.0 - facing, 1.6) * (0.85 + 0.3 * snoise(p * 9.0)), 0.0, 1.0);
+    float ga;
+    vec3 above = layerColour(uLayer - 1, uInner[uLayer - 1], ga);
+    colour = mix(colour, above, 0.7 * fuzz);
+    g = mix(g, ga, 0.7 * fuzz);
+  }
   // Studio shaping so a cap reads as a dome: darker toward its limb, lit a little from above.
   float shape = (0.5 + 0.5 * facing) * (0.8 + 0.35 * max(dot(n, uUpObj), 0.0));
   vec3 c = emit(colour, g, sun) * shape + colour * rim * (0.25 + 0.3 * g);
@@ -247,6 +259,13 @@ void main() {
   vec3 n = -normalize(vec3(p.xy, p.z / (uFlattening * uFlattening)));
   float g;
   vec3 colour = layerColour(uLayer, uInner[uLayer], g) * texture3(uLayer, p, r, g);
+  // A soft lower boundary: the inside of the cap blends toward the layer below (illustrative).
+  if (uBandBottom[uLayer] > 0.0 && uLayer + 1 < uCount) {
+    float gb;
+    vec3 below = layerColour(uLayer + 1, uOuter[uLayer + 1], gb);
+    colour = mix(colour, below, 0.45);
+    g = mix(g, gb, 0.45);
+  }
   float sun = max(dot(n, uSunDirObj), 0.0) * 0.4;
   vec3 c = emit(colour, g, sun) * ${INTERIOR_LOOK.hollow.toFixed(3)};
   gl_FragColor = vec4(c * selectionScale(uLayer), 1.0);

@@ -359,6 +359,24 @@ describe('peer-reviewed paper sources (ADR 0009)', () => {
   it('checks the quote against the page fetched for the paper', () => {
     expect(verifyInteriors(file(paper(), [estLayer()]), new Map([['juno', 'something else entirely']])).join()).toMatch(/quote not on page of juno/);
   });
+  it('checks a gradual boundary like any quote: on the page, six words, saying so, never the surface layer, estimate for a paper', () => {
+    const off = { id: 'o', title: 't', publisher: 'NASA', url: 'https://science.nasa.gov/o', license: 'l' };
+    const G = 'it is partially dissolved, with no clear separation from the metallic hydrogen around it';
+    const pg = new Map([['juno', Q + ' and more words'], ['o', G + '. More text.']]);
+    const top = { id: 'envelope', name: 'Envelope', from: 'percent', sizeKind: 'illustrative', state: 'unknown', composition: null, uncertain: false };
+    const f = (layers: unknown[]) => ({ sources: [paper(), off], bodies: { jupiter: { layers } } }) as unknown as Parameters<typeof verifyInteriors>[0];
+    expect(verifyInteriors(f([top, estLayer({ gradual: { sourceId: 'o', quote: G } })]), pg)).toEqual([]);
+    expect(verifyInteriors(f([top, estLayer({ gradual: { sourceId: 'o', quote: 'a quote that is not on the page at all' } })]), pg).join()).toMatch(/dilute-core gradual: quote not on page of o/);
+    expect(verifyInteriors(f([top, estLayer({ gradual: { sourceId: 'o', quote: 'no clear separation' } })]), pg).join()).toMatch(/gradual: quote too short/);
+    const plain = 'The composition of the core region is similar to the Sun in many ways';
+    const pg2 = new Map([...pg, ['o', plain]]);
+    expect(verifyInteriors(f([top, estLayer({ gradual: { sourceId: 'o', quote: plain } })]), pg2).join()).toMatch(/gradual: the quote does not describe a gradual boundary/);
+    expect(verifyInteriors(f([{ ...top, gradual: { sourceId: 'o', quote: G } }, estLayer()]), pg).join()).toMatch(/jupiter\/envelope gradual: the outermost layer's outer edge is the surface/);
+    const offCore = estLayer({ sizeKind: undefined, estimate: undefined, outer: { min: 50, max: 50, sourceId: 'o', quote: G }, inner: { min: 0, max: 0, sourceId: 'o', quote: G } });
+    const pg3 = new Map([...pg, ['o', G + ' to 50% of the radius.']]);
+    const offCoreQ = { ...offCore, outer: { ...offCore.outer, quote: G + ' to 50% of the radius' }, inner: { ...offCore.inner, quote: G + ' to 50% of the radius' } };
+    expect(verifyInteriors(f([top, { ...offCoreQ, gradual: { sourceId: 'juno', quote: Q } }]), pg3).join()).toMatch(/cites a paper source: estimate must be true/);
+  });
   it('fetches quoteUrl when present, else the url', () => {
     expect(quotePageUrl(paper({ quoteUrl: 'https://arxiv.org/abs/1' }))).toBe('https://arxiv.org/abs/1');
     expect(quotePageUrl(paper())).toBe('https://doi.org/10.1038/s41586-000-0000-0');

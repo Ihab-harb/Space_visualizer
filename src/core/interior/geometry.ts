@@ -14,7 +14,16 @@ export interface DrawnLayer {
   thickened: boolean;
   sizeKind: 'cited' | 'estimate' | 'illustrative';
   state: InteriorLayer['state'];
+  /** The outer boundary is gradual (a cited dilute or diffuse core): drawn as a soft band, never as a line. */
+  gradual: boolean;
 }
+
+/**
+ * Width of the soft band drawn across a gradual boundary (fraction of the radius, centred on the stated bound). The sources
+ * say only that there is no sharp edge, so the width is illustrative (tuned on the Explore screenshots). It never exceeds
+ * either layer it joins, and a wider cited range keeps its own band.
+ */
+export const GRADUAL_BAND = 0.12;
 
 /** Smallest gap kept between two radii so a layer never collapses to nothing. */
 const TINY = 1e-6;
@@ -53,9 +62,18 @@ export function drawnLayers(layers: readonly InteriorLayer[], bodyRadiusKm: numb
     }
     const sizeKind = range.shared || layer.sizeKind === 'illustrative' ? 'illustrative' : layer.sizeKind === 'estimate' ? 'estimate' : 'cited';
     const band = (r: { min: number; max: number }) => (range.shared ? 0 : Math.min(outer - inner, Math.max(0, (r.max - r.min) / bodyRadiusKm)));
-    out.push({ id: layer.id, name: layer.name, outer, inner, outerBand: band(range.outer), innerBand: band(range.inner), thickened, sizeKind, state: layer.state });
+    out.push({ id: layer.id, name: layer.name, outer, inner, outerBand: band(range.outer), innerBand: band(range.inner), thickened, sizeKind, state: layer.state, gradual: i > 0 && !!layer.gradual });
     ceiling = inner;
   });
+  // A gradual boundary is soft on both sides: the layer's top and the bottom of the layer above share one band.
+  for (let i = 1; i < out.length; i++) {
+    const cur = out[i]!;
+    const above = out[i - 1]!;
+    if (!cur.gradual) continue;
+    const width = Math.min(GRADUAL_BAND, cur.outer - cur.inner, above.outer - above.inner);
+    cur.outerBand = Math.max(cur.outerBand, width);
+    above.innerBand = Math.max(above.innerBand, width);
+  }
   return out;
 }
 

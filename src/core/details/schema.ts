@@ -31,6 +31,11 @@ const LayerBase = {
   uncertain: z.boolean(),
   /** True when a value of the layer comes from a peer-reviewed paper (a model estimate), not an official source. */
   estimate: z.boolean().optional(),
+  /**
+   * The layer's outer boundary is gradual: the source says it has no sharp edge (a dilute or diffuse core). The cutaway
+   * draws it as an illustrative soft band with no line. `sourceId` is the page with that sentence (the build checks it).
+   */
+  gradual: z.object({ sourceId: SourceId }).optional(),
 };
 
 /** A layer whose size is cited: both bounds are required. 'estimate' sizes come from a paper and need `estimate: true`. */
@@ -130,7 +135,13 @@ export const BodyDetailsSchema = z.object({
   schemaVersion: z.literal(1),
   bodyId: z.string().regex(/^[a-z0-9-]+$/),
   generatedAt: z.iso.datetime(),
-  interior: z.object({ layers: z.array(InteriorLayerSchema).min(1) }).nullable(),
+  interior: z
+    .object({
+      /** The cited mean radius the build converted depth and percent bounds with (the depth ruler's centre). */
+      radiusKm: NumberValue.optional(),
+      layers: z.array(InteriorLayerSchema).min(1),
+    })
+    .nullable(),
   atmosphere: AtmosphereSchema.nullable(),
   magnetosphere: MagnetosphereSchema,
   missions: z.array(MissionSchema),

@@ -40,7 +40,10 @@ export function LayerCard({ catalog, body, details, layerId, drawn, onClose }: L
     return <Cite sourceId={id} numbers={numbers} />;
   };
   const boundSources = [...new Set([layer.outerRadiusKm?.sourceId, layer.innerRadiusKm?.sourceId].filter((id): id is string => !!id))];
-  const banded = !!shape && (shape.outerBand > 0 || shape.innerBand > 0);
+  // A range note only for a bound the source gives as a range; a gradual boundary has its own note.
+  const isRange = (r: { min: number; max: number } | undefined) => !!r && r.max > r.min;
+  const banded = isRange(layer.outerRadiusKm) || isRange(layer.innerRadiusKm);
+  const below = layers[index + 1];
   const extent = layerExtent(body.id, layer);
 
   return (
@@ -95,6 +98,16 @@ export function LayerCard({ catalog, body, details, layerId, drawn, onClose }: L
         {text.tag === 'Illustrative size' && <li>Illustrative size: no source gives a size for this layer, so it is drawn to show its place, not its size.</li>}
         {layer.uncertain && <li>Uncertain: the sources are not sure about this layer.</li>}
         {banded && <li>The source gives a range, drawn as a soft band.</li>}
+        {layer.gradual && index > 0 && (
+          <li>
+            No sharp edge: the source describes a gradual change into the layer above{cite(layer.gradual.sourceId)}. The soft edge is illustrative.
+          </li>
+        )}
+        {below?.gradual && (
+          <li>
+            No sharp lower edge: the source describes a gradual change into the {below.name.toLowerCase()} below{cite(below.gradual.sourceId)}. The soft edge is illustrative.
+          </li>
+        )}
         <li id={COLOURS_NOTE_ID} tabIndex={-1}>
           Illustrative colours: they show state and heat, not real colours.
           {shape?.thickened && ' Drawn thicker than scale, so this thin layer stays visible.'}
