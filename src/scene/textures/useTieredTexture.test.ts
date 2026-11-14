@@ -31,6 +31,16 @@ describe('tiered textures', () => {
     expect(shown).toEqual(['1k', '4k']);
     expect(best).toBe('4k');
   });
+  it('with skipFirstPaint shows only the highest tier that loads, falling back downward', async () => {
+    const shown: string[] = [];
+    expect(await loadBestTier(ref, '8k', '/', loader(['a_1k', 'a_2k']), (_t, tier) => shown.push(tier), undefined, { skipFirstPaint: true })).toBe('2k');
+    expect(shown).toEqual(['2k']);
+    shown.length = 0;
+    expect(await loadBestTier(ref, '2k', '/', loader(['a_1k']), (_t, tier) => shown.push(tier), undefined, { skipFirstPaint: true })).toBe('1k');
+    expect(shown).toEqual(['1k']);
+    await expect(loadBestTier(ref, '4k', '/', loader([]), () => undefined, undefined, { skipFirstPaint: true })).resolves.toBeNull();
+    expect(pendingTextures()).toBe(0);
+  });
   it('stops loading once cancelled, disposes late results and leaves nothing pending', async () => {
     let calls = 0;
     let cancelled = false;

@@ -16,5 +16,6 @@ export function eclipticToEquatorialColumns(): [Vec3, Vec3, Vec3] {
 }
 
 export function skyTier(textureTier: Tier): Tier {
-  return textureTier === '8k' ? '8k' : '4k';
+  if (textureTier === '8k') return '8k';
+  return textureTier === '1k' ? '2k' : '4k';
 }

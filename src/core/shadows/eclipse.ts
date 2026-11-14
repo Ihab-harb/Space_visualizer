@@ -1,4 +1,4 @@
-import { dot, type Vec3 } from '../math/vec3';
+import { cross, dot, length, sub, type Vec3 } from '../math/vec3';
 
 /** Fraction of the Sun's disc visible behind a spherical occluder (circle-overlap area; soft penumbra). */
 export function sunVisibleFraction(sunAngularRadius: number, occluderAngularRadius: number, separation: number): number {
@@ -31,4 +31,27 @@ export function rayHitsEllipsoid(origin: Vec3, dir: Vec3, flattening: number): b
   const disc = b * b - a * c;
   if (disc < 0) return false;
   return (-b + Math.sqrt(disc)) / a > 0 && (-b - Math.sqrt(disc)) / a > 1e-9;
+}
+
+/** Visible fraction of the Sun's disc seen from an observer, with spherical occluders (all in km). */
+export function sunVisibilityFromObserver(
+  observerKm: Vec3,
+  sunKm: Vec3,
+  sunRadiusKm: number,
+  occluders: ReadonlyArray<{ posKm: Vec3; radiusKm: number }>,
+): number {
+  const toSun = sub(sunKm, observerKm);
+  const dSun = length(toSun);
+  if (dSun <= sunRadiusKm) return 1;
+  const sunAngular = Math.asin(Math.min(1, sunRadiusKm / dSun));
+  let visible = 1;
+  for (const o of occluders) {
+    const toOcc = sub(o.posKm, observerKm);
+    const dOcc = length(toOcc);
+    if (dOcc >= dSun || dOcc <= o.radiusKm) continue;
+    const occAngular = Math.asin(Math.min(1, o.radiusKm / dOcc));
+    const separation = Math.atan2(length(cross(toSun, toOcc)), dot(toSun, toOcc));
+    visible *= sunVisibleFraction(sunAngular, occAngular, separation);
+  }
+  return visible;
 }

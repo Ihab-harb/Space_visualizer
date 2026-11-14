@@ -14,7 +14,9 @@ The Solar System is the first "region" of a project designed to grow outward lat
 - **Readable or true scale:** enlarged bodies that stay visible, or real sizes and distances.
 - **Official imagery and shading (M2a.1):** NASA, USGS and STScI surface maps, rings and sky, lit by custom shaders (terminator, night lights, clouds, atmospheres, ring shadows), each image cited in the info panel.
 
-Still to come: moons, dwarf planets, asteroids and comets, spacecraft, filters and search, more camera views (top-down, view from a body, fly), cinematic effects and quality settings, and, later, regions beyond the Solar System.
+- **Cinematic effects and adaptive quality (M2a.2):** bloom, god rays, lens flare, anamorphic streaks, depth of field, AgX tone mapping, scene-driven exposure and film grain, with High / Medium / Low presets and an Auto mode.
+
+Still to come: moons, dwarf planets, asteroids and comets, spacecraft, filters and search, more camera views (top-down, view from a body, fly), the interface redesign and tour, and, later, regions beyond the Solar System.
 
 ## Quick start
 
@@ -34,6 +36,13 @@ Then open the address Vite prints (normally <http://localhost:5173/>). No server
 - Click a body (or its label) for its info panel; double-click to centre the view on it.
 - Keys **1** / **2** switch between Orbit and Follow; **Esc** returns to Orbit.
 
+## Quality and camera effects
+
+- **Quality** (top bar, or key **Q**): cycles Auto, High, Medium and Low. Auto measures frame time and steps down when the median exceeds 18 ms, and steps up after 10 s under 12 ms. Phones start at Low.
+- **Camera effects** (top bar, or key **E**): turns the cinematic effects on or off. Off keeps bloom (reduced) and neutral tone mapping.
+- URL parameters: `?quality=auto|high|medium|low` and `?fx=0|1`, for example `?quality=low&fx=0`.
+- `npm run perf`: measures frame times at each preset on your real GPU (see [docs/SETUP.md](docs/SETUP.md)).
+
 ## Commands
 
 | Command | What it does |
@@ -43,6 +52,7 @@ Then open the address Vite prints (normally <http://localhost:5173/>). No server
 | `npm test` | Runs the unit tests |
 | `npm run typecheck` | Checks TypeScript types |
 | `npm run e2e` | Runs the end-to-end browser tests (first run `npx playwright install chromium`) |
+| `npm run perf` | Frame-time probe on the real GPU (not SwiftShader); writes `test-results/perf/perf.json` |
 | `npm run data` | Re-downloads and validates the official source data (needs internet; optional) |
 
 **[docs/SETUP.md](docs/SETUP.md)** has the full guide: installation, every command, how to use the app, refreshing the data, and troubleshooting.

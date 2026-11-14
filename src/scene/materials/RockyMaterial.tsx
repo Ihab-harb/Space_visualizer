@@ -1,7 +1,7 @@
 import { useEffect, useMemo } from 'react';
 import { Color } from 'three';
 import type { Body } from '../../core/catalog/schema';
-import { useViewStore } from '../../state/viewStore';
+import { useMaxTier } from '../../render/useMaxTier';
 import { useTieredTexture } from '../textures/useTieredTexture';
 import { FRAG_OUTRO } from './chunks';
 import { createBodyMaterial } from './createBodyMaterial';
@@ -31,7 +31,7 @@ void main() {
 }`;
 
 export function RockyMaterial({ body, bodies }: { body: Body; bodies: readonly Body[] }) {
-  const tier = useViewStore((s) => s.textureTier);
+  const tier = useMaxTier();
   const color = useTieredTexture(body.imagery?.color, { maxTier: tier, srgb: true });
   const normal = useTieredTexture(body.imagery?.normal, { maxTier: tier, srgb: false });
   const material = useMemo(

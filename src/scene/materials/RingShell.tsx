@@ -4,6 +4,7 @@ import type { Body } from '../../core/catalog/schema';
 import { useTieredTexture } from '../textures/useTieredTexture';
 import { FRAG_OUTRO } from './chunks';
 import { createBodyMaterial } from './createBodyMaterial';
+import { RING_UNLIT_SCALE } from './illustrative';
 import { ringRadii } from './rings';
 import { useBodyUniforms } from './useBodyUniforms';
 
@@ -23,7 +24,7 @@ void main() {
   bool litFace = uSunDirObj.z * v.z >= 0.0;
   // Lit face: Lommel-Seeliger. Unlit face: light diffusing through the layer, peaking at medium optical depth.
   float reflected = 2.0 * mu0 / max(mu0 + mu, 1e-3);
-  float transmitted = 4.0 * ring.a * (1.0 - ring.a) * mu0 / max(mu0 + mu, 1e-3);
+  float transmitted = ${RING_UNLIT_SCALE.toFixed(4)} * 4.0 * ring.a * (1.0 - ring.a) * mu0 / max(mu0 + mu, 1e-3);
   float brightness = litFace ? reflected : transmitted;
   // Forward scattering by fine dust when looking toward the Sun through the rings (illustrative strength).
   float forward = pow(max(dot(-uSunDirObj, v), 0.0), 12.0) * (1.0 - ring.a) * 1.5;

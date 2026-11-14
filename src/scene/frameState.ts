@@ -16,6 +16,8 @@ export interface FrameState {
   bodyRenderRadiusKm: Map<string, number>;
   viewportHeightPx: number;
   fovRad: number;
+  /** Post-processing inputs written by the Sun effects (Task 6). */
+  fx: { exposure: number; skyDim: number };
 }
 
 export function createFrameState(): FrameState {
@@ -28,6 +30,7 @@ export function createFrameState(): FrameState {
     bodyRenderRadiusKm: new Map(),
     viewportHeightPx: 800,
     fovRad: 50 * DEG,
+    fx: { exposure: 1, skyDim: 1 },
   };
 }
 

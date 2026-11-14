@@ -1,6 +1,7 @@
 import { beforeEach, describe, expect, it } from 'vitest';
 import { createCatalog } from '../core/catalog/catalog';
 import { makeCatalogFiles } from '../test/fixtures';
+import { useRenderStore } from './renderStore';
 import { useSelectionStore } from './selectionStore';
 import { useTimeStore } from './timeStore';
 import { applyUrlOverrides, parseUrlOverrides } from './urlParams';
@@ -24,15 +25,17 @@ describe('parseUrlOverrides', () => {
   });
 });
 
+describe('quality and effects parameters', () => {  it('reads quality and camera-effects parameters', () => {    expect(parseUrlOverrides('?quality=low&fx=0')).toEqual({ quality: 'low', effects: false });    expect(parseUrlOverrides('?quality=ultra&fx=2')).toEqual({});  });});
 describe('applyUrlOverrides', () => {
-  beforeEach(() => useViewStore.setState({ cameraOverride: null, textureTier: '2k' }));
+  beforeEach(() => useViewStore.setState({ cameraOverride: null, textureTierOverride: null }));
   it('sets time, selection, texture tier and a camera override', () => {
     applyUrlOverrides({ jdTdb: 2451545, paused: true, target: 'jupiter', distanceKm: 1e6, elDeg: 10, tier: '1k' }, catalog);
     expect(useTimeStore.getState()).toMatchObject({ jdTdb: 2451545, playing: false });
     expect(useSelectionStore.getState().selectedId).toBe('jupiter');
-    expect(useViewStore.getState().textureTier).toBe('1k');
+    expect(useViewStore.getState().textureTierOverride).toBe('1k');
     expect(useViewStore.getState().cameraOverride).toMatchObject({ targetId: 'jupiter', distanceKm: 1e6, elDeg: 10 });
   });
+it('applies quality and effects', () => {    applyUrlOverrides({ quality: 'medium', effects: false }, catalog);    expect(useRenderStore.getState()).toMatchObject({ mode: 'medium', level: 'medium', effects: false });  });
   it('ignores unknown targets', () => {
     applyUrlOverrides({ target: 'vulcan' }, catalog);
     expect(useViewStore.getState().cameraOverride).toBeNull();

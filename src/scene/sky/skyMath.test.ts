@@ -24,9 +24,10 @@ describe('sky mapping', () => {
     const expected = eclipticToEquatorial([...v]);
     for (let i = 0; i < 3; i++) expect(c0[i]! * v[0] + c1[i]! * v[1] + c2[i]! * v[2]).toBeCloseTo(expected[i]!, 12);
   });
-  it('uses the committed 4k sky unless 8k is asked for', () => {
-    expect(skyTier('1k')).toBe('4k');
+  it('uses the committed sky tiers unless 8k is asked for', () => {
+    expect(skyTier('1k')).toBe('2k');
     expect(skyTier('2k')).toBe('4k');
+    expect(skyTier('4k')).toBe('4k');
     expect(skyTier('8k')).toBe('8k');
   });
 });

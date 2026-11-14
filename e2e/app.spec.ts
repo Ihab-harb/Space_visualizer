@@ -10,7 +10,7 @@ test.beforeEach(async ({ page }) => {
   page.on('console', (msg) => {
     if (msg.type() === 'error' && /Shader Error|THREE\.WebGLProgram/.test(msg.text())) shaderErrors.push(msg.text().slice(0, 500));
   });
-  await page.goto('/');
+  await page.goto('/?quality=low');
   await expect(page.locator('canvas')).toBeVisible();
   await page.waitForTimeout(1500); // let a few frames render
 });
@@ -94,7 +94,7 @@ test('jumps in time and warns about accuracy', async ({ page }) => {
 });
 
 test('cites the official imagery for Earth', async ({ page }) => {
-  await page.goto('/?target=earth&pause=1');
+  await page.goto('/?target=earth&pause=1&quality=low');
   const panel = page.getByRole('complementary', { name: 'Body information' });
   const imagery = panel.locator('section', { has: page.getByRole('heading', { name: 'Imagery' }) });
   await expect(imagery).toContainText('Surface');

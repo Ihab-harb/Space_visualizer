@@ -3,12 +3,22 @@ import sharp from 'sharp';
 
 /** Golden views (spec §7). Screenshots go to test-results/golden/ for review against the look checklist. */
 const VIEWS = [
-  { name: '1-earth-terminator', url: '/?jd=2461317.5&pause=1&target=earth&dist=36000&azSun=90&el=12' },
-  { name: '2-saturn-rings', url: '/?jd=2453371.5&pause=1&target=saturn&dist=420000&azSun=55&el=16' },
-  { name: '3-sun', url: '/?jd=2461317.5&pause=1&target=sun&dist=4500000&az=0&el=8' },
-  { name: '0-mars', url: '/?jd=2461317.5&pause=1&target=mars&dist=14000&azSun=60&el=15' },
-  { name: '4-overview', url: '/?jd=2461317.5&pause=1' },
+  { name: '1-earth-terminator', url: '/?jd=2461317.5&pause=1&target=earth&dist=36000&azSun=90&el=12&quality=high&fx=1' },
+  { name: '2-saturn-rings', url: '/?jd=2453371.5&pause=1&target=saturn&dist=420000&azSun=55&el=16&quality=high&fx=1' },
+  // 2008-09-01: the Sun is about 4 degrees from the ring plane, so the unlit face and the globe's shadow are easy to judge.
+  { name: '2b-saturn-equinox', url: '/?jd=2454710.5&pause=1&target=saturn&dist=420000&azSun=55&el=6&quality=high&fx=1' },
+  { name: '3-sun', url: '/?jd=2461317.5&pause=1&target=sun&dist=4500000&az=0&el=8&quality=high&fx=1' },
+  // The Sun small in frame (about 4e7 km): the view where the lens flare, god rays and streak must read (3-sun waives them).
+  { name: '3c-sun-far', url: '/?jd=2461317.5&pause=1&target=sun&dist=40000000&az=0&el=8&quality=high&fx=1' },
+  // The Sun directly behind Earth: no lens flare and no god rays while the disc is hidden.
+  { name: '3b-sun-behind-earth', url: '/?jd=2461317.5&pause=1&target=earth&dist=20000&azSun=180&el=0&quality=high&fx=1' },
+  { name: '0-mars', url: '/?jd=2461317.5&pause=1&target=mars&dist=14000&azSun=60&el=15&quality=high&fx=1' },
+  { name: '4-overview', url: '/?jd=2461317.5&pause=1&quality=high&fx=1' },
 ];
+
+// Golden views take 21-47 s each on SwiftShader, plus up to 30 s for textures; the global 60 s leaves no margin. The Earth guard
+// below keeps its own 180 s.
+test.describe.configure({ timeout: 120_000 });
 
 let pageErrors: string[] = [];
 let shaderErrors: string[] = [];
@@ -31,7 +41,7 @@ for (const view of VIEWS) {
   test(`golden ${view.name}`, async ({ page }) => {
     await page.goto(view.url);
     await expect(page.locator('canvas')).toBeVisible();
-    await page.waitForSelector('.scene[data-textures-ready="true"]', { timeout: 30_000 }).catch(() => undefined);
+    await page.waitForSelector('.scene[data-textures-ready="true"]', { timeout: 30_000 }); // a golden fails if textures never load
     await page.waitForTimeout(1500);
     await page.screenshot({ path: `test-results/golden/${view.name}.png` });
   });
@@ -44,9 +54,10 @@ for (const view of VIEWS) {
  * clear of the "Earth" label (which sits at the centre).
  */
 test('earth atmosphere keeps the night side dark and the scene visible', async ({ page }) => {
-  await page.goto('/?jd=2461317.5&pause=1&target=earth&dist=36000&azSun=90&el=12');
+  test.setTimeout(180_000); // two full-size SwiftShader screenshots, run in parallel with other workers
+  await page.goto('/?jd=2461317.5&pause=1&target=earth&dist=36000&azSun=90&el=12&quality=high&fx=1');
   await expect(page.locator('canvas')).toBeVisible();
-  await page.waitForSelector('.scene[data-textures-ready="true"]', { timeout: 30_000 }).catch(() => undefined);
+  await page.waitForSelector('.scene[data-textures-ready="true"]', { timeout: 30_000 }); // a golden fails if textures never load
   await page.waitForTimeout(1500);
   const buffer = await page.locator('canvas').screenshot();
   const { data, info } = await sharp(buffer).removeAlpha().raw().toBuffer({ resolveWithObject: true });
@@ -73,12 +84,59 @@ test('earth atmosphere keeps the night side dark and the scene visible', async (
   expect(max).toBeGreaterThan(40);
   expect(night).toBeLessThan(35);
   expect(day).toBeGreaterThan(night + 40);
+
+  // Star-field check: depth of field softens the background but must not erase it. The sky region (200x120 px, left of the
+  // disc, below the top bar, clear of labels, orbit lines and panels) was chosen from this view rendered with depth of
+  // field off, where it held 98 pixels above 90 (191 with it on: the bokeh spreads each star over more pixels).
+  const SKY_X = 20;
+  const SKY_Y = 380;
+  const SKY_W = 200;
+  const SKY_H = 120;
+  let stars = 0;
+  for (let y = SKY_Y; y < SKY_Y + SKY_H; y++) {
+    for (let x = SKY_X; x < SKY_X + SKY_W; x++) {
+      const i = (y * info.width + x) * 3;
+      if (Math.max(data[i]!, data[i + 1]!, data[i + 2]!) > 90) stars++;
+    }
+  }
+  console.log(`atmosphere guard: stars=${stars}`);
+  // Floor catches erased stars; ceiling catches a grey veil (measured 98 with depth of field off, about 192 on, of 24000 px).
+  expect(stars).toBeGreaterThanOrEqual(30);
+  expect(stars).toBeLessThan(SKY_W * SKY_H * 0.25);
+
+  // Sharpness check: the selected body must stay in focus. Local contrast (sum of absolute horizontal luminance differences)
+  // over a cloud-rich day-side patch (80x60 px, up-left of the disc centre, clear of the "Earth" label) is compared with the
+  // same patch after closing the info panel: that deselects the body, which makes the (still mounted) depth-of-field pass
+  // neutral and leaves the camera, time and every other effect unchanged, so the only difference is depth of field.
+  const PATCH_X = 520;
+  const PATCH_Y = 285;
+  const PATCH_W = 80;
+  const PATCH_H = 60;
+  const contrast = (px: Buffer, width: number) => {
+    let sum = 0;
+    for (let y = PATCH_Y; y < PATCH_Y + PATCH_H; y++) {
+      for (let x = PATCH_X; x < PATCH_X + PATCH_W - 1; x++) {
+        const a = (y * width + x) * 3;
+        const b = a + 3;
+        sum += Math.abs(0.2126 * (px[b]! - px[a]!) + 0.7152 * (px[b + 1]! - px[a + 1]!) + 0.0722 * (px[b + 2]! - px[a + 2]!));
+      }
+    }
+    return sum;
+  };
+  const withDof = contrast(data, info.width);
+  await page.getByRole('button', { name: 'Close' }).click();
+  await page.waitForTimeout(1500);
+  const off = await sharp(await page.locator('canvas').screenshot()).removeAlpha().raw().toBuffer({ resolveWithObject: true });
+  const withoutDof = contrast(off.data, off.info.width);
+  console.log(`atmosphere guard: sharpness dof=${withDof.toFixed(0)} off=${withoutDof.toFixed(0)} ratio=${(withDof / withoutDof).toFixed(3)}`);
+  expect(withoutDof).toBeGreaterThan(0);
+  expect(withDof).toBeGreaterThanOrEqual(0.7 * withoutDof);
 });
 
 test('golden 5-phone', async ({ browser }) => {
   const page = await browser.newPage({ viewport: { width: 390, height: 844 } });
-  await page.goto('/?jd=2461317.5&pause=1&target=jupiter&dist=600000&azSun=70&el=10');
-  await page.waitForSelector('.scene[data-textures-ready="true"]', { timeout: 30_000 }).catch(() => undefined);
+  await page.goto('/?jd=2461317.5&pause=1&target=jupiter&dist=600000&azSun=70&el=10&quality=high&fx=1');
+  await page.waitForSelector('.scene[data-textures-ready="true"]', { timeout: 30_000 }); // a golden fails if textures never load
   await page.waitForTimeout(1500);
   await page.screenshot({ path: 'test-results/golden/5-phone.png' });
   await page.close();

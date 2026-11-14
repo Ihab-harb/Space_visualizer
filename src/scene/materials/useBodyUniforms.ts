@@ -4,7 +4,9 @@ import type { Body } from '../../core/catalog/schema';
 import { length, sub, type Vec3 } from '../../core/math/vec3';
 import { J2000_JD } from '../../core/units';
 import { useFrameState } from '../FrameStateContext';
+import { useRenderStore } from '../../state/renderStore';
 import { computeBodyFrameUniforms } from './bodyUniforms';
+import { CINEMATIC_FILL } from './illustrative';
 
 export function pickOccluders(bodyId: string, bodies: readonly Body[], positions: ReadonlyMap<string, Vec3>, max = 4): Array<{ id: string; posKm: Vec3; radiusKm: number }> {
   const self = positions.get(bodyId);
@@ -35,6 +37,7 @@ export function useBodyUniforms(body: Body, materials: Array<ShaderMaterial | nu
       sunRadiusKm: sun?.shape.equatorialRadiusKm ?? 695700,
       occluders: body.category === 'star' ? [] : pickOccluders(body.id, bodies, frame.bodyPositionsKm),
     });
+    const effects = useRenderStore.getState().effects;
     for (const m of materials) {
       if (!m) continue;
       const un = m.uniforms;
@@ -45,6 +48,7 @@ export function useBodyUniforms(body: Body, materials: Array<ShaderMaterial | nu
       un.uOccluderCount!.value = u.occluders.length;
       u.occluders.forEach((o, i) => un.uOccluders!.value[i].set(o.posTrue[0], o.posTrue[1], o.posTrue[2], o.radiusTrue));
       un.uFlattening!.value = body.shape.polarRadiusKm / body.shape.equatorialRadiusKm;
+      un.uFill!.value = effects ? CINEMATIC_FILL : 0;
       un.uTime!.value = state.clock.elapsedTime;
       un.uSimDays!.value = frame.jdTdb - J2000_JD;
     }

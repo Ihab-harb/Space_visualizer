@@ -1,7 +1,9 @@
 import { useEffect, useMemo } from 'react';
 import { SphereGeometry } from 'three';
 import type { Body } from '../../core/catalog/schema';
-import { useViewStore } from '../../state/viewStore';
+import { PRESETS } from '../../render/quality';
+import { useMaxTier } from '../../render/useMaxTier';
+import { useRenderStore } from '../../state/renderStore';
 import { useTieredTexture } from '../textures/useTieredTexture';
 import { FRAG_OUTRO } from './chunks';
 import { createBodyMaterial } from './createBodyMaterial';
@@ -28,14 +30,15 @@ void main() {
 }`;
 
 export function CloudShell({ body, bodies }: { body: Body; bodies: readonly Body[] }) {
-  const tier = useViewStore((s) => s.textureTier);
+  const tier = useMaxTier();
   const clouds = useTieredTexture(body.imagery?.clouds, { maxTier: tier, srgb: false });
   const night = useTieredTexture(body.imagery?.night, { maxTier: tier, srgb: true });
+  const [widthSegments, heightSegments] = useRenderStore((s) => PRESETS[s.level].sphereSegments);
   const geometry = useMemo(() => {
-    const g = new SphereGeometry(1, 128, 64);
+    const g = new SphereGeometry(1, widthSegments, heightSegments);
     g.rotateX(Math.PI / 2);
     return g;
-  }, []);
+  }, [widthSegments, heightSegments]);
   const material = useMemo(
     () => createBodyMaterial({ fragment: FRAGMENT, uniforms: { uCloudMap: { value: null }, uNightMap: { value: null }, uCloudDrift: { value: CLOUD_DRIFT_PER_DAY } }, transparent: true, depthWrite: false }),
     [],

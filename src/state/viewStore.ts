@@ -19,9 +19,9 @@ interface ViewState {
   scaleMode: ScaleMode;
   /** Orbit view: move the pivot to this body. seq makes repeated requests distinct. */
   focusRequest: { bodyId: string; seq: number } | null;
-  textureTier: Tier;
+  textureTierOverride: Tier | null;
   cameraOverride: CameraOverride | null;
-  setTextureTier(tier: Tier): void;
+  setTextureTierOverride(tier: Tier | null): void;
   requestCameraOverride(o: Omit<CameraOverride, 'seq'>): void;
   setView(view: ViewId): void;
   toggleCoRotate(): void;
@@ -34,9 +34,9 @@ export const useViewStore = create<ViewState>()((set) => ({
   coRotate: false,
   scaleMode: 'readable',
   focusRequest: null,
-  textureTier: '2k',
+  textureTierOverride: null,
   cameraOverride: null,
-  setTextureTier: (textureTier) => set({ textureTier }),
+  setTextureTierOverride: (textureTierOverride) => set({ textureTierOverride }),
   requestCameraOverride: (o) => set((s) => ({ cameraOverride: { ...o, seq: (s.cameraOverride?.seq ?? 0) + 1 } })),
   setView: (view) => set({ view }),
   toggleCoRotate: () => set((s) => ({ coRotate: !s.coRotate })),
