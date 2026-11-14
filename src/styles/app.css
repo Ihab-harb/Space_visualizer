@@ -60,6 +60,14 @@ button[aria-pressed='true'] {
   inset: 0;
 }
 
+/* The normal interface (AppChrome). It adds no box of its own; its parts fade out on entering Explore and back in after
+   (spec §3.2). Reduced motion removes the animations, and AppChrome then removes or returns the parts at once. */
+.app-chrome { display: contents; }
+.app-chrome[data-state='leaving'] > * { animation: chrome-out 200ms var(--ease) forwards; }
+.app-chrome[data-state='entering'] > * { animation: chrome-in 200ms var(--ease); }
+@keyframes chrome-out { to { opacity: 0; } }
+@keyframes chrome-in { from { opacity: 0; } }
+
 .scene {
   position: absolute;
   inset: 0;

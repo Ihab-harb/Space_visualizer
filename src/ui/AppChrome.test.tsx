@@ -1,12 +1,12 @@
 // @vitest-environment jsdom
 import { act, render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { beforeEach, describe, expect, it } from 'vitest';
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { createCatalog } from '../core/catalog/catalog';
 import { useExploreSession, useExploreStore } from '../state/exploreStore';
 import { useSelectionStore } from '../state/selectionStore';
 import { makeCatalogFiles } from '../test/fixtures';
-import { AppChrome } from './AppChrome';
+import { AppChrome, CHROME_FADE_MS } from './AppChrome';
 
 const f = makeCatalogFiles();
 const catalog = createCatalog(f.regions, f.sources, [f.bodies]);
@@ -14,8 +14,19 @@ const names = ['Selected body', 'Controls', 'Body information', 'Time controls']
 const shown = () => names.every((n) => document.querySelector(`[aria-label="${n}"]`) !== null);
 const gone = () => names.every((n) => document.querySelector(`[aria-label="${n}"]`) === null);
 
+function setReducedMotion(reduce: boolean) {
+  window.matchMedia = vi.fn().mockImplementation((query: string) => ({
+    matches: reduce && query.includes('prefers-reduced-motion'),
+    media: query,
+    addEventListener: vi.fn(),
+    removeEventListener: vi.fn(),
+  })) as unknown as typeof window.matchMedia;
+}
+
 describe('AppChrome', () => {
   beforeEach(() => {
+    // Reduced motion: the interface steps aside at once (spec §3.2), so these tests read the result straight away.
+    setReducedMotion(true);
     useExploreStore.getState().leave();
     useExploreSession.setState({ bodyId: null });
     useSelectionStore.setState({ selectedId: 'jupiter' });
@@ -74,5 +85,45 @@ describe('AppChrome', () => {
     screen.getByRole('button', { name: 'Elsewhere' }).focus();
     act(() => useExploreStore.getState().leave());
     expect(document.activeElement).toBe(screen.getByRole('button', { name: 'Elsewhere' }));
+  });
+});
+
+describe('AppChrome fade (spec §3.2)', () => {
+  beforeEach(() => {
+    setReducedMotion(false);
+    vi.useFakeTimers();
+    useExploreStore.getState().leave();
+    useExploreSession.setState({ bodyId: null });
+    useSelectionStore.setState({ selectedId: 'jupiter' });
+  });
+  afterEach(() => vi.useRealTimers());
+
+  it('fades out on entering Explore (inert while it fades), then is removed', () => {
+    const { container } = render(<AppChrome catalog={catalog} />);
+    act(() => useExploreStore.getState().enter('jupiter'));
+    const chrome = container.querySelector('.app-chrome')!;
+    expect(chrome).toHaveAttribute('data-state', 'leaving');
+    expect(chrome).toHaveAttribute('inert');
+    expect(shown()).toBe(true);
+    act(() => vi.advanceTimersByTime(CHROME_FADE_MS + 10));
+    expect(gone()).toBe(true);
+  });
+
+  it('fades back in when the body has closed', () => {
+    const { container } = render(<AppChrome catalog={catalog} />);
+    act(() => useExploreStore.getState().enter('jupiter'));
+    act(() => vi.advanceTimersByTime(CHROME_FADE_MS + 10));
+    act(() => useExploreStore.getState().leave());
+    expect(container.querySelector('.app-chrome')).toHaveAttribute('data-state', 'entering');
+    expect(container.querySelector('.app-chrome')).not.toHaveAttribute('inert');
+    act(() => vi.advanceTimersByTime(CHROME_FADE_MS + 10));
+    expect(container.querySelector('.app-chrome')).toHaveAttribute('data-state', 'shown');
+  });
+
+  it('under reduced motion it is removed at once', () => {
+    setReducedMotion(true);
+    render(<AppChrome catalog={catalog} />);
+    act(() => useExploreStore.getState().enter('jupiter'));
+    expect(gone()).toBe(true);
   });
 });
