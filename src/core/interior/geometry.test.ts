@@ -89,6 +89,12 @@ describe('drawnLayers', () => {
     expect(drawnLayers([], 10)).toEqual([]);
     expect(drawnLayers(earth, 0)).toEqual([]);
   });
+  it('consecutive layers touch: a small gap the sources leave (within the check tolerance) is closed by raising the lower top', () => {
+    // Mars: the mantle ends 1,560 km deep (radius 1,829.5 km), the core range 1,500-2,100 km has its middle at 1,800 km.
+    const d = drawnLayers([layer('mantle', [3389.5], [1829.5]), layer('core', [1500, 2100], [0])], 3389.5);
+    expect(d[1]!.outer).toBeCloseTo(d[0]!.inner, 12);
+    expect(d[1]!.outerBand).toBeGreaterThan(0);
+  });
   it('a gradual boundary (a dilute core) is drawn as an illustrative soft band on both sides, with no sharp edge', () => {
     // Jupiter: two illustrative layers above a dilute core to 63 % of the radius.
     const d = drawnLayers([illus('envelope'), illus('metallic'), layer('core', [63], [0], { gradual: { sourceId: 's' } })], 100);

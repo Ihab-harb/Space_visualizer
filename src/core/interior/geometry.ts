@@ -41,7 +41,8 @@ const clamp01 = (x: number) => (Number.isFinite(x) ? Math.min(1, Math.max(0, x))
 
 /**
  * The shells to draw, outside in. A range bound draws at its midpoint with a soft band; a layer thinner than `minThickness`
- * (default 1.2 % of the radius) is thickened by moving its inner bound inward, never past the layers below it.
+ * (default 1.2 % of the radius) is thickened by moving its inner bound inward, never past the layers below it. The layers
+ * tile the radius: each shared boundary is drawn where the layer above ends.
  */
 export function drawnLayers(layers: readonly InteriorLayer[], bodyRadiusKm: number, opts: { minThickness?: number } = {}): DrawnLayer[] {
   if (!(bodyRadiusKm > 0) || layers.length === 0) return [];
@@ -53,7 +54,9 @@ export function drawnLayers(layers: readonly InteriorLayer[], bodyRadiusKm: numb
   layers.forEach((layer, i) => {
     const range = ranges[i]!;
     const floor = (n - 1 - i) * TINY;
-    const outer = Math.max(floor + TINY, Math.min(clamp01((range.outer.min + range.outer.max) / 2 / bodyRadiusKm), ceiling));
+    // Layers tile the radius: below the first, a layer's top is the bottom of the layer above. The sources round shared
+    // boundaries independently (the check allows max(40 km, 0.5 %)); a gap left open would show the background as a seam.
+    const outer = i === 0 ? Math.max(floor + TINY, Math.min(clamp01((range.outer.min + range.outer.max) / 2 / bodyRadiusKm), ceiling)) : Math.max(floor + TINY, ceiling);
     let inner = Math.max(floor, Math.min(clamp01((range.inner.min + range.inner.max) / 2 / bodyRadiusKm), outer - TINY));
     let thickened = false;
     if (outer - inner < minThickness) {
