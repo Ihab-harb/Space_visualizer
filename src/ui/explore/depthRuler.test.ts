@@ -28,7 +28,7 @@ describe('depthRulerTicks (Half-section depth ruler)', () => {
     expect(t.at(-1)!.r).toBe(0);
     for (let i = 1; i < t.length; i++) expect(t[i]!.r).toBeLessThan(t[i - 1]!.r);
   });
-  it('a range stays a range (Mars crust 10-50 km; core radius 1,500-2,100 km)', () => {
+  it('a range stays a range (Mars crust 10-50 km; the lower bound of the mantle is a single depth)', () => {
     const t = short('mars');
     expect(t[1]).toEqual(['boundary', '10–50 km', 'nasa-science-mars-facts', false]);
     expect(t[2]).toEqual(['boundary', '1,560 km', 'nasa-insight-deep-interior', false]);

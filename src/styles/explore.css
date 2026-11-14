@@ -251,6 +251,8 @@
 .xruler__title { position: absolute; bottom: 100%; left: -5px; margin-bottom: 6px; color: var(--text-muted); font-size: 10px; font-weight: 700; letter-spacing: 0.12em; line-height: 1; text-transform: uppercase; white-space: nowrap; }
 .xruler__value { position: absolute; top: 0; left: 0; display: block; font-size: 11.5px; line-height: 16px; white-space: nowrap; }
 .xruler__value .xlabel__tag { margin-left: 6px; }
+/* The ruler lets clicks through to the scene; only its [n] marks take the pointer, for their source tooltip. */
+.xruler__value .xlabel__cite { pointer-events: auto; cursor: help; }
 .xruler__value:empty { display: none; }
 .xruler__where { color: var(--text-muted); }
 .xruler[data-mode='compact'] .xruler__value,

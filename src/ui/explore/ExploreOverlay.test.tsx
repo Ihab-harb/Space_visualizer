@@ -196,6 +196,13 @@ describe('ExploreOverlay', () => {
       expect(retry).toHaveBeenCalledWith('earth');
     });
 
+    it('keeps focus in the overlay when Retry goes away: on the checked view once the data has loaded', async () => {
+      enterWith({ entries: { earth: { status: 'error', message: 'x' } }, retry: vi.fn().mockResolvedValue(undefined) });
+      await userEvent.click(screen.getByRole('button', { name: 'Retry' }));
+      act(() => useDetailsStore.setState({ entries: { earth: { status: 'ready', details: realDetails('earth') } } }));
+      expect(document.activeElement).toBe(screen.getByRole('radio', { checked: true }));
+    });
+
     it('focuses the leave button when there is no switch', () => {
       enterWith({ entries: { earth: { status: 'missing' } } });
       expect(document.activeElement).toBe(screen.getByRole('button', { name: 'Leave Explore' }));

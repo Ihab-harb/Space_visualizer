@@ -9,6 +9,7 @@ import { useExploreStore } from '../../state/exploreStore';
 import { citationModel } from '../../ui/citations';
 import { depthRulerTicks, placeRuler, type RulerTick } from '../../ui/explore/depthRuler';
 import { useNarrowViewport } from '../../ui/explore/ExploreOverlay';
+import { sourceTitle } from '../../ui/explore/SourcesList';
 import { labelLayout, type LabelAnchor, type Rect, type Size } from '../../ui/explore/labelLayout';
 import { layerLabelText } from '../../ui/interiorText';
 import { useFrameState } from '../FrameStateContext';
@@ -274,7 +275,13 @@ export function InteriorLabels({ bridge, catalog }: { bridge: LabelBridge; catal
     return () => window.removeEventListener('resize', again);
   }, [bridge]);
 
-  const sup = (id: string | undefined) => (id && numbers.has(id) ? <sup className="xlabel__cite">[{numbers.get(id)}]</sup> : null);
+  // Each [n] names its source on hover (title · publisher); a label's click opens the card, which lists and links its sources.
+  const sup = (id: string | undefined) =>
+    id && numbers.has(id) ? (
+      <sup className="xlabel__cite" title={sourceTitle(catalog, id)}>
+        [{numbers.get(id)}]
+      </sup>
+    ) : null;
   const ruler = bridge.ruler;
 
   return (

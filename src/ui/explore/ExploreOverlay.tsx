@@ -122,7 +122,7 @@ function ChartPanel({ catalog, body, details, focusSourceId }: { catalog: Catalo
   const titleId = useId();
   const { numbers } = citationModel(catalog, body, details);
   const model = compositionModel(body, details);
-  const ids = [...new Set([...(model?.bars.map((b) => b.sourceId) ?? []), ...compositionPreview(model, details, body).parts.flatMap((p) => (p.sourceId ? [p.sourceId] : []))])];
+  const ids = [...new Set([...(model?.bars.map((b) => b.sourceId) ?? []), ...(model?.note ? [model.note.sourceId] : []), ...compositionPreview(model, details, body).parts.flatMap((p) => (p.sourceId ? [p.sourceId] : []))])];
   useEffect(() => {
     const target = focusSourceId ? document.getElementById(`${CHART_SOURCE}${focusSourceId}`) : null;
     (target ?? close.current)?.focus();
@@ -236,6 +236,12 @@ function Overlay({ catalog, body }: { catalog: Catalog; body: Body }) {
   useEffect(() => {
     root.current?.querySelector<HTMLElement>('[role="radio"][aria-checked="true"], .explore-leave')?.focus();
   }, []);
+  // When the focused control goes away (Retry once the data loads, the card closed by Esc), focus stays in the overlay.
+  useEffect(() => {
+    const el = document.activeElement;
+    if (el && el !== document.body) return;
+    root.current?.querySelector<HTMLElement>('[role="radio"][aria-checked="true"], .explore-leave')?.focus();
+  }, [status, selectedLayerId]);
   // After the chart closes, focus returns to the button that opened it.
   const wasOpen = useRef(chartOpen);
   useEffect(() => {

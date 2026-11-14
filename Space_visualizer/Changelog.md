@@ -153,3 +153,4 @@ Back to [[Home]]
 - Esc steps back chart, card, then Explore. Other bodies take no clicks in Explore; pan is ignored; a turned phone reframes the body. The interface fades out and back in. Every `[n]` in Explore names its source and points at a Sources list in the chart panel.
 - While open, Saturn's black map band and the Uranus and Neptune map streaks are filled (Explore only); drawn layers tile the radius, so Mars's core shows no seam.
 - New goldens: Saturn Half-section, Uranus Exploded. Details in the plan's "Whole-branch review".
+- Scoped re-review (2026-11-15): approved with minors, fixed. The ruler's and labels' `[n]` name their source on hover; the citation lists cover the interior radius, gradual sentences and the chart note; Saturn's metallic hydrogen card says its soft lower edge comes from a research paper; focus stays in Explore when Retry or the card goes away.

@@ -46,6 +46,10 @@ export function LayerCard({ catalog, body, details, layerId, drawn, onClose }: L
   const banded = isRange(layer.outerRadiusKm) || isRange(layer.innerRadiusKm);
   const below = layers[index + 1];
   const extent = layerExtent(body.id, layer);
+  // The gradual sentence of the layer below comes from the paper that sizes that layer: say so here too, since this card
+  // may carry no Estimate tag of its own.
+  const belowGradualFromPaper =
+    !!below?.gradual && below.estimate === true && [below.outerRadiusKm?.sourceId, below.innerRadiusKm?.sourceId].includes(below.gradual.sourceId);
 
   // The card's [n] links point at its own Sources list.
   return (
@@ -110,7 +114,7 @@ export function LayerCard({ catalog, body, details, layerId, drawn, onClose }: L
           )}
           {below?.gradual && (
             <li>
-              No sharp lower edge: the source describes a gradual change into the {below.name.toLowerCase()} below{cite(below.gradual.sourceId)}. The soft edge is illustrative.
+              No sharp lower edge: the source describes a gradual change into the {below.name.toLowerCase()} below{cite(below.gradual.sourceId)}.{belowGradualFromPaper && ' This comes from a peer-reviewed research paper (an estimate).'} The soft edge is illustrative.
             </li>
           )}
           <li id={COLOURS_NOTE_ID} tabIndex={-1}>

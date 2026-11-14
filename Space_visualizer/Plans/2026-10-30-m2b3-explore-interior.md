@@ -1,7 +1,7 @@
 ---
 title: M2b.3 Explore mode, interior cutaway and composition charts — Implementation Plan
 date: 2026-10-30
-status: complete (review pending)
+status: complete
 milestone: M2b.3
 spec: "[[2026-10-30-m2b3-explore-interior-design]]"
 tags: [plan, m2b, interior, charts]
@@ -358,4 +358,16 @@ Done 2026-11-14 on base `30d38da`. Controller rulings: build the depth ruler and
 
 **Tests:** `npm test` 1,031 tests in 112 files (988 before the wave); typecheck clean. Full Playwright (122 tests): run 1 had 114 passed and 8 failed, run 2 had 119 passed and 3 failed; every failure passed on a rerun of the failed tests (`--last-failed`: 8 of 8, then 3 of 3). The failures were load, not code: tests whose first page was still on "Loading Solar System data…" after the 5 s canvas wait while three workers rendered High goldens (another process on the machine was using a lot of CPU), and the leave-while-opening test, whose sampler saw the body close within one frame under that load (it passes alone: restore diff 0.006 to 0.007 against noise 0.001 to 0.003). Goldens re-shot from run 2 and copied to `Assets/m2b3/` (six re-shot, two new).
 
-Next: one scoped re-review of the fix wave. Push and open the stacked PR (base `cloud-setup`) only when the user asks.
+**Scoped re-review (2026-11-15, opus, `30d38da..7ac7473`):** approved with minors. All 15 findings confirmed in the code; finding 7 was partly fixed (the ruler's `[n]` had no tooltip). Nothing critical or important. The controller fixed the minors in one commit:
+- The `[n]` marks on the ruler and the floating labels name their source on hover. Ruling: a tooltip, not a link, because the ruler lets clicks through to the scene; a label's click opens the card, which lists and links the sources. *Cost if wrong:* a ruler source can be read but not followed without opening a layer card.
+- `detailsSourceOrder` now includes `interior.radiusKm` and each `gradual` source (last, so no number moves). Before, they had a number only because other values cited the same sources.
+- The chart panel's Sources list includes the chart note's source.
+- The card of the layer above a gradual core says when that sentence comes from a research paper (Saturn; Jupiter's sentence is NASA's). Ruling: the sentence counts as the paper's when it cites the same source as the estimate layer's bounds, since the app's data does not carry the source kind. *Cost if wrong:* a future layer whose official source gives both a bound and the gradual sentence, yet is marked estimate, would get the line wrongly.
+- Focus stays in the overlay when Retry or the card goes away.
+- A ruler test title corrected.
+
+Noted, not changed: a thickened crust's tick sits at the drawn (thicker) radius with the cited value (the card says "Drawn thicker than scale"); Saturn's tick spacing is about 3 % off linear (finding 12); Mars Half-section was not re-shot after the tiling fix.
+
+**Final verification (2026-11-15):** `npm test` 1,033 tests in 112 files; typecheck clean. Full Playwright before the minor fixes: 121 of 122 passed in one pass; the one failure was the leave-while-opening test under load. After the minor fixes: `explore.spec.ts` and `layout.spec.ts` 60 of 60 (that test included), the eight Explore goldens 8 of 8.
+
+Push and open the stacked PR (base `cloud-setup`) only when the user asks.

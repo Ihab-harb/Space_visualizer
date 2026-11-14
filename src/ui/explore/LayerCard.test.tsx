@@ -76,6 +76,14 @@ describe('LayerCard', () => {
     expect(card).toHaveTextContent('No sharp lower edge: the source describes a gradual change into the diffuse core below');
     expect(card).toHaveTextContent('The soft edge is illustrative');
     expect(card).not.toHaveTextContent('The source gives a range');
+    // Saturn's sentence is the paper's: the card says so.
+    expect(card).toHaveTextContent('This comes from a peer-reviewed research paper (an estimate).');
+  });
+
+  it('does not call an official gradual sentence an estimate (Jupiter: the sentence is NASA\'s)', () => {
+    const { card } = show('jupiter', 'metallic-hydrogen');
+    expect(card).toHaveTextContent('No sharp lower edge');
+    expect(card).not.toHaveTextContent('research paper');
   });
 
   it('closes with its ✕', async () => {
