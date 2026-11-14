@@ -10,7 +10,8 @@ Back to [[Home]] · [[Overview]]
 **Commands**
 - `npm run data`: fetches every source, builds, validates, then writes `public/data/`.
 - `npm run data:offline`: the same, using only the cached copies in `pipeline/raw/` (git-ignored).
-- `npm run horizons:reference`: refreshes `pipeline/reference/horizons-heliocentric.json` (72 Horizons vectors).
+- `npm run horizons:reference`: refreshes `pipeline/reference/horizons-heliocentric.json` (81 Horizons vectors: 72 barycentre samples and 9 Earth-centre samples).
+- `npm run moon:ephemeris`: fetches the Moon's Horizons vectors and fits the Chebyshev table (about 20 minutes the first time; `--offline` reuses the cache). See "The Moon (M2b.2)" below.
 
 **Flow:** fetch (with cache fallback) → parse (one parser per source) → build (`buildSolarSystem`) → validate (schemas, sources resolve, no duplicates) → write. If validation or fetching fails, `public/data` is left untouched and the error names the exact field.
 
@@ -61,3 +62,14 @@ Built in [[2026-10-10-m2b1-body-details]] from spec [[2026-10-10-m2b1-body-detai
 **Offline:** `npm run data:offline` rebuilds the details from the cache with no network.
 
 **Sources:** [[NSSDCA Planet Fact Sheets]] · [[NSSDCA Sun Fact Sheet]] · [[USGS Gazetteer of Planetary Nomenclature]] · [[NASA mission and science pages (curated)]]
+
+## The Moon (M2b.2)
+Built in [[2026-10-29-m2b2-moon]]. Decision: [[0008-moon-chebyshev-table]].
+
+**Ephemeris script (`pipeline/scripts/fetchMoonEphemeris.ts`, `npm run moon:ephemeris`).** It fetches Horizons geocentric Moon vectors (command 301, centre 500@399, ecliptic J2000, TDB) in 1,826-day chunks at 180-minute steps through `fetchCached` (`pipeline/raw/horizons-moon-<startJd>.txt`, git-ignored). The even samples are fitted (`pipeline/lib/chebyshevFit.ts`). The odd samples, 3 hours from any fitted one, are held out and measure the error. It tries four settings and keeps the smallest under 1 km: 16-day segments, degree 12 (5,730 segments, 1.88 MB, max 0.904 km / 0.4792 arcsec over 366,720 held-out samples). Outputs: `public/data/solar-system/ephemeris/moon.json` and `pipeline/reference/horizons-moon-check.json` (one held-out sample per 3 days, the all-sample summary, and the Moon at the M1 reference dates). The Horizons cache name does not include the step or chunk length, so clear the cache if you change them. See [[JPL Horizons]].
+
+**In the build.** `buildSolarSystem` adds the Moon with a satellite orbit. The table range comes from `chebyshevRange(moon.json)`, not Table 1. `mu` comes from the GM kernel ([[NAIF GM DE440]]), the mean elements are parsed from the live JPL page ([[JPL Planetary Satellite Mean Elements]]; `jplSatElem.ts` fails if the epoch is not 2000-01-01.5 or the warning is gone) and the facts come from [[NSSDCA Moon Fact Sheet]]. The build recomputes the table error over the committed held-out subset and fails if it exceeds the stored summary. Earth moves off the barycentre and gains `centreCheck` (6 samples, max 2,190 km radial, 11.8 arcsec; the bound is the Table 1 nominal, under 6,000 km, because Earth still rests on the approximate barycentre). `validateOutput` checks that the table file exists, parses, has the range the orbit states, and that its source ids resolve.
+
+**Details.** `moon` joins `DETAIL_BODY_IDS`. `parseMoonExosphere` reads the "Estimated Composition (night, particles per cubic cm)" block of the Moon sheet into `atmosphere.numberDensity` (9 gases in `cm⁻³`, all upper limits, `kind: 'exosphere'`). The note is the sheet's caveat paragraph plus its Trace and Possible lists. The interior (crust, mantle, core) and the field sentence come from curated NASA pages; `interiors.json` gained an optional quoted `magneticField`. The Moon has 12 missions (Apollo 8 moved here from Earth) and no discovery entry (no official sentence found). The Gazetteer covers `MOON` (a 24 MB zip).
+
+**Moon imagery (`pipeline/textures/`).** [[NASA SVS CGI Moon Kit]]: `moon-color` (LROC colour, 8k) and `moon-dem` (LOLA, 5760 x 2880, unsigned 16-bit TIFF). sharp rescales unsigned 16-bit greys to 8 bits, so `readBandFloat(..., { unsigned16: true })` reuses the strip reader. Validations: maria darker than highlands (ratio 0.68, limit 0.8) and the DEM minimum inside South Pole-Aitken. The normal map uses strength 2 (illustrative). Committed Moon textures total 17.5 MB. `npm run data:offline` now writes 10 bodies, 98 sources and 10 details files.

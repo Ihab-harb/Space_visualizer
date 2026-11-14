@@ -5,6 +5,7 @@ export const DESCRIPTION_PAGES = {
   mercury: 'https://science.nasa.gov/mercury/',
   venus: 'https://science.nasa.gov/venus/',
   earth: 'https://science.nasa.gov/earth/facts/',
+  moon: 'https://science.nasa.gov/moon/',
   mars: 'https://science.nasa.gov/mars/',
   jupiter: 'https://science.nasa.gov/jupiter/',
   saturn: 'https://science.nasa.gov/saturn/',

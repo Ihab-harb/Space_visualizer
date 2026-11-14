@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest';
-import { horizonsVectorUrl, parseHorizonsVector } from './horizons';
+import { readFileSync } from 'node:fs';
+import { horizonsVectorUrl, moonChunkUrl, parseHorizonsVector, parseHorizonsVectorTable } from './horizons';
 
 // Trimmed from a real response (Jupiter body centre, 2000-01-01 12:00 TDB, ecliptic J2000, Sun centre).
 const RESULT = [
@@ -22,5 +23,25 @@ describe('Horizons helpers', () => {
     expect(url.searchParams.get('COMMAND')).toBe("'5'");
     expect(url.searchParams.get('CENTER')).toBe("'500@10'");
     expect(url.searchParams.get('TLIST')).toBe("'2451545'");
+  });
+  it('parses every row of a vector table', () => {
+    const rows = parseHorizonsVectorTable(readFileSync('pipeline/fixtures/horizons-moon-vectors.txt', 'utf8'));
+    expect(rows).toHaveLength(3);
+    expect(rows[1]).toEqual({ jdTdb: 2451545.125, positionKm: [-2.845529015106648e5, -2.827751439206651e5, 3.613377054107668e4] });
+  });
+  it('throws on a non-numeric row', () => {
+    expect(() => parseHorizonsVectorTable(['$$SOE', '2451545.0, A.D., abc, 1, 2,', '$$EOE'].join('\n'))).toThrow(/not numeric/);
+  });
+  it('throws on an empty field', () => {
+    expect(() => parseHorizonsVectorTable(['$$SOE', '2451545.0, A.D., , 1, 2,', '$$EOE'].join('\n'))).toThrow(/not numeric/);
+  });
+  it('moonChunkUrl has CENTER 500@399 and COMMAND 301', () => {
+    const url = new URL(moonChunkUrl(2451545, 2451555, 180));
+    expect(url.searchParams.get('COMMAND')).toBe("'301'");
+    expect(url.searchParams.get('CENTER')).toBe("'500@399'");
+    expect(url.searchParams.get('START_TIME')).toBe("'JD 2451545'");
+    expect(url.searchParams.get('STOP_TIME')).toBe("'JD 2451555'");
+    expect(url.searchParams.get('STEP_SIZE')).toBe("'180 m'");
+    expect(url.searchParams.get('REF_PLANE')).toBe("'ECLIPTIC'");
   });
 });

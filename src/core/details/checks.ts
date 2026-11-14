@@ -29,6 +29,7 @@ export function checkDetails(details: BodyDetails, ctx: { radiusKm: number; know
   if (atm) {
     const total = atm.major.reduce((s, g) => s + g.amount, 0);
     if (total > 100.5) errors.push(`${p} major gases sum to ${total.toFixed(2)} %, over 100 %`);
+    for (const g of atm.numberDensity ?? []) if (!Number.isFinite(g.amount) || g.amount > 1e20) errors.push(`${p} number density of ${g.name} ${g.amount} per cm³ is not finite or is above 10^20`);
     for (const g of atm.minor) if (g.amount >= 1e6) errors.push(`${p} minor gas ${g.formula} ${g.amount} ppm is not below 10^6 ppm`);
   }
   const f = details.features;

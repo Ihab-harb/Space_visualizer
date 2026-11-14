@@ -1,7 +1,7 @@
 import { readFileSync } from 'node:fs';
 import { describe, expect, it } from 'vitest';
 import type { Body } from '../../src/core/catalog/schema';
-import { makeCatalogFiles, makeEarth } from '../../src/test/fixtures';
+import { makeCatalogFiles, makeEarth, makeMoon } from '../../src/test/fixtures';
 import type { FetchedText } from '../lib/fetchCached';
 import { PLANET_SHEET_IDS } from '../sources/nssdcPlanetSheet';
 import type { InteriorsFile, MissionsFile } from '../sources/quotedReference';
@@ -56,7 +56,7 @@ function inputs(over: Partial<DetailsInputs> = {}): DetailsInputs {
   return {
     bodies,
     existingSourceIds: new Set(makeCatalogFiles().sources.sources.map((s) => s.id)),
-    planetSheets, sunSheet,
+    planetSheets, sunSheet, moonSheet: fetched(readFileSync('pipeline/fixtures/moonfact.html', 'utf8')),
     gazetteer: { mars: { rows, retrievedAt: '2026-10-09' } },
     interiors: interiors(), missions,
     curatedPages: new Map([['test-page', fetched(PAGE)]]),
@@ -211,5 +211,71 @@ describe('buildDetails', () => {
     const page = PAGE + '<p>' + 'Alpha' + '</p>';
     const out = build({ missions: file, curatedPages: new Map([['test-page', fetched(page)]]) });
     expect(out.details.find((d) => d.bodyId === 'mars')!.missions.map((m) => m.id)).toEqual(['a', 'b', 'c']);
+  });
+
+  describe('the Moon', () => {
+    const MS = 'nssdca-moon-fact-sheet';
+    const moon: Body = {
+      ...makeMoon(),
+      facts: { hasGlobalMagneticField: { value: false, sourceId: PS }, meanRadiusKm: { value: 1737.4, sourceId: MS } },
+    };
+    const MOON_PAGE = '<p>The Moon today has a very weak magnetic field according to this page text. The Moon core extends about 20 percent of the way from the Moon center to its surface.</p><p>The Apollo 8 crew launched Dec. 21, 1968 and splashed down Dec. 27, 1968 according to this page.</p>';
+    const Q_FIELD = 'The Moon today has a very weak magnetic field according to this page text';
+    const Q_MCORE = 'The Moon core extends about 20 percent of the way from the Moon center to its surface';
+    const Q_A8 = 'The Apollo 8 crew launched Dec. 21, 1968 and splashed down Dec. 27, 1968 according to this page';
+    const moonSrc = { ...src, id: 'moon-page', url: 'https://science.nasa.gov/moon/test/' };
+    const moonRows = [
+      { name: 'Mare Imbrium', clean_name: 'Mare Imbrium', approvaldt: '1935/01/01 00:00:00', origin: 'Latin for sea of showers', diameter: '1123', center_lon: '342.1', center_lat: '32.8', type: 'Mare, maria', approval: 'Adopted by IAU' },
+      { name: 'Tycho', clean_name: 'Tycho', approvaldt: '1935/01/01 00:00:00', origin: 'Tycho Brahe', diameter: '85', center_lon: '348.7', center_lat: '-43.3', type: 'Crater, craters', approval: 'Adopted by IAU' },
+    ];
+    const FIELD = { sourceId: 'moon-page', quote: Q_FIELD, text: 'The Moon today has a very weak magnetic field' };
+    const moonMissions = (quote = Q_A8): MissionsFile => ({
+      sources: [moonSrc],
+      bodies: { moon: { discovery: { kind: 'antiquity', sourceId: 'moon-page', quote: Q_FIELD }, missions: [{ id: 'apollo-8', name: 'Apollo 8', agency: 'NASA', type: 'orbiter', launchDate: '1968-12-21', arrivalDate: null, endDate: '1968-12-27', outcome: 'success', sourceId: 'moon-page', quotes: [quote] }] } },
+    });
+    const withMoon = (over: Partial<DetailsInputs> = {}) => {
+      return build({
+        bodies: [...bodies, moon],
+        existingSourceIds: new Set([...makeCatalogFiles().sources.sources.map((s) => s.id), MS]),
+        gazetteer: { mars: { rows, retrievedAt: '2026-10-09' }, moon: { rows: moonRows, retrievedAt: '2026-10-29' } },
+        interiors: { sources: [moonSrc], bodies: {} }, missions: moonMissions(),
+        curatedPages: new Map([['moon-page', fetched(MOON_PAGE)]]),
+        ...over,
+      });
+    };
+
+    it('builds an exosphere, an other-kind field, missions and named features from the Moon sheet and Gazetteer', () => {
+      const { details, errors, sources } = withMoon({ interiors: { sources: [moonSrc], bodies: { moon: { layers: [], magneticField: FIELD } } } });
+      const m = details.find((d) => d.bodyId === 'moon')!;
+      expect(m.atmosphere!.kind).toBe('exosphere');
+      expect(m.atmosphere!.numberDensity!.find((g) => g.name === 'Helium 4')!.amount).toBe(40000);
+      expect(m.atmosphere!.numberDensity!.every((g) => g.sourceId === MS)).toBe(true);
+      expect(m.magnetosphere).toEqual({ kind: 'other', note: { text: 'The Moon today has a very weak magnetic field', sourceId: 'moon-page' } });
+      expect(m.features!.sourceId).toBe('usgs-gazetteer-moon');
+      expect(m.features!.totalApproved.value).toBe(2);
+      expect(m.features!.thresholdKm).toBe(85);
+      expect(m.missions.map((x) => x.id)).toEqual(['apollo-8']);
+      expect(m.discovery).toEqual({ kind: 'antiquity', sourceId: 'moon-page' });
+      expect(sources.map((s) => s.id)).not.toContain(MS); // already registered in the catalogue
+      expect(sources.map((s) => s.id)).toContain('usgs-gazetteer-moon');
+      expect(errors).toEqual([]);
+    });
+
+    it('falls back to the Planetary Fact Sheet "no field" when no field sentence is curated', () => {
+      const m = withMoon().details.find((d) => d.bodyId === 'moon')!;
+      expect(m.magnetosphere).toEqual({ kind: 'none', sourceId: PS });
+      expect(m.interior).toBeNull();
+    });
+
+    it('converts a percent-of-radius Moon core and checks the field sentence against its page', () => {
+      const file: InteriorsFile = { sources: [moonSrc], bodies: { moon: { layers: [
+        { id: 'core', name: 'Core', from: 'percent', outer: { min: 20, max: 20, sourceId: 'moon-page', quote: Q_MCORE }, inner: { min: 0, max: 0, sourceId: 'moon-page', quote: Q_MCORE }, state: 'unknown', composition: null, uncertain: false },
+      ] } } };
+      const ok = withMoon({ interiors: file });
+      // A single core layer alone is a valid interior.
+      expect(ok.details.find((d) => d.bodyId === 'moon')!.interior!.layers[0]!.outerRadiusKm.max).toBeCloseTo(347.48, 6);
+      const bad: InteriorsFile = { sources: [moonSrc], bodies: { moon: { layers: file.bodies.moon!.layers, magneticField: { sourceId: 'moon-page', quote: 'This sentence about the magnetic field is not on the page', text: 'x' } } } };
+      expect(withMoon({ interiors: bad }).errors.join()).toContain('magneticField');
+    });
   });
 });

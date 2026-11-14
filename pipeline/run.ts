@@ -1,11 +1,11 @@
 import { mkdir, readFile, writeFile } from 'node:fs/promises';
 import path from 'node:path';
-import { ImageryFileSchema } from '../src/core/catalog/schema';
+import { ChebyshevFileSchema, ImageryFileSchema } from '../src/core/catalog/schema';
 import { buildDetails, type DetailsInputs } from './build/buildDetails';
 import { buildSolarSystem } from './build/buildSolarSystem';
 import { validateDetails, validateOutput } from './build/validate';
 import { fetchCached, type FetchedText, type FetchOptions } from './lib/fetchCached';
-import type { HorizonsReference } from './sources/horizons';
+import type { HorizonsMoonCheck, HorizonsReference } from './sources/horizons';
 import { DESCRIPTION_PAGES } from './sources/nasaScience';
 import { readDbf } from './lib/dbf';
 import { readZipEntry } from './lib/zip';
@@ -32,15 +32,21 @@ try {
   const planetSheet = await fetchCached(SOURCE_SPECS.nssdcaPlanets.url, 'planet-factsheet.html', options);
   const sunSheet = await fetchCached(SOURCE_SPECS.nssdcaSun.url, 'sun-factsheet.html', options);
   const pck = await fetchCached(SOURCE_SPECS.naifPck.url, 'pck00011.tpc', options);
+  const gmKernel = await fetchCached(SOURCE_SPECS.naifGm.url, 'gm_de440.tpc', options);
+  const moonSheet = await fetchCached(planetSheetUrl('moon'), 'nssdca-moon-fact.html', options);
+  const satElemPage = await fetchCached(SOURCE_SPECS.jplSatElem.url, 'jpl-sats-elem.html', options);
   const descriptions = {} as Record<keyof typeof DESCRIPTION_PAGES, FetchedText>;
   for (const [id, url] of Object.entries(DESCRIPTION_PAGES) as Array<[keyof typeof DESCRIPTION_PAGES, string]>) {
     descriptions[id] = await fetchCached(url, `nasa-science-${id}.html`, options);
   }
   const horizons = JSON.parse(await readFile('pipeline/reference/horizons-heliocentric.json', 'utf8')) as HorizonsReference;
 
+  const moonTable = ChebyshevFileSchema.parse(JSON.parse(await readFile('public/data/solar-system/ephemeris/moon.json', 'utf8')));
+  const moonCheck = JSON.parse(await readFile('pipeline/reference/horizons-moon-check.json', 'utf8')) as HorizonsMoonCheck;
+
   const imagery = ImageryFileSchema.parse(JSON.parse(await readFile('public/textures/imagery.json', 'utf8')));
 
-  const output = buildSolarSystem({ approxPos, planetSheet, sunSheet, pck, descriptions, horizons, imagery }, new Date().toISOString());
+  const output = buildSolarSystem({ approxPos, planetSheet, sunSheet, pck, gmKernel, moonSheet, satElemPage, moonTable, moonCheck, descriptions, horizons, imagery }, new Date().toISOString());
 
   const generatedAt = output.bodies.generatedAt;
   const planetSheets = {} as DetailsInputs['planetSheets'];
@@ -57,12 +63,12 @@ try {
     if (!curatedPages.has(s.id)) curatedPages.set(s.id, await fetchCached(s.url, `ref-${s.id}.html`, options));
   }
   const built = buildDetails(
-    { bodies: output.bodies.bodies, existingSourceIds: new Set(output.sources.sources.map((s) => s.id)), existingSourceUrls: new Map(output.sources.sources.map((s) => [s.url, s.id])), planetSheets, sunSheet, gazetteer, interiors, missions, curatedPages },
+    { bodies: output.bodies.bodies, existingSourceIds: new Set(output.sources.sources.map((s) => s.id)), existingSourceUrls: new Map(output.sources.sources.map((s) => [s.url, s.id])), planetSheets, sunSheet, moonSheet, gazetteer, interiors, missions, curatedPages },
     generatedAt,
   );
   output.sources.sources.push(...built.sources);
 
-  const errors = [...validateOutput(output), ...built.errors, ...validateDetails(built.details, output)];
+  const errors = [...validateOutput(output, new Map([['solar-system/ephemeris/moon.json', moonTable]])), ...built.errors, ...validateDetails(built.details, output)];
   if (errors.length > 0) {
     console.error(`Validation failed; public/data was NOT changed:\n${errors.join('\n')}`);
     process.exit(1);

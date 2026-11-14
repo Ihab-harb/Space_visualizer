@@ -1,7 +1,7 @@
 import type { FeatureItem, Features } from '../../src/core/details/schema';
 import type { SourceSpec } from './registry';
 
-export const GAZETTEER_TARGETS = { mercury: 'MERCURY', venus: 'VENUS', mars: 'MARS' } as const;
+export const GAZETTEER_TARGETS = { mercury: 'MERCURY', venus: 'VENUS', mars: 'MARS', moon: 'MOON' } as const;
 export type GazetteerTarget = (typeof GAZETTEER_TARGETS)[keyof typeof GAZETTEER_TARGETS];
 
 export function gazetteerUrl(target: GazetteerTarget): string {

@@ -37,10 +37,19 @@ const GasBase = { name: z.string().min(1), formula: z.string().min(1), amount: z
 export const MajorGasSchema = z.object({ ...GasBase, unit: z.literal('%') });
 export const MinorGasSchema = z.object({ ...GasBase, unit: z.literal('ppm') });
 
+/** A number density in particles per cm³ (an exosphere); the Moon sheet gives upper limits. */
+export const NumberDensityGasSchema = z.object({
+  name: z.string().min(1), formula: z.string().min(1), amount: z.number().nonnegative(),
+  unit: z.literal('cm⁻³'), upperLimit: z.boolean(), sourceId: SourceId,
+});
+
 export const AtmosphereSchema = z.object({
   basis: z.string().min(1),
+  /** 'exosphere' heads the drawer section Exosphere; absent means an atmosphere. */
+  kind: z.enum(['atmosphere', 'exosphere']).optional(),
   major: z.array(MajorGasSchema),
   minor: z.array(MinorGasSchema),
+  numberDensity: z.array(NumberDensityGasSchema).optional(),
   note: Text.nullable(),
 });
 
@@ -111,6 +120,7 @@ export const BodyDetailsSchema = z.object({
 export type SourcedRange = z.infer<typeof SourcedRangeSchema>;
 export type InteriorLayer = z.infer<typeof InteriorLayerSchema>;
 export type Gas = z.infer<typeof MajorGasSchema> | z.infer<typeof MinorGasSchema>;
+export type NumberDensityGas = z.infer<typeof NumberDensityGasSchema>;
 export type Atmosphere = z.infer<typeof AtmosphereSchema>;
 export type Magnetosphere = z.infer<typeof MagnetosphereSchema>;
 export type MissionType = (typeof MISSION_TYPES)[number];

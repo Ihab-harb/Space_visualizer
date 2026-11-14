@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { TABLE1_RANGE, TABLE2_RANGE } from '../../test/approxOrbits';
-import { makeEarth, makeJupiter, makeSun } from '../../test/fixtures';
+import { makeEarth, makeJupiter, makeMoon, makeSun, MOON_TABLE_RANGE } from '../../test/fixtures';
+import { calendarToJd } from '../time/julian';
 import { bodyState, validityStatus } from './state';
 
 const bodies = [makeSun(), makeEarth(), makeJupiter()];
@@ -24,5 +25,18 @@ describe('validityStatus', () => {
     expect(validityStatus(bodies, TABLE1_RANGE.from - 0.001)).toBe('extended');
     expect(validityStatus(bodies, TABLE2_RANGE.from - 0.001)).toBe('out-of-range');
     expect(validityStatus(bodies, TABLE2_RANGE.to + 0.001)).toBe('out-of-range');
+  });
+});
+
+describe('satellites', () => {
+  it('bodyState refuses a satellite', () => {
+    expect(() => bodyState(makeMoon(), 2451545)).toThrow('use systemState for satellite bodies');
+  });
+  it('validityStatus is high inside the table and out-of-range on the mean elements (spec §3.2)', () => {
+    const withMoon = [makeSun(), makeEarth(), makeMoon()];
+    expect(validityStatus(withMoon, MOON_TABLE_RANGE.from + 1)).toBe('high');
+    expect(validityStatus(withMoon, MOON_TABLE_RANGE.to + 1)).toBe('out-of-range');
+    expect(validityStatus(withMoon, MOON_TABLE_RANGE.from - 1)).toBe('out-of-range');
+    expect(validityStatus(withMoon, calendarToJd({ year: 3500, month: 1, day: 1, hour: 0, minute: 0, second: 0 }))).toBe('out-of-range');
   });
 });

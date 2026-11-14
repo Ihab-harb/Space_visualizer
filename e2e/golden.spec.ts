@@ -17,6 +17,21 @@ const VIEWS = [
   { name: '0-mars', url: '/?jd=2461317.5&pause=1&target=mars&dist=14000&azSun=60&el=15&quality=high&fx=1' },
   { name: '0b-venus-radar', url: '/?jd=2461317.5&pause=1&target=venus&dist=30000&azSun=60&el=10&radar=1&quality=high&fx=1' },
   { name: '4-overview', url: '/?jd=2461317.5&pause=1&quality=high&fx=1' },
+  // The Moon (M2b.2). JDs are TDB, from the app's utcToTdb(calendarToJd(...)); quarter and full dates from moonPhase over
+  // systemState. az/el for the Moon views are Earth's ecliptic direction seen from the Moon, so the camera sits on the Earth side.
+  // 2026-10-18 16:00 UTC: first quarter (lit fraction 0.5005, waxing).
+  { name: '6-moon-quarter', url: '/?jd=2461332.16747&pause=1&target=moon&dist=5500&az=114.82&el=2.77&quality=high&fx=1' },
+  // 2026-10-26 04:00 UTC: full Moon (lit fraction 0.9984), 4.6 degrees off the ecliptic, so no eclipse.
+  { name: '6b-moon-full', url: '/?jd=2461339.66747&pause=1&target=moon&dist=5500&az=-147.73&el=-4.57&quality=high&fx=1' },
+  // First quarter again, from about 1 million km on the Sun side: both bodies lit, the Moon well clear of Earth.
+  { name: '6c-earth-moon', url: '/?jd=2461332.16747&pause=1&target=earth&dist=1000000&azSun=-25&el=15&quality=high&fx=1' },
+  // 2024-04-08 18:17 UTC (total solar eclipse): the Sun behind the camera (about 20 degrees off its line, so the Moon stays out
+  // of frame) and the Moon's shadow on North America right of the info panel. The umbra fell near 25 N, 105 W.
+  { name: '6d-solar-eclipse-2024', url: '/?jd=2460409.26261&pause=1&target=earth&dist=15000&az=2.7&el=24&quality=high&fx=1' },
+  // 2025-03-14 06:58 UTC (total lunar eclipse, near greatest): the Moon inside Earth's umbra, seen from the Earth side.
+  { name: '6e-lunar-eclipse-2025', url: '/?jd=2460748.79108&pause=1&target=moon&dist=5500&az=-6.38&el=-0.32&quality=high&fx=1' },
+  // The overview: the Moon sits inside Earth's drawn disc, so it and its label are hidden.
+  { name: '6f-overview-moon-hidden', url: '/?jd=2461317.5&pause=1&quality=high&fx=1' },
 ];
 
 // Golden views take 21-47 s each on SwiftShader, plus up to 30 s for textures; the global 60 s leaves no margin. The Earth guard
@@ -48,6 +63,12 @@ for (const view of VIEWS) {
     await page.waitForTimeout(1500);
     // The radar view must say on screen that it is not a photograph, drawer closed or not.
     if (view.name === '0b-venus-radar') await expect(page.getByText('Radar view · not visible light')).toBeVisible();
+    // The Moon views must show the Moon; the overview must hide it (spec §6).
+    if (view.name.startsWith('6')) {
+      const moonLabel = page.locator('[data-label-id="moon"]');
+      if (view.name === '6f-overview-moon-hidden') await expect(moonLabel).toBeHidden();
+      else if (!view.name.startsWith('6d')) await expect(moonLabel).toBeVisible();
+    }
     await page.screenshot({ path: `test-results/golden/${view.name}.png` });
   });
 }

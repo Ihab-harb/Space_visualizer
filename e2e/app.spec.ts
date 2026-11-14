@@ -109,6 +109,26 @@ test('cites the official imagery for Earth', async ({ page }) => {
   await expect(panel.locator('.sources')).toContainText('Blue Marble');
 });
 
+// Ruling R6 (M2b.2): selecting the Moon by URL must not leave it stuck hidden inside Earth's disc after the camera arrives.
+test('target=moon at the default distance ends with the Moon shown, with its imagery notes', async ({ page }) => {
+  await page.goto('/?pause=1&target=moon&quality=low');
+  await expect(page.locator('canvas')).toBeVisible();
+  const label = page.locator('[data-label-id="moon"]');
+  await expect(label).toBeAttached();
+  await expect(label).not.toHaveAttribute('hidden', { timeout: 20_000 });
+  await page.waitForTimeout(2000); // the flight has settled; it must stay shown
+  await expect(label).not.toHaveAttribute('hidden');
+  await expect(label).toBeVisible();
+  await page.keyboard.press('f');
+  const panel = page.getByRole('complementary', { name: 'Body information' });
+  const imagery = panel.locator('section', { has: page.getByRole('heading', { name: 'Imagery' }) });
+  await expect(imagery).toContainText('optimized for aesthetics, not science');
+  await expect(imagery).toContainText('Earthshine');
+  await expect(imagery).toContainText('Eclipse colour is illustrative');
+  await expect(imagery.locator('.tag', { hasText: 'illustrative' })).toHaveCount(1); // the relief layer
+  await expect(panel.locator('.sources')).toContainText("NASA's Scientific Visualization Studio");
+});
+
 test('a header citation opens the drawer at the same source', async ({ page }) => {
   await page.goto('/?target=jupiter&pause=1&quality=low');
   const header = page.getByRole('banner', { name: 'Selected body' });

@@ -1,5 +1,5 @@
-import type { Body } from '../core/catalog/schema';
-import { bodyState } from '../core/ephemeris/state';
+import type { Body, ChebyshevFile } from '../core/catalog/schema';
+import { systemState } from '../core/ephemeris/system';
 import { bodyFixedToEcliptic } from '../core/frames/rotation';
 import { DEG } from '../core/math/angles';
 import type { Mat3 } from '../core/math/mat3';
@@ -14,6 +14,8 @@ export interface FrameState {
   bodyInValidRange: Map<string, boolean>;
   bodyOrientation: Map<string, Mat3>;
   bodyRenderRadiusKm: Map<string, number>;
+  /** Satellites not drawn this frame (inside their parent's disc in readable scale); their label and orbit line follow. */
+  bodyHidden: Set<string>;
   viewportHeightPx: number;
   fovRad: number;
   /** Post-processing inputs written by the Sun effects (Task 6). */
@@ -28,16 +30,23 @@ export function createFrameState(): FrameState {
     bodyInValidRange: new Map(),
     bodyOrientation: new Map(),
     bodyRenderRadiusKm: new Map(),
+    bodyHidden: new Set(),
     viewportHeightPx: 800,
     fovRad: 50 * DEG,
     fx: { exposure: 1, skyDim: 1 },
   };
 }
 
-export function updateBodies(frame: FrameState, bodies: readonly Body[], jdTdb: number): void {
+export function updateBodies(
+  frame: FrameState,
+  bodies: readonly Body[],
+  tables: ReadonlyMap<string, ChebyshevFile>,
+  jdTdb: number,
+): void {
   frame.jdTdb = jdTdb;
+  const states = systemState(bodies, tables, jdTdb);
   for (const body of bodies) {
-    const state = bodyState(body, jdTdb);
+    const state = states.get(body.id)!;
     frame.bodyPositionsKm.set(body.id, state.positionKm);
     frame.bodyInValidRange.set(body.id, state.inValidRange);
     if (body.rotation) frame.bodyOrientation.set(body.id, bodyFixedToEcliptic(body.rotation, jdTdb));

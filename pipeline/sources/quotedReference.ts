@@ -19,7 +19,11 @@ export interface CuratedLayer {
 }
 export interface CuratedMission { id: string; name: string; agency: string; type: MissionType; launchDate: string; arrivalDate: string | null; endDate: string | null; outcome: MissionOutcome; sourceId: string; quotes: string[] }
 export type CuratedDiscovery = (Quoted & { kind: 'antiquity' }) | (Quoted & { kind: 'discovered'; by: string; date: string; method: string });
-export interface InteriorsFile { sources: CuratedSource[]; bodies: Record<string, { layers: CuratedLayer[] }> }
+export interface InteriorsFile {
+  sources: CuratedSource[];
+  /** `magneticField`: a sentence about the body's field (shown in the Magnetic field section), kept here with the other quoted body facts. */
+  bodies: Record<string, { layers: CuratedLayer[]; magneticField?: Quoted & { text: string } }>;
+}
 export interface MissionsFile { sources: CuratedSource[]; bodies: Record<string, { discovery: CuratedDiscovery | null; missions: CuratedMission[] }> }
 
 /** Straight quotes, hyphen dashes, plain spaces, collapsed whitespace. */
@@ -212,7 +216,12 @@ function pageFor(pages: Map<string, string>, sources: CuratedSource[], sourceId:
 export function verifyInteriors(file: InteriorsFile, pages: Map<string, string>): string[] {
   const errors: string[] = [];
   checkSources(file.sources, errors);
-  for (const [body, { layers }] of Object.entries(file.bodies)) {
+  for (const [body, { layers, magneticField }] of Object.entries(file.bodies)) {
+    if (magneticField) {
+      const where = `${body} magneticField`;
+      const page = pageFor(pages, file.sources, magneticField.sourceId, where, errors);
+      if (page !== null) checkQuote(magneticField.quote, page, magneticField.sourceId, where, errors);
+    }
     for (const layer of layers) {
       const where = `${body}/${layer.id}`;
       const ranges: [string, QuotedRange][] = [['outer', layer.outer], ['inner', layer.inner]];

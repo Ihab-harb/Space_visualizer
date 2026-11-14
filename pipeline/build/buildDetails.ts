@@ -7,6 +7,7 @@ import {
 } from '../../src/core/details/schema';
 import type { FetchedText } from '../lib/fetchCached';
 import { GAZETTEER_TARGETS, gazetteerSpec, selectFeatures } from '../sources/gazetteer';
+import { parseMoonExosphere } from '../sources/nssdcMoonSheet';
 import {
   PLANET_ATMOSPHERE_HEADING, PLANET_SHEET_IDS, SUN_COMPOSITION_HEADING,
   parseComposition, parseMagnetosphere, parseMeanRadiusKm, parseSunField, sheetText,
@@ -17,7 +18,7 @@ import {
 } from '../sources/quotedReference';
 import { planetSheetSpec, toSource, type SourceSpec } from '../sources/registry';
 
-export const DETAIL_BODY_IDS = ['sun', 'mercury', 'venus', 'earth', 'mars', 'jupiter', 'saturn', 'uranus', 'neptune'] as const;
+export const DETAIL_BODY_IDS = ['sun', 'mercury', 'venus', 'earth', 'moon', 'mars', 'jupiter', 'saturn', 'uranus', 'neptune'] as const;
 
 export interface DetailsInputs {
   bodies: readonly Body[];
@@ -26,6 +27,7 @@ export interface DetailsInputs {
   existingSourceUrls?: ReadonlyMap<string, string>;
   planetSheets: Record<(typeof PLANET_SHEET_IDS)[number], FetchedText>;
   sunSheet: FetchedText;
+  moonSheet: FetchedText;
   gazetteer: Partial<Record<keyof typeof GAZETTEER_TARGETS, { rows: Array<Record<string, string>>; retrievedAt: string }>>;
   interiors: InteriorsFile;
   missions: MissionsFile;
@@ -98,21 +100,27 @@ export function buildDetails(inputs: DetailsInputs, generatedAt: string): { deta
     if (!body) continue;
     const p = `details/${id}.json`;
     const isSun = id === 'sun';
-    const sheet = isSun ? inputs.sunSheet : inputs.planetSheets[id as (typeof PLANET_SHEET_IDS)[number]];
+    const isMoon = id === 'moon';
+    const sheet = isSun ? inputs.sunSheet : isMoon ? inputs.moonSheet : inputs.planetSheets[id as (typeof PLANET_SHEET_IDS)[number]];
     const text = sheetText(sheet.text);
-    const radiusKm = isSun
+    // The Sun and the Moon have no planet-sheet mean radius row to parse: use the catalogue's cited radius.
+    const radiusKm = isSun || isMoon
       ? ((body.facts.meanRadiusKm?.value as number | undefined) ?? body.shape.equatorialRadiusKm)
       : (() => { try { return parseMeanRadiusKm(text); } catch { return (body.facts.meanRadiusKm?.value as number | undefined) ?? body.shape.equatorialRadiusKm; } })();
     radii.set(id, radiusKm);
     const curated = inputs.interiors.bodies[id];
-    const interior = curated ? { layers: curated.layers.map((l) => convertLayer(l, radiusKm)) } : null;
+    const interior = curated && curated.layers.length > 0 ? { layers: curated.layers.map((l) => convertLayer(l, radiusKm)) } : null;
     const sheetSourceId = isSun ? 'nssdca-sun-fact-sheet' : `nssdca-${id}-fact-sheet`;
-    if (!isSun) addSource(planetSheetSpec(id, body.name), sheet.retrievedAt);
-    const atmosphere = parseComposition(text, isSun ? SUN_COMPOSITION_HEADING : PLANET_ATMOSPHERE_HEADING, sheetSourceId);
+    // The Sun and Moon sheets are registered by the catalogue build; the planet sheets are registered here.
+    if (!isSun && !isMoon) addSource(planetSheetSpec(id, body.name), sheet.retrievedAt);
+    const atmosphere = isMoon
+      ? parseMoonExosphere(sheet.text, sheetSourceId)
+      : parseComposition(text, isSun ? SUN_COMPOSITION_HEADING : PLANET_ATMOSPHERE_HEADING, sheetSourceId);
 
     let magnetosphere: Magnetosphere | null = null;
     const field = body.facts.hasGlobalMagneticField;
-    if (!isSun) magnetosphere = parseMagnetosphere(text, sheetSourceId);
+    if (!isSun && !isMoon) magnetosphere = parseMagnetosphere(text, sheetSourceId);
+    if (isMoon && curated?.magneticField) magnetosphere = { kind: 'other', note: { text: curated.magneticField.text, sourceId: curated.magneticField.sourceId } };
     if (!magnetosphere && field && field.value === false) magnetosphere = { kind: 'none', sourceId: field.sourceId };
     if (!magnetosphere && isSun) magnetosphere = parseSunField(text, sheetSourceId);
     if (!magnetosphere) { errors.push(`${p}: no magnetosphere source`); continue; }

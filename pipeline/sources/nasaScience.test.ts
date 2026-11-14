@@ -14,7 +14,7 @@ describe('parseMetaDescription', () => {
 
 describe('source registry', () => {
   it('covers the Sun and eight planets, with Earth on its facts page', () => {
-    expect(Object.keys(DESCRIPTION_PAGES)).toEqual(['sun', 'mercury', 'venus', 'earth', 'mars', 'jupiter', 'saturn', 'uranus', 'neptune']);
+    expect(Object.keys(DESCRIPTION_PAGES)).toEqual(['sun', 'mercury', 'venus', 'earth', 'moon', 'mars', 'jupiter', 'saturn', 'uranus', 'neptune']);
     expect(DESCRIPTION_PAGES.earth).toBe('https://science.nasa.gov/earth/facts/');
   });
   it('builds Source records with a retrieval date', () => {

@@ -6,7 +6,7 @@ Types and checks live in `pipeline/sources/quotedReference.ts`.
 
 ## Files
 
-- `interiors.json` is an `InteriorsFile`: `sources` plus `bodies[bodyId].layers`.
+- `interiors.json` is an `InteriorsFile`: `sources` plus `bodies[bodyId].layers`. A body may also carry `magneticField: { sourceId, quote, text }` (used for the Moon, whose Planetary Fact Sheet row says only "No"): a sentence from a registered page, shown in the Magnetic field section. The build checks the quote like any other; without it the field comes from the catalogue fact or the fact sheet. An empty `layers` array means no interior is shown.
 - `missions.json` is a `MissionsFile`: `sources` plus `bodies[bodyId] = { discovery, missions }`.
 
 Each `sources` entry is `{ id, title, publisher, url, license }`. Every `sourceId` used in the file must be registered there.
@@ -21,6 +21,10 @@ Each `sources` entry is `{ id, title, publisher, url, license }`. Every `sourceI
 6. Radii versus diameters: the page often gives a diameter. Do not halve it yourself. Record a value only if a number in the quote is the radius or depth you store, or quote a different sentence that states it.
 7. Dates are ISO (`YYYY-MM-DD`) in the data and must appear in a quote as a day-level date: `November 28, 1964`, `Nov. 28, 1964`, `28 November 1964`, `1964-11-28` (ordinal days such as `July 14th, 1965` also work). A number that follows a name is not a day: `Voyager 2 August 1977` does not state 2 August. Month and year alone (`July 1965`) never matches. One exception: the launch date of a mission whose outcome is `planned` and which the source gives only as a year is stored as `YYYY-01-01`; it matches on the bare year, provided no month sits beside that year in the quote. Arrival, end and discovery dates always need a day.
 8. A value of 0 needs no quote number: a depth of 0 at the surface, or an inner radius of 0 at the centre.
+
+## Lines that read like a name
+
+A day-first date after "Name N - " (for example `Chang'e 4 - 7 December 2018` on the NSSDCA lunar timeline) reads to the date check as part of the name. List the full line as one quote and the part from the date on (`7 December 2018 - CNSA (China) Lunar Farside Lander and Rover`) as a second quote; both are on the page.
 
 ## Layers
 

@@ -29,13 +29,23 @@ const semiMajorAxis = (b: Body) => {
   return typeof v === 'number' ? v : Number.POSITIVE_INFINITY;
 };
 
+const meanDistanceFromParent = (b: Body) => {
+  const v = b.facts.meanDistanceFromParentKm?.value;
+  return typeof v === 'number' ? v : Number.POSITIVE_INFINITY;
+};
+
+const satellitesOf = (bodies: readonly Body[], planet: Body) =>
+  bodies.filter((b) => b.category === 'moon' && b.parentId === planet.id).sort((a, b) => meanDistanceFromParent(a) - meanDistanceFromParent(b));
+
+const radiiStop = (b: Body): TourStop => ({ targetId: b.id, selectId: b.id, distanceKm: b.shape.equatorialRadiusKm * TOUR.distanceRadii, elevationRad: TOUR.elevationRad });
+
 export function buildTour(bodies: readonly Body[]): TourStop[] {
   const sun = bodies.find((b) => b.category === 'star');
   if (!sun) return [];
   const planets = bodies.filter((b) => b.category === 'planet').sort((a, b) => semiMajorAxis(a) - semiMajorAxis(b));
   return [
     { targetId: sun.id, selectId: sun.id, distanceKm: sun.shape.equatorialRadiusKm * TOUR.sunDistanceRadii, elevationRad: TOUR.elevationRad },
-    ...planets.map((p) => ({ targetId: p.id, selectId: p.id, distanceKm: p.shape.equatorialRadiusKm * TOUR.distanceRadii, elevationRad: TOUR.elevationRad })),
+    ...planets.flatMap((p) => [p, ...satellitesOf(bodies, p)].map(radiiStop)),
     { targetId: sun.id, selectId: null, distanceKm: TOUR.overviewDistanceKm, elevationRad: TOUR.overviewElevationRad },
   ];
 }

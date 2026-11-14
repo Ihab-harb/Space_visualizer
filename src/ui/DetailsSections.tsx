@@ -80,10 +80,27 @@ function AtmosphereBlock({ atmosphere, cite }: { atmosphere: Atmosphere; cite: C
       {cite(g.sourceId)}
     </li>
   );
-  const hasGases = atmosphere.major.length + atmosphere.minor.length > 0;
+  const density = atmosphere.numberDensity ?? [];
+  const hasGases = atmosphere.major.length + atmosphere.minor.length + density.length > 0;
+  const basis = atmosphere.kind === 'exosphere' ? `Estimated composition (${atmosphere.basis})` : atmosphere.basis;
   return (
     <>
-      {hasGases && <p className="info-panel__note">{atmosphere.basis}</p>}
+      {hasGases && <p className="info-panel__note">{basis}</p>}
+      {density.length > 0 && (
+        <ul className="details-list">
+          {density.map((g) => (
+            <li key={`${g.formula}-${g.name}`} className="details-row">
+              <span>
+                {g.name} ({subscripts(g.formula)})
+              </span>{' '}
+              <span className="num">
+                {formatNumber(g.amount)} per cm³{g.upperLimit && ' (upper limit)'}
+              </span>
+              {cite(g.sourceId)}
+            </li>
+          ))}
+        </ul>
+      )}
       {atmosphere.major.length > 0 && <ul className="details-list">{atmosphere.major.map(gas)}</ul>}
       {atmosphere.minor.length > 0 && (
         <>
@@ -181,7 +198,7 @@ function Ready({ details, cite }: { details: BodyDetails; cite: Cite }) {
         </Section>
       )}
       {atmosphere && (
-        <Section id="atmosphere" title="Atmosphere">
+        <Section id="atmosphere" title={atmosphere.kind === 'exosphere' ? 'Exosphere' : 'Atmosphere'}>
           <AtmosphereBlock atmosphere={atmosphere} cite={cite} />
         </Section>
       )}

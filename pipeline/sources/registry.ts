@@ -47,6 +47,20 @@ export const SOURCE_SPECS = {
     url: 'https://naif.jpl.nasa.gov/pub/naif/generic_kernels/pck/pck00011.tpc',
     license: NASA_PUBLIC_DOMAIN,
   },
+  naifGm: {
+    id: 'naif-gm-de440',
+    title: 'gm_de440.tpc gravitational parameters (DE440 GM values)',
+    publisher: 'NASA/JPL Navigation and Ancillary Information Facility (NAIF)',
+    url: 'https://naif.jpl.nasa.gov/pub/naif/generic_kernels/pck/gm_de440.tpc',
+    license: NASA_PUBLIC_DOMAIN,
+  },
+  jplSatElem: {
+    id: 'jpl-sats-elem',
+    title: 'Planetary Satellite Mean Elements',
+    publisher: 'NASA/JPL Solar System Dynamics',
+    url: 'https://ssd.jpl.nasa.gov/sats/elem/',
+    license: JPL_CONTENT,
+  },
 } satisfies Record<string, SourceSpec>;
 
 export function nasaScienceSpec(bodyId: string, name: string, url: string): SourceSpec {

@@ -6,10 +6,10 @@ import { pageText, verifyInteriors, type InteriorsFile } from '../sources/quoted
 const file = JSON.parse(readFileSync('pipeline/reference/interiors.json', 'utf8')) as InteriorsFile;
 
 describe('curated interiors', () => {
-  it('covers the Sun and the eight planets, or lists the omission', () => {
+  it('covers the Sun, the Moon and the eight planets, or lists the omission', () => {
     const ids = Object.keys(file.bodies);
-    for (const id of ids) expect(['sun', 'mercury', 'venus', 'earth', 'mars', 'jupiter', 'saturn', 'uranus', 'neptune']).toContain(id);
-    expect(ids).toEqual(expect.arrayContaining(['sun', 'mercury', 'earth', 'mars'])); // the other five have no official numeric source: interior null
+    for (const id of ids) expect(['sun', 'mercury', 'venus', 'earth', 'moon', 'mars', 'jupiter', 'saturn', 'uranus', 'neptune']).toContain(id);
+    expect(ids).toEqual(expect.arrayContaining(['sun', 'mercury', 'earth', 'moon', 'mars'])); // the other five have no official numeric source: interior null
   });
   it('passes the quote, kilometre and percent checks against the cached pages', () => {
     const pages = new Map<string, string>();

@@ -1,4 +1,5 @@
 import type { Body, Imagery, TextureRef } from '../core/catalog/schema';
+import { EARTHSHINE, ECLIPSE_TINT, receivesEarthshine } from '../scene/materials/illustrative';
 
 export interface ImageryLine {
   label: string;
@@ -39,8 +40,8 @@ export function radarShown(body: Body, venusRadar: boolean): boolean {
   return body.render.shader === 'venus' && venusRadar && !!body.imagery?.radar;
 }
 
-/** Notes for what is on screen: the radar view replaces the cloud deck and the atmosphere shell. */
-export function illustrativeNotes(body: Body, { venusRadar = false }: { venusRadar?: boolean } = {}): string[] {
+/** Notes for what is on screen: the radar view replaces the cloud deck and the atmosphere shell. `parent` is the body's parent, if any. */
+export function illustrativeNotes(body: Body, { venusRadar = false, parent }: { venusRadar?: boolean; parent?: Body } = {}): string[] {
   if (radarShown(body, venusRadar)) return ['Radar view: Magellan radar backscatter of the surface under the clouds — brightness is radar roughness, not visible light.'];
   const notes: string[] = [];
   if (body.render.shader === 'sun') notes.push('Illustrative surface: granulation, limb darkening and corona are artistic, not imagery.');
@@ -49,5 +50,7 @@ export function illustrativeNotes(body: Body, { venusRadar = false }: { venusRad
   if (body.render.bandFlow) notes.push('Cloud-band motion is illustrative.');
   if (body.render.shader === 'earth' && body.imagery?.clouds) notes.push('Cloud drift is illustrative.');
   if (body.render.atmosphere && body.render.atmosphere !== 'earth') notes.push('Atmosphere tint is illustrative.');
+  if (receivesEarthshine(body)) notes.push(EARTHSHINE.note);
+  if (parent?.render.atmosphere === 'earth') notes.push(ECLIPSE_TINT.note);
   return notes;
 }

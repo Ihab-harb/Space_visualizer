@@ -175,8 +175,8 @@ Minor findings from the per-task reviews of Tasks 5 to 9, summarised from the ex
   - **done in the M2b.1 fix wave:** Mars' interior showed one end of each stored range, so the crust "0–50 km deep" and the mantle "10–1,560 km deep" overlap without explanation;
   - the narrative adds "%" without checking the gas unit, and gas-name casing differs between the list and the narrative.
 - **Deferred from the M2b.1 whole-branch review (for M2b.2 and later):**
-  - **Apollo 8** orbited the Moon, not Earth; it was removed from Earth's missions and belongs with the Moon in M2b.2 (source `nasa-mission-apollo-8`, page https://www.nasa.gov/mission/apollo-8/, quote "crew Frank Borman, James Lovell Jr., William Anders Launch Dec. 21, 1968 SPLASHDOWN Dec. 27, 1968").
-  - **Moon narrative:** `narrative.ts` writes the average distance as `sma.toFixed(2)} AU`, so the Moon (about 0.0026 AU) would read "0.00 AU"; use a unit that fits (for example km) in M2b.2.
+  - **Apollo 8** orbited the Moon, not Earth; it was removed from Earth's missions and belongs with the Moon in M2b.2 (source `nasa-mission-apollo-8`, page https://www.nasa.gov/mission/apollo-8/, quote "crew Frank Borman, James Lovell Jr., William Anders Launch Dec. 21, 1968 SPLASHDOWN Dec. 27, 1968"). **Done in M2b.2:** it is the Moon's orbiter entry (launch 1968-12-21, end 1968-12-27), with that quote.
+  - **Moon narrative:** `narrative.ts` writes the average distance as `sma.toFixed(2)} AU`, so the Moon (about 0.0026 AU) would read "0.00 AU"; use a unit that fits (for example km) in M2b.2. **Done in M2b.2:** for a satellite the narrative uses the mean distance from the parent through `formatKm` ("The Moon orbits Earth every 27.3 days at an average 384,400 km").
   - **Akatsuki:** its end of operations in 2024 is unverified against an official page.
   - **Dropped fact-sheet qualifiers:** "varies with pressure", "~" and "(IAU convention)" are lost in the parsed values.
   - **Header citation scroll:** a header citation's scroll target can move once the details load (the details sections are inserted above the Sources list).
@@ -184,3 +184,24 @@ Minor findings from the per-task reviews of Tasks 5 to 9, summarised from the ex
   - **Stated decimals:** the parser keeps numbers, not their written decimals, so Jupiter's dipole strength reads "4.3" where the sheet writes "4.30" (nothing is invented); recording the raw text would print it exactly.
 - **End-to-end (Task 10):** done. "cites the official imagery for Earth" was a timing race in the test, not a combined-run flake: it pressed **F** right after `goto`, but F does nothing until the URL target is selected, which lands with the canvas (about 1 failure in 5 under `--repeat-each=5 --workers=4`). The test and the new details tests now wait for the canvas first.
 - **Whole-branch review leftovers (M2b.1):** the 390×844 Mars screenshot in `Assets/m2b1/` shows the Interior wording from before the fix wave and should be retaken. Stated decimals are not recorded, so Jupiter's dipole shows "4.3" where the sheet says "4.30".
+
+## From M2b.2 (Tasks 1–10, 2026-10-29/30)
+
+Minor findings from the per-task reviews, summarised from the execution ledger. Plan: [[2026-10-29-m2b2-moon]] (the full list by task is in its Execution record). Closed in this section: the Apollo 8 and "0.00 AU" items above.
+- **Ephemeris and fit (Tasks 1–5):**
+  - the last-instant Chebyshev test checks finiteness only; a multi-satellite parent would apply the barycentre shift twice and a satellite of a satellite is order-dependent (none exist);
+  - the Horizons cache name lacks the step and chunk length, so a changed constant can reuse stale offline data; `roundTo` is wrong for steps like 0.5 (only 0.001 is used);
+  - `heldOutSummary.sampleCount` (366,832) includes about 120 samples past the table end that were skipped; held-out samples outside the table get a silent 1 % tolerance;
+  - Earth's `centreCheck` is radial and understates the tangential error (11.8 arcsec is about 8,500 km);
+  - `jplSatElem.ts` turns an empty cell into 0 and reads columns by position; `nssdcMoonSheet` does not check the x1e24 and x1e6 scales; the path `solar-system/ephemeris/moon.json` is hard-coded in several places;
+  - `states.get(id)!` in `updateBodies` and `liveStats` can crash with empty tables; `systemState` allocates a new Map every frame.
+- **Scene and UI (Tasks 6–7):**
+  - the `useLabelDeclutter` hidden flag is redundant and the hook wiring is untested; raycast is off on the main mesh only; a missing parent leaves `bodyHidden` at its last value; the label datum can be stale by 0.25 s when the hidden state flips;
+  - the Phase chip and `liveStats` have no fixed-date value check; Header tests do not assert the Moon narrative or the light-time chip; the "parent is Earth" check is duplicated in `Header.tsx` and `narrative.ts`.
+- **Details (Task 8):**
+  - the Moon has no Discovery section (no official "known since antiquity" sentence found); the exosphere `upperLimit` is hard-coded; an unknown gas formula falls back to the gas name; `magneticField` in `interiors.json` is honoured only for the Moon; a missing caveat paragraph gives an empty note; date-only second quotes are safe only by convention.
+- **Textures (Task 9):**
+  - `rasters.ts` has a non-null assertion on the TIFF probe; the 16-bit check is duplicated with a misleading "signed" message; `unsigned16` is ignored when band is not 0 and is keyed on the product id; no big-endian unsigned test; no north-south flip check for the Moon colour map.
+- **Shading (Task 10):**
+  - `eclipseLight` floor is additive and brightens the penumbra (use `max()`); the mu clamp of 1e-3 can speckle limb pixels on relief-mapped bodies; the atmosphere eclipse shade is one midpoint sample and applies to every shell (Venus, Mars too); the eclipse tint colour is Earth's for any shadowing atmosphere (revisit for Mars's moons in M3); no GLSL unit tests for `eclipseLight`;
+  - a bright atmosphere and bloom haze covers Earth's full day side at close range (golden 6d). It is not from this section; a shell and bloom tuning pass is suggested.

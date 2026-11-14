@@ -1,7 +1,7 @@
 import { AdditiveBlending, ShaderMaterial } from 'three';
 import { describe, expect, it } from 'vitest';
 import type { Vec3 } from '../../core/math/vec3';
-import { makeEarth, makeJupiter, makeSun } from '../../test/fixtures';
+import { makeEarth, makeJupiter, makeMoon, makeSun } from '../../test/fixtures';
 import { FRAG_OUTRO } from './chunks';
 import { createBodyMaterial } from './createBodyMaterial';
 import { pickOccluders } from './useBodyUniforms';
@@ -50,5 +50,24 @@ describe('pickOccluders ordering and limits', () => {
 
   it('returns [] when the body itself has no position', () => {
     expect(pickOccluders('nopos', bodies, positions)).toEqual([]);
+  });
+});
+
+describe('pickOccluders for the Earth–Moon pair', () => {
+  // 2024-04-08 geometry, roughly: the Moon between Earth and the Sun.
+  const bodies = [makeSun(), makeEarth(), makeMoon(), makeJupiter()];
+  const positions = new Map<string, Vec3>([['sun', [0, 0, 0]], ['earth', [1.4e8, 4.9e7, 0]], ['moon', [1.4e8 - 3.4e5, 4.9e7 - 1.2e5, 1e3]], ['jupiter', [7.8e8, 0, 0]]]);
+
+  it('puts Earth first for the Moon, flagged as having an atmosphere', () => {
+    const first = pickOccluders('moon', bodies, positions)[0]!;
+    expect(first.id).toBe('earth');
+    expect(first.atmosphere).toBe(true);
+    expect(first.radiusKm).toBe(makeEarth().shape.equatorialRadiusKm);
+  });
+  it('puts the Moon first for Earth, flagged as airless', () => {
+    const first = pickOccluders('earth', bodies, positions)[0]!;
+    expect(first.id).toBe('moon');
+    expect(first.atmosphere).toBe(false);
+    expect(first.radiusKm).toBe(makeMoon().shape.equatorialRadiusKm);
   });
 });

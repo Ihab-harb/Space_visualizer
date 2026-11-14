@@ -1,0 +1,20 @@
+KPL/PCK
+
+  This file is the version of gm_Horizons.pck from November 28, 2022 with
+  GMs for 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 199, 299, 301, and 399 reset to
+  their DE440 values from gm_de440.pck, and comments reduced to keep just
+  "Sources" and "Modification history" sections.
+
+  gm_Horizons.pck and gm_de440.pck PCKs were provided Jon Giorgini, SSD/JPL
+  on 11/28/22 and 11/30/22. 
+
+  (Trimmed fixture: header shortened; GM lines for bodies 3, 10, 301, 399 kept verbatim.)
+
+\begindata
+
+     BODY3_GM       = ( 4.0350323562548019E+05 )
+     BODY10_GM      = ( 1.3271244004127942E+11 )
+     BODY301_GM     = ( 4.9028001184575496D+03 )
+     BODY399_GM     = ( 3.9860043550702266D+05 )
+
+\begintext

@@ -9,7 +9,7 @@ import { useUiStore } from '../state/uiStore';
 import { useViewStore } from '../state/viewStore';
 import { useDetailsStore } from '../state/detailsStore';
 import { makeJupiterDetails } from '../test/detailsFixtures';
-import { makeCatalogFiles } from '../test/fixtures';
+import { makeCatalogFiles, makeMoon, makeMoonTable } from '../test/fixtures';
 import { Header } from './Header';
 
 const f = makeCatalogFiles();
@@ -74,5 +74,29 @@ describe('Header', () => {
     expect(header()).toHaveTextContent(/tilted 9\.4°\[\d+\] from its spin axis/);
     const narrative = header().querySelector('#header-narrative')!;
     expect(within(narrative as HTMLElement).getAllByRole('link', { name: /Source \d+/ }).length).toBeGreaterThanOrEqual(2);
+  });
+
+  describe('a satellite', () => {
+    const mf = makeCatalogFiles();
+    mf.bodies.bodies.push(makeMoon());
+    const moonCatalog = createCatalog(mf.regions, mf.sources, [mf.bodies], new Map([['moon', makeMoonTable()]]));
+    const header = () => screen.getByRole('banner', { name: 'Selected body' });
+
+    it('shows the Moon in km with a phase chip citing the table source', () => {
+      useSelectionStore.setState({ selectedId: 'moon' });
+      useTimeStore.setState({ jdTdb: 2451545 + 3, playing: false });
+      render(<Header catalog={moonCatalog} />);
+      expect(header().querySelector('.header__subtitle')!.textContent).toMatch(/^Moon of Earth · [\d,]+ km$/);
+      const chip = (label: string) => Array.from(header().querySelectorAll('.chip')).find((c) => c.querySelector('.chip__label')?.textContent === label) as HTMLElement;
+      expect(chip('From Earth').textContent).toMatch(/^From Earth[\d,]+ km/);
+      expect(chip('Phase').textContent).toMatch(/^Phase\d+% · (New Moon|Full Moon|(First|Last) quarter|(Waxing|Waning) (crescent|gibbous))/);
+      expect(within(chip('Phase')).getByRole('link', { name: /Source \d+/ })).toBeInTheDocument();
+      expect(header().textContent).not.toMatch(/ AU/);
+    });
+    it('shows no phase chip for a planet', () => {
+      useSelectionStore.setState({ selectedId: 'jupiter' });
+      render(<Header catalog={moonCatalog} />);
+      expect(screen.queryByText('Phase')).toBeNull();
+    });
   });
 });

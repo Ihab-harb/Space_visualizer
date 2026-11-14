@@ -103,5 +103,12 @@ describe('checkDetails: remaining spec §5 rules', () => {
     expect(checkDetails(sum(0.5), ctx).join()).not.toContain('over 100 %');
     expect(checkDetails(sum(0.6), ctx).join()).toContain('major gases sum to 100.60 %, over 100 %');
   });
+  it('rejects a number density that is not finite or is above 1e20', () => {
+    const d = makeMarsDetails();
+    const gas = { name: 'Helium 4', formula: '⁴He', amount: 40000, unit: 'cm⁻³' as const, upperLimit: true, sourceId: 'nssdca-planetary-fact-sheet' };
+    const withDensity = (amount: number) => ({ ...d, atmosphere: { ...d.atmosphere!, numberDensity: [{ ...gas, amount }] } });
+    expect(checkDetails(withDensity(40000), ctx)).toEqual([]);
+    expect(checkDetails(withDensity(1e21), ctx).join()).toContain('number density');
+    expect(checkDetails(withDensity(Infinity), ctx).join()).toContain('number density');
+  });
 });
-

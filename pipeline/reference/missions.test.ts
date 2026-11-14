@@ -6,12 +6,12 @@ import { pageText, verifyMissions, type MissionsFile } from '../sources/quotedRe
 
 const file = JSON.parse(readFileSync('pipeline/reference/missions.json', 'utf8')) as MissionsFile;
 
-const BODIES = ['sun', 'mercury', 'venus', 'earth', 'mars', 'jupiter', 'saturn', 'uranus', 'neptune'];
+const BODIES = ['sun', 'mercury', 'venus', 'earth', 'moon', 'mars', 'jupiter', 'saturn', 'uranus', 'neptune'];
 const ISO = /^\d{4}-\d{2}-\d{2}$/;
 const RAW_DIR = 'pipeline/raw';
 
 describe('curated missions', () => {
-  it('covers all nine bodies and nothing else', () => {
+  it('covers the Sun, the Moon and the eight planets and nothing else', () => {
     expect(Object.keys(file.bodies).sort()).toEqual([...BODIES].sort());
   });
   it('uses schema types and outcomes, ISO dates in order, and unique kebab-case ids', () => {

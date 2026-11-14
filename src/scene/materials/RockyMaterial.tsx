@@ -3,8 +3,9 @@ import { Color } from 'three';
 import type { Body } from '../../core/catalog/schema';
 import { useMaxTier } from '../../render/useMaxTier';
 import { useTieredTexture } from '../textures/useTieredTexture';
-import { FRAG_OUTRO } from './chunks';
+import { FRAG_OUTRO, glslVec3 } from './chunks';
 import { createBodyMaterial } from './createBodyMaterial';
+import { EARTHSHINE } from './illustrative';
 import { useBodyUniforms } from './useBodyUniforms';
 
 const FRAGMENT = /* glsl */ `
@@ -22,10 +23,17 @@ void main() {
   vec3 v = normalize(uCamObj - s);
   float geoMu0 = dot(n, uSunDirObj);
   float mu0 = max(dot(nb, uSunDirObj), 0.0);
-  float mu = max(dot(n, v), 1e-3);
+  // The relief normal for both angles: Lommel-Seeliger then cancels the relief at zero phase (an evenly bright full Moon)
+  // and keeps it where the light grazes (along the terminator).
+  float mu = max(dot(nb, v), 1e-3);
   float brdf = mix(mu0 * step(0.0, geoMu0), lommelSeeliger(mu0, mu, geoMu0), uLommelSeeliger);
   vec3 albedo = uHasColor > 0.5 ? texture2D(uColorMap, vUv).rgb : uFallbackColor;
-  vec3 color = albedo * brdf * uSunIntensity * eclipseFactor(s) + cinematicFill(albedo, n, v);
+  // Earthshine (illustrative, Moon only; uEarthshine is 0 elsewhere): the same reflectance, lit from Earth.
+  float geoMuE = dot(n, uEarthshineDir);
+  float muE = max(dot(nb, uEarthshineDir), 0.0);
+  float earthBrdf = mix(muE * step(0.0, geoMuE), lommelSeeliger(muE, mu, geoMuE), uLommelSeeliger);
+  vec3 earthshine = ${glslVec3(EARTHSHINE.color)} * uEarthshine * earthBrdf;
+  vec3 color = albedo * (brdf * eclipseLight(s) + earthshine) * uSunIntensity + cinematicFill(albedo, n, v);
   gl_FragColor = vec4(color, 1.0);
   ${FRAG_OUTRO}
 }`;

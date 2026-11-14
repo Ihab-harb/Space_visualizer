@@ -18,6 +18,7 @@
     "data": "tsx pipeline/run.ts",
     "data:offline": "tsx pipeline/run.ts --offline",
     "horizons:reference": "tsx pipeline/scripts/fetchHorizonsReference.ts",
+    "moon:ephemeris": "tsx pipeline/scripts/fetchMoonEphemeris.ts",
     "textures": "node --max-old-space-size=8192 --import tsx pipeline/textures/run.ts",
     "textures:hd": "node --max-old-space-size=8192 --import tsx pipeline/textures/run.ts --hd",
     "textures:verify": "tsx pipeline/textures/verifySources.ts"

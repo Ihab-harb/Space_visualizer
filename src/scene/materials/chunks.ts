@@ -1,4 +1,8 @@
 /** Shared GLSL. All body shaders work in object space: unit sphere = rendered equatorial radius. */
+import { ECLIPSE_TINT } from './illustrative';
+
+/** A GLSL vec3 literal from an RGB triple. */
+export const glslVec3 = (c: readonly [number, number, number]) => `vec3(${c.map((x) => x.toFixed(4)).join(', ')})`;
 
 export const BODY_VERTEX = /* glsl */ `
 #include <common>
@@ -28,6 +32,9 @@ uniform float uSunDistTrue;
 uniform float uSunRadiusTrue;
 uniform int uOccluderCount;
 uniform vec4 uOccluders[4];
+uniform vec4 uOccluderAtmo;
+uniform float uEarthshine;
+uniform vec3 uEarthshineDir;
 varying vec3 vUnit;
 varying vec2 vUv;
 varying vec2 vPlane;
@@ -123,6 +130,20 @@ float sunVisibleFraction(float rs, float ro, float d) {
   float a3 = 0.5 * sqrt(max((-d + rs + ro) * (d + rs - ro) * (d - rs + ro) * (d + rs + ro), 0.0));
   return 1.0 - (a1 + a2 - a3) / (PI * rs * rs);
 }
+/**
+ * Visible solar fraction at p behind occluder i (true-radius units, body centre at origin); 1 when it is not in the way.
+ * umbra: 0 outside the occluder's umbra, rising to 1 on its axis.
+ */
+float occluderVisibility(int i, vec3 p, vec3 toSun, float dSun, float as, out float umbra) {
+  umbra = 0.0;
+  vec3 toOcc = uOccluders[i].xyz - p;
+  float dOcc = length(toOcc);
+  if (dOcc >= dSun) return 1.0;
+  float ao = asin(clamp(uOccluders[i].w / dOcc, 0.0, 1.0));
+  float sep = atan(length(cross(toSun / dSun, toOcc / dOcc)), dot(toSun / dSun, toOcc / dOcc));
+  if (ao > as) umbra = clamp(1.0 - sep / (ao - as), 0.0, 1.0);
+  return sunVisibleFraction(as, ao, sep);
+}
 /** Sunlight fraction at a point (true-radius units, body centre at origin) behind up to 4 occluders. */
 float eclipseFactor(vec3 p) {
   vec3 toSun = uSunDirObj * uSunDistTrue - p;
@@ -131,16 +152,39 @@ float eclipseFactor(vec3 p) {
   float vis = 1.0;
   for (int i = 0; i < 4; i++) {
     if (i >= uOccluderCount) break;
-    vec3 toOcc = uOccluders[i].xyz - p;
-    float dOcc = length(toOcc);
-    if (dOcc >= dSun) continue;
-    float ao = asin(clamp(uOccluders[i].w / dOcc, 0.0, 1.0));
-    vec3 ua = toSun / dSun;
-    vec3 ub = toOcc / dOcc;
-    float sep = atan(length(cross(ua, ub)), dot(ua, ub));
-    vis *= sunVisibleFraction(as, ao, sep);
+    float umbra;
+    vis *= occluderVisibility(i, p, toSun, dSun, as, umbra);
   }
   return vis;
+}
+/**
+ * Sunlight colour at a point. Airless occluders only dim it. Behind an occluder with an atmosphere (a lunar eclipse) the
+ * remaining light is mixed toward ECLIPSE_TINT.color by amount x (1 - visible) and kept above ECLIPSE_TINT.floor
+ * (illustrative: sunlight bent into the umbra by the atmosphere), dimmed by centreDarkening toward the umbra's axis.
+ */
+vec3 eclipseLight(vec3 p) {
+  vec3 toSun = uSunDirObj * uSunDistTrue - p;
+  float dSun = length(toSun);
+  float as = asin(clamp(uSunRadiusTrue / dSun, 0.0, 1.0));
+  float visAir = 1.0;
+  float visOther = 1.0;
+  float umbraAir = 0.0;
+  for (int i = 0; i < 4; i++) {
+    if (i >= uOccluderCount) break;
+    float umbra;
+    float f = occluderVisibility(i, p, toSun, dSun, as, umbra);
+    if (uOccluderAtmo[i] > 0.5) {
+      visAir *= f;
+      umbraAir = max(umbraAir, umbra);
+    } else {
+      visOther *= f;
+    }
+  }
+  float shadow = 1.0 - visAir;
+  vec3 tint = mix(vec3(1.0), ${glslVec3(ECLIPSE_TINT.color)}, ${ECLIPSE_TINT.amount.toFixed(4)} * shadow);
+  // The bent light is brightest at the umbra's edge and dimmest on its axis.
+  float floorLight = ${ECLIPSE_TINT.floor.toFixed(4)} * (1.0 - ${ECLIPSE_TINT.centreDarkening.toFixed(4)} * umbraAir);
+  return visOther * (visAir + floorLight * shadow) * tint;
 }
 /** Mirrors the TS rayHitsEllipsoid; float32 forces a 1e-4 tolerance (TS uses 1e-9). */
 bool rayHitsEllipsoid(vec3 o, vec3 d, float f) {

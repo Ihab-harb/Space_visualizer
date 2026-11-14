@@ -48,6 +48,20 @@
       "publisher": "NASA / JPL",
       "url": "https://www.nasa.gov/centers-and-facilities/jpl/nasas-insight-reveals-the-deep-interior-of-mars/",
       "license": "NASA public domain (NASA media usage guidelines)"
+    },
+    {
+      "id": "nasa-science-moon-composition",
+      "title": "Moon Composition & Structure",
+      "publisher": "NASA Science",
+      "url": "https://science.nasa.gov/moon/composition/",
+      "license": "NASA public domain (NASA media usage guidelines)"
+    },
+    {
+      "id": "nasa-science-moon-facts",
+      "title": "Moon Facts",
+      "publisher": "NASA Science",
+      "url": "https://science.nasa.gov/moon/facts/",
+      "license": "NASA public domain (NASA media usage guidelines)"
     }
   ],
   "bodies": {
@@ -339,6 +353,88 @@
           "uncertain": true
         }
       ]
+    },
+    "moon": {
+      "layers": [
+        {
+          "id": "crust",
+          "name": "Crust",
+          "from": "depth",
+          "outer": {
+            "min": 0,
+            "max": 0,
+            "sourceId": "nasa-science-moon-composition",
+            "quote": "The crust is about 37 miles (60 km) thick on the side farthest from Earth, but only 25 miles (40 km) thick on the near side"
+          },
+          "inner": {
+            "min": 40,
+            "max": 60,
+            "sourceId": "nasa-science-moon-composition",
+            "quote": "The crust is about 37 miles (60 km) thick on the side farthest from Earth, but only 25 miles (40 km) thick on the near side"
+          },
+          "state": "solid",
+          "composition": null,
+          "uncertain": false
+        },
+        {
+          "id": "mantle",
+          "name": "Mantle",
+          "from": "depth",
+          "outer": {
+            "min": 40,
+            "max": 60,
+            "sourceId": "nasa-science-moon-composition",
+            "quote": "The crust is about 37 miles (60 km) thick on the side farthest from Earth, but only 25 miles (40 km) thick on the near side"
+          },
+          "inner": {
+            "min": 20,
+            "max": 20,
+            "from": "percent",
+            "sourceId": "nasa-science-moon-composition",
+            "quote": "The Moon's core extends about 20 percent of the way from the Moon's center to its surface"
+          },
+          "state": "solid",
+          "stateSource": {
+            "sourceId": "nasa-science-moon-composition",
+            "quote": "It's mostly solid, but the zone closest to the lunar core is partly molten"
+          },
+          "composition": {
+            "sourceId": "nasa-science-moon-composition",
+            "quote": "The Moon's mantle is mainly composed of basalt rich in olivine and pyroxene.",
+            "text": "Mainly basalt rich in olivine and pyroxene."
+          },
+          "uncertain": true
+        },
+        {
+          "id": "core",
+          "name": "Core",
+          "from": "percent",
+          "outer": {
+            "min": 20,
+            "max": 20,
+            "sourceId": "nasa-science-moon-composition",
+            "quote": "The Moon's core extends about 20 percent of the way from the Moon's center to its surface"
+          },
+          "inner": {
+            "min": 0,
+            "max": 0,
+            "sourceId": "nasa-science-moon-composition",
+            "quote": "The Moon's core extends about 20 percent of the way from the Moon's center to its surface"
+          },
+          "state": "unknown",
+          "composition": {
+            "sourceId": "nasa-science-moon-composition",
+            "quote": "Though primarily made of iron, the core contains some nickel and sulfur as well.",
+            "text": "Primarily iron, with some nickel and sulfur."
+          },
+          "uncertain": false
+        }
+      ],
+      "magneticField": {
+        "sourceId": "nasa-science-moon-facts",
+        "quote": "The early Moon may have developed an internal dynamo, the mechanism for generating global magnetic fields for terrestrial planets, but today, the Moon has a very weak magnetic field.",
+        "text": "The early Moon may have developed an internal dynamo, the mechanism for generating global magnetic fields for terrestrial planets, but today, the Moon has a very weak magnetic field."
+      }
     }
   }
 }

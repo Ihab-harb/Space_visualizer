@@ -1,6 +1,7 @@
 import { readFileSync } from 'node:fs';
 import { describe, expect, it } from 'vitest';
-import type { Source } from '../../src/core/catalog/schema';
+import { BodiesFileSchema, ChebyshevFileSchema, type Source } from '../../src/core/catalog/schema';
+import { chebyshevRange } from '../../src/core/ephemeris/chebyshev';
 import type { BodyDetails } from '../../src/core/details/schema';
 import { DETAIL_BODY_IDS } from './buildDetails';
 
@@ -37,5 +38,18 @@ describe('generated data', () => {
     expect(details.find((d) => d.bodyId === 'earth')!.missions.map((m) => m.id)).not.toContain('apollo-8');
     const sun = details.find((d) => d.bodyId === 'sun')!.missions;
     for (const id of ['parker-solar-probe', 'solar-orbiter']) expect(sun.find((m) => m.id === id)!.type).toBe('orbiter');
+  });
+
+  it('has the Moon as a satellite of Earth whose table range is the committed ephemeris file, and Earth carries a centre check', () => {
+    const bodies = BodiesFileSchema.parse(read('solar-system/bodies.json')).bodies;
+    const moon = bodies.find((b) => b.id === 'moon')!;
+    if (moon.orbit.type !== 'satellite') throw new Error('Moon must be a satellite');
+    const table = ChebyshevFileSchema.parse(read(`${moon.orbit.table.file}`));
+    const range = chebyshevRange(table);
+    expect([moon.orbit.table.validFromJdTdb, moon.orbit.table.validToJdTdb]).toEqual([range.fromJdTdb, range.toJdTdb]);
+    expect(moon.orbit.table.horizonsCheck.maxDistanceErrorKm).toBeLessThanOrEqual(1);
+    const earth = bodies.find((b) => b.id === 'earth')!;
+    expect(earth.orbit.type === 'planet-approx' && earth.orbit.centreCheck?.sampleCount).toBeGreaterThan(0);
+    expect(bodies.length).toBe(10);
   });
 });

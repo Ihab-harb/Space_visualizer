@@ -1,6 +1,6 @@
 import { Matrix4, Quaternion, Vector3 } from 'three';
 import { describe, expect, it } from 'vitest';
-import { makeEarth, makeJupiter, makeSun } from '../test/fixtures';
+import { makeEarth, makeJupiter, makeMoon, makeMoonTable, makeSun } from '../test/fixtures';
 import { apply, mul, rotX, rotZ } from '../core/math/mat3';
 import { createFrameState, updateBodies } from './frameState';
 import { pixelsPerRadian, renderRadiusKm } from './scaleMode';
@@ -9,12 +9,26 @@ import { writeMatrix4 } from './threeMath';
 describe('updateBodies', () => {
   it('stores positions, validity and orientation for each body', () => {
     const frame = createFrameState();
-    updateBodies(frame, [makeSun(), makeEarth(), makeJupiter()], 2451545);
+    updateBodies(frame, [makeSun(), makeEarth(), makeJupiter()], new Map(), 2451545);
     expect(frame.jdTdb).toBe(2451545);
     expect(frame.bodyPositionsKm.get('sun')).toEqual([0, 0, 0]);
     expect(Math.hypot(...frame.bodyPositionsKm.get('jupiter')!)).toBeGreaterThan(7e8);
     expect(frame.bodyInValidRange.get('earth')).toBe(true);
     expect(frame.bodyOrientation.get('earth')).toHaveLength(9);
+  });
+});
+
+describe('updateBodies with the Moon', () => {
+  it('places the Moon about 384,000 km from Earth', () => {
+    const frame = createFrameState();
+    updateBodies(frame, [makeSun(), makeEarth(), makeMoon()], new Map([['moon', makeMoonTable()]]), 2451545 + 3);
+    const e = frame.bodyPositionsKm.get('earth')!;
+    const m = frame.bodyPositionsKm.get('moon')!;
+    const d = Math.hypot(m[0] - e[0], m[1] - e[1], m[2] - e[2]);
+    expect(d).toBeGreaterThan(356000);
+    expect(d).toBeLessThan(407000);
+    expect(frame.bodyInValidRange.get('moon')).toBe(true);
+    expect(frame.bodyOrientation.has('moon')).toBe(false);
   });
 });
 
