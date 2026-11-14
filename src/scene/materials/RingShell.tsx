@@ -1,11 +1,13 @@
-import { useEffect, useMemo } from 'react';
-import { DoubleSide, RingGeometry, Vector2 } from 'three';
+import { useFrame } from '@react-three/fiber';
+import { useEffect, useMemo, useRef } from 'react';
+import { DoubleSide, RingGeometry, Vector2, type Mesh } from 'three';
 import type { Body } from '../../core/catalog/schema';
 import { useTieredTexture } from '../textures/useTieredTexture';
 import { FRAG_OUTRO } from './chunks';
 import { createBodyMaterial } from './createBodyMaterial';
 import { RING_UNLIT_SCALE } from './illustrative';
-import { ringRadii } from './rings';
+import { ringRadii, ringsVisible } from './rings';
+import { useFrameState } from '../FrameStateContext';
 import { useBodyUniforms } from './useBodyUniforms';
 
 const FRAGMENT = /* glsl */ `
@@ -54,7 +56,13 @@ export function RingShell({ body, bodies }: { body: Body; bodies: readonly Body[
   useEffect(() => () => material.dispose(), [material]);
   material.uniforms.uRingMap!.value = texture;
   useBodyUniforms(body, [material], bodies);
+  // Hidden while its own body is opened in Explore, so the rings never cross the cut (spec §6).
+  const frame = useFrameState();
+  const mesh = useRef<Mesh>(null);
+  useFrame(() => {
+    if (mesh.current) mesh.current.visible = ringsVisible(body.id, frame.explore);
+  });
   if (!texture) return null;
-  return <mesh geometry={geometry} material={material} raycast={() => null} renderOrder={3} />;
+  return <mesh ref={mesh} geometry={geometry} material={material} raycast={() => null} renderOrder={3} />;
 }
 

@@ -1,12 +1,14 @@
 import { useFrame } from '@react-three/fiber';
 import type { ShaderMaterial } from 'three';
 import type { Body } from '../../core/catalog/schema';
-import { length, sub, type Vec3 } from '../../core/math/vec3';
+import { add, length, scale, sub, type Vec3 } from '../../core/math/vec3';
 import { J2000_JD } from '../../core/units';
 import { useFrameState } from '../FrameStateContext';
 import { useRenderStore } from '../../state/renderStore';
 import { computeBodyFrameUniforms } from './bodyUniforms';
 import { CINEMATIC_FILL, receivesEarthshine } from './illustrative';
+import { NO_CLIP } from './createBodyMaterial';
+import { exploreShellUniforms } from '../interior/exploreFrame';
 
 /** The nearest `max` non-star bodies, nearest first (true radii; `atmosphere` drives the eclipse tint). */
 export function pickOccluders(bodyId: string, bodies: readonly Body[], positions: ReadonlyMap<string, Vec3>, max = 4): Array<{ id: string; posKm: Vec3; radiusKm: number; atmosphere: boolean }> {
@@ -25,9 +27,12 @@ export function useBodyUniforms(body: Body, materials: Array<ShaderMaterial | nu
   const sun = bodies.find((b) => b.category === 'star');
   const earthshineFrom = receivesEarthshine(body) ? body.parentId : null;
   useFrame((state) => {
-    const pos = frame.bodyPositionsKm.get(body.id);
+    const centre = frame.bodyPositionsKm.get(body.id);
     const renderRadiusKm = frame.bodyRenderRadiusKm.get(body.id);
-    if (!pos || !renderRadiusKm) return;
+    if (!centre || !renderRadiusKm) return;
+    // Explore: the explored body's outer shell is cut and may be lifted (shade it where it is drawn); other bodies dim.
+    const shell = exploreShellUniforms(frame.explore, body.id);
+    const pos = shell.liftRadii ? add(centre, scale(frame.explore!.upWorld, shell.liftRadii * renderRadiusKm)) : centre;
     const sunPos = (sun && frame.bodyPositionsKm.get(sun.id)) ?? ([0, 0, 0] as Vec3);
     const u = computeBodyFrameUniforms({
       bodyPosKm: pos,
@@ -59,6 +64,11 @@ export function useBodyUniforms(body: Body, materials: Array<ShaderMaterial | nu
       un.uFill!.value = effects ? CINEMATIC_FILL : 0;
       un.uTime!.value = state.clock.elapsedTime;
       un.uSimDays!.value = frame.jdTdb - J2000_JD;
+      if (un.uClip) {
+        if (shell.clip) un.uClip.value.set(shell.clip[0], shell.clip[1], shell.clip[2], shell.clip[3]);
+        else un.uClip.value.w = NO_CLIP;
+      }
+      if (un.uDim) un.uDim.value = shell.dim;
     }
   }, -0.4);
 }

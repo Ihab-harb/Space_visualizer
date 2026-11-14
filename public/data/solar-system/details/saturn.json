@@ -1,8 +1,74 @@
 {
   "schemaVersion": 1,
   "bodyId": "saturn",
-  "generatedAt": "2026-10-15T22:30:26.775Z",
-  "interior": null,
+  "generatedAt": "2026-11-14T12:43:12.320Z",
+  "interior": {
+    "radiusKm": {
+      "value": 58232,
+      "sourceId": "nssdca-saturn-fact-sheet"
+    },
+    "layers": [
+      {
+        "id": "envelope",
+        "name": "Hydrogen-helium envelope",
+        "from": "percent",
+        "state": "liquid",
+        "stateSourceId": "nasa-science-saturn-facts",
+        "composition": {
+          "text": "Mostly hydrogen and helium.",
+          "sourceId": "nasa-science-saturn-facts"
+        },
+        "uncertain": false,
+        "sizeKind": "illustrative"
+      },
+      {
+        "id": "metallic-hydrogen",
+        "name": "Metallic hydrogen",
+        "from": "percent",
+        "state": "liquid",
+        "stateSourceId": "nasa-science-saturn-facts",
+        "composition": null,
+        "uncertain": false,
+        "sizeKind": "illustrative"
+      },
+      {
+        "id": "diffuse-core",
+        "name": "Diffuse core",
+        "outerRadiusKm": {
+          "min": 34939.2,
+          "max": 34939.2,
+          "sourceId": "paper-mankovich-fuller-2021-saturn-core",
+          "from": "percent",
+          "stated": {
+            "min": 60,
+            "max": 60
+          }
+        },
+        "innerRadiusKm": {
+          "min": 0,
+          "max": 0,
+          "sourceId": "paper-mankovich-fuller-2021-saturn-core",
+          "from": "percent",
+          "stated": {
+            "min": 0,
+            "max": 0
+          }
+        },
+        "from": "percent",
+        "state": "unknown",
+        "composition": {
+          "text": "About 17 Earth masses of ice and rock, mixed into the layer above.",
+          "sourceId": "paper-mankovich-fuller-2021-saturn-core"
+        },
+        "uncertain": true,
+        "gradual": {
+          "sourceId": "paper-mankovich-fuller-2021-saturn-core"
+        },
+        "sizeKind": "estimate",
+        "estimate": true
+      }
+    ]
+  },
   "atmosphere": {
     "basis": "by volume, uncertainty in parentheses",
     "major": [
@@ -136,7 +202,7 @@
   ],
   "discovery": {
     "kind": "antiquity",
-    "sourceId": "nasa-science-saturn-facts-history"
+    "sourceId": "nasa-science-saturn-facts"
   },
   "features": null
 }

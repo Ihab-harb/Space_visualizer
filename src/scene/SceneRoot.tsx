@@ -1,6 +1,6 @@
 import { Canvas, useFrame, useThree } from '@react-three/fiber';
 import { Vector3 } from 'three';
-import { useEffect, useRef } from 'react';
+import { useEffect, useMemo, useRef } from 'react';
 import { CameraSystem } from '../camera/CameraSystem';
 import type { Catalog } from '../core/catalog/catalog';
 import type { Body, PlanetApproxOrbit, SatelliteOrbit } from '../core/catalog/schema';
@@ -21,6 +21,9 @@ import { useSkyStore } from '../state/skyStore';
 import { useSceneStatsStore } from '../state/sceneStatsStore';
 import { useFrameState } from './FrameStateContext';
 import { useLabelDeclutter } from '../ui/useLabelDeclutter';
+import { ExploreDriver } from './interior/useExploreTransition';
+import { createLabelBridge, InteriorLabelProjector, InteriorLabels } from './interior/InteriorLabels';
+import { clearLayerOnEmptyClick } from '../state/exploreStore';
 
 const hasApproxOrbit = (b: Body): b is Body & { orbit: PlanetApproxOrbit } => b.orbit.type === 'planet-approx';
 
@@ -56,6 +59,7 @@ export function SceneRoot({ catalog }: { catalog: Catalog }) {
   const level = useRenderStore((s) => s.level);
   const labelLayer = useRef<HTMLDivElement>(null);
   const sceneRef = useRef<HTMLDivElement>(null);
+  const interiorLabels = useMemo(createLabelBridge, []);
   useLabelDeclutter(labelLayer);
   const loadSky = useSkyStore((s) => s.load);
   useEffect(() => {
@@ -68,6 +72,8 @@ export function SceneRoot({ catalog }: { catalog: Catalog }) {
         gl={{ logarithmicDepthBuffer: true, antialias: false }}
         camera={{ fov: 50, near: 0.001, far: 1e13, position: [0, 0, 0] }}
         dpr={canvasDpr(level, typeof window === 'undefined' ? 1 : window.devicePixelRatio)}
+        // A click on empty space (not a drag, not a layer or a body) clears the selected layer in Explore.
+        onPointerMissed={clearLayerOnEmptyClick}
       >
         <color attach="background" args={['#03050b']} />
         <LabelLayerContext.Provider value={labelLayer}>
@@ -75,6 +81,8 @@ export function SceneRoot({ catalog }: { catalog: Catalog }) {
             <SkyBackground />
             <FrameDriver catalog={catalog} />
             <CameraSystem catalog={catalog} />
+            <ExploreDriver catalog={catalog} />
+            <InteriorLabelProjector bridge={interiorLabels} />
             <QualityGovernor />
             <BodiesInView />
             {catalog.bodies.map((body) => (
@@ -92,7 +100,9 @@ export function SceneRoot({ catalog }: { catalog: Catalog }) {
       </Canvas>
       <TextureReadiness target={sceneRef} />
       <RenderStateAttributes target={sceneRef} />
-      <div className="label-layer" ref={labelLayer} />
+      <div className="label-layer" ref={labelLayer}>
+        <InteriorLabels bridge={interiorLabels} catalog={catalog} />
+      </div>
     </div>
   );
 }

@@ -27,7 +27,8 @@ export function BodyLabel({ body, sunId }: { body: Body; sunId: string | undefin
   const since = useRef(DATUM_INTERVAL_S);
 
   useFrame((_, delta) => {
-    if (button.current) button.current.hidden = frame.bodyHidden.has(body.id);
+    // Explore steps the pill labels aside (spec §3.2) until the session has fully closed.
+    if (button.current) button.current.hidden = frame.bodyHidden.has(body.id) || frame.explore !== null;
     since.current += delta;
     if (since.current < DATUM_INTERVAL_S || !button.current || !datum.current) return;
     since.current = 0;

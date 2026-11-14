@@ -1,8 +1,12 @@
 {
   "schemaVersion": 1,
   "bodyId": "earth",
-  "generatedAt": "2026-10-15T22:30:26.775Z",
+  "generatedAt": "2026-11-14T12:43:12.320Z",
   "interior": {
+    "radiusKm": {
+      "value": 6371,
+      "sourceId": "nssdca-earth-fact-sheet"
+    },
     "layers": [
       {
         "id": "crust",

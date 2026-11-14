@@ -46,16 +46,28 @@ function boundToRadius(r: QuotedRange, layerFrom: CuratedLayer['from'], radiusKm
 }
 
 function convertLayer(layer: CuratedLayer, radiusKm: number): InteriorLayer {
-  return {
-    id: layer.id,
-    name: layer.name,
-    outerRadiusKm: boundToRadius(layer.outer, layer.from, radiusKm),
-    innerRadiusKm: boundToRadius(layer.inner, layer.from, radiusKm),
+  const rest = {
     from: layer.from,
     state: layer.state,
     ...(layer.stateSource ? { stateSourceId: layer.stateSource.sourceId } : {}),
     composition: layer.composition ? { text: layer.composition.text, sourceId: layer.composition.sourceId } : null,
     uncertain: layer.uncertain,
+    // The quote stays in the curated file (checked by verifyInteriors); the built layer keeps its source.
+    ...(layer.gradual ? { gradual: { sourceId: layer.gradual.sourceId } } : {}),
+  };
+  // An illustrative layer has no bounds: the checks and the cutaway share the radius between its cited neighbours.
+  if (layer.sizeKind === 'illustrative' || !layer.outer || !layer.inner) {
+    return { id: layer.id, name: layer.name, ...rest, sizeKind: 'illustrative', ...(layer.estimate ? { estimate: true } : {}) };
+  }
+  const estimate = layer.sizeKind === 'estimate' || layer.estimate === true;
+  return {
+    id: layer.id,
+    name: layer.name,
+    outerRadiusKm: boundToRadius(layer.outer, layer.from, radiusKm),
+    innerRadiusKm: boundToRadius(layer.inner, layer.from, radiusKm),
+    ...rest,
+    ...(layer.sizeKind === 'estimate' ? { sizeKind: 'estimate' as const } : {}),
+    ...(estimate ? { estimate: true } : {}),
   };
 }
 
@@ -103,14 +115,19 @@ export function buildDetails(inputs: DetailsInputs, generatedAt: string): { deta
     const isMoon = id === 'moon';
     const sheet = isSun ? inputs.sunSheet : isMoon ? inputs.moonSheet : inputs.planetSheets[id as (typeof PLANET_SHEET_IDS)[number]];
     const text = sheetText(sheet.text);
+    const sheetSourceId = isSun ? 'nssdca-sun-fact-sheet' : `nssdca-${id}-fact-sheet`;
     // The Sun and the Moon have no planet-sheet mean radius row to parse: use the catalogue's cited radius.
-    const radiusKm = isSun || isMoon
-      ? ((body.facts.meanRadiusKm?.value as number | undefined) ?? body.shape.equatorialRadiusKm)
-      : (() => { try { return parseMeanRadiusKm(text); } catch { return (body.facts.meanRadiusKm?.value as number | undefined) ?? body.shape.equatorialRadiusKm; } })();
+    const catalogueRadius = (): { value: number; sourceId: string } => {
+      const mean = body.facts.meanRadiusKm;
+      return typeof mean?.value === 'number' ? { value: mean.value, sourceId: mean.sourceId } : { value: body.shape.equatorialRadiusKm, sourceId: body.shape.sourceId };
+    };
+    const radius = isSun || isMoon
+      ? catalogueRadius()
+      : (() => { try { return { value: parseMeanRadiusKm(text), sourceId: sheetSourceId }; } catch { return catalogueRadius(); } })();
+    const radiusKm = radius.value;
     radii.set(id, radiusKm);
     const curated = inputs.interiors.bodies[id];
-    const interior = curated && curated.layers.length > 0 ? { layers: curated.layers.map((l) => convertLayer(l, radiusKm)) } : null;
-    const sheetSourceId = isSun ? 'nssdca-sun-fact-sheet' : `nssdca-${id}-fact-sheet`;
+    const interior = curated && curated.layers.length > 0 ? { radiusKm: radius, layers: curated.layers.map((l) => convertLayer(l, radiusKm)) } : null;
     // The Sun and Moon sheets are registered by the catalogue build; the planet sheets are registered here.
     if (!isSun && !isMoon) addSource(planetSheetSpec(id, body.name), sheet.retrievedAt);
     const atmosphere = isMoon
@@ -155,7 +172,8 @@ export function buildDetails(inputs: DetailsInputs, generatedAt: string): { deta
     const registered = registeredByUrl.get(s.url);
     if (registered !== undefined && registered !== s.id) { alias.set(s.id, registered); continue; }
     const page = inputs.curatedPages.get(s.id);
-    addSource(s, page?.retrievedAt ?? '');
+    // Only the five Source fields are registered; kind, doi, journal and quoteUrl stay in the curated file.
+    addSource({ id: s.id, title: s.title, publisher: s.publisher, url: s.url, license: s.license }, page?.retrievedAt ?? '');
     registeredByUrl.set(s.url, s.id);
   }
   for (let i = 0; i < details.length; i++) details[i] = aliasSourceIds(details[i]!, alias);

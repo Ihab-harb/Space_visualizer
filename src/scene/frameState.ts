@@ -5,6 +5,7 @@ import { DEG } from '../core/math/angles';
 import type { Mat3 } from '../core/math/mat3';
 import type { Vec3 } from '../core/math/vec3';
 import { J2000_JD } from '../core/units';
+import type { ExploreFrame } from './interior/exploreFrame';
 
 /** Mutable per-frame cache shared by scene components (never stored in React state). */
 export interface FrameState {
@@ -20,6 +21,13 @@ export interface FrameState {
   fovRad: number;
   /** Post-processing inputs written by the Sun effects (Task 6). */
   fx: { exposure: number; skyDim: number };
+  /** The Explore interior on show this frame (shape documented in interior/exploreFrame.ts); null outside Explore. */
+  explore: ExploreFrame | null;
+  /**
+   * Written by CameraSystem while Explore is framed: the explode axis captured at entry and the direction from the body to
+   * where the camera is going (the orbit state, not the in-flight pose), so a Half-section faces the settled view.
+   */
+  exploreCamera: { upWorld: Vec3; toCameraWorld: Vec3 } | null;
 }
 
 export function createFrameState(): FrameState {
@@ -34,6 +42,8 @@ export function createFrameState(): FrameState {
     viewportHeightPx: 800,
     fovRad: 50 * DEG,
     fx: { exposure: 1, skyDim: 1 },
+    explore: null,
+    exploreCamera: null,
   };
 }
 

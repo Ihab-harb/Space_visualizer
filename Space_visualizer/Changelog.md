@@ -134,3 +134,23 @@ Back to [[Home]]
 - Outside the Horizons table the Moon's distances, phase and light time cite the mean elements, and the status bar reads out of range.
 - The Moon's orbit line uses one model, so it has no kink at the table edge.
 - The held-out sample count is 366,720 (it counted samples past the table end before). Doc fixes in [[0008-moon-chebyshev-table]], [[core]] and [[scene]]. Details: [[2026-10-29-m2b2-moon]].
+
+## 2026-11-06 — M2b.3 Explore mode implemented
+- **Explore** (header button, key **X**, or `?target=<id>&explore=1&view=whole|exploded|section`): one body fills the screen and the normal interface steps aside until the body has closed. Views: Whole, **Exploded** (caps lift apart, up to 1.8 body radii) and **Half-section** (a flat cut turned 45 degrees from the camera). Keys 1, 2, 3 switch views, Esc closes the chart and then leaves. Time pauses and returns as it was; the camera returns to where it was.
+- Floating labels with leader lines for each layer (name, state, cited bound, `[n]`, Estimate or Illustrative size tags), a layer card with sources, numbered dots and a Layers list on phones.
+- **Composition chart:** a bottom strip with the top gases, and a full ranked-bar chart on one log scale with a table view. The Moon's exosphere has its own axis (upper limits).
+- **Interiors for Venus, Jupiter, Saturn, Uranus and Neptune** (every body now has one): layer names, states and compositions from NASA, sizes from four peer-reviewed papers where they could be cited, marked **Estimate**. Uranus and Neptune have no citable sizes and read "Layer sizes are not to scale". Decision [[0009-peer-reviewed-papers-for-estimates]]; the papers and rejected candidates are in [[Peer-reviewed papers (interior estimates)]].
+- Schema: interior layers gain `estimate` and `sizeKind` (`cited`, `estimate`, `illustrative`); illustrative layers have no bounds and share the radius evenly (`resolveLayerRanges`). The pipeline accepts paper sources (`kind`, `doi`, `journal`, `quoteUrl`; trusted journals, open-copy hosts), with the same quote check.
+- Scene: a shader-space cut, caps and cut faces per layer, analytic picking, other bodies dimmed to 25 %, rings hidden, the Sun's flare and rays faded in any Explore session. Interior colours are illustrative (labelled) and use a small bounded negative in the saturation push so amber survives AgX.
+- Tests: 988 unit tests, typecheck clean, 118 end-to-end tests passed before the last fix rounds, 25 targeted after. Six golden views in `Assets/m2b3/`.
+- Spec [[2026-10-30-m2b3-explore-interior-design]] (approved, with "Amended while building" notes), plan [[2026-10-30-m2b3-explore-interior]] (rulings and research log in its Execution record), session [[2026-10-30-session-m2b3-explore]]. Carry-over: [[2026-10-05-m2a1-carry-over]] ("From M2b.3").
+- **Status:** on branch `m2b3-explore`, stacked on `cloud-setup` (PR #7). Not pushed; no PR is open.
+
+## 2026-11-14 — M2b.3 whole-branch review fix wave
+- **Depth ruler** beside the Half-section cut: surface (0 km) to the centre, a tick at each layer boundary with its cited depth and `[n]`; paper bounds say Estimate; hidden on phones.
+- **Soft bands for dilute cores:** Jupiter's dilute core and Saturn's diffuse core carry a cited, quote-checked `gradual` boundary and are drawn with a soft band and no line; the layer card says the soft edge is illustrative. The data records the cited radius the bounds were converted with (`interior.radiusKm`) and fails above 8 layers.
+- Explore shows loading, "No interior data yet" and "Could not load the interior." with Retry. The facts drawer's interior rows carry the Estimate and Illustrative size tags.
+- Esc steps back chart, card, then Explore. Other bodies take no clicks in Explore; pan is ignored; a turned phone reframes the body. The interface fades out and back in. Every `[n]` in Explore names its source and points at a Sources list in the chart panel.
+- While open, Saturn's black map band and the Uranus and Neptune map streaks are filled (Explore only); drawn layers tile the radius, so Mars's core shows no seam.
+- New goldens: Saturn Half-section, Uranus Exploded. Details in the plan's "Whole-branch review".
+- Scoped re-review (2026-11-15): approved with minors, fixed. The ruler's and labels' `[n]` name their source on hover; the citation lists cover the interior radius, gradual sentences and the chart note; Saturn's metallic hydrogen card says its soft lower edge comes from a research paper; focus stays in Explore when Retry or the card goes away.

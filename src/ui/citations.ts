@@ -43,8 +43,8 @@ export function detailsSourceOrder(details: BodyDetails | null | undefined): str
     if (id && !ids.includes(id)) ids.push(id);
   };
   for (const layer of details.interior?.layers ?? []) {
-    add(layer.outerRadiusKm.sourceId);
-    add(layer.innerRadiusKm.sourceId);
+    add(layer.outerRadiusKm?.sourceId);
+    add(layer.innerRadiusKm?.sourceId);
     add(layer.stateSourceId);
     add(layer.composition?.sourceId);
   }
@@ -71,6 +71,9 @@ export function detailsSourceOrder(details: BodyDetails | null | undefined): str
     add(details.features.totalApproved.sourceId);
     add(details.features.sourceId);
   }
+  // Explore-only citations (the ruler's centre, a gradual boundary's sentence). Last, so no number shown elsewhere moves.
+  add(details.interior?.radiusKm?.sourceId);
+  for (const layer of details.interior?.layers ?? []) add(layer.gradual?.sourceId);
   return ids;
 }
 

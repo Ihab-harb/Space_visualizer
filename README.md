@@ -43,13 +43,14 @@ Then open the address Vite prints (normally <http://localhost:5173/>). No server
 - The **drawer** (**Facts & sources**, or key **F**) lists every fact, the imagery used and the numbered sources. For Venus it has a **Show Magellan radar** toggle that swaps the cloud deck for the Magellan radar map (radar backscatter, not visible light).
 - The **bottom bar** has the date, Reverse, Play, Speed, Now, Go to date and a timeline from 1800 to 2050.
 - **Tour** (button, or key **T**): flies from the Sun outward past each planet and ends with an overview. Any key, click, wheel or touch stops it; time is never changed.
-- Keys: **1** / **2** Orbit and Follow, **Esc** Orbit, **T** Tour, **Q** quality, **E** camera effects, **F** drawer.
+- Keys: **1** / **2** Orbit and Follow, **Esc** Orbit, **T** Tour, **Q** quality, **E** camera effects, **F** drawer, **X** Explore.
+- **Explore** (the Explore button in the header, or key **X** with a body selected): the body fills the screen and the interface steps aside. Switch between **Whole**, **Exploded** (the layers lift apart) and **Half-section** (a flat cut) with the switch at the top or keys **1**, **2**, **3**. Click a layer or its label for a card with its facts and sources. The bottom strip shows the atmosphere's top gases; "Open full chart" shows every gas on one log scale. Half-section has a depth ruler from the surface to the centre, with each cited boundary. **Esc** closes the chart, then the layer card, then leaves Explore. Layer sizes that come from a research paper are marked **Estimate**; layers with no citable size are marked "Illustrative size". Interior colours are illustrative.
 
 ## Quality and camera effects
 
 - **Quality** (control panel, or key **Q**): cycles Auto, High, Medium and Low. Auto measures frame time and steps down when the median exceeds 18 ms, and steps up after 10 s under 12 ms. Phones start at Low.
 - **Camera effects** (control panel, or key **E**): turns the cinematic effects on or off. Off keeps bloom (reduced) and neutral tone mapping.
-- URL parameters: `?quality=auto|high|medium|low`, `?fx=0|1` and `?radar=1` (Venus radar view) and `?target=<body id>` (for example `?target=moon`), for example `?quality=low&fx=0`, `?target=venus&radar=1` or `?target=moon`.
+- URL parameters: `?quality=auto|high|medium|low`, `?fx=0|1` and `?radar=1` (Venus radar view) and `?target=<body id>` (for example `?target=moon`), `?explore=1` (opens Explore on the `target` body; `dist` is ignored there) and `?view=whole|exploded|section` (the Explore view), for example `?quality=low&fx=0`, `?target=venus&radar=1`, `?target=moon` or `?target=earth&explore=1&view=section`.
 - `npm run perf`: measures frame times at each preset on your real GPU (see [docs/SETUP.md](docs/SETUP.md)).
 
 ## Commands

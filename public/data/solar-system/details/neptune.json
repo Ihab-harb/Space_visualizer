@@ -1,8 +1,53 @@
 {
   "schemaVersion": 1,
   "bodyId": "neptune",
-  "generatedAt": "2026-10-15T22:30:26.775Z",
-  "interior": null,
+  "generatedAt": "2026-11-14T12:43:12.320Z",
+  "interior": {
+    "radiusKm": {
+      "value": 24622,
+      "sourceId": "nssdca-neptune-fact-sheet"
+    },
+    "layers": [
+      {
+        "id": "envelope",
+        "name": "Hydrogen-helium envelope",
+        "from": "percent",
+        "state": "unknown",
+        "composition": {
+          "text": "Mostly hydrogen and helium, with a little methane.",
+          "sourceId": "nasa-science-neptune-facts"
+        },
+        "uncertain": false,
+        "sizeKind": "illustrative"
+      },
+      {
+        "id": "icy-mantle",
+        "name": "Icy mantle",
+        "from": "percent",
+        "state": "liquid",
+        "stateSourceId": "nasa-science-neptune-facts",
+        "composition": {
+          "text": "A hot dense fluid of \"icy\" materials: water, methane, and ammonia.",
+          "sourceId": "nasa-science-neptune-facts"
+        },
+        "uncertain": true,
+        "sizeKind": "illustrative"
+      },
+      {
+        "id": "core",
+        "name": "Rocky core",
+        "from": "percent",
+        "state": "solid",
+        "stateSourceId": "nasa-science-neptune-facts",
+        "composition": {
+          "text": "A heavier, solid core with about the same mass as Earth.",
+          "sourceId": "nasa-science-neptune-facts"
+        },
+        "uncertain": true,
+        "sizeKind": "illustrative"
+      }
+    ]
+  },
   "atmosphere": {
     "basis": "by volume, uncertainty in parentheses",
     "major": [

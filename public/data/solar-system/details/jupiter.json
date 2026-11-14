@@ -1,8 +1,76 @@
 {
   "schemaVersion": 1,
   "bodyId": "jupiter",
-  "generatedAt": "2026-10-15T22:30:26.775Z",
-  "interior": null,
+  "generatedAt": "2026-11-14T12:43:12.320Z",
+  "interior": {
+    "radiusKm": {
+      "value": 69911,
+      "sourceId": "nssdca-jupiter-fact-sheet"
+    },
+    "layers": [
+      {
+        "id": "envelope",
+        "name": "Hydrogen-helium envelope",
+        "from": "percent",
+        "state": "unknown",
+        "composition": {
+          "text": "Mostly hydrogen and helium.",
+          "sourceId": "nasa-science-jupiter-facts"
+        },
+        "uncertain": false,
+        "sizeKind": "illustrative"
+      },
+      {
+        "id": "metallic-hydrogen",
+        "name": "Metallic hydrogen",
+        "from": "percent",
+        "state": "liquid",
+        "stateSourceId": "nasa-science-jupiter-facts",
+        "composition": {
+          "text": "Liquid hydrogen that conducts electricity like a metal.",
+          "sourceId": "nasa-science-jupiter-facts"
+        },
+        "uncertain": true,
+        "sizeKind": "illustrative"
+      },
+      {
+        "id": "dilute-core",
+        "name": "Dilute core",
+        "outerRadiusKm": {
+          "min": 44043.93,
+          "max": 44043.93,
+          "sourceId": "paper-militzer-2022-jupiter-dilute-core",
+          "from": "percent",
+          "stated": {
+            "min": 63,
+            "max": 63
+          }
+        },
+        "innerRadiusKm": {
+          "min": 0,
+          "max": 0,
+          "sourceId": "paper-militzer-2022-jupiter-dilute-core",
+          "from": "percent",
+          "stated": {
+            "min": 0,
+            "max": 0
+          }
+        },
+        "from": "percent",
+        "state": "unknown",
+        "composition": {
+          "text": "Partially dissolved, with no clear separation from the metallic hydrogen around it.",
+          "sourceId": "nasa-science-jupiter-facts"
+        },
+        "uncertain": true,
+        "gradual": {
+          "sourceId": "nasa-science-jupiter-facts"
+        },
+        "sizeKind": "estimate",
+        "estimate": true
+      }
+    ]
+  },
   "atmosphere": {
     "basis": "by volume, uncertainty in parentheses",
     "major": [

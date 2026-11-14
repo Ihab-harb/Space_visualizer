@@ -1,8 +1,102 @@
 {
   "schemaVersion": 1,
   "bodyId": "venus",
-  "generatedAt": "2026-10-15T22:30:26.775Z",
-  "interior": null,
+  "generatedAt": "2026-11-14T12:43:12.320Z",
+  "interior": {
+    "radiusKm": {
+      "value": 6051.8,
+      "sourceId": "nssdca-venus-fact-sheet"
+    },
+    "layers": [
+      {
+        "id": "crust",
+        "name": "Crust",
+        "outerRadiusKm": {
+          "min": 6051.8,
+          "max": 6051.8,
+          "sourceId": "paper-maia-wieczorek-2022-venus-plateaus",
+          "from": "depth",
+          "stated": {
+            "min": 0,
+            "max": 0
+          }
+        },
+        "innerRadiusKm": {
+          "min": 6031.8,
+          "max": 6031.8,
+          "sourceId": "paper-maia-wieczorek-2022-venus-plateaus",
+          "from": "depth",
+          "stated": {
+            "min": 20,
+            "max": 20
+          }
+        },
+        "from": "depth",
+        "state": "solid",
+        "composition": {
+          "text": "A rocky, exterior crust.",
+          "sourceId": "nasa-science-venus-facts"
+        },
+        "uncertain": true,
+        "sizeKind": "estimate",
+        "estimate": true
+      },
+      {
+        "id": "mantle",
+        "name": "Mantle",
+        "outerRadiusKm": {
+          "min": 6031.8,
+          "max": 6031.8,
+          "sourceId": "paper-maia-wieczorek-2022-venus-plateaus",
+          "from": "depth",
+          "stated": {
+            "min": 20,
+            "max": 20
+          }
+        },
+        "innerRadiusKm": {
+          "min": 2930,
+          "max": 4350,
+          "sourceId": "paper-shah-2022-venus-interior",
+          "from": "radius"
+        },
+        "from": "depth",
+        "state": "unknown",
+        "composition": {
+          "text": "A hot-rock mantle.",
+          "sourceId": "nasa-science-venus-facts"
+        },
+        "uncertain": true,
+        "sizeKind": "estimate",
+        "estimate": true
+      },
+      {
+        "id": "core",
+        "name": "Core",
+        "outerRadiusKm": {
+          "min": 2930,
+          "max": 4350,
+          "sourceId": "paper-shah-2022-venus-interior",
+          "from": "radius"
+        },
+        "innerRadiusKm": {
+          "min": 0,
+          "max": 0,
+          "sourceId": "paper-shah-2022-venus-interior",
+          "from": "radius"
+        },
+        "from": "radius",
+        "state": "unknown",
+        "composition": {
+          "text": "An iron core.",
+          "sourceId": "nasa-science-venus-facts"
+        },
+        "uncertain": true,
+        "sizeKind": "estimate",
+        "estimate": true
+      }
+    ]
+  },
   "atmosphere": {
     "basis": "near surface, by volume",
     "major": [

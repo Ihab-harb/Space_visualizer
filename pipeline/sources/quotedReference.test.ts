@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { OFFICIAL_HOSTS, type CuratedSource, kmIn, normaliseQuote, numbersIn, pageText, percentIn, quoteHasDate, quoteHasKm, quoteHasNumber, quoteHasPercent, quoteOnPage, verifyInteriors, verifyMissions } from './quotedReference';
+import { OFFICIAL_HOSTS, OPEN_COPY_HOSTS, TRUSTED_JOURNALS, canonicalJournal, quotePageUrl, type CuratedSource, kmIn, normaliseQuote, numbersIn, pageText, percentIn, quoteHasDate, quoteHasKm, quoteHasNumber, quoteHasPercent, quoteOnPage, verifyInteriors, verifyMissions } from './quotedReference';
 
 const html = '<html><script>x</script><p>Mars has a core about 2,100 miles (3,400 km)&nbsp;wide &mdash; it&rsquo;s liquid.</p><p>Mariner 4 launched on Nov. 28, 1964, and flew past Mars on July 14, 1965.</p></html>';
 
@@ -270,5 +270,115 @@ describe('source and quote gates', () => {
     expect(out).toMatch(/composition: quote too short \(2 words\)/);
     const m = verifyMissions({ sources: f.sources, bodies: { x: { discovery: { kind: 'antiquity', sourceId: 'p', quote: 'the inner' }, missions: [] } } }, new Map([['p', 'the inner']]));
     expect(m.join()).toMatch(/discovery: quote too short \(2 words\)/);
+  });
+});
+
+describe('peer-reviewed paper sources (ADR 0009)', () => {
+  const Q = 'the dilute core extends to about 50% of the planet radius in this model';
+  const paper = (over: Record<string, unknown> = {}): CuratedSource => ({
+    id: 'juno', title: 'Jupiter dilute core', publisher: 'Nature', url: 'https://doi.org/10.1038/s41586-000-0000-0', license: 'Peer-reviewed article; quoted under fair use',
+    kind: 'paper', doi: '10.1038/s41586-000-0000-0', journal: 'Nature', ...over,
+  } as CuratedSource);
+  const file = (s: CuratedSource, layers: unknown[] = []) => ({ sources: [s], bodies: { jupiter: { layers } } }) as unknown as Parameters<typeof verifyInteriors>[0];
+  const estLayer = (over: Record<string, unknown> = {}) => ({
+    id: 'dilute-core', name: 'Dilute core', from: 'percent', sizeKind: 'estimate', estimate: true,
+    outer: { min: 50, max: 50, sourceId: 'juno', quote: Q }, inner: { min: 0, max: 0, sourceId: 'juno', quote: Q },
+    state: 'unknown', composition: null, uncertain: true, ...over,
+  });
+  const pages = new Map([['juno', Q + ' and more words']]);
+
+  it('accepts a paper on a listed journal with a DOI url', () => {
+    expect(verifyInteriors(file(paper(), [estLayer()]), pages)).toEqual([]);
+    expect(TRUSTED_JOURNALS).toContain('Nature Astronomy');
+    expect(OPEN_COPY_HOSTS).toEqual(['arxiv.org', 'ncbi.nlm.nih.gov', 'ui.adsabs.harvard.edu']);
+  });
+  it('rejects a paper without a DOI, with a mismatched url, or on a journal not listed', () => {
+    expect(verifyInteriors(file(paper({ doi: undefined })), pages).join()).toMatch(/needs a DOI/);
+    expect(verifyInteriors(file(paper({ doi: 'not-a-doi' })), pages).join()).toMatch(/needs a DOI/);
+    expect(verifyInteriors(file(paper({ url: 'https://doi.org/10.1038/other' })), pages).join()).toMatch(/url must be https:\/\/doi.org\/10.1038\/s41586-000-0000-0/);
+    expect(verifyInteriors(file(paper({ journal: 'Journal of Made Up Results', publisher: 'Journal of Made Up Results' })), pages).join()).toMatch(/journal "Journal of Made Up Results" is not in the trusted list/);
+    expect(verifyInteriors(file(paper({ publisher: 'Science' })), pages).join()).toMatch(/publisher must equal the canonical journal title "Nature"/);
+  });
+  it('accepts a journal by full title or alias, with publisher the canonical title', () => {
+    expect(TRUSTED_JOURNALS).toContain('Journal of Geophysical Research: Planets');
+    expect(canonicalJournal('JGR Planets')).toBe('Journal of Geophysical Research: Planets');
+    expect(canonicalJournal('jgr: planets')).toBe('Journal of Geophysical Research: Planets');
+    expect(canonicalJournal('A&A')).toBe('Astronomy & Astrophysics');
+    expect(canonicalJournal('Astronomy and Astrophysics')).toBe('Astronomy & Astrophysics');
+    expect(canonicalJournal('ApJ')).toBe('The Astrophysical Journal');
+    expect(canonicalJournal('PSJ')).toBe('The Planetary Science Journal');
+    expect(canonicalJournal('Made Up')).toBeNull();
+    const full = { journal: 'Journal of Geophysical Research: Planets', publisher: 'Journal of Geophysical Research: Planets' };
+    expect(verifyInteriors(file(paper(full)), pages)).toEqual([]);
+    expect(verifyInteriors(file(paper({ journal: 'JGR Planets', publisher: 'Journal of Geophysical Research: Planets' })), pages)).toEqual([]);
+    expect(verifyInteriors(file(paper({ journal: 'JGR Planets', publisher: 'JGR Planets' })), pages).join()).toMatch(/publisher must equal the canonical journal title "Journal of Geophysical Research: Planets"/);
+  });
+  it('requires https for url and quoteUrl', () => {
+    expect(verifyInteriors(file(paper({ url: 'http://doi.org/10.1038/s41586-000-0000-0' })), pages).join()).toMatch(/url must be https:\/\/doi\.org/);
+    expect(verifyInteriors(file(paper({ quoteUrl: 'http://arxiv.org/abs/1' })), pages).join()).toMatch(/quoteUrl must use https/);
+    const off = { id: 'n', title: 't', publisher: 'NASA', url: 'http://science.nasa.gov/x', license: 'l' };
+    expect(verifyInteriors(file(off), pages).join()).toMatch(/url must use https/);
+  });
+  it('requires estimate: true on any layer that cites a paper in a bound, stateSource or composition', () => {
+    const off = { id: 'o', title: 't', publisher: 'NASA', url: 'https://science.nasa.gov/o', license: 'l' };
+    const f = (layer: unknown) => ({ sources: [paper(), off], bodies: { jupiter: { layers: [layer] } } }) as unknown as Parameters<typeof verifyInteriors>[0];
+    const pg = new Map([['juno', Q + ' and more words'], ['o', Q + ' and more words']]);
+    const offLayer = (over: Record<string, unknown> = {}) => ({ ...estLayer({ sizeKind: undefined, estimate: undefined, outer: { min: 50, max: 50, sourceId: 'o', quote: Q }, inner: { min: 0, max: 0, sourceId: 'o', quote: Q } }), ...over });
+    expect(verifyInteriors(f(offLayer()), pg)).toEqual([]);
+    const note = 'cites a paper source: estimate must be true';
+    expect(verifyInteriors(f(estLayer({ estimate: undefined })), pg).join()).toContain(note);
+    expect(verifyInteriors(f(offLayer({ stateSource: { sourceId: 'juno', quote: Q } })), pg).join()).toContain(note);
+    expect(verifyInteriors(f(offLayer({ composition: { sourceId: 'juno', quote: Q, text: 'x' } })), pg).join()).toContain(note);
+    expect(verifyInteriors(f(offLayer({ estimate: true, composition: { sourceId: 'juno', quote: Q, text: 'x' } })), pg)).toEqual([]);
+    expect(verifyInteriors(f(offLayer({ estimate: true, stateSource: { sourceId: 'juno', quote: Q } })), pg)).toEqual([]);
+  });
+  it('rejects a quoteUrl on a host that is not an open-copy host, and accepts listed ones', () => {
+    expect(verifyInteriors(file(paper({ quoteUrl: 'https://example.com/paper.html' })), pages).join()).toMatch(/quoteUrl host example.com is not an open-copy host/);
+    expect(verifyInteriors(file(paper({ quoteUrl: 'https://arxiv.org/abs/2000.00000' })), pages)).toEqual([]);
+    expect(verifyInteriors(file(paper({ quoteUrl: 'https://www.ncbi.nlm.nih.gov/pmc/articles/PMC1/' })), pages)).toEqual([]);
+    expect(verifyInteriors(file(paper({ quoteUrl: 'https://ui.adsabs.harvard.edu/abs/2020Natur/abstract' })), pages)).toEqual([]);
+  });
+  it('keeps the official-host rule for official sources, and bars doi/journal/quoteUrl on them', () => {
+    const off = { id: 'n', title: 't', publisher: 'NASA', url: 'https://doi.org/10.1/x', license: 'l' };
+    expect(verifyInteriors(file(off), pages).join()).toMatch(/not on an official host: doi.org/);
+    const withDoi = { ...off, url: 'https://science.nasa.gov/x', doi: '10.1/x' } as CuratedSource;
+    expect(verifyInteriors(file(withDoi), pages).join()).toMatch(/only a paper source may carry doi/);
+  });
+  it('requires sizeKind estimate for a layer sized by a paper, and a paper for an estimate', () => {
+    expect(verifyInteriors(file(paper(), [estLayer({ sizeKind: undefined })]), pages).join()).toMatch(/sized by a paper source: sizeKind must be "estimate"/);
+    const off = { id: 'o', title: 't', publisher: 'NASA', url: 'https://science.nasa.gov/o', license: 'l' };
+    const f = { sources: [off], bodies: { jupiter: { layers: [estLayer({ outer: { min: 50, max: 50, sourceId: 'o', quote: Q }, inner: { min: 0, max: 0, sourceId: 'o', quote: Q } })] } } } as unknown as Parameters<typeof verifyInteriors>[0];
+    expect(verifyInteriors(f, new Map([['o', Q]])).join()).toMatch(/sizeKind "estimate" needs a bound from a paper source/);
+  });
+  it('illustrative layers carry no bounds', () => {
+    const ill = { id: 'mantle', name: 'Mantle', from: 'radius', sizeKind: 'illustrative', state: 'unknown', composition: null, uncertain: true };
+    expect(verifyInteriors(file(paper(), [ill]), pages)).toEqual([]);
+    expect(verifyInteriors(file(paper(), [{ ...ill, outer: estLayer().outer }]), pages).join()).toMatch(/illustrative layer must not carry bounds/);
+    expect(verifyInteriors(file(paper(), [{ ...estLayer(), outer: undefined }]), pages).join()).toMatch(/needs outer and inner bounds/);
+  });
+  it('checks the quote against the page fetched for the paper', () => {
+    expect(verifyInteriors(file(paper(), [estLayer()]), new Map([['juno', 'something else entirely']])).join()).toMatch(/quote not on page of juno/);
+  });
+  it('checks a gradual boundary like any quote: on the page, six words, saying so, never the surface layer, estimate for a paper', () => {
+    const off = { id: 'o', title: 't', publisher: 'NASA', url: 'https://science.nasa.gov/o', license: 'l' };
+    const G = 'it is partially dissolved, with no clear separation from the metallic hydrogen around it';
+    const pg = new Map([['juno', Q + ' and more words'], ['o', G + '. More text.']]);
+    const top = { id: 'envelope', name: 'Envelope', from: 'percent', sizeKind: 'illustrative', state: 'unknown', composition: null, uncertain: false };
+    const f = (layers: unknown[]) => ({ sources: [paper(), off], bodies: { jupiter: { layers } } }) as unknown as Parameters<typeof verifyInteriors>[0];
+    expect(verifyInteriors(f([top, estLayer({ gradual: { sourceId: 'o', quote: G } })]), pg)).toEqual([]);
+    expect(verifyInteriors(f([top, estLayer({ gradual: { sourceId: 'o', quote: 'a quote that is not on the page at all' } })]), pg).join()).toMatch(/dilute-core gradual: quote not on page of o/);
+    expect(verifyInteriors(f([top, estLayer({ gradual: { sourceId: 'o', quote: 'no clear separation' } })]), pg).join()).toMatch(/gradual: quote too short/);
+    const plain = 'The composition of the core region is similar to the Sun in many ways';
+    const pg2 = new Map([...pg, ['o', plain]]);
+    expect(verifyInteriors(f([top, estLayer({ gradual: { sourceId: 'o', quote: plain } })]), pg2).join()).toMatch(/gradual: the quote does not describe a gradual boundary/);
+    expect(verifyInteriors(f([{ ...top, gradual: { sourceId: 'o', quote: G } }, estLayer()]), pg).join()).toMatch(/jupiter\/envelope gradual: the outermost layer's outer edge is the surface/);
+    const offCore = estLayer({ sizeKind: undefined, estimate: undefined, outer: { min: 50, max: 50, sourceId: 'o', quote: G }, inner: { min: 0, max: 0, sourceId: 'o', quote: G } });
+    const pg3 = new Map([...pg, ['o', G + ' to 50% of the radius.']]);
+    const offCoreQ = { ...offCore, outer: { ...offCore.outer, quote: G + ' to 50% of the radius' }, inner: { ...offCore.inner, quote: G + ' to 50% of the radius' } };
+    expect(verifyInteriors(f([top, { ...offCoreQ, gradual: { sourceId: 'juno', quote: Q } }]), pg3).join()).toMatch(/cites a paper source: estimate must be true/);
+  });
+  it('fetches quoteUrl when present, else the url', () => {
+    expect(quotePageUrl(paper({ quoteUrl: 'https://arxiv.org/abs/1' }))).toBe('https://arxiv.org/abs/1');
+    expect(quotePageUrl(paper())).toBe('https://doi.org/10.1038/s41586-000-0000-0');
   });
 });

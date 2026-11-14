@@ -1,7 +1,15 @@
 import type { MissionOutcome, MissionType } from '../../src/core/details/schema';
 import { decodeEntities } from '../lib/html';
 
-export interface CuratedSource { id: string; title: string; publisher: string; url: string; license: string }
+/**
+ * A curated source. Official pages (the default) must sit on an official host. A `kind: 'paper'` source is a peer-reviewed article
+ * (ADR 0009): `url` is its DOI link, `publisher` the journal, and `quoteUrl` an optional open copy to check quotes against.
+ * `kind`, `doi`, `journal` and `quoteUrl` live in the curated file only; the registered Source keeps the five base fields.
+ */
+export interface CuratedSource {
+  id: string; title: string; publisher: string; url: string; license: string;
+  kind?: 'official' | 'paper'; doi?: string; journal?: string; quoteUrl?: string;
+}
 export interface Quoted { sourceId: string; quote: string }
 export interface QuotedRange extends Quoted {
   min: number; max: number;
@@ -10,13 +18,29 @@ export interface QuotedRange extends Quoted {
 }
 export interface CuratedLayer {
   id: string; name: string; from: 'radius' | 'depth' | 'percent';
-  outer: QuotedRange; inner: QuotedRange; // radii in km, depths in km below the surface, or percent of the body's radius from the centre
+  /**
+   * How the size is known. Absent or 'cited': both bounds from official sources. 'estimate': at least one bound from a paper source
+   * (the layer is then an estimate). 'illustrative': no bounds; the size is shared between the cited neighbours and no number is shown.
+   */
+  sizeKind?: 'cited' | 'estimate' | 'illustrative';
+  /** True when any value of the layer (size, state or composition) comes from a paper. Implied by sizeKind 'estimate'. */
+  estimate?: boolean;
+  /** Radii in km, depths in km below the surface, or percent of the body's radius from the centre. Required unless sizeKind is 'illustrative'. */
+  outer?: QuotedRange; inner?: QuotedRange;
   state: 'solid' | 'liquid' | 'gas' | 'plasma' | 'unknown';
   /** A sentence on a registered page that states the layer's state; when present, the state is shown with this citation. */
   stateSource?: Quoted;
   composition: (Quoted & { text: string }) | null;
   uncertain: boolean;
+  /**
+   * A sentence that says the layer's outer boundary has no sharp edge (a dilute or diffuse core). The cutaway then draws that
+   * boundary as an illustrative soft band with no line. Not allowed on the outermost layer (its outer edge is the surface).
+   */
+  gradual?: Quoted;
 }
+
+/** Words a `gradual` quote must contain, so the sentence really describes a boundary without a sharp edge. */
+export const GRADUAL_WORDS = ['gradual', 'dilute', 'diffuse', 'fuzzy', 'no clear separation', 'no sharp'] as const;
 export interface CuratedMission { id: string; name: string; agency: string; type: MissionType; launchDate: string; arrivalDate: string | null; endDate: string | null; outcome: MissionOutcome; sourceId: string; quotes: string[] }
 export type CuratedDiscovery = (Quoted & { kind: 'antiquity' }) | (Quoted & { kind: 'discovered'; by: string; date: string; method: string });
 export interface InteriorsFile {
@@ -183,9 +207,62 @@ export function quoteHasDate(quotes: string[], isoDate: string, opts: DateOption
 
 export const OFFICIAL_HOSTS = ['nasa.gov', 'usgs.gov', 'esa.int', 'jaxa.jp', 'isro.gov.in', 'cnsa.gov.cn'] as const;
 export const MIN_QUOTE_WORDS = 6;
+/** Journals whose papers may be cited as sources (ADR 0009), by canonical full title. */
+export const TRUSTED_JOURNALS = [
+  'Nature', 'Science', 'Nature Astronomy', 'Journal of Geophysical Research: Planets', 'Geophysical Research Letters', 'Icarus',
+  'The Planetary Science Journal', 'Astronomy & Astrophysics', 'The Astrophysical Journal',
+  'Annual Review of Earth and Planetary Sciences', 'Space Science Reviews',
+] as const;
+/** Other spellings accepted in `journal` (lower case), each mapped to its canonical title. */
+const JOURNAL_ALIASES: Record<string, (typeof TRUSTED_JOURNALS)[number]> = {
+  'jgr planets': 'Journal of Geophysical Research: Planets',
+  'jgr: planets': 'Journal of Geophysical Research: Planets',
+  'jgr-planets': 'Journal of Geophysical Research: Planets',
+  'journal of geophysical research planets': 'Journal of Geophysical Research: Planets',
+  'a&a': 'Astronomy & Astrophysics',
+  'astronomy and astrophysics': 'Astronomy & Astrophysics',
+  'apj': 'The Astrophysical Journal',
+  'astrophysical journal': 'The Astrophysical Journal',
+  'psj': 'The Planetary Science Journal',
+  'planetary science journal': 'The Planetary Science Journal',
+  'grl': 'Geophysical Research Letters',
+};
+/** The canonical title of a trusted journal given its title or a known alias (case-insensitive), else null. */
+export function canonicalJournal(name: string | undefined): (typeof TRUSTED_JOURNALS)[number] | null {
+  const key = name?.trim().toLowerCase();
+  if (!key) return null;
+  return TRUSTED_JOURNALS.find((j) => j.toLowerCase() === key) ?? JOURNAL_ALIASES[key] ?? null;
+}
+/** Hosts of open copies of a published paper that a quote may be checked against (a host or any subdomain). */
+export const OPEN_COPY_HOSTS = ['arxiv.org', 'ncbi.nlm.nih.gov', 'ui.adsabs.harvard.edu'] as const;
+const DOI_PATTERN = /^10\.\d{4,9}\/\S+$/;
+
+/** The page a source's quotes are checked against: the open copy when the source names one, else its url. */
+export const quotePageUrl = (s: CuratedSource): string => s.quoteUrl ?? s.url;
+export const isPaper = (s: CuratedSource): boolean => s.kind === 'paper';
+
+const onHost = (host: string, hosts: readonly string[]): boolean => hosts.some((h) => host === h || host.endsWith(`.${h}`));
+
+const isHttps = (url: string): boolean => { try { return new URL(url).protocol === 'https:'; } catch { return false; } };
 
 function hostOf(url: string): string | null {
   try { return new URL(url).hostname.toLowerCase(); } catch { return null; }
+}
+
+function checkPaperSource(s: CuratedSource, errors: string[]): void {
+  if (s.doi === undefined || !DOI_PATTERN.test(s.doi)) errors.push(`source ${s.id}: a paper needs a DOI like 10.1038/xxxx`);
+  else if (s.url !== `https://doi.org/${s.doi}`) errors.push(`source ${s.id}: url must be https://doi.org/${s.doi}`);
+  const journal = canonicalJournal(s.journal);
+  if (journal === null) {
+    errors.push(`source ${s.id}: journal "${s.journal ?? ''}" is not in the trusted list (${TRUSTED_JOURNALS.join(', ')})`);
+  } else if (s.publisher !== journal) {
+    errors.push(`source ${s.id}: publisher must equal the canonical journal title "${journal}"`);
+  }
+  if (s.quoteUrl !== undefined) {
+    if (!isHttps(s.quoteUrl)) errors.push(`source ${s.id}: quoteUrl must use https`);
+    const host = hostOf(s.quoteUrl);
+    if (host === null || !onHost(host, OPEN_COPY_HOSTS)) errors.push(`source ${s.id}: quoteUrl host ${host ?? s.quoteUrl} is not an open-copy host (${OPEN_COPY_HOSTS.join(', ')})`);
+  }
 }
 
 function checkSources(sources: CuratedSource[], errors: string[]): void {
@@ -193,8 +270,13 @@ function checkSources(sources: CuratedSource[], errors: string[]): void {
   for (const s of sources) {
     if (seen.has(s.id)) errors.push(`duplicate source id ${s.id}`);
     seen.add(s.id);
+    if (isPaper(s)) { checkPaperSource(s, errors); continue; }
+    for (const key of ['doi', 'journal', 'quoteUrl'] as const) {
+      if (s[key] !== undefined) errors.push(`source ${s.id}: only a paper source may carry ${key} (set kind: "paper")`);
+    }
+    if (!isHttps(s.url)) errors.push(`source ${s.id}: url must use https`);
     const host = hostOf(s.url);
-    if (host === null || !OFFICIAL_HOSTS.some((h) => host === h || host.endsWith(`.${h}`))) {
+    if (host === null || !onHost(host, OFFICIAL_HOSTS)) {
       errors.push(`source ${s.id} is not on an official host: ${host ?? s.url}`);
     }
   }
@@ -216,15 +298,35 @@ function pageFor(pages: Map<string, string>, sources: CuratedSource[], sourceId:
 export function verifyInteriors(file: InteriorsFile, pages: Map<string, string>): string[] {
   const errors: string[] = [];
   checkSources(file.sources, errors);
+  const paperIds = new Set(file.sources.filter(isPaper).map((s) => s.id));
   for (const [body, { layers, magneticField }] of Object.entries(file.bodies)) {
     if (magneticField) {
       const where = `${body} magneticField`;
       const page = pageFor(pages, file.sources, magneticField.sourceId, where, errors);
       if (page !== null) checkQuote(magneticField.quote, page, magneticField.sourceId, where, errors);
     }
-    for (const layer of layers) {
+    for (const [index, layer] of layers.entries()) {
       const where = `${body}/${layer.id}`;
-      const ranges: [string, QuotedRange][] = [['outer', layer.outer], ['inner', layer.inner]];
+      if (layer.gradual) {
+        const w = `${where} gradual`;
+        if (index === 0) errors.push(`${w}: the outermost layer's outer edge is the surface, not a gradual boundary`);
+        const page = pageFor(pages, file.sources, layer.gradual.sourceId, w, errors);
+        if (page !== null) checkQuote(layer.gradual.quote, page, layer.gradual.sourceId, w, errors);
+        const q = normaliseQuote(layer.gradual.quote).toLowerCase();
+        if (!GRADUAL_WORDS.some((word) => q.includes(word))) errors.push(`${w}: the quote does not describe a gradual boundary (${GRADUAL_WORDS.join(', ')}): "${layer.gradual.quote}"`);
+      }
+      const kind = layer.sizeKind ?? 'cited';
+      const ranges: [string, QuotedRange][] = [];
+      if (kind === 'illustrative') {
+        if (layer.outer || layer.inner) errors.push(`${where}: an illustrative layer must not carry bounds`);
+      } else if (!layer.outer || !layer.inner) {
+        errors.push(`${where}: a ${kind} layer needs outer and inner bounds`);
+      } else {
+        ranges.push(['outer', layer.outer], ['inner', layer.inner]);
+        const paperBound = ranges.some(([, r]) => paperIds.has(r.sourceId));
+        if (paperBound && kind !== 'estimate') errors.push(`${where}: sized by a paper source: sizeKind must be "estimate"`);
+        if (kind === 'estimate' && !paperBound) errors.push(`${where}: sizeKind "estimate" needs a bound from a paper source`);
+      }
       for (const [label, r] of ranges) {
         const w = `${where} ${label}`;
         const page = pageFor(pages, file.sources, r.sourceId, w, errors);
@@ -247,6 +349,10 @@ export function verifyInteriors(file: InteriorsFile, pages: Map<string, string>)
       if (layer.composition) {
         const page = pageFor(pages, file.sources, layer.composition.sourceId, `${where} composition`, errors);
         if (page !== null) checkQuote(layer.composition.quote, page, layer.composition.sourceId, `${where} composition`, errors);
+      }
+      const citedIds = [layer.outer?.sourceId, layer.inner?.sourceId, layer.stateSource?.sourceId, layer.composition?.sourceId, layer.gradual?.sourceId];
+      if (citedIds.some((id) => id !== undefined && paperIds.has(id)) && layer.estimate !== true) {
+        errors.push(`${where}: cites a paper source: estimate must be true`);
       }
     }
   }

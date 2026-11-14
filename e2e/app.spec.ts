@@ -134,11 +134,23 @@ test('a header citation opens the drawer at the same source', async ({ page }) =
   const header = page.getByRole('banner', { name: 'Selected body' });
   const first = header.getByRole('link', { name: /Source \d+/ }).first();
   const label = await first.getAttribute('aria-label');
+  // The highlight lasts 1.5 s; on a loaded machine it can be gone before the first check, so record it as it happens.
+  await page.evaluate(() => {
+    const w = window as unknown as { __highlighted: string[] };
+    w.__highlighted = [];
+    new MutationObserver((records) => {
+      for (const r of records) {
+        const el = r.target as HTMLElement;
+        if (el.classList.contains('is-highlighted')) w.__highlighted.push(el.id);
+      }
+    }).observe(document.body, { subtree: true, attributes: true, attributeFilter: ['class'] });
+  });
   await first.click();
   const drawer = page.getByRole('complementary', { name: 'Body information' });
   await expect(drawer).toBeVisible();
   const n = Number(label!.replace('Source ', ''));
   const item = drawer.locator('.sources li').nth(n - 1);
-  await expect(item).toHaveClass(/is-highlighted/);
+  const id = await item.getAttribute('id');
+  await expect.poll(() => page.evaluate(() => (window as unknown as { __highlighted: string[] }).__highlighted)).toContain(id);
   await expect(item).toBeInViewport();
 });

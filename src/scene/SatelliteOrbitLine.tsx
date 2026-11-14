@@ -34,7 +34,8 @@ export function SatelliteOrbitLine({ body, catalog }: { body: Body & { orbit: Sa
   useFrame(() => {
     const parentPos = body.parentId ? frame.bodyPositionsKm.get(body.parentId) : undefined;
     if (!parentPos) return;
-    const hidden = frame.bodyHidden.has(body.id);
+    // Explore hides orbit lines (spec §3.2).
+    const hidden = frame.bodyHidden.has(body.id) || frame.explore !== null;
     line.visible = !hidden;
     if (hidden) return;
     if (!(Math.abs(frame.jdTdb - sampledAt.current) <= RESAMPLE_DAYS)) {

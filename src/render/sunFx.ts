@@ -9,6 +9,23 @@ import { sunVisibilityFromObserver } from '../core/shadows/eclipse';
 import { useFrameState } from '../scene/FrameStateContext';
 import { damp, EXPOSURE, flareOpacity, godRayOpacity, sceneExposure, sunFrameWeight } from './exposure';
 
+/** Exposure floor while the Sun is explored (illustrative, Task 6). */
+export const SUN_EXPLORE_EXPOSURE = 0.8;
+
+/** How far the Sun's own Explore view is in focus (0 when another body, or nothing, is explored). */
+export function sunExploreWeight(explore: { bodyId: string; focus: number } | null, sunId: string): number {
+  return explore && explore.bodyId === sunId ? explore.focus : 0;
+}
+
+/**
+ * How much of the lens flare and god rays to keep (1 = all). Any Explore session fades them out with its focus: exploring the
+ * Sun so its zones read (spec §6), exploring another body because the Sun, though dimmed, otherwise throws its starburst and
+ * flare ghosts across the cut face (Task 8 screenshots, Earth with the Sun behind it).
+ */
+export function exploreGlareKeep(explore: { bodyId: string; focus: number } | null): number {
+  return explore ? 1 - Math.min(1, Math.max(0, explore.focus)) : 1;
+}
+
 /** After body positions (-0.5) and uniforms (-0.4), before the composer. */
 const SUN_FX_PRIORITY = -0.3;
 /**
@@ -61,15 +78,20 @@ export function useSunFx(opts: {
     const weight = sunFrameWeight(visible, inFront ? [ndc.x, ndc.y] : null);
     const angularRadius = Math.asin(Math.min(1, sunR / Math.max(length(d), 1e-9)));
     const target = sceneExposure(weight, angularRadius);
+    // Exploring the Sun: the disc fills the frame, but the full dip would grey out its glowing zones (illustrative).
+    const sunExplore = sunExploreWeight(frame.explore, sun.id);
+    target.exposure += (Math.max(target.exposure, SUN_EXPLORE_EXPOSURE) - target.exposure) * sunExplore;
     frame.fx.exposure = damp(frame.fx.exposure, target.exposure, EXPOSURE.damping, delta);
     frame.fx.skyDim = damp(frame.fx.skyDim, target.skyDim, EXPOSURE.damping, delta);
 
     const lens = flare.uniforms.get('lensPosition')!.value as Vector2;
     lens.x = inFront ? ndc.x : OFFSCREEN_NDC;
     lens.y = inFront ? ndc.y : OFFSCREEN_NDC;
-    flare.uniforms.get('opacity')!.value = flareOpacity(weight);
+    // Explore turns the flare and god rays off (the Sun's zones, or the explored body, must read); they fade with the focus.
+    const keep = exploreGlareKeep(frame.explore);
+    flare.uniforms.get('opacity')!.value = 1 - (1 - flareOpacity(weight)) * keep;
     const res = flare.uniforms.get('screenRes')!.value as Vector2;
     res.set(state.size.width, state.size.height);
-    if (godRays.current) godRays.current.blendMode.opacity.value = godRayOpacity(visible, inFront, angularRadius);
+    if (godRays.current) godRays.current.blendMode.opacity.value = godRayOpacity(visible, inFront, angularRadius) * keep;
   }, SUN_FX_PRIORITY);
 }

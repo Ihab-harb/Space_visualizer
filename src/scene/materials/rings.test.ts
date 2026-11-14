@@ -3,7 +3,7 @@ import type { Body } from '../../core/catalog/schema';
 import { normalize, type Vec3 } from '../../core/math/vec3';
 import { rayHitsEllipsoid } from '../../core/shadows/eclipse';
 import { makeJupiter } from '../../test/fixtures';
-import { ringFaceLighting, ringRadii, ringShadowCoord } from './rings';
+import { ringFaceLighting, ringRadii, ringShadowCoord, ringsVisible } from './rings';
 
 const DEG = Math.PI / 180;
 const jupiter = makeJupiter();
@@ -54,5 +54,17 @@ describe('ring helpers', () => {
     const sun = normalize([1, 0, 0.05]);
     expect(rayHitsEllipsoid([-1.6, 0, 0], sun, 54364 / 60268)).toBe(true);
     expect(rayHitsEllipsoid([1.6, 0, 0], sun, 54364 / 60268)).toBe(false);
+  });
+});
+
+describe('ringsVisible', () => {
+  it('shows rings when nothing is explored, or another body is', () => {
+    expect(ringsVisible('saturn', null)).toBe(true);
+    expect(ringsVisible('saturn', { bodyId: 'jupiter', progress: 1 })).toBe(true);
+  });
+  it('shows the explored body rings in Whole (progress 0) and hides them as soon as it opens', () => {
+    expect(ringsVisible('saturn', { bodyId: 'saturn', progress: 0 })).toBe(true);
+    expect(ringsVisible('saturn', { bodyId: 'saturn', progress: 0.001 })).toBe(false);
+    expect(ringsVisible('saturn', { bodyId: 'saturn', progress: 1 })).toBe(false);
   });
 });

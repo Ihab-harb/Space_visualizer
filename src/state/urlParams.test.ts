@@ -1,6 +1,7 @@
 import { beforeEach, describe, expect, it } from 'vitest';
 import { createCatalog } from '../core/catalog/catalog';
 import { makeCatalogFiles } from '../test/fixtures';
+import { useExploreStore } from './exploreStore';
 import { useRenderStore } from './renderStore';
 import { useSelectionStore } from './selectionStore';
 import { useTimeStore } from './timeStore';
@@ -49,5 +50,23 @@ it('applies quality and effects', () => {    applyUrlOverrides({ quality: 'mediu
   it('ignores unknown targets', () => {
     applyUrlOverrides({ target: 'vulcan' }, catalog);
     expect(useViewStore.getState().cameraOverride).toBeNull();
+  });
+});
+
+describe('explore parameters', () => {
+  it('reads explore=1 and view', () => {
+    expect(parseUrlOverrides('?target=earth&explore=1&view=section')).toEqual({ target: 'earth', explore: true, exploreView: 'section' });
+    expect(parseUrlOverrides('?explore=0&view=bogus')).toEqual({});
+  });
+  it('enters Explore after the target is applied, and ignores explore without a valid target', () => {
+    useExploreStore.getState().leave();
+    applyUrlOverrides({ explore: true, exploreView: 'exploded' }, catalog);
+    expect(useExploreStore.getState().active).toBe(false);
+    applyUrlOverrides({ target: 'nowhere', explore: true }, catalog);
+    expect(useExploreStore.getState().active).toBe(false);
+    applyUrlOverrides({ target: 'jupiter', explore: true, exploreView: 'exploded' }, catalog);
+    expect(useExploreStore.getState()).toMatchObject({ active: true, bodyId: 'jupiter', view: 'exploded' });
+    expect(useSelectionStore.getState().selectedId).toBe('jupiter');
+    useExploreStore.getState().leave();
   });
 });

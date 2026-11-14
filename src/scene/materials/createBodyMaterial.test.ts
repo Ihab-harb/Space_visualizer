@@ -3,7 +3,7 @@ import { describe, expect, it } from 'vitest';
 import type { Vec3 } from '../../core/math/vec3';
 import { makeEarth, makeJupiter, makeMoon, makeSun } from '../../test/fixtures';
 import { FRAG_OUTRO } from './chunks';
-import { createBodyMaterial } from './createBodyMaterial';
+import { createBodyMaterial, NO_CLIP, wrapForExplore } from './createBodyMaterial';
 import { pickOccluders } from './useBodyUniforms';
 
 describe('createBodyMaterial', () => {
@@ -69,5 +69,20 @@ describe('pickOccluders for the Earth–Moon pair', () => {
     expect(first.id).toBe('moon');
     expect(first.atmosphere).toBe(false);
     expect(first.radiusKm).toBe(makeMoon().shape.equatorialRadiusKm);
+  });
+});
+
+describe('Explore clip and dim support', () => {
+  it('wraps the material main with the cut and the dimming, keeping log depth', () => {
+    const m = createBodyMaterial({ fragment: `void main(){ gl_FragColor = vec4(1.0); ${FRAG_OUTRO} }`, clipScale: 1.006 });
+    expect(m.fragmentShader).toContain('void svBodyMain() {');
+    expect(m.fragmentShader).toMatch(/void main\(\) \{\n\s+if \(dot\(uClip\.xyz, surfacePoint\(vUnit\) \* 1\.0060\) > uClip\.w\) discard;/);
+    expect(m.fragmentShader).toContain('gl_FragColor.rgb *= uDim;');
+    expect(m.fragmentShader).toContain('#include <logdepthbuf_fragment>');
+    expect(m.uniforms.uClip!.value.w).toBe(NO_CLIP);
+    expect(m.uniforms.uDim!.value).toBe(1);
+  });
+  it('refuses a fragment without main', () => {
+    expect(() => wrapForExplore('float f() { return 1.0; }', 1)).toThrow(/main/);
   });
 });

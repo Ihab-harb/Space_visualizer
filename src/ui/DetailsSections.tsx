@@ -1,67 +1,45 @@
 import type { ReactNode } from 'react';
-import type { Atmosphere, BodyDetails, Gas, InteriorLayer, Magnetosphere, Mission, SourcedRange } from '../core/details/schema';
+import type { Atmosphere, BodyDetails, Gas, InteriorLayer, Magnetosphere, Mission } from '../core/details/schema';
 import { useDetailsStore, type DetailsEntry } from '../state/detailsStore';
-import { formatNumber } from './format';
+import { formatNumber, subscripts } from './format';
+import { layerExtent, layerLabelText } from './interiorText';
 
 type Cite = (sourceId: string) => ReactNode;
 
 const MAX_FEATURES = 10;
-const SUBSCRIPT: Record<string, string> = { '0': '₀', '1': '₁', '2': '₂', '3': '₃', '4': '₄', '5': '₅', '6': '₆', '7': '₇', '8': '₈', '9': '₉' };
-const subscripts = (formula: string) => formula.replace(/\d/g, (d) => SUBSCRIPT[d] ?? d);
 const rangeText = (min: number, max: number) => (min === max ? formatNumber(min) : `${formatNumber(min)}–${formatNumber(max)}`);
 /** Uncertainties: percent values are written to one decimal in the sheets; ppm values are whole numbers as written. */
 const uncertaintyText = (gas: Gas) => (gas.unit === '%' ? gas.uncertainty!.toFixed(1) : formatNumber(gas.uncertainty!));
 const latText = (lat: number) => `${Math.abs(lat)}° ${lat < 0 ? 'S' : 'N'}`;
 const uniq = (ids: string[]) => [...new Set(ids)];
 
-/** One interior bound in the form its source states it: a depth, a radius, a percent of the radius, or the surface or centre. */
-function boundText(r: SourcedRange): string {
-  const form = r.from ?? 'radius';
-  const stated = r.stated ?? { min: r.min, max: r.max };
-  if (stated.min === 0 && stated.max === 0) return form === 'depth' ? 'the surface' : 'the centre';
-  const range = rangeText(stated.min, stated.max);
-  if (form === 'depth') return `${range} km deep`;
-  if (form === 'percent') return `${range} % of the radius`;
-  return `radius ${range} km`;
-}
-
-/**
- * Interior display rule: each layer reads outside in, "from <outer bound> to <inner bound>", and every bound is printed in
- * the form and with the numbers its source states (km deep, radius in km, or percent of the radius), never a derived figure.
- * The stored radii are untouched; they are for the cutaway, not for display.
- */
-function layerExtent(layer: InteriorLayer): string {
-  const { outerRadiusKm: outer, innerRadiusKm: inner } = layer;
-  const stated = (r: SourcedRange) => r.stated ?? { min: r.min, max: r.max };
-  const isCentre = (r: SourcedRange) => stated(r).min === 0 && stated(r).max === 0;
-  if (outer.from === 'percent' && inner.from === 'percent' && !isCentre(inner)) {
-    const pct = (r: SourcedRange) => `${rangeText(stated(r).min, stated(r).max)} %`;
-    return `from ${pct(outer)} to ${pct(inner)} of the radius`;
-  }
-  return `from ${boundText(outer)} to ${boundText(inner)}`;
-}
-
-function Interior({ layers, cite }: { layers: InteriorLayer[]; cite: Cite }) {
+function Interior({ bodyId, layers, cite }: { bodyId: string; layers: InteriorLayer[]; cite: Cite }) {
   return (
     <ul className="details-list">
-      {layers.map((layer) => (
-        <li key={layer.id} className="details-row">
-          <strong>{layer.name}</strong>
-          <span className="num">{layerExtent(layer)}</span>
-          {uniq([layer.outerRadiusKm.sourceId, layer.innerRadiusKm.sourceId]).map((id) => (
-            <span key={id}>{cite(id)}</span>
-          ))}
-          <span className="tag">{layer.state}</span>
-          {layer.stateSourceId && cite(layer.stateSourceId)}
-          {layer.uncertain && <span className="tag uncertain">uncertain</span>}
-          {layer.composition && (
-            <span className="details-row__text">
-              {layer.composition.text}
-              {cite(layer.composition.sourceId)}
-            </span>
-          )}
-        </li>
-      ))}
+      {layers.map((layer, i) => {
+        const extent = layerExtent(bodyId, layer);
+        // The same tags as the Explore layer card: a paper size is an estimate; an unsized layer has an illustrative size.
+        const { tag } = layerLabelText(bodyId, layer, i === layers.length - 1);
+        return (
+          <li key={layer.id} className="details-row">
+            <strong>{layer.name}</strong>
+            {extent && <span className="num">{extent}</span>}
+            {uniq([layer.outerRadiusKm?.sourceId, layer.innerRadiusKm?.sourceId].filter((id): id is string => id !== undefined)).map((id) => (
+              <span key={id}>{cite(id)}</span>
+            ))}
+            {tag && <span className={tag === 'Estimate' ? 'tag tag--estimate' : 'tag tag--illustrative'}>{tag}</span>}
+            <span className="tag">{layer.state}</span>
+            {layer.stateSourceId && cite(layer.stateSourceId)}
+            {layer.uncertain && <span className="tag uncertain">uncertain</span>}
+            {layer.composition && (
+              <span className="details-row__text">
+                {layer.composition.text}
+                {cite(layer.composition.sourceId)}
+              </span>
+            )}
+          </li>
+        );
+      })}
     </ul>
   );
 }
@@ -194,7 +172,7 @@ function Ready({ details, cite }: { details: BodyDetails; cite: Cite }) {
     <>
       {interior && (
         <Section id="interior" title="Interior">
-          <Interior layers={interior.layers} cite={cite} />
+          <Interior bodyId={details.bodyId} layers={interior.layers} cite={cite} />
         </Section>
       )}
       {atmosphere && (

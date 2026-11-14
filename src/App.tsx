@@ -2,11 +2,9 @@ import { useEffect, useState } from 'react';
 import { SceneRoot } from './scene/SceneRoot';
 import { useCatalogStore } from './state/catalogStore';
 import { applyUrlOverrides, parseUrlOverrides } from './state/urlParams';
-import { ControlPanel } from './ui/ControlPanel';
-import { Header } from './ui/Header';
-import { FactsDrawer } from './ui/FactsDrawer';
 import { ErrorScreen, LoadingScreen, WebGLUnavailable } from './ui/StatusScreens';
-import { BottomBar } from './ui/BottomBar';
+import { AppChrome } from './ui/AppChrome';
+import { ExploreOverlay } from './ui/explore/ExploreOverlay';
 import { useHotkeys } from './ui/hotkeys';
 import { useTourExit } from './ui/useTourExit';
 import { isWebGLAvailable } from './ui/webgl';
@@ -35,10 +33,8 @@ export function App() {
   return (
     <div className="app">
       <SceneRoot catalog={catalog} />
-      <Header catalog={catalog} />
-      <ControlPanel />
-      <FactsDrawer catalog={catalog} />
-      <BottomBar catalog={catalog} />
+      <AppChrome catalog={catalog} />
+      <ExploreOverlay catalog={catalog} />
     </div>
   );
 }

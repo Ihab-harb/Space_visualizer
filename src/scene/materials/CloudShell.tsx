@@ -40,7 +40,7 @@ export function CloudShell({ body, bodies }: { body: Body; bodies: readonly Body
     return g;
   }, [widthSegments, heightSegments]);
   const material = useMemo(
-    () => createBodyMaterial({ fragment: FRAGMENT, uniforms: { uCloudMap: { value: null }, uNightMap: { value: null }, uCloudDrift: { value: CLOUD_DRIFT_PER_DAY } }, transparent: true, depthWrite: false }),
+    () => createBodyMaterial({ fragment: FRAGMENT, uniforms: { uCloudMap: { value: null }, uNightMap: { value: null }, uCloudDrift: { value: CLOUD_DRIFT_PER_DAY } }, transparent: true, depthWrite: false, clipScale: 1.006 }),
     [],
   );
   useEffect(() => () => geometry.dispose(), [geometry]);

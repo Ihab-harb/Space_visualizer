@@ -1,8 +1,52 @@
 {
   "schemaVersion": 1,
   "bodyId": "uranus",
-  "generatedAt": "2026-10-15T22:30:26.775Z",
-  "interior": null,
+  "generatedAt": "2026-11-14T12:43:12.320Z",
+  "interior": {
+    "radiusKm": {
+      "value": 25362,
+      "sourceId": "nssdca-uranus-fact-sheet"
+    },
+    "layers": [
+      {
+        "id": "envelope",
+        "name": "Hydrogen-helium envelope",
+        "from": "percent",
+        "state": "unknown",
+        "composition": {
+          "text": "Mostly hydrogen and helium, with a small amount of methane.",
+          "sourceId": "nasa-science-uranus-facts"
+        },
+        "uncertain": false,
+        "sizeKind": "illustrative"
+      },
+      {
+        "id": "icy-mantle",
+        "name": "Icy mantle",
+        "from": "percent",
+        "state": "liquid",
+        "stateSourceId": "nasa-science-uranus-facts",
+        "composition": {
+          "text": "A hot dense fluid of \"icy\" materials: water, methane, and ammonia.",
+          "sourceId": "nasa-science-uranus-facts"
+        },
+        "uncertain": true,
+        "sizeKind": "illustrative"
+      },
+      {
+        "id": "core",
+        "name": "Rocky core",
+        "from": "percent",
+        "state": "unknown",
+        "composition": {
+          "text": "A small rocky core.",
+          "sourceId": "nasa-science-uranus-facts"
+        },
+        "uncertain": true,
+        "sizeKind": "illustrative"
+      }
+    ]
+  },
   "atmosphere": {
     "basis": "by volume, uncertainty in parentheses",
     "major": [

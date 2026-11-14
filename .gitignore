@@ -22,3 +22,6 @@ public/textures/**/*_8k.webp
 # Claude Code runtime files (local, per session)
 .claude/scheduled_tasks.lock
 .claude/settings.local.json
+
+# Superpowers brainstorm companion (mockup sessions)
+.superpowers/brainstorm/

@@ -155,3 +155,65 @@ test.describe('phone open Controls dropdown', () => {
     await expect(toggle).toHaveAttribute('aria-expanded', 'false');
   });
 });
+
+/**
+ * Explore (M2b.3 spec §3.3 and §7): at every viewport the top bar (title, view switch, ✕, notes), the floating layer labels
+ * (numbered dots on a phone) and the bottom strip never overlap one another, and the page does not scroll.
+ */
+for (const vp of VIEWPORTS) {
+  for (const view of ['exploded', 'section'] as const) {
+    test(`Explore ${view} at ${vp.width}x${vp.height}: top bar, labels and bottom strip stay apart, no scroll`, async ({ browser }) => {
+      const page = await browser.newPage({ viewport: { width: vp.width, height: vp.height } });
+      await page.goto(`/?jd=2461317.5&target=earth&pause=1&quality=low&explore=1&view=${view}`);
+      await expect(page.locator('canvas')).toBeVisible();
+      await page.waitForFunction((v) => {
+        const e = window.__svExplore?.();
+        return !!e && e.view === v && e.progress >= 1 && e.focus >= 1;
+      }, view, { timeout: 30_000 });
+      // Every Earth layer has its label (or dot), then two frames so the projector has laid them out at their final places.
+      await expect(page.locator('.xlabel:not([data-mode="hidden"]), .xdot:not([hidden])')).toHaveCount(4, { timeout: 30_000 });
+      await page.evaluate(() => new Promise<void>((resolve) => requestAnimationFrame(() => requestAnimationFrame(() => resolve()))));
+      const parts = await page.evaluate(() => {
+        const rect = (el: Element) => el.getBoundingClientRect().toJSON() as DOMRect;
+        const reserved = [...document.querySelectorAll('[data-explore-reserved]')].map((el) => ({ name: `reserved:${(el as HTMLElement).dataset.exploreReserved}`, r: rect(el) }));
+        const labels = [...document.querySelectorAll<HTMLElement>('.xlabel:not([data-mode="hidden"]), .xdot:not([hidden])')]
+          .filter((el) => el.offsetParent !== null || el.getClientRects().length > 0)
+          .map((el) => ({ name: `label:${el.textContent?.slice(0, 24)}`, r: rect(el) }));
+        // The Half-section depth ruler (wider screens only) is laid out with the labels and must keep clear of everything too.
+        // Its root is a zero-size anchor: its box is the union of what it draws (lines; title and values unless compact).
+        const union = (els: Element[]) => {
+          const rs = els.map((e) => e.getBoundingClientRect()).filter((r) => r.width > 0 || r.height > 0);
+          const left = Math.min(...rs.map((r) => r.left));
+          const top = Math.min(...rs.map((r) => r.top));
+          const right = Math.max(...rs.map((r) => r.right));
+          const bottom = Math.max(...rs.map((r) => r.bottom));
+          return { left, top, right, bottom, width: right - left, height: bottom - top, x: left, y: top } as DOMRect;
+        };
+        const ruler = [...document.querySelectorAll<HTMLElement>('.xruler:not([data-mode="hidden"])')].map((el) => ({
+          name: `ruler:${el.dataset.mode}`,
+          r: union([...el.querySelectorAll('line'), ...(el.dataset.mode === 'full' ? el.querySelectorAll('.xruler__title, .xruler__value:not(:empty)') : [])]),
+        }));
+        return { reserved, labels, ruler };
+      });
+      // Every layer of Earth has a label (or a dot), all on screen.
+      expect(parts.labels.length, 'visible labels').toBe(4);
+      // The ruler shows in Half-section above phone width (ticks and values at 1280 x 720), never on a phone or in Exploded.
+      expect(parts.ruler.length, 'depth ruler shown').toBe(view === 'section' && vp.width > 720 ? 1 : 0);
+      if (view === 'section' && vp.width === 1280) expect(parts.ruler[0]!.name).toBe('ruler:full');
+      const all = [...parts.reserved, ...parts.labels, ...parts.ruler].filter((p) => p.r.width > 0 && p.r.height > 0);
+      for (const p of parts.labels) {
+        expect(p.r.left, `${p.name} inside the left edge`).toBeGreaterThanOrEqual(-0.5);
+        expect(p.r.right, `${p.name} inside the right edge`).toBeLessThanOrEqual(vp.width + 0.5);
+        expect(p.r.top, `${p.name} inside the top edge`).toBeGreaterThanOrEqual(-0.5);
+        expect(p.r.bottom, `${p.name} inside the bottom edge`).toBeLessThanOrEqual(vp.height + 0.5);
+      }
+      for (let i = 0; i < all.length; i++) {
+        for (let j = i + 1; j < all.length; j++) {
+          expect(intersects(all[i]!.r, all[j]!.r), `${all[i]!.name} overlaps ${all[j]!.name}`).toBe(false);
+        }
+      }
+      expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth && document.documentElement.scrollHeight <= window.innerHeight)).toBe(true);
+      await page.close();
+    });
+  }
+}

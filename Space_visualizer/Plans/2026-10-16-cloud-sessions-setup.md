@@ -1,7 +1,7 @@
 ---
 title: Cloud sessions setup and parallel work — Plan
 date: 2026-10-16
-status: awaiting review
+status: shelved (2026-11-15: the user no longer uses Claude cloud sessions for this project)
 milestone: process
 tags: [plan, process, cloud]
 ---

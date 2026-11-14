@@ -3,6 +3,7 @@ import { render, screen, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { beforeEach, describe, expect, it } from 'vitest';
 import { createCatalog } from '../core/catalog/catalog';
+import { useExploreStore } from '../state/exploreStore';
 import { useSelectionStore } from '../state/selectionStore';
 import { useTimeStore } from '../state/timeStore';
 import { useUiStore } from '../state/uiStore';
@@ -98,5 +99,16 @@ describe('Header', () => {
       render(<Header catalog={moonCatalog} />);
       expect(screen.queryByText('Phase')).toBeNull();
     });
+  });
+  it('the Explore button enters Explore for the selected body', async () => {
+    useSelectionStore.setState({ selectedId: 'jupiter' });
+    render(<Header catalog={catalog} />);
+    const button = screen.getByRole('button', { name: /Explore/ });
+    expect(button).not.toHaveAttribute('aria-pressed');
+    expect(button).toHaveAttribute('aria-keyshortcuts', 'X');
+    expect(button).toHaveTextContent('(X)');
+    await userEvent.click(button);
+    expect(useExploreStore.getState()).toMatchObject({ active: true, bodyId: 'jupiter' });
+    useExploreStore.getState().leave();
   });
 });

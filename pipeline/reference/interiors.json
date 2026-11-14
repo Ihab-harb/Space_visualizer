@@ -62,6 +62,84 @@
       "publisher": "NASA Science",
       "url": "https://science.nasa.gov/moon/facts/",
       "license": "NASA public domain (NASA media usage guidelines)"
+    },
+    {
+      "id": "nasa-science-venus-facts",
+      "title": "Venus Facts",
+      "publisher": "NASA Science",
+      "url": "https://science.nasa.gov/venus/facts/",
+      "license": "NASA public domain (NASA media usage guidelines)"
+    },
+    {
+      "id": "nasa-science-jupiter-facts",
+      "title": "Jupiter Facts",
+      "publisher": "NASA Science",
+      "url": "https://science.nasa.gov/jupiter/facts/",
+      "license": "NASA public domain (NASA media usage guidelines)"
+    },
+    {
+      "id": "nasa-science-saturn-facts",
+      "title": "Saturn Facts",
+      "publisher": "NASA Science",
+      "url": "https://science.nasa.gov/saturn/facts/",
+      "license": "NASA public domain (NASA media usage guidelines)"
+    },
+    {
+      "id": "nasa-science-uranus-facts",
+      "title": "Uranus Facts",
+      "publisher": "NASA Science",
+      "url": "https://science.nasa.gov/uranus/facts/",
+      "license": "NASA public domain (NASA media usage guidelines)"
+    },
+    {
+      "id": "nasa-science-neptune-facts",
+      "title": "Neptune Facts",
+      "publisher": "NASA Science",
+      "url": "https://science.nasa.gov/neptune/facts/",
+      "license": "NASA public domain (NASA media usage guidelines)"
+    },
+    {
+      "id": "paper-maia-wieczorek-2022-venus-plateaus",
+      "title": "Lithospheric Structure of Venusian Crustal Plateaus",
+      "publisher": "Journal of Geophysical Research: Planets",
+      "url": "https://doi.org/10.1029/2021JE007004",
+      "license": "Peer-reviewed article; quoted under fair use",
+      "kind": "paper",
+      "doi": "10.1029/2021JE007004",
+      "journal": "Journal of Geophysical Research: Planets",
+      "quoteUrl": "https://arxiv.org/abs/2202.06971"
+    },
+    {
+      "id": "paper-shah-2022-venus-interior",
+      "title": "Possible Chemical Composition and Interior Structure Models of Venus Inferred from Numerical Modelling",
+      "publisher": "The Astrophysical Journal",
+      "url": "https://doi.org/10.3847/1538-4357/ac410d",
+      "license": "Peer-reviewed article; quoted under fair use",
+      "kind": "paper",
+      "doi": "10.3847/1538-4357/ac410d",
+      "journal": "The Astrophysical Journal",
+      "quoteUrl": "https://arxiv.org/abs/2112.03225"
+    },
+    {
+      "id": "paper-militzer-2022-jupiter-dilute-core",
+      "title": "Juno Spacecraft Measurements of Jupiter's Gravity Imply a Dilute Core",
+      "publisher": "The Planetary Science Journal",
+      "url": "https://doi.org/10.3847/PSJ/ac7ec8",
+      "license": "Peer-reviewed article; quoted under fair use",
+      "kind": "paper",
+      "doi": "10.3847/PSJ/ac7ec8",
+      "journal": "The Planetary Science Journal"
+    },
+    {
+      "id": "paper-mankovich-fuller-2021-saturn-core",
+      "title": "A diffuse core in Saturn revealed by ring seismology",
+      "publisher": "Nature Astronomy",
+      "url": "https://doi.org/10.1038/s41550-021-01448-3",
+      "license": "Peer-reviewed article; quoted under fair use",
+      "kind": "paper",
+      "doi": "10.1038/s41550-021-01448-3",
+      "journal": "Nature Astronomy",
+      "quoteUrl": "https://arxiv.org/abs/2104.13385"
     }
   ],
   "bodies": {
@@ -435,6 +513,315 @@
         "quote": "The early Moon may have developed an internal dynamo, the mechanism for generating global magnetic fields for terrestrial planets, but today, the Moon has a very weak magnetic field.",
         "text": "The early Moon may have developed an internal dynamo, the mechanism for generating global magnetic fields for terrestrial planets, but today, the Moon has a very weak magnetic field."
       }
+    },
+    "venus": {
+      "layers": [
+        {
+          "id": "crust",
+          "name": "Crust",
+          "from": "depth",
+          "sizeKind": "estimate",
+          "estimate": true,
+          "outer": {
+            "sourceId": "paper-maia-wieczorek-2022-venus-plateaus",
+            "quote": "The average crustal thickness of the plateaus ranges from 15 to 34 km, and if they are in Airy isostasy, this implies that the global average crustal thickness of Venus is about 20 km.",
+            "min": 0,
+            "max": 0
+          },
+          "inner": {
+            "sourceId": "paper-maia-wieczorek-2022-venus-plateaus",
+            "quote": "The average crustal thickness of the plateaus ranges from 15 to 34 km, and if they are in Airy isostasy, this implies that the global average crustal thickness of Venus is about 20 km.",
+            "min": 20,
+            "max": 20
+          },
+          "state": "solid",
+          "composition": {
+            "sourceId": "nasa-science-venus-facts",
+            "quote": "Each planet has an iron core enveloped by a hot-rock mantle; the thinnest of skins forms a rocky, exterior crust.",
+            "text": "A rocky, exterior crust."
+          },
+          "uncertain": true
+        },
+        {
+          "id": "mantle",
+          "name": "Mantle",
+          "from": "depth",
+          "sizeKind": "estimate",
+          "estimate": true,
+          "outer": {
+            "sourceId": "paper-maia-wieczorek-2022-venus-plateaus",
+            "quote": "The average crustal thickness of the plateaus ranges from 15 to 34 km, and if they are in Airy isostasy, this implies that the global average crustal thickness of Venus is about 20 km.",
+            "min": 20,
+            "max": 20
+          },
+          "inner": {
+            "sourceId": "paper-shah-2022-venus-interior",
+            "quote": "We estimate that Venus’ MoI is 0.317–0.351 and its core size 2930–4350 km for all assumed compositions.",
+            "min": 2930,
+            "max": 4350,
+            "from": "radius"
+          },
+          "state": "unknown",
+          "composition": {
+            "sourceId": "nasa-science-venus-facts",
+            "quote": "Each planet has an iron core enveloped by a hot-rock mantle; the thinnest of skins forms a rocky, exterior crust.",
+            "text": "A hot-rock mantle."
+          },
+          "uncertain": true
+        },
+        {
+          "id": "core",
+          "name": "Core",
+          "from": "radius",
+          "sizeKind": "estimate",
+          "estimate": true,
+          "outer": {
+            "sourceId": "paper-shah-2022-venus-interior",
+            "quote": "We estimate that Venus’ MoI is 0.317–0.351 and its core size 2930–4350 km for all assumed compositions.",
+            "min": 2930,
+            "max": 4350
+          },
+          "inner": {
+            "sourceId": "paper-shah-2022-venus-interior",
+            "quote": "We estimate that Venus’ MoI is 0.317–0.351 and its core size 2930–4350 km for all assumed compositions.",
+            "min": 0,
+            "max": 0
+          },
+          "state": "unknown",
+          "composition": {
+            "sourceId": "nasa-science-venus-facts",
+            "quote": "Each planet has an iron core enveloped by a hot-rock mantle; the thinnest of skins forms a rocky, exterior crust.",
+            "text": "An iron core."
+          },
+          "uncertain": true
+        }
+      ]
+    },
+    "jupiter": {
+      "layers": [
+        {
+          "id": "envelope",
+          "name": "Hydrogen-helium envelope",
+          "from": "percent",
+          "sizeKind": "illustrative",
+          "state": "unknown",
+          "composition": {
+            "sourceId": "nasa-science-jupiter-facts",
+            "quote": "The composition of Jupiter is similar to that of the Sun – mostly hydrogen and helium.",
+            "text": "Mostly hydrogen and helium."
+          },
+          "uncertain": false
+        },
+        {
+          "id": "metallic-hydrogen",
+          "name": "Metallic hydrogen",
+          "from": "percent",
+          "sizeKind": "illustrative",
+          "state": "liquid",
+          "stateSource": {
+            "sourceId": "nasa-science-jupiter-facts",
+            "quote": "Scientists think that, at depths perhaps halfway to the planet's center, the pressure becomes so great that electrons are squeezed off the hydrogen atoms, making the liquid electrically conducting like metal."
+          },
+          "composition": {
+            "sourceId": "nasa-science-jupiter-facts",
+            "quote": "Scientists think that, at depths perhaps halfway to the planet's center, the pressure becomes so great that electrons are squeezed off the hydrogen atoms, making the liquid electrically conducting like metal.",
+            "text": "Liquid hydrogen that conducts electricity like a metal."
+          },
+          "uncertain": true
+        },
+        {
+          "id": "dilute-core",
+          "name": "Dilute core",
+          "from": "percent",
+          "sizeKind": "estimate",
+          "estimate": true,
+          "outer": {
+            "sourceId": "paper-militzer-2022-jupiter-dilute-core",
+            "quote": "a dilute core of heavy elements that are distributed as far out as 63% of the planet’s radius",
+            "min": 63,
+            "max": 63
+          },
+          "inner": {
+            "sourceId": "paper-militzer-2022-jupiter-dilute-core",
+            "quote": "a dilute core of heavy elements that are distributed as far out as 63% of the planet’s radius",
+            "min": 0,
+            "max": 0
+          },
+          "state": "unknown",
+          "composition": {
+            "sourceId": "nasa-science-jupiter-facts",
+            "quote": "Instead, it’s partially dissolved, with no clear separation from the metallic hydrogen around it, leading researchers to describe the core as dilute, or “fuzzy.”",
+            "text": "Partially dissolved, with no clear separation from the metallic hydrogen around it."
+          },
+          "uncertain": true,
+          "gradual": {
+            "sourceId": "nasa-science-jupiter-facts",
+            "quote": "Instead, it’s partially dissolved, with no clear separation from the metallic hydrogen around it, leading researchers to describe the core as dilute, or “fuzzy.”"
+          }
+        }
+      ]
+    },
+    "saturn": {
+      "layers": [
+        {
+          "id": "envelope",
+          "name": "Hydrogen-helium envelope",
+          "from": "percent",
+          "sizeKind": "illustrative",
+          "state": "liquid",
+          "stateSource": {
+            "sourceId": "nasa-science-saturn-facts",
+            "quote": "It is enveloped by liquid metallic hydrogen inside a layer of liquid hydrogen –similar to Jupiter's core but considerably smaller."
+          },
+          "composition": {
+            "sourceId": "nasa-science-saturn-facts",
+            "quote": "Like Jupiter, Saturn is made mostly of hydrogen and helium.",
+            "text": "Mostly hydrogen and helium."
+          },
+          "uncertain": false
+        },
+        {
+          "id": "metallic-hydrogen",
+          "name": "Metallic hydrogen",
+          "from": "percent",
+          "sizeKind": "illustrative",
+          "state": "liquid",
+          "stateSource": {
+            "sourceId": "nasa-science-saturn-facts",
+            "quote": "It is enveloped by liquid metallic hydrogen inside a layer of liquid hydrogen –similar to Jupiter's core but considerably smaller."
+          },
+          "composition": null,
+          "uncertain": false
+        },
+        {
+          "id": "diffuse-core",
+          "name": "Diffuse core",
+          "from": "percent",
+          "sizeKind": "estimate",
+          "estimate": true,
+          "outer": {
+            "sourceId": "paper-mankovich-fuller-2021-saturn-core",
+            "quote": "a diffuse, stably stratified core-envelope transition region in Saturn extending to approximately 60% of the planet's radius and containing approximately 17 Earth masses of ice and rock",
+            "min": 60,
+            "max": 60
+          },
+          "inner": {
+            "sourceId": "paper-mankovich-fuller-2021-saturn-core",
+            "quote": "a diffuse, stably stratified core-envelope transition region in Saturn extending to approximately 60% of the planet's radius and containing approximately 17 Earth masses of ice and rock",
+            "min": 0,
+            "max": 0
+          },
+          "state": "unknown",
+          "composition": {
+            "sourceId": "paper-mankovich-fuller-2021-saturn-core",
+            "quote": "a diffuse, stably stratified core-envelope transition region in Saturn extending to approximately 60% of the planet's radius and containing approximately 17 Earth masses of ice and rock",
+            "text": "About 17 Earth masses of ice and rock, mixed into the layer above."
+          },
+          "uncertain": true,
+          "gradual": {
+            "sourceId": "paper-mankovich-fuller-2021-saturn-core",
+            "quote": "a diffuse, stably stratified core-envelope transition region in Saturn extending to approximately 60% of the planet's radius and containing approximately 17 Earth masses of ice and rock"
+          }
+        }
+      ]
+    },
+    "uranus": {
+      "layers": [
+        {
+          "id": "envelope",
+          "name": "Hydrogen-helium envelope",
+          "from": "percent",
+          "sizeKind": "illustrative",
+          "state": "unknown",
+          "composition": {
+            "sourceId": "nasa-science-uranus-facts",
+            "quote": "Uranus' atmosphere is mostly hydrogen and helium, with a small amount of methane and traces of water and ammonia.",
+            "text": "Mostly hydrogen and helium, with a small amount of methane."
+          },
+          "uncertain": false
+        },
+        {
+          "id": "icy-mantle",
+          "name": "Icy mantle",
+          "from": "percent",
+          "sizeKind": "illustrative",
+          "state": "liquid",
+          "stateSource": {
+            "sourceId": "nasa-science-uranus-facts",
+            "quote": "Most (80% or more) of the planet's mass is made up of a hot dense fluid of \"icy\" materials – water, methane, and ammonia – above a small rocky core."
+          },
+          "composition": {
+            "sourceId": "nasa-science-uranus-facts",
+            "quote": "Most (80% or more) of the planet's mass is made up of a hot dense fluid of \"icy\" materials – water, methane, and ammonia – above a small rocky core.",
+            "text": "A hot dense fluid of \"icy\" materials: water, methane, and ammonia."
+          },
+          "uncertain": true
+        },
+        {
+          "id": "core",
+          "name": "Rocky core",
+          "from": "percent",
+          "sizeKind": "illustrative",
+          "state": "unknown",
+          "composition": {
+            "sourceId": "nasa-science-uranus-facts",
+            "quote": "Most (80% or more) of the planet's mass is made up of a hot dense fluid of \"icy\" materials – water, methane, and ammonia – above a small rocky core.",
+            "text": "A small rocky core."
+          },
+          "uncertain": true
+        }
+      ]
+    },
+    "neptune": {
+      "layers": [
+        {
+          "id": "envelope",
+          "name": "Hydrogen-helium envelope",
+          "from": "percent",
+          "sizeKind": "illustrative",
+          "state": "unknown",
+          "composition": {
+            "sourceId": "nasa-science-neptune-facts",
+            "quote": "Neptune's atmosphere is made up mostly of hydrogen and helium with just a little bit of methane.",
+            "text": "Mostly hydrogen and helium, with a little methane."
+          },
+          "uncertain": false
+        },
+        {
+          "id": "icy-mantle",
+          "name": "Icy mantle",
+          "from": "percent",
+          "sizeKind": "illustrative",
+          "state": "liquid",
+          "stateSource": {
+            "sourceId": "nasa-science-neptune-facts",
+            "quote": "Most (80% or more) of the planet's mass is made up of a hot dense fluid of \"icy\" materials – water, methane, and ammonia – above a small, rocky core."
+          },
+          "composition": {
+            "sourceId": "nasa-science-neptune-facts",
+            "quote": "Most (80% or more) of the planet's mass is made up of a hot dense fluid of \"icy\" materials – water, methane, and ammonia – above a small, rocky core.",
+            "text": "A hot dense fluid of \"icy\" materials: water, methane, and ammonia."
+          },
+          "uncertain": true
+        },
+        {
+          "id": "core",
+          "name": "Rocky core",
+          "from": "percent",
+          "sizeKind": "illustrative",
+          "state": "solid",
+          "stateSource": {
+            "sourceId": "nasa-science-neptune-facts",
+            "quote": "Its atmosphere (made up mostly of hydrogen, helium, and methane) extends to great depths, gradually merging into water and other melted ices over a heavier, solid core with about the same mass as Earth."
+          },
+          "composition": {
+            "sourceId": "nasa-science-neptune-facts",
+            "quote": "Its atmosphere (made up mostly of hydrogen, helium, and methane) extends to great depths, gradually merging into water and other melted ices over a heavier, solid core with about the same mass as Earth.",
+            "text": "A heavier, solid core with about the same mass as Earth."
+          },
+          "uncertain": true
+        }
+      ]
     }
   }
 }

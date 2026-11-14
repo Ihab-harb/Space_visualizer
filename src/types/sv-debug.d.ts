@@ -5,4 +5,6 @@ interface Window {
   __svComposer?: () => object | null;
   /** Dev-only: live WebGL resource counts for leak tests. */
   __svRenderInfo?: () => { textures: number; geometries: number; programs: number };
+  /** Dev-only: the Explore interior on show (view, progress, focus, offsets...), so tests can wait for a transition to end. */
+  __svExplore?: () => { bodyId: string; view: string; progress: number; focus: number; offsets: number[]; planeOffset: number } | null;
 }

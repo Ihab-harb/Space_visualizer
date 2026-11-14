@@ -3,6 +3,7 @@ import { TIERS, type Tier } from '../core/catalog/schema';
 import { parseDateInput } from '../core/time/format';
 import { utcToTdb } from '../core/time/timescales';
 import { parseQualityMode, type QualityMode } from '../render/quality';
+import { useExploreStore, type ExploreView } from './exploreStore';
 import { useRenderStore } from './renderStore';
 import { useSelectionStore } from './selectionStore';
 import { JD_MAX, JD_MIN, RATE_STEPS, useTimeStore } from './timeStore';
@@ -21,6 +22,8 @@ export interface UrlOverrides {
   quality?: QualityMode;
   effects?: boolean;
   venusRadar?: boolean;
+  explore?: boolean;
+  exploreView?: ExploreView;
 }
 
 export function parseUrlOverrides(search: string): UrlOverrides {
@@ -59,6 +62,9 @@ export function parseUrlOverrides(search: string): UrlOverrides {
   const fx = p.get('fx');
   if (fx === '0' || fx === '1') o.effects = fx === '1';
   if (p.get('radar') === '1') o.venusRadar = true;
+  if (p.get('explore') === '1') o.explore = true;
+  const view = p.get('view');
+  if (view === 'whole' || view === 'exploded' || view === 'section') o.exploreView = view;
   return o;
 }
 
@@ -80,5 +86,10 @@ export function applyUrlOverrides(o: UrlOverrides, catalog: Catalog): void {
       ...(o.azFromSunDeg !== undefined ? { azFromSunDeg: o.azFromSunDeg } : {}),
       ...(o.elDeg !== undefined ? { elDeg: o.elDeg } : {}),
     });
+    if (o.explore) {
+      const explore = useExploreStore.getState();
+      explore.enter(o.target);
+      if (o.exploreView) explore.setView(o.exploreView);
+    }
   }
 }

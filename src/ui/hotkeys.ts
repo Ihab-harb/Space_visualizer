@@ -1,11 +1,12 @@
 import { useEffect } from 'react';
+import { useExploreStore } from '../state/exploreStore';
 import { useRenderStore } from '../state/renderStore';
 import { useSelectionStore } from '../state/selectionStore';
 import { useTourStore } from '../state/tourStore';
 import { useUiStore } from '../state/uiStore';
 import { useViewStore } from '../state/viewStore';
 
-export type HotkeyAction = 'orbit' | 'follow' | 'tour' | 'quality' | 'effects' | 'drawer';
+export type HotkeyAction = 'orbit' | 'follow' | 'tour' | 'quality' | 'effects' | 'drawer' | 'explore' | 'exploreView1' | 'exploreView2' | 'exploreView3' | 'exploreBack';
 
 /** Inputs that take typed text. Range, checkbox, radio, button, colour and file inputs do not, so hotkeys keep working after they were used. */
 const NON_TEXT_INPUTS = new Set(['range', 'checkbox', 'radio', 'button', 'submit', 'reset', 'image', 'color', 'file']);
@@ -18,12 +19,23 @@ export function isTypingTarget(target: EventTarget | null): boolean {
 }
 
 const KEYS: Record<string, HotkeyAction> = {
-  '1': 'orbit', Escape: 'orbit', '2': 'follow', t: 'tour', T: 'tour', q: 'quality', Q: 'quality', e: 'effects', E: 'effects', f: 'drawer', F: 'drawer',
+  '1': 'orbit', Escape: 'orbit', '2': 'follow', t: 'tour', T: 'tour', q: 'quality', Q: 'quality', e: 'effects', E: 'effects', f: 'drawer', F: 'drawer', x: 'explore', X: 'explore',
 };
 
+/** While Explore is open, 1/2/3 pick the view, Esc steps back and T is ignored. */
+const EXPLORE_KEYS: Record<string, HotkeyAction> = { '1': 'exploreView1', '2': 'exploreView2', '3': 'exploreView3', Escape: 'exploreBack' };
+/** T would start a tour, X is already in, and F would open a drawer that is not on screen. */
+const BLOCKED_IN_EXPLORE = new Set<HotkeyAction>(['tour', 'explore', 'drawer']);
+
 /** Spec §4 keyboard. Browser shortcuts (Ctrl/Cmd/Alt) and auto-repeat are never ours. */
-export function hotkeyAction(e: { key: string; ctrlKey: boolean; metaKey: boolean; altKey: boolean; repeat: boolean; target: EventTarget | null }): HotkeyAction | null {
+export function hotkeyAction(e: { key: string; ctrlKey: boolean; metaKey: boolean; altKey: boolean; repeat: boolean; target: EventTarget | null }, explore: { active: boolean } = { active: false }): HotkeyAction | null {
   if (isTypingTarget(e.target) || e.ctrlKey || e.metaKey || e.altKey || e.repeat) return null;
+  if (explore.active) {
+    const own = EXPLORE_KEYS[e.key];
+    if (own) return own;
+    const base = KEYS[e.key];
+    return base && !BLOCKED_IN_EXPLORE.has(base) ? base : null;
+  }
   return KEYS[e.key] ?? null;
 }
 
@@ -34,7 +46,7 @@ export function useHotkeys(): void {
     const onKey = (e: KeyboardEvent) => {
       // Auto-repeat is never input: holding T must not start the tour and then stop it.
       if (e.repeat) return;
-      const action = hotkeyAction(e);
+      const action = hotkeyAction(e, { active: useExploreStore.getState().active });
       const tour = useTourStore.getState();
       // Spec §5: any user input exits the tour (T toggles it instead).
       // Space and Enter on the Tour button activate it, and its click toggles; stopping here as well would restart the tour.
@@ -47,7 +59,19 @@ export function useHotkeys(): void {
       else if (action === 'quality') useRenderStore.getState().cycleMode();
       else if (action === 'effects') useRenderStore.getState().toggleEffects();
       // Nothing selected means no drawer; toggling hidden state would pop it open on the next selection.
-      else if (action === 'drawer' && useSelectionStore.getState().selectedId) useUiStore.getState().toggleDrawer();
+      else if (action === 'explore') {
+        const id = useSelectionStore.getState().selectedId;
+        if (id && !useExploreStore.getState().active) useExploreStore.getState().enter(id);
+      } else if (action === 'exploreView1') useExploreStore.getState().setView('whole');
+      else if (action === 'exploreView2') useExploreStore.getState().setView('exploded');
+      else if (action === 'exploreView3') useExploreStore.getState().setView('section');
+      else if (action === 'exploreBack') {
+        // Esc steps back one thing at a time: the open chart, then the open layer card, then Explore itself.
+        const ex = useExploreStore.getState();
+        if (ex.chartOpen) ex.toggleChart(false);
+        else if (ex.selectedLayerId !== null) ex.selectLayer(null);
+        else ex.leave();
+      } else if (action === 'drawer' && useSelectionStore.getState().selectedId) useUiStore.getState().toggleDrawer();
     };
     window.addEventListener('keydown', onKey);
     return () => window.removeEventListener('keydown', onKey);

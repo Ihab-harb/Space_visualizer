@@ -205,3 +205,34 @@ Minor findings from the per-task reviews, summarised from the execution ledger. 
 - **Shading (Task 10):**
   - `eclipseLight` floor is additive and brightens the penumbra (use `max()`); the mu clamp of 1e-3 can speckle limb pixels on relief-mapped bodies; the atmosphere eclipse shade is one midpoint sample and applies to every shell (Venus, Mars too); the eclipse tint colour is Earth's for any shadowing atmosphere (revisit for Mars's moons in M3); no GLSL unit tests for `eclipseLight`;
   - a bright atmosphere and bloom haze covers Earth's full day side at close range (golden 6d). It is not from this section; a shell and bloom tuning pass is suggested.
+
+## From M2b.3 (Tasks 1–9, 2026-10-30 to 2026-11-06)
+
+Minor findings from the per-task reviews, summarised from the execution ledger. Plan: [[2026-10-30-m2b3-explore-interior]] (the full list by task is in its Execution record).
+- **Debt (decided, not done):** move the "about" and "(global average)" qualifiers out of the UI wording table (`WORDING` in `src/ui/interiorText.ts`) into the data. The details schema would gain a field (for example `stated.approx` or a `note`) that the pipeline fills from the quoted sentence and checks. Today the table drifts if a layer id changes. It covers Saturn's diffuse core ("about 60 %") and the Venus crust and mantle top ("about 20 km deep (global average)"), and it also shows in the facts drawer.
+- **Data and pipeline:**
+  - a `quoteUrl` open copy is host-checked only and cannot prove it is the published version; `DOI_PATTERN` accepts any non-space tail (the `url` equality guards it); `canonicalJournal` looks aliases up on a plain object (prototype keys; not a bypass);
+  - Jupiter's illustrative metallic-hydrogen layer (63 to 81.5 %) sits outside NASA's "perhaps halfway" onset because the dilute core already reaches 63 %; the Venus crust's outer bound 0 carries the crust quote (README rule 8 allows it);
+  - the Task 4 fix commit carries `generatedAt`-only changes in the Jupiter, Neptune and Uranus details files;
+- **Geometry (`core/interior`):** the last layer is not forced to the centre and gaps are kept in the geometry (`checkDetails` rejects them in data); a tiny innermost layer is flagged thickened though unchanged; an infinite radius collapses to the floor.
+- **Composition chart:**
+  - uncertainty formatting differs from the drawer (`formatNumber` against `toFixed(1)`); zero or negative gases are dropped silently and that is untested; React keys built from the formula name could collide; no tests for ties, a bar on a decade boundary, hover and the uncertainty column;
+  - tick thinning starts at 480 px, so 481 to 530 px may touch (raise to about 560 px); the fixed 8.4 em value column is tight for "≤ 40,000 per cm³"; the tooltip closes when focus moves from a row to its `[n]` link; `CompositionChart.tsx` was reformatted to double quotes (the repo uses single);
+- **Scene (Explore):** `frame.exploreCamera` is cleared only at camera restore (stale, harmless); per-frame allocations in `useExploreTransition`, `exploreShellUniforms(null)` and the `InteriorModel` `useFrame`, and `matchMedia` is read every frame; the frozen orientation can be null on the first frame; the `createBodyMaterial` wrapper test is string-based; bloom stays full on the Sun when another body is explored (the flare and rays now fade).
+- **Overlay and labels:** `InteriorLabels` reads the reserved rects and writes opacity every frame (cache on resize); `bridge.narrow` is set during render, `bridge.items` can be stale and the `[]` fallback re-runs the measure; the chart dialog has no `aria-modal` or focus trap; with the card open on desktop the right-side labels move below it and their leaders get long; a leader can cross the cut face; on a phone a dot can cover a small core (Earth's inner core in Half-section; the list and the card are the way in).
+- **Tests:** the leave-while-opening pixel threshold (noise + 0.05) is tight under SwiftShader; the `app.spec.ts` citation-highlight check was loosened for timing (outside the section's task files; the app is unchanged; call it out in the PR); `golden.spec.ts` waits a fixed 1,500 ms for bloom and depth of field.
+- **Looks:** Jupiter's violet stays light (AgX caps violet saturation); the Sun's cap reads cream (the existing photosphere material under the exposure floor).
+- **Needs a real GPU:** the bounded negative in the interior colour push (see [[scene]] and the session note).
+
+### From the M2b.3 whole-branch review, fix wave and re-review (2026-11-14/15)
+Fixed in the wave and removed above: the drawer's "illustrative size" placeholder, chart `[n]` links with no target, the camera fit on a turned phone, Saturn's black map band in Explore, the Saturn and Uranus goldens. What is left:
+- **Map no-data areas outside Explore:** the fills (Saturn's band, the Uranus and Neptune coverage) apply only while the body is open in Explore; normal views still show them where visible. The user decides whether the fill should apply everywhere.
+- **Depth ruler:**
+  - with the card open on a 1280 px screen it shows bare ticks (compact mode); the card carries the selected layer's numbers;
+  - a thickened crust's tick (Earth, Venus, Mars) sits at the drawn, thicker radius but shows the cited depth; the ruler does not say "drawn thicker" (the card does);
+  - Saturn's tick spacing is about 3 % off linear (fractions drawn against the equatorial radius and flattening, values from the mean radius; accepted in finding 12);
+  - it writes about 50 DOM and SVG attributes every frame even when nothing moves (not profiled);
+  - its `[n]` and the labels' `[n]` are tooltips, not links.
+- **Soft bands:** the gradual edge blend is subtle on Jupiter and Saturn in Exploded (the colours either side are close); the face shows it clearly. `GRADUAL_BAND` 0.12 R is an illustrative choice.
+- **Tests:** the leave-while-opening end-to-end test fails when one SwiftShader frame takes longer than about 0.6 s (machine load); it passed alone and in reruns. Full runs on a loaded machine also had first pages still loading after the 5 s canvas wait. The shader tests for the map fill and the soft band are string checks only.
+- **Looks:** Mars Half-section was not re-shot after the tiling fix (unit-tested; the face code is shared). Mercury opens on its night side from the default direction (real lighting).
