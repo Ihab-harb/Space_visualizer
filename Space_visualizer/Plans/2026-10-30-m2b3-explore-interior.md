@@ -208,7 +208,7 @@ function compositionPreview(model: ChartModel | null, details: BodyDetails): { p
 
 ## Execution record
 
-Built 2026-10-30 to 2026-11-06, subagent-driven on branch `m2b3-explore` (base `e6c8108`, on `cloud-setup` b1b148c). Implementers: sonnet, with opus for Task 6 (rendering) and Task 8 (visual tuning). Per-task reviews by sonnet; every task finished review-clean. The whole-branch review is still to do. Nothing is pushed and no PR is open.
+Built 2026-10-30 to 2026-11-06, subagent-driven on branch `m2b3-explore` (base `e6c8108`, on `cloud-setup` b1b148c). Implementers: sonnet, with opus for Task 6 (rendering) and Task 8 (visual tuning). Per-task reviews by sonnet; every task finished review-clean. The whole-branch review is done, with one fix wave (see the end of this record). Nothing is pushed and no PR is open.
 
 - 2026-10-30: plan written after the user approved the spec ("yes go ahead … immediately continue with implementation").
 
@@ -238,10 +238,11 @@ Each with its cost if wrong.
 - **Task 6:** an Explore URL frames the body at 3.4 radii and ignores `dist` (Explore framing wins). Cost: goldens cannot set the distance in Explore.
 - **Task 6:** accept the Half-section face yawed 45 degrees from facing the camera (`SECTION_YAW_RAD`), tuned on screenshots to keep a crescent of the real surface visible; noted in the spec (§11). Cost: the cut face is seen at an angle.
 - **Task 7:** accept the UI wording table (`interiorText.ts`) for "about" and "(global average)" now. Log as debt: move the qualifier into the data (a field filled and checked by the pipeline). Faithful today. Cost: the table drifts if layer ids change.
+- **Task 9:** the documentation task had no review of its own; its notes were reviewed inside the whole-branch review (findings 12 and 14 corrected them). Cost: doc slips surface one review later.
 - **Task 8:** the interior saturation push keeps a bounded negative, `max(x, -0.25 * luma)`, instead of a zero clamp. A zero clamp returns the pastel look: AgX needs blue below zero for amber. **Open for the user:** check on a real GPU for dark fringes. Cost: faint dark halos around hot layers on some GPUs.
 
 ### Tuned values (Task 8, visual loop at 1280 x 720 and 390 x 844)
-- **Exploded spacing** (`core/interior/geometry.ts`): `EXPLODE_REVEAL` 0.8, `EXPLODE_MARGIN` 0.08, `EXPLODE_MAX` 1.8 (was a flat 0.3 step, capped at 0.8). Earth's offsets are 1.67, 0.79, 0.27 and 0 R (were 0.8, 0.53, 0.27, 0). Cost if wrong: a taller model, smaller on screen.
+- **Exploded spacing** (`core/interior/geometry.ts`): `EXPLODE_REVEAL` 0.8, `EXPLODE_MARGIN` 0.08, `EXPLODE_MAX` 1.8 (was a flat 0.3 step, capped at 0.8). Earth's offsets are 1.66, 0.79, 0.27 and 0 R (were 0.8, 0.53, 0.27, 0). Cost if wrong: a taller model, smaller on screen.
 - **Camera fit** (`camera/explore.ts`): `EXPLORE_FIT_HALF_HEIGHT` 1.05 (1.2 left the core touching the bottom strip). The camera steps back by `halfHeight / 1.05 * 3.4 / entry distance`, never less than 1, following the eased progress. `ExploreFrame` gained `halfHeightRadii`. A phone, framed from about 5.6 R, does not step back.
 - **Saturation push** (`INTERIOR_LOOK.saturation` 0.5): emission = luma + (c - luma) * (1 + 0.5 * min(glow, 1)). Hot layers get up to x1.5; cool rock (glow 0.2 to 0.55) x1.1 to x1.28. Why: AgX desaturates, and even pure `#f06a0e` at the shader's emission comes out terracotta. **Bound** `negativeFloor` 0.25. At that bound the outer core is `#d07604`, against `#d17500` unbounded and `#cf7748` clamped at zero.
 - **Ramps** (`interiorPalette.ts`): rock `#8f4a26 / #b8622e / #d8823e`; liquid metal `#e8640a / #f58212 / #ffab2e`; solid core `#fff0d8 / #fffaf2` with glow 3.4 to 4.2 (was 2.2 to 2.8); plasma `#ff5a10 / #ff9a20 (0.45) / #ffd070 (0.8) / #fff4d8`; hydrogen deep stops `#9356e6 (0.8) / #c9a6ff (1)`. Crust and ices unchanged.
@@ -251,7 +252,7 @@ Each with its cost if wrong.
 - **Earlier values (Task 6, not changed since):** open time 1.2 s, focus time 0.6 s, dimming 25 %, Sun bloom 0.35, Sun exposure floor 0.8, Sun plasma gain 2.4, Explore camera tilt -22 degrees, distance limits 1.2 to 9 R.
 
 ### Goldens
-Six views, `quality=high&fx=1`, reduced motion, in `Assets/m2b3/`. After the bounded-negative fix the six were re-shot; the mean pixel difference from the first reviewed set was 0.22, 0.42, 0.04, 1.61, 0.03 and 0.62, in the order below.
+Eight views (six from Task 8, two from the review fix wave), `quality=high&fx=1`, reduced motion, in `Assets/m2b3/`. After the bounded-negative fix the six were re-shot; the mean pixel difference from the first reviewed set was 0.22, 0.42, 0.04, 1.61, 0.03 and 0.62, in the order below.
 
 **7 Earth Exploded.** Cap with real imagery, rust mantle, amber outer core, white-hot inner core, four labels (mockup B).
 ![[7-earth-exploded.png]]
@@ -271,7 +272,15 @@ Six views, `quality=high&fx=1`, reduced motion, in `Assets/m2b3/`. After the bou
 **7f Phone Earth Exploded (390 x 844).** The whole stack in frame, four numbered dots, the Layers button and the strip clear.
 ![[7f-phone-earth-exploded.png]]
 
-Mockups from the design talk: `mockup-1-cutaway-styles.png`, `mockup-2-composition-styles.png`, `mockup-3-explore-layouts.png`. Saturn Exploded and Uranus Half-section were looked at in Task 6 and 7 scratch rounds only; Saturn and Uranus were not re-shot after the Task 8 palette change.
+**7g Saturn Half-section (review fix wave).** Pale crescent with no black band (filled while open), blue envelope, the metallic hydrogen fading into the diffuse core with no line, the depth ruler (≈ 23,300 km, Estimate; 58,232 km centre).
+![[7g-saturn-section.png]]
+
+**7h Uranus Exploded (review fix wave).** Pale north cap, blue envelope ring, teal mantle dome, pale core, stacked along the view's vertical; "Layer sizes are not to scale".
+![[7h-uranus-exploded.png]]
+
+After the fix wave all eight were re-shot: 7b, 7c and 7e now show the depth ruler, and their right-side labels sit below the centre.
+
+Mockups from the design talk: `mockup-1-cutaway-styles.png`, `mockup-2-composition-styles.png`, `mockup-3-explore-layouts.png`. All ten bodies in both views were looked at in the review fix wave's screenshot loop (rounds r0 to r3).
 
 ### Tests
 - Unit: 988 tests in 110 files; `npm run typecheck` clean.
@@ -326,4 +335,27 @@ Grouped by theme in [[2026-10-05-m2a1-carry-over]] ("From M2b.3"). By task, as t
 - **5-hour usage limit:** it interrupted Task 8 at about 01:00 on 2026-11-06. At 06:20 the wake-up the user had asked for fired and Task 8 resumed with its uncommitted progress intact; it committed a step commit first (`9da91ff`).
 
 ### Whole-branch review
-Not done yet. Next: the whole-branch review on the most capable model, one fix wave and one scoped re-review. Push and open the stacked PR (base `cloud-setup`) only when the user asks.
+Done 2026-11-14 on base `30d38da`. Controller rulings: build the depth ruler and the soft bands (no waiver); fix everything in one wave. One fix wave followed (implementer: opus).
+
+**Findings and what changed**
+1. *Half-section depth ruler missing* (spec §2, §6). Built: `ui/explore/depthRuler.ts` (`depthRulerTicks`, `placeRuler`), drawn by `InteriorLabels`, its rect reserved for the labels. Values are cited bounds as depths (radius bounds as the cited radius minus the bound; percent bounds approximate, "≈"); the centre is the new cited `interior.radiusKm`. Right-side Half-section labels anchor below the centre. Hidden at phone width.
+2. *Dilute/diffuse cores drawn with hard edges* (spec §4.2). Built: a cited, quote-checked `gradual` on the layer (Jupiter: NASA facts sentence; Saturn: the paper's sentence), `GRADUAL_BAND` 0.12 R soft band on both sides, no line or shading step, the shell edge blended; the card says the soft edge is illustrative.
+3. *No Explore state for missing, failed or loading details.* "Loading the interior…", "No interior data yet", "Could not load the interior." with Retry; no switch unless a view can open.
+4. *Drawer showed paper sizes without "Estimate"* and a lowercase placeholder. Drawer rows carry the card's tags; an illustrative layer shows no extent.
+5. *Most bodies never looked at in Explore.* Screenshot loop over all 10 bodies in both views (rounds r0 to r3). Fixed: Saturn's black equatorial map band and the Uranus and Neptune map streaks while open (`mapGaps.ts`, Explore only), the shading step at soft bands, a seam where cited bounds leave a small gap (Mars; drawn layers now tile the radius). New goldens: Saturn Half-section, Uranus Exploded.
+6. *Phone rotation clipped the body.* `reframeDistanceKm`: the new shape's framing is a floor when it needs more room.
+7. *Strip `[n]` links went nowhere.* Tooltips name the source; the chart panel lists its sources; a strip `[n]` opens the chart on its source.
+8. *Esc with a card open left Explore.* Esc: chart, then card, then leave.
+9. *Other bodies were pickable.* `bodyPickable`: none while Explore is on.
+10. *Pan worked in Explore.* `exploreInput` drops it.
+11. *AppChrome unmounted at once.* 200 ms fade out and in, inert while fading; cut under reduced motion.
+12. *`interiorRadiusKm` comment.* Now matches the code (mean radius for the Sun and the Moon, else equatorial) and says why that is fine.
+13. *`MAX_LAYERS` truncated silently.* `MAX_INTERIOR_LAYERS` 8 is a `checkDetails` rule.
+14. *Docs.* Earth offsets 1.66; the leave test is a threshold, not pixel-equal; Mankovich and Fuller backs the extent, composition and gradual boundary, not the state; the Task 9 ruling (above); the spec's "Amended while building"; the session note's "Open for the user" (the Saturn arXiv quote check).
+15. This record.
+
+**Fix-wave rulings** (cost if wrong): surface "0 km" uncited (a definition); ruler depths derived from radius and percent bounds (a derived number on screen, cited to the bound and the radius); `interior.radiusKm` added to the data (one more field); ruler hidden at ≤ 720 px (no ruler on phones); right-side Half-section labels below the centre (they sit lower); `GRADUAL_BAND` 0.12 R illustrative; map gap fills in Explore only (normal views still show the no-data areas); reframe only when the new shape needs more room; chrome fade 200 ms (inert chrome in the DOM for 200 ms).
+
+**Tests:** `npm test` 1,031 tests in 112 files (988 before the wave); typecheck clean. Full Playwright (122 tests): run 1 had 114 passed and 8 failed, run 2 had 119 passed and 3 failed; every failure passed on a rerun of the failed tests (`--last-failed`: 8 of 8, then 3 of 3). The failures were load, not code: tests whose first page was still on "Loading Solar System data…" after the 5 s canvas wait while three workers rendered High goldens (another process on the machine was using a lot of CPU), and the leave-while-opening test, whose sampler saw the body close within one frame under that load (it passes alone: restore diff 0.006 to 0.007 against noise 0.001 to 0.003). Goldens re-shot from run 2 and copied to `Assets/m2b3/` (six re-shot, two new).
+
+Next: one scoped re-review of the fix wave. Push and open the stacked PR (base `cloud-setup`) only when the user asks.

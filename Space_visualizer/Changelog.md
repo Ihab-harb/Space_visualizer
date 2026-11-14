@@ -144,4 +144,12 @@ Back to [[Home]]
 - Scene: a shader-space cut, caps and cut faces per layer, analytic picking, other bodies dimmed to 25 %, rings hidden, the Sun's flare and rays faded in any Explore session. Interior colours are illustrative (labelled) and use a small bounded negative in the saturation push so amber survives AgX.
 - Tests: 988 unit tests, typecheck clean, 118 end-to-end tests passed before the last fix rounds, 25 targeted after. Six golden views in `Assets/m2b3/`.
 - Spec [[2026-10-30-m2b3-explore-interior-design]] (approved, with "Amended while building" notes), plan [[2026-10-30-m2b3-explore-interior]] (rulings and research log in its Execution record), session [[2026-10-30-session-m2b3-explore]]. Carry-over: [[2026-10-05-m2a1-carry-over]] ("From M2b.3").
-- **Status:** on branch `m2b3-explore`, stacked on `cloud-setup` (PR #7). The whole-branch review is still to do. Not pushed; no PR is open.
+- **Status:** on branch `m2b3-explore`, stacked on `cloud-setup` (PR #7). Not pushed; no PR is open.
+
+## 2026-11-14 — M2b.3 whole-branch review fix wave
+- **Depth ruler** beside the Half-section cut: surface (0 km) to the centre, a tick at each layer boundary with its cited depth and `[n]`; paper bounds say Estimate; hidden on phones.
+- **Soft bands for dilute cores:** Jupiter's dilute core and Saturn's diffuse core carry a cited, quote-checked `gradual` boundary and are drawn with a soft band and no line; the layer card says the soft edge is illustrative. The data records the cited radius the bounds were converted with (`interior.radiusKm`) and fails above 8 layers.
+- Explore shows loading, "No interior data yet" and "Could not load the interior." with Retry. The facts drawer's interior rows carry the Estimate and Illustrative size tags.
+- Esc steps back chart, card, then Explore. Other bodies take no clicks in Explore; pan is ignored; a turned phone reframes the body. The interface fades out and back in. Every `[n]` in Explore names its source and points at a Sources list in the chart panel.
+- While open, Saturn's black map band and the Uranus and Neptune map streaks are filled (Explore only); drawn layers tile the radius, so Mars's core shows no seam.
+- New goldens: Saturn Half-section, Uranus Exploded. Details in the plan's "Whole-branch review".
