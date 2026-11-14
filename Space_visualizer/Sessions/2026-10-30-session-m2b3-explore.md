@@ -21,7 +21,7 @@ Back to [[Home]] · Previous: [[2026-10-29-session-m2b2-moon]]
   - "go ahead", then "yes go ahead, and after you finish planning immediately continue with implementation. also dont forget to trigger continue working at precisely 4:11 am".
 - The 4:11 prompt (scheduled on 2026-10-29) fired at 04:11:14; work continued with the plan and the build.
 - 2026-11-15: **"in regards to the PRs the sections that have been fully completed should be merged"**. PRs #1 to #6 were merged into `main` (merge commits, bottom-up). #7 (cloud setup) was left open: its GitHub App and CI steps are not done.
-- 2026-11-15: on M2b.3 and #7, **"disregrad the cloud setup"**, then: **"it means that im no longer going to use claude cloud for work on this project in the forseeable future"**. Cloud sessions are marked shelved in the vault and `CLAUDE.md`; #7 is to be merged as it is, then M2b.3. The merge of #7 was stopped by Claude Code's permission check and waits for the user.
+- 2026-11-15: on M2b.3 and #7, **"disregrad the cloud setup"**, then: **"it means that im no longer going to use claude cloud for work on this project in the forseeable future"**. Cloud sessions are marked shelved in the vault and `CLAUDE.md`; #7 is to be merged as it is, then M2b.3. The merge of #7 was stopped by Claude Code's permission check; the user then said **"go ahead"**: #7 merged, `m2b3-explore` pushed and opened as **PR #8**, and merged. Everything is on `main`.
 - 2026-11-06: **"continue"** (after a session restart) and a **6:20 wake-up** the user asked for, which fired at 06:20. Both resumed the build: the restart found Task 6 half done, and the 6:20 wake-up resumed Task 8 after the usage limit.
 
 ## Decisions
@@ -46,7 +46,7 @@ Nine tasks, subagent-driven (the plan's Execution record has the commits, ruling
 ## State
 - Branch `m2b3-explore`, stacked on `cloud-setup` (PR #7). M2b.3 is complete.
 - Built and reviewed per task; every task review-clean. **Whole-branch review done (2026-11-14), one fix wave applied** (depth ruler, soft bands for gradual cores, loading and error states, drawer tags, a turned phone, citations in Explore, Esc order, no clicks on other bodies, no pan, interface fade, map gaps in Explore, docs). See the plan's "Whole-branch review". **Scoped re-review done (2026-11-15): approved with minors, and the minors are fixed** (source tooltips on the ruler's `[n]`, two gaps in the citation lists, a paper note on Saturn's card, focus kept in the overlay). Final numbers: 1,033 unit tests, typecheck clean, full end-to-end 121 of 122 in one pass (the one failure is a timing test that passes when the machine is not loaded; it passed in the rerun). Documentation written in Task 9 (this note, the spec amendments, the plan's Execution record, the architecture notes, ADR 0009, the data note, the carry-over, the changelog, Home, Start here, README).
-- **Not pushed. No PR is open.** 2026-11-15: PRs #1 to #6 are merged into `main`; #7 (cloud setup) is open, now based on `main`.
+- **Merged (2026-11-15):** PRs #1 to #8 are all merged into `main` (M2b.3 is #8). No PR is open.
 - Next section: M2b.4, feature pins and fields. Explore is the home for it.
 
 ## Open for the user
@@ -54,7 +54,7 @@ Nine tasks, subagent-driven (the plan's Execution record has the commits, ruling
 2. **Review the spec §10 calls and the plan's rulings** (list above).
 3. **Uranus and Neptune interiors are schematic.** No citable layer sizes were found, so the three layers share the radius in thirds and the screen says "Layer sizes are not to scale".
 4. **The better Venus papers could not be used** (Dumoulin 2017 for the core, James 2013 for the crust): their pages cannot be fetched for the quote check. Venus uses Shah et al. 2022 ("core size", recorded as the radius) and Maia and Wieczorek 2022.
-5. **The branch is not pushed and no PR is open.** PRs #1 to #6 are merged (2026-11-15); #7 is open. Say when to push and open the stacked PR (base `cloud-setup`).
+5. ~~**The branch is not pushed and no PR is open.**~~ Done 2026-11-15: merged as PR #8. PRs #1 to #6 are merged (2026-11-15); #7 is open. Say when to push and open the stacked PR (base `cloud-setup`).
 6. **The Saturn quote is checked against the arXiv copy** (2104.13385 v2), not the published Nature Astronomy page, which sends the pipeline's user agent to a cookie gate. The sentence was matched by hand once to the published text (and Semantic Scholar lists the arXiv PDF as the open copy of the DOI). This sits with spec call 5 (only quotes verifiable on an open page): say if an arXiv copy matched once by hand is acceptable.
 7. **Map no-data areas outside Explore.** In Explore, Saturn's black equatorial map band is filled (the rings are hidden there) and the Uranus and Neptune maps keep to the latitudes Hubble saw. Normal views are unchanged and still show those areas where they are visible (Uranus's south, Neptune's far north, Saturn's band between ring gaps). Say if the fill should apply everywhere.
 8. **Mercury from the default direction shows its night side** in Explore (a dark cap and crescent; the cut still glows). This is the real lighting; the Explore camera keeps the direction it was entered from.
