@@ -86,6 +86,10 @@ const EXPLORE_VIEWS = [
   { name: '7d-sun-exploded', url: '/?jd=2461317.5&pause=1&target=sun&explore=1&view=exploded&quality=high&fx=1', body: 'sun', view: 'exploded', labels: 3 },
   { name: '7e-moon-section', url: '/?jd=2461317.5&pause=1&target=moon&explore=1&view=section&quality=high&fx=1', body: 'moon', view: 'section', labels: 3 },
   { name: '7f-phone-earth-exploded', url: '/?jd=2461317.5&pause=1&target=earth&explore=1&view=exploded&quality=high&fx=1', body: 'earth', view: 'exploded', labels: 4, phone: true },
+  // Review fix wave: a ringed giant cut open (rings hidden, map band filled, diffuse core as a soft band, the depth ruler) and
+  // the tilted ice giant exploded along the view's vertical.
+  { name: '7g-saturn-section', url: '/?jd=2461317.5&pause=1&target=saturn&explore=1&view=section&quality=high&fx=1', body: 'saturn', view: 'section', labels: 3 },
+  { name: '7h-uranus-exploded', url: '/?jd=2461317.5&pause=1&target=uranus&explore=1&view=exploded&quality=high&fx=1', body: 'uranus', view: 'exploded', labels: 3 },
 ] as const;
 
 for (const view of EXPLORE_VIEWS) {

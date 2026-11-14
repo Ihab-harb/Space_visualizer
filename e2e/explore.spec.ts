@@ -275,3 +275,36 @@ test('a leave while opening returns the camera, rings, rotation and interface ex
   console.log(`explore leave mid-transition: restore diff=${diff.toFixed(3)} noise=${noise.toFixed(3)}`);
   expect(diff).toBeLessThan(noise + 0.05);
 });
+
+test('Half-section shows the depth ruler: surface to centre, cited, estimates marked; Exploded has none', async ({ page }) => {
+  await open(page, 'target=earth&pause=1&explore=1&view=section');
+  await settled(page, 'earth', 'section');
+  const ruler = page.getByRole('group', { name: 'Depth below the surface' });
+  await expect(ruler).toHaveAttribute('data-mode', 'full');
+  await expect(ruler).toContainText('0 km');
+  await expect(ruler).toContainText('2,886 km');
+  await expect(ruler).toContainText('6,371 km (centre)');
+  await page.keyboard.press('2');
+  await settled(page, 'earth', 'exploded');
+  await expect(page.locator('.xruler')).not.toHaveAttribute('data-mode', 'full');
+
+  await open(page, 'target=jupiter&pause=1&explore=1&view=section');
+  await settled(page, 'jupiter', 'section');
+  const jr = page.getByRole('group', { name: 'Depth below the surface' });
+  await expect(jr).toContainText('≈ 25,900 km');
+  await expect(jr.locator('.tag--estimate')).toHaveCount(1);
+});
+
+test('a failed details load says so and Retry loads again; the view switch is not live meanwhile', async ({ page }) => {
+  let fail = true;
+  await page.route('**/details/earth.json', (route) => (fail ? route.fulfill({ status: 500, body: 'down' }) : route.continue()));
+  await open(page, 'target=earth&pause=1&explore=1');
+  const alert = page.getByRole('alert');
+  await expect(alert).toContainText('Could not load the interior.');
+  await expect(viewSwitch(page)).toHaveCount(0);
+  fail = false;
+  await alert.getByRole('button', { name: 'Retry' }).click();
+  await expect(viewSwitch(page)).toBeVisible();
+  await page.keyboard.press('3');
+  await settled(page, 'earth', 'section');
+});

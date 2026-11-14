@@ -179,11 +179,28 @@ for (const vp of VIEWPORTS) {
         const labels = [...document.querySelectorAll<HTMLElement>('.xlabel:not([data-mode="hidden"]), .xdot:not([hidden])')]
           .filter((el) => el.offsetParent !== null || el.getClientRects().length > 0)
           .map((el) => ({ name: `label:${el.textContent?.slice(0, 24)}`, r: rect(el) }));
-        return { reserved, labels };
+        // The Half-section depth ruler (wider screens only) is laid out with the labels and must keep clear of everything too.
+        // Its root is a zero-size anchor: its box is the union of what it draws (lines; title and values unless compact).
+        const union = (els: Element[]) => {
+          const rs = els.map((e) => e.getBoundingClientRect()).filter((r) => r.width > 0 || r.height > 0);
+          const left = Math.min(...rs.map((r) => r.left));
+          const top = Math.min(...rs.map((r) => r.top));
+          const right = Math.max(...rs.map((r) => r.right));
+          const bottom = Math.max(...rs.map((r) => r.bottom));
+          return { left, top, right, bottom, width: right - left, height: bottom - top, x: left, y: top } as DOMRect;
+        };
+        const ruler = [...document.querySelectorAll<HTMLElement>('.xruler:not([data-mode="hidden"])')].map((el) => ({
+          name: `ruler:${el.dataset.mode}`,
+          r: union([...el.querySelectorAll('line'), ...(el.dataset.mode === 'full' ? el.querySelectorAll('.xruler__title, .xruler__value:not(:empty)') : [])]),
+        }));
+        return { reserved, labels, ruler };
       });
       // Every layer of Earth has a label (or a dot), all on screen.
       expect(parts.labels.length, 'visible labels').toBe(4);
-      const all = [...parts.reserved, ...parts.labels].filter((p) => p.r.width > 0 && p.r.height > 0);
+      // The ruler shows in Half-section above phone width (ticks and values at 1280 x 720), never on a phone or in Exploded.
+      expect(parts.ruler.length, 'depth ruler shown').toBe(view === 'section' && vp.width > 720 ? 1 : 0);
+      if (view === 'section' && vp.width === 1280) expect(parts.ruler[0]!.name).toBe('ruler:full');
+      const all = [...parts.reserved, ...parts.labels, ...parts.ruler].filter((p) => p.r.width > 0 && p.r.height > 0);
       for (const p of parts.labels) {
         expect(p.r.left, `${p.name} inside the left edge`).toBeGreaterThanOrEqual(-0.5);
         expect(p.r.right, `${p.name} inside the right edge`).toBeLessThanOrEqual(vp.width + 0.5);
