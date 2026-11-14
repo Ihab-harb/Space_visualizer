@@ -24,7 +24,8 @@ function across(axis: Vec3, want: Vec3, fallback: Vec3): Vec3 {
  * Where each layer's floating label is anchored (spec §3.3), from `frame.explore`. `rightWorld` is the camera's screen-right.
  * - Exploded: on the visible band of each lifted cap (between its base ring and the base of the cap above), on its side;
  *   the innermost layer, a whole sphere, at its equator.
- * - Half-section: on the cut face, in the middle of the layer's ring, on its side, pairs of layers tilted up then down.
+ * - Half-section: on the cut face, in the middle of the layer's ring, on its side: right-side layers below the centre (the depth
+ *   ruler takes the upper right), left-side layers up then down.
  * - Whole: none.
  */
 export function layerAnchors(ex: ExploreFrame, rightWorld: Vec3): LayerAnchorPoint[] {
@@ -44,18 +45,28 @@ export function layerAnchors(ex: ExploreFrame, rightWorld: Vec3): LayerAnchorPoi
       return { id: layer.id, offset, side };
     });
   }
-  const n = normalize(ex.planeNormalWorld);
-  const faceUp = across(n, up, rightWorld);
-  let h = normalize(cross(faceUp, n));
-  if (dot(h, rightWorld) < 0) h = scale(h, -1);
-  const po = Math.max(0, ex.planeOffset);
+  const { n, faceUp, h, po } = sectionAxes(ex, rightWorld);
   return ex.drawn.map((layer, i) => {
     const side = i % 2 === 0 ? 'right' : 'left';
     const s = side === 'right' ? 1 : -1;
     const mid = i === last ? layer.outer / 2 : (layer.outer + layer.inner) / 2;
     const inPlane = Math.sqrt(Math.max(mid * mid - po * po, 0));
-    const tilt = i < 2 ? SECTION_TILT_RAD : -SECTION_TILT_RAD;
+    // The upper right of the face is the depth ruler's: right-side labels anchor below the centre; the left side spreads.
+    const tilt = side === 'right' || i >= 2 ? -SECTION_TILT_RAD : SECTION_TILT_RAD;
     const dir = add(scale(h, s * Math.cos(tilt)), scale(faceUp, Math.sin(tilt)));
     return { id: layer.id, offset: add(scale(n, po), scale(dir, inPlane)), side };
   });
+}
+
+/**
+ * The Half-section face's axes (world, unit): its normal `n` toward the removed side, `faceUp` (screen-up of the entry view,
+ * in the face) and `h` (in the face, toward screen-right); `po` is the plane's offset from the centre (body radii). The
+ * label anchors and the depth ruler share them.
+ */
+export function sectionAxes(ex: ExploreFrame, rightWorld: Vec3): { n: Vec3; faceUp: Vec3; h: Vec3; po: number } {
+  const n = normalize(ex.planeNormalWorld);
+  const faceUp = across(n, normalize(ex.upWorld), rightWorld);
+  let h = normalize(cross(faceUp, n));
+  if (dot(h, rightWorld) < 0) h = scale(h, -1);
+  return { n, faceUp, h, po: Math.max(0, ex.planeOffset) };
 }

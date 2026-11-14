@@ -62,6 +62,16 @@ describe('layerAnchors', () => {
     });
   });
 
+  it('Half-section: right-side anchors sit below the centre, leaving the upper right to the depth ruler', () => {
+    const anchors = layerAnchors(frame('section'), right);
+    const rightSide = anchors.filter((a) => a.side === 'right');
+    expect(rightSide.length).toBeGreaterThan(0);
+    for (const a of rightSide) expect(dot(a.offset, up)).toBeLessThan(0);
+    // The left side still spreads up and down.
+    const leftUp = anchors.filter((a) => a.side === 'left').map((a) => Math.sign(dot(a.offset, up)));
+    expect(leftUp).toEqual([1, -1]);
+  });
+
   it('keeps working when the camera right vector is along the explode axis (degenerate)', () => {
     const anchors = layerAnchors(frame('exploded'), up);
     for (const a of anchors) for (const c of a.offset) expect(Number.isFinite(c)).toBe(true);

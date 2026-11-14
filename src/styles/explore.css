@@ -238,6 +238,21 @@
   pointer-events: auto;
 }
 .xdot.is-selected { border-color: var(--accent); background: rgba(3, 5, 11, 0.85); color: var(--accent); }
+/* Half-section depth ruler (InteriorLabels): a scale beside the cut face, surface at the top, centre at the bottom. */
+.xruler { position: absolute; top: 0; left: 0; color: #b9c2d6; text-shadow: 0 1px 3px rgba(0, 0, 0, 0.9); pointer-events: none; }
+.xruler[data-mode='hidden'] { visibility: hidden; }
+.xruler__lines { position: absolute; top: 0; left: 0; width: 1px; height: 1px; overflow: visible; }
+.xruler__lines line { stroke: rgba(200, 216, 255, 0.55); stroke-width: 1; }
+.xruler__lines line.is-end { stroke: rgba(200, 216, 255, 0.8); }
+.xruler__lines .xruler__leader { stroke: rgba(200, 216, 255, 0.35); }
+.xruler__title { position: absolute; bottom: 100%; left: -5px; margin-bottom: 6px; color: var(--text-muted); font-size: 10px; font-weight: 700; letter-spacing: 0.12em; line-height: 1; text-transform: uppercase; white-space: nowrap; }
+.xruler__value { position: absolute; top: 0; left: 0; display: block; font-size: 11.5px; line-height: 16px; white-space: nowrap; }
+.xruler__value .xlabel__tag { margin-left: 6px; }
+.xruler__value:empty { display: none; }
+.xruler__where { color: var(--text-muted); }
+.xruler[data-mode='compact'] .xruler__value,
+.xruler[data-mode='compact'] .xruler__title,
+.xruler[data-mode='compact'] .xruler__leader { visibility: hidden; }
 
 /* Phones: the top reflows into rows, labels become numbered dots with a list at the bottom, panels become sheets. */
 @media (max-width: 720px) {
