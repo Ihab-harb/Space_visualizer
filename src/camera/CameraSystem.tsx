@@ -13,6 +13,7 @@ import { advanceTurn, EXPLORE_CAMERA, exploreEntryAzimuth, exploreFitScale, expl
 import { apply } from '../core/math/mat3';
 import { surfaceDirection } from '../core/frames/surfacePoint';
 import { useDetailsStore } from '../state/detailsStore';
+import { featureEntry } from '../ui/explore/featureModel';
 import { NO_INPUT } from './types';
 import { offsetDirection, type OrbitState } from './orbitController';
 import { useTourStore } from '../state/tourStore';
@@ -51,12 +52,10 @@ interface Rig {
   explore: { bodyId: string; up: [number, number, number]; aspect: number; turn: FeatureTurn | null; lastFeatureSeq: number; saved: { view: ViewId; orbit: OrbitState; follow: FollowState } } | null;
 }
 
-/** The selected feature's position: landmarks first, then the Gazetteer list. Null until the body's details have loaded or if the id is unknown. */
+/** The selected feature's position (a landmark or a Gazetteer feature). Null until the body's details have loaded or if the id is unknown. */
 function featureLatLon(bodyId: string, featureId: string): { latDeg: number; lonDegE: number } | null {
   const entry = useDetailsStore.getState().entries[bodyId];
-  if (entry?.status !== 'ready') return null;
-  const { landmarks, features } = entry.details;
-  return landmarks.find((f) => f.id === featureId) ?? features?.items.find((f) => f.id === featureId) ?? null;
+  return featureEntry(entry?.status === 'ready' ? entry.details : null, featureId);
 }
 
 export function CameraSystem({ catalog }: { catalog: Catalog }) {

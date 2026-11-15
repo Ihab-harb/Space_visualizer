@@ -11,6 +11,8 @@ import { radarShown } from '../imagery';
 import { interiorNotes, layerLabelText } from '../interiorText';
 import { CompositionChart, Cite, CiteTargetContext, type CiteTarget } from './CompositionChart';
 import { compositionModel, compositionPreview } from './compositionModel';
+import { FeatureCard } from './FeatureCard';
+import { FeatureList } from './FeatureList';
 import { COLOURS_NOTE_ID, LayerCard } from './LayerCard';
 import { SourcesList, sourceTitle } from './SourcesList';
 
@@ -224,6 +226,9 @@ function Overlay({ catalog, body }: { catalog: Catalog; body: Body }) {
   const radarOn = useRadarShown();
   const selectedLayerId = useExploreStore((s) => s.selectedLayerId);
   const selectLayer = useExploreStore((s) => s.selectLayer);
+  const selectedFeatureId = useExploreStore((s) => s.selectedFeatureId);
+  const selectFeature = useExploreStore((s) => s.selectFeature);
+  const featureListOpen = useExploreStore((s) => s.featureListOpen);
   const leave = useExploreStore((s) => s.leave);
   const narrow = useNarrowViewport();
   const root = useRef<HTMLDivElement>(null);
@@ -266,7 +271,7 @@ function Overlay({ catalog, body }: { catalog: Catalog; body: Body }) {
     const el = document.activeElement;
     if (el && el !== document.body) return;
     root.current?.querySelector<HTMLElement>('[role="radio"][aria-checked="true"]')?.focus();
-  }, [status, selectedLayerId, tab]);
+  }, [status, selectedLayerId, selectedFeatureId, featureListOpen, tab]);
   // After the chart closes, focus returns to the button that opened it.
   const wasOpen = useRef(chartOpen);
   useEffect(() => {
@@ -340,12 +345,17 @@ function Overlay({ catalog, body }: { catalog: Catalog; body: Body }) {
               </button>
             </p>
           )}
+          {details && !onInterior && !narrow && <FeatureList catalog={catalog} body={body} details={details} />}
         </div>
+        {details && !onInterior && selectedFeatureId && !(narrow && featureListOpen) && (
+          <FeatureCard catalog={catalog} body={body} details={details} featureId={selectedFeatureId} onClose={() => selectFeature(null)} />
+        )}
         {details && selectedLayerId && (
           <LayerCard catalog={catalog} body={body} details={details} layerId={selectedLayerId} drawn={drawn} onClose={() => selectLayer(null)} />
         )}
         {details && (
           <div className="explore-bottom">
+            {narrow && !onInterior && <FeatureList catalog={catalog} body={body} details={details} />}
             {narrow && onInterior && <LayerList body={body} details={details} drawnIds={drawn.map((d) => d.id)} />}
             <CompositionStrip catalog={catalog} body={body} details={details} openRef={openChart} />
           </div>
