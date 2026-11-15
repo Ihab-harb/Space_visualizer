@@ -108,7 +108,7 @@ Created or deferred during [[2026-10-05-m2a2-cinematic-effects-and-quality]]. De
 
 Deferred minor items from [[2026-10-07-m2a3-interface-and-tour]] (summarised from the execution ledger). The Venus radar view, the interface, the Tour and the phone layout are done; none of the items below blocked them.
 
-- **Venus radar.** The Maxwell Montes box check (1k, 1.3×) may not catch a longitude mirror (an argmax near 3.6 E, 65 N would). No-data (0) pixels lower the global mean and render pure black (noted in the data source). No unit test for the atmosphere hiding or the `uRadar` gating.
+- **Venus radar.** **Done in M2b.4a:** the Maxwell Montes box check (1k, 1.3×) may not catch a longitude mirror; the placement guard in `npm test` (`pipeline/textures/placement.test.ts`) now fails a mirrored or half-turned radar map (Ovda, Atla, Beta Regio and Maxwell Montes). No-data (0) pixels lower the global mean and render pure black (noted in the data source). No unit test for the atmosphere hiding or the `uRadar` gating.
 - **Auto quality.** No regression test that the median step-down still fires between 3 s and 5 s, and none for a long run straddling the end of the start-up cooldown. `longWithinWindowMs` is now a run total (stale name). A garbled sentence in render.md ("three loads ... two loads"). The god-ray luminance assertion is glow-dominated (margin about 2.6 grey levels); a differential patch would discriminate better.
 - **Header and narrative.** Rounding crosses boundaries (59.96 s shows "60.0 s", 119.6 min shows "120 min") and "1 hours" is possible. **Done in M2b.1 Task 9:** the narrative says "orbits <parent>" for a body whose parent is not a star (`buildNarrative` takes the parent); it still says "circles the Sun" for a body with no parent given. Tests miss chip `[n]` equal to the `citationModel` numbers, Sun and Earth headers, and the bodies-in-view projection. The Facts button's visible label lacks "(F)".
 - **Control panel.** Realistic is a focusable pressed button with no handler, and the disabled Exhibit button hides its "arrives in M2c" title from keyboard and touch users (use `aria-disabled`).
@@ -235,4 +235,30 @@ Fixed in the wave and removed above: the drawer's "illustrative size" placeholde
   - its `[n]` and the labels' `[n]` are tooltips, not links.
 - **Soft bands:** the gradual edge blend is subtle on Jupiter and Saturn in Exploded (the colours either side are close); the face shows it clearly. `GRADUAL_BAND` 0.12 R is an illustrative choice.
 - **Tests:** the leave-while-opening end-to-end test fails when one SwiftShader frame takes longer than about 0.6 s (machine load); it passed alone and in reruns. Full runs on a loaded machine also had first pages still loading after the 5 s canvas wait. The shader tests for the map fill and the soft band are string checks only.
-- **Looks:** Mars Half-section was not re-shot after the tiling fix (unit-tested; the face code is shared). Mercury opens on its night side from the default direction (real lighting).
+- **Looks:** Mars Half-section was not re-shot after the tiling fix (unit-tested; the face code is shared). Mercury opens on its night side from the default direction (real lighting). **Done in M2b.4a:** Explore now opens on the sunlit side.
+
+## From M2b.4a (Tasks 1–11, 2026-11-15)
+
+Minor findings from the per-task reviews, summarised from the execution ledger. Plan: [[2026-11-15-m2b4a-feature-pins]] (the full list by task, and every ruling, is in its Execution record). The whole-branch review is still to do and may close some of these. Closed in this section: the Venus radar mirror item ("From M2a.3") and the interior phone dots drawn while hidden (fixed in Task 11).
+- **Gazetteer and ids (Task 1):** `toItem` returns id `''` and `allFeatures` then mutates it; the shared-name id assignment depends on diameter order; no test for link-less rows never merged, nor for a name that folds to an empty id; the duplicate-id check test never showed RED.
+- **Placement guards (Task 2):** `bodies.json` is parsed once per body in `beforeAll`; `!` on `find` gives a poor error; module-level mutable maps in `placement.test.ts`; Mercury has no second clean-prior feature (Hokusai replaced the weak Caloris prior in Task 4); the Venus planitiae have no consistent radar sign and are not guarded; Earth's half-turn is caught by one guard only (Lake Superior); no `surfacePoint` RED run.
+- **Landmark pipeline (Task 3):** `WITH_WORD` accepts an unsigned number after "latitude" or "longitude"; the hemisphere-word path could match "10 km east"; a blank line in `pipeline/reference/README.md` splits the Files list, and one sentence there is stale; no RED run recorded.
+- **Landmark sentences (Tasks 4 and 5):**
+  - weaker sentences kept for lack of better: Mercury Kandinsky (a list sentence), Apollodorus (naming trivia), Mendelssohn ("Prominently visible is…" implies an image); Venus Gula Mons and Sapas Mons (mostly coordinates); Earth Meteor Crater (the quote never names the place) and Yellowstone Caldera (the quote is about the hydrothermal system);
+  - mission-led but about the place: Elysium Planitia, Meridiani Planum; Mare Imbrium's quote says Orientale is the youngest mare; Syrtis Major Planum is quoted as "Syrtis Major" (the least certain name match);
+  - sizes in some quotes differ from the Gazetteer size on the same card: Mare Humorum 825 km against 420 km (the basin against the mare), Artemis 2,100 against 2,600, Mead 280 against 270;
+  - typos kept from the pages (Tycho "is an one of");
+  - GNIS points: the Mississippi at its delta, the Grand Canyon at its west end, Antarctic points coarse; Mount St. Helens shows as "Mount Saint Helens" (the GNIS name);
+  - an import sits below a `describe` in `landmarks.test.ts`; the "would be caught" guard tests need only one guard to fail.
+- **Store, URL and keys (Task 6):** the keys 1/2/3 test could not have failed; `selectFeature` sets view `whole` without going through `setView`; `featureSeq` is not reset by enter or leave (by design); no RED run.
+- **Camera (Task 7):** the turn target has no `EXPLORE_CAMERA.tiltRad` (the entry has); a tap-jitter rotate delta in the same frame as a pin click would cancel the turn; `lastFeatureSeq` is not advanced on an interior tab, so returning to Surface with a feature still selected turns then; the azimuth near a pole is arbitrary; no test of the `CameraSystem` wiring (end to end only); no RED run.
+- **Overlay (Task 8):** the Venus radar tag waits for ready details while the radar map shows during load; the focus tests call `setTab` rather than a real key event.
+- **Pins (Task 9):**
+  - Mercury's Apollodorus dot sits about 15 km off the crater centre (likely the Mercury map's alignment; the Moon, Mars and Earth are centred by the same code);
+  - Earth opens over the Pacific at many dates, with the US pins bunched at the limb (the sunlit-side rule plus US-only landmarks);
+  - per-frame allocations in the projector (objects, a Map, a filter array; at most 22 pins); the `fonts.ready` callback is not cancelled on unmount; the 25-pin layout test uses synthetic reserved rects;
+  - a dot within 11 px of the viewport edge disappears (`PIN_DOT_INSET`); a missing dot counts as shown for naming (no effect);
+  - on a phone two numbered dots overlap where two landmarks share a spot (Gale and Aeolis Mons; Hawaii's two volcanoes).
+  - with both the card and the list open at 1280x720 no pin name fits, not even the selected pin's (the list covers the left name column, the card the right one, and a name may move only 7 % of the height); the card carries the selected name. A design call for the user or the whole-branch review.
+- **Card and list (Task 10):** `cite()` returns null silently when a source has no number; `FeatureList` and `FeaturePins` import `useNarrowViewport` from `ExploreOverlay`, which imports them back (a circular import, existing pattern); no render-level accent-folding test; the `FeatureList` open-focus effect on remount.
+- **Needs a real GPU:** the pins and names over the full effects stack (checked on SwiftShader only).

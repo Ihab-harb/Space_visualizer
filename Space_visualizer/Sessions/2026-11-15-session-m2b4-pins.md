@@ -1,10 +1,10 @@
 ---
-title: "Session log: 2026-11-15 (M2b.4 design talk)"
+title: "Session log: 2026-11-15 (M2b.4 design talk and the M2b.4a build)"
 date: 2026-11-15
 tags: [session, history, m2b]
 ---
 
-# Session log: 2026-11-15 (M2b.4 design talk)
+# Session log: 2026-11-15 (M2b.4 design talk and the M2b.4a build)
 
 Back to [[Home]] · Previous: [[2026-10-30-session-m2b3-explore]]
 
@@ -43,12 +43,39 @@ Back to [[Home]] · Previous: [[2026-10-30-session-m2b3-explore]]
 
 - **Plan written:** [[2026-11-15-m2b4a-feature-pins]]. Found while planning: the Mercury duplicates are in the Gazetteer's own file (614 approved rows, 606 distinct names; each row has a `link` to its feature page), and Mars has one duplicated name outside the top 200. The mesh maps longitude 0 to the map's centre column for every body (`uvForLonLat`), so the placement guards test each committed map against that.
 
+## The build (2026-11-15)
+- **Subagent-driven, all eleven tasks built and review-clean** on branch `m2b4a-pins`: a fresh implementer and a fresh reviewer per task (sonnet; opus for Tasks 4, 5, 9 and 11). Tasks 4, 8, 9 and 10 needed one fix round each. The usage limit stopped the work twice (in Task 4's re-review and in Task 9); both resumed after the user said "continue".
+  1. One Gazetteer row per feature and stable feature ids. Mercury's approved total went from 614 to 606.
+  2. `surfacePoint` and the placement guards on the committed maps (rebuilt on physical priors after the first version picked guards by scanning the map).
+  3. The landmarks pipeline: quote checks, type meanings, the details schema.
+  4. Landmarks for Mercury (16), Venus (16), the Moon (16) and Mars (17), with a research log.
+  5. Earth's 21 landmarks, positions from USGS GNIS; decision [[0010-names-databases-for-earth-positions]] and data note [[Earth names databases (GNIS, GNS)]].
+  6. Explore state: tabs, feature selection, list, URL and keys.
+  7. Camera: Explore opens on the sunlit side; the view turns to a selected feature.
+  8. Overlay: Surface and Interior tabs, the interior sub-switch, Surface notes, the Venus radar on Surface.
+  9. Pins on the globe with names and leader lines.
+  10. The feature card, the All features list and search.
+  11. End-to-end tests (`e2e/features.spec.ts`, a Surface layout check at five sizes), six new golden views, the eight M2b.3 goldens re-shot, a fix for hidden interior phone dots, and this documentation.
+- **Tests at the end:** 1,197 unit tests, typecheck clean, 144 end-to-end tests. The one full run passed 137 of 144 on a loaded machine (21.8 minutes); six canvas-wait timeouts passed on a re-run, and one new layout assertion was corrected.
+- **Decisions made on the user's behalf** (rulings) are in the plan's Execution record, [[2026-11-15-m2b4a-feature-pins]], each with its cost if wrong. The ones the user may notice: Earth positions from GNIS only; NASA image-centre coordinates not accepted as positions; Earth types are GNIS feature classes; names stay on their own side of the globe; the build fails on a duplicate feature id, not a duplicate name. The spec's §12a lists where the build departs from the spec.
+- **Golden views:** `Assets/m2b4a/` (Mars Surface, the Moon with Tycho's card, Earth with North America at `jd=2461317.4`, Venus radar, Mars with the list open, phone Mars); `Assets/m2b3/` re-shot.
+
+## Open for the user
+1. **Earth has landmarks only in the United States and Antarctica.** The NGA GEOnet Names Server, which the user approved for positions outside the United States, could not be reached from this network (every try timed out; `www.nga.mil` answered). Options: retry from another network, approve another official source for positions, or accept.
+2. **Earth type words are GNIS classes, and some read oddly:** Larsen Ice Shelf "Glacier", Antarctic Peninsula "Cape", Vinson Massif "Range", Grand Canyon "Valley". Friendlier words would have to be shown without a source.
+3. **Some quoted sentences state a size that differs from the Gazetteer size on the same card:** Mare Humorum 825 km in the quote against 420 km (the basin against the mare), Artemis Corona 2,100 against 2,600 km, Mead 280 against 270 km. Each is shown with its own source.
+4. **Earth can open over an ocean,** because Explore opens on the sunlit side. At the usual test date it opens on the Pacific with the US pins at the top limb.
+5. **Check the pins on a real GPU.** They were checked on SwiftShader only.
+6. **Mercury's Apollodorus dot sits about 15 km off the crater centre,** likely the Mercury map's alignment; the Moon, Mars and Earth dots are centred by the same code.
+7. **A few landmark sentences are weaker than the rest,** kept for lack of a better official sentence: Mercury Kandinsky (a list of craters), Apollodorus (naming trivia), Mendelssohn ("Prominently visible is…", which implies an image); Venus Gula Mons and Sapas Mons (mostly coordinates); Earth Meteor Crater (the quote never names the place) and Yellowstone Caldera (about the hydrothermal system). Mission-led: Elysium Planitia and Meridiani Planum. Mare Imbrium's quote says Orientale is the youngest mare. Syrtis Major Planum is quoted as "Syrtis Major" (the least certain name match).
+8. **The whole-branch review is still to do.** Nothing is pushed and no PR is open.
+
 ## Open for M2b.4b (not this section)
 - Field lines: a dipole drawn from the cited tilt and offset is a model, so it needs an "illustrative" label or a cited source for the real shape.
 - Aurora: no data yet.
 - Fields gets its own Explore tab (decided with the tabs above).
 
 ## State
-- Branch `m2b4a-pins`, created in place from `main` (2026-11-15). Nothing is committed on it yet: the session note, the spec, the mockup images and the `Start here.md` pointer are uncommitted.
-- No code is built. The spec is approved. The plan is written: [[2026-11-15-m2b4a-feature-pins]] (eleven tasks), waiting for the user's review. Next: the subagent-driven build (the user's standing choice).
-- The mockup server was stopped after the design talk.
+- Before the build: branch `m2b4a-pins`, created in place from `main`; the spec, the plan, the session note and the mockups were committed as the docs commit `2876eae`. The mockup server was stopped after the design talk.
+- At the end: all eleven tasks are committed on `m2b4a-pins` (`78ba9a3` to the Task 11 docs commit) and review-clean. **The whole-branch review is still to do**, then one fix wave and a scoped re-review. Not pushed; no PR is open. The execution ledger (`.superpowers/sdd/2026-11-15-m2b4a-feature-pins/`) is kept until the final review; every ruling and deferred finding is already in the plan's Execution record and in [[2026-10-05-m2a1-carry-over]] ("From M2b.4a").
+- Next: the whole-branch review (opus), then the user's call on the open items above and on pushing.

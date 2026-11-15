@@ -130,6 +130,64 @@ for (const view of EXPLORE_VIEWS) {
 }
 
 /**
+ * Surface golden views (M2b.4a spec §7): landmark pins on the globe, a selected pin with its card, the list open, a phone.
+ * Reduced motion makes the entry and the turn to a selected feature cuts. Dates: Mars 2461317.9 puts Olympus Mons and
+ * Tharsis on the facing side; Earth 2461317.4 puts North America on the sunlit side (Explore opens on the sunlit side, and at
+ * the usual 2461317.5 that is the Pacific with the US at the limb); the Moon keeps one face to Earth, so the usual date.
+ */
+const SURFACE_VIEWS = [
+  { name: '8-mars-surface', url: '/?jd=2461317.9&pause=1&target=mars&explore=1&quality=high&fx=1', body: 'mars', pins: 5 },
+  { name: '8b-moon-surface-card', url: '/?jd=2461317.5&pause=1&target=moon&explore=1&feature=tycho&quality=high&fx=1', body: 'moon', pins: 5, card: 'Tycho' },
+  { name: '8c-earth-surface', url: '/?jd=2461317.4&pause=1&target=earth&explore=1&quality=high&fx=1', body: 'earth', pins: 5 },
+  { name: '8d-venus-surface-radar', url: '/?jd=2461317.5&pause=1&target=venus&explore=1&quality=high&fx=1', body: 'venus', pins: 3, radar: true },
+  { name: '8e-mars-list', url: '/?jd=2461317.9&pause=1&target=mars&explore=1&quality=high&fx=1', body: 'mars', pins: 5, list: true },
+  { name: '8f-phone-mars-surface', url: '/?jd=2461317.9&pause=1&target=mars&explore=1&quality=high&fx=1', body: 'mars', pins: 5, phone: true },
+] as const;
+
+for (const view of SURFACE_VIEWS) {
+  test(`golden ${view.name}`, async ({ browser }) => {
+    const phone = 'phone' in view && view.phone;
+    const page = await browser.newPage({ viewport: phone ? { width: 390, height: 844 } : { width: 1280, height: 720 }, reducedMotion: 'reduce' });
+    const errors: string[] = [];
+    page.on('pageerror', (error) => errors.push(error.message));
+    page.on('console', (msg) => {
+      if (msg.type() === 'error' && /Shader Error|THREE\.WebGLProgram/.test(msg.text())) errors.push(msg.text().slice(0, 500));
+    });
+    await page.goto(view.url);
+    await expect(page.locator('canvas')).toBeVisible();
+    await page.waitForSelector('.scene[data-textures-ready="true"]', { timeout: 30_000 }); // a golden fails if textures never load
+    await page.waitForFunction(
+      (body) => {
+        const e = window.__svExplore?.();
+        return !!e && e.bodyId === body && e.view === 'whole' && e.focus >= 1;
+      },
+      view.body,
+      { timeout: 60_000 },
+    );
+    await expect.poll(() => page.locator('.xpin:visible').count(), { timeout: 30_000 }).toBeGreaterThanOrEqual(view.pins);
+    if ('card' in view) {
+      await expect(page.getByRole('region', { name: view.card }).getByRole('heading', { name: view.card })).toBeVisible();
+      await expect(page.locator('.xpin.is-selected')).toBeVisible();
+    }
+    if ('radar' in view) await expect(page.getByText('Radar view · not visible light')).toBeVisible();
+    if ('list' in view) {
+      await page.getByRole('button', { name: /^All features/ }).click();
+      await expect(page.getByRole('region', { name: 'All features' })).toBeVisible();
+    }
+    // Pins shown at full opacity, and no CSS animation or transition still running.
+    await page.waitForFunction(() => {
+      const root = document.querySelector<HTMLElement>('.xpins');
+      const settled = document.getAnimations().every((a) => a.playState !== 'running');
+      return !!root && root.style.visibility === 'visible' && Number(root.style.opacity || 1) >= 1 && settled;
+    }, null, { timeout: 30_000 });
+    await page.waitForTimeout(1500); // bloom and depth of field settle over a few frames
+    await page.screenshot({ path: `test-results/golden/${view.name}.png` });
+    await page.close();
+    expect(errors).toEqual([]);
+  });
+}
+
+/**
  * Guard against a silent atmosphere failure (NaN/Inf or a grey veil over the night side).
  * Viewport 1280x720, Earth disc centred near (638, 360) with radius about 140 px; azSun=90 puts the day half on the
  * left. Patches are 16x16 px at the disc's vertical centre, about 40% of the radius either side of the centre,
