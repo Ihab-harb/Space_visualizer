@@ -94,7 +94,10 @@ export function checkDetails(details: BodyDetails, ctx: { radiusKm: number; know
   if (f) {
     if (f.items.length > 200) errors.push(`${p} ${f.items.length} features exceeds the 200 cap`);
     if (f.items.length > f.totalApproved.value) errors.push(`${p} ${f.items.length} features exceeds the approved total ${f.totalApproved.value}`);
+    const seen = new Set<string>();
     for (const it of f.items) {
+      if (seen.has(it.id)) errors.push(`${p} duplicate feature id ${it.id}`);
+      seen.add(it.id);
       if (it.latDeg < -90 || it.latDeg > 90) errors.push(`${p} feature ${it.name} latitude ${it.latDeg} outside [-90, 90]`);
       if (it.lonDegE < 0 || it.lonDegE >= 360) errors.push(`${p} feature ${it.name} longitude ${it.lonDegE} outside [0, 360)`);
       if (!(it.diameterKm > 0)) errors.push(`${p} feature ${it.name} diameter must be > 0`);

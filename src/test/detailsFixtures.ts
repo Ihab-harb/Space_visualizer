@@ -47,7 +47,7 @@ export function makeMarsDetails(): BodyDetails {
       thresholdKm: 100,
       sourceId: PS,
       items: [
-        { name: 'Olympus Mons', type: 'Mons, montes', latDeg: 18.65, lonDegE: 226.2, diameterKm: 624, origin: 'Classical albedo feature name', approvedYear: 1973 },
+        { id: 'olympus-mons', name: 'Olympus Mons', type: 'Mons, montes', latDeg: 18.65, lonDegE: 226.2, diameterKm: 624, origin: 'Classical albedo feature name', approvedYear: 1973 },
       ],
     },
   };

@@ -115,6 +115,8 @@ export const DiscoverySchema = z.discriminatedUnion('kind', [
 ]);
 
 export const FeatureItemSchema = z.object({
+  /** Stable key: the folded name, plus the folded type when two features share a name. */
+  id: z.string().regex(/^[a-z0-9-]+$/),
   name: z.string().min(1),
   type: z.string().min(1),
   latDeg: z.number(),

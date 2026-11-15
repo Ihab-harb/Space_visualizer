@@ -77,6 +77,12 @@ describe('checkDetails: remaining spec §5 rules', () => {
     const over = checkDetails({ ...d, features: { ...f, items: [f.items[0]!, f.items[0]!] } }, ctx);
     expect(over.join()).toContain('2 features exceeds the approved total 1');
   });
+  it('rejects two features with the same id', () => {
+    const d = makeMarsDetails();
+    const f = d.features!;
+    const dupIds = { ...d, features: { ...f, totalApproved: { ...f.totalApproved, value: 5 }, items: [f.items[0]!, f.items[0]!] } };
+    expect(checkDetails(dupIds, ctx)).toContainEqual(expect.stringContaining('duplicate feature id'));
+  });
   it('rejects a feature diameter of zero or less', () => {
     const d = makeMarsDetails();
     const f = d.features!;
