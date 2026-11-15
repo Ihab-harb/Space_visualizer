@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "bodyId": "venus",
-  "generatedAt": "2026-11-15T03:28:29.743Z",
+  "generatedAt": "2026-11-15T03:42:03.474Z",
   "interior": {
     "radiusKm": {
       "value": 6051.8,
@@ -2254,5 +2254,12 @@
         "approvedYear": 1985
       }
     ]
+  },
+  "landmarks": [],
+  "featureTypes": {
+    "Mons": {
+      "meaning": "Mountain",
+      "sourceId": "usgs-gazetteer-descriptor-terms"
+    }
   }
 }

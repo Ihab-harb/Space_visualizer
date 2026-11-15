@@ -4,6 +4,7 @@ import type { Body } from '../../src/core/catalog/schema';
 import { makeCatalogFiles, makeEarth, makeMoon } from '../../src/test/fixtures';
 import type { FetchedText } from '../lib/fetchCached';
 import { PLANET_SHEET_IDS } from '../sources/nssdcPlanetSheet';
+import type { LandmarksFile } from '../sources/landmarks';
 import type { InteriorsFile, MissionsFile } from '../sources/quotedReference';
 import { buildDetails, type DetailsInputs } from './buildDetails';
 
@@ -60,6 +61,7 @@ function inputs(over: Partial<DetailsInputs> = {}): DetailsInputs {
     gazetteer: { mars: { rows, retrievedAt: '2026-10-09' } },
     interiors: interiors(), missions,
     curatedPages: new Map([['test-page', fetched(PAGE)]]),
+    landmarks: { sources: [], types: {}, bodies: {} }, earthPositions: new Map(),
     ...over,
   };
 }
@@ -340,6 +342,84 @@ describe('buildDetails', () => {
       const { details, errors } = run(f);
       expect(errors).toEqual([]);
       expect(details.find((d) => d.bodyId === 'mars')!.interior!.layers).toHaveLength(2);
+    });
+  });
+
+  describe('landmarks', () => {
+    const LPAGE = '<p>Tycho is a bright young crater seen well from Earth. Olympus Mons is a very tall volcano on the planet Mars. Mons, montes MO Mountain Oceanus, oceani OC A very large dark area on the moon. Crater, craters CR A circular depression Dorsum, dorsa DO Ridge</p>';
+    const Q_TYCHO = 'Tycho is a bright young crater seen well from Earth';
+    const Q_OLY = 'Olympus Mons is a very tall volcano on the planet Mars';
+    const Q_MONS = 'Mons, montes MO Mountain Oceanus, oceani OC A very large dark area on the moon';
+    const Q_CRATER = 'Crater, craters CR A circular depression Dorsum, dorsa DO Ridge';
+    const lsrc = { id: 'lm-page', title: 'Landmark page', publisher: 'NASA', url: 'https://science.nasa.gov/landmarks', license: 'NASA public domain' };
+    const file = (over: Partial<LandmarksFile> = {}): LandmarksFile => ({
+      sources: [lsrc],
+      types: { Mons: { meaning: 'Mountain', sourceId: 'lm-page', quote: Q_MONS } },
+      bodies: { mars: [{ name: 'Olympus Mons', sourceId: 'lm-page', quote: Q_OLY }] },
+      ...over,
+    });
+    const moonRows = [
+      ...Array.from({ length: 205 }, (_, i) => ({ name: `Big ${i}`, clean_name: `Big ${i}`, approvaldt: '1973/01/01 00:00:00', origin: 'Test', diameter: String(1000 - i), center_lon: '10', center_lat: '5', type: 'Crater, craters', approval: 'Adopted by IAU' })),
+      { name: 'Tycho', clean_name: 'Tycho', approvaldt: '1935/01/01 00:00:00', origin: 'Danish astronomer', diameter: '85', center_lon: '-11.36', center_lat: '-43.31', type: 'Crater, craters', approval: 'Adopted by IAU' },
+    ];
+    const pagesWithLandmarks = () => new Map([['test-page', fetched(PAGE)], ['lm-page', fetched(LPAGE)]]);
+    const moon: Body = { ...makeMoon(), facts: { hasGlobalMagneticField: { value: false, sourceId: PS } } };
+    const withLandmarks = (lm: LandmarksFile) => build({
+      bodies: [...bodies, moon],
+      existingSourceIds: new Set([...makeCatalogFiles().sources.sources.map((x) => x.id), 'nssdca-moon-fact-sheet']), // the catalogue registers the Moon sheet
+      landmarks: lm,
+      gazetteer: { mars: { rows, retrievedAt: '2026-10-09' }, moon: { rows: moonRows, retrievedAt: '2026-10-09' } },
+      curatedPages: pagesWithLandmarks(),
+    });
+    const earthFile = (position: object) => file({ types: {}, bodies: { earth: [{ name: 'Test Peak', type: 'Summit', sourceId: 'lm-page', quote: Q_TYCHO, position: position as never }] } });
+
+    it('fills a Gazetteer landmark from the Gazetteer by name, in file order', () => {
+      const lm = file({ types: {}, bodies: { moon: [{ name: 'Tycho', sourceId: 'lm-page', quote: Q_TYCHO }, { name: 'Big 3', sourceId: 'lm-page', quote: Q_TYCHO }] } });
+      const { details, errors } = withLandmarks(lm);
+      expect(errors).toEqual([]);
+      const moon = details.find((d) => d.bodyId === 'moon')!;
+      expect(moon.features!.items.some((i) => i.name === 'Tycho')).toBe(false); // below the cut of 200
+      expect(moon.landmarks.map((l) => l.name)).toEqual(['Tycho', 'Big 3']);
+      expect(moon.landmarks[0]).toEqual({
+        id: 'tycho', name: 'Tycho', type: 'Crater', latDeg: -43.31, lonDegE: 348.64, diameterKm: 85, origin: 'Danish astronomer', approvedYear: 1935,
+        position: { kind: 'gazetteer', sourceId: 'usgs-gazetteer-moon', text: null }, sizeSourceId: 'usgs-gazetteer-moon', quote: { text: Q_TYCHO, sourceId: 'lm-page' },
+      });
+    });
+    it('errors when a landmark name is not an approved Gazetteer feature', () => {
+      const lm = file({ types: {}, bodies: { moon: [{ name: 'Tychoo', sourceId: 'lm-page', quote: Q_TYCHO }] } });
+      expect(withLandmarks(lm).errors).toContain('details/moon.json: landmark Tychoo is not an approved Gazetteer feature');
+    });
+    it('errors, and does not skip, an Earth landmark whose names-database record is not fetched', () => {
+      const { errors, details } = build({ bodies: [...bodies, makeEarth()], landmarks: earthFile({ kind: 'names-database', database: 'gnis', recordId: '123' }), curatedPages: pagesWithLandmarks() });
+      expect(errors).toContain('details/earth.json: landmark Test Peak: names-database record 123 is not in the fetched positions');
+      expect(details.find((d) => d.bodyId === 'earth')!.landmarks).toEqual([]);
+    });
+    it('uses a names-database position for Earth when the record is fetched', () => {
+      const earthPositions = new Map([['123', { latDeg: 1.5, lonDegE: 200, text: '1.5 N, 160 W', sourceId: 'lm-page', retrievedAt: '2026-10-10' }]]);
+      const { details } = build({ bodies: [...bodies, makeEarth()], landmarks: earthFile({ kind: 'names-database', database: 'gnis', recordId: '123' }), earthPositions, curatedPages: pagesWithLandmarks() });
+      expect(details.find((d) => d.bodyId === 'earth')!.landmarks[0]).toMatchObject({
+        latDeg: 1.5, lonDegE: 200, diameterKm: null, position: { kind: 'names-database', text: '1.5 N, 160 W' }, sizeSourceId: null,
+      });
+    });
+    it('writes featureTypes only for types the body uses', () => {
+      const lm = file({ types: { Mons: { meaning: 'Mountain', sourceId: 'lm-page', quote: Q_MONS }, Crater: { meaning: 'A circular depression', sourceId: 'lm-page', quote: Q_CRATER } } });
+      const { details, errors } = withLandmarks(lm);
+      expect(errors).toEqual([]);
+      expect(details.find((d) => d.bodyId === 'mars')!.featureTypes).toEqual({ Mons: { meaning: 'Mountain', sourceId: 'lm-page' } });
+      expect(details.find((d) => d.bodyId === 'moon')!.featureTypes).toEqual({ Crater: { meaning: 'A circular depression', sourceId: 'lm-page' } });
+      expect(details.find((d) => d.bodyId === 'jupiter')!.featureTypes).toEqual({});
+    });
+    it('registers the landmark page once, as a source of the details', () => {
+      expect(withLandmarks(file()).sources.filter((s) => s.id === 'lm-page')).toHaveLength(1);
+    });
+    it('writes landmarks: [] and featureTypes: {} for a body with none', () => {
+      const j = build().details.find((d) => d.bodyId === 'jupiter')!;
+      expect(j.landmarks).toEqual([]);
+      expect(j.featureTypes).toEqual({});
+    });
+    it('reports a landmark quote that is not on its page', () => {
+      const lm = file({ bodies: { mars: [{ name: 'Olympus Mons', sourceId: 'lm-page', quote: 'This sentence is nowhere on that page at all' }] } });
+      expect(withLandmarks(lm).errors.join()).toContain('landmarks.json');
     });
   });
 });

@@ -1,12 +1,14 @@
 import type { Body, Source } from '../../src/core/catalog/schema';
 import { collectSourceIds } from '../../src/core/catalog/references';
+import { featureId } from '../../src/core/details/featureId';
 import { checkDetails } from '../../src/core/details/checks';
 import {
   BodyDetailsSchema,
-  type BodyDetails, type Discovery, type InteriorLayer, type Magnetosphere, type Mission, type SourcedRange,
+  type BodyDetails, type Discovery, type FeatureTypeMeaning, type Landmark, type InteriorLayer, type Magnetosphere, type Mission, type SourcedRange,
 } from '../../src/core/details/schema';
 import type { FetchedText } from '../lib/fetchCached';
-import { GAZETTEER_TARGETS, gazetteerSpec, selectFeatures } from '../sources/gazetteer';
+import { GAZETTEER_TARGETS, findFeature, gazetteerSpec, selectFeatures } from '../sources/gazetteer';
+import { hasOwnPosition, parseStatedPosition, verifyLandmarks, type CuratedLandmark, type LandmarksFile } from '../sources/landmarks';
 import { parseMoonExosphere } from '../sources/nssdcMoonSheet';
 import {
   PLANET_ATMOSPHERE_HEADING, PLANET_SHEET_IDS, SUN_COMPOSITION_HEADING,
@@ -32,6 +34,9 @@ export interface DetailsInputs {
   interiors: InteriorsFile;
   missions: MissionsFile;
   curatedPages: ReadonlyMap<string, FetchedText>;
+  landmarks: LandmarksFile;
+  /** Positions read from a names database, by record id. Empty until the Earth landmarks are added. */
+  earthPositions: ReadonlyMap<string, { latDeg: number; lonDegE: number; text: string; sourceId: string; retrievedAt: string }>;
 }
 
 const round = (x: number) => Math.round(x * 1e6) / 1e6;
@@ -88,6 +93,48 @@ function aliasSourceIds<T>(value: T, alias: ReadonlyMap<string, string>): T {
   return value;
 }
 
+/**
+ * One curated landmark as a details landmark, or the error message. A Gazetteer body takes everything but the sentence from the
+ * Gazetteer, by name. Any other body takes the position from a names-database record or from the numbers its quote states.
+ */
+function convertLandmark(
+  c: CuratedLandmark,
+  rows: Array<Record<string, string>> | null,
+  gazetteerSourceId: string,
+  earthPositions: DetailsInputs['earthPositions'],
+  p: string,
+): Landmark | string {
+  const quote = { text: c.quote, sourceId: c.sourceId };
+  const id = featureId(c.name);
+  if (rows) {
+    if (hasOwnPosition(c)) return `${p}: landmark ${c.name} is on a Gazetteer body and must not carry its own position`;
+    const f = findFeature(rows, c.name);
+    if (!f) return `${p}: landmark ${c.name} is not an approved Gazetteer feature`;
+    return {
+      id, name: c.name, type: f.type, latDeg: f.latDeg, lonDegE: f.lonDegE, diameterKm: f.diameterKm,
+      origin: f.origin || null, approvedYear: f.approvedYear,
+      position: { kind: 'gazetteer', sourceId: gazetteerSourceId, text: null }, sizeSourceId: gazetteerSourceId, quote,
+    };
+  }
+  if (!hasOwnPosition(c)) return `${p}: landmark ${c.name} needs a type and a position (this body has no Gazetteer)`;
+  const pos = c.position;
+  let at: { latDeg: number; lonDegE: number; kind: 'names-database' | 'quoted'; sourceId: string; text: string };
+  if (pos.kind === 'names-database') {
+    const rec = earthPositions.get(pos.recordId);
+    if (!rec) return `${p}: landmark ${c.name}: names-database record ${pos.recordId} is not in the fetched positions`;
+    at = { latDeg: rec.latDeg, lonDegE: rec.lonDegE, kind: pos.kind, sourceId: rec.sourceId, text: rec.text };
+  } else {
+    const stated = parseStatedPosition(pos.quote);
+    if (!stated) return `${p}: landmark ${c.name}: no position stated in its quote`;
+    at = { latDeg: pos.latDeg, lonDegE: pos.lonDegE, kind: pos.kind, sourceId: pos.sourceId, text: stated.text };
+  }
+  return {
+    id, name: c.name, type: c.type, latDeg: at.latDeg, lonDegE: at.lonDegE,
+    diameterKm: c.size?.km ?? null, origin: null, approvedYear: null,
+    position: { kind: at.kind, sourceId: at.sourceId, text: at.text }, sizeSourceId: c.size?.sourceId ?? null, quote,
+  };
+}
+
 export function buildDetails(inputs: DetailsInputs, generatedAt: string): { details: BodyDetails[]; sources: Source[]; errors: string[] } {
   const errors: string[] = [];
 
@@ -95,6 +142,7 @@ export function buildDetails(inputs: DetailsInputs, generatedAt: string): { deta
   for (const [id, page] of inputs.curatedPages) pages.set(id, pageText(page.text));
   errors.push(...verifyInteriors(inputs.interiors, pages).map((e) => `interiors.json: ${e}`));
   errors.push(...verifyMissions(inputs.missions, pages).map((e) => `missions.json: ${e}`));
+  errors.push(...verifyLandmarks(inputs.landmarks, pages).map((e) => `landmarks.json: ${e}`));
 
   const candidates = new Map<string, Source>();
   const addSource = (spec: SourceSpec, retrievedAt: string) => {
@@ -148,6 +196,8 @@ export function buildDetails(inputs: DetailsInputs, generatedAt: string): { deta
       .sort((a, b) => a.launchDate.localeCompare(b.launchDate) || a.name.localeCompare(b.name));
 
     let features: BodyDetails['features'] = null;
+    let gazetteerRows: Array<Record<string, string>> | null = null;
+    let gazetteerSourceId = '';
     if (id in GAZETTEER_TARGETS) {
       const key = id as keyof typeof GAZETTEER_TARGETS;
       const g = inputs.gazetteer[key];
@@ -156,10 +206,24 @@ export function buildDetails(inputs: DetailsInputs, generatedAt: string): { deta
         const spec = gazetteerSpec(key, body.name);
         addSource(spec, g.retrievedAt);
         features = selectFeatures(g.rows, spec.id);
+        gazetteerRows = g.rows;
+        gazetteerSourceId = spec.id;
       }
     }
 
-    details.push({ schemaVersion: 1, bodyId: id, generatedAt, interior, atmosphere, magnetosphere, missions, discovery: convertDiscovery(m?.discovery ?? null), features });
+    const landmarks: Landmark[] = [];
+    for (const c of inputs.landmarks.bodies[id] ?? []) {
+      const l = convertLandmark(c, gazetteerRows, gazetteerSourceId, inputs.earthPositions, p);
+      if (typeof l === 'string') errors.push(l);
+      else landmarks.push(l);
+    }
+    const featureTypes: Record<string, FeatureTypeMeaning> = {};
+    for (const type of new Set([...(features?.items ?? []), ...landmarks].map((x) => x.type))) {
+      const t = inputs.landmarks.types[type];
+      if (t) featureTypes[type] = { meaning: t.meaning, sourceId: t.sourceId };
+    }
+
+    details.push({ schemaVersion: 1, bodyId: id, generatedAt, interior, atmosphere, magnetosphere, missions, discovery: convertDiscovery(m?.discovery ?? null), features, landmarks, featureTypes });
   }
 
   // A curated source for a page that is already registered (in the catalogue, or as a fact sheet above) is an alias of it:
@@ -167,7 +231,7 @@ export function buildDetails(inputs: DetailsInputs, generatedAt: string): { deta
   const registeredByUrl = new Map<string, string>(inputs.existingSourceUrls ?? []);
   for (const c of candidates.values()) if (!registeredByUrl.has(c.url)) registeredByUrl.set(c.url, c.id);
   const alias = new Map<string, string>();
-  const curatedSources: CuratedSource[] = [...inputs.interiors.sources, ...inputs.missions.sources];
+  const curatedSources: CuratedSource[] = [...inputs.interiors.sources, ...inputs.missions.sources, ...inputs.landmarks.sources];
   for (const s of curatedSources) {
     const registered = registeredByUrl.get(s.url);
     if (registered !== undefined && registered !== s.id) { alias.set(s.id, registered); continue; }

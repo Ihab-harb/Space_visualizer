@@ -133,6 +133,26 @@ export const FeaturesSchema = z.object({
   items: z.array(FeatureItemSchema),
 });
 
+/** A well-known named feature with a sentence from an official page. Gazetteer values come from the Gazetteer by name; others from a names database or a number stated in a quote. */
+export const LandmarkSchema = z.object({
+  id: z.string().regex(/^[a-z0-9-]+$/),
+  name: z.string().min(1),
+  type: z.string().min(1),
+  latDeg: z.number(),
+  /** East longitude, 0 to 360 (the build checks the range). */
+  lonDegE: z.number(),
+  diameterKm: z.number().positive().nullable(),
+  origin: z.string().nullable(),
+  approvedYear: z.number().int().nullable(),
+  /** Where the position comes from. `text` is the position as the source wrote it (quoted and names-database), null for the Gazetteer. */
+  position: z.object({ kind: z.enum(['gazetteer', 'names-database', 'quoted']), sourceId: SourceId, text: z.string().nullable() }),
+  sizeSourceId: SourceId.nullable(),
+  quote: z.object({ text: z.string().min(1), sourceId: SourceId }),
+});
+
+/** What a Gazetteer feature type means, with the page that says so. */
+export const FeatureTypeMeaningSchema = z.object({ meaning: z.string().min(1), sourceId: SourceId });
+
 export const BodyDetailsSchema = z.object({
   schemaVersion: z.literal(1),
   bodyId: z.string().regex(/^[a-z0-9-]+$/),
@@ -149,6 +169,10 @@ export const BodyDetailsSchema = z.object({
   missions: z.array(MissionSchema),
   discovery: DiscoverySchema.nullable(),
   features: FeaturesSchema.nullable(),
+  /** Curated landmarks in rank order; empty when the body has none. */
+  landmarks: z.array(LandmarkSchema),
+  /** Type meanings by Gazetteer type, for the types this body's features and landmarks use; empty when none. */
+  featureTypes: z.record(z.string(), FeatureTypeMeaningSchema),
 });
 
 export type SourcedRange = z.infer<typeof SourcedRangeSchema>;
@@ -162,5 +186,7 @@ export type MissionOutcome = (typeof MISSION_OUTCOMES)[number];
 export type Mission = z.infer<typeof MissionSchema>;
 export type Discovery = z.infer<typeof DiscoverySchema>;
 export type FeatureItem = z.infer<typeof FeatureItemSchema>;
+export type Landmark = z.infer<typeof LandmarkSchema>;
+export type FeatureTypeMeaning = z.infer<typeof FeatureTypeMeaningSchema>;
 export type Features = z.infer<typeof FeaturesSchema>;
 export type BodyDetails = z.infer<typeof BodyDetailsSchema>;

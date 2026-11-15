@@ -103,6 +103,20 @@ export function checkDetails(details: BodyDetails, ctx: { radiusKm: number; know
       if (!(it.diameterKm > 0)) errors.push(`${p} feature ${it.name} diameter must be > 0`);
     }
   }
+  const seenLandmarks = new Set<string>();
+  for (const l of details.landmarks) {
+    if (seenLandmarks.has(l.id)) errors.push(`${p} duplicate landmark id ${l.id}`);
+    seenLandmarks.add(l.id);
+    if (l.latDeg < -90 || l.latDeg > 90) errors.push(`${p} landmark ${l.name} latitude ${l.latDeg} outside [-90, 90]`);
+    if (l.lonDegE < 0 || l.lonDegE >= 360) errors.push(`${p} landmark ${l.name} longitude ${l.lonDegE} outside [0, 360)`);
+    if (l.position.kind === 'gazetteer') {
+      // A landmark above the 200 cut also has a features row; the two must agree.
+      const row = f?.items.find((it) => it.id === l.id);
+      if (row && (row.latDeg !== l.latDeg || row.lonDegE !== l.lonDegE || row.diameterKm !== l.diameterKm || row.type !== l.type || (row.origin || null) !== l.origin || row.approvedYear !== l.approvedYear)) {
+        errors.push(`${p} landmark ${l.name} differs from its features row`);
+      }
+    }
+  }
   for (const m of details.missions) {
     for (const d of [m.launchDate, m.arrivalDate, m.endDate]) if (d && !validDate(d)) errors.push(`${p} mission ${m.id} has invalid date ${d}`);
     if (m.arrivalDate && m.arrivalDate < m.launchDate) errors.push(`${p} mission ${m.id} arrival ${m.arrivalDate} before launch ${m.launchDate}`);

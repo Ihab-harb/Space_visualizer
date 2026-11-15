@@ -50,6 +50,8 @@ export function makeMarsDetails(): BodyDetails {
         { id: 'olympus-mons', name: 'Olympus Mons', type: 'Mons, montes', latDeg: 18.65, lonDegE: 226.2, diameterKm: 624, origin: 'Classical albedo feature name', approvedYear: 1973 },
       ],
     },
+    landmarks: [],
+    featureTypes: {},
   };
 }
 
@@ -84,6 +86,8 @@ export function makeJupiterDetails(): BodyDetails {
     ],
     discovery: { kind: 'antiquity', sourceId: S },
     features: null,
+    landmarks: [],
+    featureTypes: {},
   };
 }
 
@@ -124,5 +128,7 @@ export function makeSunDetails(): BodyDetails {
     missions: [],
     discovery: null,
     features: null,
+    landmarks: [],
+    featureTypes: {},
   };
 }

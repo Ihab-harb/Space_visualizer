@@ -74,6 +74,13 @@ export function detailsSourceOrder(details: BodyDetails | null | undefined): str
   // Explore-only citations (the ruler's centre, a gradual boundary's sentence). Last, so no number shown elsewhere moves.
   add(details.interior?.radiusKm?.sourceId);
   for (const layer of details.interior?.layers ?? []) add(layer.gradual?.sourceId);
+  // Landmark citations (feature pins): appended after everything above.
+  for (const l of details.landmarks) {
+    add(l.quote.sourceId);
+    add(l.position.sourceId);
+    add(l.sizeSourceId ?? undefined);
+  }
+  for (const t of Object.values(details.featureTypes)) add(t.sourceId);
   return ids;
 }
 

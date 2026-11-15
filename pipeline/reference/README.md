@@ -9,6 +9,8 @@ Types and checks live in `pipeline/sources/quotedReference.ts`.
 - `interiors.json` is an `InteriorsFile`: `sources` plus `bodies[bodyId].layers`. A body may also carry `magneticField: { sourceId, quote, text }` (used for the Moon, whose Planetary Fact Sheet row says only "No"): a sentence from a registered page, shown in the Magnetic field section. The build checks the quote like any other; without it the field comes from the catalogue fact or the fact sheet. An empty `layers` array means no interior is shown.
 - `missions.json` is a `MissionsFile`: `sources` plus `bodies[bodyId] = { discovery, missions }`.
 
+- `landmarks.json` is a `LandmarksFile`: `sources`, `types` and `bodies[bodyId]` (see Landmarks).
+
 Each `sources` entry is `{ id, title, publisher, url, license }` (a paper adds more; see Research papers). Every `sourceId` used in the file must be registered there.
 
 ## Rules
@@ -49,6 +51,29 @@ Where no official source gives a number (the interiors of Venus and the giant pl
 ### Documented exceptions
 
 Shah et al. 2022 (Venus core): the quoted sentence says "core size 2930-4350 km", not "core radius". The paper's body, Fig. 8 and its "Core radius" table use the same values as a radius, and a diameter that large is impossible for Venus (mean radius 6,051.8 km), so the layer records it as a radius.
+
+## Landmarks
+
+`landmarks.json` curates the well-known named surface features that Explore draws as pins. Types and checks live in `pipeline/sources/landmarks.ts`. The general rules above apply (official hosts, exact sentences of at least 6 words, kilometres).
+
+```
+{ "sources": [ ... ],
+  "types":  { "<Gazetteer type>": { "meaning", "sourceId", "quote" } },
+  "bodies": { "<bodyId>": [ landmark, ... ] } }          // rank order: the order is the order shown
+```
+
+- A Gazetteer body (Mercury, Venus, the Moon, Mars) lists `{ name, sourceId, quote }`. The name must be an approved Gazetteer feature (exact, case-sensitive, the Gazetteer's clean name). Position, size, type, origin and approval year all come from the Gazetteer row, whatever its size (the 200-feature cut does not apply). The build fails on a name that is not there.
+- Any other body (Earth) lists `{ name, type, sourceId, quote, position, size? }`. `position` is a names-database record (`{ kind: "names-database", database: "gnis" | "gns", recordId }`, read by the build from the fetched record) or numbers stated in a sentence (`{ kind: "quoted", latDeg, lonDegE, sourceId, quote }`). An optional `size` is `{ km, sourceId, quote }` and the km figure must be in the quote.
+- `types` give the meaning of a Gazetteer feature type, from the Gazetteer's descriptor-terms page. The quote must contain the type and the meaning. A body's details carry only the meanings of the types it uses.
+
+Rules:
+
+1. Two things per landmark: a sentence worth showing (an official page that says something about the feature) and an official position. The sentence never supplies the position unless it states it as numbers.
+2. Positions are never read off a map or typed from memory. Each one is the Gazetteer's, a names-database record's, or numbers stated in a quoted sentence. For a quoted position the build runs `parseStatedPosition` on the quote (two numbers, each with a hemisphere letter or word, or a sign after the word latitude or longitude; degrees with optional minutes) and the stored latitude and longitude must equal what it reads. Longitudes are stored 0 to 360 east, so 112.1 W is 247.9.
+3. No research papers. A `kind: "paper"` source fails the check ("papers are not allowed for landmarks"). The names databases (GNIS, GNS) are position sources only and are never quoted.
+4. A landmark name is unique within its body.
+
+The build checks a landmark's quote like any other, and `npm run data:offline` fails on any problem. The check is `verifyLandmarks`; its messages look like `mars/Olympus Mons: quote not on page of <sourceId>: "..."`.
 
 ## Adding an entry
 

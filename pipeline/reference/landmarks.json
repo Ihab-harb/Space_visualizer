@@ -1,0 +1,39 @@
+{
+  "sources": [
+    {
+      "id": "nasa-science-mars-facts",
+      "title": "Mars: Facts",
+      "publisher": "NASA Science",
+      "url": "https://science.nasa.gov/mars/facts/",
+      "license": "NASA public domain (NASA media usage guidelines)"
+    },
+    {
+      "id": "usgs-gazetteer-descriptor-terms",
+      "title": "Descriptor Terms (feature types), Gazetteer of Planetary Nomenclature",
+      "publisher": "USGS Astrogeology Science Center / IAU Working Group for Planetary System Nomenclature",
+      "url": "https://planetarynames.wr.usgs.gov/DescriptorTerms",
+      "license": "Public domain (USGS)"
+    }
+  ],
+  "types": {
+    "Mons": {
+      "meaning": "Mountain",
+      "sourceId": "usgs-gazetteer-descriptor-terms",
+      "quote": "Mons, montes MO Mountain Oceanus, oceani OC A very large dark area on the moon"
+    }
+  },
+  "bodies": {
+    "mars": [
+      {
+        "name": "Olympus Mons",
+        "sourceId": "nasa-science-mars-facts",
+        "quote": "Olympus Mons stands more than 25 miles (that's more than 132,000 feet, or 40 kilometers) tall from base to summit, with the base covering an area as large as the state of Arizona."
+      },
+      {
+        "name": "Valles Marineris",
+        "sourceId": "nasa-science-mars-facts",
+        "quote": "A vast canyon system called Valles Marineris is long enough to stretch from California to New York"
+      }
+    ]
+  }
+}

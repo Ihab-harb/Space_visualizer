@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "bodyId": "mars",
-  "generatedAt": "2026-11-15T03:28:29.743Z",
+  "generatedAt": "2026-11-15T03:42:03.474Z",
   "interior": {
     "radiusKm": {
       "value": 3389.5,
@@ -2321,5 +2321,53 @@
         "approvedYear": 2006
       }
     ]
+  },
+  "landmarks": [
+    {
+      "id": "olympus-mons",
+      "name": "Olympus Mons",
+      "type": "Mons",
+      "latDeg": 18.6528,
+      "lonDegE": 226.1975,
+      "diameterKm": 610.13,
+      "origin": "Classical albedo feature name.",
+      "approvedYear": 1973,
+      "position": {
+        "kind": "gazetteer",
+        "sourceId": "usgs-gazetteer-mars",
+        "text": null
+      },
+      "sizeSourceId": "usgs-gazetteer-mars",
+      "quote": {
+        "text": "Olympus Mons stands more than 25 miles (that's more than 132,000 feet, or 40 kilometers) tall from base to summit, with the base covering an area as large as the state of Arizona.",
+        "sourceId": "nasa-science-mars-facts"
+      }
+    },
+    {
+      "id": "valles-marineris",
+      "name": "Valles Marineris",
+      "type": "Vallis",
+      "latDeg": -14.0059,
+      "lonDegE": 301.4123,
+      "diameterKm": 3761.278,
+      "origin": "General name of the system of canyons honoring the scientific team of the Mariner 9 program.",
+      "approvedYear": 1973,
+      "position": {
+        "kind": "gazetteer",
+        "sourceId": "usgs-gazetteer-mars",
+        "text": null
+      },
+      "sizeSourceId": "usgs-gazetteer-mars",
+      "quote": {
+        "text": "A vast canyon system called Valles Marineris is long enough to stretch from California to New York",
+        "sourceId": "nasa-science-mars-facts"
+      }
+    }
+  ],
+  "featureTypes": {
+    "Mons": {
+      "meaning": "Mountain",
+      "sourceId": "usgs-gazetteer-descriptor-terms"
+    }
   }
 }

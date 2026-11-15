@@ -10,6 +10,7 @@ import { DESCRIPTION_PAGES } from './sources/nasaScience';
 import { readDbf } from './lib/dbf';
 import { readZipEntry } from './lib/zip';
 import { GAZETTEER_TARGETS, gazetteerUrl } from './sources/gazetteer';
+import type { LandmarksFile } from './sources/landmarks';
 import { PLANET_SHEET_IDS } from './sources/nssdcPlanetSheet';
 import { quotePageUrl, type InteriorsFile, type MissionsFile } from './sources/quotedReference';
 import { planetSheetUrl, SOURCE_SPECS } from './sources/registry';
@@ -58,12 +59,13 @@ try {
   }
   const interiors = JSON.parse(await readFile('pipeline/reference/interiors.json', 'utf8')) as InteriorsFile;
   const missions = JSON.parse(await readFile('pipeline/reference/missions.json', 'utf8')) as MissionsFile;
+  const landmarks = JSON.parse(await readFile('pipeline/reference/landmarks.json', 'utf8')) as LandmarksFile;
   const curatedPages = new Map<string, FetchedText>();
-  for (const s of [...interiors.sources, ...missions.sources]) {
+  for (const s of [...interiors.sources, ...missions.sources, ...landmarks.sources]) {
     if (!curatedPages.has(s.id)) curatedPages.set(s.id, await fetchCached(quotePageUrl(s), `ref-${s.id}.html`, options));
   }
   const built = buildDetails(
-    { bodies: output.bodies.bodies, existingSourceIds: new Set(output.sources.sources.map((s) => s.id)), existingSourceUrls: new Map(output.sources.sources.map((s) => [s.url, s.id])), planetSheets, sunSheet, moonSheet, gazetteer, interiors, missions, curatedPages },
+    { bodies: output.bodies.bodies, existingSourceIds: new Set(output.sources.sources.map((s) => s.id)), existingSourceUrls: new Map(output.sources.sources.map((s) => [s.url, s.id])), planetSheets, sunSheet, moonSheet, gazetteer, interiors, missions, curatedPages, landmarks, earthPositions: new Map() },
     generatedAt,
   );
   output.sources.sources.push(...built.sources);

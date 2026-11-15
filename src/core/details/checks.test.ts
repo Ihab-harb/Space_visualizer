@@ -194,4 +194,26 @@ describe('layer count and gradual boundaries (M2b.3 review)', () => {
     expect(checkDetails(ok, ctx)).toEqual([]);
     expect(checkDetails({ ...ok, interior: { ...ok.interior, radiusKm: { value: 3000, sourceId: PS } } }, ctx).join()).toContain('interior radius 3000 km is not the radius the bounds use (3389.5 km)');
   });
+  it('rejects duplicate landmark ids, out-of-range positions, and a Gazetteer landmark whose values differ from its features row', () => {
+    const d = makeMarsDetails();
+    const row = d.features!.items[0]!;
+    const lm = (over: object = {}) => ({
+      id: row.id, name: row.name, type: row.type, latDeg: row.latDeg, lonDegE: row.lonDegE, diameterKm: row.diameterKm, origin: row.origin, approvedYear: row.approvedYear,
+      position: { kind: 'gazetteer' as const, sourceId: 'nssdca-planetary-fact-sheet', text: null }, sizeSourceId: 'nssdca-planetary-fact-sheet',
+      quote: { text: 'Olympus Mons is a very tall volcano', sourceId: 'nssdca-planetary-fact-sheet' }, ...over,
+    });
+    expect(checkDetails({ ...d, landmarks: [lm()] }, ctx)).toEqual([]);
+    expect(checkDetails({ ...d, landmarks: [lm(), lm()] }, ctx).join()).toContain('duplicate landmark id olympus-mons');
+    expect(checkDetails({ ...d, landmarks: [lm({ latDeg: 95 })] }, ctx).join()).toContain('landmark Olympus Mons latitude 95');
+    expect(checkDetails({ ...d, landmarks: [lm({ lonDegE: 360 })] }, ctx).join()).toContain('landmark Olympus Mons longitude 360');
+    expect(checkDetails({ ...d, landmarks: [lm({ diameterKm: 600 })] }, ctx).join()).toContain('landmark Olympus Mons differs from its features row');
+    expect(checkDetails({ ...d, landmarks: [lm({ id: 'valles-marineris', name: 'Valles Marineris', diameterKm: 4000 })] }, ctx)).toEqual([]);
+    expect(checkDetails({ ...d, landmarks: [lm({ quote: { text: 'x y z a b c', sourceId: 'unknown-src' } })] }, ctx).join()).toContain('unknown sourceId "unknown-src"');
+  });
+  it('requires landmarks and featureTypes in the schema', () => {
+    const { landmarks: _l, ...withoutLandmarks } = makeMarsDetails();
+    expect(BodyDetailsSchema.safeParse(withoutLandmarks).success).toBe(false);
+    const { featureTypes: _f, ...withoutTypes } = makeMarsDetails();
+    expect(BodyDetailsSchema.safeParse(withoutTypes).success).toBe(false);
+  });
 });
