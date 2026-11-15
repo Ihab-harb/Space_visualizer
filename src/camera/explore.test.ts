@@ -2,7 +2,7 @@ import { describe, expect, it } from 'vitest';
 import { cross, dot, length, normalize, sub } from '../core/math/vec3';
 import { lookRotation } from './rig';
 import { offsetDirection, orbitPose } from './orbitController';
-import { EXPLORE_CAMERA, EXPLORE_FIT_HALF_HEIGHT, exploreFitScale, exploreFrameRadii, exploreInput, orbitUp, reframeDistanceKm } from './explore';
+import { advanceTurn, EXPLORE_CAMERA, EXPLORE_FIT_HALF_HEIGHT, exploreEntryAzimuth, exploreFitScale, exploreFrameRadii, exploreInput, FEATURE_MAX_ELEVATION_RAD, FEATURE_TURN_SECONDS, featureView, orbitUp, reframeDistanceKm, turnStep } from './explore';
 
 describe('orbitUp', () => {
   it('is the screen-up of the orbit view: unit, across the view direction, and equal to the camera up column', () => {
@@ -87,5 +87,64 @@ describe('reframeDistanceKm (the screen turned while exploring)', () => {
     const portrait = R * exploreFrameRadii(fov, tall);
     expect(reframeDistanceKm(portrait, R, fov, tall, wide)).toBe(portrait);
     expect(reframeDistanceKm(R * 1.5, R, fov, 16 / 9, 4 / 3)).toBe(R * 1.5);
+  });
+});
+
+describe('sunlit entry', () => {
+  it('enters on the sunlit side, 35 degrees off the Sun', () => {
+    expect(exploreEntryAzimuth('mars', 'sun', [1, 0, 0], [0, 0, 0], 0)).toBeCloseTo(Math.PI + (35 * Math.PI) / 180);
+  });
+  it('keeps the entry direction for the Sun itself', () => {
+    expect(exploreEntryAzimuth('sun', 'sun', [0, 0, 0], [0, 0, 0], 1.2)).toBe(1.2);
+  });
+  it('keeps the entry direction when there is no Sun', () => {
+    expect(exploreEntryAzimuth('mars', null, [1, 0, 0], [0, 0, 0], 0.7)).toBe(0.7);
+  });
+});
+
+describe('featureView and turnStep', () => {
+  const a = { azimuthRad: 0.2, elevationRad: 0.1 };
+  const b = { azimuthRad: 1.4, elevationRad: -0.3 };
+  it('puts the camera over the feature', () => {
+    expect(featureView([0, 1, 0])).toEqual({ azimuthRad: Math.PI / 2, elevationRad: 0 });
+  });
+  it('views a polar feature from 70 degrees, with a finite azimuth', () => {
+    const v = featureView([0, 0, 1]);
+    expect(v.elevationRad).toBeCloseTo(FEATURE_MAX_ELEVATION_RAD);
+    expect(Number.isFinite(v.azimuthRad)).toBe(true);
+    expect(featureView([0, 0, -1]).elevationRad).toBeCloseTo(-FEATURE_MAX_ELEVATION_RAD);
+  });
+  it('turns the short way round', () => {
+    expect(turnStep({ azimuthRad: 3.0, elevationRad: 0 }, { azimuthRad: -3.0, elevationRad: 0 }, 0.5).azimuthRad).toBeCloseTo(Math.PI, 1);
+  });
+  it('starts on the origin and ends exactly on the target', () => {
+    expect(turnStep(a, b, 0)).toEqual(a);
+    expect(turnStep(a, b, 1)).toEqual(b);
+  });
+});
+
+describe('advanceTurn', () => {
+  const from = { azimuthRad: 0, elevationRad: 0 };
+  const to = { azimuthRad: 1, elevationRad: 0.5 };
+  const turn = { from, to, startedAt: 10, seq: 3 };
+  it('moves part of the way mid-turn and keeps the turn', () => {
+    const r = advanceTurn(turn, 10 + FEATURE_TURN_SECONDS / 2, false, false);
+    expect(r.turn).toBe(turn);
+    expect(r.view!.azimuthRad).toBeGreaterThan(0);
+    expect(r.view!.azimuthRad).toBeLessThan(1);
+  });
+  it('ends at the target once the time is up', () => {
+    const r = advanceTurn(turn, 10 + FEATURE_TURN_SECONDS, false, false);
+    expect(r.turn).toBeNull();
+    expect(r.view).toEqual(to);
+  });
+  it('is cancelled by input, with no view change', () => {
+    expect(advanceTurn(turn, 10.2, true, false)).toEqual({ turn: null, view: null });
+  });
+  it('jumps to the target under reduced motion', () => {
+    expect(advanceTurn(turn, 10, false, true)).toEqual({ turn: null, view: to });
+  });
+  it('does nothing without a turn', () => {
+    expect(advanceTurn(null, 10, false, false)).toEqual({ turn: null, view: null });
   });
 });
