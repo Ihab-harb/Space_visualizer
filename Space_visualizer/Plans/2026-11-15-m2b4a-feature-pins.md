@@ -1,7 +1,7 @@
 ---
 title: M2b.4a Feature pins — Implementation Plan
 date: 2026-11-15
-status: complete (whole-branch review and fix wave done; scoped re-review to do)
+status: complete (whole-branch review, fix wave and scoped re-review done 2026-11-15)
 milestone: M2b.4a
 spec: "[[2026-11-15-m2b4a-feature-pins-design]]"
 tags: [plan, m2b, features, explore]
@@ -736,3 +736,14 @@ Minor fixes, same commit: F3 the pin projector reads the reserved rects before i
 - Parametric against planetocentric latitude on the oblate mesh (at most about 0.17°, about 10 km on Mars): the spec says pins follow the drawn shape, and the texture uses the same mapping.
 
 Not fixed, in the carry-over note: `schemaVersion` stays 1 although three fields became required; `WITH_WORD` and "10 km east" parsing before the first quoted position is added.
+
+### Scoped re-review of the fix wave (2026-11-15)
+All of F1 to F10 addressed; no new Critical or Important breakage. F11 (Tab reaching the pins) was left for a reason the re-reviewer accepted: the pins sit in the scene's isolated label layer under the overlay, and moving them changes what draws on top of what. One new minor: when a body's details are missing or failed, the camera's feature lookup stays pending and runs a cheap check each frame (it builds no list; selecting a feature needs ready details anyway).
+
+Final numbers, run by the controller on the final commit: **1,211 unit tests in 122 files, typecheck clean.** End-to-end: the fix wave's run of `features`, `explore` and `layout` passed 77 of 77; the last full run (before the fix wave) passed 137 of 144 in one pass on a loaded machine, with the six canvas-wait timeouts passing on rerun and one new layout assertion corrected.
+
+Rulings made in the final review, beside those above:
+- **`schemaVersion` stays 1** although `landmarks`, `featureTypes` and `FeatureItem.id` became required. The app and its data ship together, and the plan left it to the builder. Cost if wrong: a stale cached details file fails to parse; since F1 that shows as a load error with Retry.
+- **Not fixed, left for the user or later:** no Magellan credit inside Explore (the spec asks only for the tag); the landmark sentences that point at an image (Nathair Facula, Fonteyn, Sif Mons) are listed for the user, not dropped. No cost.
+
+The execution ledger (`.superpowers/sdd/2026-11-15-m2b4a-feature-pins/`, git-ignored) is kept until the user says it can go: it holds the full task reports and research logs that this record condenses.
