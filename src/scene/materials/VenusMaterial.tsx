@@ -2,7 +2,7 @@ import { useFrame } from '@react-three/fiber';
 import { useEffect, useMemo } from 'react';
 import type { Body } from '../../core/catalog/schema';
 import { useMaxTier } from '../../render/useMaxTier';
-import { useViewStore } from '../../state/viewStore';
+import { useRadarShown } from '../../state/viewStore';
 import { useTieredTexture } from '../textures/useTieredTexture';
 import { useFrameState } from '../FrameStateContext';
 import { FRAG_OUTRO } from './chunks';
@@ -46,12 +46,12 @@ void main() {
 export function VenusMaterial({ body, bodies }: { body: Body; bodies: readonly Body[] }) {
   const frame = useFrameState();
   const tier = useMaxTier();
-  const venusRadar = useViewStore((s) => s.venusRadar);
-  const radar = useTieredTexture(venusRadar ? body.imagery?.radar : undefined, { maxTier: tier, srgb: true });
+  const radarShown = useRadarShown();
+  const radar = useTieredTexture(radarShown ? body.imagery?.radar : undefined, { maxTier: tier, srgb: true });
   const material = useMemo(() => createBodyMaterial({ fragment: FRAGMENT, uniforms: { uCloudAngle: { value: 0 }, uRadarMap: { value: null }, uRadar: { value: 0 } } }), []);
   useEffect(() => () => material.dispose(), [material]);
   material.uniforms.uRadarMap!.value = radar;
-  material.uniforms.uRadar!.value = venusRadar && radar ? 1 : 0;
+  material.uniforms.uRadar!.value = radarShown && radar ? 1 : 0;
   useBodyUniforms(body, [material], bodies);
   useFrame(() => {
     material.uniforms.uCloudAngle!.value = venusCloudAngle(frame.jdTdb);

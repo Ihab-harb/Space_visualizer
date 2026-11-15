@@ -26,6 +26,7 @@ test.afterEach(() => {
 
 const JD = 2461317.5;
 const header = (page: Page) => page.getByRole('banner', { name: 'Selected body' });
+const sectionSwitch = (page: Page) => page.getByRole('radiogroup', { name: 'Explore section' });
 const viewSwitch = (page: Page) => page.getByRole('radiogroup', { name: 'Interior view' });
 const leaveButton = (page: Page) => page.getByRole('button', { name: 'Leave Explore' });
 
@@ -91,8 +92,8 @@ test('the Explore button opens Explore; the interface steps aside and the switch
   await expect(page.getByRole('region', { name: 'Time controls' })).toHaveCount(0);
   await expect(page.locator('.control-panel')).toHaveCount(0);
   await expect(page.getByRole('heading', { name: 'Earth' })).toBeVisible();
-  await expect(page.getByText('Explore · Interior')).toBeVisible();
-  await expect(viewSwitch(page).getByRole('radio', { name: 'Whole' })).toBeFocused();
+  await expect(page.getByText('Explore · Surface')).toBeVisible();
+  await expect(sectionSwitch(page).getByRole('radio', { name: 'Surface' })).toBeFocused();
   await settled(page, 'earth', 'whole');
   // Pill labels and orbit lines step aside too.
   await expect(page.locator('.body-label:not(.is-hidden)')).toHaveCount(0);
@@ -101,8 +102,8 @@ test('the Explore button opens Explore; the interface steps aside and the switch
 test('X opens Explore; the switch and keys 1-3 change the view; Esc and ✕ leave', async ({ page }) => {
   await open(page, 'target=earth&pause=1');
   await page.keyboard.press('x');
-  await expect(viewSwitch(page)).toBeVisible();
-  const radio = (name: string) => viewSwitch(page).getByRole('radio', { name });
+  await expect(sectionSwitch(page)).toBeVisible();
+  const radio = (name: string) => page.getByRole('radio', { name, exact: true });
 
   await page.keyboard.press('2');
   await expect(radio('Exploded')).toHaveAttribute('aria-checked', 'true');
@@ -118,8 +119,9 @@ test('X opens Explore; the switch and keys 1-3 change the view; Esc and ✕ leav
 
   await radio('Exploded').click();
   await settled(page, 'earth', 'exploded');
-  await radio('Whole').click();
-  await expect(radio('Whole')).toHaveAttribute('aria-checked', 'true');
+  await radio('Surface').click();
+  await expect(radio('Surface')).toHaveAttribute('aria-checked', 'true');
+  await expect(viewSwitch(page)).toHaveCount(0);
   await page.waitForFunction(() => {
     const e = window.__svExplore?.();
     return !!e && e.view === 'whole' && e.offsets.every((o) => o === 0) && e.planeOffset >= 1;
@@ -157,9 +159,9 @@ test('the full chart opens and closes; Esc closes the chart first, then leaves',
   await expect(chart).toBeVisible();
   await page.keyboard.press('Escape'); // first Esc: the chart
   await expect(chart).toHaveCount(0);
-  await expect(viewSwitch(page)).toBeVisible();
+  await expect(sectionSwitch(page)).toBeVisible();
   await page.keyboard.press('Escape'); // second Esc: Explore
-  await expect(viewSwitch(page)).toHaveCount(0);
+  await expect(sectionSwitch(page)).toHaveCount(0);
   await closed(page);
 });
 
@@ -169,7 +171,7 @@ test('leaving restores the play state and speed; the date does not change', asyn
   const speed = await page.getByLabel('Speed').inputValue();
   await expect(page.getByRole('button', { name: 'Pause', exact: true })).toBeVisible(); // playing
   await page.keyboard.press('x');
-  await expect(viewSwitch(page)).toBeVisible();
+  await expect(sectionSwitch(page)).toBeVisible();
   await settled(page, 'earth', 'whole');
   await page.keyboard.press('Escape');
   await closed(page);
@@ -196,7 +198,7 @@ test('explore=1&view=section opens Half-section directly; no target means no Exp
 
   await open(page, 'pause=1&explore=1&view=section');
   await expect(page.getByRole('heading', { name: 'Solar System' })).toBeVisible();
-  await expect(viewSwitch(page)).toHaveCount(0);
+  await expect(sectionSwitch(page)).toHaveCount(0);
   expect(await exploreFrame(page)).toBeNull();
 });
 
@@ -295,10 +297,12 @@ test('Half-section shows the depth ruler: surface to centre, cited, estimates ma
   await expect(jr.locator('.tag--estimate')).toHaveCount(1);
 });
 
-test('a failed details load says so and Retry loads again; the view switch is not live meanwhile', async ({ page }) => {
+test('a failed details load says so on Interior and Retry loads again; the interior switch is not live meanwhile', async ({ page }) => {
   let fail = true;
   await page.route('**/details/earth.json', (route) => (fail ? route.fulfill({ status: 500, body: 'down' }) : route.continue()));
   await open(page, 'target=earth&pause=1&explore=1');
+  await expect(sectionSwitch(page)).toBeVisible(); // the tabs stay; Surface shows no note
+  await sectionSwitch(page).getByRole('radio', { name: 'Interior' }).click();
   const alert = page.getByRole('alert');
   await expect(alert).toContainText('Could not load the interior.');
   await expect(viewSwitch(page)).toHaveCount(0);

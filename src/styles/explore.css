@@ -29,7 +29,7 @@
   right: var(--gutter);
   display: grid;
   grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
-  grid-template-areas: 'title switch leave' 'notes . .';
+  grid-template-areas: 'title switch leave' 'notes subswitch .';
   align-items: start;
   gap: 4px 16px;
   pointer-events: none;
@@ -56,6 +56,8 @@
   padding-left: 4px;
 }
 .explore-notes .tag { margin-left: 0; }
+.explore-notes .header__radar-tag { margin: 0; padding: 2px 9px; font-size: 11px; }
+.explore-note-text { color: var(--text-muted); font-size: 11px; letter-spacing: 0.02em; }
 .tag--estimate { color: var(--warning); border-color: rgba(255, 180, 84, 0.6); }
 .tag--illustrative { color: var(--text-muted); border-style: dashed; }
 .explore-link {
@@ -70,15 +72,17 @@
 }
 .explore-link:hover { color: var(--text); }
 
-.explore-switch {
-  grid-area: switch;
+.explore-switch,
+.explore-subswitch {
   display: flex;
   gap: 2px;
   margin: 0;
   padding: 3px;
   border-radius: 999px;
 }
-.explore-switch [role='radio'] {
+.explore-switch { grid-area: switch; }
+.explore-switch [role='radio'],
+.explore-subswitch [role='radio'] {
   padding: 6px 16px;
   border: 0;
   border-radius: 999px;
@@ -88,11 +92,16 @@
   white-space: nowrap;
   transition: background var(--dur-fast) var(--ease), color var(--dur-fast) var(--ease);
 }
-.explore-switch [role='radio']:hover { color: var(--text); }
+.explore-switch [role='radio']:hover,
+.explore-subswitch [role='radio']:hover { color: var(--text); }
 .explore-switch [role='radio'][aria-checked='true'] { background: var(--accent-soft); box-shadow: inset 0 0 0 1px var(--accent); color: #fff; }
-.explore-switch--empty { padding: 7px 16px; color: var(--text-muted); font-size: 13px; }
-.explore-switch--error { align-items: center; gap: 10px; color: var(--text); }
-.explore-switch--error .explore-link { font-size: 13px; }
+/* The interior sub-switch is the second level: smaller, no glass fill of its own, its checked pill a plain underline. */
+.explore-subswitch { grid-area: subswitch; justify-self: center; gap: 0; padding: 2px; background: none; border-color: transparent; box-shadow: none; backdrop-filter: none; }
+.explore-subswitch [role='radio'] { padding: 3px 12px; font-size: 12px; }
+.explore-subswitch [role='radio'][aria-checked='true'] { box-shadow: inset 0 -2px 0 var(--accent); border-radius: 0; color: var(--text); }
+.explore-subswitch--empty { padding: 3px 12px; color: var(--text-muted); font-size: 12px; }
+.explore-subswitch--error { align-items: center; gap: 10px; color: var(--text); }
+.explore-subswitch--error .explore-link { font-size: 12px; }
 
 .explore-icon-button {
   display: inline-grid;
@@ -261,10 +270,11 @@
 
 /* Phones: the top reflows into rows, labels become numbered dots with a list at the bottom, panels become sheets. */
 @media (max-width: 720px) {
-  .explore-top { top: 12px; left: 12px; right: 12px; grid-template-columns: minmax(0, 1fr) auto; grid-template-areas: 'title leave' 'notes notes' 'switch switch'; gap: 6px 8px; }
+  .explore-top { top: 12px; left: 12px; right: 12px; grid-template-columns: minmax(0, 1fr) auto; grid-template-areas: 'title leave' 'switch switch' 'subswitch subswitch' 'notes notes'; gap: 6px 8px; }
   .explore-title__name { font-size: 26px; }
   .explore-switch { justify-self: center; margin-top: 4px; }
   .explore-switch [role='radio'] { padding: 6px 14px; }
+  .explore-subswitch [role='radio'] { padding: 3px 10px; }
   .explore-notes { margin-top: 0; }
   .explore-bottom { left: 0; right: 0; bottom: 0; align-items: stretch; gap: 6px; }
   .explore-strip { flex-wrap: wrap; width: 100%; padding: 8px 12px 10px; border-radius: var(--radius-lg) var(--radius-lg) 0 0; gap: 4px 12px; }

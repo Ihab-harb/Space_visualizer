@@ -217,3 +217,19 @@ for (const vp of VIEWPORTS) {
     });
   }
 }
+
+test('three tabs would fit on a phone', async ({ browser }) => {
+  const page = await browser.newPage({ viewport: { width: 390, height: 844 } });
+  await page.goto('/?jd=2461317.5&target=earth&pause=1&quality=low&explore=1');
+  await expect(page.locator('canvas')).toBeVisible();
+  const group = page.getByRole('radiogroup', { name: 'Explore section' });
+  await expect(group).toBeVisible();
+  const { box, tops } = await group.evaluate((el) => ({
+    box: el.getBoundingClientRect().toJSON() as DOMRect,
+    tops: [...el.querySelectorAll('[role="radio"]')].map((r) => Math.round(r.getBoundingClientRect().top)),
+  }));
+  expect(new Set(tops).size, 'all tabs on one row').toBe(1);
+  // Leaves room for a third tab of the same width: the group is narrower than 60 % of the viewport.
+  expect(box.width).toBeLessThan(390 * 0.6);
+  await page.close();
+});

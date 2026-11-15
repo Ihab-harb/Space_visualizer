@@ -1,5 +1,6 @@
 import { create } from 'zustand';
 import type { Tier } from '../core/catalog/schema';
+import { useExploreStore } from './exploreStore';
 
 export type ViewId = 'orbit' | 'follow';
 export type ScaleMode = 'readable' | 'true';
@@ -48,3 +49,13 @@ export const useViewStore = create<ViewState>()((set) => ({
   setScaleMode: (scaleMode) => set({ scaleMode }),
   requestFocus: (bodyId) => set((s) => ({ focusRequest: { bodyId, seq: (s.focusRequest?.seq ?? 0) + 1 } })),
 }));
+
+/**
+ * Whether Venus shows its radar map: the user's setting, or Explore on Venus's Surface tab. Nothing writes `venusRadar`
+ * for Explore, so leaving (or opening Interior) gives the user's own setting back by itself.
+ */
+export function useRadarShown(): boolean {
+  const venusRadar = useViewStore((s) => s.venusRadar);
+  const inExplore = useExploreStore((s) => s.active && s.bodyId === 'venus' && s.view === 'whole');
+  return venusRadar || inExplore;
+}
