@@ -1,5 +1,5 @@
 import { beforeEach, describe, expect, it } from 'vitest';
-import { clearLayerOnEmptyClick, tabOf, useExploreStore } from './exploreStore';
+import { clearFeatureOnEmptyClick, clearLayerOnEmptyClick, tabOf, useExploreStore } from './exploreStore';
 import { useSelectionStore } from './selectionStore';
 import { useTimeStore } from './timeStore';
 import { useTourStore } from './tourStore';
@@ -89,6 +89,17 @@ describe('exploreStore', () => {
     const before = useSelectionStore.getState().selectedId;
     clearLayerOnEmptyClick();
     expect(useSelectionStore.getState().selectedId).toBe(before); // never touches the body selection
+  });
+
+  it('a click on empty space or on the body clears the selected feature, and only in Explore', () => {
+    useExploreStore.getState().enter('mars');
+    useExploreStore.getState().selectFeature('olympus-mons');
+    clearFeatureOnEmptyClick();
+    expect(useExploreStore.getState().selectedFeatureId).toBeNull();
+    useExploreStore.getState().leave();
+    const before = useExploreStore.getState();
+    clearFeatureOnEmptyClick();
+    expect(useExploreStore.getState()).toBe(before);
   });
 });
 

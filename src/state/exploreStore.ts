@@ -105,3 +105,12 @@ export function clearLayerOnEmptyClick(): void {
   const ex = useExploreStore.getState();
   if (ex.active && ex.selectedLayerId !== null) ex.selectLayer(null);
 }
+
+/**
+ * A click in the scene on empty space (onPointerMissed) or on the explored body itself (BodyMesh), drags excluded: clears
+ * the selected feature in Explore. The pins are DOM in the label layer, so a click on a pin never reaches the scene.
+ */
+export function clearFeatureOnEmptyClick(): void {
+  const ex = useExploreStore.getState();
+  if (ex.active && ex.selectedFeatureId !== null) ex.selectFeature(null);
+}
