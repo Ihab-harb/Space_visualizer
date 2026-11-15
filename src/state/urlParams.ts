@@ -24,6 +24,7 @@ export interface UrlOverrides {
   venusRadar?: boolean;
   explore?: boolean;
   exploreView?: ExploreView;
+  featureId?: string;
 }
 
 export function parseUrlOverrides(search: string): UrlOverrides {
@@ -64,7 +65,10 @@ export function parseUrlOverrides(search: string): UrlOverrides {
   if (p.get('radar') === '1') o.venusRadar = true;
   if (p.get('explore') === '1') o.explore = true;
   const view = p.get('view');
-  if (view === 'whole' || view === 'exploded' || view === 'section') o.exploreView = view;
+  if (view === 'whole' || view === 'surface') o.exploreView = 'whole';
+  else if (view === 'exploded' || view === 'section') o.exploreView = view;
+  const feature = p.get('feature');
+  if (feature && /^[a-z0-9-]+$/.test(feature)) o.featureId = feature;
   return o;
 }
 
@@ -90,6 +94,7 @@ export function applyUrlOverrides(o: UrlOverrides, catalog: Catalog): void {
       const explore = useExploreStore.getState();
       explore.enter(o.target);
       if (o.exploreView) explore.setView(o.exploreView);
+      if (o.featureId) explore.selectFeature(o.featureId);
     }
   }
 }

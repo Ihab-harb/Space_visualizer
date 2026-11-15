@@ -256,3 +256,39 @@ describe('Explore keys', () => {
     expect(useUiStore.getState().drawerOpen).toBe(false);
   });
 });
+
+describe('Explore keys with features', () => {
+  beforeEach(() => {
+    useExploreStore.getState().leave();
+    useSelectionStore.setState({ selectedId: 'mars' });
+  });
+
+  it('Esc closes the chart, then the layer card, then the feature card, then the list, then Explore', () => {
+    renderHook(() => useHotkeys());
+    const ex = useExploreStore.getState();
+    ex.enter('mars');
+    ex.toggleFeatureList(true);
+    ex.selectFeature('olympus-mons');
+    ex.toggleChart(true);
+    const esc = () => fireEvent.keyDown(window, { key: 'Escape' });
+    esc();
+    expect(useExploreStore.getState()).toMatchObject({ chartOpen: false, selectedFeatureId: 'olympus-mons' });
+    esc();
+    expect(useExploreStore.getState()).toMatchObject({ selectedFeatureId: null, featureListOpen: true, active: true });
+    esc();
+    expect(useExploreStore.getState()).toMatchObject({ featureListOpen: false, active: true });
+    esc();
+    expect(useExploreStore.getState().active).toBe(false);
+  });
+
+  it('keys 1, 2, 3 pick Surface, Exploded, Half-section', () => {
+    renderHook(() => useHotkeys());
+    useExploreStore.getState().enter('mars');
+    fireEvent.keyDown(window, { key: '3' });
+    expect(useExploreStore.getState().view).toBe('section');
+    fireEvent.keyDown(window, { key: '2' });
+    expect(useExploreStore.getState().view).toBe('exploded');
+    fireEvent.keyDown(window, { key: '1' });
+    expect(useExploreStore.getState().view).toBe('whole');
+  });
+});

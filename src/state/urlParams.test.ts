@@ -70,3 +70,23 @@ describe('explore parameters', () => {
     useExploreStore.getState().leave();
   });
 });
+
+describe('surface and feature parameters', () => {
+  it('view=surface and view=whole both open Surface', () => {
+    expect(parseUrlOverrides('?view=surface').exploreView).toBe('whole');
+    expect(parseUrlOverrides('?view=whole').exploreView).toBe('whole');
+  });
+  it('feature=olympus-mons selects it; a malformed id is ignored', () => {
+    expect(parseUrlOverrides('?target=mars&explore=1&feature=olympus-mons')).toMatchObject({ featureId: 'olympus-mons' });
+    expect(parseUrlOverrides('?feature=Olympus_Mons')).not.toHaveProperty('featureId');
+    expect(parseUrlOverrides('?feature=')).not.toHaveProperty('featureId');
+  });
+  it('applies the feature after Explore opens, and ignores it without explore=1', () => {
+    useExploreStore.getState().leave();
+    applyUrlOverrides({ target: 'jupiter', featureId: 'olympus-mons' }, catalog);
+    expect(useExploreStore.getState()).toMatchObject({ active: false, selectedFeatureId: null });
+    applyUrlOverrides({ target: 'jupiter', explore: true, exploreView: 'exploded', featureId: 'olympus-mons' }, catalog);
+    expect(useExploreStore.getState()).toMatchObject({ active: true, view: 'whole', selectedFeatureId: 'olympus-mons' });
+    useExploreStore.getState().leave();
+  });
+});

@@ -4,6 +4,9 @@ import { useTimeStore } from './timeStore';
 import { useTourStore } from './tourStore';
 
 export type ExploreView = 'whole' | 'exploded' | 'section';
+/** The two tabs: Surface is the 'whole' view, Interior is Exploded or Half-section. */
+export type ExploreTab = 'surface' | 'interior';
+export const tabOf = (view: ExploreView): ExploreTab => (view === 'whole' ? 'surface' : 'interior');
 
 interface ExploreState {
   active: boolean;
@@ -15,6 +18,12 @@ interface ExploreState {
   selectedLayerId: string | null;
   /** Bumped when Half-section is chosen again, so the scene re-faces the cut to the camera. */
   sectionSeq: number;
+  /** The interior view Interior opens on: Exploded first, then whichever was used last. */
+  lastInteriorView: 'exploded' | 'section';
+  selectedFeatureId: string | null;
+  /** Bumped by every selectFeature(id !== null), also for the same id, so the camera turns to it again. */
+  featureSeq: number;
+  featureListOpen: boolean;
   saved: { playing: boolean; rateIndex: number } | null;
   enter(bodyId: string): void;
   leave(): void;
@@ -22,13 +31,17 @@ interface ExploreState {
   setProgress(p: number): void;
   toggleChart(open?: boolean): void;
   selectLayer(id: string | null): void;
+  setTab(tab: ExploreTab): void;
+  selectFeature(id: string | null): void;
+  toggleFeatureList(open?: boolean): void;
 }
 
-const IDLE = { active: false, bodyId: null, view: 'whole' as ExploreView, progress: 0, chartOpen: false, selectedLayerId: null, saved: null };
+const IDLE = { active: false, bodyId: null, view: 'whole' as ExploreView, progress: 0, chartOpen: false, selectedLayerId: null, saved: null, lastInteriorView: 'exploded' as 'exploded' | 'section', selectedFeatureId: null, featureListOpen: false };
 
 export const useExploreStore = create<ExploreState>()((set, get) => ({
   ...IDLE,
   sectionSeq: 0,
+  featureSeq: 0,
   enter: (bodyId) => {
     useTourStore.getState().stop();
     const time = useTimeStore.getState();
@@ -46,10 +59,25 @@ export const useExploreStore = create<ExploreState>()((set, get) => ({
     }
     set({ ...IDLE });
   },
-  setView: (view) => set((s) => ({ view, sectionSeq: view === 'section' ? s.sectionSeq + 1 : s.sectionSeq })),
+  setView: (view) =>
+    set((s) => ({
+      view,
+      sectionSeq: view === 'section' ? s.sectionSeq + 1 : s.sectionSeq,
+      // An interior view has no surface pins: it remembers itself and drops the feature and the list.
+      ...(view === 'whole' ? { selectedLayerId: null } : { lastInteriorView: view, selectedFeatureId: null, featureListOpen: false }),
+    })),
   setProgress: (progress) => set({ progress: Math.min(Math.max(progress, 0), 1) }),
   toggleChart: (open) => set((s) => ({ chartOpen: open ?? !s.chartOpen })),
   selectLayer: (selectedLayerId) => set({ selectedLayerId }),
+  setTab: (tab) => get().setView(tab === 'surface' ? 'whole' : get().lastInteriorView),
+  selectFeature: (id) =>
+    set((s) => (id === null ? { selectedFeatureId: null } : { selectedFeatureId: id, view: 'whole' as ExploreView, selectedLayerId: null, featureSeq: s.featureSeq + 1 })),
+  toggleFeatureList: (open) =>
+    set((s) => {
+      const featureListOpen = open ?? !s.featureListOpen;
+      // The list belongs to Surface.
+      return featureListOpen && s.view !== 'whole' ? { featureListOpen, view: 'whole' as ExploreView, selectedLayerId: null } : { featureListOpen };
+    }),
 }));
 
 // One place: choosing another body (or none) while exploring ends Explore.
