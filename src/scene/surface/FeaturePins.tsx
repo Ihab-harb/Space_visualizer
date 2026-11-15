@@ -11,7 +11,7 @@ import { labelLayout, type PlacedLabel, type Size } from '../../ui/explore/label
 import { useFrameState } from '../FrameStateContext';
 import { reservedRects } from '../interior/InteriorLabels';
 import { pixelsPerRadian } from '../scaleMode';
-import { PIN_NAME_LAYOUT, pinNameAnchors, pinPoints, type PinInput } from './pinAnchors';
+import { PIN_NAME_LAYOUT, pinDotShown, pinLayerShown, pinNameAnchors, pinPoints, type PinInput } from './pinAnchors';
 
 /** The DOM nodes of one pin, registered by FeaturePins and moved each frame by FeaturePinProjector. */
 interface PinItem {
@@ -73,6 +73,18 @@ const setIfChanged = (el: HTMLElement | SVGElement, key: string, value: string) 
 };
 
 /**
+ * Hides the pins: the root, and every name and leader with it. A name left at data-mode 'full' would keep its own
+ * `visibility: visible` (and its pointer events) under a hidden root, and stay drawn over the Interior view.
+ */
+export function hidePins(bridge: PinBridge): void {
+  if (bridge.root && bridge.root.style.visibility !== 'hidden') bridge.root.style.visibility = 'hidden';
+  for (const it of bridge.items.values()) {
+    if (it.name) setIfChanged(it.name, 'mode', 'hidden');
+    if (it.line) setIfChanged(it.line, 'shown', 'false');
+  }
+}
+
+/**
  * Projects each pin every frame, shows it by how much it faces the camera, lays the names out beside the globe
  * (labelLayout) and draws the leaders. Runs only on Surface with the body closed and the chart shut; no React updates.
  */
@@ -90,9 +102,8 @@ export function FeaturePinProjector({ bridge }: { bridge: PinBridge }) {
     const R = ex ? frame.bodyRenderRadiusKm.get(ex.bodyId) : undefined;
     const pos = ex ? frame.bodyPositionsKm.get(ex.bodyId) : undefined;
     const orientation = ex ? frame.bodyOrientation.get(ex.bodyId) : undefined;
-    const closed = ex !== null && (ex.view === 'whole' || ex.progress === 0);
-    if (!ex || !R || !pos || !orientation || !closed || !store.active || store.chartOpen || store.bodyId !== ex.bodyId || store.view !== 'whole') {
-      if (root.style.visibility !== 'hidden') root.style.visibility = 'hidden';
+    if (!ex || !R || !pos || !orientation || !pinLayerShown({ store, explore: ex, ready: true })) {
+      hidePins(bridge);
       return;
     }
     root.style.visibility = 'visible';
@@ -113,23 +124,26 @@ export function FeaturePinProjector({ bridge }: { bridge: PinBridge }) {
     const c = toScreen(rel);
     const body = { x: c.x, y: c.y, r: (R / dist) * pixelsPerRadian(size.height, frame.fovRad) };
 
-    for (const p of points) {
+    // A dot is shown (and in the tab order) only when it faces the camera and sits wholly on screen: zoomed in, a pin off
+    // the edge would be an invisible tab stop, and naming it would pull a leader in from outside the picture.
+    const viewport = { width: size.width, height: size.height };
+    const shown = points.filter((p) => {
+      const on = pinDotShown(p, viewport);
       const dot = bridge.items.get(p.id)?.dot;
-      if (!dot) continue;
-      const hidden = !(p.facing > 0) || !Number.isFinite(p.x);
-      if (dot.hidden !== hidden) dot.hidden = hidden;
-      if (hidden) continue;
-      dot.style.transform = `translate(${p.x}px, ${p.y}px)`;
-      dot.style.opacity = String(p.facing);
-    }
+      if (!dot) return on;
+      if (dot.hidden === on) dot.hidden = !on;
+      if (on) {
+        dot.style.transform = `translate(${p.x}px, ${p.y}px)`;
+        dot.style.opacity = String(p.facing);
+      }
+      return on;
+    });
     if (bridge.narrow) return;
 
     const selectedId = store.selectedFeatureId;
-    // Only a dot on screen is named: zoomed in, a pin off the edge would pull a leader out of the picture.
-    const onScreen = points.filter((p) => p.x >= 0 && p.x <= size.width && p.y >= 0 && p.y <= size.height);
     const placed = labelLayout(
-      pinNameAnchors(onScreen, bridge.sizes, body.x, { selectedId, hoveredId: bridge.hoveredId }),
-      { width: size.width, height: size.height },
+      pinNameAnchors(shown, bridge.sizes, body.x, { selectedId, hoveredId: bridge.hoveredId }),
+      viewport,
       reservedRects(root),
       { ...PIN_NAME_LAYOUT, body, selectedId },
     );

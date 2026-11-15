@@ -5,6 +5,7 @@
 import { surfaceDirection, surfacePoint } from '../../core/frames/surfacePoint';
 import { apply, type Mat3 } from '../../core/math/mat3';
 import { dot, normalize, scale, sub, type Vec3 } from '../../core/math/vec3';
+import type { ExploreView } from '../../state/exploreStore';
 import type { LabelAnchor, Side, Size } from '../../ui/explore/labelLayout';
 
 /** Cosine of the angle between the surface normal and the line to the camera: hidden at `from` and below, fully shown at `to`. */
@@ -66,9 +67,39 @@ export function pinSide(x: number, bodyX: number): Side {
  * The name layout's options (labelLayout): a name moves at most this far up or down from its pin (a fraction of the viewport
  * height), so leaders stay close to level, as in the approved mockup. A pin whose name does not fit keeps its dot and names
  * itself on hover. Tuned on the screenshots: at the default 0.35, and still at 0.12, a cluster of pins (North America seen from
- * the Pacific) fanned out into long steep leaders.
+ * the Pacific) fanned out into long steep leaders. A name stays on its pin's side of the globe (`sameSideOnly`): moved across,
+ * its leader would run over the globe.
  */
-export const PIN_NAME_LAYOUT = { maxShiftFraction: 0.07 };
+export const PIN_NAME_LAYOUT = { maxShiftFraction: 0.07, sameSideOnly: true };
+
+/**
+ * A dot's centre stays at least this far inside the viewport, px: half the largest dot (the phone's numbered one is 22 px),
+ * so a shown dot is never cut by the edge and focusing it never scrolls the label layer.
+ */
+export const PIN_DOT_INSET = 11;
+
+/** Whether a dot is shown (and so in the tab order): it faces the camera and sits wholly on screen. */
+export function pinDotShown(p: { facing: number; x: number; y: number }, viewport: Size): boolean {
+  return p.facing > 0 && p.x >= PIN_DOT_INSET && p.x <= viewport.width - PIN_DOT_INSET && p.y >= PIN_DOT_INSET && p.y <= viewport.height - PIN_DOT_INSET;
+}
+
+export interface PinLayerState {
+  /** The store: what the user asked for. */
+  store: { active: boolean; bodyId: string | null; view: ExploreView; chartOpen: boolean };
+  /** The scene (`frame.explore`): what is drawn. */
+  explore: { bodyId: string; view: ExploreView; progress: number } | null;
+  /** The body's position, render radius and orientation are known this frame. */
+  ready: boolean;
+}
+
+/**
+ * Whether the pins show at all: Explore active on the drawn body, on Surface (the store's view is 'whole'), with the drawn
+ * body closed and the chart shut. Never together with the interior labels, which need an open interior view.
+ */
+export function pinLayerShown({ store, explore, ready }: PinLayerState): boolean {
+  if (!explore || !ready || !store.active || store.chartOpen || store.bodyId !== explore.bodyId || store.view !== 'whole') return false;
+  return explore.view === 'whole' || explore.progress === 0;
+}
 
 /** Above any rank-based priority: the selected and the hovered (or focused) pin are named first. */
 const FIRST = 1e6;

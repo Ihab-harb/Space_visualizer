@@ -137,6 +137,35 @@ describe('labelLayout', () => {
     });
   });
 
+  describe('sameSideOnly', () => {
+    // The right side is full (one name fits there); the left side is wide open.
+    const vp = { width: 900, height: 110 };
+    const reserved: Rect[] = [];
+    const first = anchor('a', 500, 50, 'right', 2, NAME, NAME);
+    const second = anchor('b', 500, 50, 'right', 1, NAME, NAME);
+    const tight = { body: { x: 450, y: 55, r: 40 }, maxShiftFraction: 0 };
+
+    it('without it, a label whose own side is full moves across to the other side', () => {
+      const placed = labelLayout([first, second], vp, reserved, tight);
+      expect(placed.find((p) => p.id === 'b')!).toMatchObject({ mode: 'full', side: 'left' });
+    });
+
+    it('with it, a label whose own side is full is hidden, not moved across', () => {
+      const placed = labelLayout([first, second], vp, reserved, { ...tight, sameSideOnly: true });
+      expect(placed.find((p) => p.id === 'a')!).toMatchObject({ mode: 'full', side: 'right' });
+      expect(placed.find((p) => p.id === 'b')!).toMatchObject({ mode: 'hidden', side: 'right', leader: null });
+      expectClear(placed, vp, reserved);
+    });
+
+    it('the selected label still keeps its name when its own side is blocked', () => {
+      const blocked: Rect[] = [{ left: 450, top: 0, right: 900, bottom: 110 }]; // the whole right side
+      const placed = labelLayout([first, second], vp, blocked, { ...tight, sameSideOnly: true, selectedId: 'b' });
+      expect(placed.find((p) => p.id === 'b')!).toMatchObject({ mode: 'full', side: 'left' });
+      expect(placed.find((p) => p.id === 'a')!.mode).toBe('hidden');
+      expectClear(placed, vp, blocked);
+    });
+  });
+
   it('returns labels in the input order and handles no anchors or a zero-size viewport', () => {
     expect(labelLayout([], desktop, [])).toEqual([]);
     const placed = labelLayout(four, desktop, desktopReserved, { body });

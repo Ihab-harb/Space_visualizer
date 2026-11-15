@@ -5,7 +5,7 @@ import { useDetailsStore } from '../../state/detailsStore';
 import { useExploreStore } from '../../state/exploreStore';
 import { useSelectionStore } from '../../state/selectionStore';
 import { realCatalog, realDetails } from '../../test/realData';
-import { createPinBridge, FeaturePins, type PinBridge } from './FeaturePins';
+import { createPinBridge, FeaturePins, hidePins, type PinBridge } from './FeaturePins';
 
 const catalog = realCatalog();
 
@@ -96,6 +96,23 @@ describe('FeaturePins', () => {
     expect(pins()[0]).toHaveAccessibleName(`1 ${landmarks[0]!.name}`);
     expect(container.querySelectorAll('.xpin-name')).toHaveLength(0);
     expect(container.querySelector('svg')).toBeNull();
+  });
+
+  it('hiding the pins also hides every name and leader, so none stays drawn or clickable over the Interior view', () => {
+    explore('mars');
+    const bridge = createPinBridge();
+    const { container } = render(<FeaturePins bridge={bridge} catalog={catalog} />);
+    project(bridge);
+    // As the projector leaves them when names are placed.
+    for (const it of bridge.items.values()) {
+      it.name!.dataset.mode = 'full';
+      it.line!.dataset.shown = 'true';
+    }
+    hidePins(bridge);
+    expect(bridge.root!.style.visibility).toBe('hidden');
+    expect([...container.querySelectorAll<HTMLElement>('.xpin-name')].map((el) => el.dataset.mode)).toEqual(realDetails('mars').landmarks.map(() => 'hidden'));
+    expect([...container.querySelectorAll<SVGElement>('line')].every((el) => el.dataset.shown === 'false')).toBe(true);
+    expect(screen.queryAllByRole('button')).toHaveLength(0); // no dot reachable either
   });
 
   it('renders nothing for a body with no landmarks and no selected feature', () => {

@@ -2,7 +2,7 @@ import { describe, expect, it } from 'vitest';
 import { IDENTITY, rotZ, transpose } from '../../core/math/mat3';
 import { length, type Vec3 } from '../../core/math/vec3';
 import { labelLayout, rectsOverlap } from '../../ui/explore/labelLayout';
-import { PIN_FADE, PIN_NAME_LAYOUT, pinFacing, pinNameAnchors, pinPoints, pinSide } from './pinAnchors';
+import { PIN_DOT_INSET, PIN_FADE, PIN_NAME_LAYOUT, pinDotShown, pinFacing, pinLayerShown, pinNameAnchors, pinPoints, pinSide, type PinLayerState } from './pinAnchors';
 
 const expectCloseVec = (actual: Vec3, expected: Vec3, digits = 9) => actual.forEach((c, i) => expect(c).toBeCloseTo(expected[i]!, digits));
 
@@ -72,6 +72,51 @@ describe('pinPoints', () => {
   });
 });
 
+describe('pinDotShown', () => {
+  const vp = { width: 1280, height: 720 };
+
+  it('shows a facing dot on screen', () => {
+    expect(pinDotShown({ facing: 0.4, x: 640, y: 360 }, vp)).toBe(true);
+  });
+
+  it('hides a dot that does not face the camera or has no screen position', () => {
+    expect(pinDotShown({ facing: 0, x: 640, y: 360 }, vp)).toBe(false);
+    expect(pinDotShown({ facing: 1, x: Number.NaN, y: 360 }, vp)).toBe(false);
+  });
+
+  it('hides a facing dot off screen or cut by the edge (zoomed in), so no invisible control stays in the tab order', () => {
+    expect(pinDotShown({ facing: 1, x: 1617, y: 249 }, vp)).toBe(false);
+    expect(pinDotShown({ facing: 1, x: -20, y: 360 }, vp)).toBe(false);
+    expect(pinDotShown({ facing: 1, x: 640, y: 725 }, vp)).toBe(false);
+    expect(pinDotShown({ facing: 1, x: 2, y: 360 }, vp)).toBe(false);
+    expect(pinDotShown({ facing: 1, x: 1280 - PIN_DOT_INSET, y: PIN_DOT_INSET }, vp)).toBe(true);
+  });
+});
+
+describe('pinLayerShown', () => {
+  const store: PinLayerState['store'] = { active: true, bodyId: 'mars', view: 'whole', chartOpen: false };
+  const explore: NonNullable<PinLayerState['explore']> = { bodyId: 'mars', view: 'whole', progress: 0 };
+  const shown = (s: Partial<PinLayerState['store']> = {}, e: Partial<NonNullable<PinLayerState['explore']>> | null = {}, ready = true) =>
+    pinLayerShown({ store: { ...store, ...s }, explore: e === null ? null : { ...explore, ...e }, ready });
+
+  it('shows on Surface with the body closed and the chart shut', () => {
+    expect(shown()).toBe(true);
+    // An interior view that has fully closed again counts as closed.
+    expect(shown({}, { view: 'exploded', progress: 0 })).toBe(true);
+  });
+
+  it('hides on the Interior tab, while the body is open or closing, with the chart open, or outside Explore', () => {
+    expect(shown({ view: 'exploded' })).toBe(false);
+    expect(shown({ view: 'section' })).toBe(false);
+    expect(shown({}, { view: 'exploded', progress: 0.4 })).toBe(false);
+    expect(shown({ chartOpen: true })).toBe(false);
+    expect(shown({ active: false })).toBe(false);
+    expect(shown({ bodyId: 'moon' })).toBe(false);
+    expect(shown({}, null)).toBe(false);
+    expect(shown({}, {}, false)).toBe(false);
+  });
+});
+
 describe('pinSide', () => {
   it('puts a name on the side of the body its pin is on', () => {
     expect(pinSide(100, 200)).toBe('left');
@@ -131,6 +176,11 @@ describe('pinNameAnchors', () => {
         const placed = labelLayout(pinNameAnchors(pts, nameSizes, body.x, { selectedId, hoveredId: null }), viewport, reserved, { ...PIN_NAME_LAYOUT, body, selectedId });
         const shown = placed.filter((p) => p.mode !== 'hidden');
         expect(shown.length).toBeGreaterThan(5);
+        // Every name on its pin's side of the body (sameSideOnly); only the selected one may cross over to keep its name.
+        for (const p of shown.filter((q) => q.id !== selectedId)) {
+          const pin = pts.find((q) => q.id === p.id)!;
+          expect(p.side).toBe(pin.x < body.x ? 'left' : 'right');
+        }
         for (const p of shown) {
           for (const r of reserved) expect(rectsOverlap(p.rect, r)).toBe(false);
           for (const q of shown) if (q !== p) expect(rectsOverlap(p.rect, q.rect)).toBe(false);
