@@ -13,12 +13,12 @@ describe('parseNamesRecord', () => {
   it('reads a GNIS domestic record: name, primary point, west longitude as east', () => {
     // Record 23907: prim_lat_dec 36.112764, prim_long_dec -113.9960696.
     expect(parseNamesRecord('gnis', grandCanyon)).toEqual({
-      id: '23907', name: 'Grand Canyon', variants: [], latDeg: 36.112764, lonDegE: 246.0039304, text: '36.112764, -113.9960696',
+      id: '23907', name: 'Grand Canyon', variants: [], featureClass: 'Valley', latDeg: 36.112764, lonDegE: 246.0039304, text: '36.112764, -113.9960696',
     });
   });
   it('reads a GNIS Antarctica record (a different column layout)', () => {
     // Record 2817474: prim_lat_dec -77.529622, prim_long_dec 167.153231.
-    expect(parseNamesRecord('gnis', erebus)).toMatchObject({ id: '2817474', name: 'Mount Erebus', latDeg: -77.529622, lonDegE: 167.153231, text: '-77.529622, 167.153231' });
+    expect(parseNamesRecord('gnis', erebus)).toMatchObject({ id: '2817474', name: 'Mount Erebus', featureClass: 'Summit', latDeg: -77.529622, lonDegE: 167.153231, text: '-77.529622, 167.153231' });
   });
   it('is null for anything that is not a record', () => {
     expect(parseNamesRecord('gnis', '<html>not a record</html>')).toBeNull();

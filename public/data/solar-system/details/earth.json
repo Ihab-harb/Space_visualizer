@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "bodyId": "earth",
-  "generatedAt": "2026-11-15T10:28:41.487Z",
+  "generatedAt": "2026-11-15T15:51:39.803Z",
   "interior": {
     "radiusKm": {
       "value": 6371,
@@ -284,7 +284,7 @@
     {
       "id": "grand-canyon",
       "name": "Grand Canyon",
-      "type": "Canyon",
+      "type": "Valley",
       "latDeg": 36.112764,
       "lonDegE": 246.0039304,
       "diameterKm": null,
@@ -304,7 +304,7 @@
     {
       "id": "mississippi-river",
       "name": "Mississippi River",
-      "type": "River",
+      "type": "Stream",
       "latDeg": 29.1510582,
       "lonDegE": 270.7466158,
       "diameterKm": null,
@@ -324,7 +324,7 @@
     {
       "id": "yellowstone-caldera",
       "name": "Yellowstone Caldera",
-      "type": "Caldera",
+      "type": "Crater",
       "latDeg": 44.445301,
       "lonDegE": 249.67475,
       "diameterKm": null,
@@ -344,7 +344,7 @@
     {
       "id": "mount-saint-helens",
       "name": "Mount Saint Helens",
-      "type": "Volcano",
+      "type": "Summit",
       "latDeg": 46.1911944,
       "lonDegE": 237.8056145,
       "diameterKm": null,
@@ -364,7 +364,7 @@
     {
       "id": "antarctic-peninsula",
       "name": "Antarctic Peninsula",
-      "type": "Peninsula",
+      "type": "Cape",
       "latDeg": -69.5,
       "lonDegE": 295,
       "diameterKm": null,
@@ -384,7 +384,7 @@
     {
       "id": "death-valley",
       "name": "Death Valley",
-      "type": "Valley",
+      "type": "Basin",
       "latDeg": 36.246618,
       "lonDegE": 243.1830045,
       "diameterKm": null,
@@ -404,7 +404,7 @@
     {
       "id": "kilauea",
       "name": "Kīlauea",
-      "type": "Volcano",
+      "type": "Summit",
       "latDeg": 19.4209429,
       "lonDegE": 204.7125828,
       "diameterKm": null,
@@ -424,7 +424,7 @@
     {
       "id": "ross-ice-shelf",
       "name": "Ross Ice Shelf",
-      "type": "Ice shelf",
+      "type": "Glacier",
       "latDeg": -81.5,
       "lonDegE": 185,
       "diameterKm": null,
@@ -464,7 +464,7 @@
     {
       "id": "great-salt-lake",
       "name": "Great Salt Lake",
-      "type": "Salt lake",
+      "type": "Lake",
       "latDeg": 41.1628677,
       "lonDegE": 247.4646344,
       "diameterKm": null,
@@ -484,7 +484,7 @@
     {
       "id": "mauna-loa",
       "name": "Mauna Loa",
-      "type": "Volcano",
+      "type": "Summit",
       "latDeg": 19.4753891,
       "lonDegE": 204.394212,
       "diameterKm": null,
@@ -504,7 +504,7 @@
     {
       "id": "mount-erebus",
       "name": "Mount Erebus",
-      "type": "Volcano",
+      "type": "Summit",
       "latDeg": -77.529622,
       "lonDegE": 167.153231,
       "diameterKm": null,
@@ -524,7 +524,7 @@
     {
       "id": "chesapeake-bay",
       "name": "Chesapeake Bay",
-      "type": "Estuary",
+      "type": "Bay",
       "latDeg": 38.0284347,
       "lonDegE": 283.8243519,
       "diameterKm": null,
@@ -564,7 +564,7 @@
     {
       "id": "meteor-crater",
       "name": "Meteor Crater",
-      "type": "Impact crater",
+      "type": "Crater",
       "latDeg": 35.0280715,
       "lonDegE": 248.9768035,
       "diameterKm": 1.2,
@@ -584,7 +584,7 @@
     {
       "id": "vostok-subglacial-lake",
       "name": "Vostok Subglacial Lake",
-      "type": "Subglacial lake",
+      "type": "Lake",
       "latDeg": -77.5,
       "lonDegE": 106,
       "diameterKm": null,
@@ -604,7 +604,7 @@
     {
       "id": "mount-rainier",
       "name": "Mount Rainier",
-      "type": "Volcano",
+      "type": "Summit",
       "latDeg": 46.8528267,
       "lonDegE": 238.2395592,
       "diameterKm": null,
@@ -624,7 +624,7 @@
     {
       "id": "vinson-massif",
       "name": "Vinson Massif",
-      "type": "Mountain",
+      "type": "Range",
       "latDeg": -78.5709642,
       "lonDegE": 274.4317968,
       "diameterKm": null,
@@ -644,7 +644,7 @@
     {
       "id": "mcmurdo-dry-valleys",
       "name": "McMurdo Dry Valleys",
-      "type": "Dry valleys",
+      "type": "Valley",
       "latDeg": -77.5,
       "lonDegE": 162,
       "diameterKm": null,
@@ -684,7 +684,7 @@
     {
       "id": "larsen-ice-shelf",
       "name": "Larsen Ice Shelf",
-      "type": "Ice shelf",
+      "type": "Glacier",
       "latDeg": -67.5,
       "lonDegE": 297.5,
       "diameterKm": null,

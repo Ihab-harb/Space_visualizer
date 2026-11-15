@@ -44,7 +44,7 @@ const file = (over: Partial<LandmarksFile> = {}): LandmarksFile => ({
   bodies: { mars: [{ name: 'Olympus Mons', sourceId: 'page', quote: Q }] },
   ...over,
 });
-const earth = (position: object, size?: object) => file({ bodies: { earth: [{ name: 'Meteor Crater', type: 'Crater', sourceId: 'page', quote: Q, position: position as never, size: size as never }] } });
+const earth = (position: object, size?: object) => file({ bodies: { earth: [{ name: 'Meteor Crater', ...((position as { kind: string }).kind === 'quoted' ? { type: 'Crater' } : {}), sourceId: 'page', quote: Q, position: position as never, size: size as never }] } });
 const quoted = { kind: 'quoted', latDeg: 36.1, lonDegE: 247.9, sourceId: 'page', quote: QP };
 
 describe('verifyLandmarks', () => {

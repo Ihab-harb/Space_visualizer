@@ -40,7 +40,7 @@ export interface DetailsInputs {
   earthPositions: ReadonlyMap<string, EarthRecord>;
 }
 
-export interface EarthRecord { name: string; variants: readonly string[]; latDeg: number; lonDegE: number; text: string; source: SourceSpec; retrievedAt: string }
+export interface EarthRecord { name: string; variants: readonly string[]; featureClass: string; latDeg: number; lonDegE: number; text: string; source: SourceSpec; retrievedAt: string }
 
 const round = (x: number) => Math.round(x * 1e6) / 1e6;
 
@@ -121,6 +121,7 @@ function convertLandmark(
   }
   if (!hasOwnPosition(c)) return `${p}: landmark ${c.name} needs a type and a position (this body has no Gazetteer)`;
   const pos = c.position;
+  let type = c.type ?? '';
   let at: { latDeg: number; lonDegE: number; kind: 'names-database' | 'quoted'; sourceId: string; text: string };
   if (pos.kind === 'names-database') {
     const key = namesRecordKey(pos);
@@ -128,6 +129,9 @@ function convertLandmark(
     if (!rec) return `${p}: landmark ${c.name}: names-database record ${key} is not in the fetched positions`;
     // A landmark matched by a variant name says which record name the point belongs to.
     const text = rec.name === c.name ? rec.text : `${rec.text} (${namesDatabaseLabel(pos.database)} name: ${rec.name})`;
+    // The type is the record's own feature class; an empty class is an error, never the curated word.
+    if (!rec.featureClass) return `${p}: landmark ${c.name}: names-database record ${key} has no feature class`;
+    type = rec.featureClass;
     at = { latDeg: rec.latDeg, lonDegE: rec.lonDegE, kind: pos.kind, sourceId: rec.source.id, text };
   } else {
     const stated = parseStatedPosition(pos.quote);
@@ -135,7 +139,7 @@ function convertLandmark(
     at = { latDeg: pos.latDeg, lonDegE: pos.lonDegE, kind: pos.kind, sourceId: pos.sourceId, text: stated.text };
   }
   return {
-    id, name: c.name, type: c.type, latDeg: at.latDeg, lonDegE: at.lonDegE,
+    id, name: c.name, type, latDeg: at.latDeg, lonDegE: at.lonDegE,
     diameterKm: c.size?.km ?? null, origin: null, approvedYear: null,
     position: { kind: at.kind, sourceId: at.sourceId, text: at.text }, sizeSourceId: c.size?.sourceId ?? null, quote,
   };
@@ -148,7 +152,7 @@ export function buildDetails(inputs: DetailsInputs, generatedAt: string): { deta
   for (const [id, page] of inputs.curatedPages) pages.set(id, pageText(page.text));
   errors.push(...verifyInteriors(inputs.interiors, pages).map((e) => `interiors.json: ${e}`));
   errors.push(...verifyMissions(inputs.missions, pages).map((e) => `missions.json: ${e}`));
-  const records = new Map([...inputs.earthPositions].map(([k, r]) => [k, { name: r.name, variants: r.variants, sourceUrl: r.source.url }]));
+  const records = new Map([...inputs.earthPositions].map(([k, r]) => [k, { name: r.name, variants: r.variants, sourceUrl: r.source.url, featureClass: r.featureClass }]));
   errors.push(...verifyLandmarks(inputs.landmarks, pages, records).map((e) => `landmarks.json: ${e}`));
 
   const candidates = new Map<string, Source>();

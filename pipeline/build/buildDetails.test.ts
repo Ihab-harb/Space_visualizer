@@ -373,7 +373,7 @@ describe('buildDetails', () => {
       gazetteer: { mars: { rows, retrievedAt: '2026-10-09' }, moon: { rows: moonRows, retrievedAt: '2026-10-09' } },
       curatedPages: pagesWithLandmarks(),
     });
-    const earthFile = (position: object) => file({ types: {}, bodies: { earth: [{ name: 'Test Peak', type: 'Summit', sourceId: 'lm-page', quote: Q_TYCHO, position: position as never }] } });
+    const earthFile = (position: object) => file({ types: {}, bodies: { earth: [{ name: 'Test Peak', ...((position as { kind: string }).kind === 'quoted' ? { type: 'Summit' } : {}), sourceId: 'lm-page', quote: Q_TYCHO, position: position as never }] } });
 
     it('fills a Gazetteer landmark from the Gazetteer by name, in file order', () => {
       const lm = file({ types: {}, bodies: { moon: [{ name: 'Tycho', sourceId: 'lm-page', quote: Q_TYCHO }, { name: 'Big 3', sourceId: 'lm-page', quote: Q_TYCHO }] } });
@@ -392,7 +392,7 @@ describe('buildDetails', () => {
       expect(withLandmarks(lm).errors).toContain('details/moon.json: landmark Tychoo is not an approved Gazetteer feature');
     });
     const gnis = { kind: 'names-database', database: 'gnis', recordId: '123', area: 'AZ' };
-    const gnisRecord = (name = 'Test Peak', variants: string[] = []) => new Map([['gnis:123', { name, variants, latDeg: 1.5, lonDegE: 200, text: '1.5, -160', source: namesSourceSpec('gnis'), retrievedAt: '2026-10-11' }]]);
+    const gnisRecord = (name = 'Test Peak', variants: string[] = [], featureClass = 'Valley') => new Map([['gnis:123', { name, variants, featureClass, latDeg: 1.5, lonDegE: 200, text: '1.5, -160', source: namesSourceSpec('gnis'), retrievedAt: '2026-10-11' }]]);
     it('errors, and does not skip, an Earth landmark whose names-database record is not fetched', () => {
       const { errors, details } = build({ bodies: [...bodies, makeEarth()], landmarks: earthFile(gnis), curatedPages: pagesWithLandmarks() });
       expect(errors).toContain('details/earth.json: landmark Test Peak: names-database record gnis:123 is not in the fetched positions');
@@ -402,9 +402,13 @@ describe('buildDetails', () => {
       const { details, sources, errors } = build({ bodies: [...bodies, makeEarth()], landmarks: earthFile(gnis), earthPositions: gnisRecord(), curatedPages: pagesWithLandmarks() });
       expect(errors).toEqual([]);
       expect(details.find((d) => d.bodyId === 'earth')!.landmarks[0]).toMatchObject({
-        latDeg: 1.5, lonDegE: 200, diameterKm: null, position: { kind: 'names-database', sourceId: 'usgs-gnis', text: '1.5, -160' }, sizeSourceId: null,
+        type: 'Valley', latDeg: 1.5, lonDegE: 200, diameterKm: null, position: { kind: 'names-database', sourceId: 'usgs-gnis', text: '1.5, -160' }, sizeSourceId: null,
       });
       expect(sources.find((s) => s.id === 'usgs-gnis')).toMatchObject({ url: 'https://www.usgs.gov/us-board-on-geographic-names/download-gnis-data', retrievedAt: '2026-10-11' });
+    });
+    it('errors when a names-database record has no feature class (no fallback to a curated word)', () => {
+      const { errors } = build({ bodies: [...bodies, makeEarth()], landmarks: earthFile(gnis), earthPositions: gnisRecord('Test Peak', [], ''), curatedPages: pagesWithLandmarks() });
+      expect(errors).toContain('details/earth.json: landmark Test Peak: names-database record gnis:123 has no feature class');
     });
     it('says which record name a variant-matched position came from', () => {
       const { details, errors } = build({ bodies: [...bodies, makeEarth()], landmarks: earthFile(gnis), earthPositions: gnisRecord('Big Peak', ['Test Peak']), curatedPages: pagesWithLandmarks() });

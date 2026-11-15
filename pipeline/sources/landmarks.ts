@@ -20,12 +20,15 @@ export type EarthPosition =
 export const namesRecordKey = (p: { database: string; recordId: string }): string => `${p.database}:${p.recordId}`;
 
 /** What the check needs from a fetched names-database record. */
-export interface FetchedNamesRecord { name: string; variants: readonly string[]; sourceUrl: string }
+export interface FetchedNamesRecord { name: string; variants: readonly string[]; sourceUrl: string; featureClass?: string }
 
 export type CuratedLandmark =
   /** A Gazetteer body: everything but the sentence comes from the Gazetteer, by name. */
   | { name: string; sourceId: string; quote: string }
-  | { name: string; type: string; sourceId: string; quote: string; position: EarthPosition; size?: { km: number; sourceId: string; quote: string } };
+  /** A names-database position: the type is the record's own `feature_class`, so no curated type is used. */
+  | { name: string; type?: undefined; sourceId: string; quote: string; position: Extract<EarthPosition, { kind: 'names-database' }>; size?: { km: number; sourceId: string; quote: string } }
+  /** A position stated in the quote: the type is a curated plain word (shown without a source number). */
+  | { name: string; type: string; sourceId: string; quote: string; position: Extract<EarthPosition, { kind: 'quoted' }>; size?: { km: number; sourceId: string; quote: string } };
 
 export interface LandmarksFile {
   /** Quote pages, on official hosts. */
@@ -127,6 +130,8 @@ export function verifyLandmarks(file: LandmarksFile, pages: Map<string, string>,
           if (rec.name !== l.name && !rec.variants.includes(l.name)) errors.push(`${where}: record ${p.recordId} is named ${rec.name}`);
         }
       }
+      if (p.kind === 'quoted' && !l.type) errors.push(`${where}: a landmark with a quoted position needs a type`);
+      if (p.kind === 'names-database' && l.type) errors.push(`${where}: a names-database landmark takes its type from the record's feature class; remove "type"`);
       if (p.kind === 'quoted') {
         const w = `${where} position`;
         quote(p.quote, p.sourceId, w);

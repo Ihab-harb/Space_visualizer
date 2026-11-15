@@ -62,16 +62,46 @@ describe('FeatureCard', () => {
     expect(show('mars', 'olympus-mons').card).toHaveTextContent('Mons · Mountain');
   });
 
-  it('shows "Crater" and "Satellite Feature" as they are', () => {
-    const { card } = show('moon', 'tycho');
-    expect(card.querySelector('.explore-kicker')).toHaveTextContent(/^Crater\[\d+\] · Landmark$/);
+  it('shows "Crater", "Satellite Feature" and "Astronaut-named features" as they are', () => {
     const d = realDetails('moon');
-    const sat = d.features!.items.find((f) => f.type === 'Satellite Feature');
-    if (sat) {
-      document.body.innerHTML = '';
-      const { card: c2 } = show('moon', sat.id);
-      expect(c2.querySelector('.explore-kicker')).toHaveTextContent(/^Satellite Feature\[\d+\]$/);
-    }
+    const item = (id: string, type: string) => ({ id, name: id, type, latDeg: 1, lonDegE: 2, diameterKm: 3, origin: 'Test', approvedYear: 1970 });
+    const withTypes = { ...d, features: { ...d.features!, items: [...d.features!.items, item('sat-a', 'Satellite Feature'), item('astro-b', 'Astronaut-named features')] } };
+    const body = catalog.bodyById.get('moon')!;
+    const kicker = (id: string) => {
+      const { unmount } = render(<FeatureCard catalog={catalog} body={body} details={withTypes} featureId={id} onClose={vi.fn()} />);
+      const text = screen.getByRole('region', { name: id }).querySelector('.explore-kicker')!.textContent;
+      unmount();
+      return text;
+    };
+    expect(kicker('sat-a')).toMatch(/^Satellite Feature\[\d+\]$/);
+    expect(kicker('astro-b')).toMatch(/^Astronaut-named features\[\d+\]$/);
+    expect(show('moon', 'tycho').card.querySelector('.explore-kicker')).toHaveTextContent(/^Crater\[\d+\] · Landmark$/);
+  });
+
+  it('shows a names-database type as the record class, cited to the names database', () => {
+    const { card, numbers } = show('earth', 'grand-canyon');
+    const kicker = card.querySelector('.explore-kicker') as HTMLElement;
+    expect(kicker).toHaveTextContent(/^Valley\[\d+\] · Landmark$/);
+    expect(within(kicker).getByRole('link', { name: `Source ${numbers.get('usgs-gnis')}` })).toBeInTheDocument();
+  });
+
+  it('shows a quoted-position landmark curated type with no source number', () => {
+    const d = realDetails('earth');
+    const g = d.landmarks[0]!;
+    const quoted = { ...d, landmarks: [{ ...g, type: 'Canyon', position: { kind: 'quoted' as const, sourceId: g.quote.sourceId, text: '36.1 N, 114.0 W' } }, ...d.landmarks.slice(1)] };
+    render(<FeatureCard catalog={catalog} body={catalog.bodyById.get('earth')!} details={quoted} featureId="grand-canyon" onClose={vi.fn()} />);
+    const kicker = screen.getByRole('region', { name: 'Grand Canyon' }).querySelector('.explore-kicker') as HTMLElement;
+    expect(kicker.textContent).toBe('Canyon · Landmark');
+    expect(within(kicker).queryByRole('link')).toBeNull();
+  });
+
+  it('shows a quote tidied of a stray space before a comma, leaving the stored text alone', () => {
+    const d = realDetails('mars');
+    const l = d.landmarks[0]!;
+    const spaced = { ...d, landmarks: [{ ...l, quote: { ...l.quote, text: 'A vast canyon , long as a country .' } }, ...d.landmarks.slice(1)] };
+    render(<FeatureCard catalog={catalog} body={catalog.bodyById.get('mars')!} details={spaced} featureId={l.id} onClose={vi.fn()} />);
+    expect(screen.getByRole('region', { name: l.name }).querySelector('.explore-card__quote')).toHaveTextContent('“A vast canyon, long as a country.”');
+    expect(spaced.landmarks[0]!.quote.text).toBe('A vast canyon , long as a country .');
   });
 
   it('lists and links its sources with the shared citation numbers', () => {

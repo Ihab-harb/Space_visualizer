@@ -14,6 +14,8 @@ export interface NamesRecord {
   variants: string[];
   latDeg: number;
   lonDegE: number;
+  /** The record's own `feature_class` (for example "Valley"), trimmed; empty when the record leaves it blank. */
+  featureClass: string;
   text: string;
 }
 
@@ -69,6 +71,7 @@ export function parseNamesRecord(database: NamesDatabase, body: string): NamesRe
   };
   const id = field('feature_id');
   const name = field('feature_name');
+  const featureClass = field('feature_class') ?? '';
   const lat = field('prim_lat_dec');
   const lon = field('prim_long_dec');
   if (!id || !/^\d+$/.test(id) || !name || !lat || !lon) return null;
@@ -77,7 +80,7 @@ export function parseNamesRecord(database: NamesDatabase, body: string): NamesRe
   if (!Number.isFinite(latDeg) || !Number.isFinite(lonDeg) || Math.abs(latDeg) > 90 || Math.abs(lonDeg) > 180) return null;
   if (latDeg === 0 && lonDeg === 0) return null;
   const east = lonDeg < 0 ? 360 + lonDeg : lonDeg;
-  return { id, name, variants: [], latDeg, lonDegE: Number(east.toFixed(decimals(lon))) % 360, text: `${lat}, ${lon}` };
+  return { id, name, variants: [], featureClass, latDeg, lonDegE: Number(east.toFixed(decimals(lon))) % 360, text: `${lat}, ${lon}` };
 }
 
 /** The record with this id in a whole file, with the other names from the file's names list (official name excluded). */

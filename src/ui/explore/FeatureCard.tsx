@@ -35,7 +35,8 @@ export function FeatureCard({ catalog, body, details, featureId, onClose }: Feat
     if (!used.includes(id)) used.push(id);
     return <Cite sourceId={id} numbers={numbers} />;
   };
-  const typeSource = entry.typeMeaning?.sourceId ?? entry.positionSourceId;
+  // A Latin type is cited to its meaning's page; a names-database type is the record's own class; a quoted landmark's type is a curated word with no source.
+  const typeSource = entry.typeMeaning?.sourceId ?? (entry.positionKind === 'quoted' ? null : entry.positionSourceId);
   const sources = () => [...used].sort((a, b) => numbers.get(a)! - numbers.get(b)!);
 
   const kicker = (
