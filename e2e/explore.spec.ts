@@ -297,6 +297,26 @@ test('Half-section shows the depth ruler: surface to centre, cited, estimates ma
   await expect(jr.locator('.tag--estimate')).toHaveCount(1);
 });
 
+test('a hidden phone dot is not drawn: interior layer dots and surface pins', async ({ browser }) => {
+  // The projector hides a dot that has no room (or faces away) with the hidden attribute; a later CSS display rule must not
+  // override it, or the dot is drawn (and tappable) wherever it was last placed, the top-left corner at first.
+  const page = await browser.newPage({ viewport: { width: 390, height: 844 } });
+  page.on('pageerror', (error) => pageErrors.push(error.message));
+  await page.goto(`/?jd=${JD}&quality=low&target=earth&pause=1&explore=1&view=exploded`);
+  await expect(page.locator('canvas')).toBeVisible();
+  await expect(page.locator('.xdot')).toHaveCount(4, { timeout: 30_000 });
+  const hiddenDisplay = (selector: string) =>
+    page.locator(selector).first().evaluate((el: HTMLElement) => {
+      el.hidden = true; // read in the same task, before the projector's next frame writes it again
+      return getComputedStyle(el).display;
+    });
+  expect(await hiddenDisplay('.xdot')).toBe('none');
+  await page.keyboard.press('1');
+  await expect(page.locator('.xpin.is-numbered').first()).toBeAttached({ timeout: 30_000 });
+  expect(await hiddenDisplay('.xpin.is-numbered')).toBe('none');
+  await page.close();
+});
+
 test('a failed details load says so on Interior and Retry loads again; the interior switch is not live meanwhile', async ({ page }) => {
   let fail = true;
   await page.route('**/details/earth.json', (route) => (fail ? route.fulfill({ status: 500, body: 'down' }) : route.continue()));
