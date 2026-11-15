@@ -44,7 +44,7 @@ Back to [[Home]] · Previous: [[2026-10-30-session-m2b3-explore]]
 - **Plan written:** [[2026-11-15-m2b4a-feature-pins]]. Found while planning: the Mercury duplicates are in the Gazetteer's own file (614 approved rows, 606 distinct names; each row has a `link` to its feature page), and Mars has one duplicated name outside the top 200. The mesh maps longitude 0 to the map's centre column for every body (`uvForLonLat`), so the placement guards test each committed map against that.
 
 ## The build (2026-11-15)
-- **Subagent-driven, all eleven tasks built and review-clean** on branch `m2b4a-pins`: a fresh implementer and a fresh reviewer per task (sonnet; opus for Tasks 4, 5, 9 and 11). Tasks 4, 8, 9 and 10 needed one fix round each. The usage limit stopped the work twice (in Task 4's re-review and in Task 9); both resumed after the user said "continue".
+- **Subagent-driven, all eleven tasks built and review-clean** on branch `m2b4a-pins`: a fresh implementer and a fresh reviewer per task (sonnet; opus for Tasks 4, 5, 9 and 11). Tasks 4, 8, 9 and 10 needed one fix round each. The usage limit stopped the work three times (in Task 4's re-review, in Task 9 and in Task 11); each time it resumed after the user said "continue".
   1. One Gazetteer row per feature and stable feature ids. Mercury's approved total went from 614 to 606.
   2. `surfacePoint` and the placement guards on the committed maps (rebuilt on physical priors after the first version picked guards by scanning the map).
   3. The landmarks pipeline: quote checks, type meanings, the details schema.
@@ -64,11 +64,12 @@ Back to [[Home]] · Previous: [[2026-10-30-session-m2b3-explore]]
 1. **Earth has landmarks only in the United States and Antarctica.** The NGA GEOnet Names Server, which the user approved for positions outside the United States, could not be reached from this network (every try timed out; `www.nga.mil` answered). Options: retry from another network, approve another official source for positions, or accept.
 2. **Earth type words are GNIS classes, and some read oddly:** Larsen Ice Shelf "Glacier", Antarctic Peninsula "Cape", Vinson Massif "Range", Grand Canyon "Valley". Friendlier words would have to be shown without a source.
 3. **Some quoted sentences state a size that differs from the Gazetteer size on the same card:** Mare Humorum 825 km in the quote against 420 km (the basin against the mare), Artemis Corona 2,100 against 2,600 km, Mead 280 against 270 km. Each is shown with its own source.
-4. **Earth can open over an ocean,** because Explore opens on the sunlit side. At the usual test date it opens on the Pacific with the US pins at the top limb.
+4. **Explore opens on the sunlit side, so Earth can open over an ocean (the Pacific at the usual test date),** with the US pins at the top limb.
 5. **Check the pins on a real GPU.** They were checked on SwiftShader only.
 6. **Mercury's Apollodorus dot sits about 15 km off the crater centre,** likely the Mercury map's alignment; the Moon, Mars and Earth dots are centred by the same code.
-7. **A few landmark sentences are weaker than the rest,** kept for lack of a better official sentence: Mercury Kandinsky (a list of craters), Apollodorus (naming trivia), Mendelssohn ("Prominently visible is…", which implies an image); Venus Gula Mons and Sapas Mons (mostly coordinates); Earth Meteor Crater (the quote never names the place) and Yellowstone Caldera (about the hydrothermal system). Mission-led: Elysium Planitia and Meridiani Planum. Mare Imbrium's quote says Orientale is the youngest mare. Syrtis Major Planum is quoted as "Syrtis Major" (the least certain name match).
-8. **The whole-branch review is still to do.** Nothing is pushed and no PR is open.
+7. **A few landmark sentences are weaker than the rest,** kept for lack of a better official sentence: Mercury Kandinsky (a list of craters), Apollodorus (naming trivia), Mendelssohn ("Prominently visible is…", which implies an image), Nathair Facula ("…in this image is…"), Fonteyn ("Also visible is…"); Venus Sif Mons ("They also estimate…"); Venus Gula Mons and Sapas Mons (mostly coordinates); Earth Meteor Crater (the quote never names the place) and Yellowstone Caldera (about the hydrothermal system). Mission-led: Elysium Planitia and Meridiani Planum. Mare Imbrium's quote says Orientale is the youngest mare. Syrtis Major Planum is quoted as "Syrtis Major" (the least certain name match).
+8. **A feature picked from the far side can land on the night side after the turn** (real lighting; the pins stay bright). Look at one before calling the section done.
+9. **The whole-branch review is done (verdict: with fixes) and the fix wave is built;** a scoped re-review is still to do. Nothing is pushed and no PR is open.
 
 ## Open for M2b.4b (not this section)
 - Field lines: a dipole drawn from the cited tilt and offset is a model, so it needs an "illustrative" label or a cited source for the real shape.

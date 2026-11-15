@@ -1,7 +1,7 @@
 ---
 title: M2b.4a Feature pins — Implementation Plan
 date: 2026-11-15
-status: complete (whole-branch review to do)
+status: complete (whole-branch review and fix wave done; scoped re-review to do)
 milestone: M2b.4a
 spec: "[[2026-11-15-m2b4a-feature-pins-design]]"
 tags: [plan, m2b, features, explore]
@@ -710,7 +710,29 @@ Copied from the ledger, by task. The carry-over note has them too ("From M2b.4a"
 - **Task 6:** the keys 1/2/3 test could not have failed; no RED run; `selectFeature` sets view `whole` without going through `setView`; `featureSeq` is not reset by enter or leave (by design).
 - **Task 7:** the turn target has no `EXPLORE_CAMERA.tiltRad` (entry has); a tap-jitter rotate delta in the same frame as a pin click would cancel the turn (Task 9 checked a pin click turns the view); `lastFeatureSeq` is not advanced on an interior tab, so returning to Surface with a feature still selected turns then; near-polar azimuth arbitrary; no test of the `CameraSystem` wiring (end to end only); no RED run.
 - **Task 8:** the Venus radar tag waits for ready details while the radar map shows during load; the focus tests call `setTab` rather than a real key event.
-- **Task 9:** Mercury's Apollodorus dot about 15 km off the crater centre (likely the Mercury map's alignment; the Moon, Mars and Earth are centred by the same code); Earth opens over the Pacific with the US pins bunched at the limb (sunlit-side rule plus US-only landmarks); per-frame allocations in the projector (objects, a Map, a filter array; at most 22 pins); the `fonts.ready` callback is not cancelled on unmount; the 25-pin layout test uses synthetic reserved rects; a dot within 11 px of the viewport edge disappears (`PIN_DOT_INSET`); a missing dot counts as shown for naming (no effect); a selected feature can land on the night side (the turn ignores the Sun; ruled).
+- **Task 9:** Mercury's Apollodorus dot about 15 km off the crater centre (likely the Mercury map's alignment; the Moon, Mars and Earth are centred by the same code); Explore opens on the sunlit side, so Earth can open over an ocean (the Pacific at the usual test date), with the US pins bunched at the limb; per-frame allocations in the projector (objects, a Map, a filter array; at most 22 pins); the `fonts.ready` callback is not cancelled on unmount; the 25-pin layout test uses synthetic reserved rects; a dot within 11 px of the viewport edge disappears (`PIN_DOT_INSET`); a missing dot counts as shown for naming (no effect); a selected feature can land on the night side (the turn ignores the Sun; ruled).
 - **Task 9 (older code, fixed in Task 11):** the interior phone dots (`.xdot`) had the same hidden-but-drawn CSS problem. Confirmed (a hidden `.xdot` computed `display: grid` and sat at 0,0) and fixed in `c990bf4` with an end-to-end check.
 - **Task 10:** `cite()` returns null silently when a source has no number; the circular import of `useNarrowViewport` from `ExploreOverlay` (existing pattern); no render-level accent-folding test; the `FeatureList` open-focus effect on remount.
 - **Task 11:** on a phone two numbered dots overlap where two landmarks share a spot (Gale 15 under Aeolis Mons 16 in golden 8f; Hawaii's two volcanoes); this follows the Task 9 decision that a phone dot sits on its feature. With the list open on a desktop, left-side names give way to dots (same-side rule). The Moon golden shows a faint dot near the night-side limb (it appears to be a landmark near the limb, faded by `PIN_FADE`; not checked dot by dot). With both the card and the list open at 1280x720 no pin name fits, not even the selected pin's: the list covers the left name column (x 16 to 336), the card the right one (x 924 to 1264, down to y 563), and a name may move only 7 % of the height. Measured on Mars at `jd=2461317.9` with Olympus Mons selected; at 1024x768 one name (Noctis Labyrinthus) still fits below the card. The card carries the selected name, so nothing is lost, but the globe reads bare. Widening `maxShiftFraction` for the selected pin, or letting it sit over the globe, would be a design call.
+
+### Whole-branch review (2026-11-15)
+Range 12d34ae..9718c90 (20 commits). **Verdict: with fixes.** The accuracy chain from source to pixel held and no citation fault was found. Two Important findings, both fixed in commit `b0673de` (the fix wave):
+1. **A failed or slow details load was invisible on Surface** (a regression: before this branch the loading line and Retry were always shown). Fix (F1): the Surface notes row shows "Loading surface features…" (`role="status"`) and, after a failed load, "Could not load the surface features." with Retry (`role="alert"`). The Interior messages are unchanged.
+2. **An unknown `feature=` id left an invisible selection** that swallowed the first Esc, and the camera looked it up every frame. Fix (F2): once the details are ready, `isUnknownFeature` clears the id (an effect in `Overlay`); the camera advances `lastFeatureSeq` for a settled unknown id. While details load the id is kept.
+
+Minor fixes, same commit: F3 the pin projector reads the reserved rects before it writes; F4 a Gazetteer landmark takes the Gazetteer row's id (`data:offline` gives the same ids; only timestamps changed); F5 Earth card positions (see the ruling); F6 Esc in the list search closes an open card first, then the list; F7 pins fade in (a 200 ms CSS animation on `data-shown`, none under reduced motion; hiding immediate); F8 the `surfaceDirection` docstring; F9 `featureTurnPlan` (extracted from `CameraSystem`) is tested for the tab change; F10 the phone layout checks must find `reserved:card` and `reserved:features`. **F11 (keyboard reach of the pins) was not done:** the pins sit in the scene's isolated label layer, below the overlay; Tab reaches them only if they move out of it, which changes what is drawn on top of what. The list is the full keyboard path; it stays in the carry-over note.
+
+**Ruling (F5):** a names-database position is shown with degree signs and hemisphere letters, keeping the record's own digits: `36.112764° N, 113.9960696° W` (a minus sign becomes S or W; nothing is rounded). Done at display time by `formatRecordPosition`; the stored data is unchanged. Cost if wrong: none to the data.
+
+**Declined to judge (the reviewer's list):**
+- Retrying GNS or adding Earth landmarks outside the US: open for the user (Task 5).
+- Friendlier Earth type words than the GNIS classes: open for the user (Task 10).
+- No pin name fitting with both panels open at 1280x720: a design call the ledger already names.
+- A quote's size differing from the Gazetteer size on the same card (Humorum, Artemis, Mead, Caloris 1,550 against 1,500): the user's to weigh; both values are cited.
+- Editorial quality of the kept quotes beyond those named (Nathair Facula, Fonteyn, Sif Mons are now in the session note's list): the user's call.
+- No credit or citation for the Magellan radar imagery inside Explore: the spec asks only for the tag.
+- Golden images: not viewed by the reviewer; the build says they were reviewed by eye.
+- Orientation of the higher local texture tiers: the spec scopes the guards to committed files.
+- Parametric against planetocentric latitude on the oblate mesh (at most about 0.17°, about 10 km on Mars): the spec says pins follow the drawn shape, and the texture uses the same mapping.
+
+Not fixed, in the carry-over note: `schemaVersion` stays 1 although three fields became required; `WITH_WORD` and "10 km east" parsing before the first quoted position is added.
