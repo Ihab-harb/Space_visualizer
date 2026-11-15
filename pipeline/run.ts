@@ -1,7 +1,7 @@
 import { mkdir, readFile, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 import { ChebyshevFileSchema, ImageryFileSchema } from '../src/core/catalog/schema';
-import { buildDetails, type DetailsInputs } from './build/buildDetails';
+import { buildDetails, type DetailsInputs, type EarthRecord } from './build/buildDetails';
 import { buildSolarSystem } from './build/buildSolarSystem';
 import { validateDetails, validateOutput } from './build/validate';
 import { fetchCached, type FetchedText, type FetchOptions } from './lib/fetchCached';
@@ -10,7 +10,8 @@ import { DESCRIPTION_PAGES } from './sources/nasaScience';
 import { readDbf } from './lib/dbf';
 import { readZipEntry } from './lib/zip';
 import { GAZETTEER_TARGETS, gazetteerUrl } from './sources/gazetteer';
-import type { LandmarksFile } from './sources/landmarks';
+import { hasOwnPosition, namesRecordKey, type LandmarksFile } from './sources/landmarks';
+import { findNamesRecord, namesFileCacheName, namesFileEntries, namesFileUrl, namesSourceSpec } from './sources/namesDatabase';
 import { PLANET_SHEET_IDS } from './sources/nssdcPlanetSheet';
 import { quotePageUrl, type InteriorsFile, type MissionsFile } from './sources/quotedReference';
 import { planetSheetUrl, SOURCE_SPECS } from './sources/registry';
@@ -64,8 +65,26 @@ try {
   for (const s of [...interiors.sources, ...missions.sources, ...landmarks.sources]) {
     if (!curatedPages.has(s.id)) curatedPages.set(s.id, await fetchCached(quotePageUrl(s), `ref-${s.id}.html`, options));
   }
+  // Earth positions: each GNIS record is read from its area's staged file (one download per area, cached in pipeline/raw).
+  const earthPositions = new Map<string, EarthRecord>();
+  const namesFiles = new Map<string, Array<{ recordId: string; key: string }>>();
+  for (const l of Object.values(landmarks.bodies).flat()) {
+    if (!hasOwnPosition(l) || l.position.kind !== 'names-database' || l.position.database !== 'gnis' || !l.position.area) continue;
+    namesFiles.set(l.position.area, [...(namesFiles.get(l.position.area) ?? []), { recordId: l.position.recordId, key: namesRecordKey(l.position) }]);
+  }
+  for (const [area, wanted] of namesFiles) {
+    const zip = await fetchBinaryCached(namesFileUrl('gnis', area), namesFileCacheName('gnis', area), options);
+    const buf = await readFile(zip.path);
+    const entries = namesFileEntries('gnis', area);
+    const text = readZipEntry(buf, entries.records).toString('utf8');
+    const names = entries.names ? readZipEntry(buf, entries.names).toString('utf8') : undefined;
+    for (const w of wanted) {
+      const rec = findNamesRecord('gnis', text, w.recordId, names);
+      if (rec) earthPositions.set(w.key, { ...rec, source: namesSourceSpec('gnis'), retrievedAt: zip.retrievedAt });
+    }
+  }
   const built = buildDetails(
-    { bodies: output.bodies.bodies, existingSourceIds: new Set(output.sources.sources.map((s) => s.id)), existingSourceUrls: new Map(output.sources.sources.map((s) => [s.url, s.id])), planetSheets, sunSheet, moonSheet, gazetteer, interiors, missions, curatedPages, landmarks, earthPositions: new Map() },
+    { bodies: output.bodies.bodies, existingSourceIds: new Set(output.sources.sources.map((s) => s.id)), existingSourceUrls: new Map(output.sources.sources.map((s) => [s.url, s.id])), planetSheets, sunSheet, moonSheet, gazetteer, interiors, missions, curatedPages, landmarks, earthPositions },
     generatedAt,
   );
   output.sources.sources.push(...built.sources);

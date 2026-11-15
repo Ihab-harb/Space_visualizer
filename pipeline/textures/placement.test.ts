@@ -87,8 +87,14 @@ function dot(a: Vec3, b: Vec3): number {
   return a[0] * b[0] + a[1] * b[1] + a[2] * b[2];
 }
 
-/** Mean luminance (0 to 1) of the disc (angle <= disc) and the ring (ringIn < angle <= ringOut), angles in degrees. */
-function measure(img: Gray, latDeg: number, lonDegE: number, discDeg: number, ringInDeg: number, ringOutDeg: number): { disc: number; ring: number } {
+/**
+ * Mean of `value(luminance)` (luminance 0 to 1) over the disc (angle <= disc) and the ring (ringIn < angle <= ringOut), angles
+ * in degrees. The default value is the luminance itself.
+ */
+function measure(
+  img: Gray, latDeg: number, lonDegE: number, discDeg: number, ringInDeg: number, ringOutDeg: number,
+  value: (g: number) => number = (g) => g,
+): { disc: number; ring: number } {
   const [u, v] = uvForLonLat(lonDegE, latDeg);
   const cx = u * img.w;
   const cy = (1 - v) * img.h;
@@ -107,7 +113,7 @@ function measure(img: Gray, latDeg: number, lonDegE: number, discDeg: number, ri
       const lon = ((px + 0.5) / img.w - 0.5) * 360;
       const lat = (1 - (py + 0.5) / img.h - 0.5) * 180;
       const c = dot(centre, surfaceDirection(lat, lon));
-      const g = img.data[py * img.w + px]! / 255;
+      const g = value(img.data[py * img.w + px]! / 255);
       if (c >= cosDisc) { ds += g; dn++; }
       else if (c >= cosOut && c < cosIn) { rs += g; rn++; }
     }
@@ -141,6 +147,56 @@ beforeAll(async () => {
     features.set(b, loadFeatures(b));
     radiiKm.set(b, bodyRadiusKm(b));
   }
+});
+
+/**
+ * Earth has no Gazetteer sizes, so its guard uses a small fixed disc and a land-or-water prior instead of a size-scaled
+ * contrast. On the 1k colour map open ocean and the Great Lakes are near black; land and ice are brighter. Each guard
+ * states where the landmark is and what lies at its mirrored and half-turned longitudes. Measured (radius 0.4 degrees):
+ * no Earth landmark has water at its half-turned longitude (all are land or Antarctic ice there), so the half-turn is
+ * caught by Lake Superior, a lake whose transforms fall on dry land.
+ */
+const EARTH_MAP = 'public/textures/earth/color_1k.webp';
+/** Disc radius in degrees (about 45 km): inside the Island of Hawaiʻi and inside Lake Superior. */
+const EARTH_DISC_DEG = 0.4;
+/** A pixel darker than this is water. */
+const WATER_LUMINANCE = 0.08;
+/** Water share of the disc: at least WATER_SHARE is water, at most 1 - WATER_SHARE is land. */
+const WATER_SHARE = 0.75;
+type EarthGuard = { name: string; expect: 'water' | 'land'; prior: string };
+const EARTH_GUARDS: EarthGuard[] = [
+  { name: 'Lake Superior', expect: 'water', prior: 'open water, the largest freshwater lake by area; its mirrored (87.8° E) and half-turned (92.2° E) longitudes at 47.5° N are inland Asia, dry land' },
+  { name: 'McMurdo Dry Valleys', expect: 'land', prior: 'ice-free land in Victoria Land; its mirrored longitude (162° W at 77.5° S) is the open Ross Sea; its half-turn is the ice sheet' },
+  { name: 'Mauna Loa', expect: 'land', prior: 'a volcano covering half the Island of Hawaiʻi; its mirrored longitude (155.6° E at 19.5° N) is open Pacific; its half-turn is the Sahara' },
+];
+let earthImage: Gray;
+let earthLandmarks: Feature[];
+
+function waterShare(g: EarthGuard, lonMap: (lon: number) => number): number {
+  const f = earthLandmarks.find((x) => x.name === g.name);
+  if (!f) throw new Error(`${g.name} not found in earth details`);
+  const r = EARTH_DISC_DEG;
+  return measure(earthImage, f.latDeg, lonMap(f.lonDegE), r, 2 * r, 3 * r, (lum) => (lum < WATER_LUMINANCE ? 1 : 0)).disc;
+}
+const earthPasses = (g: EarthGuard, share: number): boolean => (g.expect === 'water' ? share >= WATER_SHARE : share <= 1 - WATER_SHARE);
+
+describe('Earth placement guards (land against water)', () => {
+  beforeAll(async () => {
+    earthImage = await loadGray(EARTH_MAP);
+    earthLandmarks = (JSON.parse(readFileSync(resolve('public/data/solar-system/details/earth.json'), 'utf8')) as { landmarks: Feature[] }).landmarks;
+  });
+  it('earth: pins land on the picture', () => {
+    for (const g of EARTH_GUARDS) {
+      const s = waterShare(g, (lon) => lon);
+      expect(earthPasses(g, s), `${g.name} should be ${g.expect}, water share ${s.toFixed(2)}`).toBe(true);
+    }
+  });
+  it('earth: a mirrored longitude would be caught', () => {
+    expect(EARTH_GUARDS.filter((g) => !earthPasses(g, waterShare(g, (lon) => 360 - lon))).length).toBeGreaterThan(0);
+  });
+  it('earth: a half-turn shift would be caught', () => {
+    expect(EARTH_GUARDS.filter((g) => !earthPasses(g, waterShare(g, (lon) => lon + 180))).length).toBeGreaterThan(0);
+  });
 });
 
 describe('placement guards on the committed maps', () => {

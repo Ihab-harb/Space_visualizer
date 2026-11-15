@@ -5,6 +5,7 @@ import { makeCatalogFiles, makeEarth, makeMoon } from '../../src/test/fixtures';
 import type { FetchedText } from '../lib/fetchCached';
 import { PLANET_SHEET_IDS } from '../sources/nssdcPlanetSheet';
 import type { LandmarksFile } from '../sources/landmarks';
+import { namesSourceSpec } from '../sources/namesDatabase';
 import type { InteriorsFile, MissionsFile } from '../sources/quotedReference';
 import { buildDetails, type DetailsInputs } from './buildDetails';
 
@@ -346,7 +347,8 @@ describe('buildDetails', () => {
   });
 
   describe('landmarks', () => {
-    const LPAGE = '<p>Tycho is a bright young crater seen well from Earth. Olympus Mons is a very tall volcano on the planet Mars. Mons, montes MO Mountain Oceanus, oceani OC A very large dark area on the moon. Crater, craters CR A circular depression Dorsum, dorsa DO Ridge</p>';
+    const Q_EARTH_POS = 'The test peak stands at 43.31° S, 11.36° W on the plain';
+    const LPAGE = '<p>The test peak stands at 43.31° S, 11.36° W on the plain. Tycho is a bright young crater seen well from Earth. Olympus Mons is a very tall volcano on the planet Mars. Mons, montes MO Mountain Oceanus, oceani OC A very large dark area on the moon. Crater, craters CR A circular depression Dorsum, dorsa DO Ridge</p>';
     const Q_TYCHO = 'Tycho is a bright young crater seen well from Earth';
     const Q_OLY = 'Olympus Mons is a very tall volcano on the planet Mars';
     const Q_MONS = 'Mons, montes MO Mountain Oceanus, oceani OC A very large dark area on the moon';
@@ -389,17 +391,44 @@ describe('buildDetails', () => {
       const lm = file({ types: {}, bodies: { moon: [{ name: 'Tychoo', sourceId: 'lm-page', quote: Q_TYCHO }] } });
       expect(withLandmarks(lm).errors).toContain('details/moon.json: landmark Tychoo is not an approved Gazetteer feature');
     });
+    const gnis = { kind: 'names-database', database: 'gnis', recordId: '123', area: 'AZ' };
+    const gnisRecord = (name = 'Test Peak', variants: string[] = []) => new Map([['gnis:123', { name, variants, latDeg: 1.5, lonDegE: 200, text: '1.5, -160', source: namesSourceSpec('gnis'), retrievedAt: '2026-10-11' }]]);
     it('errors, and does not skip, an Earth landmark whose names-database record is not fetched', () => {
-      const { errors, details } = build({ bodies: [...bodies, makeEarth()], landmarks: earthFile({ kind: 'names-database', database: 'gnis', recordId: '123' }), curatedPages: pagesWithLandmarks() });
-      expect(errors).toContain('details/earth.json: landmark Test Peak: names-database record 123 is not in the fetched positions');
+      const { errors, details } = build({ bodies: [...bodies, makeEarth()], landmarks: earthFile(gnis), curatedPages: pagesWithLandmarks() });
+      expect(errors).toContain('details/earth.json: landmark Test Peak: names-database record gnis:123 is not in the fetched positions');
       expect(details.find((d) => d.bodyId === 'earth')!.landmarks).toEqual([]);
     });
-    it('uses a names-database position for Earth when the record is fetched', () => {
-      const earthPositions = new Map([['123', { latDeg: 1.5, lonDegE: 200, text: '1.5 N, 160 W', sourceId: 'lm-page', retrievedAt: '2026-10-10' }]]);
-      const { details } = build({ bodies: [...bodies, makeEarth()], landmarks: earthFile({ kind: 'names-database', database: 'gnis', recordId: '123' }), earthPositions, curatedPages: pagesWithLandmarks() });
+    it('uses a names-database position for Earth when the record is fetched, and registers the database as a source', () => {
+      const { details, sources, errors } = build({ bodies: [...bodies, makeEarth()], landmarks: earthFile(gnis), earthPositions: gnisRecord(), curatedPages: pagesWithLandmarks() });
+      expect(errors).toEqual([]);
       expect(details.find((d) => d.bodyId === 'earth')!.landmarks[0]).toMatchObject({
-        latDeg: 1.5, lonDegE: 200, diameterKm: null, position: { kind: 'names-database', text: '1.5 N, 160 W' }, sizeSourceId: null,
+        latDeg: 1.5, lonDegE: 200, diameterKm: null, position: { kind: 'names-database', sourceId: 'usgs-gnis', text: '1.5, -160' }, sizeSourceId: null,
       });
+      expect(sources.find((s) => s.id === 'usgs-gnis')).toMatchObject({ url: 'https://www.usgs.gov/us-board-on-geographic-names/download-gnis-data', retrievedAt: '2026-10-11' });
+    });
+    it('says which record name a variant-matched position came from', () => {
+      const { details, errors } = build({ bodies: [...bodies, makeEarth()], landmarks: earthFile(gnis), earthPositions: gnisRecord('Big Peak', ['Test Peak']), curatedPages: pagesWithLandmarks() });
+      expect(errors).toEqual([]);
+      expect(details.find((d) => d.bodyId === 'earth')!.landmarks[0]!.position.text).toBe('1.5, -160 (GNIS name: Big Peak)');
+    });
+    it('errors on a fetched record whose name is not the landmark name', () => {
+      const { errors } = build({ bodies: [...bodies, makeEarth()], landmarks: earthFile(gnis), earthPositions: gnisRecord('Other Peak'), curatedPages: pagesWithLandmarks() });
+      expect(errors).toContain('landmarks.json: earth/Test Peak: record 123 is named Other Peak');
+    });
+    it('stores a quoted Earth position with the matched span as its text', () => {
+      const lm = earthFile({ kind: 'quoted', latDeg: -43.31, lonDegE: 348.64, sourceId: 'lm-page', quote: Q_EARTH_POS });
+      const { details, errors } = build({ bodies: [...bodies, makeEarth()], landmarks: lm, curatedPages: pagesWithLandmarks() });
+      expect(errors).toEqual([]);
+      expect(details.find((d) => d.bodyId === 'earth')!.landmarks[0]).toMatchObject({
+        latDeg: -43.31, lonDegE: 348.64, position: { kind: 'quoted', sourceId: 'lm-page', text: '43.31° S, 11.36° W' },
+      });
+    });
+    it('errors on a quoted Earth position whose quote states no position', () => {
+      const lm = earthFile({ kind: 'quoted', latDeg: -43.31, lonDegE: 348.64, sourceId: 'lm-page', quote: Q_TYCHO });
+      const { errors, details } = build({ bodies: [...bodies, makeEarth()], landmarks: lm, curatedPages: pagesWithLandmarks() });
+      expect(errors).toContain('details/earth.json: landmark Test Peak: no position stated in its quote');
+      expect(errors.join()).toContain('no latitude and longitude stated in quote');
+      expect(details.find((d) => d.bodyId === 'earth')!.landmarks).toEqual([]);
     });
     it('writes featureTypes only for types the body uses', () => {
       const lm = file({ types: { Mons: { meaning: 'Mountain', sourceId: 'lm-page', quote: Q_MONS }, Crater: { meaning: 'A circular depression', sourceId: 'lm-page', quote: Q_CRATER } } });

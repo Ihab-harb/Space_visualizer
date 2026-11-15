@@ -306,6 +306,14 @@
       "retrievedAt": "2026-11-15"
     },
     {
+      "id": "usgs-gnis",
+      "title": "Geographic Names Information System (GNIS): domestic and Antarctica names (primary points)",
+      "publisher": "U.S. Geological Survey / U.S. Board on Geographic Names",
+      "url": "https://www.usgs.gov/us-board-on-geographic-names/download-gnis-data",
+      "license": "Public domain (USGS); GNIS metadata: \"Use constraints: None\"",
+      "retrievedAt": "2026-11-15"
+    },
+    {
       "id": "usgs-gazetteer-moon",
       "title": "Moon nomenclature (feature centre points), Gazetteer of Planetary Nomenclature",
       "publisher": "USGS Astrogeology Science Center / IAU Working Group for Planetary System Nomenclature",
@@ -1286,6 +1294,174 @@
       "title": "Ancient Volcanic Vent Near the Moon's Plato Crater",
       "publisher": "NASA Science",
       "url": "https://science.nasa.gov/resource/ancient-volcanic-vent-near-the-moons-plato-crater/",
+      "license": "NASA public domain (NASA media usage guidelines)",
+      "retrievedAt": "2026-11-15"
+    },
+    {
+      "id": "nasa-eo-grand-canyon-geology",
+      "title": "Grand Canyon Geology Lessons on View (NASA Earth Observatory)",
+      "publisher": "NASA Earth Observatory",
+      "url": "https://science.nasa.gov/earth/earth-observatory/grand-canyon-geology-lessons-on-view-83495/",
+      "license": "NASA public domain (NASA media usage guidelines)",
+      "retrievedAt": "2026-11-15"
+    },
+    {
+      "id": "nasa-eo-antarctic-peninsula",
+      "title": "The Most Studied Peninsula on Antarctica (NASA Earth Observatory)",
+      "publisher": "NASA Earth Observatory",
+      "url": "https://science.nasa.gov/earth/earth-observatory/the-most-studied-peninsula-on-antarctica-89717/",
+      "license": "NASA public domain (NASA media usage guidelines)",
+      "retrievedAt": "2026-11-15"
+    },
+    {
+      "id": "usgs-volcano-mount-st-helens",
+      "title": "Mount St. Helens (USGS Volcano Hazards Program)",
+      "publisher": "USGS",
+      "url": "https://www.usgs.gov/volcanoes/mount-st.-helens",
+      "license": "Public domain (USGS)",
+      "retrievedAt": "2026-11-15"
+    },
+    {
+      "id": "usgs-volcano-kilauea",
+      "title": "Kīlauea (USGS Volcano Hazards Program)",
+      "publisher": "USGS",
+      "url": "https://www.usgs.gov/volcanoes/kilauea",
+      "license": "Public domain (USGS)",
+      "retrievedAt": "2026-11-15"
+    },
+    {
+      "id": "usgs-volcano-yellowstone",
+      "title": "Yellowstone (USGS Volcano Hazards Program)",
+      "publisher": "USGS",
+      "url": "https://www.usgs.gov/volcanoes/yellowstone",
+      "license": "Public domain (USGS)",
+      "retrievedAt": "2026-11-15"
+    },
+    {
+      "id": "nasa-eo-mississippi-delta-winter",
+      "title": "Winter Transforms the Mississippi River Delta (NASA Earth Observatory)",
+      "publisher": "NASA Earth Observatory",
+      "url": "https://science.nasa.gov/earth/earth-observatory/winter-transforms-the-mississippi-river-delta-154838/",
+      "license": "NASA public domain (NASA media usage guidelines)",
+      "retrievedAt": "2026-11-15"
+    },
+    {
+      "id": "nasa-eo-ross-ice-shelf",
+      "title": "Victoria Land and Ross Ice Shelf, Antarctica (NASA Earth Observatory)",
+      "publisher": "NASA Earth Observatory",
+      "url": "https://science.nasa.gov/earth/earth-observatory/victoria-land-and-ross-ice-shelf-antarctica-1931/",
+      "license": "NASA public domain (NASA media usage guidelines)",
+      "retrievedAt": "2026-11-15"
+    },
+    {
+      "id": "nasa-eo-death-valley",
+      "title": "Death Valley National Park (NASA Earth Observatory)",
+      "publisher": "NASA Earth Observatory",
+      "url": "https://science.nasa.gov/earth/earth-observatory/death-valley-national-park-6470/",
+      "license": "NASA public domain (NASA media usage guidelines)",
+      "retrievedAt": "2026-11-15"
+    },
+    {
+      "id": "nasa-eo-lake-superior-ice",
+      "title": "Persistent Ice on Lake Superior (NASA Earth Observatory)",
+      "publisher": "NASA Earth Observatory",
+      "url": "https://science.nasa.gov/earth/earth-observatory/persistent-ice-on-lake-superior-83541/",
+      "license": "NASA public domain (NASA media usage guidelines)",
+      "retrievedAt": "2026-11-15"
+    },
+    {
+      "id": "usgs-volcano-mauna-loa",
+      "title": "Mauna Loa (USGS Volcano Hazards Program)",
+      "publisher": "USGS",
+      "url": "https://www.usgs.gov/volcanoes/mauna-loa",
+      "license": "Public domain (USGS)",
+      "retrievedAt": "2026-11-15"
+    },
+    {
+      "id": "nasa-eo-great-salt-lake",
+      "title": "The Great Shrinking Lake (NASA Earth Observatory)",
+      "publisher": "NASA Earth Observatory",
+      "url": "https://science.nasa.gov/earth/earth-observatory/the-great-shrinking-lake-150187/",
+      "license": "NASA public domain (NASA media usage guidelines)",
+      "retrievedAt": "2026-11-15"
+    },
+    {
+      "id": "nasa-eo-mount-erebus",
+      "title": "Mount Erebus, Antarctica (NASA Earth Observatory)",
+      "publisher": "NASA Earth Observatory",
+      "url": "https://science.nasa.gov/earth/earth-observatory/mount-erebus-antarctica-87444/",
+      "license": "NASA public domain (NASA media usage guidelines)",
+      "retrievedAt": "2026-11-15"
+    },
+    {
+      "id": "esa-cryosat-subglacial-lakes",
+      "title": "85 new subglacial lakes detected below Antarctica",
+      "publisher": "ESA",
+      "url": "https://www.esa.int/articles/about-us/directorates/earth-observation-programmes/futureeo/cryosat/85-new-subglacial-lakes-detected-below-antarctica",
+      "license": "ESA; text quoted with attribution (ESA terms of use)",
+      "retrievedAt": "2026-11-15"
+    },
+    {
+      "id": "usgs-volcano-crater-lake",
+      "title": "Crater Lake (USGS Volcano Hazards Program)",
+      "publisher": "USGS",
+      "url": "https://www.usgs.gov/volcanoes/crater-lake",
+      "license": "Public domain (USGS)",
+      "retrievedAt": "2026-11-15"
+    },
+    {
+      "id": "nasa-eo-meteor-crater",
+      "title": "Blast From the Past: Arizona’s Meteor Crater (NASA Earth Observatory)",
+      "publisher": "NASA Earth Observatory",
+      "url": "https://science.nasa.gov/earth/earth-observatory/blast-from-the-past-arizonas-meteor-crater-154497/",
+      "license": "NASA public domain (NASA media usage guidelines)",
+      "retrievedAt": "2026-11-15"
+    },
+    {
+      "id": "nasa-eo-chesapeake-watershed",
+      "title": "The Chesapeake Watershed (NASA Earth Observatory)",
+      "publisher": "NASA Earth Observatory",
+      "url": "https://science.nasa.gov/earth/earth-observatory/the-chesapeake-watershed-86815/",
+      "license": "NASA public domain (NASA media usage guidelines)",
+      "retrievedAt": "2026-11-15"
+    },
+    {
+      "id": "usgs-volcano-mount-rainier",
+      "title": "Mount Rainier (USGS Volcano Hazards Program)",
+      "publisher": "USGS",
+      "url": "https://www.usgs.gov/volcanoes/mount-rainier",
+      "license": "Public domain (USGS)",
+      "retrievedAt": "2026-11-15"
+    },
+    {
+      "id": "nasa-eo-vinson-massif",
+      "title": "Vinson Massif (NASA Earth Observatory)",
+      "publisher": "NASA Earth Observatory",
+      "url": "https://science.nasa.gov/earth/earth-observatory/vinson-massif-3643/",
+      "license": "NASA public domain (NASA media usage guidelines)",
+      "retrievedAt": "2026-11-15"
+    },
+    {
+      "id": "nasa-image-dry-valleys",
+      "title": "Dry Valleys, Antarctica (NASA image article)",
+      "publisher": "NASA",
+      "url": "https://www.nasa.gov/image-article/dry-valleys-antarctica/",
+      "license": "NASA public domain (NASA media usage guidelines)",
+      "retrievedAt": "2026-11-15"
+    },
+    {
+      "id": "nasa-eo-thwaites-transformed",
+      "title": "Thwaites Glacier Transformed (NASA Earth Observatory)",
+      "publisher": "NASA Earth Observatory",
+      "url": "https://science.nasa.gov/earth/earth-observatory/thwaites-glacier-transformed-146247/",
+      "license": "NASA public domain (NASA media usage guidelines)",
+      "retrievedAt": "2026-11-15"
+    },
+    {
+      "id": "nasa-eo-larsen-ice-shelf",
+      "title": "Antarctica’s Changing Larsen Ice Shelf (NASA Earth Observatory)",
+      "publisher": "NASA Earth Observatory",
+      "url": "https://science.nasa.gov/earth/earth-observatory/antarcticas-changing-larsen-ice-shelf-89588/",
       "license": "NASA public domain (NASA media usage guidelines)",
       "retrievedAt": "2026-11-15"
     }

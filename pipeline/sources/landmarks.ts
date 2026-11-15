@@ -1,13 +1,26 @@
 import { featureId } from '../../src/core/details/featureId';
+import { GNS_NOT_IN_USE } from './namesDatabase';
 import {
-  checkQuote, checkSources, isPaper, normaliseQuote, pageFor, quoteHasKm,
+  OFFICIAL_HOSTS, checkQuote, checkSources, isPaper, normaliseQuote, pageFor, quoteHasKm,
   type CuratedSource,
 } from './quotedReference';
 
-/** Where an Earth landmark's position comes from: a names-database record (resolved by the build) or numbers stated in a quoted sentence. */
+/** Hosts a position source may be on: the official hosts plus the NGA (ADR 0010). Never used for quoted sentences. */
+export const POSITION_HOSTS = [...OFFICIAL_HOSTS, 'nga.mil'] as const;
+
+/**
+ * Where an Earth landmark's position comes from: a names-database record (resolved by the build) or numbers stated in a quoted
+ * sentence. A GNIS record also names its `area`, the staged file that holds it: a two-letter state code or `Antarctica`.
+ */
 export type EarthPosition =
-  | { kind: 'names-database'; database: 'gnis' | 'gns'; recordId: string }
+  | { kind: 'names-database'; database: 'gnis' | 'gns'; recordId: string; area?: string }
   | { kind: 'quoted'; latDeg: number; lonDegE: number; sourceId: string; quote: string };
+
+/** Key of a names-database record in the fetched positions. */
+export const namesRecordKey = (p: { database: string; recordId: string }): string => `${p.database}:${p.recordId}`;
+
+/** What the check needs from a fetched names-database record. */
+export interface FetchedNamesRecord { name: string; variants: readonly string[]; sourceUrl: string }
 
 export type CuratedLandmark =
   /** A Gazetteer body: everything but the sentence comes from the Gazetteer, by name. */
@@ -69,8 +82,15 @@ export function parseStatedPosition(quote: string): { latDeg: number; lonDegE: n
 const includesText = (quote: string, part: string): boolean => normaliseQuote(quote).toLowerCase().includes(normaliseQuote(part).toLowerCase());
 const close = (a: number, b: number): boolean => Math.abs(a - b) <= 1e-4;
 
-/** The problems in a landmarks file, one string each; an empty list means every quote is on its page and every stored number is in its quote. */
-export function verifyLandmarks(file: LandmarksFile, pages: Map<string, string>): string[] {
+const hostOf = (url: string): string | null => { try { return new URL(url).hostname.toLowerCase(); } catch { return null; } };
+const onPositionHost = (host: string): boolean => POSITION_HOSTS.some((h) => host === h || host.endsWith(`.${h}`));
+
+/**
+ * The problems in a landmarks file, one string each; an empty list means every quote is on its page and every stored number is
+ * in its quote. `records` are the fetched names-database records by `namesRecordKey`: a fetched record must be cited to a
+ * position host and carry the landmark's name (its own or a listed variant). A record that was not fetched is the build's error.
+ */
+export function verifyLandmarks(file: LandmarksFile, pages: Map<string, string>, records: ReadonlyMap<string, FetchedNamesRecord> = new Map()): string[] {
   const errors: string[] = [];
   checkSources(file.sources.filter((s) => !isPaper(s)), errors);
   for (const s of file.sources) if (isPaper(s)) errors.push(`source ${s.id}: papers are not allowed for landmarks`);
@@ -97,6 +117,16 @@ export function verifyLandmarks(file: LandmarksFile, pages: Map<string, string>)
       quote(l.quote, l.sourceId, where);
       if (!hasOwnPosition(l)) continue;
       const p = l.position;
+      if (p.kind === 'names-database') {
+        if (p.database === 'gns') errors.push(`${where} position: ${GNS_NOT_IN_USE}`);
+        else if (!p.area) errors.push(`${where} position: GNIS record ${p.recordId} needs an area (a state code or Antarctica)`);
+        const rec = records.get(namesRecordKey(p));
+        if (rec) {
+          const host = hostOf(rec.sourceUrl);
+          if (host === null || !onPositionHost(host)) errors.push(`${where} position: record ${p.recordId} is not on a position host: ${host ?? rec.sourceUrl}`);
+          if (rec.name !== l.name && !rec.variants.includes(l.name)) errors.push(`${where}: record ${p.recordId} is named ${rec.name}`);
+        }
+      }
       if (p.kind === 'quoted') {
         const w = `${where} position`;
         quote(p.quote, p.sourceId, w);

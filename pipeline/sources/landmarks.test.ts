@@ -1,5 +1,12 @@
 import { describe, expect, it } from 'vitest';
-import { parseStatedPosition, verifyLandmarks, type LandmarksFile } from './landmarks';
+import { POSITION_HOSTS, parseStatedPosition, verifyLandmarks, type LandmarksFile } from './landmarks';
+import { OFFICIAL_HOSTS } from './quotedReference';
+
+describe('POSITION_HOSTS', () => {
+  it('is the official hosts plus the NGA, for positions only', () => {
+    expect(POSITION_HOSTS).toEqual([...OFFICIAL_HOSTS, 'nga.mil']);
+  });
+});
 import { pageText } from './quotedReference';
 
 describe('parseStatedPosition', () => {
@@ -78,5 +85,30 @@ describe('verifyLandmarks', () => {
     const t = (type: string, meaning: string, quote: string) => file({ types: { [type]: { meaning, sourceId: 'page', quote } } });
     expect(verifyLandmarks(t('Mons', 'Mountain', 'Oceanus, oceani OC A very large dark area on the moon'), pages).join()).toContain('the type is not in its quote');
     expect(verifyLandmarks(t('Mons', 'Volcano', QT), pages).join()).toContain('the meaning "Volcano" is not in its quote');
+  });
+
+  describe('names-database positions', () => {
+    const record = { kind: 'names-database', database: 'gnis', recordId: '123', area: 'AZ' };
+    const gnisPage = 'https://www.usgs.gov/us-board-on-geographic-names/download-gnis-data';
+    const records = (name: string, variants: string[] = [], sourceUrl = gnisPage) => new Map([['gnis:123', { name, variants, sourceUrl }]]);
+    it('passes a record whose name is the landmark name, or lists it as a variant', () => {
+      expect(verifyLandmarks(earth(record), pages, records('Meteor Crater'))).toEqual([]);
+      expect(verifyLandmarks(earth(record), pages, records('Barringer Crater', ['Meteor Crater']))).toEqual([]);
+    });
+    it('fails an Earth landmark whose record name differs from the landmark name', () => {
+      expect(verifyLandmarks(earth(record), pages, records('Barringer Crater'))).toContain('earth/Meteor Crater: record 123 is named Barringer Crater');
+    });
+    it('fails a names-database record on a host outside POSITION_HOSTS', () => {
+      expect(verifyLandmarks(earth(record), pages, records('Meteor Crater', [], 'https://www.geonames.org/123')).join()).toContain('record 123 is not on a position host: www.geonames.org');
+    });
+    it('never accepts a POSITION_HOSTS-only host for a quoted sentence', () => {
+      const nga = { ...SRC, url: 'https://geonames.nga.mil/page' };
+      expect(verifyLandmarks(file({ sources: [nga] }), pages).join()).toContain('is not on an official host: geonames.nga.mil');
+    });
+    it('fails a GNIS record with no area to fetch it from, and a database that is not in use', () => {
+      const { area: _a, ...noArea } = record;
+      expect(verifyLandmarks(earth(noArea), pages, records('Meteor Crater')).join()).toContain('GNIS record 123 needs an area');
+      expect(verifyLandmarks(earth({ ...record, database: 'gns' }), pages).join()).toContain('the GEOnet Names Server is not in use');
+    });
   });
 });

@@ -8,7 +8,8 @@ import {
 } from '../../src/core/details/schema';
 import type { FetchedText } from '../lib/fetchCached';
 import { GAZETTEER_TARGETS, findFeature, gazetteerSpec, selectFeatures } from '../sources/gazetteer';
-import { hasOwnPosition, parseStatedPosition, verifyLandmarks, type CuratedLandmark, type LandmarksFile } from '../sources/landmarks';
+import { hasOwnPosition, namesRecordKey, parseStatedPosition, verifyLandmarks, type CuratedLandmark, type LandmarksFile } from '../sources/landmarks';
+import { namesDatabaseLabel } from '../sources/namesDatabase';
 import { parseMoonExosphere } from '../sources/nssdcMoonSheet';
 import {
   PLANET_ATMOSPHERE_HEADING, PLANET_SHEET_IDS, SUN_COMPOSITION_HEADING,
@@ -35,9 +36,11 @@ export interface DetailsInputs {
   missions: MissionsFile;
   curatedPages: ReadonlyMap<string, FetchedText>;
   landmarks: LandmarksFile;
-  /** Positions read from a names database, by record id. Empty until the Earth landmarks are added. */
-  earthPositions: ReadonlyMap<string, { latDeg: number; lonDegE: number; text: string; sourceId: string; retrievedAt: string }>;
+  /** Records read from a names database, by `namesRecordKey` (`gnis:23907`): the record's names and point, and its source. */
+  earthPositions: ReadonlyMap<string, EarthRecord>;
 }
+
+export interface EarthRecord { name: string; variants: readonly string[]; latDeg: number; lonDegE: number; text: string; source: SourceSpec; retrievedAt: string }
 
 const round = (x: number) => Math.round(x * 1e6) / 1e6;
 
@@ -120,9 +123,12 @@ function convertLandmark(
   const pos = c.position;
   let at: { latDeg: number; lonDegE: number; kind: 'names-database' | 'quoted'; sourceId: string; text: string };
   if (pos.kind === 'names-database') {
-    const rec = earthPositions.get(pos.recordId);
-    if (!rec) return `${p}: landmark ${c.name}: names-database record ${pos.recordId} is not in the fetched positions`;
-    at = { latDeg: rec.latDeg, lonDegE: rec.lonDegE, kind: pos.kind, sourceId: rec.sourceId, text: rec.text };
+    const key = namesRecordKey(pos);
+    const rec = earthPositions.get(key);
+    if (!rec) return `${p}: landmark ${c.name}: names-database record ${key} is not in the fetched positions`;
+    // A landmark matched by a variant name says which record name the point belongs to.
+    const text = rec.name === c.name ? rec.text : `${rec.text} (${namesDatabaseLabel(pos.database)} name: ${rec.name})`;
+    at = { latDeg: rec.latDeg, lonDegE: rec.lonDegE, kind: pos.kind, sourceId: rec.source.id, text };
   } else {
     const stated = parseStatedPosition(pos.quote);
     if (!stated) return `${p}: landmark ${c.name}: no position stated in its quote`;
@@ -142,7 +148,8 @@ export function buildDetails(inputs: DetailsInputs, generatedAt: string): { deta
   for (const [id, page] of inputs.curatedPages) pages.set(id, pageText(page.text));
   errors.push(...verifyInteriors(inputs.interiors, pages).map((e) => `interiors.json: ${e}`));
   errors.push(...verifyMissions(inputs.missions, pages).map((e) => `missions.json: ${e}`));
-  errors.push(...verifyLandmarks(inputs.landmarks, pages).map((e) => `landmarks.json: ${e}`));
+  const records = new Map([...inputs.earthPositions].map(([k, r]) => [k, { name: r.name, variants: r.variants, sourceUrl: r.source.url }]));
+  errors.push(...verifyLandmarks(inputs.landmarks, pages, records).map((e) => `landmarks.json: ${e}`));
 
   const candidates = new Map<string, Source>();
   const addSource = (spec: SourceSpec, retrievedAt: string) => {
@@ -212,11 +219,16 @@ export function buildDetails(inputs: DetailsInputs, generatedAt: string): { deta
     }
 
     const landmarks: Landmark[] = [];
+    // Each names database is one source; records from files fetched on different days register it with the latest day.
+    const namesSources = new Map<string, EarthRecord>();
     for (const c of inputs.landmarks.bodies[id] ?? []) {
       const l = convertLandmark(c, gazetteerRows, gazetteerSourceId, inputs.earthPositions, p);
       if (typeof l === 'string') errors.push(l);
       else landmarks.push(l);
+      const rec = hasOwnPosition(c) && c.position.kind === 'names-database' ? inputs.earthPositions.get(namesRecordKey(c.position)) : undefined;
+      if (rec && (namesSources.get(rec.source.id)?.retrievedAt ?? '') < rec.retrievedAt) namesSources.set(rec.source.id, rec);
     }
+    for (const r of namesSources.values()) addSource(r.source, r.retrievedAt);
     const featureTypes: Record<string, FeatureTypeMeaning> = {};
     for (const type of new Set([...(features?.items ?? []), ...landmarks].map((x) => x.type))) {
       const t = inputs.landmarks.types[type];

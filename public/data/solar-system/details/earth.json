@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "bodyId": "earth",
-  "generatedAt": "2026-11-15T04:23:07.673Z",
+  "generatedAt": "2026-11-15T10:28:41.487Z",
   "interior": {
     "radiusKm": {
       "value": 6371,
@@ -280,6 +280,427 @@
   ],
   "discovery": null,
   "features": null,
-  "landmarks": [],
+  "landmarks": [
+    {
+      "id": "grand-canyon",
+      "name": "Grand Canyon",
+      "type": "Canyon",
+      "latDeg": 36.112764,
+      "lonDegE": 246.0039304,
+      "diameterKm": null,
+      "origin": null,
+      "approvedYear": null,
+      "position": {
+        "kind": "names-database",
+        "sourceId": "usgs-gnis",
+        "text": "36.112764, -113.9960696"
+      },
+      "sizeSourceId": null,
+      "quote": {
+        "text": "The Grand Canyon has become a geologic icon—a place where you can almost sense the invisible tectonic forces within the Earth.",
+        "sourceId": "nasa-eo-grand-canyon-geology"
+      }
+    },
+    {
+      "id": "mississippi-river",
+      "name": "Mississippi River",
+      "type": "River",
+      "latDeg": 29.1510582,
+      "lonDegE": 270.7466158,
+      "diameterKm": null,
+      "origin": null,
+      "approvedYear": null,
+      "position": {
+        "kind": "names-database",
+        "sourceId": "usgs-gnis",
+        "text": "29.1510582, -89.2533842"
+      },
+      "sizeSourceId": null,
+      "quote": {
+        "text": "Originating from Lake Itasca in Minnesota, the Mississippi River flows approximately 3,770 kilometers (2,340 miles) through 10 states before emptying into the gulf.",
+        "sourceId": "nasa-eo-mississippi-delta-winter"
+      }
+    },
+    {
+      "id": "yellowstone-caldera",
+      "name": "Yellowstone Caldera",
+      "type": "Caldera",
+      "latDeg": 44.445301,
+      "lonDegE": 249.67475,
+      "diameterKm": null,
+      "origin": null,
+      "approvedYear": null,
+      "position": {
+        "kind": "names-database",
+        "sourceId": "usgs-gnis",
+        "text": "44.445301, -110.32525"
+      },
+      "sizeSourceId": null,
+      "quote": {
+        "text": "Yellowstone is presently the site of one of the world's largest hydrothermal systems including Earth's largest concentration of geysers.",
+        "sourceId": "usgs-volcano-yellowstone"
+      }
+    },
+    {
+      "id": "mount-saint-helens",
+      "name": "Mount Saint Helens",
+      "type": "Volcano",
+      "latDeg": 46.1911944,
+      "lonDegE": 237.8056145,
+      "diameterKm": null,
+      "origin": null,
+      "approvedYear": null,
+      "position": {
+        "kind": "names-database",
+        "sourceId": "usgs-gnis",
+        "text": "46.1911944, -122.1943855"
+      },
+      "sizeSourceId": null,
+      "quote": {
+        "text": "During the 1980 eruption the upper 400 m (1,300 ft) of the summit was removed by a huge debris avalanche, leaving a 2 x 3.5 km horseshoe-shaped crater now partially filled by a lava dome and a glacier.",
+        "sourceId": "usgs-volcano-mount-st-helens"
+      }
+    },
+    {
+      "id": "antarctic-peninsula",
+      "name": "Antarctic Peninsula",
+      "type": "Peninsula",
+      "latDeg": -69.5,
+      "lonDegE": 295,
+      "diameterKm": null,
+      "origin": null,
+      "approvedYear": null,
+      "position": {
+        "kind": "names-database",
+        "sourceId": "usgs-gnis",
+        "text": "-69.5, -65.0"
+      },
+      "sizeSourceId": null,
+      "quote": {
+        "text": "The ice-covered and mountainous peninsula stretches 1,300 kilometers (800 miles) into the Southern Ocean.",
+        "sourceId": "nasa-eo-antarctic-peninsula"
+      }
+    },
+    {
+      "id": "death-valley",
+      "name": "Death Valley",
+      "type": "Valley",
+      "latDeg": 36.246618,
+      "lonDegE": 243.1830045,
+      "diameterKm": null,
+      "origin": null,
+      "approvedYear": null,
+      "position": {
+        "kind": "names-database",
+        "sourceId": "usgs-gnis",
+        "text": "36.246618, -116.8169955"
+      },
+      "sizeSourceId": null,
+      "quote": {
+        "text": "At 86 meters (282 feet) below sea level, Death Valley, California, is one of the hottest, driest places on the planet.",
+        "sourceId": "nasa-eo-death-valley"
+      }
+    },
+    {
+      "id": "kilauea",
+      "name": "Kīlauea",
+      "type": "Volcano",
+      "latDeg": 19.4209429,
+      "lonDegE": 204.7125828,
+      "diameterKm": null,
+      "origin": null,
+      "approvedYear": null,
+      "position": {
+        "kind": "names-database",
+        "sourceId": "usgs-gnis",
+        "text": "19.4209429, -155.2874172"
+      },
+      "sizeSourceId": null,
+      "quote": {
+        "text": "Kīlauea ranks among the world's most active volcanoes.",
+        "sourceId": "usgs-volcano-kilauea"
+      }
+    },
+    {
+      "id": "ross-ice-shelf",
+      "name": "Ross Ice Shelf",
+      "type": "Ice shelf",
+      "latDeg": -81.5,
+      "lonDegE": 185,
+      "diameterKm": null,
+      "origin": null,
+      "approvedYear": null,
+      "position": {
+        "kind": "names-database",
+        "sourceId": "usgs-gnis",
+        "text": "-81.5, -175.0"
+      },
+      "sizeSourceId": null,
+      "quote": {
+        "text": "Spanning nearly 600 miles in length, and achieving a thickness of 3000 feet in certain areas, the Ross Ice Shelf is the largest ice shelf in the world.",
+        "sourceId": "nasa-eo-ross-ice-shelf"
+      }
+    },
+    {
+      "id": "lake-superior",
+      "name": "Lake Superior",
+      "type": "Lake",
+      "latDeg": 47.5288158,
+      "lonDegE": 272.2399784,
+      "diameterKm": null,
+      "origin": null,
+      "approvedYear": null,
+      "position": {
+        "kind": "names-database",
+        "sourceId": "usgs-gnis",
+        "text": "47.5288158, -87.7600216"
+      },
+      "sizeSourceId": null,
+      "quote": {
+        "text": "Superior is the world’s largest freshwater lake by area (82,100 square kilometers or 31,700 square miles) and the third largest by volume.",
+        "sourceId": "nasa-eo-lake-superior-ice"
+      }
+    },
+    {
+      "id": "great-salt-lake",
+      "name": "Great Salt Lake",
+      "type": "Salt lake",
+      "latDeg": 41.1628677,
+      "lonDegE": 247.4646344,
+      "diameterKm": null,
+      "origin": null,
+      "approvedYear": null,
+      "position": {
+        "kind": "names-database",
+        "sourceId": "usgs-gnis",
+        "text": "41.1628677, -112.5353656"
+      },
+      "sizeSourceId": null,
+      "quote": {
+        "text": "Few other lakes in the United States rival the Great Salt Lake in size and significance.",
+        "sourceId": "nasa-eo-great-salt-lake"
+      }
+    },
+    {
+      "id": "mauna-loa",
+      "name": "Mauna Loa",
+      "type": "Volcano",
+      "latDeg": 19.4753891,
+      "lonDegE": 204.394212,
+      "diameterKm": null,
+      "origin": null,
+      "approvedYear": null,
+      "position": {
+        "kind": "names-database",
+        "sourceId": "usgs-gnis",
+        "text": "19.4753891, -155.605788"
+      },
+      "sizeSourceId": null,
+      "quote": {
+        "text": "Mauna Loa is Earth's largest active volcano and covers just over half of the Island of Hawaiʻi.",
+        "sourceId": "usgs-volcano-mauna-loa"
+      }
+    },
+    {
+      "id": "mount-erebus",
+      "name": "Mount Erebus",
+      "type": "Volcano",
+      "latDeg": -77.529622,
+      "lonDegE": 167.153231,
+      "diameterKm": null,
+      "origin": null,
+      "approvedYear": null,
+      "position": {
+        "kind": "names-database",
+        "sourceId": "usgs-gnis",
+        "text": "-77.529622, 167.153231"
+      },
+      "sizeSourceId": null,
+      "quote": {
+        "text": "Mount Erebus is thought to be the southernmost active volcano in the world.",
+        "sourceId": "nasa-eo-mount-erebus"
+      }
+    },
+    {
+      "id": "chesapeake-bay",
+      "name": "Chesapeake Bay",
+      "type": "Estuary",
+      "latDeg": 38.0284347,
+      "lonDegE": 283.8243519,
+      "diameterKm": null,
+      "origin": null,
+      "approvedYear": null,
+      "position": {
+        "kind": "names-database",
+        "sourceId": "usgs-gnis",
+        "text": "38.0284347, -76.1756481"
+      },
+      "sizeSourceId": null,
+      "quote": {
+        "text": "The Chesapeake Bay is the largest estuary in the United States and third largest in the world.",
+        "sourceId": "nasa-eo-chesapeake-watershed"
+      }
+    },
+    {
+      "id": "crater-lake",
+      "name": "Crater Lake",
+      "type": "Lake",
+      "latDeg": 42.9420125,
+      "lonDegE": 237.8936105,
+      "diameterKm": null,
+      "origin": null,
+      "approvedYear": null,
+      "position": {
+        "kind": "names-database",
+        "sourceId": "usgs-gnis",
+        "text": "42.9420125, -122.1063895"
+      },
+      "sizeSourceId": null,
+      "quote": {
+        "text": "Having a maximum depth of 594 m (1,949 ft), Crater Lake is the deepest lake in the United States.",
+        "sourceId": "usgs-volcano-crater-lake"
+      }
+    },
+    {
+      "id": "meteor-crater",
+      "name": "Meteor Crater",
+      "type": "Impact crater",
+      "latDeg": 35.0280715,
+      "lonDegE": 248.9768035,
+      "diameterKm": 1.2,
+      "origin": null,
+      "approvedYear": null,
+      "position": {
+        "kind": "names-database",
+        "sourceId": "usgs-gnis",
+        "text": "35.0280715, -111.0231965"
+      },
+      "sizeSourceId": "nasa-eo-meteor-crater",
+      "quote": {
+        "text": "Even at 50,000 years old, the crater is relatively young and remarkably well-preserved compared to other craters.",
+        "sourceId": "nasa-eo-meteor-crater"
+      }
+    },
+    {
+      "id": "vostok-subglacial-lake",
+      "name": "Vostok Subglacial Lake",
+      "type": "Subglacial lake",
+      "latDeg": -77.5,
+      "lonDegE": 106,
+      "diameterKm": null,
+      "origin": null,
+      "approvedYear": null,
+      "position": {
+        "kind": "names-database",
+        "sourceId": "usgs-gnis",
+        "text": "-77.5, 106.0"
+      },
+      "sizeSourceId": null,
+      "quote": {
+        "text": "The biggest known subglacial lake is Lake Vostok underneath the East Antarctic Ice Sheet, holding an estimated 5000–65 000 cubic km of water beneath 4 km of ice (the water contained in Lake Vostok is enough to fill the Grand Canyon and overflow by at least 25 %).",
+        "sourceId": "esa-cryosat-subglacial-lakes"
+      }
+    },
+    {
+      "id": "mount-rainier",
+      "name": "Mount Rainier",
+      "type": "Volcano",
+      "latDeg": 46.8528267,
+      "lonDegE": 238.2395592,
+      "diameterKm": null,
+      "origin": null,
+      "approvedYear": null,
+      "position": {
+        "kind": "names-database",
+        "sourceId": "usgs-gnis",
+        "text": "46.8528267, -121.7604408"
+      },
+      "sizeSourceId": null,
+      "quote": {
+        "text": "Mount Rainier, the highest peak in the Cascade Range at 4,392m (14,410 ft), forms a dramatic backdrop to the Puget Sound region.",
+        "sourceId": "usgs-volcano-mount-rainier"
+      }
+    },
+    {
+      "id": "vinson-massif",
+      "name": "Vinson Massif",
+      "type": "Mountain",
+      "latDeg": -78.5709642,
+      "lonDegE": 274.4317968,
+      "diameterKm": null,
+      "origin": null,
+      "approvedYear": null,
+      "position": {
+        "kind": "names-database",
+        "sourceId": "usgs-gnis",
+        "text": "-78.5709642, -85.5682032"
+      },
+      "sizeSourceId": null,
+      "quote": {
+        "text": "Vinson Massif is the tallest mountain in Antarctica.",
+        "sourceId": "nasa-eo-vinson-massif"
+      }
+    },
+    {
+      "id": "mcmurdo-dry-valleys",
+      "name": "McMurdo Dry Valleys",
+      "type": "Dry valleys",
+      "latDeg": -77.5,
+      "lonDegE": 162,
+      "diameterKm": null,
+      "origin": null,
+      "approvedYear": null,
+      "position": {
+        "kind": "names-database",
+        "sourceId": "usgs-gnis",
+        "text": "-77.5, 162.0"
+      },
+      "sizeSourceId": null,
+      "quote": {
+        "text": "The McMurdo Dry Valleys are a row of valleys west of McMurdo Sound, Antarctica, so named because of their extremely low humidity and lack of snow and ice cover.",
+        "sourceId": "nasa-image-dry-valleys"
+      }
+    },
+    {
+      "id": "thwaites-glacier",
+      "name": "Thwaites Glacier",
+      "type": "Glacier",
+      "latDeg": -75.5,
+      "lonDegE": 253.25,
+      "diameterKm": null,
+      "origin": null,
+      "approvedYear": null,
+      "position": {
+        "kind": "names-database",
+        "sourceId": "usgs-gnis",
+        "text": "-75.5, -106.75"
+      },
+      "sizeSourceId": null,
+      "quote": {
+        "text": "Indeed, Thwaites Glacier is one of the largest contributors to global sea level rise from the West Antarctic Ice Sheet.",
+        "sourceId": "nasa-eo-thwaites-transformed"
+      }
+    },
+    {
+      "id": "larsen-ice-shelf",
+      "name": "Larsen Ice Shelf",
+      "type": "Ice shelf",
+      "latDeg": -67.5,
+      "lonDegE": 297.5,
+      "diameterKm": null,
+      "origin": null,
+      "approvedYear": null,
+      "position": {
+        "kind": "names-database",
+        "sourceId": "usgs-gnis",
+        "text": "-67.5, -62.5"
+      },
+      "sizeSourceId": null,
+      "quote": {
+        "text": "Larsen is situated along the northeastern coast of the Antarctic Peninsula, one of the fastest-warming places on the planet.",
+        "sourceId": "nasa-eo-larsen-ice-shelf"
+      }
+    }
+  ],
   "featureTypes": {}
 }

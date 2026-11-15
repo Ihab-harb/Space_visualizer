@@ -419,6 +419,153 @@
       "publisher": "NASA Science",
       "url": "https://science.nasa.gov/resource/ancient-volcanic-vent-near-the-moons-plato-crater/",
       "license": "NASA public domain (NASA media usage guidelines)"
+    },
+    {
+      "id": "nasa-eo-grand-canyon-geology",
+      "title": "Grand Canyon Geology Lessons on View (NASA Earth Observatory)",
+      "publisher": "NASA Earth Observatory",
+      "url": "https://science.nasa.gov/earth/earth-observatory/grand-canyon-geology-lessons-on-view-83495/",
+      "license": "NASA public domain (NASA media usage guidelines)"
+    },
+    {
+      "id": "nasa-eo-antarctic-peninsula",
+      "title": "The Most Studied Peninsula on Antarctica (NASA Earth Observatory)",
+      "publisher": "NASA Earth Observatory",
+      "url": "https://science.nasa.gov/earth/earth-observatory/the-most-studied-peninsula-on-antarctica-89717/",
+      "license": "NASA public domain (NASA media usage guidelines)"
+    },
+    {
+      "id": "usgs-volcano-mount-st-helens",
+      "title": "Mount St. Helens (USGS Volcano Hazards Program)",
+      "publisher": "USGS",
+      "url": "https://www.usgs.gov/volcanoes/mount-st.-helens",
+      "license": "Public domain (USGS)"
+    },
+    {
+      "id": "usgs-volcano-kilauea",
+      "title": "Kīlauea (USGS Volcano Hazards Program)",
+      "publisher": "USGS",
+      "url": "https://www.usgs.gov/volcanoes/kilauea",
+      "license": "Public domain (USGS)"
+    },
+    {
+      "id": "usgs-volcano-yellowstone",
+      "title": "Yellowstone (USGS Volcano Hazards Program)",
+      "publisher": "USGS",
+      "url": "https://www.usgs.gov/volcanoes/yellowstone",
+      "license": "Public domain (USGS)"
+    },
+    {
+      "id": "nasa-eo-mississippi-delta-winter",
+      "title": "Winter Transforms the Mississippi River Delta (NASA Earth Observatory)",
+      "publisher": "NASA Earth Observatory",
+      "url": "https://science.nasa.gov/earth/earth-observatory/winter-transforms-the-mississippi-river-delta-154838/",
+      "license": "NASA public domain (NASA media usage guidelines)"
+    },
+    {
+      "id": "nasa-eo-ross-ice-shelf",
+      "title": "Victoria Land and Ross Ice Shelf, Antarctica (NASA Earth Observatory)",
+      "publisher": "NASA Earth Observatory",
+      "url": "https://science.nasa.gov/earth/earth-observatory/victoria-land-and-ross-ice-shelf-antarctica-1931/",
+      "license": "NASA public domain (NASA media usage guidelines)"
+    },
+    {
+      "id": "nasa-eo-death-valley",
+      "title": "Death Valley National Park (NASA Earth Observatory)",
+      "publisher": "NASA Earth Observatory",
+      "url": "https://science.nasa.gov/earth/earth-observatory/death-valley-national-park-6470/",
+      "license": "NASA public domain (NASA media usage guidelines)"
+    },
+    {
+      "id": "nasa-eo-lake-superior-ice",
+      "title": "Persistent Ice on Lake Superior (NASA Earth Observatory)",
+      "publisher": "NASA Earth Observatory",
+      "url": "https://science.nasa.gov/earth/earth-observatory/persistent-ice-on-lake-superior-83541/",
+      "license": "NASA public domain (NASA media usage guidelines)"
+    },
+    {
+      "id": "usgs-volcano-mauna-loa",
+      "title": "Mauna Loa (USGS Volcano Hazards Program)",
+      "publisher": "USGS",
+      "url": "https://www.usgs.gov/volcanoes/mauna-loa",
+      "license": "Public domain (USGS)"
+    },
+    {
+      "id": "nasa-eo-great-salt-lake",
+      "title": "The Great Shrinking Lake (NASA Earth Observatory)",
+      "publisher": "NASA Earth Observatory",
+      "url": "https://science.nasa.gov/earth/earth-observatory/the-great-shrinking-lake-150187/",
+      "license": "NASA public domain (NASA media usage guidelines)"
+    },
+    {
+      "id": "nasa-eo-mount-erebus",
+      "title": "Mount Erebus, Antarctica (NASA Earth Observatory)",
+      "publisher": "NASA Earth Observatory",
+      "url": "https://science.nasa.gov/earth/earth-observatory/mount-erebus-antarctica-87444/",
+      "license": "NASA public domain (NASA media usage guidelines)"
+    },
+    {
+      "id": "esa-cryosat-subglacial-lakes",
+      "title": "85 new subglacial lakes detected below Antarctica",
+      "publisher": "ESA",
+      "url": "https://www.esa.int/articles/about-us/directorates/earth-observation-programmes/futureeo/cryosat/85-new-subglacial-lakes-detected-below-antarctica",
+      "license": "ESA; text quoted with attribution (ESA terms of use)"
+    },
+    {
+      "id": "usgs-volcano-crater-lake",
+      "title": "Crater Lake (USGS Volcano Hazards Program)",
+      "publisher": "USGS",
+      "url": "https://www.usgs.gov/volcanoes/crater-lake",
+      "license": "Public domain (USGS)"
+    },
+    {
+      "id": "nasa-eo-meteor-crater",
+      "title": "Blast From the Past: Arizona’s Meteor Crater (NASA Earth Observatory)",
+      "publisher": "NASA Earth Observatory",
+      "url": "https://science.nasa.gov/earth/earth-observatory/blast-from-the-past-arizonas-meteor-crater-154497/",
+      "license": "NASA public domain (NASA media usage guidelines)"
+    },
+    {
+      "id": "nasa-eo-chesapeake-watershed",
+      "title": "The Chesapeake Watershed (NASA Earth Observatory)",
+      "publisher": "NASA Earth Observatory",
+      "url": "https://science.nasa.gov/earth/earth-observatory/the-chesapeake-watershed-86815/",
+      "license": "NASA public domain (NASA media usage guidelines)"
+    },
+    {
+      "id": "usgs-volcano-mount-rainier",
+      "title": "Mount Rainier (USGS Volcano Hazards Program)",
+      "publisher": "USGS",
+      "url": "https://www.usgs.gov/volcanoes/mount-rainier",
+      "license": "Public domain (USGS)"
+    },
+    {
+      "id": "nasa-eo-vinson-massif",
+      "title": "Vinson Massif (NASA Earth Observatory)",
+      "publisher": "NASA Earth Observatory",
+      "url": "https://science.nasa.gov/earth/earth-observatory/vinson-massif-3643/",
+      "license": "NASA public domain (NASA media usage guidelines)"
+    },
+    {
+      "id": "nasa-image-dry-valleys",
+      "title": "Dry Valleys, Antarctica (NASA image article)",
+      "publisher": "NASA",
+      "url": "https://www.nasa.gov/image-article/dry-valleys-antarctica/",
+      "license": "NASA public domain (NASA media usage guidelines)"
+    },
+    {
+      "id": "nasa-eo-thwaites-transformed",
+      "title": "Thwaites Glacier Transformed (NASA Earth Observatory)",
+      "publisher": "NASA Earth Observatory",
+      "url": "https://science.nasa.gov/earth/earth-observatory/thwaites-glacier-transformed-146247/",
+      "license": "NASA public domain (NASA media usage guidelines)"
+    },
+    {
+      "id": "nasa-eo-larsen-ice-shelf",
+      "title": "Antarctica’s Changing Larsen Ice Shelf (NASA Earth Observatory)",
+      "publisher": "NASA Earth Observatory",
+      "url": "https://science.nasa.gov/earth/earth-observatory/antarcticas-changing-larsen-ice-shelf-89588/",
+      "license": "NASA public domain (NASA media usage guidelines)"
     }
   ],
   "types": {
@@ -459,6 +606,29 @@
     "Vastitas": { "meaning": "Extensive plain", "sourceId": "usgs-gazetteer-descriptor-terms", "quote": "Vastitas, vastitates VS Extensive plain Virga, virgae VI A streak or stripe of color" }
   },
   "bodies": {
+    "earth": [
+      { "name": "Grand Canyon", "type": "Canyon", "sourceId": "nasa-eo-grand-canyon-geology", "quote": "The Grand Canyon has become a geologic icon—a place where you can almost sense the invisible tectonic forces within the Earth.", "position": {"kind": "names-database", "database": "gnis", "recordId": "23907", "area": "AZ"} },
+      { "name": "Mississippi River", "type": "River", "sourceId": "nasa-eo-mississippi-delta-winter", "quote": "Originating from Lake Itasca in Minnesota, the Mississippi River flows approximately 3,770 kilometers (2,340 miles) through 10 states before emptying into the gulf.", "position": {"kind": "names-database", "database": "gnis", "recordId": "1629903", "area": "LA"} },
+      { "name": "Yellowstone Caldera", "type": "Caldera", "sourceId": "usgs-volcano-yellowstone", "quote": "Yellowstone is presently the site of one of the world's largest hydrothermal systems including Earth's largest concentration of geysers.", "position": {"kind": "names-database", "database": "gnis", "recordId": "2833031", "area": "WY"} },
+      { "name": "Mount Saint Helens", "type": "Volcano", "sourceId": "usgs-volcano-mount-st-helens", "quote": "During the 1980 eruption the upper 400 m (1,300 ft) of the summit was removed by a huge debris avalanche, leaving a 2 x 3.5 km horseshoe-shaped crater now partially filled by a lava dome and a glacier.", "position": {"kind": "names-database", "database": "gnis", "recordId": "1525360", "area": "WA"} },
+      { "name": "Antarctic Peninsula", "type": "Peninsula", "sourceId": "nasa-eo-antarctic-peninsula", "quote": "The ice-covered and mountainous peninsula stretches 1,300 kilometers (800 miles) into the Southern Ocean.", "position": {"kind": "names-database", "database": "gnis", "recordId": "2814404", "area": "Antarctica"} },
+      { "name": "Death Valley", "type": "Valley", "sourceId": "nasa-eo-death-valley", "quote": "At 86 meters (282 feet) below sea level, Death Valley, California, is one of the hottest, driest places on the planet.", "position": {"kind": "names-database", "database": "gnis", "recordId": "270787", "area": "CA"} },
+      { "name": "Kīlauea", "type": "Volcano", "sourceId": "usgs-volcano-kilauea", "quote": "Kīlauea ranks among the world's most active volcanoes.", "position": {"kind": "names-database", "database": "gnis", "recordId": "1853032", "area": "HI"} },
+      { "name": "Ross Ice Shelf", "type": "Ice shelf", "sourceId": "nasa-eo-ross-ice-shelf", "quote": "Spanning nearly 600 miles in length, and achieving a thickness of 3000 feet in certain areas, the Ross Ice Shelf is the largest ice shelf in the world.", "position": {"kind": "names-database", "database": "gnis", "recordId": "2823644", "area": "Antarctica"} },
+      { "name": "Lake Superior", "type": "Lake", "sourceId": "nasa-eo-lake-superior-ice", "quote": "Superior is the world’s largest freshwater lake by area (82,100 square kilometers or 31,700 square miles) and the third largest by volume.", "position": {"kind": "names-database", "database": "gnis", "recordId": "1618946", "area": "MI"} },
+      { "name": "Great Salt Lake", "type": "Salt lake", "sourceId": "nasa-eo-great-salt-lake", "quote": "Few other lakes in the United States rival the Great Salt Lake in size and significance.", "position": {"kind": "names-database", "database": "gnis", "recordId": "1441459", "area": "UT"} },
+      { "name": "Mauna Loa", "type": "Volcano", "sourceId": "usgs-volcano-mauna-loa", "quote": "Mauna Loa is Earth's largest active volcano and covers just over half of the Island of Hawaiʻi.", "position": {"kind": "names-database", "database": "gnis", "recordId": "362275", "area": "HI"} },
+      { "name": "Mount Erebus", "type": "Volcano", "sourceId": "nasa-eo-mount-erebus", "quote": "Mount Erebus is thought to be the southernmost active volcano in the world.", "position": {"kind": "names-database", "database": "gnis", "recordId": "2817474", "area": "Antarctica"} },
+      { "name": "Chesapeake Bay", "type": "Estuary", "sourceId": "nasa-eo-chesapeake-watershed", "quote": "The Chesapeake Bay is the largest estuary in the United States and third largest in the world.", "position": {"kind": "names-database", "database": "gnis", "recordId": "597227", "area": "MD"} },
+      { "name": "Crater Lake", "type": "Lake", "sourceId": "usgs-volcano-crater-lake", "quote": "Having a maximum depth of 594 m (1,949 ft), Crater Lake is the deepest lake in the United States.", "position": {"kind": "names-database", "database": "gnis", "recordId": "1163669", "area": "OR"} },
+      { "name": "Meteor Crater", "type": "Impact crater", "sourceId": "nasa-eo-meteor-crater", "quote": "Even at 50,000 years old, the crater is relatively young and remarkably well-preserved compared to other craters.", "position": {"kind": "names-database", "database": "gnis", "recordId": "7945", "area": "AZ"}, "size": {"km": 1.2, "sourceId": "nasa-eo-meteor-crater", "quote": "Meteor Crater measures 0.75 miles (1.2 kilometers) across and about 600 feet (180 meters) deep."} },
+      { "name": "Vostok Subglacial Lake", "type": "Subglacial lake", "sourceId": "esa-cryosat-subglacial-lakes", "quote": "The biggest known subglacial lake is Lake Vostok underneath the East Antarctic Ice Sheet, holding an estimated 5000–65 000 cubic km of water beneath 4 km of ice (the water contained in Lake Vostok is enough to fill the Grand Canyon and overflow by at least 25 %).", "position": {"kind": "names-database", "database": "gnis", "recordId": "2827619", "area": "Antarctica"} },
+      { "name": "Mount Rainier", "type": "Volcano", "sourceId": "usgs-volcano-mount-rainier", "quote": "Mount Rainier, the highest peak in the Cascade Range at 4,392m (14,410 ft), forms a dramatic backdrop to the Puget Sound region.", "position": {"kind": "names-database", "database": "gnis", "recordId": "1533614", "area": "WA"} },
+      { "name": "Vinson Massif", "type": "Mountain", "sourceId": "nasa-eo-vinson-massif", "quote": "Vinson Massif is the tallest mountain in Antarctica.", "position": {"kind": "names-database", "database": "gnis", "recordId": "2826005", "area": "Antarctica"} },
+      { "name": "McMurdo Dry Valleys", "type": "Dry valleys", "sourceId": "nasa-image-dry-valleys", "quote": "The McMurdo Dry Valleys are a row of valleys west of McMurdo Sound, Antarctica, so named because of their extremely low humidity and lack of snow and ice cover.", "position": {"kind": "names-database", "database": "gnis", "recordId": "2821383", "area": "Antarctica"} },
+      { "name": "Thwaites Glacier", "type": "Glacier", "sourceId": "nasa-eo-thwaites-transformed", "quote": "Indeed, Thwaites Glacier is one of the largest contributors to global sea level rise from the West Antarctic Ice Sheet.", "position": {"kind": "names-database", "database": "gnis", "recordId": "2825416", "area": "Antarctica"} },
+      { "name": "Larsen Ice Shelf", "type": "Ice shelf", "sourceId": "nasa-eo-larsen-ice-shelf", "quote": "Larsen is situated along the northeastern coast of the Antarctic Peninsula, one of the fastest-warming places on the planet.", "position": {"kind": "names-database", "database": "gnis", "recordId": "2820459", "area": "Antarctica"} }
+    ],
     "mercury": [
       { "name": "Caloris Planitia", "sourceId": "nasa-science-mercury-facts", "quote": "Very large impact basins, including Caloris (960 miles or 1,550 kilometers in diameter) and Rachmaninoff (190 miles, or 306 kilometers in diameter), were created by asteroid impacts on the planet's surface early in the solar system's history." },
       { "name": "Rachmaninoff", "sourceId": "nasa-photojournal-young-volcanism-mercury", "quote": "Whereas pre-MESSENGER interpretations were that volcanism on Mercury ended early in the planet's history, MESSENGER's images of Rachmaninoff reveal that some volcanism extended well beyond that time, probably into the second half of Solar System history." },
