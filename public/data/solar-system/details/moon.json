@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "bodyId": "moon",
-  "generatedAt": "2026-11-15T03:42:03.474Z",
+  "generatedAt": "2026-11-15T04:11:54.819Z",
   "interior": {
     "radiusKm": {
       "value": 1737.4,
@@ -2337,10 +2337,391 @@
       }
     ]
   },
-  "landmarks": [],
+  "landmarks": [
+    {
+      "id": "tycho",
+      "name": "Tycho",
+      "type": "Crater",
+      "latDeg": -43.2958,
+      "lonDegE": 348.7847,
+      "diameterKm": 85.294,
+      "origin": "Tycho Brahe; Danish astronomer (1546-1601).",
+      "approvedYear": 1935,
+      "position": {
+        "kind": "gazetteer",
+        "sourceId": "usgs-gazetteer-moon",
+        "text": null
+      },
+      "sizeSourceId": "usgs-gazetteer-moon",
+      "quote": {
+        "text": "Tycho crater is an one of the most prominent craters on the Moon -- it appears as a bright spot in the southern highlands with rays of bright material that stretch across much of the nearside.",
+        "sourceId": "nasa-photojournal-floor-of-tycho"
+      }
+    },
+    {
+      "id": "clavius",
+      "name": "Clavius",
+      "type": "Crater",
+      "latDeg": -58.6228,
+      "lonDegE": 345.2725,
+      "diameterKm": 230.77,
+      "origin": "Christopher Klau; German mathematician (1537-1612).",
+      "approvedYear": 1935,
+      "position": {
+        "kind": "gazetteer",
+        "sourceId": "usgs-gazetteer-moon",
+        "text": null
+      },
+      "sizeSourceId": "usgs-gazetteer-moon",
+      "quote": {
+        "text": "One of the oldest and largest craters on the Moon's near side, 225 kilometer diameter Clavius is due south (above) of Tycho.",
+        "sourceId": "nasa-apod-2021-08-05-tycho-clavius"
+      }
+    },
+    {
+      "id": "oceanus-procellarum",
+      "name": "Oceanus Procellarum",
+      "type": "Oceanus",
+      "latDeg": 20.6714,
+      "lonDegE": 303.3226,
+      "diameterKm": 2592.238,
+      "origin": "\"Ocean of Storms.\"",
+      "approvedYear": 1935,
+      "position": {
+        "kind": "gazetteer",
+        "sourceId": "usgs-gazetteer-moon",
+        "text": null
+      },
+      "sizeSourceId": "usgs-gazetteer-moon",
+      "quote": {
+        "text": "Oceanus Procellarum, or the Ocean of Storms, is the largest of the dark maria visible to the naked eye on the near side of the Moon.",
+        "sourceId": "nasa-svs-procellarum-rifts"
+      }
+    },
+    {
+      "id": "mare-imbrium",
+      "name": "Mare Imbrium",
+      "type": "Mare",
+      "latDeg": 34.7244,
+      "lonDegE": 345.0914,
+      "diameterKm": 1145.528,
+      "origin": "\"Sea of Showers.\"",
+      "approvedYear": 1935,
+      "position": {
+        "kind": "gazetteer",
+        "sourceId": "usgs-gazetteer-moon",
+        "text": null
+      },
+      "sizeSourceId": "usgs-gazetteer-moon",
+      "quote": {
+        "text": "Mare Imbrium is the second largest basin on the visible side of the Moon, with a diameter of 1250 km, and is one of the youngest of the lunar maria (the youngest is Mare Orientale) at between 3700 and 3900 million years old.",
+        "sourceId": "esa-smart1-tribute-to-cassini"
+      }
+    },
+    {
+      "id": "mare-tranquillitatis",
+      "name": "Mare Tranquillitatis",
+      "type": "Mare",
+      "latDeg": 8.3487,
+      "lonDegE": 30.8346,
+      "diameterKm": 875.749,
+      "origin": "\"Sea of Tranquility.\"",
+      "approvedYear": 1935,
+      "position": {
+        "kind": "gazetteer",
+        "sourceId": "usgs-gazetteer-moon",
+        "text": null
+      },
+      "sizeSourceId": "usgs-gazetteer-moon",
+      "quote": {
+        "text": "Partially piloted manually by Armstrong, the Eagle landed in the Sea of Tranquility in Site 2 at 0 degrees, 41 minutes, 15 seconds north latitude and 23 degrees, 26 minutes east longitude.",
+        "sourceId": "nasa-apollo-11-mission-overview"
+      }
+    },
+    {
+      "id": "mare-serenitatis",
+      "name": "Mare Serenitatis",
+      "type": "Mare",
+      "latDeg": 27.2879,
+      "lonDegE": 18.3596,
+      "diameterKm": 674.278,
+      "origin": "\"Sea of Serenity.\"",
+      "approvedYear": 1935,
+      "position": {
+        "kind": "gazetteer",
+        "sourceId": "usgs-gazetteer-moon",
+        "text": null
+      },
+      "sizeSourceId": "usgs-gazetteer-moon",
+      "quote": {
+        "text": "Mare Serenitatis is one of the lunar maria, that are vast lava plains on the lunar surface. It formed between 3.9 and 3.8 thousand million years ago, a period in which the Moon was heavily bombarded by asteroids and the major impact basins on the Moon were formed.",
+        "sourceId": "esa-smart1-mare-serenitatis"
+      }
+    },
+    {
+      "id": "mare-crisium",
+      "name": "Mare Crisium",
+      "type": "Mare",
+      "latDeg": 16.1774,
+      "lonDegE": 59.1037,
+      "diameterKm": 555.921,
+      "origin": "\"Sea of Crises.\"",
+      "approvedYear": 1935,
+      "position": {
+        "kind": "gazetteer",
+        "sourceId": "usgs-gazetteer-moon",
+        "text": null
+      },
+      "sizeSourceId": "usgs-gazetteer-moon",
+      "quote": {
+        "text": "Mare Crisium is a large, dark, basaltic plain on the Moon that filled an ancient asteroid impact.",
+        "sourceId": "nasa-resource-wrinkle-ridge-mare-crisium"
+      }
+    },
+    {
+      "id": "mare-humorum",
+      "name": "Mare Humorum",
+      "type": "Mare",
+      "latDeg": -24.4785,
+      "lonDegE": 321.4284,
+      "diameterKm": 419.669,
+      "origin": "\"Sea of Moisture.\"",
+      "approvedYear": 1935,
+      "position": {
+        "kind": "gazetteer",
+        "sourceId": "usgs-gazetteer-moon",
+        "text": null
+      },
+      "sizeSourceId": "usgs-gazetteer-moon",
+      "quote": {
+        "text": "Mare Humorum, or 'Sea of Moisture', is a small circular mare on the lunar nearside, about 825 kilometres across.",
+        "sourceId": "esa-smart1-mare-humorum"
+      }
+    },
+    {
+      "id": "schrodinger",
+      "name": "Schrodinger",
+      "type": "Crater",
+      "latDeg": -74.7326,
+      "lonDegE": 132.9252,
+      "diameterKm": 316.388,
+      "origin": "Schrödinger, Erwin; Austrian physicist; Nobel laureate (1887-1961).",
+      "approvedYear": 1970,
+      "position": {
+        "kind": "gazetteer",
+        "sourceId": "usgs-gazetteer-moon",
+        "text": null
+      },
+      "sizeSourceId": "usgs-gazetteer-moon",
+      "quote": {
+        "text": "The Schrödinger impact basin (centered -75.0o, 132.4o E), located on the lunar far side within South Pole-Aitken Basin, is not visible from the Earth.",
+        "sourceId": "nasa-image-schrodinger-basin"
+      }
+    },
+    {
+      "id": "mare-orientale",
+      "name": "Mare Orientale",
+      "type": "Mare",
+      "latDeg": -19.8655,
+      "lonDegE": 265.3297,
+      "diameterKm": 294.155,
+      "origin": "\"Eastern sea.\"",
+      "approvedYear": 1964,
+      "position": {
+        "kind": "gazetteer",
+        "sourceId": "usgs-gazetteer-moon",
+        "text": null
+      },
+      "sizeSourceId": "usgs-gazetteer-moon",
+      "quote": {
+        "text": "Shaped like a target ring bull's-eye, the Mare Orientale is one of the most striking large scale lunar features.",
+        "sourceId": "nasa-apod-2011-03-12-mare-orientale"
+      }
+    },
+    {
+      "id": "vallis-schroteri",
+      "name": "Vallis Schroteri",
+      "type": "Vallis",
+      "latDeg": 26.1555,
+      "lonDegE": 308.4195,
+      "diameterKm": 185.323,
+      "origin": "Schröter's Valley.",
+      "approvedYear": 1961,
+      "position": {
+        "kind": "gazetteer",
+        "sourceId": "usgs-gazetteer-moon",
+        "text": null
+      },
+      "sizeSourceId": "usgs-gazetteer-moon",
+      "quote": {
+        "text": "It includes the densest concentration of lunar sinuous rilles, including the largest known, Vallis Schroteri, which is about 160 km long, up to 11 km wide, and 1 km deep.",
+        "sourceId": "nasa-photojournal-aristarchus-mosaic"
+      }
+    },
+    {
+      "id": "rima-hadley",
+      "name": "Rima Hadley",
+      "type": "Rima",
+      "latDeg": 25.7159,
+      "lonDegE": 3.1467,
+      "diameterKm": 116.086,
+      "origin": "Named from nearby Mountain (Mons Hadley).",
+      "approvedYear": 1964,
+      "position": {
+        "kind": "gazetteer",
+        "sourceId": "usgs-gazetteer-moon",
+        "text": null
+      },
+      "sizeSourceId": "usgs-gazetteer-moon",
+      "quote": {
+        "text": "Apollo 15 landed about 2 km from the rim of Hadley Rille and explored it in detail.",
+        "sourceId": "nssdc-imgcat-rima-hadley"
+      }
+    },
+    {
+      "id": "plato",
+      "name": "Plato",
+      "type": "Crater",
+      "latDeg": 51.6192,
+      "lonDegE": 350.6175,
+      "diameterKm": 100.684,
+      "origin": "Greek philosopher c.428-c.347 B.C.",
+      "approvedYear": 1935,
+      "position": {
+        "kind": "gazetteer",
+        "sourceId": "usgs-gazetteer-moon",
+        "text": null
+      },
+      "sizeSourceId": "usgs-gazetteer-moon",
+      "quote": {
+        "text": "Notable at the northern edge of the Mare Imbrium (Sea of Rains) is the 95 kilometer wide dark crater Plato",
+        "sourceId": "nasa-apod-2000-12-28-moon-mare-montes"
+      }
+    },
+    {
+      "id": "copernicus",
+      "name": "Copernicus",
+      "type": "Crater",
+      "latDeg": 9.6209,
+      "lonDegE": 339.9214,
+      "diameterKm": 96.07,
+      "origin": "Nicholas; Polish astronomer (1473-1543).",
+      "approvedYear": 1935,
+      "position": {
+        "kind": "gazetteer",
+        "sourceId": "usgs-gazetteer-moon",
+        "text": null
+      },
+      "sizeSourceId": "usgs-gazetteer-moon",
+      "quote": {
+        "text": "Copernicus is 93 km wide and is located within the Mare Imbrium Basin, northern nearside of the Moon (10 degrees N. 20 degrees W.).",
+        "sourceId": "nasa-resource-copernicus-lunar-orbiter"
+      }
+    },
+    {
+      "id": "aristarchus",
+      "name": "Aristarchus",
+      "type": "Crater",
+      "latDeg": 23.7299,
+      "lonDegE": 312.5099,
+      "diameterKm": 39.994,
+      "origin": "Greek astronomer (310-230 B.C. ?).",
+      "approvedYear": 1935,
+      "position": {
+        "kind": "gazetteer",
+        "sourceId": "usgs-gazetteer-moon",
+        "text": null
+      },
+      "sizeSourceId": "usgs-gazetteer-moon",
+      "quote": {
+        "text": "Aristarchus Crater is the largest impact on the plateau and is one of the highest reflectance (blindingly bright in a telescope) features on the moon.",
+        "sourceId": "nasa-3d-moon-aristarchus-region"
+      }
+    },
+    {
+      "id": "taurus-littrow-valley",
+      "name": "Taurus Littrow Valley",
+      "type": "Astronaut-named features",
+      "latDeg": 20.0702,
+      "lonDegE": 30.7867,
+      "diameterKm": 21.028,
+      "origin": "Astronaut-named feature, Apollo 17 site.",
+      "approvedYear": 1973,
+      "position": {
+        "kind": "gazetteer",
+        "sourceId": "usgs-gazetteer-moon",
+        "text": null
+      },
+      "sizeSourceId": "usgs-gazetteer-moon",
+      "quote": {
+        "text": "The Lunar Module Challenger landed in the Taurus-Littrow valley on December 11, 1972 and remained there for 75 hours.",
+        "sourceId": "nasa-svs-apollo-17-landing-site"
+      }
+    },
+    {
+      "id": "shackleton",
+      "name": "Shackleton",
+      "type": "Crater",
+      "latDeg": -89.67,
+      "lonDegE": 129.78,
+      "diameterKm": 20.925,
+      "origin": "Sir Ernest Henry; Irish-born British Antarctic explorer (1874-1922).",
+      "approvedYear": 1994,
+      "position": {
+        "kind": "gazetteer",
+        "sourceId": "usgs-gazetteer-moon",
+        "text": null
+      },
+      "sizeSourceId": "usgs-gazetteer-moon",
+      "quote": {
+        "text": "Because of its location, most of Shackleton's interior lies in permanent shadow.",
+        "sourceId": "nasa-image-faces-of-shackleton"
+      }
+    }
+  ],
   "featureTypes": {
+    "Oceanus": {
+      "meaning": "A very large dark area on the moon",
+      "sourceId": "usgs-gazetteer-descriptor-terms"
+    },
+    "Mare": {
+      "meaning": "Sea",
+      "sourceId": "usgs-gazetteer-descriptor-terms"
+    },
     "Mons": {
       "meaning": "Mountain",
+      "sourceId": "usgs-gazetteer-descriptor-terms"
+    },
+    "Vallis": {
+      "meaning": "Valley",
+      "sourceId": "usgs-gazetteer-descriptor-terms"
+    },
+    "Rupes": {
+      "meaning": "Scarp",
+      "sourceId": "usgs-gazetteer-descriptor-terms"
+    },
+    "Catena": {
+      "meaning": "Chain of craters",
+      "sourceId": "usgs-gazetteer-descriptor-terms"
+    },
+    "Lacus": {
+      "meaning": "Lake",
+      "sourceId": "usgs-gazetteer-descriptor-terms"
+    },
+    "Rima": {
+      "meaning": "Fissure",
+      "sourceId": "usgs-gazetteer-descriptor-terms"
+    },
+    "Dorsum": {
+      "meaning": "Ridge",
+      "sourceId": "usgs-gazetteer-descriptor-terms"
+    },
+    "Sinus": {
+      "meaning": "Bay",
+      "sourceId": "usgs-gazetteer-descriptor-terms"
+    },
+    "Palus": {
+      "meaning": "Swamp",
       "sourceId": "usgs-gazetteer-descriptor-terms"
     }
   }

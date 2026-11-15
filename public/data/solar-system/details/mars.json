@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "bodyId": "mars",
-  "generatedAt": "2026-11-15T03:42:03.474Z",
+  "generatedAt": "2026-11-15T04:11:54.819Z",
   "interior": {
     "radiusKm": {
       "value": 3389.5,
@@ -2324,6 +2324,26 @@
   },
   "landmarks": [
     {
+      "id": "valles-marineris",
+      "name": "Valles Marineris",
+      "type": "Vallis",
+      "latDeg": -14.0059,
+      "lonDegE": 301.4123,
+      "diameterKm": 3761.278,
+      "origin": "General name of the system of canyons honoring the scientific team of the Mariner 9 program.",
+      "approvedYear": 1973,
+      "position": {
+        "kind": "gazetteer",
+        "sourceId": "usgs-gazetteer-mars",
+        "text": null
+      },
+      "sizeSourceId": "usgs-gazetteer-mars",
+      "quote": {
+        "text": "A vast canyon system called Valles Marineris is long enough to stretch from California to New York",
+        "sourceId": "nasa-science-mars-facts"
+      }
+    },
+    {
       "id": "olympus-mons",
       "name": "Olympus Mons",
       "type": "Mons",
@@ -2344,13 +2364,13 @@
       }
     },
     {
-      "id": "valles-marineris",
-      "name": "Valles Marineris",
-      "type": "Vallis",
-      "latDeg": -14.0059,
-      "lonDegE": 301.4123,
-      "diameterKm": 3761.278,
-      "origin": "General name of the system of canyons honoring the scientific team of the Mariner 9 program.",
+      "id": "elysium-planitia",
+      "name": "Elysium Planitia",
+      "type": "Planitia",
+      "latDeg": 2.979,
+      "lonDegE": 154.7372,
+      "diameterKm": 3000.789,
+      "origin": "Classical albedo feature name.",
       "approvedYear": 1973,
       "position": {
         "kind": "gazetteer",
@@ -2359,14 +2379,390 @@
       },
       "sizeSourceId": "usgs-gazetteer-mars",
       "quote": {
-        "text": "A vast canyon system called Valles Marineris is long enough to stretch from California to New York",
-        "sourceId": "nasa-science-mars-facts"
+        "text": "InSight landed near Mars' equator on the western side of a flat, smooth plain called Elysium Planitia.",
+        "sourceId": "nasa-mission-insight"
+      }
+    },
+    {
+      "id": "hellas-planitia",
+      "name": "Hellas Planitia",
+      "type": "Planitia",
+      "latDeg": -42.4301,
+      "lonDegE": 70.5025,
+      "diameterKm": 2299.162,
+      "origin": "Classical albedo feature name.",
+      "approvedYear": 1973,
+      "position": {
+        "kind": "gazetteer",
+        "sourceId": "usgs-gazetteer-mars",
+        "text": null
+      },
+      "sizeSourceId": "usgs-gazetteer-mars",
+      "quote": {
+        "text": "Hellas is an ancient impact structure and is the deepest and broadest enclosed basin on Mars. It measures about 2,300 kilometers across and the floor of the basin, Hellas Planitia, contains the lowest elevations on Mars.",
+        "sourceId": "nasa-photojournal-to-great-depths"
+      }
+    },
+    {
+      "id": "tharsis-montes",
+      "name": "Tharsis Montes",
+      "type": "Mons",
+      "latDeg": 1.5703,
+      "lonDegE": 247.4165,
+      "diameterKm": 2058.911,
+      "origin": "Classical albedo feature name.",
+      "approvedYear": 1973,
+      "position": {
+        "kind": "gazetteer",
+        "sourceId": "usgs-gazetteer-mars",
+        "text": null
+      },
+      "sizeSourceId": "usgs-gazetteer-mars",
+      "quote": {
+        "text": "Each Tharsis Montes volcano is 350-400 km in diameter and about 17 km above the surrounding plain.",
+        "sourceId": "nasa-photojournal-tharsis"
+      }
+    },
+    {
+      "id": "ares-vallis",
+      "name": "Ares Vallis",
+      "type": "Vallis",
+      "latDeg": 10.2924,
+      "lonDegE": 334.3917,
+      "diameterKm": 1757.666,
+      "origin": "Word for 'Mars' in Greek.",
+      "approvedYear": 1973,
+      "position": {
+        "kind": "gazetteer",
+        "sourceId": "usgs-gazetteer-mars",
+        "text": null
+      },
+      "sizeSourceId": "usgs-gazetteer-mars",
+      "quote": {
+        "text": "The Ares Vallis region of Mars is a large outwash plain near Chryse Planitia.",
+        "sourceId": "nssdca-mars-pathfinder"
+      }
+    },
+    {
+      "id": "cerberus-fossae",
+      "name": "Cerberus Fossae",
+      "type": "Fossa",
+      "latDeg": 11.2766,
+      "lonDegE": 166.3738,
+      "diameterKm": 1235,
+      "origin": "From albedo feature at 10n, 212W. Changed from Cerberus Rupes.",
+      "approvedYear": 1997,
+      "position": {
+        "kind": "gazetteer",
+        "sourceId": "usgs-gazetteer-mars",
+        "text": null
+      },
+      "sizeSourceId": "usgs-gazetteer-mars",
+      "quote": {
+        "text": "One surprise is that all of InSight's most significant quakes appear to have come from one area, Cerberus Fossae , a region volcanically active enough that lava may have flowed there within the last few million years.",
+        "sourceId": "nasa-insight-deep-interior"
+      }
+    },
+    {
+      "id": "syrtis-major-planum",
+      "name": "Syrtis Major Planum",
+      "type": "Planum",
+      "latDeg": 9.2007,
+      "lonDegE": 67.103,
+      "diameterKm": 1214.864,
+      "origin": "Albedo feature name; changed from Planitia to Planum.",
+      "approvedYear": 1973,
+      "position": {
+        "kind": "gazetteer",
+        "sourceId": "usgs-gazetteer-mars",
+        "text": null
+      },
+      "sizeSourceId": "usgs-gazetteer-mars",
+      "quote": {
+        "text": "Syrtis Major is one of the darkest regions on Mars and it is as dark as fresh basalt flows or dunes are on Earth.",
+        "sourceId": "nasa-photojournal-syrtis-major-3"
+      }
+    },
+    {
+      "id": "noctis-labyrinthus",
+      "name": "Noctis Labyrinthus",
+      "type": "Labyrinthus",
+      "latDeg": -6.3625,
+      "lonDegE": 258.8111,
+      "diameterKm": 1190.305,
+      "origin": "Classical albedo feature name.",
+      "approvedYear": 1973,
+      "position": {
+        "kind": "gazetteer",
+        "sourceId": "usgs-gazetteer-mars",
+        "text": null
+      },
+      "sizeSourceId": "usgs-gazetteer-mars",
+      "quote": {
+        "text": "Noctis Labyrinthus is notable for its unusual pattern of intersecting valleys, which give the region a maze-like appearance when viewed from above.",
+        "sourceId": "nasa-photojournal-noctis-labyrinthus"
+      }
+    },
+    {
+      "id": "meridiani-planum",
+      "name": "Meridiani Planum",
+      "type": "Planum",
+      "latDeg": -0.04,
+      "lonDegE": 356.86,
+      "diameterKm": 1058.53,
+      "origin": "Classical albedo feature name.",
+      "approvedYear": 2003,
+      "position": {
+        "kind": "gazetteer",
+        "sourceId": "usgs-gazetteer-mars",
+        "text": null
+      },
+      "sizeSourceId": "usgs-gazetteer-mars",
+      "quote": {
+        "text": "Opportunity landed at Meridiani Planum, a place where mineral deposits suggested that Mars had a wet history.",
+        "sourceId": "nasa-mission-mer"
+      }
+    },
+    {
+      "id": "arsia-mons",
+      "name": "Arsia Mons",
+      "type": "Mons",
+      "latDeg": -8.2571,
+      "lonDegE": 239.9075,
+      "diameterKm": 470,
+      "origin": "Arsia Silva-classical albedo feature name.",
+      "approvedYear": 1973,
+      "position": {
+        "kind": "gazetteer",
+        "sourceId": "usgs-gazetteer-mars",
+        "text": null
+      },
+      "sizeSourceId": "usgs-gazetteer-mars",
+      "quote": {
+        "text": "The southernmost of the three Tharsis volcanoes, Arsia Mons is 270 miles (450 kilometers) in diameter and almost 12 miles (20 kilometers) high.",
+        "sourceId": "nasa-photojournal-arsia-mons-themis"
+      }
+    },
+    {
+      "id": "elysium-mons",
+      "name": "Elysium Mons",
+      "type": "Mons",
+      "latDeg": 25.0232,
+      "lonDegE": 147.2138,
+      "diameterKm": 401,
+      "origin": "Classical albedo feature name.",
+      "approvedYear": 1973,
+      "position": {
+        "kind": "gazetteer",
+        "sourceId": "usgs-gazetteer-mars",
+        "text": null
+      },
+      "sizeSourceId": "usgs-gazetteer-mars",
+      "quote": {
+        "text": "Elysium Mons, whose summit elevation is 16,000 m above the Martian datum, is at the crest of a regional topographic rise that emerges steeply and abruptly from the surrounding plains.",
+        "sourceId": "nasa-photojournal-elysium"
+      }
+    },
+    {
+      "id": "planum-boreum",
+      "name": "Planum Boreum",
+      "type": "Planum",
+      "latDeg": 87.32,
+      "lonDegE": 54.96,
+      "diameterKm": 354.63,
+      "origin": "Classical albedo feature name.",
+      "approvedYear": 1976,
+      "position": {
+        "kind": "gazetteer",
+        "sourceId": "usgs-gazetteer-mars",
+        "text": null
+      },
+      "sizeSourceId": "usgs-gazetteer-mars",
+      "quote": {
+        "text": "The terrain surrounding Mars's north pole, known as Planum Boreum , is fascinating. The pole itself is covered in layers and layers of fine dust and water ice; these stack several kilometres thick and stretch out for around 1000 km (approximately the width of France).",
+        "sourceId": "esa-mars-express-north-pole-dunes"
+      }
+    },
+    {
+      "id": "gusev",
+      "name": "Gusev",
+      "type": "Crater",
+      "latDeg": -14.5308,
+      "lonDegE": 175.5244,
+      "diameterKm": 158.125,
+      "origin": "Matvei M.; Russian astronomer (1826-1866).",
+      "approvedYear": 1976,
+      "position": {
+        "kind": "gazetteer",
+        "sourceId": "usgs-gazetteer-mars",
+        "text": null
+      },
+      "sizeSourceId": "usgs-gazetteer-mars",
+      "quote": {
+        "text": "Gusev Crater was chosen as a landing site because it has the appearance of a crater lakebed.",
+        "sourceId": "nssdca-spirit"
+      }
+    },
+    {
+      "id": "gale",
+      "name": "Gale",
+      "type": "Crater",
+      "latDeg": -5.3672,
+      "lonDegE": 137.811,
+      "diameterKm": 154.084,
+      "origin": "Walter F.; Australian astronomer (1865-1945).",
+      "approvedYear": 1991,
+      "position": {
+        "kind": "gazetteer",
+        "sourceId": "usgs-gazetteer-mars",
+        "text": null
+      },
+      "sizeSourceId": "usgs-gazetteer-mars",
+      "quote": {
+        "text": "The landing site in Gale Crater was chosen for its potential as a former or current habitat for life.",
+        "sourceId": "nssdca-curiosity"
+      }
+    },
+    {
+      "id": "aeolis-mons",
+      "name": "Aeolis Mons",
+      "type": "Mons",
+      "latDeg": -5.0834,
+      "lonDegE": 137.8453,
+      "diameterKm": 88.991,
+      "origin": "Classical albedo feature name.",
+      "approvedYear": 2012,
+      "position": {
+        "kind": "gazetteer",
+        "sourceId": "usgs-gazetteer-mars",
+        "text": null
+      },
+      "sizeSourceId": "usgs-gazetteer-mars",
+      "quote": {
+        "text": "Mount Sharp, also called Aeolis Mons, is a layered mound in the center of Mars' Gale Crater, rising more than 3 miles (5 kilometers) above the crater floor, where Curiosity has been working since the rover's landing in August 2012.",
+        "sourceId": "jpl-mount-sharp-panorama"
+      }
+    },
+    {
+      "id": "jezero",
+      "name": "Jezero",
+      "type": "Crater",
+      "latDeg": 18.4082,
+      "lonDegE": 77.6873,
+      "diameterKm": 47.521,
+      "origin": "Town in Bosnia-Herzegovina.",
+      "approvedYear": 2007,
+      "position": {
+        "kind": "gazetteer",
+        "sourceId": "usgs-gazetteer-mars",
+        "text": null
+      },
+      "sizeSourceId": "usgs-gazetteer-mars",
+      "quote": {
+        "text": "Jezero Crater tells a story of the on-again, off-again nature of the wet past of Mars.",
+        "sourceId": "nasa-mission-mars-2020"
       }
     }
   ],
   "featureTypes": {
+    "Terra": {
+      "meaning": "Extensive land mass",
+      "sourceId": "usgs-gazetteer-descriptor-terms"
+    },
+    "Vallis": {
+      "meaning": "Valley",
+      "sourceId": "usgs-gazetteer-descriptor-terms"
+    },
+    "Planitia": {
+      "meaning": "Low plain",
+      "sourceId": "usgs-gazetteer-descriptor-terms"
+    },
+    "Dorsum": {
+      "meaning": "Ridge",
+      "sourceId": "usgs-gazetteer-descriptor-terms"
+    },
+    "Fossa": {
+      "meaning": "Long, narrow depression",
+      "sourceId": "usgs-gazetteer-descriptor-terms"
+    },
+    "Rupes": {
+      "meaning": "Scarp",
+      "sourceId": "usgs-gazetteer-descriptor-terms"
+    },
+    "Mensa": {
+      "meaning": "A flat-topped prominence with cliff-like edges",
+      "sourceId": "usgs-gazetteer-descriptor-terms"
+    },
     "Mons": {
       "meaning": "Mountain",
+      "sourceId": "usgs-gazetteer-descriptor-terms"
+    },
+    "Vastitas": {
+      "meaning": "Extensive plain",
+      "sourceId": "usgs-gazetteer-descriptor-terms"
+    },
+    "Planum": {
+      "meaning": "Plateau or high plain",
+      "sourceId": "usgs-gazetteer-descriptor-terms"
+    },
+    "Collis": {
+      "meaning": "Small hills or knobs",
+      "sourceId": "usgs-gazetteer-descriptor-terms"
+    },
+    "Unda": {
+      "meaning": "Dunes",
+      "sourceId": "usgs-gazetteer-descriptor-terms"
+    },
+    "Chasma": {
+      "meaning": "A deep, elongated, steep-sided depression",
+      "sourceId": "usgs-gazetteer-descriptor-terms"
+    },
+    "Scopulus": {
+      "meaning": "Lobate or irregular scarp",
+      "sourceId": "usgs-gazetteer-descriptor-terms"
+    },
+    "Sulcus": {
+      "meaning": "Subparallel furrows and ridges",
+      "sourceId": "usgs-gazetteer-descriptor-terms"
+    },
+    "Cavus": {
+      "meaning": "Hollows, irregular steep-sided depressions",
+      "sourceId": "usgs-gazetteer-descriptor-terms"
+    },
+    "Labyrinthus": {
+      "meaning": "Complex of intersecting valleys or ridges",
+      "sourceId": "usgs-gazetteer-descriptor-terms"
+    },
+    "Catena": {
+      "meaning": "Chain of craters",
+      "sourceId": "usgs-gazetteer-descriptor-terms"
+    },
+    "Palus": {
+      "meaning": "Swamp",
+      "sourceId": "usgs-gazetteer-descriptor-terms"
+    },
+    "Fluctus": {
+      "meaning": "Flow terrain",
+      "sourceId": "usgs-gazetteer-descriptor-terms"
+    },
+    "Lingula": {
+      "meaning": "Extension of plateau having rounded lobate or tongue-like boundaries",
+      "sourceId": "usgs-gazetteer-descriptor-terms"
+    },
+    "Chaos": {
+      "meaning": "Distinctive area of broken terrain",
+      "sourceId": "usgs-gazetteer-descriptor-terms"
+    },
+    "Tholus": {
+      "meaning": "Small domical mountain or hill",
+      "sourceId": "usgs-gazetteer-descriptor-terms"
+    },
+    "Serpens": {
+      "meaning": "Sinuous feature with segments of positive and negative relief along its length",
+      "sourceId": "usgs-gazetteer-descriptor-terms"
+    },
+    "Patera": {
+      "meaning": "An irregular crater, or a complex one with scalloped edges",
       "sourceId": "usgs-gazetteer-descriptor-terms"
     }
   }

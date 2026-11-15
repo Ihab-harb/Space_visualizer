@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "bodyId": "venus",
-  "generatedAt": "2026-11-15T03:42:03.474Z",
+  "generatedAt": "2026-11-15T04:11:54.819Z",
   "interior": {
     "radiusKm": {
       "value": 6051.8,
@@ -2255,10 +2255,391 @@
       }
     ]
   },
-  "landmarks": [],
+  "landmarks": [
+    {
+      "id": "ishtar-terra",
+      "name": "Ishtar Terra",
+      "type": "Terra",
+      "latDeg": 70.4,
+      "lonDegE": 27.5,
+      "diameterKm": 5610,
+      "origin": "Babylonian goddess of love.",
+      "approvedYear": 1979,
+      "position": {
+        "kind": "gazetteer",
+        "sourceId": "usgs-gazetteer-venus",
+        "text": null
+      },
+      "sizeSourceId": "usgs-gazetteer-venus",
+      "quote": {
+        "text": "Its surface features - most named for both real and mythical women - include Ishtar Terra, a rocky, highland area around the size of Australia near the north pole, and an even larger, South-America-sized region called Aphrodite Terra that stretches across the equator.",
+        "sourceId": "nasa-science-venus-facts"
+      }
+    },
+    {
+      "id": "aphrodite-terra",
+      "name": "Aphrodite Terra",
+      "type": "Terra",
+      "latDeg": -5.8,
+      "lonDegE": 104.8,
+      "diameterKm": 10000,
+      "origin": "Greek goddess of love.",
+      "approvedYear": 1979,
+      "position": {
+        "kind": "gazetteer",
+        "sourceId": "usgs-gazetteer-venus",
+        "text": null
+      },
+      "sizeSourceId": "usgs-gazetteer-venus",
+      "quote": {
+        "text": "Its surface features - most named for both real and mythical women - include Ishtar Terra, a rocky, highland area around the size of Australia near the north pole, and an even larger, South-America-sized region called Aphrodite Terra that stretches across the equator.",
+        "sourceId": "nasa-science-venus-facts"
+      }
+    },
+    {
+      "id": "ovda-regio",
+      "name": "Ovda Regio",
+      "type": "Regio",
+      "latDeg": -2.8,
+      "lonDegE": 85.6,
+      "diameterKm": 5280,
+      "origin": "Marijian; Titaness having supernatural power.",
+      "approvedYear": 1982,
+      "position": {
+        "kind": "gazetteer",
+        "sourceId": "usgs-gazetteer-venus",
+        "text": null
+      },
+      "sizeSourceId": "usgs-gazetteer-venus",
+      "quote": {
+        "text": "Ovda Regio is a highland region that rises over 4 kilometers (2.5 miles) above the surrounding plain.",
+        "sourceId": "nasa-photojournal-ovda-regio"
+      }
+    },
+    {
+      "id": "niobe-planitia",
+      "name": "Niobe Planitia",
+      "type": "Planitia",
+      "latDeg": 21,
+      "lonDegE": 112.3,
+      "diameterKm": 5008,
+      "origin": "Greek; her 12 children killed by Artemis and Apollo.",
+      "approvedYear": 1982,
+      "position": {
+        "kind": "gazetteer",
+        "sourceId": "usgs-gazetteer-venus",
+        "text": null
+      },
+      "sizeSourceId": "usgs-gazetteer-venus",
+      "quote": {
+        "text": "The Niobe Planitia eruption produced about 17 square miles (45 square kilometers) of rock, which would fill 54,000 Olympic swimming pools.",
+        "sourceId": "jpl-news-ongoing-venus-volcanism-2024"
+      }
+    },
+    {
+      "id": "atla-regio",
+      "name": "Atla Regio",
+      "type": "Regio",
+      "latDeg": 9.2,
+      "lonDegE": 200.1,
+      "diameterKm": 3200,
+      "origin": "Norse giantess, mother of Heimdall.",
+      "approvedYear": 1982,
+      "position": {
+        "kind": "gazetteer",
+        "sourceId": "usgs-gazetteer-venus",
+        "text": null
+      },
+      "sizeSourceId": "usgs-gazetteer-venus",
+      "quote": {
+        "text": "The geological changes Herrick found occurred in Atla Regio, a vast highland region near Venus' equator that hosts two of the planet's largest volcanoes, Ozza Mons and Maat Mons.",
+        "sourceId": "jpl-news-magellan-venus-volcanism-2023"
+      }
+    },
+    {
+      "id": "artemis-corona",
+      "name": "Artemis Corona",
+      "type": "Corona",
+      "latDeg": -35,
+      "lonDegE": 135,
+      "diameterKm": 2600,
+      "origin": "Named from associated chasma.",
+      "approvedYear": 1994,
+      "position": {
+        "kind": "gazetteer",
+        "sourceId": "usgs-gazetteer-venus",
+        "text": null
+      },
+      "sizeSourceId": "usgs-gazetteer-venus",
+      "quote": {
+        "text": "Its circular shape and size (2100 km or 1302 miles in diameter) make Artemis the largest corona identified to date on the surface of Venus.",
+        "sourceId": "nasa-photojournal-artemis-corona"
+      }
+    },
+    {
+      "id": "lakshmi-planum",
+      "name": "Lakshmi Planum",
+      "type": "Planum",
+      "latDeg": 68.6,
+      "lonDegE": 339.3,
+      "diameterKm": 2345,
+      "origin": "Indian goddess of love and war.",
+      "approvedYear": 1979,
+      "position": {
+        "kind": "gazetteer",
+        "sourceId": "usgs-gazetteer-venus",
+        "text": null
+      },
+      "sizeSourceId": "usgs-gazetteer-venus",
+      "quote": {
+        "text": "Lakshmi Planum is an elevated plateau plain that is bounded on all sides by mountain chains.",
+        "sourceId": "nasa-photojournal-danu-montes-lakshmi"
+      }
+    },
+    {
+      "id": "alpha-regio",
+      "name": "Alpha Regio",
+      "type": "Regio",
+      "latDeg": -25.5,
+      "lonDegE": 0.3,
+      "diameterKm": 1897,
+      "origin": "First letter in Greek alphabet.",
+      "approvedYear": 1979,
+      "position": {
+        "kind": "gazetteer",
+        "sourceId": "usgs-gazetteer-venus",
+        "text": null
+      },
+      "sizeSourceId": "usgs-gazetteer-venus",
+      "quote": {
+        "text": "In 1963 Alpha Regio was the first feature on Venus to be identified from Earth based radar.",
+        "sourceId": "nasa-photojournal-alpha-regio"
+      }
+    },
+    {
+      "id": "maxwell-montes",
+      "name": "Maxwell Montes",
+      "type": "Mons",
+      "latDeg": 65.2,
+      "lonDegE": 3.3,
+      "diameterKm": 797,
+      "origin": "James C.; British physicist (1831-1879).",
+      "approvedYear": 1979,
+      "position": {
+        "kind": "gazetteer",
+        "sourceId": "usgs-gazetteer-venus",
+        "text": null
+      },
+      "sizeSourceId": "usgs-gazetteer-venus",
+      "quote": {
+        "text": "The Maxwell Montes are the highest mountains on Venus, rising up to 11 km above the mean planetary surface.",
+        "sourceId": "nssdc-imgcat-maxwell-montes"
+      }
+    },
+    {
+      "id": "maat-mons",
+      "name": "Maat Mons",
+      "type": "Mons",
+      "latDeg": 0.5,
+      "lonDegE": 194.6,
+      "diameterKm": 395,
+      "origin": "Ancient Egyptian goddess of truth and justice.",
+      "approvedYear": 1982,
+      "position": {
+        "kind": "gazetteer",
+        "sourceId": "usgs-gazetteer-venus",
+        "text": null
+      },
+      "sizeSourceId": "usgs-gazetteer-venus",
+      "quote": {
+        "text": "A new study found one of Maat Mons' vents became enlarged and changed shape over an eight-month period in 1991, indicating an eruptive event occurred.",
+        "sourceId": "jpl-news-magellan-venus-volcanism-2023"
+      }
+    },
+    {
+      "id": "gula-mons",
+      "name": "Gula Mons",
+      "type": "Mons",
+      "latDeg": 21.9,
+      "lonDegE": 359.1,
+      "diameterKm": 276,
+      "origin": "Babylonian earth mother, creative force.",
+      "approvedYear": 1982,
+      "position": {
+        "kind": "gazetteer",
+        "sourceId": "usgs-gazetteer-venus",
+        "text": null
+      },
+      "sizeSourceId": "usgs-gazetteer-venus",
+      "quote": {
+        "text": "Gula Mons, a 3 kilometer (1.9 mile) high volcano, is located at approximately 22 degrees north latitude, 359 degrees east longitude in western Eistla Regio.",
+        "sourceId": "nasa-photojournal-gula-mons"
+      }
+    },
+    {
+      "id": "mead",
+      "name": "Mead",
+      "type": "Crater",
+      "latDeg": 12.5,
+      "lonDegE": 57.2,
+      "diameterKm": 270,
+      "origin": "Margaret; American anthropologist (1901-1978).",
+      "approvedYear": 1991,
+      "position": {
+        "kind": "gazetteer",
+        "sourceId": "usgs-gazetteer-venus",
+        "text": null
+      },
+      "sizeSourceId": "usgs-gazetteer-venus",
+      "quote": {
+        "text": "At 280 km diameter, Mead is the largest impact crater on Venus.",
+        "sourceId": "nssdc-imgcat-mead-crater"
+      }
+    },
+    {
+      "id": "sacajawea-patera",
+      "name": "Sacajawea Patera",
+      "type": "Patera",
+      "latDeg": 64.3,
+      "lonDegE": 335.4,
+      "diameterKm": 233,
+      "origin": "Shoshoni Indian woman who served as an interpreter for the Lewis & Clark expedition to the Pacific Northwest (1786-1812).",
+      "approvedYear": 1982,
+      "position": {
+        "kind": "gazetteer",
+        "sourceId": "usgs-gazetteer-venus",
+        "text": null
+      },
+      "sizeSourceId": "usgs-gazetteer-venus",
+      "quote": {
+        "text": "This Magellan image reveals Sacajawea Patera, a large, elongate caldera located in western Ishtar Terra on the smooth plateau of Lakshmi Planum.",
+        "sourceId": "nasa-photojournal-sacajawea-patera"
+      }
+    },
+    {
+      "id": "sapas-mons",
+      "name": "Sapas Mons",
+      "type": "Mons",
+      "latDeg": 8.5,
+      "lonDegE": 188.3,
+      "diameterKm": 217,
+      "origin": "Phoenician commerce, travel, and messenger goddess.",
+      "approvedYear": 1982,
+      "position": {
+        "kind": "gazetteer",
+        "sourceId": "usgs-gazetteer-venus",
+        "text": null
+      },
+      "sizeSourceId": "usgs-gazetteer-venus",
+      "quote": {
+        "text": "Sapas Mons, a volcano 400 kilometers (248 miles) across and 1.5 kilometers (0.9 mile) high is located at approximately 8 degrees north latitude, 188 degrees east longitude, on the western edge of Atla Regio.",
+        "sourceId": "nasa-photojournal-sapas-mons"
+      }
+    },
+    {
+      "id": "sif-mons",
+      "name": "Sif Mons",
+      "type": "Mons",
+      "latDeg": 22,
+      "lonDegE": 352.4,
+      "diameterKm": 200,
+      "origin": "Teutonic goddess; Thor's wife.",
+      "approvedYear": 1982,
+      "position": {
+        "kind": "gazetteer",
+        "sourceId": "usgs-gazetteer-venus",
+        "text": null
+      },
+      "sizeSourceId": "usgs-gazetteer-venus",
+      "quote": {
+        "text": "They also estimate that the Sif Mons eruption produced about 12 square miles (30 square kilometers) of rock - enough to fill at least 36,000 Olympic-size swimming pools.",
+        "sourceId": "jpl-news-ongoing-venus-volcanism-2024"
+      }
+    },
+    {
+      "id": "cleopatra",
+      "name": "Cleopatra",
+      "type": "Crater",
+      "latDeg": 65.8,
+      "lonDegE": 7.1,
+      "diameterKm": 105,
+      "origin": "Egyptian queen, notable for love affairs with Julius Caesar and Mark Anthony (69-30 B.C.).",
+      "approvedYear": 1982,
+      "position": {
+        "kind": "gazetteer",
+        "sourceId": "usgs-gazetteer-venus",
+        "text": null
+      },
+      "sizeSourceId": "usgs-gazetteer-venus",
+      "quote": {
+        "text": "Cleopatra is a double-ring impact basin about 100 kilometers (62 miles) in diameter and 2.5 kilometers (1.5 miles) deep.",
+        "sourceId": "nasa-photojournal-maxwell-cleopatra"
+      }
+    }
+  ],
   "featureTypes": {
+    "Chasma": {
+      "meaning": "A deep, elongated, steep-sided depression",
+      "sourceId": "usgs-gazetteer-descriptor-terms"
+    },
+    "Terra": {
+      "meaning": "Extensive land mass",
+      "sourceId": "usgs-gazetteer-descriptor-terms"
+    },
+    "Regio": {
+      "meaning": "A broad geographic region",
+      "sourceId": "usgs-gazetteer-descriptor-terms"
+    },
+    "Planitia": {
+      "meaning": "Low plain",
+      "sourceId": "usgs-gazetteer-descriptor-terms"
+    },
+    "Vallis": {
+      "meaning": "Valley",
+      "sourceId": "usgs-gazetteer-descriptor-terms"
+    },
+    "Tessera": {
+      "meaning": "Tile-like, polygonal terrain",
+      "sourceId": "usgs-gazetteer-descriptor-terms"
+    },
+    "Dorsum": {
+      "meaning": "Ridge",
+      "sourceId": "usgs-gazetteer-descriptor-terms"
+    },
+    "Linea": {
+      "meaning": "A dark or bright elongate marking, may be curved or straight",
+      "sourceId": "usgs-gazetteer-descriptor-terms"
+    },
+    "Corona": {
+      "meaning": "Ovoid-shaped feature",
+      "sourceId": "usgs-gazetteer-descriptor-terms"
+    },
+    "Planum": {
+      "meaning": "Plateau or high plain",
+      "sourceId": "usgs-gazetteer-descriptor-terms"
+    },
+    "Rupes": {
+      "meaning": "Scarp",
+      "sourceId": "usgs-gazetteer-descriptor-terms"
+    },
+    "Fossa": {
+      "meaning": "Long, narrow depression",
+      "sourceId": "usgs-gazetteer-descriptor-terms"
+    },
+    "Fluctus": {
+      "meaning": "Flow terrain",
+      "sourceId": "usgs-gazetteer-descriptor-terms"
+    },
+    "Collis": {
+      "meaning": "Small hills or knobs",
+      "sourceId": "usgs-gazetteer-descriptor-terms"
+    },
     "Mons": {
       "meaning": "Mountain",
+      "sourceId": "usgs-gazetteer-descriptor-terms"
+    },
+    "Patera": {
+      "meaning": "An irregular crater, or a complex one with scalloped edges",
       "sourceId": "usgs-gazetteer-descriptor-terms"
     }
   }

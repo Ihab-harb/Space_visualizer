@@ -30,6 +30,7 @@ const GUARDS: Record<Body, Guard[]> = {
     { name: 'Mare Crisium', expect: 'darker', prior: 'a mare: dark basalt plain among bright highlands' },
     { name: 'Mare Moscoviense', expect: 'darker', prior: 'a mare: dark basalt plain among bright highlands' },
     { name: 'Mare Orientale', expect: 'darker', prior: 'a mare: dark basalt plain among bright highlands' },
+    { name: 'Tycho', expect: 'brighter', prior: 'young rayed craters are bright' },
   ],
   mars: [
     { name: 'Syrtis Major Planum', expect: 'darker', prior: 'the classical dark albedo feature' },
@@ -38,12 +39,13 @@ const GUARDS: Record<Body, Guard[]> = {
   ],
   mercury: [
     { name: 'Nathair Facula', expect: 'brighter', prior: 'a facula is a bright spot by definition' },
-    { name: 'Caloris Planitia', expect: 'brighter', prior: 'smooth plains filling a large basin, brighter than the surrounding terrain in colour maps (weaker prior)' },
+    { name: 'Hokusai', expect: 'brighter', prior: 'young rayed craters are bright' },
   ],
   venus: [
     { name: 'Ovda Regio', expect: 'brighter', prior: 'highland regio: rough terrain, radar-bright' },
     { name: 'Atla Regio', expect: 'brighter', prior: 'highland regio: rough terrain, radar-bright' },
     { name: 'Beta Regio', expect: 'brighter', prior: 'highland regio: rough terrain, radar-bright' },
+    { name: 'Maxwell Montes', expect: 'brighter', prior: 'mountain belts are rough and radar-bright' },
   ],
 };
 

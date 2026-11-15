@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "bodyId": "mercury",
-  "generatedAt": "2026-11-15T03:42:03.474Z",
+  "generatedAt": "2026-11-15T04:11:54.819Z",
   "interior": {
     "radiusKm": {
       "value": 2439.7,
@@ -2145,10 +2145,379 @@
       }
     ]
   },
-  "landmarks": [],
+  "landmarks": [
+    {
+      "id": "caloris-planitia",
+      "name": "Caloris Planitia",
+      "type": "Planitia",
+      "latDeg": 31.6525,
+      "lonDegE": 161.9848,
+      "diameterKm": 1500,
+      "origin": "\"Hot plain\"; surface temperature hottest near this position.",
+      "approvedYear": 1976,
+      "position": {
+        "kind": "gazetteer",
+        "sourceId": "usgs-gazetteer-mercury",
+        "text": null
+      },
+      "sizeSourceId": "usgs-gazetteer-mercury",
+      "quote": {
+        "text": "Very large impact basins, including Caloris (960 miles or 1,550 kilometers in diameter) and Rachmaninoff (190 miles, or 306 kilometers in diameter), were created by asteroid impacts on the planet's surface early in the solar system's history.",
+        "sourceId": "nasa-science-mercury-facts"
+      }
+    },
+    {
+      "id": "rachmaninoff",
+      "name": "Rachmaninoff",
+      "type": "Crater",
+      "latDeg": 27.6609,
+      "lonDegE": 57.3702,
+      "diameterKm": 305,
+      "origin": "Sergei V.; Russian composer, pianist, and conductor (1873-1943).",
+      "approvedYear": 2010,
+      "position": {
+        "kind": "gazetteer",
+        "sourceId": "usgs-gazetteer-mercury",
+        "text": null
+      },
+      "sizeSourceId": "usgs-gazetteer-mercury",
+      "quote": {
+        "text": "Whereas pre-MESSENGER interpretations were that volcanism on Mercury ended early in the planet's history, MESSENGER's images of Rachmaninoff reveal that some volcanism extended well beyond that time, probably into the second half of Solar System history.",
+        "sourceId": "nasa-photojournal-young-volcanism-mercury"
+      }
+    },
+    {
+      "id": "borealis-planitia",
+      "name": "Borealis Planitia",
+      "type": "Planitia",
+      "latDeg": 67.3,
+      "lonDegE": 32.6,
+      "diameterKm": 3450,
+      "origin": "\"Northern plain\"; from classical albedo name for quadrangle.",
+      "approvedYear": 1976,
+      "position": {
+        "kind": "gazetteer",
+        "sourceId": "usgs-gazetteer-mercury",
+        "text": null
+      },
+      "sizeSourceId": "usgs-gazetteer-mercury",
+      "quote": {
+        "text": "To the left of Mercury's north pole in M-CAM 1's view lie the vast volcanic plains known as Borealis Planitia.",
+        "sourceId": "esa-bepicolombo-sixth-flyby"
+      }
+    },
+    {
+      "id": "caloris-montes",
+      "name": "Caloris Montes",
+      "type": "Mons",
+      "latDeg": 31.4641,
+      "lonDegE": 185.8473,
+      "diameterKm": 1023,
+      "origin": "\"Hot mountains\"; surface temperature hottest near this position.",
+      "approvedYear": 1976,
+      "position": {
+        "kind": "gazetteer",
+        "sourceId": "usgs-gazetteer-mercury",
+        "text": null
+      },
+      "sizeSourceId": "usgs-gazetteer-mercury",
+      "quote": {
+        "text": "The floor of the Caloris basin is filled with volcanic plains , while the Caloris Montes , a ring of mountainous peaks, are found along the basin's rim.",
+        "sourceId": "nasa-photojournal-islands-in-the-stream"
+      }
+    },
+    {
+      "id": "enterprise-rupes",
+      "name": "Enterprise Rupes",
+      "type": "Rupes",
+      "latDeg": -36.5405,
+      "lonDegE": 76.5353,
+      "diameterKm": 822.392,
+      "origin": "American; steamship that explored the Mississippi, Amazon, and\r\nMadeira Rivers and sailed on a worldwide hydrographic survey 1877 to\r\n1886.",
+      "approvedYear": 2013,
+      "position": {
+        "kind": "gazetteer",
+        "sourceId": "usgs-gazetteer-mercury",
+        "text": null
+      },
+      "sizeSourceId": "usgs-gazetteer-mercury",
+      "quote": {
+        "text": "Enterprise Rupes, (indicated here with white arrows) about 1000 km long and with over 3 km of relief, is the largest lobate scarp on Mercury!",
+        "sourceId": "nasa-image-enterprise-rupes"
+      }
+    },
+    {
+      "id": "rembrandt",
+      "name": "Rembrandt",
+      "type": "Crater",
+      "latDeg": -32.8916,
+      "lonDegE": 87.8657,
+      "diameterKm": 716,
+      "origin": "Rembrandt Harmenszoon van Rijn; Dutch painter (1606-1669).",
+      "approvedYear": 2009,
+      "position": {
+        "kind": "gazetteer",
+        "sourceId": "usgs-gazetteer-mercury",
+        "text": null
+      },
+      "sizeSourceId": "usgs-gazetteer-mercury",
+      "quote": {
+        "text": "The number per area and size distribution of impact craters superposed on Rembrandt's rim indicates that it is one of the youngest impact basins on Mercury.",
+        "sourceId": "nasa-photojournal-rembrandt-basin"
+      }
+    },
+    {
+      "id": "beagle-rupes",
+      "name": "Beagle Rupes",
+      "type": "Rupes",
+      "latDeg": -3.2243,
+      "lonDegE": 100.7572,
+      "diameterKm": 630,
+      "origin": "British; naval vessel aboard which Charles Darwin served as a naturalist on a surveying expedition, 1831-1836.",
+      "approvedYear": 2008,
+      "position": {
+        "kind": "gazetteer",
+        "sourceId": "usgs-gazetteer-mercury",
+        "text": null
+      },
+      "sizeSourceId": "usgs-gazetteer-mercury",
+      "quote": {
+        "text": "Beagle Rupes and other scarps on Mercury are thought to be the surface expressions of thrust faults that formed from contraction as the planet's interior cooled.",
+        "sourceId": "nasa-photojournal-beagle-rupes"
+      }
+    },
+    {
+      "id": "pantheon-fossae",
+      "name": "Pantheon Fossae",
+      "type": "Fossa",
+      "latDeg": 30.1857,
+      "lonDegE": 162.8311,
+      "diameterKm": 311,
+      "origin": "Classic domed Roman building begun in 27 BC by Marcus Agrippa, and rebuilt by Hadrian between AD 118 and 128.",
+      "approvedYear": 2008,
+      "position": {
+        "kind": "gazetteer",
+        "sourceId": "usgs-gazetteer-mercury",
+        "text": null
+      },
+      "sizeSourceId": "usgs-gazetteer-mercury",
+      "quote": {
+        "text": "The dome of the Pantheon has a series of sunken panels that radiate from a central circular opening at the top of the dome, and Mercury's Pantheon Fossae is reminiscent of this pattern.",
+        "sourceId": "nasa-photojournal-mercurys-first-fossae"
+      }
+    },
+    {
+      "id": "mendelssohn",
+      "name": "Mendelssohn",
+      "type": "Crater",
+      "latDeg": 70.3101,
+      "lonDegE": 102.3195,
+      "diameterKm": 291,
+      "origin": "Jakob Ludwig Felix; German composer (1809-1847).",
+      "approvedYear": 2012,
+      "position": {
+        "kind": "gazetteer",
+        "sourceId": "usgs-gazetteer-mercury",
+        "text": null
+      },
+      "sizeSourceId": "usgs-gazetteer-mercury",
+      "quote": {
+        "text": "Prominently visible is the Mendelssohn crater, whose outer rim is barely visible above its flooded interior.",
+        "sourceId": "esa-bepicolombo-sixth-flyby"
+      }
+    },
+    {
+      "id": "nathair-facula",
+      "name": "Nathair Facula",
+      "type": "Facula",
+      "latDeg": 36,
+      "lonDegE": 64.5,
+      "diameterKm": 270,
+      "origin": "Irish word for snake.",
+      "approvedYear": 2018,
+      "position": {
+        "kind": "gazetteer",
+        "sourceId": "usgs-gazetteer-mercury",
+        "text": null
+      },
+      "sizeSourceId": "usgs-gazetteer-mercury",
+      "quote": {
+        "text": "The bright patch near the planet's upper edge in this image is the Nathair Facula, the aftermath of the largest volcanic explosion on Mercury.",
+        "sourceId": "esa-lava-and-debris-mercury"
+      }
+    },
+    {
+      "id": "raditladi",
+      "name": "Raditladi",
+      "type": "Crater",
+      "latDeg": 27.1533,
+      "lonDegE": 119.0633,
+      "diameterKm": 258,
+      "origin": "Leetile Disang; Botswanan playwright and poet (1910-1971).",
+      "approvedYear": 2008,
+      "position": {
+        "kind": "gazetteer",
+        "sourceId": "usgs-gazetteer-mercury",
+        "text": null
+      },
+      "sizeSourceId": "usgs-gazetteer-mercury",
+      "quote": {
+        "text": "Raditladi basin is relatively young, with only a few small impact craters on the basin's floor and with well-preserved basin walls and peak-ring structure.",
+        "sourceId": "nasa-photojournal-raditladi"
+      }
+    },
+    {
+      "id": "hokusai",
+      "name": "Hokusai",
+      "type": "Crater",
+      "latDeg": 57.8402,
+      "lonDegE": 16.6496,
+      "diameterKm": 114,
+      "origin": "Katsushika; Japanese painter, draftsman, and printmaker (1760-1849).",
+      "approvedYear": 2010,
+      "position": {
+        "kind": "gazetteer",
+        "sourceId": "usgs-gazetteer-mercury",
+        "text": null
+      },
+      "sizeSourceId": "usgs-gazetteer-mercury",
+      "quote": {
+        "text": "The crater has an impressive system of rays, which extend as much as a thousand kilometers (more than 600 miles) across the planet and are the longest that have yet been identified on Mercury.",
+        "sourceId": "nasa-resource-rays-of-hokusai"
+      }
+    },
+    {
+      "id": "prokofiev",
+      "name": "Prokofiev",
+      "type": "Crater",
+      "latDeg": 85.7726,
+      "lonDegE": 62.9216,
+      "diameterKm": 112,
+      "origin": "Sergey; Russian composer (1891-1953).",
+      "approvedYear": 2012,
+      "position": {
+        "kind": "gazetteer",
+        "sourceId": "usgs-gazetteer-mercury",
+        "text": null
+      },
+      "sizeSourceId": "usgs-gazetteer-mercury",
+      "quote": {
+        "text": "The craters nearest Mercury' poles have surface temperatures less than 100 K (-173°C, -280°F), and water ice is stable on the surface, such as in Prokofiev",
+        "sourceId": "nasa-photojournal-hot-and-cold"
+      }
+    },
+    {
+      "id": "kuiper",
+      "name": "Kuiper",
+      "type": "Crater",
+      "latDeg": -11.3363,
+      "lonDegE": 328.6797,
+      "diameterKm": 62,
+      "origin": "Gerard P.; Dutch-American astronomer, member of original Mariner Venus-Mercury Imaging Team (1905-1973).",
+      "approvedYear": 1976,
+      "position": {
+        "kind": "gazetteer",
+        "sourceId": "usgs-gazetteer-mercury",
+        "text": null
+      },
+      "sizeSourceId": "usgs-gazetteer-mercury",
+      "quote": {
+        "text": "The Kuiper crater, located left of center, is the brightest and perhaps youngest crater is 60 km in diameter located at -11 degrees latitude and 31 degrees longitude.",
+        "sourceId": "nasa-photojournal-kuiper-quadrangle"
+      }
+    },
+    {
+      "id": "kandinsky",
+      "name": "Kandinsky",
+      "type": "Crater",
+      "latDeg": 87.8942,
+      "lonDegE": 78.7837,
+      "diameterKm": 60,
+      "origin": "Wassily; Russian painter (1866-1944).",
+      "approvedYear": 2012,
+      "position": {
+        "kind": "gazetteer",
+        "sourceId": "usgs-gazetteer-mercury",
+        "text": null
+      },
+      "sizeSourceId": "usgs-gazetteer-mercury",
+      "quote": {
+        "text": "The rims of craters Prokofiev, Kandinsky, Tolkien and Gordimer cast permanent shadows on their floors.",
+        "sourceId": "esa-bepicolombo-sixth-flyby"
+      }
+    },
+    {
+      "id": "apollodorus",
+      "name": "Apollodorus",
+      "type": "Crater",
+      "latDeg": 30.5376,
+      "lonDegE": 163.2836,
+      "diameterKm": 41.5,
+      "origin": "Apollodorus of Damascus; Greek architect (2nd century AD).",
+      "approvedYear": 2008,
+      "position": {
+        "kind": "gazetteer",
+        "sourceId": "usgs-gazetteer-mercury",
+        "text": null
+      },
+      "sizeSourceId": "usgs-gazetteer-mercury",
+      "quote": {
+        "text": "Although Apollodorus of Damascus (the namesake of the crater) is thought to be the architect of the Pantheon in Rome (the namesake of the fossae), the crater Apollodorus is thought to be unrelated to the creation of Pantheon Fossae.",
+        "sourceId": "nasa-resource-architect-and-temple"
+      }
+    },
+    {
+      "id": "fonteyn",
+      "name": "Fonteyn",
+      "type": "Crater",
+      "latDeg": 32.8217,
+      "lonDegE": 95.5132,
+      "diameterKm": 29,
+      "origin": "Margot; English ballet dancer (1919-1991).",
+      "approvedYear": 2012,
+      "position": {
+        "kind": "gazetteer",
+        "sourceId": "usgs-gazetteer-mercury",
+        "text": null
+      },
+      "sizeSourceId": "usgs-gazetteer-mercury",
+      "quote": {
+        "text": "Also visible is the relatively young Fonteyn crater, which formed a 'mere' 300 million years ago.",
+        "sourceId": "esa-lava-and-debris-mercury"
+      }
+    }
+  ],
   "featureTypes": {
+    "Planitia": {
+      "meaning": "Low plain",
+      "sourceId": "usgs-gazetteer-descriptor-terms"
+    },
     "Mons": {
       "meaning": "Mountain",
+      "sourceId": "usgs-gazetteer-descriptor-terms"
+    },
+    "Rupes": {
+      "meaning": "Scarp",
+      "sourceId": "usgs-gazetteer-descriptor-terms"
+    },
+    "Dorsum": {
+      "meaning": "Ridge",
+      "sourceId": "usgs-gazetteer-descriptor-terms"
+    },
+    "Planum": {
+      "meaning": "Plateau or high plain",
+      "sourceId": "usgs-gazetteer-descriptor-terms"
+    },
+    "Fossa": {
+      "meaning": "Long, narrow depression",
+      "sourceId": "usgs-gazetteer-descriptor-terms"
+    },
+    "Catena": {
+      "meaning": "Chain of craters",
+      "sourceId": "usgs-gazetteer-descriptor-terms"
+    },
+    "Facula": {
+      "meaning": "Bright spot",
       "sourceId": "usgs-gazetteer-descriptor-terms"
     }
   }

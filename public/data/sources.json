@@ -864,6 +864,438 @@
       "url": "https://planetarynames.wr.usgs.gov/DescriptorTerms",
       "license": "Public domain (USGS)",
       "retrievedAt": "2026-11-15"
+    },
+    {
+      "id": "nasa-photojournal-to-great-depths",
+      "title": "To Great Depths (PIA21570), NASA Photojournal",
+      "publisher": "NASA Science",
+      "url": "https://science.nasa.gov/photojournal/to-great-depths/",
+      "license": "NASA public domain (NASA media usage guidelines)",
+      "retrievedAt": "2026-11-15"
+    },
+    {
+      "id": "nasa-photojournal-tharsis",
+      "title": "Tharsis (PIA00408), NASA Photojournal",
+      "publisher": "NASA Science",
+      "url": "https://science.nasa.gov/photojournal/tharsis/",
+      "license": "NASA public domain (NASA media usage guidelines)",
+      "retrievedAt": "2026-11-15"
+    },
+    {
+      "id": "nssdca-mars-pathfinder",
+      "title": "Mars Pathfinder (NSSDCA Master Catalog)",
+      "publisher": "NASA NSSDCA",
+      "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1996-068A",
+      "license": "NASA public domain (NASA media usage guidelines)",
+      "retrievedAt": "2026-11-15"
+    },
+    {
+      "id": "nasa-photojournal-syrtis-major-3",
+      "title": "Syrtis Major (PIA03823), NASA Photojournal",
+      "publisher": "NASA Science",
+      "url": "https://science.nasa.gov/photojournal/syrtis-major-3/",
+      "license": "NASA public domain (NASA media usage guidelines)",
+      "retrievedAt": "2026-11-15"
+    },
+    {
+      "id": "nasa-photojournal-noctis-labyrinthus",
+      "title": "Noctis Labyrinthus (PIA03783), NASA Photojournal",
+      "publisher": "NASA Science",
+      "url": "https://science.nasa.gov/photojournal/pj-noctis-labyrinthus-3/",
+      "license": "NASA public domain (NASA media usage guidelines)",
+      "retrievedAt": "2026-11-15"
+    },
+    {
+      "id": "nasa-mission-mer",
+      "title": "Mars Exploration Rovers: Spirit and Opportunity (NASA Science mission page)",
+      "publisher": "NASA Science",
+      "url": "https://science.nasa.gov/mission/mars-exploration-rovers-spirit-and-opportunity/",
+      "license": "NASA public domain (NASA media usage guidelines)",
+      "retrievedAt": "2026-11-15"
+    },
+    {
+      "id": "nasa-photojournal-arsia-mons-themis",
+      "title": "THEMIS Views Mars' Arsia Mons Volcano (PIA26557), NASA Photojournal",
+      "publisher": "NASA Science",
+      "url": "https://science.nasa.gov/photojournal/themis-views-mars-arsia-mons-volcano/",
+      "license": "NASA public domain (NASA media usage guidelines)",
+      "retrievedAt": "2026-11-15"
+    },
+    {
+      "id": "nasa-photojournal-elysium",
+      "title": "Elysium (PIA00412), NASA Photojournal",
+      "publisher": "NASA Science",
+      "url": "https://science.nasa.gov/photojournal/elysium/",
+      "license": "NASA public domain (NASA media usage guidelines)",
+      "retrievedAt": "2026-11-15"
+    },
+    {
+      "id": "esa-mars-express-north-pole-dunes",
+      "title": "Sand dunes meet stacked ice at Mars's north pole",
+      "publisher": "ESA",
+      "url": "https://www.esa.int/articles/about-us/directorates/science/mars-express/sand-dunes-meet-stacked-ice-at-mars-s-north-pole",
+      "license": "ESA; text quoted with attribution (ESA terms of use)",
+      "retrievedAt": "2026-11-15"
+    },
+    {
+      "id": "nssdca-curiosity",
+      "title": "Mars Science Laboratory (MSL) (NSSDCA Master Catalog)",
+      "publisher": "NASA NSSDCA",
+      "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=2011-070A",
+      "license": "NASA public domain (NASA media usage guidelines)",
+      "retrievedAt": "2026-11-15"
+    },
+    {
+      "id": "jpl-mount-sharp-panorama",
+      "title": "Mount Sharp Panorama in Raw Colors (PIA16769)",
+      "publisher": "NASA Jet Propulsion Laboratory",
+      "url": "https://www.jpl.nasa.gov/images/pia16769-mount-sharp-panorama-in-raw-colors/",
+      "license": "NASA public domain (NASA media usage guidelines)",
+      "retrievedAt": "2026-11-15"
+    },
+    {
+      "id": "nasa-mission-mars-2020",
+      "title": "Mars 2020: Perseverance Rover (NASA Science mission page)",
+      "publisher": "NASA Science",
+      "url": "https://science.nasa.gov/mission/mars-2020-perseverance/",
+      "license": "NASA public domain (NASA media usage guidelines)",
+      "retrievedAt": "2026-11-15"
+    },
+    {
+      "id": "nasa-photojournal-young-volcanism-mercury",
+      "title": "Young Volcanism on Mercury, NASA Photojournal",
+      "publisher": "NASA Science",
+      "url": "https://science.nasa.gov/photojournal/young-volcanism-on-mercury/",
+      "license": "NASA public domain (NASA media usage guidelines)",
+      "retrievedAt": "2026-11-15"
+    },
+    {
+      "id": "esa-bepicolombo-sixth-flyby",
+      "title": "Top three images from BepiColombo's sixth Mercury flyby",
+      "publisher": "ESA",
+      "url": "https://www.esa.int/articles/about-us/directorates/science/bepicolombo/top-three-images-from-bepicolombo-s-sixth-mercury-flyby",
+      "license": "ESA; text quoted with attribution (ESA terms of use)",
+      "retrievedAt": "2026-11-15"
+    },
+    {
+      "id": "nasa-photojournal-islands-in-the-stream",
+      "title": "Islands in the Stream (PIA15065), NASA Photojournal",
+      "publisher": "NASA Science",
+      "url": "https://science.nasa.gov/photojournal/islands-in-the-stream/",
+      "license": "NASA public domain (NASA media usage guidelines)",
+      "retrievedAt": "2026-11-15"
+    },
+    {
+      "id": "nasa-image-enterprise-rupes",
+      "title": "Enterprise Rupes (NASA image article)",
+      "publisher": "NASA",
+      "url": "https://www.nasa.gov/image-article/enterprise-rupes/",
+      "license": "NASA public domain (NASA media usage guidelines)",
+      "retrievedAt": "2026-11-15"
+    },
+    {
+      "id": "nasa-photojournal-rembrandt-basin",
+      "title": "The Newly Discovered Rembrandt Impact Basin (PIA12049), NASA Photojournal",
+      "publisher": "NASA Science",
+      "url": "https://science.nasa.gov/photojournal/the-newly-discovered-rembrandt-impact-basin/",
+      "license": "NASA public domain (NASA media usage guidelines)",
+      "retrievedAt": "2026-11-15"
+    },
+    {
+      "id": "nasa-photojournal-beagle-rupes",
+      "title": "Beagle Rupes, NASA Photojournal",
+      "publisher": "NASA Science",
+      "url": "https://science.nasa.gov/photojournal/beagle-rupes/",
+      "license": "NASA public domain (NASA media usage guidelines)",
+      "retrievedAt": "2026-11-15"
+    },
+    {
+      "id": "nasa-photojournal-mercurys-first-fossae",
+      "title": "Mercury's First Fossae, NASA Photojournal",
+      "publisher": "NASA Science",
+      "url": "https://science.nasa.gov/photojournal/mercurys-first-fossae/",
+      "license": "NASA public domain (NASA media usage guidelines)",
+      "retrievedAt": "2026-11-15"
+    },
+    {
+      "id": "esa-lava-and-debris-mercury",
+      "title": "Lava and debris brighten Mercury's surface",
+      "publisher": "ESA",
+      "url": "https://www.esa.int/media/lava-and-debris-brighten-mercury-s-surface",
+      "license": "ESA; text quoted with attribution (ESA terms of use)",
+      "retrievedAt": "2026-11-15"
+    },
+    {
+      "id": "nasa-photojournal-raditladi",
+      "title": "The Curious Case of Raditladi Basin (PIA12042), NASA Photojournal",
+      "publisher": "NASA Science",
+      "url": "https://science.nasa.gov/photojournal/the-curious-case-of-raditladi-basin/",
+      "license": "NASA public domain (NASA media usage guidelines)",
+      "retrievedAt": "2026-11-15"
+    },
+    {
+      "id": "nasa-resource-rays-of-hokusai",
+      "title": "The Impressive Rays of Hokusai (PIA13508)",
+      "publisher": "NASA Science",
+      "url": "https://science.nasa.gov/resource/the-impressive-rays-of-hokusai/",
+      "license": "NASA public domain (NASA media usage guidelines)",
+      "retrievedAt": "2026-11-15"
+    },
+    {
+      "id": "nasa-photojournal-hot-and-cold",
+      "title": "Hot and Cold, NASA Photojournal",
+      "publisher": "NASA Science",
+      "url": "https://science.nasa.gov/photojournal/hot-and-cold/",
+      "license": "NASA public domain (NASA media usage guidelines)",
+      "retrievedAt": "2026-11-15"
+    },
+    {
+      "id": "nasa-photojournal-kuiper-quadrangle",
+      "title": "Mercury: Photomosaic of the Kuiper Quadrangle H-6 (PIA02236), NASA Photojournal",
+      "publisher": "NASA Science",
+      "url": "https://science.nasa.gov/photojournal/mercury-photomosaic-of-the-kuiper-quadrangle-h-6/",
+      "license": "NASA public domain (NASA media usage guidelines)",
+      "retrievedAt": "2026-11-15"
+    },
+    {
+      "id": "nasa-resource-architect-and-temple",
+      "title": "The Architect and His Temple",
+      "publisher": "NASA Science",
+      "url": "https://science.nasa.gov/resource/the-architect-and-his-temple/",
+      "license": "NASA public domain (NASA media usage guidelines)",
+      "retrievedAt": "2026-11-15"
+    },
+    {
+      "id": "nasa-photojournal-ovda-regio",
+      "title": "Venus - Ovda Regio (PIA00146), NASA Photojournal",
+      "publisher": "NASA Science",
+      "url": "https://science.nasa.gov/photojournal/venus-ovda-regio/",
+      "license": "NASA public domain (NASA media usage guidelines)",
+      "retrievedAt": "2026-11-15"
+    },
+    {
+      "id": "jpl-news-ongoing-venus-volcanism-2024",
+      "title": "Ongoing Venus Volcanic Activity Discovered With NASA's Magellan Data",
+      "publisher": "NASA Jet Propulsion Laboratory",
+      "url": "https://www.jpl.nasa.gov/news/ongoing-venus-volcanic-activity-discovered-with-nasas-magellan-data/",
+      "license": "NASA public domain (NASA media usage guidelines)",
+      "retrievedAt": "2026-11-15"
+    },
+    {
+      "id": "jpl-news-magellan-venus-volcanism-2023",
+      "title": "NASA's Magellan Data Reveals Volcanic Activity on Venus",
+      "publisher": "NASA Jet Propulsion Laboratory",
+      "url": "https://www.jpl.nasa.gov/news/nasas-magellan-data-reveals-volcanic-activity-on-venus/",
+      "license": "NASA public domain (NASA media usage guidelines)",
+      "retrievedAt": "2026-11-15"
+    },
+    {
+      "id": "nasa-photojournal-artemis-corona",
+      "title": "Artemis Corona (PIA00101), NASA Photojournal",
+      "publisher": "NASA Science",
+      "url": "https://science.nasa.gov/photojournal/artemis-corona-c2-midr/",
+      "license": "NASA public domain (NASA media usage guidelines)",
+      "retrievedAt": "2026-11-15"
+    },
+    {
+      "id": "nasa-photojournal-danu-montes-lakshmi",
+      "title": "Venus - Danu Montes and Lakshmi Planum (PIA00249), NASA Photojournal",
+      "publisher": "NASA Science",
+      "url": "https://science.nasa.gov/photojournal/venus-danu-montes-and-lakshmi-planum/",
+      "license": "NASA public domain (NASA media usage guidelines)",
+      "retrievedAt": "2026-11-15"
+    },
+    {
+      "id": "nasa-photojournal-alpha-regio",
+      "title": "Venus - False Color Image of Alpha Regio (PIA00147), NASA Photojournal",
+      "publisher": "NASA Science",
+      "url": "https://science.nasa.gov/photojournal/venus-false-color-image-of-alpha-regio/",
+      "license": "NASA public domain (NASA media usage guidelines)",
+      "retrievedAt": "2026-11-15"
+    },
+    {
+      "id": "nssdc-imgcat-maxwell-montes",
+      "title": "Western Maxwell Montes and Cleopatra Crater, Venus (NSSDC Photo Gallery)",
+      "publisher": "NASA NSSDCA",
+      "url": "https://nssdc.gsfc.nasa.gov/imgcat/html/object_page/mgn_c260n033_2.html",
+      "license": "NASA public domain (NASA media usage guidelines)",
+      "retrievedAt": "2026-11-15"
+    },
+    {
+      "id": "nasa-photojournal-gula-mons",
+      "title": "Venus - 3-D Perspective View of Gula Mons (PIA00234), NASA Photojournal",
+      "publisher": "NASA Science",
+      "url": "https://science.nasa.gov/photojournal/venus-3-d-perspective-view-of-gula-mons/",
+      "license": "NASA public domain (NASA media usage guidelines)",
+      "retrievedAt": "2026-11-15"
+    },
+    {
+      "id": "nssdc-imgcat-mead-crater",
+      "title": "Mead Crater, Venus (NSSDC Photo Gallery)",
+      "publisher": "NASA NSSDCA",
+      "url": "https://nssdc.gsfc.nasa.gov/imgcat/html/object_page/mgn_c115n060_1.html",
+      "license": "NASA public domain (NASA media usage guidelines)",
+      "retrievedAt": "2026-11-15"
+    },
+    {
+      "id": "nasa-photojournal-sacajawea-patera",
+      "title": "Venus - False Color of Sacajawea Patera (PIA00216), NASA Photojournal",
+      "publisher": "NASA Science",
+      "url": "https://science.nasa.gov/photojournal/venus-false-color-of-sacajawea-petera/",
+      "license": "NASA public domain (NASA media usage guidelines)",
+      "retrievedAt": "2026-11-15"
+    },
+    {
+      "id": "nasa-photojournal-sapas-mons",
+      "title": "Venus - 3-D Perspective View of Sapas Mons (PIA00107), NASA Photojournal",
+      "publisher": "NASA Science",
+      "url": "https://science.nasa.gov/photojournal/venus-3-d-perspective-view-of-sapas-mons/",
+      "license": "NASA public domain (NASA media usage guidelines)",
+      "retrievedAt": "2026-11-15"
+    },
+    {
+      "id": "nasa-photojournal-maxwell-cleopatra",
+      "title": "Venus - Maxwell Montes and Cleopatra Crater (PIA00149), NASA Photojournal",
+      "publisher": "NASA Science",
+      "url": "https://science.nasa.gov/photojournal/venus-maxwell-montes-and-cleopatra-crater/",
+      "license": "NASA public domain (NASA media usage guidelines)",
+      "retrievedAt": "2026-11-15"
+    },
+    {
+      "id": "nasa-photojournal-floor-of-tycho",
+      "title": "The Floor of Tycho, NASA Photojournal",
+      "publisher": "NASA Science",
+      "url": "https://science.nasa.gov/photojournal/the-floor-of-tycho/",
+      "license": "NASA public domain (NASA media usage guidelines)",
+      "retrievedAt": "2026-11-15"
+    },
+    {
+      "id": "nasa-apod-2021-08-05-tycho-clavius",
+      "title": "APOD 2021 August 5: Tycho and Clavius",
+      "publisher": "NASA Science (Astronomy Picture of the Day)",
+      "url": "https://science.nasa.gov/image-article/apod-2021-august-5-tycho-and-clavius/",
+      "license": "NASA Science page; text quoted with attribution",
+      "retrievedAt": "2026-11-15"
+    },
+    {
+      "id": "nasa-svs-procellarum-rifts",
+      "title": "Procellarum Rifts for the Cover of Nature (SVS 4218)",
+      "publisher": "NASA Scientific Visualization Studio",
+      "url": "https://svs.gsfc.nasa.gov/4218",
+      "license": "NASA public domain (NASA media usage guidelines)",
+      "retrievedAt": "2026-11-15"
+    },
+    {
+      "id": "esa-smart1-tribute-to-cassini",
+      "title": "SMART-1's tribute to Cassini",
+      "publisher": "ESA",
+      "url": "https://www.esa.int/articles/about-us/directorates/science/smart-1/smart-1-s-tribute-to-cassini",
+      "license": "ESA; text quoted with attribution (ESA terms of use)",
+      "retrievedAt": "2026-11-15"
+    },
+    {
+      "id": "nasa-apollo-11-mission-overview",
+      "title": "Apollo 11 Mission Overview",
+      "publisher": "NASA",
+      "url": "https://www.nasa.gov/missions/apollo/apollo-11-mission-overview/",
+      "license": "NASA public domain (NASA media usage guidelines)",
+      "retrievedAt": "2026-11-15"
+    },
+    {
+      "id": "esa-smart1-mare-serenitatis",
+      "title": "Mare Serenitatis (SMART-1 image)",
+      "publisher": "ESA Science & Technology",
+      "url": "https://sci.esa.int/web/smart-1/-/39788-mare-serenitatis",
+      "license": "ESA; text quoted with attribution (ESA terms of use)",
+      "retrievedAt": "2026-11-15"
+    },
+    {
+      "id": "nasa-resource-wrinkle-ridge-mare-crisium",
+      "title": "Wrinkle Ridge in Mare Crisium",
+      "publisher": "NASA Science",
+      "url": "https://science.nasa.gov/resource/wrinkle-ridge-in-mare-crisium/",
+      "license": "NASA public domain (NASA media usage guidelines)",
+      "retrievedAt": "2026-11-15"
+    },
+    {
+      "id": "esa-smart1-mare-humorum",
+      "title": "Mare Humorum: where craters tell the story of basalt",
+      "publisher": "ESA",
+      "url": "https://www.esa.int/articles/about-us/directorates/science/smart-1/mare-humorum-where-craters-tell-the-story-of-basalt",
+      "license": "ESA; text quoted with attribution (ESA terms of use)",
+      "retrievedAt": "2026-11-15"
+    },
+    {
+      "id": "nasa-image-schrodinger-basin",
+      "title": "Schrödinger Impact Basin",
+      "publisher": "NASA Science",
+      "url": "https://science.nasa.gov/image-detail/20100716/",
+      "license": "NASA public domain (NASA media usage guidelines)",
+      "retrievedAt": "2026-11-15"
+    },
+    {
+      "id": "nasa-apod-2011-03-12-mare-orientale",
+      "title": "APOD 2011 March 12: Mare Orientale",
+      "publisher": "NASA Science (Astronomy Picture of the Day)",
+      "url": "https://science.nasa.gov/image-article/apod-2011-march-12-mare-orientale/",
+      "license": "NASA Science page; text quoted with attribution",
+      "retrievedAt": "2026-11-15"
+    },
+    {
+      "id": "nasa-photojournal-aristarchus-mosaic",
+      "title": "Multispectral Mosaic of the Aristarchus Crater and Plateau (PIA00090), NASA Photojournal",
+      "publisher": "NASA Science",
+      "url": "https://science.nasa.gov/photojournal/multispectral-mosaic-of-the-aristarchus-crater-and-plateau/",
+      "license": "NASA public domain (NASA media usage guidelines)",
+      "retrievedAt": "2026-11-15"
+    },
+    {
+      "id": "nssdc-imgcat-rima-hadley",
+      "title": "High resolution view of Rima Hadley (Hadley Rille) on the Moon (NSSDC Photo Gallery)",
+      "publisher": "NASA NSSDCA",
+      "url": "https://nssdc.gsfc.nasa.gov/imgcat/html/object_page/lo5_h105_3.html",
+      "license": "NASA public domain (NASA media usage guidelines)",
+      "retrievedAt": "2026-11-15"
+    },
+    {
+      "id": "nasa-apod-2000-12-28-moon-mare-montes",
+      "title": "APOD 2000 December 28: Moon, Mare and Montes",
+      "publisher": "NASA Science (Astronomy Picture of the Day)",
+      "url": "https://science.nasa.gov/image-article/apod-2000-december-28-moon-mare-and-montes/",
+      "license": "NASA Science page; text quoted with attribution",
+      "retrievedAt": "2026-11-15"
+    },
+    {
+      "id": "nasa-resource-copernicus-lunar-orbiter",
+      "title": "Copernicus From Lunar Orbiter",
+      "publisher": "NASA Science",
+      "url": "https://science.nasa.gov/resource/copernicus-from-lunar-orbiter/",
+      "license": "NASA public domain (NASA media usage guidelines)",
+      "retrievedAt": "2026-11-15"
+    },
+    {
+      "id": "nasa-3d-moon-aristarchus-region",
+      "title": "Moon - Aristarchus Region (NASA 3D Resources)",
+      "publisher": "NASA Science",
+      "url": "https://science.nasa.gov/3d-resources/moon-aristarchus-region/",
+      "license": "NASA public domain (NASA media usage guidelines)",
+      "retrievedAt": "2026-11-15"
+    },
+    {
+      "id": "nasa-svs-apollo-17-landing-site",
+      "title": "Apollo 17 Landing Site (SVS 4302)",
+      "publisher": "NASA Scientific Visualization Studio",
+      "url": "https://svs.gsfc.nasa.gov/4302",
+      "license": "NASA public domain (NASA media usage guidelines)",
+      "retrievedAt": "2026-11-15"
+    },
+    {
+      "id": "nasa-image-faces-of-shackleton",
+      "title": "Faces of Shackleton",
+      "publisher": "NASA Science",
+      "url": "https://science.nasa.gov/image-detail/faces-of-shackleton/",
+      "license": "NASA public domain (NASA media usage guidelines)",
+      "retrievedAt": "2026-11-15"
     }
   ]
 }
