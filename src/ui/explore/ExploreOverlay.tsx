@@ -28,11 +28,11 @@ export function useNarrowViewport(): boolean {
   return useSyncExternalStore(subscribeNarrow, isNarrow, () => false);
 }
 
-type Choice<T extends string> = { value: T; name: string; key?: string };
+type Choice<T extends string> = { value: T; name: string; key?: string; keys?: string[] };
 
 const TABS: Array<Choice<ExploreTab>> = [
   { value: 'surface', name: 'Surface', key: '1' },
-  { value: 'interior', name: 'Interior' },
+  { value: 'interior', name: 'Interior', key: '2', keys: ['2', '3'] },
 ];
 const INTERIOR_VIEWS: Array<Choice<'exploded' | 'section'>> = [
   { value: 'exploded', name: 'Exploded', key: '2' },
@@ -60,7 +60,7 @@ function PillSwitch<T extends string>({ label, className, reserved, choices, val
           role="radio"
           aria-checked={value === c.value}
           tabIndex={value === c.value ? 0 : -1}
-          {...(c.key ? { title: `${c.name} (key ${c.key})`, 'aria-keyshortcuts': c.key } : {})}
+          {...(c.key ? { title: `${c.name} (${c.keys ? 'keys ' + c.keys.join(', ') : 'key ' + c.key})`, 'aria-keyshortcuts': (c.keys ?? [c.key]).join(' ') } : {})}
           onClick={() => onChange(c.value)}
           onKeyDown={(e) => onKeyDown(e, i)}
         >
@@ -257,16 +257,16 @@ function Overlay({ catalog, body }: { catalog: Catalog; body: Body }) {
   const noFeatures = !onInterior && !!details && details.landmarks.length === 0 && !(details.features && details.features.items.length > 0);
   const showInteriorNotes = onInterior && layers.length > 0;
 
-  // On entry, focus moves into the overlay: the checked view (or ✕ when there is no switch).
+  // On entry, focus moves into the overlay: the checked view.
   useEffect(() => {
-    root.current?.querySelector<HTMLElement>('[role="radio"][aria-checked="true"], .explore-leave')?.focus();
+    root.current?.querySelector<HTMLElement>('[role="radio"][aria-checked="true"]')?.focus();
   }, []);
   // When the focused control goes away (Retry once the data loads, the card closed by Esc), focus stays in the overlay.
   useEffect(() => {
     const el = document.activeElement;
     if (el && el !== document.body) return;
-    root.current?.querySelector<HTMLElement>('[role="radio"][aria-checked="true"], .explore-leave')?.focus();
-  }, [status, selectedLayerId]);
+    root.current?.querySelector<HTMLElement>('[role="radio"][aria-checked="true"]')?.focus();
+  }, [status, selectedLayerId, tab]);
   // After the chart closes, focus returns to the button that opened it.
   const wasOpen = useRef(chartOpen);
   useEffect(() => {

@@ -57,6 +57,35 @@ describe('ExploreOverlay', () => {
     expect(within(group).getByRole('radio', { name: 'Interior' })).toHaveAttribute('aria-checked', 'false');
   });
 
+  it('gives each tab a key hint', () => {
+    explore('earth');
+    render(<ExploreOverlay catalog={catalog} />);
+    expect(screen.getByRole('radio', { name: 'Surface' })).toHaveAttribute('title', 'Surface (key 1)');
+    expect(screen.getByRole('radio', { name: 'Interior' })).toHaveAttribute('title', 'Interior (keys 2, 3)');
+  });
+
+  it('keeps focus in the overlay when a key leaves Interior while the sub-switch has focus', () => {
+    explore('earth', 'interior');
+    render(<ExploreOverlay catalog={catalog} />);
+    screen.getByRole('radio', { name: 'Half-section' }).focus();
+    expect(document.activeElement).toBe(screen.getByRole('radio', { name: 'Half-section' }));
+    act(() => useExploreStore.getState().setTab('surface')); // what key 1 does
+    expect(document.activeElement).toBe(screen.getByRole('radio', { name: 'Surface', checked: true }));
+  });
+
+  it('keeps focus in the overlay when a key leaves Interior while Retry has focus', () => {
+    useDetailsStore.setState({ entries: { earth: { status: 'error', message: 'x' } }, retry: vi.fn() });
+    useSelectionStore.setState({ selectedId: 'earth' });
+    act(() => {
+      useExploreStore.getState().enter('earth');
+      useExploreStore.getState().setTab('interior');
+    });
+    render(<ExploreOverlay catalog={catalog} />);
+    screen.getByRole('button', { name: 'Retry' }).focus();
+    act(() => useExploreStore.getState().setTab('surface'));
+    expect(document.activeElement).toBe(screen.getByRole('radio', { name: 'Surface', checked: true }));
+  });
+
   it('shows Exploded and Half-section only on Interior', async () => {
     explore('earth');
     render(<ExploreOverlay catalog={catalog} />);
