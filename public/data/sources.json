@@ -1042,22 +1042,6 @@
       "retrievedAt": "2026-11-15"
     },
     {
-      "id": "nasa-photojournal-hot-and-cold",
-      "title": "Hot and Cold, NASA Photojournal",
-      "publisher": "NASA Science",
-      "url": "https://science.nasa.gov/photojournal/hot-and-cold/",
-      "license": "NASA public domain (NASA media usage guidelines)",
-      "retrievedAt": "2026-11-15"
-    },
-    {
-      "id": "nasa-photojournal-kuiper-quadrangle",
-      "title": "Mercury: Photomosaic of the Kuiper Quadrangle H-6 (PIA02236), NASA Photojournal",
-      "publisher": "NASA Science",
-      "url": "https://science.nasa.gov/photojournal/mercury-photomosaic-of-the-kuiper-quadrangle-h-6/",
-      "license": "NASA public domain (NASA media usage guidelines)",
-      "retrievedAt": "2026-11-15"
-    },
-    {
       "id": "nasa-resource-architect-and-temple",
       "title": "The Architect and His Temple",
       "publisher": "NASA Science",
@@ -1138,14 +1122,6 @@
       "retrievedAt": "2026-11-15"
     },
     {
-      "id": "nasa-photojournal-sacajawea-patera",
-      "title": "Venus - False Color of Sacajawea Patera (PIA00216), NASA Photojournal",
-      "publisher": "NASA Science",
-      "url": "https://science.nasa.gov/photojournal/venus-false-color-of-sacajawea-petera/",
-      "license": "NASA public domain (NASA media usage guidelines)",
-      "retrievedAt": "2026-11-15"
-    },
-    {
       "id": "nasa-photojournal-sapas-mons",
       "title": "Venus - 3-D Perspective View of Sapas Mons (PIA00107), NASA Photojournal",
       "publisher": "NASA Science",
@@ -1194,14 +1170,6 @@
       "retrievedAt": "2026-11-15"
     },
     {
-      "id": "nasa-apollo-11-mission-overview",
-      "title": "Apollo 11 Mission Overview",
-      "publisher": "NASA",
-      "url": "https://www.nasa.gov/missions/apollo/apollo-11-mission-overview/",
-      "license": "NASA public domain (NASA media usage guidelines)",
-      "retrievedAt": "2026-11-15"
-    },
-    {
       "id": "esa-smart1-mare-serenitatis",
       "title": "Mare Serenitatis (SMART-1 image)",
       "publisher": "ESA Science & Technology",
@@ -1226,14 +1194,6 @@
       "retrievedAt": "2026-11-15"
     },
     {
-      "id": "nasa-image-schrodinger-basin",
-      "title": "Schrödinger Impact Basin",
-      "publisher": "NASA Science",
-      "url": "https://science.nasa.gov/image-detail/20100716/",
-      "license": "NASA public domain (NASA media usage guidelines)",
-      "retrievedAt": "2026-11-15"
-    },
-    {
       "id": "nasa-apod-2011-03-12-mare-orientale",
       "title": "APOD 2011 March 12: Mare Orientale",
       "publisher": "NASA Science (Astronomy Picture of the Day)",
@@ -1247,22 +1207,6 @@
       "publisher": "NASA Science",
       "url": "https://science.nasa.gov/photojournal/multispectral-mosaic-of-the-aristarchus-crater-and-plateau/",
       "license": "NASA public domain (NASA media usage guidelines)",
-      "retrievedAt": "2026-11-15"
-    },
-    {
-      "id": "nssdc-imgcat-rima-hadley",
-      "title": "High resolution view of Rima Hadley (Hadley Rille) on the Moon (NSSDC Photo Gallery)",
-      "publisher": "NASA NSSDCA",
-      "url": "https://nssdc.gsfc.nasa.gov/imgcat/html/object_page/lo5_h105_3.html",
-      "license": "NASA public domain (NASA media usage guidelines)",
-      "retrievedAt": "2026-11-15"
-    },
-    {
-      "id": "nasa-apod-2000-12-28-moon-mare-montes",
-      "title": "APOD 2000 December 28: Moon, Mare and Montes",
-      "publisher": "NASA Science (Astronomy Picture of the Day)",
-      "url": "https://science.nasa.gov/image-article/apod-2000-december-28-moon-mare-and-montes/",
-      "license": "NASA Science page; text quoted with attribution",
       "retrievedAt": "2026-11-15"
     },
     {
@@ -1294,6 +1238,54 @@
       "title": "Faces of Shackleton",
       "publisher": "NASA Science",
       "url": "https://science.nasa.gov/image-detail/faces-of-shackleton/",
+      "license": "NASA public domain (NASA media usage guidelines)",
+      "retrievedAt": "2026-11-15"
+    },
+    {
+      "id": "esa-mercury-sunlit-north",
+      "title": "Mercury's sunlit north viewed by M-CAM 1",
+      "publisher": "ESA",
+      "url": "https://www.esa.int/media/mercury-s-sunlit-north-viewed-by-m-cam-1",
+      "license": "ESA; text quoted with attribution (ESA terms of use)",
+      "retrievedAt": "2026-11-15"
+    },
+    {
+      "id": "nasa-photojournal-in-prokofievs-shadow",
+      "title": "In Prokofiev's Shadow (PIA16857), NASA Photojournal",
+      "publisher": "NASA Science",
+      "url": "https://science.nasa.gov/photojournal/in-prokofievs-shadow/",
+      "license": "NASA public domain (NASA media usage guidelines)",
+      "retrievedAt": "2026-11-15"
+    },
+    {
+      "id": "nasa-photojournal-sacajawea-caldera",
+      "title": "Venus - A Large Elongated Caldera 'Sacajawea Patera' (PIA00485), NASA Photojournal",
+      "publisher": "NASA Science",
+      "url": "https://science.nasa.gov/photojournal/venus-a-large-elongated-caldera-sacajawea-patera/",
+      "license": "NASA public domain (NASA media usage guidelines)",
+      "retrievedAt": "2026-11-15"
+    },
+    {
+      "id": "nasa-apod-2026-07-25-tranquility-serenity",
+      "title": "APOD 2026 July 25: Tranquility and Serenity",
+      "publisher": "NASA Science (Astronomy Picture of the Day)",
+      "url": "https://science.nasa.gov/image-article/apod/apod-2026-july-25-tranquility-and-serenity",
+      "license": "NASA Science page; text quoted with attribution",
+      "retrievedAt": "2026-11-15"
+    },
+    {
+      "id": "esa-smart1-hadley-rille",
+      "title": "Hadley Rille on the Moon, seen by SMART-1",
+      "publisher": "ESA",
+      "url": "https://www.esa.int/media/hadley-rille-on-the-moon-seen-by-smart-1",
+      "license": "ESA; text quoted with attribution (ESA terms of use)",
+      "retrievedAt": "2026-11-15"
+    },
+    {
+      "id": "nasa-resource-plato-volcanic-vent",
+      "title": "Ancient Volcanic Vent Near the Moon's Plato Crater",
+      "publisher": "NASA Science",
+      "url": "https://science.nasa.gov/resource/ancient-volcanic-vent-near-the-moons-plato-crater/",
       "license": "NASA public domain (NASA media usage guidelines)",
       "retrievedAt": "2026-11-15"
     }

@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "bodyId": "venus",
-  "generatedAt": "2026-11-15T04:11:54.819Z",
+  "generatedAt": "2026-11-15T04:23:07.673Z",
   "interior": {
     "radiusKm": {
       "value": 6051.8,
@@ -2512,8 +2512,8 @@
       },
       "sizeSourceId": "usgs-gazetteer-venus",
       "quote": {
-        "text": "This Magellan image reveals Sacajawea Patera, a large, elongate caldera located in western Ishtar Terra on the smooth plateau of Lakshmi Planum.",
-        "sourceId": "nasa-photojournal-sacajawea-patera"
+        "text": "The formation of Sacajawea is thought to be related to the drainage and collapse of a large magma chamber.",
+        "sourceId": "nasa-photojournal-sacajawea-caldera"
       }
     },
     {
@@ -2587,7 +2587,7 @@
       "sourceId": "usgs-gazetteer-descriptor-terms"
     },
     "Regio": {
-      "meaning": "A broad geographic region",
+      "meaning": "A large area marked by reflectivity or color distinctions from adjacent areas, or a broad geographic region",
       "sourceId": "usgs-gazetteer-descriptor-terms"
     },
     "Planitia": {

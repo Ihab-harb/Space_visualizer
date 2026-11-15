@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "bodyId": "mercury",
-  "generatedAt": "2026-11-15T04:11:54.819Z",
+  "generatedAt": "2026-11-15T04:23:07.673Z",
   "interior": {
     "radiusKm": {
       "value": 2439.7,
@@ -2202,8 +2202,8 @@
       },
       "sizeSourceId": "usgs-gazetteer-mercury",
       "quote": {
-        "text": "To the left of Mercury's north pole in M-CAM 1's view lie the vast volcanic plains known as Borealis Planitia.",
-        "sourceId": "esa-bepicolombo-sixth-flyby"
+        "text": "The vast plains surrounding Mendelssohn, called Borealis Planitia, were formed by the widespread eruption of runny lava some 3.7 billion years ago.",
+        "sourceId": "esa-mercury-sunlit-north"
       }
     },
     {
@@ -2242,7 +2242,7 @@
       },
       "sizeSourceId": "usgs-gazetteer-mercury",
       "quote": {
-        "text": "Enterprise Rupes, (indicated here with white arrows) about 1000 km long and with over 3 km of relief, is the largest lobate scarp on Mercury!",
+        "text": "Enterprise Rupes, about 1000 km long and with over 3 km of relief, is the largest lobate scarp on Mercury!",
         "sourceId": "nasa-image-enterprise-rupes"
       }
     },
@@ -2402,28 +2402,8 @@
       },
       "sizeSourceId": "usgs-gazetteer-mercury",
       "quote": {
-        "text": "The craters nearest Mercury' poles have surface temperatures less than 100 K (-173°C, -280°F), and water ice is stable on the surface, such as in Prokofiev",
-        "sourceId": "nasa-photojournal-hot-and-cold"
-      }
-    },
-    {
-      "id": "kuiper",
-      "name": "Kuiper",
-      "type": "Crater",
-      "latDeg": -11.3363,
-      "lonDegE": 328.6797,
-      "diameterKm": 62,
-      "origin": "Gerard P.; Dutch-American astronomer, member of original Mariner Venus-Mercury Imaging Team (1905-1973).",
-      "approvedYear": 1976,
-      "position": {
-        "kind": "gazetteer",
-        "sourceId": "usgs-gazetteer-mercury",
-        "text": null
-      },
-      "sizeSourceId": "usgs-gazetteer-mercury",
-      "quote": {
-        "text": "The Kuiper crater, located left of center, is the brightest and perhaps youngest crater is 60 km in diameter located at -11 degrees latitude and 31 degrees longitude.",
-        "sourceId": "nasa-photojournal-kuiper-quadrangle"
+        "text": "MESSENGER has found evidence that within the cold, dark, permanently shadowed regions of Prokofiev, water ice is exposed on the surface.",
+        "sourceId": "nasa-photojournal-in-prokofievs-shadow"
       }
     },
     {

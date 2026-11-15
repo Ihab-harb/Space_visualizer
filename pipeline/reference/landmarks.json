@@ -197,20 +197,6 @@
       "license": "NASA public domain (NASA media usage guidelines)"
     },
     {
-      "id": "nasa-photojournal-hot-and-cold",
-      "title": "Hot and Cold, NASA Photojournal",
-      "publisher": "NASA Science",
-      "url": "https://science.nasa.gov/photojournal/hot-and-cold/",
-      "license": "NASA public domain (NASA media usage guidelines)"
-    },
-    {
-      "id": "nasa-photojournal-kuiper-quadrangle",
-      "title": "Mercury: Photomosaic of the Kuiper Quadrangle H-6 (PIA02236), NASA Photojournal",
-      "publisher": "NASA Science",
-      "url": "https://science.nasa.gov/photojournal/mercury-photomosaic-of-the-kuiper-quadrangle-h-6/",
-      "license": "NASA public domain (NASA media usage guidelines)"
-    },
-    {
       "id": "nasa-resource-architect-and-temple",
       "title": "The Architect and His Temple",
       "publisher": "NASA Science",
@@ -288,13 +274,6 @@
       "license": "NASA public domain (NASA media usage guidelines)"
     },
     {
-      "id": "nasa-photojournal-sacajawea-patera",
-      "title": "Venus - False Color of Sacajawea Patera (PIA00216), NASA Photojournal",
-      "publisher": "NASA Science",
-      "url": "https://science.nasa.gov/photojournal/venus-false-color-of-sacajawea-petera/",
-      "license": "NASA public domain (NASA media usage guidelines)"
-    },
-    {
       "id": "nasa-photojournal-sapas-mons",
       "title": "Venus - 3-D Perspective View of Sapas Mons (PIA00107), NASA Photojournal",
       "publisher": "NASA Science",
@@ -337,13 +316,6 @@
       "license": "ESA; text quoted with attribution (ESA terms of use)"
     },
     {
-      "id": "nasa-apollo-11-mission-overview",
-      "title": "Apollo 11 Mission Overview",
-      "publisher": "NASA",
-      "url": "https://www.nasa.gov/missions/apollo/apollo-11-mission-overview/",
-      "license": "NASA public domain (NASA media usage guidelines)"
-    },
-    {
       "id": "esa-smart1-mare-serenitatis",
       "title": "Mare Serenitatis (SMART-1 image)",
       "publisher": "ESA Science & Technology",
@@ -365,13 +337,6 @@
       "license": "ESA; text quoted with attribution (ESA terms of use)"
     },
     {
-      "id": "nasa-image-schrodinger-basin",
-      "title": "Schrödinger Impact Basin",
-      "publisher": "NASA Science",
-      "url": "https://science.nasa.gov/image-detail/20100716/",
-      "license": "NASA public domain (NASA media usage guidelines)"
-    },
-    {
       "id": "nasa-apod-2011-03-12-mare-orientale",
       "title": "APOD 2011 March 12: Mare Orientale",
       "publisher": "NASA Science (Astronomy Picture of the Day)",
@@ -384,20 +349,6 @@
       "publisher": "NASA Science",
       "url": "https://science.nasa.gov/photojournal/multispectral-mosaic-of-the-aristarchus-crater-and-plateau/",
       "license": "NASA public domain (NASA media usage guidelines)"
-    },
-    {
-      "id": "nssdc-imgcat-rima-hadley",
-      "title": "High resolution view of Rima Hadley (Hadley Rille) on the Moon (NSSDC Photo Gallery)",
-      "publisher": "NASA NSSDCA",
-      "url": "https://nssdc.gsfc.nasa.gov/imgcat/html/object_page/lo5_h105_3.html",
-      "license": "NASA public domain (NASA media usage guidelines)"
-    },
-    {
-      "id": "nasa-apod-2000-12-28-moon-mare-montes",
-      "title": "APOD 2000 December 28: Moon, Mare and Montes",
-      "publisher": "NASA Science (Astronomy Picture of the Day)",
-      "url": "https://science.nasa.gov/image-article/apod-2000-december-28-moon-mare-and-montes/",
-      "license": "NASA Science page; text quoted with attribution"
     },
     {
       "id": "nasa-resource-copernicus-lunar-orbiter",
@@ -426,6 +377,48 @@
       "publisher": "NASA Science",
       "url": "https://science.nasa.gov/image-detail/faces-of-shackleton/",
       "license": "NASA public domain (NASA media usage guidelines)"
+    },
+    {
+      "id": "esa-mercury-sunlit-north",
+      "title": "Mercury's sunlit north viewed by M-CAM 1",
+      "publisher": "ESA",
+      "url": "https://www.esa.int/media/mercury-s-sunlit-north-viewed-by-m-cam-1",
+      "license": "ESA; text quoted with attribution (ESA terms of use)"
+    },
+    {
+      "id": "nasa-photojournal-in-prokofievs-shadow",
+      "title": "In Prokofiev's Shadow (PIA16857), NASA Photojournal",
+      "publisher": "NASA Science",
+      "url": "https://science.nasa.gov/photojournal/in-prokofievs-shadow/",
+      "license": "NASA public domain (NASA media usage guidelines)"
+    },
+    {
+      "id": "nasa-photojournal-sacajawea-caldera",
+      "title": "Venus - A Large Elongated Caldera 'Sacajawea Patera' (PIA00485), NASA Photojournal",
+      "publisher": "NASA Science",
+      "url": "https://science.nasa.gov/photojournal/venus-a-large-elongated-caldera-sacajawea-patera/",
+      "license": "NASA public domain (NASA media usage guidelines)"
+    },
+    {
+      "id": "nasa-apod-2026-07-25-tranquility-serenity",
+      "title": "APOD 2026 July 25: Tranquility and Serenity",
+      "publisher": "NASA Science (Astronomy Picture of the Day)",
+      "url": "https://science.nasa.gov/image-article/apod/apod-2026-july-25-tranquility-and-serenity",
+      "license": "NASA Science page; text quoted with attribution"
+    },
+    {
+      "id": "esa-smart1-hadley-rille",
+      "title": "Hadley Rille on the Moon, seen by SMART-1",
+      "publisher": "ESA",
+      "url": "https://www.esa.int/media/hadley-rille-on-the-moon-seen-by-smart-1",
+      "license": "ESA; text quoted with attribution (ESA terms of use)"
+    },
+    {
+      "id": "nasa-resource-plato-volcanic-vent",
+      "title": "Ancient Volcanic Vent Near the Moon's Plato Crater",
+      "publisher": "NASA Science",
+      "url": "https://science.nasa.gov/resource/ancient-volcanic-vent-near-the-moons-plato-crater/",
+      "license": "NASA public domain (NASA media usage guidelines)"
     }
   ],
   "types": {
@@ -451,7 +444,7 @@
     "Patera": { "meaning": "An irregular crater, or a complex one with scalloped edges", "sourceId": "usgs-gazetteer-descriptor-terms", "quote": "Patera, paterae PE An irregular crater, or a complex one with scalloped edges" },
     "Planitia": { "meaning": "Low plain", "sourceId": "usgs-gazetteer-descriptor-terms", "quote": "Planitia, planitiae PL Low plain Planum, plana PM Plateau or high plain" },
     "Planum": { "meaning": "Plateau or high plain", "sourceId": "usgs-gazetteer-descriptor-terms", "quote": "Planum, plana PM Plateau or high plain" },
-    "Regio": { "meaning": "A broad geographic region", "sourceId": "usgs-gazetteer-descriptor-terms", "quote": "Regio, regiones RE A large area marked by reflectivity or color distinctions from adjacent areas, or a broad geographic region" },
+    "Regio": { "meaning": "A large area marked by reflectivity or color distinctions from adjacent areas, or a broad geographic region", "sourceId": "usgs-gazetteer-descriptor-terms", "quote": "Regio, regiones RE A large area marked by reflectivity or color distinctions from adjacent areas, or a broad geographic region" },
     "Rima": { "meaning": "Fissure", "sourceId": "usgs-gazetteer-descriptor-terms", "quote": "Rima, rimae RI Fissure Rupes, rupēs RU Scarp" },
     "Rupes": { "meaning": "Scarp", "sourceId": "usgs-gazetteer-descriptor-terms", "quote": "Rima, rimae RI Fissure Rupes, rupēs RU Scarp" },
     "Scopulus": { "meaning": "Lobate or irregular scarp", "sourceId": "usgs-gazetteer-descriptor-terms", "quote": "Scopulus, scopuli SC Lobate or irregular scarp" },
@@ -469,9 +462,9 @@
     "mercury": [
       { "name": "Caloris Planitia", "sourceId": "nasa-science-mercury-facts", "quote": "Very large impact basins, including Caloris (960 miles or 1,550 kilometers in diameter) and Rachmaninoff (190 miles, or 306 kilometers in diameter), were created by asteroid impacts on the planet's surface early in the solar system's history." },
       { "name": "Rachmaninoff", "sourceId": "nasa-photojournal-young-volcanism-mercury", "quote": "Whereas pre-MESSENGER interpretations were that volcanism on Mercury ended early in the planet's history, MESSENGER's images of Rachmaninoff reveal that some volcanism extended well beyond that time, probably into the second half of Solar System history." },
-      { "name": "Borealis Planitia", "sourceId": "esa-bepicolombo-sixth-flyby", "quote": "To the left of Mercury's north pole in M-CAM 1's view lie the vast volcanic plains known as Borealis Planitia." },
+      { "name": "Borealis Planitia", "sourceId": "esa-mercury-sunlit-north", "quote": "The vast plains surrounding Mendelssohn, called Borealis Planitia, were formed by the widespread eruption of runny lava some 3.7 billion years ago." },
       { "name": "Caloris Montes", "sourceId": "nasa-photojournal-islands-in-the-stream", "quote": "The floor of the Caloris basin is filled with volcanic plains , while the Caloris Montes , a ring of mountainous peaks, are found along the basin's rim." },
-      { "name": "Enterprise Rupes", "sourceId": "nasa-image-enterprise-rupes", "quote": "Enterprise Rupes, (indicated here with white arrows) about 1000 km long and with over 3 km of relief, is the largest lobate scarp on Mercury!" },
+      { "name": "Enterprise Rupes", "sourceId": "nasa-image-enterprise-rupes", "quote": "Enterprise Rupes, about 1000 km long and with over 3 km of relief, is the largest lobate scarp on Mercury!" },
       { "name": "Rembrandt", "sourceId": "nasa-photojournal-rembrandt-basin", "quote": "The number per area and size distribution of impact craters superposed on Rembrandt's rim indicates that it is one of the youngest impact basins on Mercury." },
       { "name": "Beagle Rupes", "sourceId": "nasa-photojournal-beagle-rupes", "quote": "Beagle Rupes and other scarps on Mercury are thought to be the surface expressions of thrust faults that formed from contraction as the planet's interior cooled." },
       { "name": "Pantheon Fossae", "sourceId": "nasa-photojournal-mercurys-first-fossae", "quote": "The dome of the Pantheon has a series of sunken panels that radiate from a central circular opening at the top of the dome, and Mercury's Pantheon Fossae is reminiscent of this pattern." },
@@ -479,8 +472,7 @@
       { "name": "Nathair Facula", "sourceId": "esa-lava-and-debris-mercury", "quote": "The bright patch near the planet's upper edge in this image is the Nathair Facula, the aftermath of the largest volcanic explosion on Mercury." },
       { "name": "Raditladi", "sourceId": "nasa-photojournal-raditladi", "quote": "Raditladi basin is relatively young, with only a few small impact craters on the basin's floor and with well-preserved basin walls and peak-ring structure." },
       { "name": "Hokusai", "sourceId": "nasa-resource-rays-of-hokusai", "quote": "The crater has an impressive system of rays, which extend as much as a thousand kilometers (more than 600 miles) across the planet and are the longest that have yet been identified on Mercury." },
-      { "name": "Prokofiev", "sourceId": "nasa-photojournal-hot-and-cold", "quote": "The craters nearest Mercury' poles have surface temperatures less than 100 K (-173°C, -280°F), and water ice is stable on the surface, such as in Prokofiev" },
-      { "name": "Kuiper", "sourceId": "nasa-photojournal-kuiper-quadrangle", "quote": "The Kuiper crater, located left of center, is the brightest and perhaps youngest crater is 60 km in diameter located at -11 degrees latitude and 31 degrees longitude." },
+      { "name": "Prokofiev", "sourceId": "nasa-photojournal-in-prokofievs-shadow", "quote": "MESSENGER has found evidence that within the cold, dark, permanently shadowed regions of Prokofiev, water ice is exposed on the surface." },
       { "name": "Kandinsky", "sourceId": "esa-bepicolombo-sixth-flyby", "quote": "The rims of craters Prokofiev, Kandinsky, Tolkien and Gordimer cast permanent shadows on their floors." },
       { "name": "Apollodorus", "sourceId": "nasa-resource-architect-and-temple", "quote": "Although Apollodorus of Damascus (the namesake of the crater) is thought to be the architect of the Pantheon in Rome (the namesake of the fossae), the crater Apollodorus is thought to be unrelated to the creation of Pantheon Fossae." },
       { "name": "Fonteyn", "sourceId": "esa-lava-and-debris-mercury", "quote": "Also visible is the relatively young Fonteyn crater, which formed a 'mere' 300 million years ago." }
@@ -498,7 +490,7 @@
       { "name": "Maat Mons", "sourceId": "jpl-news-magellan-venus-volcanism-2023", "quote": "A new study found one of Maat Mons' vents became enlarged and changed shape over an eight-month period in 1991, indicating an eruptive event occurred." },
       { "name": "Gula Mons", "sourceId": "nasa-photojournal-gula-mons", "quote": "Gula Mons, a 3 kilometer (1.9 mile) high volcano, is located at approximately 22 degrees north latitude, 359 degrees east longitude in western Eistla Regio." },
       { "name": "Mead", "sourceId": "nssdc-imgcat-mead-crater", "quote": "At 280 km diameter, Mead is the largest impact crater on Venus." },
-      { "name": "Sacajawea Patera", "sourceId": "nasa-photojournal-sacajawea-patera", "quote": "This Magellan image reveals Sacajawea Patera, a large, elongate caldera located in western Ishtar Terra on the smooth plateau of Lakshmi Planum." },
+      { "name": "Sacajawea Patera", "sourceId": "nasa-photojournal-sacajawea-caldera", "quote": "The formation of Sacajawea is thought to be related to the drainage and collapse of a large magma chamber." },
       { "name": "Sapas Mons", "sourceId": "nasa-photojournal-sapas-mons", "quote": "Sapas Mons, a volcano 400 kilometers (248 miles) across and 1.5 kilometers (0.9 mile) high is located at approximately 8 degrees north latitude, 188 degrees east longitude, on the western edge of Atla Regio." },
       { "name": "Sif Mons", "sourceId": "jpl-news-ongoing-venus-volcanism-2024", "quote": "They also estimate that the Sif Mons eruption produced about 12 square miles (30 square kilometers) of rock - enough to fill at least 36,000 Olympic-size swimming pools." },
       { "name": "Cleopatra", "sourceId": "nasa-photojournal-maxwell-cleopatra", "quote": "Cleopatra is a double-ring impact basin about 100 kilometers (62 miles) in diameter and 2.5 kilometers (1.5 miles) deep." }
@@ -508,31 +500,22 @@
       { "name": "Clavius", "sourceId": "nasa-apod-2021-08-05-tycho-clavius", "quote": "One of the oldest and largest craters on the Moon's near side, 225 kilometer diameter Clavius is due south (above) of Tycho." },
       { "name": "Oceanus Procellarum", "sourceId": "nasa-svs-procellarum-rifts", "quote": "Oceanus Procellarum, or the Ocean of Storms, is the largest of the dark maria visible to the naked eye on the near side of the Moon." },
       { "name": "Mare Imbrium", "sourceId": "esa-smart1-tribute-to-cassini", "quote": "Mare Imbrium is the second largest basin on the visible side of the Moon, with a diameter of 1250 km, and is one of the youngest of the lunar maria (the youngest is Mare Orientale) at between 3700 and 3900 million years old." },
-      { "name": "Mare Tranquillitatis", "sourceId": "nasa-apollo-11-mission-overview", "quote": "Partially piloted manually by Armstrong, the Eagle landed in the Sea of Tranquility in Site 2 at 0 degrees, 41 minutes, 15 seconds north latitude and 23 degrees, 26 minutes east longitude." },
+      { "name": "Mare Tranquillitatis", "sourceId": "nasa-apod-2026-07-25-tranquility-serenity", "quote": "The Seas of Tranquility and Serenity are calm today. They're calm most every day though, since they are actually lunar maria , ancient lava flows filling in large impact basins on the Moon" },
       { "name": "Mare Serenitatis", "sourceId": "esa-smart1-mare-serenitatis", "quote": "Mare Serenitatis is one of the lunar maria, that are vast lava plains on the lunar surface. It formed between 3.9 and 3.8 thousand million years ago, a period in which the Moon was heavily bombarded by asteroids and the major impact basins on the Moon were formed." },
       { "name": "Mare Crisium", "sourceId": "nasa-resource-wrinkle-ridge-mare-crisium", "quote": "Mare Crisium is a large, dark, basaltic plain on the Moon that filled an ancient asteroid impact." },
       { "name": "Mare Humorum", "sourceId": "esa-smart1-mare-humorum", "quote": "Mare Humorum, or 'Sea of Moisture', is a small circular mare on the lunar nearside, about 825 kilometres across." },
-      { "name": "Schrodinger", "sourceId": "nasa-image-schrodinger-basin", "quote": "The Schrödinger impact basin (centered -75.0o, 132.4o E), located on the lunar far side within South Pole-Aitken Basin, is not visible from the Earth." },
       { "name": "Mare Orientale", "sourceId": "nasa-apod-2011-03-12-mare-orientale", "quote": "Shaped like a target ring bull's-eye, the Mare Orientale is one of the most striking large scale lunar features." },
       { "name": "Vallis Schroteri", "sourceId": "nasa-photojournal-aristarchus-mosaic", "quote": "It includes the densest concentration of lunar sinuous rilles, including the largest known, Vallis Schroteri, which is about 160 km long, up to 11 km wide, and 1 km deep." },
-      { "name": "Rima Hadley", "sourceId": "nssdc-imgcat-rima-hadley", "quote": "Apollo 15 landed about 2 km from the rim of Hadley Rille and explored it in detail." },
-      { "name": "Plato", "sourceId": "nasa-apod-2000-12-28-moon-mare-montes", "quote": "Notable at the northern edge of the Mare Imbrium (Sea of Rains) is the 95 kilometer wide dark crater Plato" },
+      { "name": "Rima Hadley", "sourceId": "esa-smart1-hadley-rille", "quote": "Hadley Rille is thought to have been carved by an ancient lava flow, dating back just over 3 billion years to soon after the Moon formed." },
+      { "name": "Plato", "sourceId": "nasa-resource-plato-volcanic-vent", "quote": "A dark floor makes 63-mile-wide (101-kilometer-wide) Plato crater stand out against a light-colored lunar highlands background." },
       { "name": "Copernicus", "sourceId": "nasa-resource-copernicus-lunar-orbiter", "quote": "Copernicus is 93 km wide and is located within the Mare Imbrium Basin, northern nearside of the Moon (10 degrees N. 20 degrees W.)." },
       { "name": "Aristarchus", "sourceId": "nasa-3d-moon-aristarchus-region", "quote": "Aristarchus Crater is the largest impact on the plateau and is one of the highest reflectance (blindingly bright in a telescope) features on the moon." },
-      { "name": "Taurus Littrow Valley", "sourceId": "nasa-svs-apollo-17-landing-site", "quote": "The Lunar Module Challenger landed in the Taurus-Littrow valley on December 11, 1972 and remained there for 75 hours." },
+      { "name": "Taurus Littrow Valley", "sourceId": "nasa-svs-apollo-17-landing-site", "quote": "The Lunar Module Challenger landed in the Taurus-Littrow valley on December 11, 1972 and remained there for 75 hours. The landing site is a relatively flat spot among low mountains at the southeastern edge of Mare Serenitatis." },
       { "name": "Shackleton", "sourceId": "nasa-image-faces-of-shackleton", "quote": "Because of its location, most of Shackleton's interior lies in permanent shadow." }
     ],
     "mars": [
-      {
-        "name": "Valles Marineris",
-        "sourceId": "nasa-science-mars-facts",
-        "quote": "A vast canyon system called Valles Marineris is long enough to stretch from California to New York"
-      },
-      {
-        "name": "Olympus Mons",
-        "sourceId": "nasa-science-mars-facts",
-        "quote": "Olympus Mons stands more than 25 miles (that's more than 132,000 feet, or 40 kilometers) tall from base to summit, with the base covering an area as large as the state of Arizona."
-      },
+      { "name": "Valles Marineris", "sourceId": "nasa-science-mars-facts", "quote": "A vast canyon system called Valles Marineris is long enough to stretch from California to New York" },
+      { "name": "Olympus Mons", "sourceId": "nasa-science-mars-facts", "quote": "Olympus Mons stands more than 25 miles (that's more than 132,000 feet, or 40 kilometers) tall from base to summit, with the base covering an area as large as the state of Arizona." },
       { "name": "Elysium Planitia", "sourceId": "nasa-mission-insight", "quote": "InSight landed near Mars' equator on the western side of a flat, smooth plain called Elysium Planitia." },
       { "name": "Hellas Planitia", "sourceId": "nasa-photojournal-to-great-depths", "quote": "Hellas is an ancient impact structure and is the deepest and broadest enclosed basin on Mars. It measures about 2,300 kilometers across and the floor of the basin, Hellas Planitia, contains the lowest elevations on Mars." },
       { "name": "Tharsis Montes", "sourceId": "nasa-photojournal-tharsis", "quote": "Each Tharsis Montes volcano is 350-400 km in diameter and about 17 km above the surrounding plain." },
