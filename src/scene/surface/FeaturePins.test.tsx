@@ -115,6 +115,16 @@ describe('FeaturePins', () => {
     expect(screen.queryAllByRole('button')).toHaveLength(0); // no dot reachable either
   });
 
+  it('hiding is immediate and clears the fade-in marker, so the fade starts again when the pins return', () => {
+    explore('mars');
+    const bridge = createPinBridge();
+    render(<FeaturePins bridge={bridge} catalog={catalog} />);
+    bridge.root!.dataset.shown = 'true'; // as the projector marks a shown root
+    hidePins(bridge);
+    expect(bridge.root!.style.visibility).toBe('hidden');
+    expect(bridge.root!.dataset.shown).toBeUndefined();
+  });
+
   it('renders nothing for a body with no landmarks and no selected feature', () => {
     explore('jupiter');
     const { container } = render(<FeaturePins bridge={createPinBridge()} catalog={catalog} />);

@@ -13,6 +13,7 @@ import { CompositionChart, Cite, CiteTargetContext, type CiteTarget } from './Co
 import { compositionModel, compositionPreview } from './compositionModel';
 import { FeatureCard } from './FeatureCard';
 import { FeatureList } from './FeatureList';
+import { isUnknownFeature } from './featureModel';
 import { COLOURS_NOTE_ID, LayerCard } from './LayerCard';
 import { SourcesList, sourceTitle } from './SourcesList';
 
@@ -272,6 +273,10 @@ function Overlay({ catalog, body }: { catalog: Catalog; body: Body }) {
     if (el && el !== document.body) return;
     root.current?.querySelector<HTMLElement>('[role="radio"][aria-checked="true"]')?.focus();
   }, [status, selectedLayerId, selectedFeatureId, featureListOpen, tab]);
+  // A feature id the ready details do not know (a wrong id in the URL, or one from another body) is dropped; while the details load it is kept.
+  useEffect(() => {
+    if (isUnknownFeature(details, selectedFeatureId)) selectFeature(null);
+  }, [details, selectedFeatureId, selectFeature]);
   // After the chart closes, focus returns to the button that opened it.
   const wasOpen = useRef(chartOpen);
   useEffect(() => {
@@ -322,6 +327,19 @@ function Overlay({ catalog, body }: { catalog: Catalog; body: Body }) {
             <p className="explore-notes" data-explore-reserved="notes">
               {radarTag && <span className="header__radar-tag">Radar view · not visible light</span>}
               {noFeatures && <span className="explore-note-text">No named surface features</span>}
+            </p>
+          )}
+          {!onInterior && status === 'loading' && (
+            <p className="explore-notes" role="status" data-explore-reserved="notes">
+              <span className="explore-note-text">Loading surface features…</span>
+            </p>
+          )}
+          {!onInterior && status === 'error' && (
+            <p className="explore-notes" role="alert" data-explore-reserved="notes">
+              <span className="explore-note-text">Could not load the surface features.</span>
+              <button type="button" className="explore-link" onClick={() => void retry(body.id)}>
+                Retry
+              </button>
             </p>
           )}
           {showInteriorNotes && (

@@ -179,3 +179,15 @@ test('feature= opens its card; view=whole opens Surface', async ({ page }) => {
   await onSurface(page, 'mars');
   await expect.poll(() => shownPins(page).count(), { timeout: 30_000 }).toBeGreaterThanOrEqual(5);
 });
+
+test('an unknown feature= id opens Surface with no card and no error, and one Esc leaves Explore', async ({ page }) => {
+  await open(page, 'target=mars&explore=1&feature=nope', MARS_JD);
+  await onSurface(page, 'mars');
+  await expect.poll(() => shownPins(page).count(), { timeout: 30_000 }).toBeGreaterThanOrEqual(5);
+  await expect(page.locator('.explore-card')).toHaveCount(0);
+  await expect(page.getByRole('alert')).toHaveCount(0);
+  await expect(page.locator('.xpin[aria-pressed="true"]')).toHaveCount(0);
+  await page.keyboard.press('Escape');
+  await expect(sectionSwitch(page)).toHaveCount(0);
+  await page.waitForFunction(() => window.__svExplore?.() === null, null, { timeout: 30_000 });
+});

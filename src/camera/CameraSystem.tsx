@@ -9,7 +9,7 @@ import { writeMatrix4 } from '../scene/threeMath';
 import { useExploreStore } from '../state/exploreStore';
 import { useSelectionStore } from '../state/selectionStore';
 import { add, scale, sub } from '../core/math/vec3';
-import { advanceTurn, EXPLORE_CAMERA, exploreEntryAzimuth, exploreFitScale, exploreFrameRadii, exploreInput, featureView, orbitUp, reframeDistanceKm, type FeatureTurn } from './explore';
+import { advanceTurn, EXPLORE_CAMERA, exploreEntryAzimuth, exploreFitScale, exploreFrameRadii, exploreInput, featureTurnPlan, featureView, orbitUp, reframeDistanceKm, type FeatureTurn } from './explore';
 import { apply } from '../core/math/mat3';
 import { surfaceDirection } from '../core/frames/surfacePoint';
 import { useDetailsStore } from '../state/detailsStore';
@@ -52,10 +52,14 @@ interface Rig {
   explore: { bodyId: string; up: [number, number, number]; aspect: number; turn: FeatureTurn | null; lastFeatureSeq: number; saved: { view: ViewId; orbit: OrbitState; follow: FollowState } } | null;
 }
 
-/** The selected feature's position (a landmark or a Gazetteer feature). Null until the body's details have loaded or if the id is unknown. */
-function featureLatLon(bodyId: string, featureId: string): { latDeg: number; lonDegE: number } | null {
+/**
+ * The selected feature's position (a landmark or a Gazetteer feature). `pending` is true while the body's details have not
+ * loaded; once they are ready an unknown id is a settled answer (`latLon` null, not pending), so it is not looked up again.
+ */
+function featureLatLon(bodyId: string, featureId: string): { latLon: { latDeg: number; lonDegE: number } | null; pending: boolean } {
   const entry = useDetailsStore.getState().entries[bodyId];
-  return featureEntry(entry?.status === 'ready' ? entry.details : null, featureId);
+  if (entry?.status !== 'ready') return { latLon: null, pending: true };
+  return { latLon: featureEntry(entry.details, featureId), pending: false };
 }
 
 export function CameraSystem({ catalog }: { catalog: Catalog }) {
@@ -198,10 +202,13 @@ export function CameraSystem({ catalog }: { catalog: Catalog }) {
         const deltas = exploreInput(input.consume());
         r.orbit.update(deltas, ctx);
         // The turn to a selected feature (Surface tab only). Rotate or zoom input cancels it; that frame the user's input stands.
-        if (exploreState.view !== 'whole') r.explore.turn = null;
-        else if (exploreState.selectedFeatureId !== null && exploreState.featureSeq !== r.explore.lastFeatureSeq) {
-          const latLon = featureLatLon(id, exploreState.selectedFeatureId);
+        const plan = featureTurnPlan(exploreState.view, exploreState.selectedFeatureId, exploreState.featureSeq, r.explore.lastFeatureSeq);
+        if (plan === 'cancel') r.explore.turn = null;
+        else if (plan === 'request') {
+          const { latLon, pending } = featureLatLon(id, exploreState.selectedFeatureId!);
           const orientation = frame.bodyOrientation.get(id);
+          // An id the ready details do not know is dropped by the overlay; nothing is retried for it.
+          if (!pending && !latLon) r.explore.lastFeatureSeq = exploreState.featureSeq;
           if (latLon && orientation) {
             const cur = r.orbit.getState();
             r.explore.turn = {

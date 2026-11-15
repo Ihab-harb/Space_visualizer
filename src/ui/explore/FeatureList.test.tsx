@@ -1,5 +1,5 @@
 // @vitest-environment jsdom
-import { render, screen, within } from '@testing-library/react';
+import { act, render, screen, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { afterEach, beforeEach, describe, expect, it } from 'vitest';
 import { useExploreStore } from '../../state/exploreStore';
@@ -79,6 +79,20 @@ describe('FeatureList', () => {
     expect(useExploreStore.getState().featureListOpen).toBe(false);
     expect(screen.queryByRole('searchbox')).toBeNull();
     expect(button).toHaveFocus();
+  });
+
+  it('Esc in the search box closes the open card first and keeps the list, then the next Esc closes the list', async () => {
+    show('mars');
+    await userEvent.click(screen.getByRole('button', { name: /All features/ }));
+    const input = screen.getByRole('searchbox', { name: 'Search features' });
+    act(() => useExploreStore.getState().selectFeature('olympus-mons'));
+    input.focus();
+    await userEvent.keyboard('{Escape}');
+    expect(useExploreStore.getState().selectedFeatureId).toBeNull();
+    expect(useExploreStore.getState().featureListOpen).toBe(true);
+    expect(screen.getByRole('searchbox')).toBeInTheDocument();
+    await userEvent.keyboard('{Escape}');
+    expect(useExploreStore.getState().featureListOpen).toBe(false);
   });
 
   it('renders no button for Jupiter', () => {

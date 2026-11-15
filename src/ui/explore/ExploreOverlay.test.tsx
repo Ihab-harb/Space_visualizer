@@ -145,18 +145,69 @@ describe('ExploreOverlay', () => {
     expect(screen.queryByText('Radar view · not visible light')).toBeNull();
   });
 
-  it('shows no surface note while details load or after a failed load, and does not throw', () => {
-    for (const entry of [{ status: 'loading' }, { status: 'error', message: 'x' }] as const) {
-      useDetailsStore.setState({ entries: { venus: entry } });
+  describe('Surface while the details are not ready', () => {
+    const enterSurface = (entry: { status: 'loading' } | { status: 'error'; message: string }, retry = vi.fn().mockResolvedValue(undefined)) => {
+      useDetailsStore.setState({ entries: { venus: entry }, retry });
       useSelectionStore.setState({ selectedId: 'venus' });
       act(() => useExploreStore.getState().enter('venus'));
-      const { unmount } = render(<ExploreOverlay catalog={catalog} />);
+      render(<ExploreOverlay catalog={catalog} />);
+      return retry;
+    };
+
+    it('while loading: a status line in the notes row, and no surface notes', () => {
+      enterSurface({ status: 'loading' });
       expect(screen.getByRole('radiogroup', { name: 'Explore section' })).toBeInTheDocument();
+      expect(screen.getByRole('status')).toHaveTextContent('Loading surface features…');
+      expect(screen.getByRole('status')).toHaveAttribute('data-explore-reserved', 'notes');
       expect(screen.queryByText('No named surface features')).toBeNull();
       expect(screen.queryByText('Radar view · not visible light')).toBeNull();
-      unmount();
-      act(() => useExploreStore.getState().leave());
-    }
+    });
+
+    it('after a failed load: a message and Retry, which loads again', async () => {
+      const retry = enterSurface({ status: 'error', message: 'x' });
+      const alert = screen.getByRole('alert');
+      expect(alert).toHaveTextContent('Could not load the surface features.');
+      expect(alert).toHaveAttribute('data-explore-reserved', 'notes');
+      expect(screen.queryByText('No named surface features')).toBeNull();
+      await userEvent.click(within(alert).getByRole('button', { name: 'Retry' }));
+      expect(retry).toHaveBeenCalledWith('venus');
+    });
+
+    it('keeps focus in the overlay when Retry goes away once the data has loaded', async () => {
+      enterSurface({ status: 'error', message: 'x' });
+      await userEvent.click(screen.getByRole('button', { name: 'Retry' }));
+      act(() => useDetailsStore.setState({ entries: { venus: { status: 'ready', details: realDetails('venus') } } }));
+      expect(screen.queryByRole('alert')).toBeNull();
+      expect(document.activeElement).toBe(screen.getByRole('radio', { name: 'Surface', checked: true }));
+    });
+  });
+
+  describe('an unknown selected feature', () => {
+    it('is kept while the details load, and cleared once they are ready without it', () => {
+      useDetailsStore.setState({ entries: { mars: { status: 'loading' } } });
+      useSelectionStore.setState({ selectedId: 'mars' });
+      act(() => {
+        useExploreStore.getState().enter('mars');
+        useExploreStore.getState().selectFeature('nope');
+      });
+      render(<ExploreOverlay catalog={catalog} />);
+      expect(useExploreStore.getState().selectedFeatureId).toBe('nope');
+      act(() => useDetailsStore.setState({ entries: { mars: { status: 'ready', details: realDetails('mars') } } }));
+      expect(useExploreStore.getState().selectedFeatureId).toBeNull();
+      expect(screen.queryByRole('region', { name: 'Nope' })).toBeNull();
+    });
+
+    it('keeps a known id once the details arrive', () => {
+      useDetailsStore.setState({ entries: { mars: { status: 'loading' } } });
+      useSelectionStore.setState({ selectedId: 'mars' });
+      act(() => {
+        useExploreStore.getState().enter('mars');
+        useExploreStore.getState().selectFeature('olympus-mons');
+      });
+      render(<ExploreOverlay catalog={catalog} />);
+      act(() => useDetailsStore.setState({ entries: { mars: { status: 'ready', details: realDetails('mars') } } }));
+      expect(useExploreStore.getState().selectedFeatureId).toBe('olympus-mons');
+    });
   });
 
   it('switches the tab and the interior view from the radios and with the arrow keys', async () => {

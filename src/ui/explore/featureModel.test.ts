@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { realDetails } from '../../test/realData';
-import { featureEntries, featureEntry, formatLatLon, searchFeatures, tidyQuote } from './featureModel';
+import { featureEntries, featureEntry, formatLatLon, formatRecordPosition, isUnknownFeature, searchFeatures, tidyQuote } from './featureModel';
 
 describe('featureEntries', () => {
   it('lists landmarks in rank order, then the rest largest first', () => {
@@ -34,7 +34,7 @@ describe('featureEntries', () => {
   it('handles a body with landmarks and no features (Earth)', () => {
     const e = featureEntries(realDetails('earth'));
     expect(e).toHaveLength(21);
-    expect(e[0]).toMatchObject({ id: 'grand-canyon', positionKind: 'names-database', positionSourceId: 'usgs-gnis', positionText: '36.112764, -113.9960696', diameterKm: null, typeMeaning: null });
+    expect(e[0]).toMatchObject({ id: 'grand-canyon', positionKind: 'names-database', positionSourceId: 'usgs-gnis', positionText: '36.112764° N, 113.9960696° W', diameterKm: null, typeMeaning: null });
   });
 
   it('returns [] for a body with neither', () => {
@@ -68,6 +68,33 @@ describe('formatLatLon', () => {
   it('formats a position', () => {
     expect(formatLatLon(-14.0059, 301.4123)).toBe('14.0° S, 301.4° E');
     expect(formatLatLon(0, 0)).toBe('0.0° N, 0.0° E');
+  });
+});
+
+describe('formatRecordPosition', () => {
+  it('adds hemisphere letters and keeps the record digits', () => {
+    expect(formatRecordPosition('36.112764, -113.9960696')).toBe('36.112764° N, 113.9960696° W');
+    expect(formatRecordPosition('-29.1510582, 89.2533842')).toBe('29.1510582° S, 89.2533842° E');
+    expect(formatRecordPosition('-77.5, 162.0')).toBe('77.5° S, 162.0° E');
+    expect(formatRecordPosition('10.0, 20.0')).toBe('10.0° N, 20.0° E');
+  });
+  it('keeps a trailing note and leaves other text alone', () => {
+    expect(formatRecordPosition('1.5, -2.5 (GNIS name: X)')).toBe('1.5° N, 2.5° W (GNIS name: X)');
+    expect(formatRecordPosition('about 10 km east')).toBe('about 10 km east');
+  });
+});
+
+describe('isUnknownFeature', () => {
+  const mars = realDetails('mars');
+  it('is true only for ready details that do not know the id', () => {
+    expect(isUnknownFeature(mars, 'nope')).toBe(true);
+    expect(isUnknownFeature(mars, 'olympus-mons')).toBe(false);
+    expect(isUnknownFeature(realDetails('moon'), 'olympus-mons')).toBe(true);
+  });
+  it('keeps the id while details are not ready or nothing is selected', () => {
+    expect(isUnknownFeature(null, 'nope')).toBe(false);
+    expect(isUnknownFeature(undefined, 'nope')).toBe(false);
+    expect(isUnknownFeature(mars, null)).toBe(false);
   });
 });
 

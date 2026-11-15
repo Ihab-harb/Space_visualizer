@@ -111,6 +111,15 @@ export interface FeatureTurn {
 }
 
 /**
+ * What the camera does about the feature turn this frame: 'cancel' on any tab but Surface (a turn in progress ends),
+ * 'request' to start one for a selection not yet turned to, else 'keep' (an unfinished turn runs on, none is started).
+ */
+export function featureTurnPlan(view: 'whole' | 'exploded' | 'section', selectedFeatureId: string | null, featureSeq: number, lastFeatureSeq: number): 'cancel' | 'request' | 'keep' {
+  if (view !== 'whole') return 'cancel';
+  return selectedFeatureId !== null && featureSeq !== lastFeatureSeq ? 'request' : 'keep';
+}
+
+/**
  * One frame of the turn: the next turn (null when done or cancelled) and the view to apply (null for no change).
  * Input cancels the turn and leaves the view to the user; reduced motion cuts to the target.
  */

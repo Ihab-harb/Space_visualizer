@@ -108,11 +108,12 @@ function convertLandmark(
   p: string,
 ): Landmark | string {
   const quote = { text: c.quote, sourceId: c.sourceId };
-  const id = featureId(c.name);
+  let id = featureId(c.name);
   if (rows) {
     if (hasOwnPosition(c)) return `${p}: landmark ${c.name} is on a Gazetteer body and must not carry its own position`;
     const f = findFeature(rows, c.name);
     if (!f) return `${p}: landmark ${c.name} is not an approved Gazetteer feature`;
+    id = f.id; // the Gazetteer row's own id, so a landmark and its features row can never differ
     return {
       id, name: c.name, type: f.type, latDeg: f.latDeg, lonDegE: f.lonDegE, diameterKm: f.diameterKm,
       origin: f.origin || null, approvedYear: f.approvedYear,

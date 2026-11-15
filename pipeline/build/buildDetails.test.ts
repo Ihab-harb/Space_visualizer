@@ -387,6 +387,21 @@ describe('buildDetails', () => {
         position: { kind: 'gazetteer', sourceId: 'usgs-gazetteer-moon', text: null }, sizeSourceId: 'usgs-gazetteer-moon', quote: { text: Q_TYCHO, sourceId: 'lm-page' },
       });
     });
+    it("gives a Gazetteer landmark the Gazetteer row's own id, even when another name folds to the same id", () => {
+      const twin = { name: 'Týcho', clean_name: 'Týcho', approvaldt: '1935/01/01 00:00:00', origin: 'Test', diameter: '1100', center_lon: '10', center_lat: '5', type: 'Crater, craters', approval: 'Adopted by IAU' };
+      const lm = file({ types: {}, bodies: { moon: [{ name: 'Tycho', sourceId: 'lm-page', quote: Q_TYCHO }] } });
+      const { details, errors } = build({
+        bodies: [...bodies, moon],
+        existingSourceIds: new Set([...makeCatalogFiles().sources.sources.map((x) => x.id), 'nssdca-moon-fact-sheet']),
+        landmarks: lm,
+        gazetteer: { mars: { rows, retrievedAt: '2026-10-09' }, moon: { rows: [twin, ...moonRows], retrievedAt: '2026-10-09' } },
+        curatedPages: pagesWithLandmarks(),
+      });
+      expect(errors).toEqual([]);
+      const landmark = details.find((d) => d.bodyId === 'moon')!.landmarks[0]!;
+      expect(landmark.id).toBe('tycho-crater');
+      expect(details.find((d) => d.bodyId === 'moon')!.features!.items.some((i) => i.id === 'tycho')).toBe(true);
+    });
     it('errors when a landmark name is not an approved Gazetteer feature', () => {
       const lm = file({ types: {}, bodies: { moon: [{ name: 'Tychoo', sourceId: 'lm-page', quote: Q_TYCHO }] } });
       expect(withLandmarks(lm).errors).toContain('details/moon.json: landmark Tychoo is not an approved Gazetteer feature');

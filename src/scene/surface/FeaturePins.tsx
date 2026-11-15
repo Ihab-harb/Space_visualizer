@@ -78,6 +78,8 @@ const setIfChanged = (el: HTMLElement | SVGElement, key: string, value: string) 
  */
 export function hidePins(bridge: PinBridge): void {
   if (bridge.root && bridge.root.style.visibility !== 'hidden') bridge.root.style.visibility = 'hidden';
+  // Hiding is immediate; the fade-in (a CSS animation) starts again the next time the pins are shown.
+  if (bridge.root && bridge.root.dataset.shown !== undefined) delete bridge.root.dataset.shown;
   for (const it of bridge.items.values()) {
     if (it.name) setIfChanged(it.name, 'mode', 'hidden');
     if (it.line) setIfChanged(it.line, 'shown', 'false');
@@ -107,6 +109,7 @@ export function FeaturePinProjector({ bridge }: { bridge: PinBridge }) {
       return;
     }
     root.style.visibility = 'visible';
+    if (root.dataset.shown !== 'true') root.dataset.shown = 'true';
     // On entry the pins come in with the dimming of the other bodies.
     root.style.opacity = String(ex.focus);
 
@@ -127,6 +130,8 @@ export function FeaturePinProjector({ bridge }: { bridge: PinBridge }) {
     // A dot is shown (and in the tab order) only when it faces the camera and sits wholly on screen: zoomed in, a pin off
     // the edge would be an invisible tab stop, and naming it would pull a leader in from outside the picture.
     const viewport = { width: size.width, height: size.height };
+    // Read the interface's rectangles before any write below, so the frame does one layout pass, not one per write.
+    const reserved = bridge.narrow ? [] : reservedRects(root);
     const shown = points.filter((p) => {
       const on = pinDotShown(p, viewport);
       const dot = bridge.items.get(p.id)?.dot;
@@ -144,7 +149,7 @@ export function FeaturePinProjector({ bridge }: { bridge: PinBridge }) {
     const placed = labelLayout(
       pinNameAnchors(shown, bridge.sizes, body.x, { selectedId, hoveredId: bridge.hoveredId }),
       viewport,
-      reservedRects(root),
+      reserved,
       { ...PIN_NAME_LAYOUT, body, selectedId },
     );
     const byId = new Map<string, PlacedLabel>(placed.map((p) => [p.id, p]));

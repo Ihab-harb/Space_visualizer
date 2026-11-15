@@ -296,6 +296,10 @@
    globe and a thin leader between them. White for every pin, cyan (the interaction token) for the selected one. Positions
    and the dots' opacity are written each frame; the names fade on their data-mode. */
 .xpins { position: absolute; inset: 0; pointer-events: none; }
+/* The pins fade in each time they are shown (FeaturePinProjector sets data-shown); hiding is immediate. The animation, not a
+   transition, because the projector writes the root's opacity every frame. */
+@keyframes xpins-in { from { opacity: 0; } }
+.xpins[data-shown='true'] { animation: xpins-in 200ms var(--ease) backwards; }
 .xpins__leaders { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
 .xpins__leaders line { stroke: rgba(214, 224, 245, 0.55); stroke-width: 1; opacity: 0; transition: opacity 150ms var(--ease); }
 .xpins__leaders line[data-shown='true'] { opacity: 1; }
@@ -362,6 +366,7 @@
   .xpin-name[data-mode='full'],
   .xpins__leaders line,
   .xpin::before { transition: none; }
+  .xpins[data-shown='true'] { animation: none; }
 }
 /* Half-section depth ruler (InteriorLabels): a scale beside the cut face, surface at the top, centre at the bottom. */
 .xruler { position: absolute; top: 0; left: 0; color: #b9c2d6; text-shadow: 0 1px 3px rgba(0, 0, 0, 0.9); pointer-events: none; }

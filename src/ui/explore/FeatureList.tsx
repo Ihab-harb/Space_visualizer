@@ -55,6 +55,11 @@ export function FeatureList({ details }: FeatureListProps) {
     if (e.key !== 'Escape') return;
     e.preventDefault();
     e.stopPropagation();
+    // The same order as the global Esc: the open card first, then the list.
+    if (useExploreStore.getState().selectedFeatureId !== null) {
+      selectFeature(null);
+      return;
+    }
     toggle(false);
     button.current?.focus();
   };

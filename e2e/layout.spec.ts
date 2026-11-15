@@ -221,9 +221,8 @@ for (const vp of VIEWPORTS) {
 /**
  * Explore Surface (M2b.4a spec §5.1 and §8): at every viewport, Mars with a feature card open, then with the All features
  * list open too, the tabs, title, card, list, strip and ✕ never overlap one another, and no shown pin name overlaps any of
- * them. On a phone the
- * card and the list are both bottom sheets that open over the strip, one at a time, so there each sheet is checked against the
- * top bar only.
+ * them. On a phone the card and the list are both bottom sheets that open over the strip, one at a time, so there each
+ * sheet is checked against the top bar only (and each must be in the reserved list, so the check cannot pass on an empty one).
  */
 for (const vp of VIEWPORTS) {
   test(`Explore Surface at ${vp.width}x${vp.height}: card, list, top bar, strip and pin names stay apart`, async ({ browser }) => {
@@ -261,6 +260,7 @@ for (const vp of VIEWPORTS) {
       await settle();
       let p = await parts();
       expect(p.names, 'no pin names on a phone').toEqual([]);
+      expect(p.reserved.map((x) => x.name)).toContain('reserved:card');
       check(p.reserved.filter((x) => x.name === 'reserved:card'), top(p.reserved) as typeof p.reserved);
       // The card sheet covers the list button, as the layer card covers the Layers button: close it first.
       await page.getByRole('button', { name: 'Close feature card' }).click();
@@ -268,6 +268,7 @@ for (const vp of VIEWPORTS) {
       await expect(page.getByRole('region', { name: 'All features' })).toBeVisible();
       await settle();
       p = await parts();
+      expect(p.reserved.map((x) => x.name)).toContain('reserved:features');
       check(p.reserved.filter((x) => x.name === 'reserved:features'), top(p.reserved) as typeof p.reserved);
     } else {
       const apart = (p: Awaited<ReturnType<typeof parts>>) => {

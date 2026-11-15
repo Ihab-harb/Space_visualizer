@@ -27,6 +27,22 @@ export function formatLatLon(latDeg: number, lonDegE: number): string {
   return `${Math.abs(latDeg).toFixed(1)}° ${latDeg < 0 ? 'S' : 'N'}, ${lon.toFixed(1)}° E`;
 }
 
+/**
+ * A names-database position as the record wrote it, "36.112764, -113.9960696", shown with hemisphere letters:
+ * "36.112764° N, 113.9960696° W". The digits are the record's own (not rounded); only the minus sign becomes S or W.
+ * Anything after the two numbers (a variant-name note) is kept; text that is not two numbers is returned as it is.
+ */
+export function formatRecordPosition(text: string): string {
+  const m = /^(-?)(\d+(?:\.\d+)?),\s*(-?)(\d+(?:\.\d+)?)(.*)$/.exec(text.trim());
+  if (!m) return text;
+  return `${m[2]}° ${m[1] ? 'S' : 'N'}, ${m[4]}° ${m[3] ? 'W' : 'E'}${m[5]}`;
+}
+
+/** True when the details are ready and name no feature with this id: a selection nobody can see, to be cleared. */
+export function isUnknownFeature(details: BodyDetails | null | undefined, id: string | null): boolean {
+  return !!details && id !== null && featureEntry(details, id) === null;
+}
+
 /** Removes a stray space before , . ; : or ) for display only (some official pages have " ," inside a sentence). */
 export function tidyQuote(text: string): string {
   return text.replace(/\s+([,.;:)])/g, '$1');
@@ -51,7 +67,12 @@ export function featureEntries(details: BodyDetails): FeatureEntry[] {
       typeMeaning: meaning(l.type),
       latDeg: l.latDeg,
       lonDegE: l.lonDegE,
-      positionText: l.position.kind === 'gazetteer' ? formatLatLon(l.latDeg, l.lonDegE) : (l.position.text ?? formatLatLon(l.latDeg, l.lonDegE)),
+      positionText:
+        l.position.kind === 'gazetteer' || l.position.text === null
+          ? formatLatLon(l.latDeg, l.lonDegE)
+          : l.position.kind === 'names-database'
+            ? formatRecordPosition(l.position.text)
+            : l.position.text,
       positionSourceId: l.position.sourceId,
       positionKind: l.position.kind,
       diameterKm,

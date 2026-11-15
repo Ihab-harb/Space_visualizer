@@ -2,7 +2,8 @@ import { describe, expect, it } from 'vitest';
 import { cross, dot, length, normalize, sub } from '../core/math/vec3';
 import { lookRotation } from './rig';
 import { offsetDirection, orbitPose } from './orbitController';
-import { advanceTurn, EXPLORE_CAMERA, EXPLORE_FIT_HALF_HEIGHT, exploreEntryAzimuth, exploreFitScale, exploreFrameRadii, exploreInput, FEATURE_MAX_ELEVATION_RAD, FEATURE_TURN_SECONDS, featureView, orbitUp, reframeDistanceKm, turnStep } from './explore';
+import { advanceTurn, EXPLORE_CAMERA, EXPLORE_FIT_HALF_HEIGHT, exploreEntryAzimuth, exploreFitScale, exploreFrameRadii, exploreInput, FEATURE_MAX_ELEVATION_RAD, FEATURE_TURN_SECONDS, featureTurnPlan, featureView, orbitUp, reframeDistanceKm, turnStep, type FeatureTurn } from './explore';
+import { useExploreStore } from '../state/exploreStore';
 
 describe('orbitUp', () => {
   it('is the screen-up of the orbit view: unit, across the view direction, and equal to the camera up column', () => {
@@ -120,6 +121,35 @@ describe('featureView and turnStep', () => {
   it('starts on the origin and ends exactly on the target', () => {
     expect(turnStep(a, b, 0)).toEqual(a);
     expect(turnStep(a, b, 1)).toEqual(b);
+  });
+});
+
+describe('featureTurnPlan', () => {
+  it('requests a turn for a new selection on Surface, and keeps one already made', () => {
+    expect(featureTurnPlan('whole', 'tycho', 2, 1)).toBe('request');
+    expect(featureTurnPlan('whole', 'tycho', 2, 2)).toBe('keep');
+    expect(featureTurnPlan('whole', null, 2, 1)).toBe('keep');
+  });
+  it('cancels on any interior view', () => {
+    expect(featureTurnPlan('exploded', 'tycho', 2, 1)).toBe('cancel');
+    expect(featureTurnPlan('section', null, 0, 0)).toBe('cancel');
+  });
+  it('ends a turn in progress when the tab changes, and starts none on returning to Surface with nothing selected', () => {
+    const store = useExploreStore.getState();
+    store.enter('moon');
+    useExploreStore.getState().selectFeature('tycho');
+    let s = useExploreStore.getState();
+    let turn: FeatureTurn | null = { from: { azimuthRad: 0, elevationRad: 0 }, to: { azimuthRad: 1, elevationRad: 0.2 }, startedAt: 0, seq: s.featureSeq };
+    expect(featureTurnPlan(s.view, s.selectedFeatureId, s.featureSeq, s.featureSeq)).toBe('keep');
+    useExploreStore.getState().setTab('interior');
+    s = useExploreStore.getState();
+    if (featureTurnPlan(s.view, s.selectedFeatureId, s.featureSeq, s.featureSeq) === 'cancel') turn = null;
+    expect(turn).toBeNull();
+    useExploreStore.getState().setTab('surface');
+    s = useExploreStore.getState();
+    expect(s.selectedFeatureId).toBeNull();
+    expect(featureTurnPlan(s.view, s.selectedFeatureId, s.featureSeq, s.featureSeq - 1)).toBe('keep');
+    useExploreStore.getState().leave();
   });
 });
 
