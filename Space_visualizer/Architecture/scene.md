@@ -57,6 +57,7 @@ Built in [[2026-10-30-m2b3-explore-interior]]. Files are in `src/scene/interior/
 - **Not covered by unit tests:** the React and WebGL parts, and CameraSystem's Explore path (they need a renderer). The end-to-end tests and the screenshot loop cover them.
 
 ## Feature pins on Surface (M2b.4a)
+- **Feature light (2026-11-16, illustrative):** every body material has a `uSpot` uniform (the selected feature's direction in the body frame, and a strength). `featureLight` in `materials/chunks.ts` adds the surface colour in a pool around it (`FEATURE_SPOT` in `illustrative.ts`), only where the Sun does not reach, shaded by the relief. `useBodyUniforms` sets it from the Explore selection on the Surface tab (`spotFeature`) and fades it (`advanceSpot`).
 Built in [[2026-11-15-m2b4a-feature-pins]] (Task 9) from spec [[2026-11-15-m2b4a-feature-pins-design]] (§5.1, §6.4). Files: `src/scene/surface/pinAnchors.ts` (pure), `src/scene/surface/FeaturePins.tsx`. The card and list are in [[ui]].
 - **Technique:** pins are DOM, like the interior labels, not 3D objects. `FeaturePins` renders into the label layer; `FeaturePinProjector` runs in the Canvas at `useFrame` priority -0.3 and writes transforms, opacity and attributes directly (no React updates per frame). A `PinBridge` object joins the two.
 - **Which pins:** `shownPins(details, selectedFeatureId)`: the body's landmarks in rank order, then the selected feature if it is not a landmark (the temporary pin).

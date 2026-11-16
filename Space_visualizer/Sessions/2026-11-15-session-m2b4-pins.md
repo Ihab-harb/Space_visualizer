@@ -90,3 +90,18 @@ Back to [[Home]] · Previous: [[2026-10-30-session-m2b3-explore]]
 
 - 2026-11-16: asked what to do with the open list, the user said "go ahead". Read as the first item: the branch was pushed and **PR #9** opened against `main` (https://github.com/Ihab-harb/Space_visualizer/pull/9). The other open items are choices and still wait for the user.
 - 2026-11-16, the user: "use the new sources", "delete the scratch folder", "explain point 6". The four sources are accepted (decision note 0010). The scratch folder is deleted. The smaller open items were explained and still wait for answers.
+
+## The user's answers on the smaller items (2026-11-16)
+The user, in their words:
+- "a. clarify the difference for the user" (two sizes on one card)
+- "b. we should be able to rotate the planet to get the side we need" (Earth opening over an ocean)
+- "c. we will hande the UI clutter at a later point" (closing the list on pick)
+- "d. light the area when selected" (night-side pins)
+- "e. will be handled later" (Tab reaching the pins)
+
+What was done:
+- **a. A line on the card.** When the quoted sentence states a width that is not the card's Size, the card adds: "The size in the sentence and the Size above come from different sources. They may measure different parts or outlines of the feature." The line does not explain each case, because no source does. A scan found ten such cards, not three: Mare Humorum, Mare Imbrium, Clavius, Vallis Schroteri, Copernicus (Moon); Artemis Corona, Mead, Sapas Mons, Cleopatra (Venus); Caloris Planitia (Mercury); Tharsis Montes and Arsia Mons (Mars).
+- **b. No change needed.** Dragging already turns the globe in Explore, and the wheel zooms. The opening view stays on the sunlit side. An end-to-end test now proves the drag.
+- **d. Feature light.** A selected feature on the night side gets a soft pool of light. It is illustrative. It never brightens the day side. Screenshots: `Assets/m2b4a/9a-feature-light-moon.png`, `9b-feature-light-mars.png`, `9c-feature-light-earth.png`.
+- **c and e:** left for later, in the carry-over note.
+

@@ -174,3 +174,10 @@ Back to [[Home]]
 - The pipeline's names databases are now a registry (`NAMES_SOURCES`); each record must be cited on its own database's host, and a national record must lie in its country by its own territory field. GNS stays in the registry, not in use.
 - Two new Earth placement guards (Hudson Bay, Fujisan); a mirror or half-turn is now caught by at least two guards.
 - Tests: 1,231 unit tests, typecheck clean, end-to-end `features` and `golden` 44 of 44; the Earth golden re-shot. Data source note [[Earth names databases (GNIS, GNS)]]; the research log is in the plan's Execution record ("Task 12").
+
+## 2026-11-16 — M2b.4a after the PR: size note and feature light
+- The four new Earth position sources are accepted by the user ("use the new sources"). The build scratch folder is deleted.
+- Feature cards say why two sizes show when the quoted sentence and the Size row differ (ten cards).
+- A selected feature on the night side gets a soft, illustrative pool of light.
+- A test proves that dragging turns the globe in Explore. The opening view is unchanged.
+- Left for later by the user: closing the list on pick; Tab reaching the pins.

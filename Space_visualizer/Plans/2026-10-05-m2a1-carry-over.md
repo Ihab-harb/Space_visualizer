@@ -269,6 +269,8 @@ Minor findings from the per-task reviews, summarised from the execution ledger. 
   - a feature picked from the far side can land on the night side after the turn (real lighting; the pins stay bright): look at one before calling the section done.
 - **Needs a real GPU:** the pins and names over the full effects stack (checked on SwiftShader only).
 - **From Task 12 (Earth landmarks from other official sources, 2026-11-16):**
+  - left for later by the user (2026-11-16): the feature list stays open beside the card on desktop ("we will hande the UI clutter at a later point"); Tab does not reach the pins from the Surface tab ("will be handled later").
+  - the feature light is not labelled illustrative on screen; `quoteSizeKm` reads only widths in km ("miles" alone, or "in size", is not read).
   - weaker sentences kept: Tenerife (names only Teide), Aoraki/Mount Cook ("the mountain range" is not named), Pinatubo (does not say it was an eruption), Whakaari / White Island (a naming sentence). Each needs another NASA, USGS or ESA page.
   - a bad record id or GNIS area in `pipeline/run.ts` is reported only as "record not found", without the reason; the LINZ scope test is "has a land district", not a list; `parseCsv` has one test (CRLF inside quotes, no final newline and a trailing empty field are untested).
   - Australia has no landmarks: its Composite Gazetteer states no licence (open for the user); the GEOnet Names Server is still unreachable and would cover wide places (the Himalaya, the Sahara, the Amazon);
