@@ -17,6 +17,7 @@ export function createBaseUniforms(): Record<string, IUniform> {
     uOccluderAtmo: { value: new Vector4() },
     uEarthshine: { value: 0 },
     uEarthshineDir: { value: new Vector3(0, 0, 1) },
+    uSpot: { value: new Vector4(0, 0, 1, 0) },
     uClip: { value: new Vector4(0, 0, 1, NO_CLIP) },
     uDim: { value: 1 },
   };

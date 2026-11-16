@@ -119,3 +119,26 @@ export function searchFeatures(entries: readonly FeatureEntry[], query: string):
   const q = foldText(query);
   return q === '' ? [...entries] : entries.filter((e) => foldText(e.name).includes(q));
 }
+
+const QUOTED_KM = /(\d[\d,]*(?:\.\d+)?)\s*-?\s*(?:km|kilomet(?:er|re)s?)\b/gi;
+const SIZE_WORD = /diameter|across|wide/i;
+
+/**
+ * The width a quoted sentence states for its feature, in km: the first figure in km with "diameter", "across" or "wide"
+ * within 40 characters of it. Null when the sentence states none (a height or a depth is not a width).
+ */
+export function quoteSizeKm(quote: string): number | null {
+  for (const m of quote.matchAll(QUOTED_KM)) {
+    const near = quote.slice(Math.max(0, m.index - 40), m.index + m[0].length + 40);
+    if (!SIZE_WORD.test(near)) continue;
+    const km = Number(m[1]!.replace(/,/g, ''));
+    if (Number.isFinite(km) && km > 0) return km;
+  }
+  return null;
+}
+
+/** True when the sentence states a width that is not the card's Size (more than 0.5 % apart), so the card must say why two sizes show. */
+export function sizesDiffer(quote: string, diameterKm: number | null): boolean {
+  const q = quoteSizeKm(quote);
+  return q !== null && diameterKm !== null && Math.abs(q - diameterKm) > 0.005 * diameterKm;
+}

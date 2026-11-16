@@ -45,7 +45,7 @@ void main() {
   // City lights on the night side, fading toward the terminator and under clouds.
   float night = 1.0 - smoothstep(-0.18, 0.06, geo);
   vec3 lights = texture2D(uNightMap, vUv).rgb * night * (1.0 - 0.7 * cloudHere) * vec3(1.0, 0.8, 0.55) * 1.4;
-  vec3 color = diffuse + spec * sunColor * uSunIntensity * shade + lights + cinematicFill(dayColor, n, v);
+  vec3 color = diffuse + spec * sunColor * uSunIntensity * shade + lights + cinematicFill(dayColor, n, v) + featureLight(dayColor, vUnit, nb, geo);
   gl_FragColor = vec4(color, uReady);
   ${FRAG_OUTRO}
 }`;

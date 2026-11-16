@@ -191,3 +191,26 @@ test('an unknown feature= id opens Surface with no card and no error, and one Es
   await expect(sectionSwitch(page)).toHaveCount(0);
   await page.waitForFunction(() => window.__svExplore?.() === null, null, { timeout: 30_000 });
 });
+
+test('dragging the globe on Surface turns it, so any side can be brought into view', async ({ page }) => {
+  await open(page, 'target=mars&explore=1', MARS_JD);
+  await onSurface(page, 'mars');
+  const dot = pin(page, 'Olympus Mons');
+  await expect(dot).toBeVisible({ timeout: 30_000 });
+  const before = (await dot.boundingBox())!;
+  // A real drag across the disc, started on open ground between the pins.
+  const box = (await page.locator('canvas').boundingBox())!;
+  const y = box.y + box.height * 0.62;
+  await page.mouse.move(box.x + box.width * 0.5, y);
+  await page.mouse.down();
+  await page.mouse.move(box.x + box.width * 0.62, y, { steps: 12 });
+  await page.mouse.up();
+  await expect
+    .poll(async () => {
+      const after = await dot.boundingBox();
+      return after ? Math.abs(after.x - before.x) : 999;
+    }, { timeout: 15_000 })
+    .toBeGreaterThan(20);
+  // Still on Surface, still in Explore.
+  expect(await page.evaluate(() => window.__svExplore?.()?.view)).toBe('whole');
+});

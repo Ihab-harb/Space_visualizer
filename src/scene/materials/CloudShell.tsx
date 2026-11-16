@@ -24,7 +24,7 @@ void main() {
   vec3 lit = vec3(1.0) * max(geo, 0.0) * sunColor * uSunIntensity * eclipseFactor(s);
   float night = 1.0 - smoothstep(-0.18, 0.06, geo);
   vec3 glow = texture2D(uNightMap, vUv).rgb * night * 0.25 * vec3(1.0, 0.8, 0.55);
-  vec3 color = lit + glow + cinematicFill(vec3(1.0), n, v) * 0.6;
+  vec3 color = lit + glow + cinematicFill(vec3(1.0), n, v) * 0.6 + featureLight(vec3(1.0), vUnit, n, geo);
   gl_FragColor = vec4(color, a * (0.25 + 0.75 * smoothstep(-0.25, 0.1, geo)));
   ${FRAG_OUTRO}
 }`;

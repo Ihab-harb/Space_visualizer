@@ -5,7 +5,7 @@ import type { BodyDetails } from '../../core/details/schema';
 import { citationModel } from '../citations';
 import { formatKm } from '../format';
 import { Cite, CiteTargetContext } from './CompositionChart';
-import { featureEntry, tidyQuote } from './featureModel';
+import { featureEntry, sizesDiffer, tidyQuote } from './featureModel';
 import { SourcesList, sourceTitle } from './SourcesList';
 
 export interface FeatureCardProps {
@@ -18,6 +18,9 @@ export interface FeatureCardProps {
 
 /** The fixed line under a names-database position. */
 export const NAMES_DATABASE_NOTE = "The position is the names database's point for this name, not a measured centre.";
+
+/** The line under a card whose quoted sentence states a width that is not the card's Size (the user's ruling, 2026-11-16: say why two sizes show). */
+export const SIZE_DIFFERENCE_NOTE = 'The size in the sentence and the Size above come from different sources. They may measure different parts or outlines of the feature.';
 
 /**
  * The selected feature's facts (spec: feature pins): type, name, the landmark's quoted sentence, size, position, what it is
@@ -85,6 +88,7 @@ export function FeatureCard({ catalog, body, details, featureId, onClose }: Feat
             </div>
           ))}
         </dl>
+        {entry.landmark && sizesDiffer(entry.landmark.quote.text, entry.diameterKm) && <p className="explore-card__note">{SIZE_DIFFERENCE_NOTE}</p>}
         {entry.positionKind === 'names-database' && <p className="explore-card__note">{NAMES_DATABASE_NOTE}</p>}
         <SourcesList catalog={catalog} numbers={numbers} ids={sources()} idPrefix="feature-source-" className="explore-card__sources" />
       </section>

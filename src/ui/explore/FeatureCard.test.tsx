@@ -1,10 +1,10 @@
 // @vitest-environment jsdom
-import { render, screen, within } from '@testing-library/react';
+import { cleanup, render, screen, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { describe, expect, it, vi } from 'vitest';
 import { realCatalog, realDetails } from '../../test/realData';
 import { citationModel } from '../citations';
-import { FeatureCard, NAMES_DATABASE_NOTE } from './FeatureCard';
+import { FeatureCard, NAMES_DATABASE_NOTE, SIZE_DIFFERENCE_NOTE } from './FeatureCard';
 import { featureEntry } from './featureModel';
 
 const catalog = realCatalog();
@@ -116,6 +116,16 @@ describe('FeatureCard', () => {
     expect(list.querySelector('#feature-source-nasa-science-mars-facts')).not.toBeNull();
   });
 
+  it('says why two sizes show when the sentence states a width that is not the Size row', () => {
+    // Mare Humorum: the sentence says about 825 kilometres across; the Gazetteer lists about 420 km.
+    expect(show('moon', 'mare-humorum').card).toHaveTextContent(SIZE_DIFFERENCE_NOTE);
+  });
+  it('shows no size line when the sentence agrees with the Size row or states no width', () => {
+    // Hellas Planitia: 2,300 km in the sentence, 2,299 km listed.
+    expect(show('mars', 'hellas-planitia').card).not.toHaveTextContent(SIZE_DIFFERENCE_NOTE);
+    cleanup();
+    expect(show('earth', 'hudson-bay').card).not.toHaveTextContent(SIZE_DIFFERENCE_NOTE);
+  });
   it('closes with its ✕', async () => {
     const { onClose } = show('mars', 'olympus-mons');
     await userEvent.click(screen.getByRole('button', { name: 'Close feature card' }));

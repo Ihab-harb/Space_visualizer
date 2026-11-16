@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { realDetails } from '../../test/realData';
-import { featureEntries, featureEntry, formatLatLon, formatRecordPosition, isUnknownFeature, searchFeatures, tidyQuote } from './featureModel';
+import { featureEntries, featureEntry, formatLatLon, formatRecordPosition, isUnknownFeature, quoteSizeKm, searchFeatures, sizesDiffer, tidyQuote } from './featureModel';
 
 describe('featureEntries', () => {
   it('lists landmarks in rank order, then the rest largest first', () => {
@@ -110,5 +110,26 @@ describe('tidyQuote', () => {
   it('removes a stray space before punctuation only', () => {
     expect(tidyQuote('a bright spot , with rays . (see this )')).toBe('a bright spot, with rays. (see this)');
     expect(tidyQuote('Nothing to change here.')).toBe('Nothing to change here.');
+  });
+});
+
+describe('quoteSizeKm and sizesDiffer', () => {
+  it('reads a width stated in km with "diameter", "across" or "wide"', () => {
+    expect(quoteSizeKm('Its circular shape and size (2100 km or 1302 miles in diameter) make Artemis the largest corona.')).toBe(2100);
+    expect(quoteSizeKm('At 280 km diameter, Mead is the largest impact crater on Venus.')).toBe(280);
+    expect(quoteSizeKm("Mare Humorum is a small circular mare on the lunar nearside, about 825 kilometres across.")).toBe(825);
+    expect(quoteSizeKm('The basin is 1,550 kilometers wide.')).toBe(1550);
+    expect(quoteSizeKm('With a diameter of 3.44 kilometers (2.14 miles), Pingualuit Crater holds a lake.')).toBe(3.44);
+  });
+  it('ignores a height, a depth, a length in other units and a sentence with no figure', () => {
+    expect(quoteSizeKm('The summit rises 22 km above the plains.')).toBeNull();
+    expect(quoteSizeKm('The Mariana Trench stretches 2,500 kilometers (1,500 miles) in an arc that is edged by islands.')).toBeNull();
+    expect(quoteSizeKm('Mount Etna is the most active volcano in Europe.')).toBeNull();
+  });
+  it('differs only beyond half a percent, and never without a card size', () => {
+    expect(sizesDiffer('about 825 kilometres across', 419.669)).toBe(true);
+    expect(sizesDiffer('about 2,300 km across', 2299.162)).toBe(false);
+    expect(sizesDiffer('about 825 kilometres across', null)).toBe(false);
+    expect(sizesDiffer('a volcano', 100)).toBe(false);
   });
 });
