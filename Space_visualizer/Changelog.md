@@ -181,3 +181,4 @@ Back to [[Home]]
 - A selected feature on the night side gets a soft, illustrative pool of light.
 - A test proves that dragging turns the globe in Explore. The opening view is unchanged.
 - Left for later by the user: closing the list on pick; Tab reaching the pins.
+- Earth landmarks show their common name, with the database's name beside the position (ten cards). The feature light is labelled "Feature light · illustrative" while it shows.

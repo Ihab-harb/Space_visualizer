@@ -105,3 +105,9 @@ What was done:
 - **d. Feature light.** A selected feature on the night side gets a soft pool of light. It is illustrative. It never brightens the day side. Screenshots: `Assets/m2b4a/9a-feature-light-moon.png`, `9b-feature-light-mars.png`, `9c-feature-light-earth.png`.
 - **c and e:** left for later, in the carry-over note.
 
+## The user's second set of answers (2026-11-16)
+The user, in their words: "keep australia", "have both versions of the names", "fix the weak scentences", "label it".
+- **Both names (done).** A names-database landmark can be shown under the name its quoted page uses. Its position then carries `"recordName"`, the record's own name. The build checks that `recordName` is the record's name and that the shown name is on the quoted page. The card shows both: the common name as the title, and "(NOAA NCEI name: Fujisan)" beside the position. Ten landmarks: Mount Fuji, Mount Kilimanjaro, Mount Etna, Mount Vesuvius, Mount Pinatubo, Eyjafjallajökull, Popocatépetl, Mount Tambora, Teide (the record is "Tenerife"), Pingualuit Crater. Their ids changed with the names (`fujisan` is now `mount-fuji`). Réservoir Manicouagan stays: its NASA page names the crater in English, not the reservoir.
+- **Label (done).** While the feature light is lighting ground, the Surface notes show "Feature light · illustrative". Not shown for a feature in daylight.
+- **Australia and the weak sentences:** Task 13, with web research (see below when done). "keep australia" is read as: cover Australia, accepting Geoscience Australia's site licence.
+

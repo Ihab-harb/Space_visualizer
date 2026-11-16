@@ -826,3 +826,9 @@ The execution ledger (`.superpowers/sdd/2026-11-15-m2b4a-feature-pins/`, git-ign
 
 
 Checks for this round, run by the controller: 1,242 unit tests in 123 files, typecheck clean; end-to-end `features`, `golden` and `explore` 57 of 57 in one run.
+
+### Both names, and the feature light label (2026-11-16)
+- **Both names (the user: "have both versions of the names").** `EarthPosition` (names-database) gains `recordName?`. With it, the landmark's own name need not be the record's name or a listed variant: it must be on the quoted page (`includesText` on the fetched page), and `recordName` must equal the record's name. `buildDetails` already adds "(<database> name: <record name>)" to the position text when the names differ, so the card shows both. **Ruling:** the common name is checked against the quoted NASA, USGS or ESA page, not typed freely. Cost if wrong: none found; a name that is on the page but means another place would pass, and curation guards that. **Ruling:** ids follow the shown name, so ten Earth ids changed before the first release. Cost if wrong: an old `feature=` link to one of them clears itself (the unknown-id rule).
+- **Label (the user: "label it").** `src/state/featureLightStore.ts`: the scene reports whether the light adds anything at the feature (`featureLightShown`: some strength, and the feature is not in full daylight); the overlay shows `FEATURE_LIGHT_LABEL` in the Surface notes row.
+- Checks: 1,247 unit tests in 124 files, typecheck clean, `npm run data:offline` clean, end-to-end `features` 12 of 12.
+
