@@ -214,3 +214,17 @@ test('dragging the globe on Surface turns it, so any side can be brought into vi
   // Still on Surface, still in Explore.
   expect(await page.evaluate(() => window.__svExplore?.()?.view)).toBe('whole');
 });
+
+test('a selected feature on the night side is lit, and the light is labelled illustrative', async ({ page }) => {
+  // Hellas Planitia is on the far side at this date: the globe turns to it and it lies in the dark.
+  await open(page, 'target=mars&explore=1&feature=hellas-planitia', MARS_JD);
+  await onSurface(page, 'mars');
+  await expect(card(page, 'Hellas Planitia')).toBeVisible({ timeout: 30_000 });
+  await expect(page.getByText('Feature light · illustrative')).toBeVisible({ timeout: 15_000 });
+  // Olympus Mons is in daylight: no light is added, so there is no label.
+  await open(page, 'target=mars&explore=1&feature=olympus-mons', MARS_JD);
+  await onSurface(page, 'mars');
+  await expect(card(page, 'Olympus Mons')).toBeVisible({ timeout: 30_000 });
+  await page.waitForTimeout(1500);
+  await expect(page.getByText('Feature light · illustrative')).toHaveCount(0);
+});

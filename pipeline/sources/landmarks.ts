@@ -18,7 +18,12 @@ export const POSITION_HOSTS: readonly string[] = [...OFFICIAL_HOSTS, ...Object.v
  * sentence. A GNIS record also names its `area`, the staged file that holds it: a two-letter state code or `Antarctica`.
  */
 export type EarthPosition =
-  | { kind: 'names-database'; database: NamesDatabase; recordId: string; area?: string }
+  /**
+   * `recordName` (the user's ruling, 2026-11-16: "have both versions of the names"): set when the landmark is shown under the
+   * name its quoted page uses ("Mount Fuji") and the record is named otherwise ("Fujisan"). It must be the record's own name,
+   * and the landmark's name must be on the quoted page. The card then shows both.
+   */
+  | { kind: 'names-database'; database: NamesDatabase; recordId: string; area?: string; recordName?: string }
   | { kind: 'quoted'; latDeg: number; lonDegE: number; sourceId: string; quote: string };
 
 /** Key of a names-database record in the fetched positions. */
@@ -95,7 +100,7 @@ const onHost = (host: string, h: string): boolean => host === h || host.endsWith
 const onPositionHost = (host: string): boolean => POSITION_HOSTS.some((h) => onHost(host, h));
 
 /** The problems of one names-database position: the database, its area, and the fetched record (host, name, country). */
-function checkNamesPosition(where: string, name: string, p: Extract<EarthPosition, { kind: 'names-database' }>, rec: FetchedNamesRecord | undefined, errors: string[]): void {
+function checkNamesPosition(where: string, name: string, p: Extract<EarthPosition, { kind: 'names-database' }>, rec: FetchedNamesRecord | undefined, nameOnQuotePage: boolean, errors: string[]): void {
   const source = namesSource(p.database);
   if (!source) { errors.push(`${where} position: unknown names database "${p.database}"`); return; }
   if (source.notInUse) errors.push(`${where} position: ${source.notInUse}`);
@@ -105,7 +110,12 @@ function checkNamesPosition(where: string, name: string, p: Extract<EarthPositio
   const host = hostOf(rec.sourceUrl);
   if (host === null || !onPositionHost(host)) errors.push(`${where} position: record ${p.recordId} is not on a position host: ${host ?? rec.sourceUrl}`);
   else if (!onHost(host, source.host)) errors.push(`${where} position: record ${p.recordId} is cited to ${host}, not to the ${source.label} host ${source.host}`);
-  if (rec.name !== name && !rec.variants.includes(name)) errors.push(`${where}: record ${p.recordId} is named ${rec.name}`);
+  if (p.recordName !== undefined) {
+    // Shown under the quoted page's name: the record's own name is stated and must match, and the shown name must be on that page.
+    if (p.recordName !== rec.name) errors.push(`${where}: record ${p.recordId} is named ${rec.name}, not ${p.recordName}`);
+    if (rec.name === name) errors.push(`${where}: "recordName" repeats the landmark's name; remove it`);
+    if (!nameOnQuotePage) errors.push(`${where}: the name is not on its quoted page, so it cannot stand in for the record name ${rec.name}`);
+  } else if (rec.name !== name && !rec.variants.includes(name)) errors.push(`${where}: record ${p.recordId} is named ${rec.name}`);
   // A national database is used only for its own country: the record's own territory (a province code, a land district) must be in it.
   // A record with no territory at all fails too: the check must not depend on every reader setting the field.
   if (source.country && !source.country.holds(rec.territory ?? '')) {
@@ -145,7 +155,7 @@ export function verifyLandmarks(file: LandmarksFile, pages: Map<string, string>,
       quote(l.quote, l.sourceId, where);
       if (!hasOwnPosition(l)) continue;
       const p = l.position;
-      if (p.kind === 'names-database') checkNamesPosition(where, l.name, p, records.get(namesRecordKey(p)), errors);
+      if (p.kind === 'names-database') checkNamesPosition(where, l.name, p, records.get(namesRecordKey(p)), includesText(pages.get(l.sourceId) ?? '', l.name), errors);
       if (p.kind === 'quoted' && !l.type) errors.push(`${where}: a landmark with a quoted position needs a type`);
       if (p.kind === 'names-database' && l.type) errors.push(`${where}: a names-database landmark takes its type from the record's feature class; remove "type"`);
       if (p.kind === 'quoted') {

@@ -12,6 +12,7 @@ import { computeBodyFrameUniforms } from './bodyUniforms';
 import { advanceSpot, CINEMATIC_FILL, receivesEarthshine } from './illustrative';
 import { useDetailsStore } from '../../state/detailsStore';
 import { useExploreStore } from '../../state/exploreStore';
+import { featureLightShown, useFeatureLightStore } from '../../state/featureLightStore';
 import { featureEntry } from '../../ui/explore/featureModel';
 import { NO_CLIP } from './createBodyMaterial';
 import { exploreShellUniforms } from '../interior/exploreFrame';
@@ -63,7 +64,9 @@ export function useBodyUniforms(body: Body, materials: Array<ShaderMaterial | nu
       spotOn = sp.id === ex.selectedFeatureId;
     }
     if (spotOn || sp.strength > 0) sp.strength = advanceSpot(sp.strength, spotOn, delta, prefersReducedMotion());
+    const wasLit = sp.id !== null;
     if (!spotOn && sp.strength === 0) sp.id = null;
+    if (wasLit && sp.id === null && useFeatureLightStore.getState().shown) useFeatureLightStore.setState({ shown: false });
     const centre = frame.bodyPositionsKm.get(body.id);
     const renderRadiusKm = frame.bodyRenderRadiusKm.get(body.id);
     if (!centre || !renderRadiusKm) return;
@@ -82,6 +85,11 @@ export function useBodyUniforms(body: Body, materials: Array<ShaderMaterial | nu
       occluders: body.category === 'star' ? [] : pickOccluders(body.id, bodies, frame.bodyPositionsKm),
       ...(earthshineFrom && frame.bodyPositionsKm.has(earthshineFrom) ? { earthPosKm: frame.bodyPositionsKm.get(earthshineFrom)! } : {}),
     });
+    // The overlay labels the light while it shows. Only the body that is lit, or was just lit, reports.
+    if (sp.id !== null || sp.strength > 0) {
+      const shown = featureLightShown(sp.strength, sp.dir, u.sunDirObj);
+      if (useFeatureLightStore.getState().shown !== shown) useFeatureLightStore.setState({ shown });
+    }
     const effects = useRenderStore.getState().effects;
     for (const m of materials) {
       if (!m) continue;

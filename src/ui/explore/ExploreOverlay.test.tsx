@@ -137,6 +137,24 @@ describe('ExploreOverlay', () => {
     expect(screen.queryByText('No named surface features')).toBeNull();
   });
 
+  it('labels the feature light as illustrative while it shows, on Surface with a feature selected', async () => {
+    const { FEATURE_LIGHT_LABEL, useFeatureLightStore } = await import('../../state/featureLightStore');
+    explore('mars');
+    render(<ExploreOverlay catalog={catalog} />);
+    expect(screen.queryByText(FEATURE_LIGHT_LABEL)).toBeNull();
+    act(() => {
+      useExploreStore.getState().selectFeature('hellas-planitia');
+      useFeatureLightStore.setState({ shown: true });
+    });
+    expect(screen.getByText(FEATURE_LIGHT_LABEL)).toBeInTheDocument();
+    // Not on Interior, and not once the light is off.
+    await userEvent.click(screen.getByRole('radio', { name: 'Interior' }));
+    expect(screen.queryByText(FEATURE_LIGHT_LABEL)).toBeNull();
+    act(() => useFeatureLightStore.setState({ shown: false }));
+    await userEvent.click(screen.getByRole('radio', { name: 'Surface' }));
+    expect(screen.queryByText(FEATURE_LIGHT_LABEL)).toBeNull();
+  });
+
   it('shows the radar tag on Surface for Venus and not on Interior', async () => {
     explore('venus');
     render(<ExploreOverlay catalog={catalog} />);

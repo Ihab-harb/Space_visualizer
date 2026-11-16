@@ -120,3 +120,6 @@ An empty list means every quote is on its page and every number and date is in i
 ## Time zones in mission dates
 
 Mission dates follow the cited page's own convention, which is US local time on some NASA pages and UT on others. Prefer the UT date only when the page states the UT date with its year in a form the date check accepts; otherwise record the page's main date (often US local time) and keep the quote that states it. Example of the otherwise case: the Mariner 4 page gives the flyby as July 14, 1965 (EDT) and the UT form only as "[01:00:57 UT July 15]", without a year, so the arrival is recorded as 1965-07-14 (UT was July 15). Do not convert dates yourself: the recorded date must appear in the quote.
+
+### A common name for a names-database landmark
+A landmark may be shown under the name its quoted page uses, when the names database writes the name another way ("Mount Fuji" against "Fujisan"). Put the common name in `"name"` and the record's own name in the position's `"recordName"`. The build fails unless `recordName` is exactly the fetched record's name and the common name is on the quoted page. The card shows both names.

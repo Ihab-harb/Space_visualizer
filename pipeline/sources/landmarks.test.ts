@@ -115,6 +115,19 @@ describe('verifyLandmarks', () => {
       expect(verifyLandmarks(earth(noArea), pages, records('Meteor Crater')).join()).toContain('GNIS record 123 needs an area');
       expect(verifyLandmarks(earth({ ...record, database: 'gns' }), pages).join()).toContain('the GEOnet Names Server is not in use');
     });
+    it('accepts a landmark shown under the name on its quoted page when recordName is the record name', () => {
+      // "Olympus Mons" is on the quoted page; the record is named otherwise and lists no such variant.
+      const shown = (name: string) => file({ bodies: { earth: [{ name, sourceId: 'page', quote: Q, position: { ...record, recordName: 'Barringer Crater' } as never }] } });
+      expect(verifyLandmarks(shown('Olympus Mons'), pages, records('Barringer Crater'))).toEqual([]);
+      // Without recordName the same landmark fails, as before.
+      expect(verifyLandmarks(file({ bodies: { earth: [{ name: 'Olympus Mons', sourceId: 'page', quote: Q, position: record as never }] } }), pages, records('Barringer Crater')).join()).toContain('record 123 is named Barringer Crater');
+    });
+    it('fails a recordName that is not the record name, one that repeats the landmark name, and a shown name that is not on the page', () => {
+      const shown = (name: string, recordName = 'Barringer Crater') => file({ bodies: { earth: [{ name, sourceId: 'page', quote: Q, position: { ...record, recordName } as never }] } });
+      expect(verifyLandmarks(shown('Olympus Mons'), pages, records('Canyon Diablo Crater')).join()).toContain('record 123 is named Canyon Diablo Crater, not Barringer Crater');
+      expect(verifyLandmarks(shown('Olympus Mons', 'Olympus Mons'), pages, records('Olympus Mons')).join()).toContain('"recordName" repeats the landmark');
+      expect(verifyLandmarks(shown('Somewhere Else'), pages, records('Barringer Crater')).join()).toContain('the name is not on its quoted page');
+    });
     it('fails a database that is not in the registry, and an area on a source that has none', () => {
       expect(verifyLandmarks(earth({ ...record, database: 'geonames-org' }), pages).join()).toContain('unknown names database "geonames-org"');
       expect(verifyLandmarks(earth({ kind: 'names-database', database: 'noaa-volcano', recordId: '123', area: 'AZ' }), pages).join()).toContain('only GNIS records name an area');

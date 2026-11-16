@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "bodyId": "earth",
-  "generatedAt": "2026-11-16T19:38:36.346Z",
+  "generatedAt": "2026-11-16T20:24:31.989Z",
   "interior": {
     "radiusKm": {
       "value": 6371,
@@ -302,8 +302,8 @@
       }
     },
     {
-      "id": "fujisan",
-      "name": "Fujisan",
+      "id": "mount-fuji",
+      "name": "Mount Fuji",
       "type": "Stratovolcano",
       "latDeg": 35.361,
       "lonDegE": 138.728,
@@ -313,7 +313,7 @@
       "position": {
         "kind": "names-database",
         "sourceId": "noaa-ncei-volcano-locations",
-        "text": "35.361, 138.728"
+        "text": "35.361, 138.728 (NOAA NCEI name: Fujisan)"
       },
       "sizeSourceId": null,
       "quote": {
@@ -322,8 +322,8 @@
       }
     },
     {
-      "id": "kilimanjaro",
-      "name": "Kilimanjaro",
+      "id": "mount-kilimanjaro",
+      "name": "Mount Kilimanjaro",
       "type": "Stratovolcano",
       "latDeg": -3.07,
       "lonDegE": 37.35,
@@ -333,7 +333,7 @@
       "position": {
         "kind": "names-database",
         "sourceId": "noaa-ncei-volcano-locations",
-        "text": "-3.07, 37.35"
+        "text": "-3.07, 37.35 (NOAA NCEI name: Kilimanjaro)"
       },
       "sizeSourceId": null,
       "quote": {
@@ -382,8 +382,8 @@
       }
     },
     {
-      "id": "etna",
-      "name": "Etna",
+      "id": "mount-etna",
+      "name": "Mount Etna",
       "type": "Stratovolcano",
       "latDeg": 37.748,
       "lonDegE": 14.999,
@@ -393,7 +393,7 @@
       "position": {
         "kind": "names-database",
         "sourceId": "noaa-ncei-volcano-locations",
-        "text": "37.748, 14.999"
+        "text": "37.748, 14.999 (NOAA NCEI name: Etna)"
       },
       "sizeSourceId": null,
       "quote": {
@@ -402,8 +402,8 @@
       }
     },
     {
-      "id": "vesuvius",
-      "name": "Vesuvius",
+      "id": "mount-vesuvius",
+      "name": "Mount Vesuvius",
       "type": "Complex volcano",
       "latDeg": 40.821,
       "lonDegE": 14.426,
@@ -413,7 +413,7 @@
       "position": {
         "kind": "names-database",
         "sourceId": "noaa-ncei-volcano-locations",
-        "text": "40.821, 14.426"
+        "text": "40.821, 14.426 (NOAA NCEI name: Vesuvius)"
       },
       "sizeSourceId": null,
       "quote": {
@@ -622,8 +622,8 @@
       }
     },
     {
-      "id": "pinatubo",
-      "name": "Pinatubo",
+      "id": "mount-pinatubo",
+      "name": "Mount Pinatubo",
       "type": "Stratovolcano",
       "latDeg": 15.13,
       "lonDegE": 120.35,
@@ -633,7 +633,7 @@
       "position": {
         "kind": "names-database",
         "sourceId": "noaa-ncei-volcano-locations",
-        "text": "15.13, 120.35"
+        "text": "15.13, 120.35 (NOAA NCEI name: Pinatubo)"
       },
       "sizeSourceId": null,
       "quote": {
@@ -643,7 +643,7 @@
     },
     {
       "id": "eyjafjallajokull",
-      "name": "Eyjafjallajokull",
+      "name": "Eyjafjallajökull",
       "type": "Stratovolcano",
       "latDeg": 63.633,
       "lonDegE": 340.367,
@@ -653,7 +653,7 @@
       "position": {
         "kind": "names-database",
         "sourceId": "noaa-ncei-volcano-locations",
-        "text": "63.633, -19.633"
+        "text": "63.633, -19.633 (NOAA NCEI name: Eyjafjallajokull)"
       },
       "sizeSourceId": null,
       "quote": {
@@ -723,7 +723,7 @@
     },
     {
       "id": "popocatepetl",
-      "name": "Popocatepetl",
+      "name": "Popocatépetl",
       "type": "Stratovolcano",
       "latDeg": 19.023,
       "lonDegE": 261.378,
@@ -733,7 +733,7 @@
       "position": {
         "kind": "names-database",
         "sourceId": "noaa-ncei-volcano-locations",
-        "text": "19.023, -98.622"
+        "text": "19.023, -98.622 (NOAA NCEI name: Popocatepetl)"
       },
       "sizeSourceId": null,
       "quote": {
@@ -742,8 +742,8 @@
       }
     },
     {
-      "id": "tambora",
-      "name": "Tambora",
+      "id": "mount-tambora",
+      "name": "Mount Tambora",
       "type": "Stratovolcano",
       "latDeg": -8.25,
       "lonDegE": 118,
@@ -753,7 +753,7 @@
       "position": {
         "kind": "names-database",
         "sourceId": "noaa-ncei-volcano-locations",
-        "text": "-8.25, 118"
+        "text": "-8.25, 118 (NOAA NCEI name: Tambora)"
       },
       "sizeSourceId": null,
       "quote": {
@@ -882,8 +882,8 @@
       }
     },
     {
-      "id": "tenerife",
-      "name": "Tenerife",
+      "id": "teide",
+      "name": "Teide",
       "type": "Stratovolcano",
       "latDeg": 28.271,
       "lonDegE": 343.359,
@@ -893,7 +893,7 @@
       "position": {
         "kind": "names-database",
         "sourceId": "noaa-ncei-volcano-locations",
-        "text": "28.271, -16.641"
+        "text": "28.271, -16.641 (NOAA NCEI name: Tenerife)"
       },
       "sizeSourceId": null,
       "quote": {
@@ -1062,8 +1062,8 @@
       }
     },
     {
-      "id": "cratere-des-pingualuit",
-      "name": "Cratère des Pingualuit",
+      "id": "pingualuit-crater",
+      "name": "Pingualuit Crater",
       "type": "Crater",
       "latDeg": 61.2775,
       "lonDegE": 286.3363889,
@@ -1073,7 +1073,7 @@
       "position": {
         "kind": "names-database",
         "sourceId": "nrcan-cgndb",
-        "text": "61.2775, -73.6636111"
+        "text": "61.2775, -73.6636111 (CGNDB name: Cratère des Pingualuit)"
       },
       "sizeSourceId": "nasa-eo-pingualuit-crater",
       "quote": {

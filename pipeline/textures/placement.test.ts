@@ -155,7 +155,7 @@ beforeAll(async () => {
  * states where the landmark is and what lies at its mirrored and half-turned longitudes. Measured (radius 0.4 degrees):
  * none of the United States or Antarctic landmarks has water at its half-turned longitude, so at first the half-turn was
  * caught by Lake Superior alone. With landmarks worldwide (Task 12), Hudson Bay (water, land at both transforms) and
- * Fujisan (land, open ocean at both transforms) catch the mirror and the half-turn as well.
+ * Mount Fuji (land, open ocean at both transforms) catch the mirror and the half-turn as well.
  */
 const EARTH_MAP = 'public/textures/earth/color_1k.webp';
 /** Disc radius in degrees (about 45 km): inside the Island of Hawaiʻi and inside Lake Superior. */
@@ -170,7 +170,7 @@ const EARTH_GUARDS: EarthGuard[] = [
   { name: 'McMurdo Dry Valleys', expect: 'land', prior: 'ice-free land in Victoria Land; its mirrored longitude (162° W at 77.5° S) is the open Ross Sea; its half-turn is the ice sheet' },
   { name: 'Mauna Loa', expect: 'land', prior: 'a volcano covering half the Island of Hawaiʻi; its mirrored longitude (155.6° E at 19.5° N) is open Pacific; its half-turn is the Sahara' },
   { name: 'Hudson Bay', expect: 'water', prior: 'an inland sea of more than 1.2 million square kilometres; its mirrored (86° E) and half-turned (94° E) longitudes at 60° N are central Siberia, dry land' },
-  { name: 'Fujisan', expect: 'land', prior: 'a volcano on Honshu, about 110 km west-southwest of Tokyo; its mirrored longitude (138.7° W at 35.4° N) is the open North Pacific and its half-turn (41.3° W) the open North Atlantic' },
+  { name: 'Mount Fuji', expect: 'land', prior: 'a volcano on Honshu, about 110 km west-southwest of Tokyo; its mirrored longitude (138.7° W at 35.4° N) is the open North Pacific and its half-turn (41.3° W) the open North Atlantic' },
 ];
 let earthImage: Gray;
 let earthLandmarks: Feature[];

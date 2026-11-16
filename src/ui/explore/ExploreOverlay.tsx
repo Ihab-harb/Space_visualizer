@@ -6,6 +6,7 @@ import { drawnForDetails } from '../../scene/interior/useExploreTransition';
 import { readyDetails, useBodyDetails, useDetailsStore } from '../../state/detailsStore';
 import { tabOf, useExploreStore, type ExploreTab } from '../../state/exploreStore';
 import { useRadarShown } from '../../state/viewStore';
+import { FEATURE_LIGHT_LABEL, useFeatureLightStore } from '../../state/featureLightStore';
 import { citationModel } from '../citations';
 import { radarShown } from '../imagery';
 import { interiorNotes, layerLabelText } from '../interiorText';
@@ -260,6 +261,8 @@ function Overlay({ catalog, body }: { catalog: Catalog; body: Body }) {
   const onInterior = tab === 'interior';
   // Surface notes: Venus's radar tag, and a plain line for a body whose ready details name no features at all.
   const radarTag = !onInterior && !!details && radarOn && radarShown(body, true);
+  // The feature light is illustrative, so it is labelled while it lights ground.
+  const lightTag = useFeatureLightStore((s) => s.shown) && !onInterior && selectedFeatureId !== null;
   const noFeatures = !onInterior && !!details && details.landmarks.length === 0 && !(details.features && details.features.items.length > 0);
   const showInteriorNotes = onInterior && layers.length > 0;
 
@@ -323,9 +326,10 @@ function Overlay({ catalog, body }: { catalog: Catalog; body: Body }) {
           <button type="button" className="explore-leave explore-icon-button glass" aria-label="Leave Explore" title="Leave Explore (Esc)" onClick={leave} data-explore-reserved="leave">
             ✕
           </button>
-          {(radarTag || noFeatures) && (
+          {(radarTag || noFeatures || lightTag) && (
             <p className="explore-notes" data-explore-reserved="notes">
               {radarTag && <span className="header__radar-tag">Radar view · not visible light</span>}
+              {lightTag && <span className="header__radar-tag">{FEATURE_LIGHT_LABEL}</span>}
               {noFeatures && <span className="explore-note-text">No named surface features</span>}
             </p>
           )}
