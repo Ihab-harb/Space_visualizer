@@ -27,7 +27,7 @@ Rules, as built in `pipeline/sources/namesDatabase.ts` and `pipeline/sources/lan
 ## Second decision: other official sources (2026-11-16)
 GNS could not be reached (below), so Earth had landmarks only in the United States and Antarctica. **The user (2026-11-15): "it didn't work use other official sources that have similar data".** This widens Option B: an Earth landmark's position may come from other official sources that hold named places with coordinates.
 
-**What counts as an official position source** (controller ruling, for the user to check):
+**What counts as an official position source** (controller ruling; **accepted by the user on 2026-11-16: "use the new sources"**, which covers NOAA NCEI, GEBCO, Natural Resources Canada and LINZ):
 - A government agency (national mapping, geological, oceanographic or space agency) or an intergovernmental body (UN bodies, IHO-IOC and the like), publishing a names database or dataset in which each record has a name and coordinates.
 - Fetchable by the pipeline over HTTPS with no key, login, cookie or browser, through the cached fetchers, so `npm run data:offline` works afterwards.
 - Its terms allow use with attribution; the licence text and where it is stated are recorded.

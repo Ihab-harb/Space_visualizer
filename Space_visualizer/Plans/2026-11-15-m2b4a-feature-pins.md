@@ -816,4 +816,4 @@ The task review (Sonnet) found no Critical issue and the 21 GNIS landmarks uncha
 
 Numbers after the fixes, run by the controller: 1,231 unit tests in 122 files, typecheck clean, `npm run data:offline` clean (208 sources). No end-to-end rerun: the fixes change one build check and one full stop.
 
-The execution ledger (`.superpowers/sdd/2026-11-15-m2b4a-feature-pins/`, git-ignored) is kept until the user says it can go: it holds the full task reports and research logs that this record condenses.
+The execution ledger (`.superpowers/sdd/2026-11-15-m2b4a-feature-pins/`, git-ignored) was deleted on 2026-11-16 when the user said "delete the scratch folder". This record and the data-source notes hold what it condensed.
