@@ -33,8 +33,9 @@ describe('featureEntries', () => {
 
   it('handles a body with landmarks and no features (Earth)', () => {
     const e = featureEntries(realDetails('earth'));
-    expect(e).toHaveLength(21);
+    expect(e).toHaveLength(43);
     expect(e[0]).toMatchObject({ id: 'grand-canyon', positionKind: 'names-database', positionSourceId: 'usgs-gnis', positionText: '36.112764° N, 113.9960696° W', diameterKm: null, typeMeaning: null });
+    expect(e.find((x) => x.id === 'hudson-bay')).toMatchObject({ type: 'Bay', positionSourceId: 'nrcan-cgndb', positionText: '60.0° N, 86.0° W' });
   });
 
   it('returns [] for a body with neither', () => {
@@ -77,6 +78,13 @@ describe('formatRecordPosition', () => {
     expect(formatRecordPosition('-29.1510582, 89.2533842')).toBe('29.1510582° S, 89.2533842° E');
     expect(formatRecordPosition('-77.5, 162.0')).toBe('77.5° S, 162.0° E');
     expect(formatRecordPosition('10.0, 20.0')).toBe('10.0° N, 20.0° E');
+  });
+  it('reads the text forms of the other names databases (NOAA, GEBCO, NRCan, LINZ) as written', () => {
+    expect(formatRecordPosition('-8.25, 118')).toBe('8.25° S, 118° E'); // NOAA Tambora: a whole-number longitude
+    expect(formatRecordPosition('-0.3194, -21.47372')).toBe('0.3194° S, 21.47372° W'); // GEBCO Mid-Atlantic Ridge
+    expect(formatRecordPosition('60.0, -86.0')).toBe('60.0° N, 86.0° W'); // NRCan Hudson Bay
+    expect(formatRecordPosition('-43.595348, 170.141926')).toBe('43.595348° S, 170.141926° E'); // LINZ Aoraki/Mount Cook
+    expect(formatRecordPosition('11.373333, 142.591667 (GEBCO name: Challenger Deep)')).toBe('11.373333° N, 142.591667° E (GEBCO name: Challenger Deep)');
   });
   it('keeps a trailing note and leaves other text alone', () => {
     expect(formatRecordPosition('1.5, -2.5 (GNIS name: X)')).toBe('1.5° N, 2.5° W (GNIS name: X)');

@@ -3,8 +3,8 @@ import { POSITION_HOSTS, parseStatedPosition, verifyLandmarks, type LandmarksFil
 import { OFFICIAL_HOSTS } from './quotedReference';
 
 describe('POSITION_HOSTS', () => {
-  it('is the official hosts plus the NGA, for positions only', () => {
-    expect(POSITION_HOSTS).toEqual([...OFFICIAL_HOSTS, 'nga.mil']);
+  it('is the official hosts plus the hosts of the names databases in the registry, for positions only', () => {
+    expect(POSITION_HOSTS).toEqual([...OFFICIAL_HOSTS, 'nga.mil', 'noaa.gov', 'gebco.net', 'natural-resources.canada.ca', 'linz.govt.nz']);
   });
 });
 import { pageText } from './quotedReference';
@@ -102,13 +102,38 @@ describe('verifyLandmarks', () => {
       expect(verifyLandmarks(earth(record), pages, records('Meteor Crater', [], 'https://www.geonames.org/123')).join()).toContain('record 123 is not on a position host: www.geonames.org');
     });
     it('never accepts a POSITION_HOSTS-only host for a quoted sentence', () => {
-      const nga = { ...SRC, url: 'https://geonames.nga.mil/page' };
-      expect(verifyLandmarks(file({ sources: [nga] }), pages).join()).toContain('is not on an official host: geonames.nga.mil');
+      const official = new Set<string>(OFFICIAL_HOSTS);
+      const positionOnly = POSITION_HOSTS.filter((h) => !official.has(h));
+      expect(positionOnly.length).toBe(5);
+      for (const h of positionOnly) {
+        const src = { ...SRC, url: `https://www.${h}/page` };
+        expect(verifyLandmarks(file({ sources: [src] }), pages).join()).toContain(`is not on an official host: www.${h}`);
+      }
     });
     it('fails a GNIS record with no area to fetch it from, and a database that is not in use', () => {
       const { area: _a, ...noArea } = record;
       expect(verifyLandmarks(earth(noArea), pages, records('Meteor Crater')).join()).toContain('GNIS record 123 needs an area');
       expect(verifyLandmarks(earth({ ...record, database: 'gns' }), pages).join()).toContain('the GEOnet Names Server is not in use');
+    });
+    it('fails a database that is not in the registry, and an area on a source that has none', () => {
+      expect(verifyLandmarks(earth({ ...record, database: 'geonames-org' }), pages).join()).toContain('unknown names database "geonames-org"');
+      expect(verifyLandmarks(earth({ kind: 'names-database', database: 'noaa-volcano', recordId: '123', area: 'AZ' }), pages).join()).toContain('only GNIS records name an area');
+    });
+    it("fails a record cited to a position host that is not its own database's", () => {
+      const noaa = { kind: 'names-database', database: 'noaa-volcano', recordId: '123' };
+      const cited = (url: string) => new Map([['noaa-volcano:123', { name: 'Meteor Crater', variants: [], sourceUrl: url }]]);
+      expect(verifyLandmarks(earth(noaa), pages, cited('https://www.ncei.noaa.gov/products/volcanoes'))).toEqual([]);
+      expect(verifyLandmarks(earth(noaa), pages, cited('https://www.gebco.net/page')).join()).toContain('record 123 is cited to www.gebco.net, not to the NOAA NCEI host noaa.gov');
+    });
+    it('fails a national database record whose own territory is outside its country', () => {
+      // NRCan province code 72 is "Undersea Feature"; a LINZ record with no land district is in the Ross Dependency or undersea.
+      const nrcan = { kind: 'names-database', database: 'nrcan', recordId: 'MABQB' };
+      const at = (territory: string) => new Map([['nrcan:MABQB', { name: 'Meteor Crater', variants: [], sourceUrl: 'https://natural-resources.canada.ca/x', territory }]]);
+      expect(verifyLandmarks(earth(nrcan), pages, at('62'))).toEqual([]);
+      expect(verifyLandmarks(earth(nrcan), pages, at('72'))).toContain('earth/Meteor Crater: record MABQB is outside Canada (territory "72"); a national names database is used only for its own country');
+      const linz = { kind: 'names-database', database: 'linz', recordId: '12865' };
+      const nz = new Map([['linz:12865', { name: 'Meteor Crater', variants: [], sourceUrl: 'https://www.linz.govt.nz/x', territory: '' }]]);
+      expect(verifyLandmarks(earth(linz), pages, nz).join()).toContain('record 12865 is outside New Zealand (territory "")');
     });
   });
 });

@@ -434,6 +434,19 @@ describe('buildDetails', () => {
       const { errors } = build({ bodies: [...bodies, makeEarth()], landmarks: earthFile(gnis), earthPositions: gnisRecord('Other Peak'), curatedPages: pagesWithLandmarks() });
       expect(errors).toContain('landmarks.json: earth/Test Peak: record 123 is named Other Peak');
     });
+    it('registers each names database a landmark uses, and checks a national record against its country', () => {
+      const gebco = { kind: 'names-database', database: 'gebco', recordId: '563' };
+      const record = { name: 'Test Peak', variants: [], featureClass: 'Deep', latDeg: 11.373333, lonDegE: 142.591667, text: '11.373333, 142.591667', source: namesSourceSpec('gebco'), retrievedAt: '2026-11-16' };
+      const { details, sources, errors } = build({ bodies: [...bodies, makeEarth()], landmarks: earthFile(gebco), earthPositions: new Map([['gebco:563', record]]), curatedPages: pagesWithLandmarks() });
+      expect(errors).toEqual([]);
+      expect(details.find((d) => d.bodyId === 'earth')!.landmarks[0]).toMatchObject({ type: 'Deep', position: { kind: 'names-database', sourceId: 'gebco-undersea-feature-names', text: '11.373333, 142.591667' } });
+      expect(sources.find((s) => s.id === 'gebco-undersea-feature-names')).toMatchObject({ url: 'https://www.gebco.net/data-products/undersea-feature-names', retrievedAt: '2026-11-16' });
+
+      const nrcan = { kind: 'names-database', database: 'nrcan', recordId: 'MABQB' };
+      const undersea = { ...record, featureClass: 'Undersea Feature', source: namesSourceSpec('nrcan'), territory: '72' };
+      const outside = build({ bodies: [...bodies, makeEarth()], landmarks: earthFile(nrcan), earthPositions: new Map([['nrcan:MABQB', undersea]]), curatedPages: pagesWithLandmarks() });
+      expect(outside.errors).toContain('landmarks.json: earth/Test Peak: record MABQB is outside Canada (territory "72"); a national names database is used only for its own country');
+    });
     it('stores a quoted Earth position with the matched span as its text', () => {
       const lm = earthFile({ kind: 'quoted', latDeg: -43.31, lonDegE: 348.64, sourceId: 'lm-page', quote: Q_EARTH_POS });
       const { details, errors } = build({ bodies: [...bodies, makeEarth()], landmarks: lm, curatedPages: pagesWithLandmarks() });

@@ -36,11 +36,12 @@ export interface DetailsInputs {
   missions: MissionsFile;
   curatedPages: ReadonlyMap<string, FetchedText>;
   landmarks: LandmarksFile;
-  /** Records read from a names database, by `namesRecordKey` (`gnis:23907`): the record's names and point, and its source. */
+  /** Records read from a names database, by `namesRecordKey` (`gnis:23907`, `noaa-volcano:10106`): the record's names and point, and its source. */
   earthPositions: ReadonlyMap<string, EarthRecord>;
 }
 
-export interface EarthRecord { name: string; variants: readonly string[]; featureClass: string; latDeg: number; lonDegE: number; text: string; source: SourceSpec; retrievedAt: string }
+/** A fetched names-database record. `territory` is where a national database's record says the place is. */
+export interface EarthRecord { name: string; variants: readonly string[]; featureClass: string; latDeg: number; lonDegE: number; text: string; territory?: string; source: SourceSpec; retrievedAt: string }
 
 const round = (x: number) => Math.round(x * 1e6) / 1e6;
 
@@ -153,7 +154,9 @@ export function buildDetails(inputs: DetailsInputs, generatedAt: string): { deta
   for (const [id, page] of inputs.curatedPages) pages.set(id, pageText(page.text));
   errors.push(...verifyInteriors(inputs.interiors, pages).map((e) => `interiors.json: ${e}`));
   errors.push(...verifyMissions(inputs.missions, pages).map((e) => `missions.json: ${e}`));
-  const records = new Map([...inputs.earthPositions].map(([k, r]) => [k, { name: r.name, variants: r.variants, sourceUrl: r.source.url, featureClass: r.featureClass }]));
+  const records = new Map([...inputs.earthPositions].map(([k, r]) => [k, {
+    name: r.name, variants: r.variants, sourceUrl: r.source.url, featureClass: r.featureClass, ...(r.territory !== undefined ? { territory: r.territory } : {}),
+  }]));
   errors.push(...verifyLandmarks(inputs.landmarks, pages, records).map((e) => `landmarks.json: ${e}`));
 
   const candidates = new Map<string, Source>();

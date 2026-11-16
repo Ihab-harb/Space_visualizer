@@ -1,26 +1,31 @@
 import { featureId } from '../../src/core/details/featureId';
-import { GNS_NOT_IN_USE } from './namesDatabase';
+import { NAMES_SOURCES, namesSource, type NamesDatabase } from './namesDatabase';
 import {
   OFFICIAL_HOSTS, checkQuote, checkSources, isPaper, normaliseQuote, pageFor, quoteHasKm,
   type CuratedSource,
 } from './quotedReference';
 
-/** Hosts a position source may be on: the official hosts plus the NGA (ADR 0010). Never used for quoted sentences. */
-export const POSITION_HOSTS = [...OFFICIAL_HOSTS, 'nga.mil'] as const;
+const OFFICIAL = new Set<string>(OFFICIAL_HOSTS);
+
+/**
+ * Hosts a position source may be on: the official hosts plus the hosts of the names databases in the registry (ADR 0010).
+ * The extra hosts are never used for quoted sentences.
+ */
+export const POSITION_HOSTS: readonly string[] = [...OFFICIAL_HOSTS, ...Object.values(NAMES_SOURCES).map((s) => s.host).filter((h) => !OFFICIAL.has(h))];
 
 /**
  * Where an Earth landmark's position comes from: a names-database record (resolved by the build) or numbers stated in a quoted
  * sentence. A GNIS record also names its `area`, the staged file that holds it: a two-letter state code or `Antarctica`.
  */
 export type EarthPosition =
-  | { kind: 'names-database'; database: 'gnis' | 'gns'; recordId: string; area?: string }
+  | { kind: 'names-database'; database: NamesDatabase; recordId: string; area?: string }
   | { kind: 'quoted'; latDeg: number; lonDegE: number; sourceId: string; quote: string };
 
 /** Key of a names-database record in the fetched positions. */
 export const namesRecordKey = (p: { database: string; recordId: string }): string => `${p.database}:${p.recordId}`;
 
-/** What the check needs from a fetched names-database record. */
-export interface FetchedNamesRecord { name: string; variants: readonly string[]; sourceUrl: string; featureClass?: string }
+/** What the check needs from a fetched names-database record. `territory` is set by national databases. */
+export interface FetchedNamesRecord { name: string; variants: readonly string[]; sourceUrl: string; featureClass?: string; territory?: string }
 
 export type CuratedLandmark =
   /** A Gazetteer body: everything but the sentence comes from the Gazetteer, by name. */
@@ -86,7 +91,26 @@ const includesText = (quote: string, part: string): boolean => normaliseQuote(qu
 const close = (a: number, b: number): boolean => Math.abs(a - b) <= 1e-4;
 
 const hostOf = (url: string): string | null => { try { return new URL(url).hostname.toLowerCase(); } catch { return null; } };
-const onPositionHost = (host: string): boolean => POSITION_HOSTS.some((h) => host === h || host.endsWith(`.${h}`));
+const onHost = (host: string, h: string): boolean => host === h || host.endsWith(`.${h}`);
+const onPositionHost = (host: string): boolean => POSITION_HOSTS.some((h) => onHost(host, h));
+
+/** The problems of one names-database position: the database, its area, and the fetched record (host, name, country). */
+function checkNamesPosition(where: string, name: string, p: Extract<EarthPosition, { kind: 'names-database' }>, rec: FetchedNamesRecord | undefined, errors: string[]): void {
+  const source = namesSource(p.database);
+  if (!source) { errors.push(`${where} position: unknown names database "${p.database}"`); return; }
+  if (source.notInUse) errors.push(`${where} position: ${source.notInUse}`);
+  else if (source.needsArea && !p.area) errors.push(`${where} position: GNIS record ${p.recordId} needs an area (a state code or Antarctica)`);
+  else if (!source.needsArea && p.area !== undefined) errors.push(`${where} position: only GNIS records name an area; remove "area"`);
+  if (!rec) return;
+  const host = hostOf(rec.sourceUrl);
+  if (host === null || !onPositionHost(host)) errors.push(`${where} position: record ${p.recordId} is not on a position host: ${host ?? rec.sourceUrl}`);
+  else if (!onHost(host, source.host)) errors.push(`${where} position: record ${p.recordId} is cited to ${host}, not to the ${source.label} host ${source.host}`);
+  if (rec.name !== name && !rec.variants.includes(name)) errors.push(`${where}: record ${p.recordId} is named ${rec.name}`);
+  // A national database is used only for its own country: the record's own territory (a province code, a land district) must be in it.
+  if (source.country && rec.territory !== undefined && !source.country.holds(rec.territory)) {
+    errors.push(`${where}: record ${p.recordId} is outside ${source.country.name} (territory "${rec.territory}"); a national names database is used only for its own country`);
+  }
+}
 
 /**
  * The problems in a landmarks file, one string each; an empty list means every quote is on its page and every stored number is
@@ -120,16 +144,7 @@ export function verifyLandmarks(file: LandmarksFile, pages: Map<string, string>,
       quote(l.quote, l.sourceId, where);
       if (!hasOwnPosition(l)) continue;
       const p = l.position;
-      if (p.kind === 'names-database') {
-        if (p.database === 'gns') errors.push(`${where} position: ${GNS_NOT_IN_USE}`);
-        else if (!p.area) errors.push(`${where} position: GNIS record ${p.recordId} needs an area (a state code or Antarctica)`);
-        const rec = records.get(namesRecordKey(p));
-        if (rec) {
-          const host = hostOf(rec.sourceUrl);
-          if (host === null || !onPositionHost(host)) errors.push(`${where} position: record ${p.recordId} is not on a position host: ${host ?? rec.sourceUrl}`);
-          if (rec.name !== l.name && !rec.variants.includes(l.name)) errors.push(`${where}: record ${p.recordId} is named ${rec.name}`);
-        }
-      }
+      if (p.kind === 'names-database') checkNamesPosition(where, l.name, p, records.get(namesRecordKey(p)), errors);
       if (p.kind === 'quoted' && !l.type) errors.push(`${where}: a landmark with a quoted position needs a type`);
       if (p.kind === 'names-database' && l.type) errors.push(`${where}: a names-database landmark takes its type from the record's feature class; remove "type"`);
       if (p.kind === 'quoted') {

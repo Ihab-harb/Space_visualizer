@@ -11,7 +11,7 @@ import { readDbf } from './lib/dbf';
 import { readZipEntry } from './lib/zip';
 import { GAZETTEER_TARGETS, gazetteerUrl } from './sources/gazetteer';
 import { hasOwnPosition, namesRecordKey, type LandmarksFile } from './sources/landmarks';
-import { findNamesRecord, namesFileCacheName, namesFileEntries, namesFileUrl, namesSourceSpec } from './sources/namesDatabase';
+import { namesSource, type NamesFile } from './sources/namesDatabase';
 import { PLANET_SHEET_IDS } from './sources/nssdcPlanetSheet';
 import { quotePageUrl, type InteriorsFile, type MissionsFile } from './sources/quotedReference';
 import { planetSheetUrl, SOURCE_SPECS } from './sources/registry';
@@ -65,23 +65,42 @@ try {
   for (const s of [...interiors.sources, ...missions.sources, ...landmarks.sources]) {
     if (!curatedPages.has(s.id)) curatedPages.set(s.id, await fetchCached(quotePageUrl(s), `ref-${s.id}.html`, options));
   }
-  // Earth positions: each GNIS record is read from its area's staged file (one download per area, cached in pipeline/raw).
+  // Earth positions: each record is read from the files its names database names (a GNIS area's staged zip, one NOAA, GEBCO or
+  // NRCan record, the whole LINZ gazetteer), each fetched once into pipeline/raw. A database not in use, a bad id or area, or a
+  // record not found leaves the record out, and the build then reports it; nothing is skipped silently.
   const earthPositions = new Map<string, EarthRecord>();
-  const namesFiles = new Map<string, Array<{ recordId: string; key: string }>>();
-  for (const l of Object.values(landmarks.bodies).flat()) {
-    if (!hasOwnPosition(l) || l.position.kind !== 'names-database' || l.position.database !== 'gnis' || !l.position.area) continue;
-    namesFiles.set(l.position.area, [...(namesFiles.get(l.position.area) ?? []), { recordId: l.position.recordId, key: namesRecordKey(l.position) }]);
-  }
-  for (const [area, wanted] of namesFiles) {
-    const zip = await fetchBinaryCached(namesFileUrl('gnis', area), namesFileCacheName('gnis', area), options);
-    const buf = await readFile(zip.path);
-    const entries = namesFileEntries('gnis', area);
-    const text = readZipEntry(buf, entries.records).toString('utf8');
-    const names = entries.names ? readZipEntry(buf, entries.names).toString('utf8') : undefined;
-    for (const w of wanted) {
-      const rec = findNamesRecord('gnis', text, w.recordId, names);
-      if (rec) earthPositions.set(w.key, { ...rec, source: namesSourceSpec('gnis'), retrievedAt: zip.retrievedAt });
+  const namesTexts = new Map<string, { texts: string[]; retrievedAt: string }>();
+  const loadNamesFile = async (f: NamesFile) => {
+    const cached = namesTexts.get(f.cacheName);
+    if (cached) return cached;
+    let loaded: { texts: string[]; retrievedAt: string };
+    if (f.zipEntries) {
+      const zip = await fetchBinaryCached(f.url, f.cacheName, options);
+      const buf = await readFile(zip.path);
+      loaded = { texts: f.zipEntries.map((e) => readZipEntry(buf, e).toString('utf8')), retrievedAt: zip.retrievedAt };
+    } else {
+      const page = await fetchCached(f.url, f.cacheName, options);
+      loaded = { texts: [page.text], retrievedAt: page.retrievedAt };
     }
+    namesTexts.set(f.cacheName, loaded);
+    return loaded;
+  };
+  for (const l of Object.values(landmarks.bodies).flat()) {
+    if (!hasOwnPosition(l) || l.position.kind !== 'names-database') continue;
+    const p = l.position;
+    const source = namesSource(p.database);
+    if (!source?.spec || source.notInUse) continue;
+    let files: NamesFile[];
+    try { files = source.files(p.recordId, p.area); } catch { continue; }
+    const texts: string[] = [];
+    let retrievedAt = '';
+    for (const f of files) {
+      const loaded = await loadNamesFile(f);
+      texts.push(...loaded.texts);
+      if (loaded.retrievedAt > retrievedAt) retrievedAt = loaded.retrievedAt;
+    }
+    const rec = source.read(texts, p.recordId);
+    if (rec) earthPositions.set(namesRecordKey(p), { ...rec, source: source.spec, retrievedAt });
   }
   const built = buildDetails(
     { bodies: output.bodies.bodies, existingSourceIds: new Set(output.sources.sources.map((s) => s.id)), existingSourceUrls: new Map(output.sources.sources.map((s) => [s.url, s.id])), planetSheets, sunSheet, moonSheet, gazetteer, interiors, missions, curatedPages, landmarks, earthPositions },

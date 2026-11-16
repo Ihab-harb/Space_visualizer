@@ -153,8 +153,9 @@ beforeAll(async () => {
  * Earth has no Gazetteer sizes, so its guard uses a small fixed disc and a land-or-water prior instead of a size-scaled
  * contrast. On the 1k colour map open ocean and the Great Lakes are near black; land and ice are brighter. Each guard
  * states where the landmark is and what lies at its mirrored and half-turned longitudes. Measured (radius 0.4 degrees):
- * no Earth landmark has water at its half-turned longitude (all are land or Antarctic ice there), so the half-turn is
- * caught by Lake Superior, a lake whose transforms fall on dry land.
+ * none of the United States or Antarctic landmarks has water at its half-turned longitude, so at first the half-turn was
+ * caught by Lake Superior alone. With landmarks worldwide (Task 12), Hudson Bay (water, land at both transforms) and
+ * Fujisan (land, open ocean at both transforms) catch the mirror and the half-turn as well.
  */
 const EARTH_MAP = 'public/textures/earth/color_1k.webp';
 /** Disc radius in degrees (about 45 km): inside the Island of Hawaiʻi and inside Lake Superior. */
@@ -168,6 +169,8 @@ const EARTH_GUARDS: EarthGuard[] = [
   { name: 'Lake Superior', expect: 'water', prior: 'open water, the largest freshwater lake by area; its mirrored (87.8° E) and half-turned (92.2° E) longitudes at 47.5° N are inland Asia, dry land' },
   { name: 'McMurdo Dry Valleys', expect: 'land', prior: 'ice-free land in Victoria Land; its mirrored longitude (162° W at 77.5° S) is the open Ross Sea; its half-turn is the ice sheet' },
   { name: 'Mauna Loa', expect: 'land', prior: 'a volcano covering half the Island of Hawaiʻi; its mirrored longitude (155.6° E at 19.5° N) is open Pacific; its half-turn is the Sahara' },
+  { name: 'Hudson Bay', expect: 'water', prior: 'an inland sea of more than 1.2 million square kilometres; its mirrored (86° E) and half-turned (94° E) longitudes at 60° N are central Siberia, dry land' },
+  { name: 'Fujisan', expect: 'land', prior: 'a volcano on Honshu, about 110 km west-southwest of Tokyo; its mirrored longitude (138.7° W at 35.4° N) is the open North Pacific and its half-turn (41.3° W) the open North Atlantic' },
 ];
 let earthImage: Gray;
 let earthLandmarks: Feature[];
@@ -191,11 +194,12 @@ describe('Earth placement guards (land against water)', () => {
       expect(earthPasses(g, s), `${g.name} should be ${g.expect}, water share ${s.toFixed(2)}`).toBe(true);
     }
   });
+  // At least two guards catch each transform, so neither rests on one landmark.
   it('earth: a mirrored longitude would be caught', () => {
-    expect(EARTH_GUARDS.filter((g) => !earthPasses(g, waterShare(g, (lon) => 360 - lon))).length).toBeGreaterThan(0);
+    expect(EARTH_GUARDS.filter((g) => !earthPasses(g, waterShare(g, (lon) => 360 - lon))).length).toBeGreaterThan(1);
   });
   it('earth: a half-turn shift would be caught', () => {
-    expect(EARTH_GUARDS.filter((g) => !earthPasses(g, waterShare(g, (lon) => lon + 180))).length).toBeGreaterThan(0);
+    expect(EARTH_GUARDS.filter((g) => !earthPasses(g, waterShare(g, (lon) => lon + 180))).length).toBeGreaterThan(1);
   });
 });
 
