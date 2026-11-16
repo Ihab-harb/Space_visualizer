@@ -573,6 +573,7 @@ Final counts: 1,197 unit tests in 122 files, typecheck clean, 144 end-to-end tes
 | 9 | `19a2ce5`, `9f88a67` | pins on the globe; fix round: names hide with the pins, stay on their own side, off-screen dots hidden |
 | 10 | `e0454d3`, `2ad9190` | feature card, All features list, search; fix round: Earth type is the GNIS feature class |
 | 11 | `c990bf4`, then the `test,docs` commit | hidden interior phone dots fix; end-to-end tests, golden views, this documentation |
+| 12 | `e1b44a6`, then the `docs(vault)` commit | Earth landmarks from other official sources (NOAA, GEBCO, NRCan, LINZ); these notes |
 
 ### Rulings
 Each with its cost if wrong. Copied from the execution ledger.
@@ -745,5 +746,65 @@ Final numbers, run by the controller on the final commit: **1,211 unit tests in 
 Rulings made in the final review, beside those above:
 - **`schemaVersion` stays 1** although `landmarks`, `featureTypes` and `FeatureItem.id` became required. The app and its data ship together, and the plan left it to the builder. Cost if wrong: a stale cached details file fails to parse; since F1 that shows as a load error with Retry.
 - **Not fixed, left for the user or later:** no Magellan credit inside Explore (the spec asks only for the tag); the landmark sentences that point at an image (Nathair Facula, Fonteyn, Sif Mons) are listed for the user, not dropped. No cost.
+
+### Task 12 (2026-11-15): Earth landmarks from other official sources
+**Why:** GNS could not be reached, so Earth had landmarks only in the United States and Antarctica. The user: "it didn't work use other official sources that have similar data". The controller's ruling on what counts as an official position source is in [[0010-names-databases-for-earth-positions]] (second decision). Built 2026-11-16.
+
+**Research log (condensed; the full log is in the task report in the execution ledger):**
+- **NOAA NCEI Volcano Locations (used, worldwide).** Docs: https://www.ncei.noaa.gov/products/natural-hazards/tsunamis-earthquakes-volcanoes/volcanoes. Fetch one record: `https://www.ngdc.noaa.gov/hazel/hazard-service/api/v1/volcanolocs/<id>` (JSON; the list has 1,609 records in 9 pages of 200; `name=` does not filter). Fields: `id`, `name`, `country`, `latitude`, `longitude`, `morphology`. Licence (NCEI metadata via doi:10.7289/V5JW8BSH): "Access to this dataset is unrestricted." Example: 10106 Etna, Stratovolcano, 37.748, 14.999.
+- **IHO-IOC GEBCO Gazetteer of Undersea Feature Names (used, worldwide).** Docs: https://www.gebco.net/data-products/undersea-feature-names; API documented at `https://www.ngdc.noaa.gov/gazetteer/docs/api/v1` (OpenAPI 3.1). Fetch: `https://www.ngdc.noaa.gov/gazetteer/api/v1/feature?featureId=<id>` (`/feature/<id>` takes the changing state id). Fields: `name` (specific term), `genericTerm`, `approvalState`, `singlePointLatitude`, `singlePointLongitude`. Licence: "Please include the following citation when data from the gazetteer are used or reproduced…: IHO-IOC GEBCO Gazetteer of Undersea Feature Names, www.gebco.net" (gebco.net and NCEI's ArcGIS item). Example: 563 Challenger + Deep, 11.373333, 142.591667. The controller's 403 did not repeat.
+- **NRCan Canadian Geographical Names Database (used, Canada only).** Docs: https://natural-resources.canada.ca/maps-tools-publications/maps/geographical-names-canada/download-geographical-names-data. Fetch: `https://geogratis.gc.ca/services/geoname/en/geonames/<KEY>.csv` and the code list `.../codes/concise.json`. Fields: `id`, `name`, `concise.code`, `province.code`, `latitude`, `longitude`. Licence (same page): "Use of the data is subject to the Open Government Licence - Canada." (open.canada.ca rejected the fetcher.) Example: OAHKV Hudson Bay, BAY, province 62, 60.0, -86.0.
+- **LINZ New Zealand Gazetteer (used, New Zealand only).** Docs: https://www.linz.govt.nz/products-services/place-names/place-names-new-zealand. Fetch: the whole `https://gazetteer.linz.govt.nz/gaz.csv` (about 21 MB, 54,748 records; record pages are a browser app). Fields: `name_id`, `name`, `feat_type`, `land_district`, `crd_latitude`, `crd_longitude`. Licence: https://www.linz.govt.nz/copyright, "…licensed under the Creative Commons Attribution 4.0 International licence"; LINZ Data Service layer 51681 says CC BY 4.0. Example: 7297 Aoraki/Mount Cook, Hill, Canterbury, -43.595348, 170.141926.
+- **Australia, Composite Gazetteer (not used).** The Geoscience Australia map service works (fields `name`, `feature`, `latitude`, `longitude`), but no licence is stated: data.gov.au "notspecified", the WFS "AccessConstraints: Geoscience Australia", the catalogue record 403. Geoscience Australia's CC BY 4.0 excludes third-party content, and the names belong to the state authorities. Open for the user.
+- **Not tried again or not allowed:** UNESCO World Heritage (Cloudflare 403 for the controller); the NGA server (Task 5); ArcGIS Online copies of the GEBCO data (commercial platform); GeoNames.org, OpenStreetMap, Wikidata (not allowed).
+
+**Code:** `NAMES_SOURCES` in `pipeline/sources/namesDatabase.ts`, one entry per database (`spec`, `host`, `coverage`, `country` for national ones, `files`, `read`; GNIS also `needsArea`; GNS `notInUse`). `run.ts` fetches each file once (zip entries or text) through the cached fetchers. `verifyLandmarks` checks: unknown database, not in use, GNIS area, an `area` on a non-GNIS entry, the record cited on its own database's host, the name, and a national record's territory. `POSITION_HOSTS` is now the official hosts plus the registry's hosts. GNIS output is unchanged (checked: `data:offline` before adding data changed only timestamps). Card positions read correctly for every new text form (`60.0, -86.0`, `-8.25, 118`) with no code change.
+
+**Landmarks added (22; Earth now 43):**
+
+| # | Name (the record's) | Database:id | Type | Position text | Sentence page |
+|---|---|---|---|---|---|
+| 2 | Fujisan | noaa-volcano:80303 | Stratovolcano | 35.361, 138.728 | EO Mount Fuji, Japan (39099) |
+| 3 | Kilimanjaro | noaa-volcano:20215 | Stratovolcano | -3.07, 37.35 | EO Mount Kilimanjaro Closeup (4708) |
+| 4 | Challenger Deep | gebco:563 | Deep | 11.373333, 142.591667 | USGS This Dynamic Earth, Understanding plate motions |
+| 6 | Etna | noaa-volcano:10106 | Stratovolcano | 37.748, 14.999 | EO A Long View of Mount Etna (151977) |
+| 7 | Vesuvius | noaa-volcano:10102 | Complex volcano | 40.821, 14.426 | EO A View of Vesuvius (149298) |
+| 8 | Hudson Bay | nrcan:OAHKV | Bay | 60.0, -86.0 | EO Rebounding in Hudson Bay (147405) |
+| 11 | Mariana Trench | gebco:1870 | Trench | 16.9797, 147.8342 | EO New View of the Deepest Trench (77640) |
+| 12 | Krakatau | noaa-volcano:60200 | Caldera | -6.101, 105.423 | EO Krakatau, Indonesia (47143) |
+| 14 | Aoraki/Mount Cook | linz:7297 | Hill | -43.595348, 170.141926 | EO The Spine of South Island (149512) |
+| 15 | Mid-Atlantic Ridge | gebco:1990 | Ridge | -0.3194, -21.47372 | USGS This Dynamic Earth, Understanding plate motions |
+| 18 | Pinatubo | noaa-volcano:703083 | Stratovolcano | 15.13, 120.35 | EO Global Effects of Mount Pinatubo (1510) |
+| 19 | Eyjafjallajokull | noaa-volcano:170202 | Stratovolcano | 63.633, -19.633 | EO Ash Plume across the North Atlantic (43670) |
+| 21 | Bay of Fundy | nrcan:CANGC | Bay | 44.945579, -65.386626 | EO High and Low Tides in Bay of Fundy (6650) |
+| 23 | Popocatepetl | noaa-volcano:140109 | Stratovolcano | 19.023, -98.622 | EO Topography of Popocatépetl (6073) |
+| 24 | Tambora | noaa-volcano:60404 | Stratovolcano | -8.25, 118 | EO Mount Tambora Volcano (39412) |
+| 27 | Chimborazo | noaa-volcano:1502071 | Stratovolcano | -1.469, -78.817 | NASA APOD 2016 February 25 |
+| 29 | Nyiragongo | noaa-volcano:20303 | Stratovolcano | -1.52, 29.25 | EO Nyiragongo Vents Steam (7659) |
+| 31 | Tenerife | noaa-volcano:180303 | Stratovolcano | 28.271, -16.641 | EO Tenerife, Canary Islands (88659) |
+| 33 | Réservoir Manicouagan | nrcan:EHDCW | Lake | 51.381357, -68.298777 | EO A Modern Lake in an Ancient Crater (149414) |
+| 35 | Puerto Rico Trench | gebco:2520 | Trench | 19.9214, -65.3933 | USGS Open-File Report 2004-1400 |
+| 36 | Whakaari / White Island | linz:6961 | Island | -37.520974, 177.183931 | EO Another Puff from Whakaari (153818) |
+| 40 | Cratère des Pingualuit | nrcan:EQZQV | Crater (size 3.44 km, quoted) | 61.2775, -73.6636111 | EO Pingualuit Crater, Canada (8472) |
+
+Quotes were copied from the fetched page text by start and end anchors and checked with the pipeline's own `quoteOnPage`; names were taken from the fetched records. The rank is editorial (best known first): the 21 GNIS landmarks keep their relative order and the new ones are merged in by how well known they are.
+
+**Coverage now:** North America (United States, Canada, Mexico), South America (Chimborazo), Europe (Etna, Vesuvius, Eyjafjallajokull), Africa (Kilimanjaro, Nyiragongo, Tenerife), Asia (Fujisan, Krakatau, Pinatubo, Tambora), Oceania (Aoraki/Mount Cook, Whakaari / White Island), Antarctica; the Pacific (Challenger Deep, Mariana Trench) and the Atlantic (Mid-Atlantic Ridge, Puerto Rico Trench). **Not covered:** Australia (no licence stated), the Indian and Arctic Oceans (no sentence picked), and famous wide places with no reachable official point record: the Himalaya and Mount Everest, the Sahara, the Amazon, the Nile, the Great Barrier Reef, Uluru, Lake Eyre, the Richat Structure.
+
+**Dropped:** Milford Sound (in LINZ; no official sentence found), Mount Logan (in NRCan; NASA names it only in passing), Southern Alps (the NASA sentence describes the image), East Pacific Rise and Emperor Seamounts (in GEBCO; no sentence that reads on its own), Erta Ale ("…located in this rift zone…"), Cotopaxi (no usable sentence), Kilimanjaro's "triple volcano" sentence (the page has "lasterupted"), Manicouagan's first page ("about212"), Chimborazo's Earth Observatory sentence (starts "Although it is…"), Pinatubo on NASA SVS (HTTP 503 at the time; replaced by Earth Observatory), the USGS Pinatubo fact sheet ("of this century", from 1997), the Puerto Rico Trench "deepest part" sentence (it carries "( Figure 2 )").
+
+**Rulings (each with its cost if wrong):**
+1. **A GEBCO name is the specific and generic terms joined** ("Challenger" + "Deep"), with the specific term as a listed name. Cost if wrong: four names would read "Challenger", "Mariana", "Mid-Atlantic", "Puerto Rico".
+2. **NOAA "Unknown" morphology is no class,** so such a record fails the build. Cost if wrong: none today (no such record is used).
+3. **NRCan type is the concise code's term** from the database's own code list (`BAY-Bay` → "Bay"); the code list is a second cached file. Cost if wrong: types read "BAY-Bay".
+4. **National scope is checked on the record's own territory field** (NRCan province code, LINZ land district), not on its coordinates. Cost if wrong: a record whose territory field is wrong would pass; none of ours.
+5. **Each record must be cited to its own database's host,** stricter than "any position host". Cost if wrong: none.
+6. **The cited GEBCO source is gebco.net,** as GEBCO asks, though the records are fetched from NOAA NCEI. Cost if wrong: one URL in sources.
+7. **Australia not used** for want of a stated licence. Cost if wrong: Uluru, Lake Eyre and the Great Barrier Reef could have been added; open for the user.
+8. **Record names kept as the databases write them** (Fujisan, Popocatepetl, Eyjafjallajokull, Tenerife for Teide, Réservoir Manicouagan). Cost if wrong: less familiar names on some cards.
+
+**Placement guards:** measured every Earth landmark (disc 0.4°, water below luminance 0.08). Added Hudson Bay (water; true 1.00, mirrored 0.00, half-turned 0.00: central Siberia at both) and Fujisan (land; 0.00, 1.00, 1.00: the open North Pacific and North Atlantic). The Earth mirror and half-turn tests now need at least two guards to catch, so the half-turn no longer rests on Lake Superior alone. Whakaari / White Island measures as water (1.00) on the 1k map: the island is smaller than the disc, so an island volcano cannot be a land guard at this resolution. Kilimanjaro (0.00, 1.00, 1.00) and the Mid-Atlantic Ridge (1.00, 0.00, 1.00) also discriminate and are spare.
+
+**Counts:** 1,231 unit tests (122 files), typecheck clean, `npm run data` and `npm run data:offline` clean (208 sources). End-to-end `features` and `golden`: 44 of 44 in one run. The Earth golden `Assets/m2b4a/8c-earth-surface.png` was re-shot (new pins: Popocatepetl, Puerto Rico Trench, Chimborazo; "Landmarks (43)"). Screenshots of Earth from three sides and three cards were looked at: each new dot sits on its place (Fujisan on Honshu, Whakaari off the Bay of Plenty, Hudson Bay mid-bay, Challenger Deep southwest of Guam). Task 12 is not reviewed yet.
 
 The execution ledger (`.superpowers/sdd/2026-11-15-m2b4a-feature-pins/`, git-ignored) is kept until the user says it can go: it holds the full task reports and research logs that this record condenses.
