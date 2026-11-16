@@ -26,7 +26,7 @@ A 3D, time-accurate solar system in the browser — every fact cited to an offic
 - [[2026-10-10-m2b1-body-details|M2b.1 Body details data]] — complete (merged, PR #5)
 - [[2026-10-29-m2b2-moon|M2b.2 The Moon]] — complete (merged, PR #6)
 - [[2026-10-30-m2b3-explore-interior|M2b.3 Explore mode, interior cutaway and composition charts]] — complete (merged, PR #8)
-- [[2026-11-15-m2b4a-feature-pins|M2b.4a Feature pins]] — complete on branch `m2b4a-pins` (eleven tasks, whole-branch review, fix wave and re-review done 2026-11-15); not pushed, no PR
+- [[2026-11-15-m2b4a-feature-pins|M2b.4a Feature pins]] — complete on branch `m2b4a-pins` (eleven tasks, whole-branch review, fix wave and re-review done 2026-11-15; Task 12 added and reviewed 2026-11-16); pushed and PR #9 opened against `main` on 2026-11-16 (the user: "go ahead")
 - [[2026-10-16-cloud-sessions-setup|Cloud sessions setup]] — shelved
 - [[2026-10-16-cloud-task-queue|Cloud task queue]] — shelved
 
