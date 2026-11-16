@@ -134,6 +134,9 @@ describe('verifyLandmarks', () => {
       const linz = { kind: 'names-database', database: 'linz', recordId: '12865' };
       const nz = new Map([['linz:12865', { name: 'Meteor Crater', variants: [], sourceUrl: 'https://www.linz.govt.nz/x', territory: '' }]]);
       expect(verifyLandmarks(earth(linz), pages, nz).join()).toContain('record 12865 is outside New Zealand (territory "")');
+      // A national record that carries no territory at all fails too (the check fails closed).
+      const bare = new Map([['nrcan:MABQB', { name: 'Meteor Crater', variants: [], sourceUrl: 'https://natural-resources.canada.ca/x' }]]);
+      expect(verifyLandmarks(earth(nrcan), pages, bare).join()).toContain('record MABQB is outside Canada (territory "")');
     });
   });
 });

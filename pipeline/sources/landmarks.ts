@@ -107,8 +107,9 @@ function checkNamesPosition(where: string, name: string, p: Extract<EarthPositio
   else if (!onHost(host, source.host)) errors.push(`${where} position: record ${p.recordId} is cited to ${host}, not to the ${source.label} host ${source.host}`);
   if (rec.name !== name && !rec.variants.includes(name)) errors.push(`${where}: record ${p.recordId} is named ${rec.name}`);
   // A national database is used only for its own country: the record's own territory (a province code, a land district) must be in it.
-  if (source.country && rec.territory !== undefined && !source.country.holds(rec.territory)) {
-    errors.push(`${where}: record ${p.recordId} is outside ${source.country.name} (territory "${rec.territory}"); a national names database is used only for its own country`);
+  // A record with no territory at all fails too: the check must not depend on every reader setting the field.
+  if (source.country && !source.country.holds(rec.territory ?? '')) {
+    errors.push(`${where}: record ${p.recordId} is outside ${source.country.name} (territory "${rec.territory ?? ''}"); a national names database is used only for its own country`);
   }
 }
 

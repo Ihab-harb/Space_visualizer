@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "bodyId": "earth",
-  "generatedAt": "2026-11-16T02:10:39.676Z",
+  "generatedAt": "2026-11-16T19:38:36.346Z",
   "interior": {
     "radiusKm": {
       "value": 6371,
@@ -997,7 +997,7 @@
       },
       "sizeSourceId": null,
       "quote": {
-        "text": "The partially submerged volcano in New Zealand’s Bay of Plenty is called Whakaari/White Island",
+        "text": "The partially submerged volcano in New Zealand’s Bay of Plenty is called Whakaari/White Island .",
         "sourceId": "nasa-eo-another-puff-from-whakaari"
       }
     },
