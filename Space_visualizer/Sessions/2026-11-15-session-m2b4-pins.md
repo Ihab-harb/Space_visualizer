@@ -118,3 +118,8 @@ The user, in their words: "keep australia", "have both versions of the names", "
 - Screenshot: `Assets/m2b4a/8d-earth-australia.png`.
 - **Found on the way, not fixed:** `npm run data` now fails on the network. NSSDCA's chronology page became a script-loaded app, so two Venera launch quotes are no longer on it. The local cache was restored from the Internet Archive copy of 2026-10-07, so `data:offline` builds. It needs its own fix ([[2026-10-05-m2a1-carry-over]], "From Task 13").
 
+## The project handbook (2026-11-19)
+The user: "i need you to fully document the ethodology and general structure a well as code quality and requirements used in this project, everything used as a rule everything used as a source and the logic behind every decision and every source should be noted".
+- Done: a `Handbook/` folder in the vault, linked from [[Home]] and [[Start here]]. [[Methodology]], [[Structure]], [[Code quality and requirements]], [[Rules]] (every rule with where it is stated and why, marked where code enforces it), [[Sources register]] (all 216 sources, generated from the data by `node scripts/sources-register.mjs`, with why each family is trusted, what each source supplies, and the sources not used and why), [[Decision register]] (every decision and ruling with its reason, and the open ones).
+- Not committed yet: the user decides.
+- Still open from before: push to PR #9; the six still-weak sentences; the broken network data build (Venera quotes).

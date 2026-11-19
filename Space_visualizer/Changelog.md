@@ -187,3 +187,7 @@ Back to [[Home]]
 - The user: "keep australia", "fix the weak scentences". Australian positions now come from Geoscience Australia's Composite Gazetteer of Australia, under Geoscience Australia's site licence (CC BY 4.0; the dataset states none). Only records of a state or mainland territory count. Decision [[0010-names-databases-for-earth-positions]] (third decision); source note [[Earth names databases (GNIS, GNS)]].
 - **Earth has 49 landmarks:** Uluru, Kati Thanda-Lake Eyre, Shark Bay, K'gari, Wolfe Creek Crater and Gosses Bluff added. Uluru is a new placement guard.
 - **Better sentences** for Kandinsky, Apollodorus, Mendelssohn, Elysium Planitia, Meteor Crater, Yellowstone Caldera, Aoraki/Mount Cook, Mount Pinatubo and Whakaari / White Island. Dropped for want of a good official sentence: Nathair Facula, Fonteyn (Mercury, now 14), Sif Mons (Venus, now 15). Kept for the user: Gula Mons, Sapas Mons, Mare Imbrium, Meridiani Planum.
+
+## 2026-11-19 — Project handbook
+- New `Handbook/` in the vault, at the user's request ("fully document the methodology and general structure as well as code quality and requirements used in this project, everything used as a rule everything used as a source and the logic behind every decision and every source"): [[Handbook]], [[Methodology]], [[Structure]], [[Code quality and requirements]], [[Rules]], [[Sources register]], [[Decision register]].
+- The sources register is generated from the committed data by `scripts/sources-register.mjs` (216 sources in 10 families, each with what it supplies).

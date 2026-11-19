@@ -7,7 +7,10 @@ tags: [index]
 
 A 3D, time-accurate solar system in the browser — every fact cited to an official source — designed to grow to stars and galaxies.
 
-**New chat or new contributor? Read [[Start here]] first**, then the latest note in `Sessions/`. (Cloud sessions are shelved since 2026-11-15; [[Cloud sessions]] is kept for reference.)
+**New chat or new contributor? Read [[Start here]] first**, then the latest note in `Sessions/`. For how the project is made (method, structure, standards, every rule, source and decision), see the **[[Handbook]]**. (Cloud sessions are shelved since 2026-11-15; [[Cloud sessions]] is kept for reference.)
+
+## Handbook
+- [[Handbook]]: [[Methodology]] · [[Structure]] · [[Code quality and requirements]] · [[Rules]] · [[Sources register]] (generated) · [[Decision register]]
 
 ## Specs
 - [[2026-10-04-solar-system-visualizer-design|Design spec (2026-10-04)]] — approved
