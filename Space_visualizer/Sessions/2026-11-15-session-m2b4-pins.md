@@ -123,3 +123,8 @@ The user: "i need you to fully document the ethodology and general structure a w
 - Done: a `Handbook/` folder in the vault, linked from [[Home]] and [[Start here]]. [[Methodology]], [[Structure]], [[Code quality and requirements]], [[Rules]] (every rule with where it is stated and why, marked where code enforces it), [[Sources register]] (all 216 sources, generated from the data by `node scripts/sources-register.mjs`, with why each family is trusted, what each source supplies, and the sources not used and why), [[Decision register]] (every decision and ruling with its reason, and the open ones).
 - Not committed yet: the user decides.
 - Still open from before: push to PR #9; the six still-weak sentences; the broken network data build (Venera quotes).
+
+## Weak sentences and the online build (2026-11-19)
+The user: "use your own judgement to enhance the six weak sentences, fix the online data build".
+- Apollodorus got a better sentence (where it sits and its size). Elysium Planitia, Gula Mons, Sapas Mons, Mare Imbrium and Meridiani Planum were searched again and kept: no better allowed sentence exists, and the reasons are in the plan's Execution record.
+- The online data build passes again. Venera 7 and 13 now cite NSSDCA's Venus Exploration Timeline. The fetcher now ignores empty pages (they had erased two cached JPL pages) and gives up after two minutes.

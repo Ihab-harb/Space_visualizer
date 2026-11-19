@@ -191,3 +191,7 @@ Back to [[Home]]
 ## 2026-11-19 — Project handbook
 - New `Handbook/` in the vault, at the user's request ("fully document the methodology and general structure as well as code quality and requirements used in this project, everything used as a rule everything used as a source and the logic behind every decision and every source"): [[Handbook]], [[Methodology]], [[Structure]], [[Code quality and requirements]], [[Rules]], [[Sources register]], [[Decision register]].
 - The sources register is generated from the committed data by `scripts/sources-register.mjs` (216 sources in 10 families, each with what it supplies).
+
+## 2026-11-19 — Weak sentences and the online data build
+- Apollodorus has a better landmark sentence; five other weak sentences were checked again and kept, with reasons in [[2026-11-15-m2b4a-feature-pins]].
+- `npm run data` passes online again: Venera 7 and 13 cite the NSSDCA Venus Exploration Timeline; an empty page no longer overwrites the cache; fetches time out after two minutes.

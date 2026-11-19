@@ -76,9 +76,9 @@ What the app must do, how well, and the standards the code is held to.
 
 | Layer | Tool | What it covers | Size (2026-11-19) |
 |---|---|---|---|
-| Unit | Vitest (`npm test`) | Core maths and ephemerides against Horizons, time scales, Kepler edge cases, parsers on fixtures, quote checks, build checks, stores, camera and layout maths, UI components with Testing Library, placement guards on the committed maps | 1,251 tests in 124 files |
+| Unit | Vitest (`npm test`) | Core maths and ephemerides against Horizons, time scales, Kepler edge cases, parsers on fixtures, quote checks, build checks, stores, camera and layout maths, UI components with Testing Library, placement guards on the committed maps | 1,253 tests in 124 files |
 | Type | `tsc --noEmit` (`npm run typecheck`) | The whole repo | Clean |
-| Data | `npm run data:offline` | Every value sourced, every quote on its page, every record found and in its country | 216 sources, 10 bodies, 10 details files |
+| Data | `npm run data:offline` (and `npm run data` online) | Every value sourced, every quote on its page, every record found and in its country | 217 sources, 10 bodies, 10 details files |
 | End-to-end | Playwright with SwiftShader (`npx playwright test`) | App load, selection, views, quality presets, effects toggle, Tour, drawer, details, Explore, pins, layout at five viewports, golden views; fails on any page or shader error | 8 spec files; the last full run (2026-11-15) had 144 tests, 137 passing in one pass and the rest on rerun |
 | Performance | `npm run perf` (real GPU, local only) | Frame time per preset; Auto settling | Measured on the integrated GPU only |
 | Visual | Golden screenshots in `Assets/` | The look checklist | Reviewed per visual task |
@@ -93,8 +93,6 @@ What the app must do, how well, and the standards the code is held to.
 ## 5. Known quality debts (summary)
 The full, current list is in [[2026-10-05-m2a1-carry-over]]. The main ones:
 - No measurement on a discrete GPU yet; the interior colours and the feature light are unchecked on real GPUs.
-- The network data build fails on two Venera quotes since NSSDCA moved its chronology page to a script-loaded app (offline build still works from the cache).
 - Tab does not reach the pins; the feature list stays open beside the card on desktop (both left for later by the user).
 - The interior wording table lives in the UI instead of the data.
-- Pipeline fetches have no timeout of their own (a down service waits several minutes before the cache is used).
 - `schemaVersion` stays 1 though fields became required.

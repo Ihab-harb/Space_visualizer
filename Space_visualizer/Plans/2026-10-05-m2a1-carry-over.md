@@ -158,7 +158,6 @@ Minor findings from the per-task reviews of Tasks 5 to 9, summarised from the ex
   - any number right after a "(km)" label counts as km (a year in a table cell would); the Sun's boundary tolerance of 3,478 km is lenient.
 - **Missions (Task 6):**
   - the README example error "arrival 1965-07-14 not in any quote" names a date that is in its quote (it only shows the format);
-  - the Venera 7 and 13 quotes start at the date and include a neighbouring entry's name (no better official page; the NSSDCA spacecraft pages error);
   - Neptune's `by` wording is longer than planned; Venus Express ends on the ESA announcement date (2014-12-16; contact was lost 2014-11-28); Tianwen-1 is omitted; Earth has one current flagship (Landsat 9).
 - **Build (Task 7):**
   - `buildDetails` swallows a mean-radius parse failure silently before falling back (add a warning);
@@ -278,7 +277,7 @@ Minor findings from the per-task reviews, summarised from the execution ledger. 
   - the national-scope check reads the record's own territory field (NRCan province code, LINZ land district), not its coordinates;
   - Whakaari / White Island measures as water on the 1k map (the island is smaller than the 0.4° disc), so it cannot be a land guard; Kilimanjaro and the Mid-Atlantic Ridge would also discriminate and are spare guards.
 - **From Task 13 (Australia and the weak sentences, 2026-11-19):**
-  - **`npm run data` fails on the network (found 2026-11-19, not caused by Task 13):** NSSDCA rebuilt its Chronology of Lunar and Planetary Exploration page as a script-loaded app (records in `https://nssdc.gsfc.nasa.gov/planetary/chronology.xml`), so the Venera 7 and Venera 13 launch quotes in `missions.json` are no longer on the fetched page. The cached page in `pipeline/raw/` was restored from the Internet Archive snapshot of 2026-10-07 (raw copy, the same URL), so `npm run data:offline` builds; the source now shows retrieved 2026-10-07. Needs its own fix: re-source the two dates (for example to their NSSDCA Master Catalog pages) or read the XML;
-  - the pipeline's fetches have no timeout of their own: an unreachable host (geogratis.gc.ca on 2026-11-19) holds `npm run data` for minutes per file before the cached copy is used;
+  - ~~`npm run data` fails on the network~~ fixed 2026-11-19: Venera 7 and 13 now cite the NSSDCA Venus Exploration Timeline.
+  - ~~the pipeline's fetches have no timeout~~ fixed 2026-11-19: a two-minute limit, and an empty page counts as a failed fetch.
   - Australian records' precision varies by authority (Gosses Bluff `-23.8, 132.3167`); Western Australian names are in capitals, so those cards show the common name with "(CGA name: SHARK BAY)";
   - Australian candidates with a record but no sentence searched far enough: the Bungle Bungle Range, Mount Kosciuszko, the Nullarbor Plain, the Great Sandy Desert; the Great Dividing Range has one record per state.

@@ -170,11 +170,11 @@ Each line: the ruling, then its reason or cost if wrong. The full text is in eac
 - Task 12 review: the country check fails closed when a record has no territory.
 - Follow-ups: the size note with a 0.5 % threshold and a general wording (no source says why each pair differs); the feature light tuned to 5°–30°, level 0.75, shaded by relief; ids follow the shown name, so ten Earth ids changed.
 - Task 13: "inside Australia" is the record's state or mainland territory authority; type is `feature` in sentence case; the cited page is the catalogue record; four weak sentences kept with reasons (Gula Mons, Sapas Mons, Mare Imbrium, Meridiani Planum); Elysium Planitia's new sentence accepted though it starts "Just north of the divide"; Nathair Facula dropped as a landmark but kept as a placement guard.
+- Weak sentences, second pass (the user: "use your own judgement"): Apollodorus replaced; Elysium Planitia, Gula Mons, Sapas Mons, Mare Imbrium and Meridiani Planum kept with reasons; a USGS page showing a journal abstract counts as a research paper for landmarks.
+- Online build: Venera 7 and 13 cite the NSSDCA Venus Exploration Timeline; an empty page is a failed fetch; fetches time out after two minutes.
 
 ## 7. Open decisions (waiting for the user)
 Kept current in the latest session note, [[2026-11-15-session-m2b4-pins]] ("Open for the user"). At the time of writing:
 - Push the latest commits to PR #9, and merge it.
-- Drop or keep the six still-weak landmark sentences (Elysium Planitia, Apollodorus, Gula Mons, Sapas Mons, Mare Imbrium, Meridiani Planum).
-- Fix the network data build broken by NSSDCA's chronology page (Venera 7 and 13 quotes).
 - Extend the Moon's Horizons table beyond 1800–2051 (from M2b.2).
 - Check the interior colours and the pins on a real GPU (from M2b.3 and M2b.4a).
