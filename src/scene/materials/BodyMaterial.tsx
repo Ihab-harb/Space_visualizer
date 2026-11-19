@@ -1,5 +1,5 @@
 import type { Body } from '../../core/catalog/schema';
-import { useViewStore } from '../../state/viewStore';
+import { useRadarShown } from '../../state/viewStore';
 import { AtmosphereShell } from './AtmosphereShell';
 import { CloudShell } from './CloudShell';
 import { CoronaGlow } from './CoronaGlow';
@@ -29,8 +29,8 @@ export function BodyMaterial({ body, bodies }: { body: Body; bodies: readonly Bo
 
 /** Child meshes that ride with the body (clouds, atmosphere, rings, corona). */
 export function BodyExtras({ body, bodies }: { body: Body; bodies: readonly Body[] }) {
-  const venusRadar = useViewStore((s) => s.venusRadar);
-  const hideAtmosphere = body.render.shader === 'venus' && venusRadar && !!body.imagery?.radar;
+  const radarShown = useRadarShown();
+  const hideAtmosphere = body.render.shader === 'venus' && radarShown && !!body.imagery?.radar;
   return (
     <>
       {body.render.shader === 'earth' && <CloudShell body={body} bodies={bodies} />}

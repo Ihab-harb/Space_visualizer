@@ -14,7 +14,16 @@ export interface FetchOptions {
   fetchImpl?: typeof fetch;
   now?: () => Date;
   log?: (message: string) => void;
+  /** Give up on a request (headers and body) after this long, then use the cached copy if there is one. */
+  timeoutMs?: number;
 }
+
+/**
+ * A request that takes longer is abandoned. Without a limit a service that accepts the connection and never answers stalled
+ * `npm run data` for about 5 minutes per file (NRCan, 2026-11-19). Two minutes still covers the largest file
+ * (the LINZ gazetteer, about 21 MB) on a slow line.
+ */
+export const FETCH_TIMEOUT_MS = 120_000;
 
 const USER_AGENT = 'Mozilla/5.0 (compatible; solar-system-visualizer-data-pipeline)';
 
@@ -35,9 +44,11 @@ export async function fetchCached(url: string, cacheName: string, options: Fetch
   }
 
   try {
-    const res = await (options.fetchImpl ?? fetch)(url, { headers: { 'User-Agent': USER_AGENT } });
+    const res = await (options.fetchImpl ?? fetch)(url, { headers: { 'User-Agent': USER_AGENT }, signal: AbortSignal.timeout(options.timeoutMs ?? FETCH_TIMEOUT_MS) });
     if (!res.ok) throw new Error(`HTTP ${res.status} for ${url}`);
     const text = await res.text();
+    // An empty body with HTTP 200 happened on 2026-11-19 (two JPL news pages); caching it erased the good copy.
+    if (text.trim() === '') throw new Error(`empty response for ${url}`);
     const retrievedAt = (options.now ?? (() => new Date()))().toISOString().slice(0, 10);
     await mkdir(options.rawDir, { recursive: true });
     await writeFile(file, text, 'utf8');

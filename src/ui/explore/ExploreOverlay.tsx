@@ -4,11 +4,17 @@ import type { Body } from '../../core/catalog/schema';
 import type { BodyDetails } from '../../core/details/schema';
 import { drawnForDetails } from '../../scene/interior/useExploreTransition';
 import { readyDetails, useBodyDetails, useDetailsStore } from '../../state/detailsStore';
-import { useExploreStore, type ExploreView } from '../../state/exploreStore';
+import { tabOf, useExploreStore, type ExploreTab } from '../../state/exploreStore';
+import { useRadarShown } from '../../state/viewStore';
+import { FEATURE_LIGHT_LABEL, useFeatureLightStore } from '../../state/featureLightStore';
 import { citationModel } from '../citations';
+import { radarShown } from '../imagery';
 import { interiorNotes, layerLabelText } from '../interiorText';
 import { CompositionChart, Cite, CiteTargetContext, type CiteTarget } from './CompositionChart';
 import { compositionModel, compositionPreview } from './compositionModel';
+import { FeatureCard } from './FeatureCard';
+import { FeatureList } from './FeatureList';
+import { isUnknownFeature } from './featureModel';
 import { COLOURS_NOTE_ID, LayerCard } from './LayerCard';
 import { SourcesList, sourceTitle } from './SourcesList';
 
@@ -26,45 +32,61 @@ export function useNarrowViewport(): boolean {
   return useSyncExternalStore(subscribeNarrow, isNarrow, () => false);
 }
 
-const VIEWS: Array<{ view: ExploreView; name: string; key: string }> = [
-  { view: 'whole', name: 'Whole', key: '1' },
-  { view: 'exploded', name: 'Exploded', key: '2' },
-  { view: 'section', name: 'Half-section', key: '3' },
+type Choice<T extends string> = { value: T; name: string; key?: string; keys?: string[] };
+
+const TABS: Array<Choice<ExploreTab>> = [
+  { value: 'surface', name: 'Surface', key: '1' },
+  { value: 'interior', name: 'Interior', key: '2', keys: ['2', '3'] },
+];
+const INTERIOR_VIEWS: Array<Choice<'exploded' | 'section'>> = [
+  { value: 'exploded', name: 'Exploded', key: '2' },
+  { value: 'section', name: 'Half-section', key: '3' },
 ];
 
-/** Top centre: Whole · Exploded · Half-section, a radio group with arrow keys (keys 1–3 work anywhere in Explore). */
-function ViewSwitch() {
-  const view = useExploreStore((s) => s.view);
-  const setView = useExploreStore((s) => s.setView);
+/** A radio group of pill buttons with a roving tabindex and arrow keys; shared by the tabs and the interior sub-switch. */
+function PillSwitch<T extends string>({ label, className, reserved, choices, value, onChange }: { label: string; className: string; reserved: string; choices: Array<Choice<T>>; value: T; onChange: (v: T) => void }) {
   const refs = useRef<Array<HTMLButtonElement | null>>([]);
   const onKeyDown = (e: KeyboardEvent<HTMLButtonElement>, i: number) => {
     const step = e.key === 'ArrowRight' || e.key === 'ArrowDown' ? 1 : e.key === 'ArrowLeft' || e.key === 'ArrowUp' ? -1 : 0;
     if (!step) return;
     e.preventDefault();
-    const next = (i + step + VIEWS.length) % VIEWS.length;
-    setView(VIEWS[next]!.view);
+    const next = (i + step + choices.length) % choices.length;
+    onChange(choices[next]!.value);
     refs.current[next]?.focus();
   };
   return (
-    <div className="explore-switch glass" role="radiogroup" aria-label="Interior view" data-explore-reserved="switch">
-      {VIEWS.map((v, i) => (
+    <div className={`${className} glass`} role="radiogroup" aria-label={label} data-explore-reserved={reserved}>
+      {choices.map((c, i) => (
         <button
-          key={v.view}
+          key={c.value}
           ref={(el) => void (refs.current[i] = el)}
           type="button"
           role="radio"
-          aria-checked={view === v.view}
-          tabIndex={view === v.view ? 0 : -1}
-          title={`${v.name} (key ${v.key})`}
-          aria-keyshortcuts={v.key}
-          onClick={() => setView(v.view)}
+          aria-checked={value === c.value}
+          tabIndex={value === c.value ? 0 : -1}
+          {...(c.key ? { title: `${c.name} (${c.keys ? 'keys ' + c.keys.join(', ') : 'key ' + c.key})`, 'aria-keyshortcuts': (c.keys ?? [c.key]).join(' ') } : {})}
+          onClick={() => onChange(c.value)}
           onKeyDown={(e) => onKeyDown(e, i)}
         >
-          {v.name}
+          {c.name}
         </button>
       ))}
     </div>
   );
+}
+
+/** Top centre: Surface · Interior (keys 1–3 work anywhere in Explore: 1 is Surface, 2 and 3 are the interior views). */
+function SectionSwitch() {
+  const view = useExploreStore((s) => s.view);
+  const setTab = useExploreStore((s) => s.setTab);
+  return <PillSwitch label="Explore section" className="explore-switch" reserved="switch" choices={TABS} value={tabOf(view)} onChange={setTab} />;
+}
+
+/** Under the tabs, on Interior only: Exploded · Half-section. */
+function InteriorSwitch() {
+  const view = useExploreStore((s) => s.view);
+  const setView = useExploreStore((s) => s.setView);
+  return <PillSwitch label="Interior view" className="explore-subswitch" reserved="subswitch" choices={INTERIOR_VIEWS} value={view === 'section' ? 'section' : 'exploded'} onChange={setView} />;
 }
 
 /** Bottom strip: the top two gases (or the cited note, or "No atmosphere") and the button that opens the full chart. */
@@ -202,8 +224,13 @@ function Overlay({ catalog, body }: { catalog: Catalog; body: Body }) {
   const entry = useBodyDetails(body.id);
   const details = readyDetails(entry);
   const chartOpen = useExploreStore((s) => s.chartOpen);
+  const tab = useExploreStore((s) => tabOf(s.view));
+  const radarOn = useRadarShown();
   const selectedLayerId = useExploreStore((s) => s.selectedLayerId);
   const selectLayer = useExploreStore((s) => s.selectLayer);
+  const selectedFeatureId = useExploreStore((s) => s.selectedFeatureId);
+  const selectFeature = useExploreStore((s) => s.selectFeature);
+  const featureListOpen = useExploreStore((s) => s.featureListOpen);
   const leave = useExploreStore((s) => s.leave);
   const narrow = useNarrowViewport();
   const root = useRef<HTMLDivElement>(null);
@@ -231,17 +258,28 @@ function Overlay({ catalog, body }: { catalog: Catalog; body: Body }) {
   // What stands in for the view switch when nothing can open: still loading, no details file, a failed load, or no interior.
   const status = entry?.status ?? 'loading';
   const noInterior = status === 'missing' || (!!details && !details.interior);
+  const onInterior = tab === 'interior';
+  // Surface notes: Venus's radar tag, and a plain line for a body whose ready details name no features at all.
+  const radarTag = !onInterior && !!details && radarOn && radarShown(body, true);
+  // The feature light is illustrative, so it is labelled while it lights ground.
+  const lightTag = useFeatureLightStore((s) => s.shown) && !onInterior && selectedFeatureId !== null;
+  const noFeatures = !onInterior && !!details && details.landmarks.length === 0 && !(details.features && details.features.items.length > 0);
+  const showInteriorNotes = onInterior && layers.length > 0;
 
-  // On entry, focus moves into the overlay: the checked view (or ✕ when there is no switch).
+  // On entry, focus moves into the overlay: the checked view.
   useEffect(() => {
-    root.current?.querySelector<HTMLElement>('[role="radio"][aria-checked="true"], .explore-leave')?.focus();
+    root.current?.querySelector<HTMLElement>('[role="radio"][aria-checked="true"]')?.focus();
   }, []);
   // When the focused control goes away (Retry once the data loads, the card closed by Esc), focus stays in the overlay.
   useEffect(() => {
     const el = document.activeElement;
     if (el && el !== document.body) return;
-    root.current?.querySelector<HTMLElement>('[role="radio"][aria-checked="true"], .explore-leave')?.focus();
-  }, [status, selectedLayerId]);
+    root.current?.querySelector<HTMLElement>('[role="radio"][aria-checked="true"]')?.focus();
+  }, [status, selectedLayerId, selectedFeatureId, featureListOpen, tab]);
+  // A feature id the ready details do not know (a wrong id in the URL, or one from another body) is dropped; while the details load it is kept.
+  useEffect(() => {
+    if (isUnknownFeature(details, selectedFeatureId)) selectFeature(null);
+  }, [details, selectedFeatureId, selectFeature]);
   // After the chart closes, focus returns to the button that opened it.
   const wasOpen = useRef(chartOpen);
   useEffect(() => {
@@ -262,31 +300,53 @@ function Overlay({ catalog, body }: { catalog: Catalog; body: Body }) {
       <div ref={root} className={narrow ? 'explore-overlay is-narrow' : 'explore-overlay'} style={{ ['--body-accent' as string]: body.display.color } as CSSProperties}>
         <div className="explore-top">
           <div className="explore-title" data-explore-reserved="title">
-            <p className="explore-kicker">Explore · Interior</p>
+            <p className="explore-kicker">{onInterior ? 'Explore · Interior' : 'Explore · Surface'}</p>
             <h1 className="explore-title__name">{body.name}</h1>
           </div>
-          {status === 'loading' ? (
-            <p className="explore-switch explore-switch--empty glass" role="status" data-explore-reserved="switch">
-              Loading the interior…
-            </p>
-          ) : status === 'error' ? (
-            <div className="explore-switch explore-switch--empty explore-switch--error glass" role="alert" data-explore-reserved="switch">
-              <span>Could not load the interior.</span>
-              <button type="button" className="explore-link" onClick={() => void retry(body.id)}>
-                Retry
-              </button>
-            </div>
-          ) : noInterior ? (
-            <p className="explore-switch explore-switch--empty glass" data-explore-reserved="switch">
-              No interior data yet
-            </p>
-          ) : (
-            <ViewSwitch />
-          )}
+          <SectionSwitch />
+          {onInterior &&
+            (status === 'loading' ? (
+              <p className="explore-subswitch explore-subswitch--empty glass" role="status" data-explore-reserved="subswitch">
+                Loading the interior…
+              </p>
+            ) : status === 'error' ? (
+              <div className="explore-subswitch explore-subswitch--empty explore-subswitch--error glass" role="alert" data-explore-reserved="subswitch">
+                <span>Could not load the interior.</span>
+                <button type="button" className="explore-link" onClick={() => void retry(body.id)}>
+                  Retry
+                </button>
+              </div>
+            ) : noInterior ? (
+              <p className="explore-subswitch explore-subswitch--empty glass" data-explore-reserved="subswitch">
+                No interior data yet
+              </p>
+            ) : (
+              <InteriorSwitch />
+            ))}
           <button type="button" className="explore-leave explore-icon-button glass" aria-label="Leave Explore" title="Leave Explore (Esc)" onClick={leave} data-explore-reserved="leave">
             ✕
           </button>
-          {layers.length > 0 && (
+          {(radarTag || noFeatures || lightTag) && (
+            <p className="explore-notes" data-explore-reserved="notes">
+              {radarTag && <span className="header__radar-tag">Radar view · not visible light</span>}
+              {lightTag && <span className="header__radar-tag">{FEATURE_LIGHT_LABEL}</span>}
+              {noFeatures && <span className="explore-note-text">No named surface features</span>}
+            </p>
+          )}
+          {!onInterior && status === 'loading' && (
+            <p className="explore-notes" role="status" data-explore-reserved="notes">
+              <span className="explore-note-text">Loading surface features…</span>
+            </p>
+          )}
+          {!onInterior && status === 'error' && (
+            <p className="explore-notes" role="alert" data-explore-reserved="notes">
+              <span className="explore-note-text">Could not load the surface features.</span>
+              <button type="button" className="explore-link" onClick={() => void retry(body.id)}>
+                Retry
+              </button>
+            </p>
+          )}
+          {showInteriorNotes && (
             <p className="explore-notes" data-explore-reserved="notes">
               {notes.estimate && (
                 <span className="tag tag--estimate" title="Some layer sizes come from peer-reviewed research papers">
@@ -307,13 +367,18 @@ function Overlay({ catalog, body }: { catalog: Catalog; body: Body }) {
               </button>
             </p>
           )}
+          {details && !onInterior && !narrow && <FeatureList catalog={catalog} body={body} details={details} />}
         </div>
+        {details && !onInterior && selectedFeatureId && !(narrow && featureListOpen) && (
+          <FeatureCard catalog={catalog} body={body} details={details} featureId={selectedFeatureId} onClose={() => selectFeature(null)} />
+        )}
         {details && selectedLayerId && (
           <LayerCard catalog={catalog} body={body} details={details} layerId={selectedLayerId} drawn={drawn} onClose={() => selectLayer(null)} />
         )}
         {details && (
           <div className="explore-bottom">
-            {narrow && <LayerList body={body} details={details} drawnIds={drawn.map((d) => d.id)} />}
+            {narrow && !onInterior && <FeatureList catalog={catalog} body={body} details={details} />}
+            {narrow && onInterior && <LayerList body={body} details={details} drawnIds={drawn.map((d) => d.id)} />}
             <CompositionStrip catalog={catalog} body={body} details={details} openRef={openChart} />
           </div>
         )}

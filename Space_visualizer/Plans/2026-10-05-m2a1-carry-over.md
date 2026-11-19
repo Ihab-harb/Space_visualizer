@@ -108,7 +108,7 @@ Created or deferred during [[2026-10-05-m2a2-cinematic-effects-and-quality]]. De
 
 Deferred minor items from [[2026-10-07-m2a3-interface-and-tour]] (summarised from the execution ledger). The Venus radar view, the interface, the Tour and the phone layout are done; none of the items below blocked them.
 
-- **Venus radar.** The Maxwell Montes box check (1k, 1.3×) may not catch a longitude mirror (an argmax near 3.6 E, 65 N would). No-data (0) pixels lower the global mean and render pure black (noted in the data source). No unit test for the atmosphere hiding or the `uRadar` gating.
+- **Venus radar.** **Done in M2b.4a:** the Maxwell Montes box check (1k, 1.3×) may not catch a longitude mirror; the placement guard in `npm test` (`pipeline/textures/placement.test.ts`) now fails a mirrored or half-turned radar map (Ovda, Atla, Beta Regio and Maxwell Montes). No-data (0) pixels lower the global mean and render pure black (noted in the data source). No unit test for the atmosphere hiding or the `uRadar` gating.
 - **Auto quality.** No regression test that the median step-down still fires between 3 s and 5 s, and none for a long run straddling the end of the start-up cooldown. `longWithinWindowMs` is now a run total (stale name). A garbled sentence in render.md ("three loads ... two loads"). The god-ray luminance assertion is glow-dominated (margin about 2.6 grey levels); a differential patch would discriminate better.
 - **Header and narrative.** Rounding crosses boundaries (59.96 s shows "60.0 s", 119.6 min shows "120 min") and "1 hours" is possible. **Done in M2b.1 Task 9:** the narrative says "orbits <parent>" for a body whose parent is not a star (`buildNarrative` takes the parent); it still says "circles the Sun" for a body with no parent given. Tests miss chip `[n]` equal to the `citationModel` numbers, Sun and Earth headers, and the bodies-in-view projection. The Facts button's visible label lacks "(F)".
 - **Control panel.** Realistic is a focusable pressed button with no handler, and the disabled Exhibit button hides its "arrives in M2c" title from keyboard and touch users (use `aria-disabled`).
@@ -158,7 +158,6 @@ Minor findings from the per-task reviews of Tasks 5 to 9, summarised from the ex
   - any number right after a "(km)" label counts as km (a year in a table cell would); the Sun's boundary tolerance of 3,478 km is lenient.
 - **Missions (Task 6):**
   - the README example error "arrival 1965-07-14 not in any quote" names a date that is in its quote (it only shows the format);
-  - the Venera 7 and 13 quotes start at the date and include a neighbouring entry's name (no better official page; the NSSDCA spacecraft pages error);
   - Neptune's `by` wording is longer than planned; Venus Express ends on the ESA announcement date (2014-12-16; contact was lost 2014-11-28); Tianwen-1 is omitted; Earth has one current flagship (Landsat 9).
 - **Build (Task 7):**
   - `buildDetails` swallows a mean-radius parse failure silently before falling back (add a warning);
@@ -235,4 +234,50 @@ Fixed in the wave and removed above: the drawer's "illustrative size" placeholde
   - its `[n]` and the labels' `[n]` are tooltips, not links.
 - **Soft bands:** the gradual edge blend is subtle on Jupiter and Saturn in Exploded (the colours either side are close); the face shows it clearly. `GRADUAL_BAND` 0.12 R is an illustrative choice.
 - **Tests:** the leave-while-opening end-to-end test fails when one SwiftShader frame takes longer than about 0.6 s (machine load); it passed alone and in reruns. Full runs on a loaded machine also had first pages still loading after the 5 s canvas wait. The shader tests for the map fill and the soft band are string checks only.
-- **Looks:** Mars Half-section was not re-shot after the tiling fix (unit-tested; the face code is shared). Mercury opens on its night side from the default direction (real lighting).
+- **Looks:** Mars Half-section was not re-shot after the tiling fix (unit-tested; the face code is shared). Mercury opens on its night side from the default direction (real lighting). **Done in M2b.4a:** Explore now opens on the sunlit side.
+
+## From M2b.4a (Tasks 1–11, 2026-11-15)
+
+Minor findings from the per-task reviews, summarised from the execution ledger. Plan: [[2026-11-15-m2b4a-feature-pins]] (the full list by task, and every ruling, is in its Execution record). The whole-branch review is done (verdict: with fixes) and its fix wave closed the items it names below as fixed; a scoped re-review is still to do. Closed in this section: the Venus radar mirror item ("From M2a.3") and the interior phone dots drawn while hidden (fixed in Task 11).
+- **Gazetteer and ids (Task 1):** `toItem` returns id `''` and `allFeatures` then mutates it; the shared-name id assignment depends on diameter order; no test for link-less rows never merged, nor for a name that folds to an empty id; the duplicate-id check test never showed RED.
+- **Placement guards (Task 2):** `bodies.json` is parsed once per body in `beforeAll`; `!` on `find` gives a poor error; module-level mutable maps in `placement.test.ts`; Mercury has no second clean-prior feature (Hokusai replaced the weak Caloris prior in Task 4); the Venus planitiae have no consistent radar sign and are not guarded; ~~Earth's half-turn is caught by one guard only (Lake Superior)~~ (closed in Task 12: Hudson Bay and Fujisan added, at least two guards must catch); no `surfacePoint` RED run.
+- **Landmark pipeline (Task 3):** `WITH_WORD` accepts an unsigned number after "latitude" or "longitude"; the hemisphere-word path could match "10 km east"; a blank line in `pipeline/reference/README.md` splits the Files list, and one sentence there is stale; no RED run recorded.
+- **Landmark sentences (Tasks 4 and 5):**
+  - weaker sentences still kept for lack of better (Task 13 replaced or dropped the rest): Venus Gula Mons and Sapas Mons (mostly coordinates); Mare Imbrium (the quote also names Orientale); Meridiani Planum (mission-led); Elysium Planitia's sentence starts "Just north of the divide"; Syrtis Major Planum is quoted as "Syrtis Major" (the least certain name match);
+  - dropped in Task 13 for want of a good official sentence: Nathair Facula, Fonteyn (Mercury), Sif Mons (Venus);
+  - sizes in some quotes differ from the Gazetteer size on the same card: Mare Humorum 825 km against 420 km (the basin against the mare), Artemis 2,100 against 2,600, Mead 280 against 270;
+  - typos kept from the pages (Tycho "is an one of");
+  - GNIS points: the Mississippi at its delta, the Grand Canyon at its west end, Antarctic points coarse; Mount St. Helens shows as "Mount Saint Helens" (the GNIS name);
+  - an import sits below a `describe` in `landmarks.test.ts`; the "would be caught" guard tests need only one guard to fail.
+- **Store, URL and keys (Task 6):** the keys 1/2/3 test could not have failed; `selectFeature` sets view `whole` without going through `setView`; `featureSeq` is not reset by enter or leave (by design); no RED run.
+- **Camera (Task 7):** the turn target has no `EXPLORE_CAMERA.tiltRad` (the entry has); a tap-jitter rotate delta in the same frame as a pin click would cancel the turn; the azimuth near a pole is arbitrary; no RED run. (Fixed in the fix wave: an unknown id stops the per-frame lookup, and `featureTurnPlan` has a test for the tab change.)
+- **Overlay (Task 8):** the Venus radar tag waits for ready details while the radar map shows during load; the focus tests call `setTab` rather than a real key event.
+- **Pins (Task 9):**
+  - Mercury's Apollodorus dot sits about 15 km off the crater centre (likely the Mercury map's alignment; the Moon, Mars and Earth are centred by the same code);
+  - Explore opens on the sunlit side, so Earth can open over an ocean (the Pacific at the usual test date), with the US pins bunched at the limb;
+  - per-frame allocations in the projector (objects, a Map, a filter array; at most 22 pins; the forced layout was fixed in the fix wave); the `fonts.ready` callback is not cancelled on unmount; the 25-pin layout test uses synthetic reserved rects;
+  - a dot within 11 px of the viewport edge disappears (`PIN_DOT_INSET`); a missing dot counts as shown for naming (no effect);
+  - on a phone two numbered dots overlap where two landmarks share a spot (Gale and Aeolis Mons; Hawaii's two volcanoes).
+  - with both the card and the list open at 1280x720 no pin name fits, not even the selected pin's (the list covers the left name column, the card the right one, and a name may move only 7 % of the height); the card carries the selected name. A design call for the user or the whole-branch review.
+- **Card and list (Task 10):** `cite()` returns null silently when a source has no number; `FeatureList` and `FeaturePins` import `useNarrowViewport` from `ExploreOverlay`, which imports them back (a circular import, existing pattern); no render-level accent-folding test; the `FeatureList` open-focus effect on remount.
+- **Whole-branch review, not fixed (fix wave):**
+  - `schemaVersion` stays 1 although three details fields became required (a stale cached file fails to parse and shows the load error, now visible on Surface);
+  - no Magellan credit inside Explore (the spec asks only for the radar tag);
+  - `WITH_WORD` and the "10 km east" parsing must be tightened before the first quoted position is added;
+  - keyboard reach of the pins (F11): the label layer sits before the overlay in the page, so Tab from the Surface tab never reaches the pins (Shift+Tab does). The fix needs the pins to move out of the scene's isolated label layer (they would then sit above the panels), more than a small reorder, so it was left; the All features list gives a full keyboard path;
+  - a feature picked from the far side can land on the night side after the turn (real lighting; the pins stay bright): look at one before calling the section done.
+- **Needs a real GPU:** the pins and names over the full effects stack (checked on SwiftShader only).
+- **From Task 12 (Earth landmarks from other official sources, 2026-11-16):**
+  - left for later by the user (2026-11-16): the feature list stays open beside the card on desktop ("we will hande the UI clutter at a later point"); Tab does not reach the pins from the Surface tab ("will be handled later").
+  - the feature light is not labelled illustrative on screen; `quoteSizeKm` reads only widths in km ("miles" alone, or "in size", is not read).
+  - a bad record id or GNIS area in `pipeline/run.ts` is reported only as "record not found", without the reason; the LINZ scope test is "has a land district", not a list; `parseCsv` has one test (CRLF inside quotes, no final newline and a trailing empty field are untested).
+  - the GEOnet Names Server is still unreachable and would cover wide places (the Himalaya, the Sahara, the Amazon); the Great Barrier Reef has no record in the Australian gazetteer;
+  - the whole LINZ gazetteer (about 21 MB) is fetched for two records, since its record pages are a browser app; it is parsed once per run;
+  - record names are the databases' own (Fujisan, Popocatepetl, Eyjafjallajokull, Tenerife for Teide, "Réservoir Manicouagan"); NOAA morphology "Unknown" fails the build by design;
+  - the national-scope check reads the record's own territory field (NRCan province code, LINZ land district), not its coordinates;
+  - Whakaari / White Island measures as water on the 1k map (the island is smaller than the 0.4° disc), so it cannot be a land guard; Kilimanjaro and the Mid-Atlantic Ridge would also discriminate and are spare guards.
+- **From Task 13 (Australia and the weak sentences, 2026-11-19):**
+  - ~~`npm run data` fails on the network~~ fixed 2026-11-19: Venera 7 and 13 now cite the NSSDCA Venus Exploration Timeline.
+  - ~~the pipeline's fetches have no timeout~~ fixed 2026-11-19: a two-minute limit, and an empty page counts as a failed fetch.
+  - Australian records' precision varies by authority (Gosses Bluff `-23.8, 132.3167`); Western Australian names are in capitals, so those cards show the common name with "(CGA name: SHARK BAY)";
+  - Australian candidates with a record but no sentence searched far enough: the Bungle Bungle Range, Mount Kosciuszko, the Nullarbor Plain, the Great Sandy Desert; the Great Dividing Range has one record per state.

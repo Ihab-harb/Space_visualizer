@@ -80,3 +80,20 @@ export const ECLIPSE_TINT = {
 export function receivesEarthshine(body: { category: string; parentId: string | null }): boolean {
   return body.category === 'moon' && body.parentId === 'earth';
 }
+
+/**
+ * Feature light (illustrative; the user's ruling, 2026-11-16: "light the area when selected"). In Explore, a selected
+ * feature on the night side gets a soft pool of light so its ground can be seen: full inside innerDeg of the feature,
+ * fading to nothing at outerDeg, at `level` times the surface colour, and only where the Sun does not reach
+ * (it fades out across the terminator, so the day side is never brightened). The light is shaded as if a lamp stood
+ * above the feature, tilted east by lampTilt (the tangent added to the up direction), so craters and ridges show. It fades in and out over fadeSeconds.
+ */
+export const FEATURE_SPOT = { innerDeg: 5, outerDeg: 30, level: 0.75, lampTilt: 0.7, fadeSeconds: 0.4 };
+
+/** The feature light's strength after dtSeconds, moving toward on (1) or off (0); reduced motion cuts to the target. */
+export function advanceSpot(strength: number, on: boolean, dtSeconds: number, reducedMotion: boolean): number {
+  const target = on ? 1 : 0;
+  if (reducedMotion) return target;
+  const step = Math.max(0, dtSeconds) / FEATURE_SPOT.fadeSeconds;
+  return on ? Math.min(1, strength + step) : Math.max(0, strength - step);
+}

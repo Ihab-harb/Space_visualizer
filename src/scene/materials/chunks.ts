@@ -1,5 +1,5 @@
 /** Shared GLSL. All body shaders work in object space: unit sphere = rendered equatorial radius. */
-import { ECLIPSE_TINT } from './illustrative';
+import { ECLIPSE_TINT, FEATURE_SPOT } from './illustrative';
 
 /** A GLSL vec3 literal from an RGB triple. */
 export const glslVec3 = (c: readonly [number, number, number]) => `vec3(${c.map((x) => x.toFixed(4)).join(', ')})`;
@@ -35,6 +35,7 @@ uniform vec4 uOccluders[4];
 uniform vec4 uOccluderAtmo;
 uniform float uEarthshine;
 uniform vec3 uEarthshineDir;
+uniform vec4 uSpot;
 varying vec3 vUnit;
 varying vec2 vUv;
 varying vec2 vPlane;
@@ -111,6 +112,17 @@ vec3 cinematicFill(vec3 albedo, vec3 n, vec3 v) {
 /** Lommel-Seeliger (x2 so it matches Lambert at normal incidence), gated by the geometric terminator. */
 float lommelSeeliger(float mu0, float mu, float geoMu0) {
   return step(0.0, geoMu0) * 2.0 * mu0 / max(mu0 + mu, 1e-4);
+}
+/**
+ * Feature light (illustrative, FEATURE_SPOT): light added around the selected feature (uSpot.xyz, a unit direction in the
+ * body frame; uSpot.w its strength, 0 when nothing is selected), only where the Sun does not reach (geo = n . sun).
+ * The light comes from a little east of straight above the feature, so relief (the shading normal nb) shows.
+ */
+vec3 featureLight(vec3 albedo, vec3 unit, vec3 nb, float geo) {
+  vec3 lamp = normalize(uSpot.xyz + ${FEATURE_SPOT.lampTilt.toFixed(4)} * normalize(cross(vec3(0.0, 0.0, 1.0), uSpot.xyz) + vec3(1e-5, 0.0, 0.0)));
+  float pool = smoothstep(${Math.cos((FEATURE_SPOT.outerDeg * Math.PI) / 180).toFixed(5)}, ${Math.cos((FEATURE_SPOT.innerDeg * Math.PI) / 180).toFixed(5)}, dot(normalize(unit), uSpot.xyz));
+  float dark = 1.0 - smoothstep(-0.1, 0.3, geo);
+  return albedo * (uSpot.w * pool * dark * max(dot(nb, lamp), 0.0) * ${FEATURE_SPOT.level.toFixed(4)});
 }
 float ggx(vec3 n, vec3 v, vec3 l, float roughness) {
   vec3 h = normalize(v + l);

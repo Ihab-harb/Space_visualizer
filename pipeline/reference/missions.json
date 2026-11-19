@@ -43,10 +43,10 @@
       "license": "NASA public domain (NASA media usage guidelines)"
     },
     {
-      "id": "nssdca-planetary-chronology",
-      "title": "Chronology of Lunar and Planetary Exploration (NSSDCA)",
+      "id": "nssdca-venus-chronology",
+      "title": "Venus Exploration Timeline (NSSDCA)",
       "publisher": "NASA NSSDCA",
-      "url": "https://nssdc.gsfc.nasa.gov/planetary/chronology.html",
+      "url": "https://nssdc.gsfc.nasa.gov/planetary/chronology_venus.html",
       "license": "NASA public domain (NASA media usage guidelines)"
     },
     {
@@ -524,9 +524,10 @@
           "arrivalDate": null,
           "endDate": null,
           "outcome": "success",
-          "sourceId": "nssdca-planetary-chronology",
+          "sourceId": "nssdca-venus-chronology",
           "quotes": [
-            "17 August 1970 - Venus Lander Cosmos 359 - 22 August 1970 - Attempted"
+            "Venera 7 - 17 August 1970 - Venus Lander",
+            "17 August 1970 - Venus Lander Cosmos 359"
           ]
         },
         {
@@ -538,9 +539,10 @@
           "arrivalDate": null,
           "endDate": null,
           "outcome": "success",
-          "sourceId": "nssdca-planetary-chronology",
+          "sourceId": "nssdca-venus-chronology",
           "quotes": [
-            "30 October 1981 - Venus Orbiter and Lander Venera 14 - 4 November 1981"
+            "Venera 13 - 30 October 1981 - Venus Flyby Bus and Lander",
+            "30 October 1981 - Venus Flyby Bus and Lander"
           ]
         },
         {

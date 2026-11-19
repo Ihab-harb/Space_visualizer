@@ -1,0 +1,2 @@
+﻿feature_id|antarctica_id|scar_placeid|feature_name|feature_class|date_created|date_edited|bgn_type|bgn_authority|bgn_date|prim_lat_dms|prim_long_dms|prim_lat_dec|prim_long_dec|description|history
+2817474|4558.0|4304.0|Mount Erebus|Summit||09/15/2022|Official|Board Decision|01/01/1947|773147S|1670912E|-77.529622|167.153231|An active volcano, 3,794 m high, which forms the summit of Ross Island at the southwestern corner of Ross Sea.  Named by Captain James Clark Ross in 1841 for his ship, the Erebus.|

@@ -154,3 +154,44 @@ Back to [[Home]]
 - While open, Saturn's black map band and the Uranus and Neptune map streaks are filled (Explore only); drawn layers tile the radius, so Mars's core shows no seam.
 - New goldens: Saturn Half-section, Uranus Exploded. Details in the plan's "Whole-branch review".
 - Scoped re-review (2026-11-15): approved with minors, fixed. The ruler's and labels' `[n]` name their source on hover; the citation lists cover the interior radius, gradual sentences and the chart note; Saturn's metallic hydrogen card says its soft lower edge comes from a research paper; focus stays in Explore when Retry or the card goes away.
+
+## 2026-11-15 — M2b.4a Feature pins implemented
+- **Explore has two tabs, Surface and Interior.** Explore opens on Surface, seen from the sunlit side (35 degrees off the Sun's direction). Interior holds Exploded and Half-section and reopens the one used last. Keys: **1** Surface, **2** Exploded, **3** Half-section; **Esc** steps back the chart, the layer card, the feature card, the feature list, then Explore. URL: `view=surface|exploded|section` (`view=whole` still works) and `feature=<id>`. See [[ui]], [[state]], [[camera]].
+- **Landmark pins on the globe:** a white dot on each landmark and, on the facing side, its name beside the globe with a thin leader; cyan when selected; numbered dots on phones. Clicking a pin or a name turns the view to it (0.8 s; a cut under reduced motion) and opens a card: the type with its plain meaning, the official sentence, size, position, what it is named for and the approval year, each cited. See [[scene]].
+- **All features list with search:** every feature in the data (the 200 largest per body plus the landmarks; "Landmarks (21)" for Earth), landmarks first, then largest first; the search ignores case and accents. A non-landmark picked from it gets a temporary pin.
+- **Landmarks:** Mercury 16, Venus 16, the Moon 16, Mars 17, Earth 21, each with a quote-checked sentence from NASA, USGS or ESA; 35 type meanings from the USGS descriptor terms. Earth positions come from USGS GNIS (13 in the United States, 8 in Antarctica); the NGA GEOnet Names Server could not be reached, so Earth has none elsewhere (open for the user). Decision [[0010-names-databases-for-earth-positions]]; data note [[Earth names databases (GNIS, GNS)]].
+- **Mercury data fix:** the Gazetteer's file lists some features twice. The build now keeps one row per feature (200 distinct features for Mercury); the approved total went from 614 to 606, and the facts drawer's Mercury list changed with it. The build fails on a duplicate feature id. See [[USGS Gazetteer of Planetary Nomenclature]].
+- **Placement guards** in `npm test` prove, on the committed maps, that pins land on their features on Mercury, Venus (radar), the Moon, Mars and Earth, and fail a mirrored or half-turned map. This closes the old Venus mirror item. See [[pipeline]].
+- **Venus shows its radar map on Surface**, with the "Radar view · not visible light" tag in the overlay; the user's own setting returns on leaving.
+- **Fix:** hidden interior phone dots were drawn at the top-left corner (a CSS `display` rule beat the `hidden` attribute).
+- **Tests:** 1,197 unit tests, typecheck clean, 144 end-to-end tests (one full run: 137 passed; six canvas-wait timeouts under machine load passed on a re-run, and one new layout assertion was corrected). Six new golden views in `Assets/m2b4a/`; the eight M2b.3 Explore goldens re-shot in `Assets/m2b3/`.
+- Spec [[2026-11-15-m2b4a-feature-pins-design]] (approved, with "Amended while building" in §12a), plan [[2026-11-15-m2b4a-feature-pins]] (rulings and research logs in its Execution record), session [[2026-11-15-session-m2b4-pins]]. Carry-over: [[2026-10-05-m2a1-carry-over]] ("From M2b.4a").
+- **Status:** on branch `m2b4a-pins` (from `main`). The whole-branch review is still to do. Not pushed; no PR is open.
+
+## 2026-11-16 — M2b.4a Task 12: Earth landmarks from other official sources
+- The user, after the NGA GEOnet Names Server could not be reached: "it didn't work use other official sources that have similar data". Rule widened in [[0010-names-databases-for-earth-positions]] (second decision): a government agency or intergovernmental names dataset with coordinates, fetchable with no key, licence allowing use with attribution; a national source only for its own country.
+- **Earth has 43 landmarks** (was 21, all kept as they were): 12 volcanoes from NOAA NCEI's Volcano Locations Database, 4 undersea features from the IHO-IOC GEBCO Gazetteer of Undersea Feature Names, 4 Canadian places from Natural Resources Canada, 2 New Zealand places from LINZ. Every continent and the Atlantic and Pacific now have landmarks; Australia does not (no licence stated for its gazetteer). The list reads "Landmarks (43)".
+- The pipeline's names databases are now a registry (`NAMES_SOURCES`); each record must be cited on its own database's host, and a national record must lie in its country by its own territory field. GNS stays in the registry, not in use.
+- Two new Earth placement guards (Hudson Bay, Fujisan); a mirror or half-turn is now caught by at least two guards.
+- Tests: 1,231 unit tests, typecheck clean, end-to-end `features` and `golden` 44 of 44; the Earth golden re-shot. Data source note [[Earth names databases (GNIS, GNS)]]; the research log is in the plan's Execution record ("Task 12").
+
+## 2026-11-16 — M2b.4a after the PR: size note and feature light
+- The four new Earth position sources are accepted by the user ("use the new sources"). The build scratch folder is deleted.
+- Feature cards say why two sizes show when the quoted sentence and the Size row differ (ten cards).
+- A selected feature on the night side gets a soft, illustrative pool of light.
+- A test proves that dragging turns the globe in Explore. The opening view is unchanged.
+- Left for later by the user: closing the list on pick; Tab reaching the pins.
+- Earth landmarks show their common name, with the database's name beside the position (ten cards). The feature light is labelled "Feature light · illustrative" while it shows.
+
+## 2026-11-19 — M2b.4a Task 13: Australia and better landmark sentences
+- The user: "keep australia", "fix the weak scentences". Australian positions now come from Geoscience Australia's Composite Gazetteer of Australia, under Geoscience Australia's site licence (CC BY 4.0; the dataset states none). Only records of a state or mainland territory count. Decision [[0010-names-databases-for-earth-positions]] (third decision); source note [[Earth names databases (GNIS, GNS)]].
+- **Earth has 49 landmarks:** Uluru, Kati Thanda-Lake Eyre, Shark Bay, K'gari, Wolfe Creek Crater and Gosses Bluff added. Uluru is a new placement guard.
+- **Better sentences** for Kandinsky, Apollodorus, Mendelssohn, Elysium Planitia, Meteor Crater, Yellowstone Caldera, Aoraki/Mount Cook, Mount Pinatubo and Whakaari / White Island. Dropped for want of a good official sentence: Nathair Facula, Fonteyn (Mercury, now 14), Sif Mons (Venus, now 15). Kept for the user: Gula Mons, Sapas Mons, Mare Imbrium, Meridiani Planum.
+
+## 2026-11-19 — Project handbook
+- New `Handbook/` in the vault, at the user's request ("fully document the methodology and general structure as well as code quality and requirements used in this project, everything used as a rule everything used as a source and the logic behind every decision and every source"): [[Handbook]], [[Methodology]], [[Structure]], [[Code quality and requirements]], [[Rules]], [[Sources register]], [[Decision register]].
+- The sources register is generated from the committed data by `scripts/sources-register.mjs` (216 sources in 10 families, each with what it supplies).
+
+## 2026-11-19 — Weak sentences and the online data build
+- Apollodorus has a better landmark sentence; five other weak sentences were checked again and kept, with reasons in [[2026-11-15-m2b4a-feature-pins]].
+- `npm run data` passes online again: Venera 7 and 13 cite the NSSDCA Venus Exploration Timeline; an empty page no longer overwrites the cache; fetches time out after two minutes.

@@ -1,0 +1,2 @@
+﻿feature_id|feature_name|feature_class|state_name|state_numeric|county_name|county_numeric|map_name|date_created|date_edited|bgn_type|bgn_authority|bgn_date|prim_lat_dms|prim_long_dms|prim_lat_dec|prim_long_dec|source_lat_dms|source_long_dms|source_lat_dec|source_long_dec
+23907|Grand Canyon|Valley|Arizona|04|Mohave|015|Columbine Falls|06/27/1984|09/05/2019|Official|Board Decision|02/04/1925|360646N|1135946W|36.112764|-113.9960696|365130N|1113603W|36.8583209|-111.6007163

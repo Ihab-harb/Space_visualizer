@@ -217,3 +217,109 @@ for (const vp of VIEWPORTS) {
     });
   }
 }
+
+/**
+ * Explore Surface (M2b.4a spec §5.1 and §8): at every viewport, Mars with a feature card open, then with the All features
+ * list open too, the tabs, title, card, list, strip and ✕ never overlap one another, and no shown pin name overlaps any of
+ * them. On a phone the card and the list are both bottom sheets that open over the strip, one at a time, so there each
+ * sheet is checked against the top bar only (and each must be in the reserved list, so the check cannot pass on an empty one).
+ */
+for (const vp of VIEWPORTS) {
+  test(`Explore Surface at ${vp.width}x${vp.height}: card, list, top bar, strip and pin names stay apart`, async ({ browser }) => {
+    const page = await browser.newPage({ viewport: { width: vp.width, height: vp.height } });
+    const phone = vp.width <= 720;
+    await page.goto('/?jd=2461317.9&target=mars&pause=1&quality=low&explore=1&feature=olympus-mons');
+    await expect(page.locator('canvas')).toBeVisible();
+    await page.waitForFunction(() => {
+      const e = window.__svExplore?.();
+      return !!e && e.bodyId === 'mars' && e.view === 'whole' && e.focus >= 1;
+    }, null, { timeout: 30_000 });
+    await expect(page.getByRole('region', { name: 'Olympus Mons' })).toBeVisible({ timeout: 30_000 });
+    await expect.poll(() => page.locator('.xpin:visible').count(), { timeout: 30_000 }).toBeGreaterThanOrEqual(3);
+
+    const settle = () => page.evaluate(() => new Promise<void>((resolve) => requestAnimationFrame(() => requestAnimationFrame(() => resolve()))));
+    const parts = () =>
+      page.evaluate(() => {
+        const rect = (el: Element) => el.getBoundingClientRect().toJSON() as DOMRect;
+        const reserved = [...document.querySelectorAll<HTMLElement>('[data-explore-reserved]')].map((el) => ({ name: `reserved:${el.dataset.exploreReserved}`, r: rect(el) }));
+        const names = [...document.querySelectorAll<HTMLElement>('.xpin-name[data-mode="full"]')].map((el) => ({ name: `pin name:${el.textContent}`, r: rect(el) }));
+        return { reserved, names };
+      });
+    const check = (items: Array<{ name: string; r: DOMRect }>, against: Array<{ name: string; r: DOMRect }>) => {
+      for (const a of items) {
+        for (const b of against) {
+          if (a === b || a.r.width === 0 || b.r.width === 0) continue;
+          expect(intersects(a.r, b.r), `${a.name} overlaps ${b.name}`).toBe(false);
+        }
+      }
+    };
+    const top = (p: Array<{ name: string }>) => p.filter((x) => /reserved:(title|switch|leave|notes)/.test(x.name));
+
+    if (phone) {
+      // The card sheet, then the list sheet (which hides the card): each clear of the top bar; no names on a phone.
+      await settle();
+      let p = await parts();
+      expect(p.names, 'no pin names on a phone').toEqual([]);
+      expect(p.reserved.map((x) => x.name)).toContain('reserved:card');
+      check(p.reserved.filter((x) => x.name === 'reserved:card'), top(p.reserved) as typeof p.reserved);
+      // The card sheet covers the list button, as the layer card covers the Layers button: close it first.
+      await page.getByRole('button', { name: 'Close feature card' }).click();
+      await page.getByRole('button', { name: /^All features/ }).click();
+      await expect(page.getByRole('region', { name: 'All features' })).toBeVisible();
+      await settle();
+      p = await parts();
+      expect(p.reserved.map((x) => x.name)).toContain('reserved:features');
+      check(p.reserved.filter((x) => x.name === 'reserved:features'), top(p.reserved) as typeof p.reserved);
+    } else {
+      const apart = (p: Awaited<ReturnType<typeof parts>>) => {
+        // The list's button and its panel share a reservation name; every other pair must be apart.
+        for (let i = 0; i < p.reserved.length; i++) {
+          for (let j = i + 1; j < p.reserved.length; j++) {
+            const a = p.reserved[i]!;
+            const b = p.reserved[j]!;
+            if (a.name === b.name || a.r.width === 0 || b.r.width === 0) continue;
+            expect(intersects(a.r, b.r), `${a.name} overlaps ${b.name}`).toBe(false);
+          }
+        }
+        check(p.names, p.reserved);
+        check(p.names, p.names);
+        for (const n of p.names) {
+          expect(n.r.left, `${n.name} inside the left edge`).toBeGreaterThanOrEqual(-0.5);
+          expect(n.r.right, `${n.name} inside the right edge`).toBeLessThanOrEqual(vp.width + 0.5);
+        }
+      };
+      // The card alone: names are shown beside the globe, clear of it.
+      await expect.poll(() => page.locator('.xpin-name[data-mode="full"]').count(), { timeout: 10_000 }).toBeGreaterThan(0);
+      await settle();
+      apart(await parts());
+      // The card and the list: everything stays apart. With both panels open there may be no room for any name (at
+      // 1280x720 the list covers the left column and the card the right one); a name that does not fit is hidden, never
+      // drawn over a panel.
+      await page.getByRole('button', { name: /^All features/ }).click();
+      await expect(page.getByRole('region', { name: 'All features' })).toBeVisible();
+      await settle();
+      await settle();
+      const p = await parts();
+      for (const name of ['title', 'switch', 'leave', 'card', 'features', 'strip']) expect(p.reserved.map((x) => x.name), name).toContain(`reserved:${name}`);
+      apart(p);
+    }
+    expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth && document.documentElement.scrollHeight <= window.innerHeight)).toBe(true);
+    await page.close();
+  });
+}
+
+test('three tabs would fit on a phone', async ({ browser }) => {
+  const page = await browser.newPage({ viewport: { width: 390, height: 844 } });
+  await page.goto('/?jd=2461317.5&target=earth&pause=1&quality=low&explore=1');
+  await expect(page.locator('canvas')).toBeVisible();
+  const group = page.getByRole('radiogroup', { name: 'Explore section' });
+  await expect(group).toBeVisible();
+  const { box, tops } = await group.evaluate((el) => ({
+    box: el.getBoundingClientRect().toJSON() as DOMRect,
+    tops: [...el.querySelectorAll('[role="radio"]')].map((r) => Math.round(r.getBoundingClientRect().top)),
+  }));
+  expect(new Set(tops).size, 'all tabs on one row').toBe(1);
+  // Leaves room for a third tab of the same width: the group is narrower than 60 % of the viewport.
+  expect(box.width).toBeLessThan(390 * 0.6);
+  await page.close();
+});

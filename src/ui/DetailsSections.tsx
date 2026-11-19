@@ -206,7 +206,7 @@ function Ready({ details, cite }: { details: BodyDetails; cite: Cite }) {
         <Section id="features" title="Named features">
           <ul className="details-list">
             {shown.map((f) => (
-              <li key={`${f.name}-${f.latDeg}-${f.lonDegE}`} className="details-row">
+              <li key={f.id} className="details-row">
                 <strong>{f.name}</strong> · {f.type} · <span className="num">{formatNumber(f.diameterKm)} km</span> ·{' '}
                 <span className="num">
                   {latText(f.latDeg)}, {f.lonDegE}° E

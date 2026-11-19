@@ -23,7 +23,14 @@ import { useFrameState } from './FrameStateContext';
 import { useLabelDeclutter } from '../ui/useLabelDeclutter';
 import { ExploreDriver } from './interior/useExploreTransition';
 import { createLabelBridge, InteriorLabelProjector, InteriorLabels } from './interior/InteriorLabels';
-import { clearLayerOnEmptyClick } from '../state/exploreStore';
+import { clearFeatureOnEmptyClick, clearLayerOnEmptyClick } from '../state/exploreStore';
+import { createPinBridge, FeaturePinProjector, FeaturePins } from './surface/FeaturePins';
+
+/** A click on empty space (not a drag, not a layer or a body) clears the selected layer, or the selected feature, in Explore. */
+const onEmptyClick = () => {
+  clearLayerOnEmptyClick();
+  clearFeatureOnEmptyClick();
+};
 
 const hasApproxOrbit = (b: Body): b is Body & { orbit: PlanetApproxOrbit } => b.orbit.type === 'planet-approx';
 
@@ -60,6 +67,7 @@ export function SceneRoot({ catalog }: { catalog: Catalog }) {
   const labelLayer = useRef<HTMLDivElement>(null);
   const sceneRef = useRef<HTMLDivElement>(null);
   const interiorLabels = useMemo(createLabelBridge, []);
+  const featurePins = useMemo(createPinBridge, []);
   useLabelDeclutter(labelLayer);
   const loadSky = useSkyStore((s) => s.load);
   useEffect(() => {
@@ -72,8 +80,7 @@ export function SceneRoot({ catalog }: { catalog: Catalog }) {
         gl={{ logarithmicDepthBuffer: true, antialias: false }}
         camera={{ fov: 50, near: 0.001, far: 1e13, position: [0, 0, 0] }}
         dpr={canvasDpr(level, typeof window === 'undefined' ? 1 : window.devicePixelRatio)}
-        // A click on empty space (not a drag, not a layer or a body) clears the selected layer in Explore.
-        onPointerMissed={clearLayerOnEmptyClick}
+        onPointerMissed={onEmptyClick}
       >
         <color attach="background" args={['#03050b']} />
         <LabelLayerContext.Provider value={labelLayer}>
@@ -83,6 +90,7 @@ export function SceneRoot({ catalog }: { catalog: Catalog }) {
             <CameraSystem catalog={catalog} />
             <ExploreDriver catalog={catalog} />
             <InteriorLabelProjector bridge={interiorLabels} />
+            <FeaturePinProjector bridge={featurePins} />
             <QualityGovernor />
             <BodiesInView />
             {catalog.bodies.map((body) => (
@@ -102,6 +110,7 @@ export function SceneRoot({ catalog }: { catalog: Catalog }) {
       <RenderStateAttributes target={sceneRef} />
       <div className="label-layer" ref={labelLayer}>
         <InteriorLabels bridge={interiorLabels} catalog={catalog} />
+        <FeaturePins bridge={featurePins} catalog={catalog} />
       </div>
     </div>
   );

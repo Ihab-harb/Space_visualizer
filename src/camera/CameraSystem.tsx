@@ -9,7 +9,11 @@ import { writeMatrix4 } from '../scene/threeMath';
 import { useExploreStore } from '../state/exploreStore';
 import { useSelectionStore } from '../state/selectionStore';
 import { add, scale, sub } from '../core/math/vec3';
-import { EXPLORE_CAMERA, exploreFitScale, exploreFrameRadii, exploreInput, orbitUp, reframeDistanceKm } from './explore';
+import { advanceTurn, EXPLORE_CAMERA, exploreEntryAzimuth, exploreFitScale, exploreFrameRadii, exploreInput, featureTurnPlan, featureView, orbitUp, reframeDistanceKm, type FeatureTurn } from './explore';
+import { apply } from '../core/math/mat3';
+import { surfaceDirection } from '../core/frames/surfacePoint';
+import { useDetailsStore } from '../state/detailsStore';
+import { featureEntry } from '../ui/explore/featureModel';
 import { NO_INPUT } from './types';
 import { offsetDirection, type OrbitState } from './orbitController';
 import { useTourStore } from '../state/tourStore';
@@ -45,7 +49,17 @@ interface Rig {
   lastOverrideSeq: number;
   tour: { seq: number; startedAt: number; stops: TourStop[]; index: number; flightFrom: CameraPose | null } | null;
   /** Explore: the pose found on entry (restored on leave) and the explode axis captured then. */
-  explore: { bodyId: string; up: [number, number, number]; aspect: number; saved: { view: ViewId; orbit: OrbitState; follow: FollowState } } | null;
+  explore: { bodyId: string; up: [number, number, number]; aspect: number; turn: FeatureTurn | null; lastFeatureSeq: number; saved: { view: ViewId; orbit: OrbitState; follow: FollowState } } | null;
+}
+
+/**
+ * The selected feature's position (a landmark or a Gazetteer feature). `pending` is true while the body's details have not
+ * loaded; once they are ready an unknown id is a settled answer (`latLon` null, not pending), so it is not looked up again.
+ */
+function featureLatLon(bodyId: string, featureId: string): { latLon: { latDeg: number; lonDegE: number } | null; pending: boolean } {
+  const entry = useDetailsStore.getState().entries[bodyId];
+  if (entry?.status !== 'ready') return { latLon: null, pending: true };
+  return { latLon: featureEntry(entry.details, featureId), pending: false };
 }
 
 export function CameraSystem({ catalog }: { catalog: Catalog }) {
@@ -155,8 +169,12 @@ export function CameraSystem({ catalog }: { catalog: Catalog }) {
       r.orbit.restore({ ...st, panOffsetKm: [0, 0, 0] });
       // A portrait phone frames from further back, so the body's whole width fits.
       const aspect = gl.domElement.clientWidth / Math.max(gl.domElement.clientHeight, 1);
-      r.orbit.setView({ distanceKm: ctx.bodyRadiusKm(exploreBody) * exploreFrameRadii(frame.fovRad, aspect), elevationRad: st.elevationRad + EXPLORE_CAMERA.tiltRad });
-      r.explore = { bodyId: exploreBody, up: orbitUp(st.azimuthRad, st.elevationRad) as [number, number, number], aspect, saved };
+      // Open on the sunlit side (the Sun itself keeps its direction).
+      const sunId = catalog.bodies.find((b) => b.category === 'star')?.id ?? null;
+      const azimuthRad = exploreEntryAzimuth(exploreBody, sunId, ctx.bodyPosition(exploreBody) ?? [0, 0, 0], (sunId && ctx.bodyPosition(sunId)) || [0, 0, 0], st.azimuthRad);
+      r.orbit.setView({ distanceKm: ctx.bodyRadiusKm(exploreBody) * exploreFrameRadii(frame.fovRad, aspect), azimuthRad, elevationRad: st.elevationRad + EXPLORE_CAMERA.tiltRad });
+      // lastFeatureSeq starts at 0: a selection always belongs to this session (enter clears it), even one made before the first frame.
+      r.explore = { bodyId: exploreBody, up: orbitUp(azimuthRad, st.elevationRad) as [number, number, number], aspect, turn: null, lastFeatureSeq: 0, saved };
       r.activeView = 'orbit';
       // A URL that opens Explore starts there; any other entry flies.
       if (!overrideNow) startTransition();
@@ -181,7 +199,31 @@ export function CameraSystem({ catalog }: { catalog: Catalog }) {
           r.explore.aspect = aspectNow;
         }
         // Orbit and zoom only: a pan would move the body off centre stage.
-        r.orbit.update(exploreInput(input.consume()), ctx);
+        const deltas = exploreInput(input.consume());
+        r.orbit.update(deltas, ctx);
+        // The turn to a selected feature (Surface tab only). Rotate or zoom input cancels it; that frame the user's input stands.
+        const plan = featureTurnPlan(exploreState.view, exploreState.selectedFeatureId, exploreState.featureSeq, r.explore.lastFeatureSeq);
+        if (plan === 'cancel') r.explore.turn = null;
+        else if (plan === 'request') {
+          const { latLon, pending } = featureLatLon(id, exploreState.selectedFeatureId!);
+          const orientation = frame.bodyOrientation.get(id);
+          // An id the ready details do not know is dropped by the overlay; nothing is retried for it.
+          if (!pending && !latLon) r.explore.lastFeatureSeq = exploreState.featureSeq;
+          if (latLon && orientation) {
+            const cur = r.orbit.getState();
+            r.explore.turn = {
+              from: { azimuthRad: cur.azimuthRad, elevationRad: cur.elevationRad },
+              to: featureView(apply(orientation, surfaceDirection(latLon.latDeg, latLon.lonDegE))),
+              startedAt: now,
+              seq: exploreState.featureSeq,
+            };
+            r.explore.lastFeatureSeq = exploreState.featureSeq;
+          }
+        }
+        const hasInput = deltas.rotateX !== 0 || deltas.rotateY !== 0 || deltas.zoom !== 0;
+        const step = advanceTurn(r.explore.turn, now, hasInput, prefersReducedMotion());
+        r.explore.turn = step.turn;
+        if (step.view) r.orbit.setView(step.view);
         const st = r.orbit.getState();
         r.orbit.setView({ distanceKm: Math.min(st.distanceKm, radius * EXPLORE_CAMERA.maxRadii) });
         let pose = r.orbit.update(NO_INPUT, ctx);

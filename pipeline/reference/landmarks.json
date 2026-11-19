@@ -1,0 +1,927 @@
+{
+  "sources": [
+    {
+      "id": "nasa-science-mars-facts",
+      "title": "Mars: Facts",
+      "publisher": "NASA Science",
+      "url": "https://science.nasa.gov/mars/facts/",
+      "license": "NASA public domain (NASA media usage guidelines)"
+    },
+    {
+      "id": "usgs-gazetteer-descriptor-terms",
+      "title": "Descriptor Terms (feature types), Gazetteer of Planetary Nomenclature",
+      "publisher": "USGS Astrogeology Science Center / IAU Working Group for Planetary System Nomenclature",
+      "url": "https://planetarynames.wr.usgs.gov/DescriptorTerms",
+      "license": "Public domain (USGS)"
+    },
+    {
+      "id": "nasa-photojournal-to-great-depths",
+      "title": "To Great Depths (PIA21570), NASA Photojournal",
+      "publisher": "NASA Science",
+      "url": "https://science.nasa.gov/photojournal/to-great-depths/",
+      "license": "NASA public domain (NASA media usage guidelines)"
+    },
+    {
+      "id": "nasa-photojournal-tharsis",
+      "title": "Tharsis (PIA00408), NASA Photojournal",
+      "publisher": "NASA Science",
+      "url": "https://science.nasa.gov/photojournal/tharsis/",
+      "license": "NASA public domain (NASA media usage guidelines)"
+    },
+    {
+      "id": "nssdca-mars-pathfinder",
+      "title": "Mars Pathfinder (NSSDCA Master Catalog)",
+      "publisher": "NASA NSSDCA",
+      "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1996-068A",
+      "license": "NASA public domain (NASA media usage guidelines)"
+    },
+    {
+      "id": "nasa-insight-deep-interior",
+      "title": "NASA's InSight Reveals the Deep Interior of Mars",
+      "publisher": "NASA / JPL",
+      "url": "https://www.nasa.gov/centers-and-facilities/jpl/nasas-insight-reveals-the-deep-interior-of-mars/",
+      "license": "NASA public domain (NASA media usage guidelines)"
+    },
+    {
+      "id": "nasa-photojournal-syrtis-major-3",
+      "title": "Syrtis Major (PIA03823), NASA Photojournal",
+      "publisher": "NASA Science",
+      "url": "https://science.nasa.gov/photojournal/syrtis-major-3/",
+      "license": "NASA public domain (NASA media usage guidelines)"
+    },
+    {
+      "id": "nasa-photojournal-noctis-labyrinthus",
+      "title": "Noctis Labyrinthus (PIA03783), NASA Photojournal",
+      "publisher": "NASA Science",
+      "url": "https://science.nasa.gov/photojournal/pj-noctis-labyrinthus-3/",
+      "license": "NASA public domain (NASA media usage guidelines)"
+    },
+    {
+      "id": "nasa-mission-mer",
+      "title": "Mars Exploration Rovers: Spirit and Opportunity (NASA Science mission page)",
+      "publisher": "NASA Science",
+      "url": "https://science.nasa.gov/mission/mars-exploration-rovers-spirit-and-opportunity/",
+      "license": "NASA public domain (NASA media usage guidelines)"
+    },
+    {
+      "id": "nasa-photojournal-arsia-mons-themis",
+      "title": "THEMIS Views Mars' Arsia Mons Volcano (PIA26557), NASA Photojournal",
+      "publisher": "NASA Science",
+      "url": "https://science.nasa.gov/photojournal/themis-views-mars-arsia-mons-volcano/",
+      "license": "NASA public domain (NASA media usage guidelines)"
+    },
+    {
+      "id": "nasa-photojournal-elysium",
+      "title": "Elysium (PIA00412), NASA Photojournal",
+      "publisher": "NASA Science",
+      "url": "https://science.nasa.gov/photojournal/elysium/",
+      "license": "NASA public domain (NASA media usage guidelines)"
+    },
+    {
+      "id": "esa-mars-express-north-pole-dunes",
+      "title": "Sand dunes meet stacked ice at Mars's north pole",
+      "publisher": "ESA",
+      "url": "https://www.esa.int/articles/about-us/directorates/science/mars-express/sand-dunes-meet-stacked-ice-at-mars-s-north-pole",
+      "license": "ESA; text quoted with attribution (ESA terms of use)"
+    },
+    {
+      "id": "nssdca-spirit",
+      "title": "Spirit (Mars Exploration Rover A) (NSSDCA Master Catalog)",
+      "publisher": "NASA NSSDCA",
+      "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=2003-027A",
+      "license": "NASA public domain (NASA media usage guidelines)"
+    },
+    {
+      "id": "nssdca-curiosity",
+      "title": "Mars Science Laboratory (MSL) (NSSDCA Master Catalog)",
+      "publisher": "NASA NSSDCA",
+      "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=2011-070A",
+      "license": "NASA public domain (NASA media usage guidelines)"
+    },
+    {
+      "id": "jpl-mount-sharp-panorama",
+      "title": "Mount Sharp Panorama in Raw Colors (PIA16769)",
+      "publisher": "NASA Jet Propulsion Laboratory",
+      "url": "https://www.jpl.nasa.gov/images/pia16769-mount-sharp-panorama-in-raw-colors/",
+      "license": "NASA public domain (NASA media usage guidelines)"
+    },
+    {
+      "id": "nasa-mission-mars-2020",
+      "title": "Mars 2020: Perseverance Rover (NASA Science mission page)",
+      "publisher": "NASA Science",
+      "url": "https://science.nasa.gov/mission/mars-2020-perseverance/",
+      "license": "NASA public domain (NASA media usage guidelines)"
+    },
+    {
+      "id": "nasa-science-mercury-facts",
+      "title": "Mercury: Facts",
+      "publisher": "NASA Science",
+      "url": "https://science.nasa.gov/mercury/facts/",
+      "license": "NASA public domain (NASA media usage guidelines)"
+    },
+    {
+      "id": "nasa-photojournal-young-volcanism-mercury",
+      "title": "Young Volcanism on Mercury, NASA Photojournal",
+      "publisher": "NASA Science",
+      "url": "https://science.nasa.gov/photojournal/young-volcanism-on-mercury/",
+      "license": "NASA public domain (NASA media usage guidelines)"
+    },
+    {
+      "id": "nasa-photojournal-islands-in-the-stream",
+      "title": "Islands in the Stream (PIA15065), NASA Photojournal",
+      "publisher": "NASA Science",
+      "url": "https://science.nasa.gov/photojournal/islands-in-the-stream/",
+      "license": "NASA public domain (NASA media usage guidelines)"
+    },
+    {
+      "id": "nasa-image-enterprise-rupes",
+      "title": "Enterprise Rupes (NASA image article)",
+      "publisher": "NASA",
+      "url": "https://www.nasa.gov/image-article/enterprise-rupes/",
+      "license": "NASA public domain (NASA media usage guidelines)"
+    },
+    {
+      "id": "nasa-photojournal-rembrandt-basin",
+      "title": "The Newly Discovered Rembrandt Impact Basin (PIA12049), NASA Photojournal",
+      "publisher": "NASA Science",
+      "url": "https://science.nasa.gov/photojournal/the-newly-discovered-rembrandt-impact-basin/",
+      "license": "NASA public domain (NASA media usage guidelines)"
+    },
+    {
+      "id": "nasa-photojournal-beagle-rupes",
+      "title": "Beagle Rupes, NASA Photojournal",
+      "publisher": "NASA Science",
+      "url": "https://science.nasa.gov/photojournal/beagle-rupes/",
+      "license": "NASA public domain (NASA media usage guidelines)"
+    },
+    {
+      "id": "nasa-photojournal-faults-in-the-caloris-basin",
+      "title": "Faults in the Caloris Basin, NASA Photojournal",
+      "publisher": "NASA Science",
+      "url": "https://science.nasa.gov/photojournal/faults-in-the-caloris-basin/",
+      "license": "NASA public domain (NASA media usage guidelines)"
+    },
+    {
+      "id": "nasa-photojournal-mercurys-first-fossae",
+      "title": "Mercury's First Fossae, NASA Photojournal",
+      "publisher": "NASA Science",
+      "url": "https://science.nasa.gov/photojournal/mercurys-first-fossae/",
+      "license": "NASA public domain (NASA media usage guidelines)"
+    },
+    {
+      "id": "nasa-photojournal-raditladi",
+      "title": "The Curious Case of Raditladi Basin (PIA12042), NASA Photojournal",
+      "publisher": "NASA Science",
+      "url": "https://science.nasa.gov/photojournal/the-curious-case-of-raditladi-basin/",
+      "license": "NASA public domain (NASA media usage guidelines)"
+    },
+    {
+      "id": "nasa-resource-rays-of-hokusai",
+      "title": "The Impressive Rays of Hokusai (PIA13508)",
+      "publisher": "NASA Science",
+      "url": "https://science.nasa.gov/resource/the-impressive-rays-of-hokusai/",
+      "license": "NASA public domain (NASA media usage guidelines)"
+    },
+    {
+      "id": "nasa-science-venus-facts",
+      "title": "Venus Facts",
+      "publisher": "NASA Science",
+      "url": "https://science.nasa.gov/venus/facts/",
+      "license": "NASA public domain (NASA media usage guidelines)"
+    },
+    {
+      "id": "nasa-photojournal-ovda-regio",
+      "title": "Venus - Ovda Regio (PIA00146), NASA Photojournal",
+      "publisher": "NASA Science",
+      "url": "https://science.nasa.gov/photojournal/venus-ovda-regio/",
+      "license": "NASA public domain (NASA media usage guidelines)"
+    },
+    {
+      "id": "jpl-news-ongoing-venus-volcanism-2024",
+      "title": "Ongoing Venus Volcanic Activity Discovered With NASA's Magellan Data",
+      "publisher": "NASA Jet Propulsion Laboratory",
+      "url": "https://www.jpl.nasa.gov/news/ongoing-venus-volcanic-activity-discovered-with-nasas-magellan-data/",
+      "license": "NASA public domain (NASA media usage guidelines)"
+    },
+    {
+      "id": "jpl-news-magellan-venus-volcanism-2023",
+      "title": "NASA's Magellan Data Reveals Volcanic Activity on Venus",
+      "publisher": "NASA Jet Propulsion Laboratory",
+      "url": "https://www.jpl.nasa.gov/news/nasas-magellan-data-reveals-volcanic-activity-on-venus/",
+      "license": "NASA public domain (NASA media usage guidelines)"
+    },
+    {
+      "id": "nasa-photojournal-artemis-corona",
+      "title": "Artemis Corona (PIA00101), NASA Photojournal",
+      "publisher": "NASA Science",
+      "url": "https://science.nasa.gov/photojournal/artemis-corona-c2-midr/",
+      "license": "NASA public domain (NASA media usage guidelines)"
+    },
+    {
+      "id": "nasa-photojournal-danu-montes-lakshmi",
+      "title": "Venus - Danu Montes and Lakshmi Planum (PIA00249), NASA Photojournal",
+      "publisher": "NASA Science",
+      "url": "https://science.nasa.gov/photojournal/venus-danu-montes-and-lakshmi-planum/",
+      "license": "NASA public domain (NASA media usage guidelines)"
+    },
+    {
+      "id": "nasa-photojournal-alpha-regio",
+      "title": "Venus - False Color Image of Alpha Regio (PIA00147), NASA Photojournal",
+      "publisher": "NASA Science",
+      "url": "https://science.nasa.gov/photojournal/venus-false-color-image-of-alpha-regio/",
+      "license": "NASA public domain (NASA media usage guidelines)"
+    },
+    {
+      "id": "nssdc-imgcat-maxwell-montes",
+      "title": "Western Maxwell Montes and Cleopatra Crater, Venus (NSSDC Photo Gallery)",
+      "publisher": "NASA NSSDCA",
+      "url": "https://nssdc.gsfc.nasa.gov/imgcat/html/object_page/mgn_c260n033_2.html",
+      "license": "NASA public domain (NASA media usage guidelines)"
+    },
+    {
+      "id": "nasa-photojournal-gula-mons",
+      "title": "Venus - 3-D Perspective View of Gula Mons (PIA00234), NASA Photojournal",
+      "publisher": "NASA Science",
+      "url": "https://science.nasa.gov/photojournal/venus-3-d-perspective-view-of-gula-mons/",
+      "license": "NASA public domain (NASA media usage guidelines)"
+    },
+    {
+      "id": "nssdc-imgcat-mead-crater",
+      "title": "Mead Crater, Venus (NSSDC Photo Gallery)",
+      "publisher": "NASA NSSDCA",
+      "url": "https://nssdc.gsfc.nasa.gov/imgcat/html/object_page/mgn_c115n060_1.html",
+      "license": "NASA public domain (NASA media usage guidelines)"
+    },
+    {
+      "id": "nasa-photojournal-sapas-mons",
+      "title": "Venus - 3-D Perspective View of Sapas Mons (PIA00107), NASA Photojournal",
+      "publisher": "NASA Science",
+      "url": "https://science.nasa.gov/photojournal/venus-3-d-perspective-view-of-sapas-mons/",
+      "license": "NASA public domain (NASA media usage guidelines)"
+    },
+    {
+      "id": "nasa-photojournal-maxwell-cleopatra",
+      "title": "Venus - Maxwell Montes and Cleopatra Crater (PIA00149), NASA Photojournal",
+      "publisher": "NASA Science",
+      "url": "https://science.nasa.gov/photojournal/venus-maxwell-montes-and-cleopatra-crater/",
+      "license": "NASA public domain (NASA media usage guidelines)"
+    },
+    {
+      "id": "nasa-photojournal-floor-of-tycho",
+      "title": "The Floor of Tycho, NASA Photojournal",
+      "publisher": "NASA Science",
+      "url": "https://science.nasa.gov/photojournal/the-floor-of-tycho/",
+      "license": "NASA public domain (NASA media usage guidelines)"
+    },
+    {
+      "id": "nasa-apod-2021-08-05-tycho-clavius",
+      "title": "APOD 2021 August 5: Tycho and Clavius",
+      "publisher": "NASA Science (Astronomy Picture of the Day)",
+      "url": "https://science.nasa.gov/image-article/apod-2021-august-5-tycho-and-clavius/",
+      "license": "NASA Science page; text quoted with attribution"
+    },
+    {
+      "id": "nasa-svs-procellarum-rifts",
+      "title": "Procellarum Rifts for the Cover of Nature (SVS 4218)",
+      "publisher": "NASA Scientific Visualization Studio",
+      "url": "https://svs.gsfc.nasa.gov/4218",
+      "license": "NASA public domain (NASA media usage guidelines)"
+    },
+    {
+      "id": "esa-smart1-tribute-to-cassini",
+      "title": "SMART-1's tribute to Cassini",
+      "publisher": "ESA",
+      "url": "https://www.esa.int/articles/about-us/directorates/science/smart-1/smart-1-s-tribute-to-cassini",
+      "license": "ESA; text quoted with attribution (ESA terms of use)"
+    },
+    {
+      "id": "esa-smart1-mare-serenitatis",
+      "title": "Mare Serenitatis (SMART-1 image)",
+      "publisher": "ESA Science & Technology",
+      "url": "https://sci.esa.int/web/smart-1/-/39788-mare-serenitatis",
+      "license": "ESA; text quoted with attribution (ESA terms of use)"
+    },
+    {
+      "id": "nasa-resource-wrinkle-ridge-mare-crisium",
+      "title": "Wrinkle Ridge in Mare Crisium",
+      "publisher": "NASA Science",
+      "url": "https://science.nasa.gov/resource/wrinkle-ridge-in-mare-crisium/",
+      "license": "NASA public domain (NASA media usage guidelines)"
+    },
+    {
+      "id": "esa-smart1-mare-humorum",
+      "title": "Mare Humorum: where craters tell the story of basalt",
+      "publisher": "ESA",
+      "url": "https://www.esa.int/articles/about-us/directorates/science/smart-1/mare-humorum-where-craters-tell-the-story-of-basalt",
+      "license": "ESA; text quoted with attribution (ESA terms of use)"
+    },
+    {
+      "id": "nasa-apod-2011-03-12-mare-orientale",
+      "title": "APOD 2011 March 12: Mare Orientale",
+      "publisher": "NASA Science (Astronomy Picture of the Day)",
+      "url": "https://science.nasa.gov/image-article/apod-2011-march-12-mare-orientale/",
+      "license": "NASA Science page; text quoted with attribution"
+    },
+    {
+      "id": "nasa-photojournal-aristarchus-mosaic",
+      "title": "Multispectral Mosaic of the Aristarchus Crater and Plateau (PIA00090), NASA Photojournal",
+      "publisher": "NASA Science",
+      "url": "https://science.nasa.gov/photojournal/multispectral-mosaic-of-the-aristarchus-crater-and-plateau/",
+      "license": "NASA public domain (NASA media usage guidelines)"
+    },
+    {
+      "id": "nasa-resource-copernicus-lunar-orbiter",
+      "title": "Copernicus From Lunar Orbiter",
+      "publisher": "NASA Science",
+      "url": "https://science.nasa.gov/resource/copernicus-from-lunar-orbiter/",
+      "license": "NASA public domain (NASA media usage guidelines)"
+    },
+    {
+      "id": "nasa-3d-moon-aristarchus-region",
+      "title": "Moon - Aristarchus Region (NASA 3D Resources)",
+      "publisher": "NASA Science",
+      "url": "https://science.nasa.gov/3d-resources/moon-aristarchus-region/",
+      "license": "NASA public domain (NASA media usage guidelines)"
+    },
+    {
+      "id": "nasa-svs-apollo-17-landing-site",
+      "title": "Apollo 17 Landing Site (SVS 4302)",
+      "publisher": "NASA Scientific Visualization Studio",
+      "url": "https://svs.gsfc.nasa.gov/4302",
+      "license": "NASA public domain (NASA media usage guidelines)"
+    },
+    {
+      "id": "nasa-image-faces-of-shackleton",
+      "title": "Faces of Shackleton",
+      "publisher": "NASA Science",
+      "url": "https://science.nasa.gov/image-detail/faces-of-shackleton/",
+      "license": "NASA public domain (NASA media usage guidelines)"
+    },
+    {
+      "id": "esa-mercury-sunlit-north",
+      "title": "Mercury's sunlit north viewed by M-CAM 1",
+      "publisher": "ESA",
+      "url": "https://www.esa.int/media/mercury-s-sunlit-north-viewed-by-m-cam-1",
+      "license": "ESA; text quoted with attribution (ESA terms of use)"
+    },
+    {
+      "id": "nasa-photojournal-in-prokofievs-shadow",
+      "title": "In Prokofiev's Shadow (PIA16857), NASA Photojournal",
+      "publisher": "NASA Science",
+      "url": "https://science.nasa.gov/photojournal/in-prokofievs-shadow/",
+      "license": "NASA public domain (NASA media usage guidelines)"
+    },
+    {
+      "id": "nasa-photojournal-sacajawea-caldera",
+      "title": "Venus - A Large Elongated Caldera 'Sacajawea Patera' (PIA00485), NASA Photojournal",
+      "publisher": "NASA Science",
+      "url": "https://science.nasa.gov/photojournal/venus-a-large-elongated-caldera-sacajawea-patera/",
+      "license": "NASA public domain (NASA media usage guidelines)"
+    },
+    {
+      "id": "nasa-apod-2026-07-25-tranquility-serenity",
+      "title": "APOD 2026 July 25: Tranquility and Serenity",
+      "publisher": "NASA Science (Astronomy Picture of the Day)",
+      "url": "https://science.nasa.gov/image-article/apod/apod-2026-july-25-tranquility-and-serenity",
+      "license": "NASA Science page; text quoted with attribution"
+    },
+    {
+      "id": "esa-smart1-hadley-rille",
+      "title": "Hadley Rille on the Moon, seen by SMART-1",
+      "publisher": "ESA",
+      "url": "https://www.esa.int/media/hadley-rille-on-the-moon-seen-by-smart-1",
+      "license": "ESA; text quoted with attribution (ESA terms of use)"
+    },
+    {
+      "id": "nasa-resource-plato-volcanic-vent",
+      "title": "Ancient Volcanic Vent Near the Moon's Plato Crater",
+      "publisher": "NASA Science",
+      "url": "https://science.nasa.gov/resource/ancient-volcanic-vent-near-the-moons-plato-crater/",
+      "license": "NASA public domain (NASA media usage guidelines)"
+    },
+    {
+      "id": "nasa-eo-grand-canyon-geology",
+      "title": "Grand Canyon Geology Lessons on View (NASA Earth Observatory)",
+      "publisher": "NASA Earth Observatory",
+      "url": "https://science.nasa.gov/earth/earth-observatory/grand-canyon-geology-lessons-on-view-83495/",
+      "license": "NASA public domain (NASA media usage guidelines)"
+    },
+    {
+      "id": "nasa-eo-antarctic-peninsula",
+      "title": "The Most Studied Peninsula on Antarctica (NASA Earth Observatory)",
+      "publisher": "NASA Earth Observatory",
+      "url": "https://science.nasa.gov/earth/earth-observatory/the-most-studied-peninsula-on-antarctica-89717/",
+      "license": "NASA public domain (NASA media usage guidelines)"
+    },
+    {
+      "id": "usgs-volcano-mount-st-helens",
+      "title": "Mount St. Helens (USGS Volcano Hazards Program)",
+      "publisher": "USGS",
+      "url": "https://www.usgs.gov/volcanoes/mount-st.-helens",
+      "license": "Public domain (USGS)"
+    },
+    {
+      "id": "usgs-volcano-kilauea",
+      "title": "Kīlauea (USGS Volcano Hazards Program)",
+      "publisher": "USGS",
+      "url": "https://www.usgs.gov/volcanoes/kilauea",
+      "license": "Public domain (USGS)"
+    },
+    {
+      "id": "nasa-eo-mississippi-delta-winter",
+      "title": "Winter Transforms the Mississippi River Delta (NASA Earth Observatory)",
+      "publisher": "NASA Earth Observatory",
+      "url": "https://science.nasa.gov/earth/earth-observatory/winter-transforms-the-mississippi-river-delta-154838/",
+      "license": "NASA public domain (NASA media usage guidelines)"
+    },
+    {
+      "id": "nasa-eo-ross-ice-shelf",
+      "title": "Victoria Land and Ross Ice Shelf, Antarctica (NASA Earth Observatory)",
+      "publisher": "NASA Earth Observatory",
+      "url": "https://science.nasa.gov/earth/earth-observatory/victoria-land-and-ross-ice-shelf-antarctica-1931/",
+      "license": "NASA public domain (NASA media usage guidelines)"
+    },
+    {
+      "id": "nasa-eo-death-valley",
+      "title": "Death Valley National Park (NASA Earth Observatory)",
+      "publisher": "NASA Earth Observatory",
+      "url": "https://science.nasa.gov/earth/earth-observatory/death-valley-national-park-6470/",
+      "license": "NASA public domain (NASA media usage guidelines)"
+    },
+    {
+      "id": "nasa-eo-lake-superior-ice",
+      "title": "Persistent Ice on Lake Superior (NASA Earth Observatory)",
+      "publisher": "NASA Earth Observatory",
+      "url": "https://science.nasa.gov/earth/earth-observatory/persistent-ice-on-lake-superior-83541/",
+      "license": "NASA public domain (NASA media usage guidelines)"
+    },
+    {
+      "id": "usgs-volcano-mauna-loa",
+      "title": "Mauna Loa (USGS Volcano Hazards Program)",
+      "publisher": "USGS",
+      "url": "https://www.usgs.gov/volcanoes/mauna-loa",
+      "license": "Public domain (USGS)"
+    },
+    {
+      "id": "nasa-eo-great-salt-lake",
+      "title": "The Great Shrinking Lake (NASA Earth Observatory)",
+      "publisher": "NASA Earth Observatory",
+      "url": "https://science.nasa.gov/earth/earth-observatory/the-great-shrinking-lake-150187/",
+      "license": "NASA public domain (NASA media usage guidelines)"
+    },
+    {
+      "id": "nasa-eo-mount-erebus",
+      "title": "Mount Erebus, Antarctica (NASA Earth Observatory)",
+      "publisher": "NASA Earth Observatory",
+      "url": "https://science.nasa.gov/earth/earth-observatory/mount-erebus-antarctica-87444/",
+      "license": "NASA public domain (NASA media usage guidelines)"
+    },
+    {
+      "id": "esa-cryosat-subglacial-lakes",
+      "title": "85 new subglacial lakes detected below Antarctica",
+      "publisher": "ESA",
+      "url": "https://www.esa.int/articles/about-us/directorates/earth-observation-programmes/futureeo/cryosat/85-new-subglacial-lakes-detected-below-antarctica",
+      "license": "ESA; text quoted with attribution (ESA terms of use)"
+    },
+    {
+      "id": "usgs-volcano-crater-lake",
+      "title": "Crater Lake (USGS Volcano Hazards Program)",
+      "publisher": "USGS",
+      "url": "https://www.usgs.gov/volcanoes/crater-lake",
+      "license": "Public domain (USGS)"
+    },
+    {
+      "id": "nasa-eo-meteor-crater",
+      "title": "Blast From the Past: Arizona’s Meteor Crater (NASA Earth Observatory)",
+      "publisher": "NASA Earth Observatory",
+      "url": "https://science.nasa.gov/earth/earth-observatory/blast-from-the-past-arizonas-meteor-crater-154497/",
+      "license": "NASA public domain (NASA media usage guidelines)"
+    },
+    {
+      "id": "nasa-eo-chesapeake-watershed",
+      "title": "The Chesapeake Watershed (NASA Earth Observatory)",
+      "publisher": "NASA Earth Observatory",
+      "url": "https://science.nasa.gov/earth/earth-observatory/the-chesapeake-watershed-86815/",
+      "license": "NASA public domain (NASA media usage guidelines)"
+    },
+    {
+      "id": "usgs-volcano-mount-rainier",
+      "title": "Mount Rainier (USGS Volcano Hazards Program)",
+      "publisher": "USGS",
+      "url": "https://www.usgs.gov/volcanoes/mount-rainier",
+      "license": "Public domain (USGS)"
+    },
+    {
+      "id": "nasa-eo-vinson-massif",
+      "title": "Vinson Massif (NASA Earth Observatory)",
+      "publisher": "NASA Earth Observatory",
+      "url": "https://science.nasa.gov/earth/earth-observatory/vinson-massif-3643/",
+      "license": "NASA public domain (NASA media usage guidelines)"
+    },
+    {
+      "id": "nasa-image-dry-valleys",
+      "title": "Dry Valleys, Antarctica (NASA image article)",
+      "publisher": "NASA",
+      "url": "https://www.nasa.gov/image-article/dry-valleys-antarctica/",
+      "license": "NASA public domain (NASA media usage guidelines)"
+    },
+    {
+      "id": "nasa-eo-thwaites-transformed",
+      "title": "Thwaites Glacier Transformed (NASA Earth Observatory)",
+      "publisher": "NASA Earth Observatory",
+      "url": "https://science.nasa.gov/earth/earth-observatory/thwaites-glacier-transformed-146247/",
+      "license": "NASA public domain (NASA media usage guidelines)"
+    },
+    {
+      "id": "nasa-eo-larsen-ice-shelf",
+      "title": "Antarctica’s Changing Larsen Ice Shelf (NASA Earth Observatory)",
+      "publisher": "NASA Earth Observatory",
+      "url": "https://science.nasa.gov/earth/earth-observatory/antarcticas-changing-larsen-ice-shelf-89588/",
+      "license": "NASA public domain (NASA media usage guidelines)"
+    },
+    {
+      "id": "nasa-eo-long-view-of-etna",
+      "title": "A Long View of Mount Etna (NASA Earth Observatory)",
+      "publisher": "NASA Earth Observatory",
+      "url": "https://science.nasa.gov/earth/earth-observatory/a-long-view-of-mount-etna-151977/",
+      "license": "NASA public domain (NASA media usage guidelines)"
+    },
+    {
+      "id": "nasa-eo-kilimanjaro-closeup",
+      "title": "Mount Kilimanjaro Closeup (NASA Earth Observatory)",
+      "publisher": "NASA Earth Observatory",
+      "url": "https://science.nasa.gov/earth/earth-observatory/mount-kilimanjaro-closeup-4708/",
+      "license": "NASA public domain (NASA media usage guidelines)"
+    },
+    {
+      "id": "nasa-eo-mount-fuji-2009",
+      "title": "Mount Fuji, Japan (NASA Earth Observatory)",
+      "publisher": "NASA Earth Observatory",
+      "url": "https://science.nasa.gov/earth/earth-observatory/mount-fuji-japan-39099/",
+      "license": "NASA public domain (NASA media usage guidelines)"
+    },
+    {
+      "id": "nasa-eo-view-of-vesuvius",
+      "title": "A View of Vesuvius (NASA Earth Observatory)",
+      "publisher": "NASA Earth Observatory",
+      "url": "https://science.nasa.gov/earth/earth-observatory/a-view-of-vesuvius-149298/",
+      "license": "NASA public domain (NASA media usage guidelines)"
+    },
+    {
+      "id": "nasa-eo-krakatau-indonesia",
+      "title": "Krakatau, Indonesia (NASA Earth Observatory)",
+      "publisher": "NASA Earth Observatory",
+      "url": "https://science.nasa.gov/earth/earth-observatory/krakatau-indonesia-47143/",
+      "license": "NASA public domain (NASA media usage guidelines)"
+    },
+    {
+      "id": "nasa-eo-ash-plume-north-atlantic",
+      "title": "Ash Plume across the North Atlantic (NASA Earth Observatory)",
+      "publisher": "NASA Earth Observatory",
+      "url": "https://science.nasa.gov/earth/earth-observatory/ash-plume-across-the-north-atlantic-43670/",
+      "license": "NASA public domain (NASA media usage guidelines)"
+    },
+    {
+      "id": "nasa-eo-topography-popocatepetl",
+      "title": "Topography of Popocatépetl (NASA Earth Observatory)",
+      "publisher": "NASA Earth Observatory",
+      "url": "https://science.nasa.gov/earth/earth-observatory/topography-of-popocatepetl-6073/",
+      "license": "NASA public domain (NASA media usage guidelines)"
+    },
+    {
+      "id": "nasa-apod-2016-02-25-chimborazo",
+      "title": "APOD: 2016 February 25 - Highest, Tallest, and Closest to the Stars (NASA APOD)",
+      "publisher": "NASA (Astronomy Picture of the Day)",
+      "url": "https://science.nasa.gov/image-article/apod-2016-february-25-highest-tallest-and-closest-to-the-stars/",
+      "license": "NASA public domain (NASA media usage guidelines); text only, the image is credited on the page"
+    },
+    {
+      "id": "nasa-eo-nyiragongo-vents-steam",
+      "title": "Nyiragongo Vents Steam (NASA Earth Observatory)",
+      "publisher": "NASA Earth Observatory",
+      "url": "https://science.nasa.gov/earth/earth-observatory/nyiragongo-vents-steam-7659/",
+      "license": "NASA public domain (NASA media usage guidelines)"
+    },
+    {
+      "id": "nasa-eo-tambora",
+      "title": "Mount Tambora Volcano, Sumbawa Island, Indonesia (NASA Earth Observatory)",
+      "publisher": "NASA Earth Observatory",
+      "url": "https://science.nasa.gov/earth/earth-observatory/mount-tambora-volcano-sumbawa-island-indonesia-39412/",
+      "license": "NASA public domain (NASA media usage guidelines)"
+    },
+    {
+      "id": "nasa-eo-tenerife",
+      "title": "Tenerife, Canary Islands (NASA Earth Observatory)",
+      "publisher": "NASA Earth Observatory",
+      "url": "https://science.nasa.gov/earth/earth-observatory/tenerife-canary-islands-88659/",
+      "license": "NASA public domain (NASA media usage guidelines)"
+    },
+    {
+      "id": "usgs-dynamic-earth-plate-motions",
+      "title": "Understanding plate motions (This Dynamic Earth, USGS)",
+      "publisher": "USGS",
+      "url": "https://pubs.usgs.gov/gip/dynamic/understanding.html",
+      "license": "Public domain (USGS)"
+    },
+    {
+      "id": "nasa-eo-deepest-trench",
+      "title": "New View of the Deepest Trench (NASA Earth Observatory)",
+      "publisher": "NASA Earth Observatory",
+      "url": "https://science.nasa.gov/earth/earth-observatory/new-view-of-the-deepest-trench-77640/",
+      "license": "NASA public domain (NASA media usage guidelines)"
+    },
+    {
+      "id": "usgs-ofr-2004-1400-puerto-rico-trench",
+      "title": "Introduction: the Puerto Rico Trench (USGS Open-File Report 2004-1400)",
+      "publisher": "USGS",
+      "url": "https://pubs.usgs.gov/of/2004/1400/htmldocs/intro.htm",
+      "license": "Public domain (USGS)"
+    },
+    {
+      "id": "nasa-eo-rebounding-hudson-bay",
+      "title": "Rebounding in Hudson Bay (NASA Earth Observatory)",
+      "publisher": "NASA Earth Observatory",
+      "url": "https://science.nasa.gov/earth/earth-observatory/rebounding-in-hudson-bay-147405/",
+      "license": "NASA public domain (NASA media usage guidelines)"
+    },
+    {
+      "id": "nasa-eo-bay-of-fundy-tides",
+      "title": "High and Low Tides in Bay of Fundy (NASA Earth Observatory)",
+      "publisher": "NASA Earth Observatory",
+      "url": "https://science.nasa.gov/earth/earth-observatory/high-and-low-tides-in-bay-of-fundy-6650/",
+      "license": "NASA public domain (NASA media usage guidelines)"
+    },
+    {
+      "id": "nasa-eo-manicouagan-lake",
+      "title": "A Modern Lake in an Ancient Crater (NASA Earth Observatory)",
+      "publisher": "NASA Earth Observatory",
+      "url": "https://science.nasa.gov/earth/earth-observatory/a-modern-lake-in-an-ancient-crater-149414/",
+      "license": "NASA public domain (NASA media usage guidelines)"
+    },
+    {
+      "id": "nasa-eo-pingualuit-crater",
+      "title": "Pingualuit Crater, Canada (NASA Earth Observatory)",
+      "publisher": "NASA Earth Observatory",
+      "url": "https://science.nasa.gov/earth/earth-observatory/pingualuit-crater-canada-8472/",
+      "license": "NASA public domain (NASA media usage guidelines)"
+    },
+    {
+      "id": "nasa-eo-uluru-ayers-rock",
+      "title": "Uluru (Ayers Rock) (NASA Earth Observatory)",
+      "publisher": "NASA Earth Observatory",
+      "url": "https://science.nasa.gov/earth/earth-observatory/uluru-ayers-rock-5304/",
+      "license": "NASA public domain (NASA media usage guidelines)"
+    },
+    {
+      "id": "nasa-eo-rare-filling-kati-thanda",
+      "title": "Rare Filling of Kati Thanda-Lake Eyre (NASA Earth Observatory)",
+      "publisher": "NASA Earth Observatory",
+      "url": "https://science.nasa.gov/earth/earth-observatory/rare-filling-of-kati-thanda-lake-eyre-145076/",
+      "license": "NASA public domain (NASA media usage guidelines)"
+    },
+    {
+      "id": "nasa-eo-sharks-seagrass-stromatolites",
+      "title": "Sharks, Seagrass, and Stromatolites (NASA Earth Observatory)",
+      "publisher": "NASA Earth Observatory",
+      "url": "https://science.nasa.gov/earth/earth-observatory/sharks-seagrass-and-stromatolites-147395/",
+      "license": "NASA public domain (NASA media usage guidelines)"
+    },
+    {
+      "id": "nasa-eo-wolfe-creek-crater",
+      "title": "Wolfe Creek Crater (NASA Earth Observatory)",
+      "publisher": "NASA Earth Observatory",
+      "url": "https://science.nasa.gov/earth/earth-observatory/wolfe-creek-crater-8488/",
+      "license": "NASA public domain (NASA media usage guidelines)"
+    },
+    {
+      "id": "nasa-eo-gosses-bluff",
+      "title": "Gosses Bluff, Northern Territory, Australia (NASA Earth Observatory)",
+      "publisher": "NASA Earth Observatory",
+      "url": "https://science.nasa.gov/earth/earth-observatory/gosses-bluff-northern-territory-australia-4853/",
+      "license": "NASA public domain (NASA media usage guidelines)"
+    },
+    {
+      "id": "nasa-photojournal-seeing-in-the-dark",
+      "title": "Seeing in the Dark (Kandinsky crater), NASA Photojournal",
+      "publisher": "NASA Science",
+      "url": "https://science.nasa.gov/photojournal/pj-seeing-in-the-dark/",
+      "license": "NASA public domain (NASA media usage guidelines)"
+    },
+    {
+      "id": "esa-bepicolombo-sixth-flyby-movie",
+      "title": "BepiColombo's sixth Mercury flyby: the movie",
+      "publisher": "ESA",
+      "url": "https://www.esa.int/media/bepicolombo-s-sixth-mercury-flyby-the-movie",
+      "license": "ESA; text quoted with attribution (ESA terms of use)"
+    },
+    {
+      "id": "nasa-eo-flood-basalts-mars-iceland",
+      "title": "Flood Basalts on Mars and Iceland (NASA Earth Observatory)",
+      "publisher": "NASA Earth Observatory",
+      "url": "https://science.nasa.gov/earth/earth-observatory/flood-basalts-on-mars-and-iceland-92858/",
+      "license": "NASA public domain (NASA media usage guidelines)"
+    },
+    {
+      "id": "usgs-astrogeology-meteor-crater-samples",
+      "title": "Meteor Crater Drill Hole Sample Collection (USGS Astrogeology Science Center)",
+      "publisher": "USGS",
+      "url": "https://www.usgs.gov/centers/astrogeology-science-center/meteor-crater-drill-hole-sample-collection",
+      "license": "Public domain (USGS)"
+    },
+    {
+      "id": "usgs-yvo-youngest-supereruption",
+      "title": "Exciting insights into Yellowstone's youngest supereruption (USGS Yellowstone Volcano Observatory)",
+      "publisher": "USGS",
+      "url": "https://www.usgs.gov/observatories/yvo/news/exciting-insights-yellowstones-youngest-supereruption",
+      "license": "Public domain (USGS)"
+    },
+    {
+      "id": "nasa-eo-south-island-alps",
+      "title": "South Island Alps (NASA Earth Observatory)",
+      "publisher": "NASA Earth Observatory",
+      "url": "https://science.nasa.gov/earth/earth-observatory/south-island-alps-148290/",
+      "license": "NASA public domain (NASA media usage guidelines)"
+    },
+    {
+      "id": "nasa-svs-pinatubo-eruption",
+      "title": "Mt. Pinatubo Eruption on June 15, 1991 (SVS 2183)",
+      "publisher": "NASA Scientific Visualization Studio",
+      "url": "https://svs.gsfc.nasa.gov/2183",
+      "license": "NASA public domain (NASA media usage guidelines)"
+    },
+    {
+      "id": "usgs-yvo-white-island-2019",
+      "title": "The December 2019 hydrothermal explosion at White Island (Whakaari), New Zealand, and its lessons for Yellowstone (USGS)",
+      "publisher": "USGS",
+      "url": "https://www.usgs.gov/news/december-2019-hydrothermal-explosion-white-island-whakaari-new-zealand-and-its-lessons",
+      "license": "Public domain (USGS)"
+    },
+    {
+      "id": "nasa-eo-fraser-island-blazes",
+      "title": "Fraser Island Blazes (NASA Earth Observatory)",
+      "publisher": "NASA Earth Observatory",
+      "url": "https://science.nasa.gov/earth/earth-observatory/fraser-island-blazes-147638/",
+      "license": "NASA public domain (NASA media usage guidelines)"
+    }
+  ],
+  "types": {
+    "Catena": { "meaning": "Chain of craters", "sourceId": "usgs-gazetteer-descriptor-terms", "quote": "Catena, catenae CA Chain of craters" },
+    "Cavus": { "meaning": "Hollows, irregular steep-sided depressions", "sourceId": "usgs-gazetteer-descriptor-terms", "quote": "Cavus, cavi CB Hollows, irregular steep-sided depressions usually in arrays or clusters" },
+    "Chaos": { "meaning": "Distinctive area of broken terrain", "sourceId": "usgs-gazetteer-descriptor-terms", "quote": "Chaos, chaoses CH Distinctive area of broken terrain" },
+    "Chasma": { "meaning": "A deep, elongated, steep-sided depression", "sourceId": "usgs-gazetteer-descriptor-terms", "quote": "Chasma, chasmata CM A deep, elongated, steep-sided depression" },
+    "Collis": { "meaning": "Small hills or knobs", "sourceId": "usgs-gazetteer-descriptor-terms", "quote": "Collis, colles CO Small hills or knobs" },
+    "Corona": { "meaning": "Ovoid-shaped feature", "sourceId": "usgs-gazetteer-descriptor-terms", "quote": "Corona, coronae CR Ovoid-shaped feature Crater, craters AA A circular depression" },
+    "Dorsum": { "meaning": "Ridge", "sourceId": "usgs-gazetteer-descriptor-terms", "quote": "Dorsum, dorsa DO Ridge Eruptive center ER Active volcanic centers on Io" },
+    "Facula": { "meaning": "Bright spot", "sourceId": "usgs-gazetteer-descriptor-terms", "quote": "Facula, faculae FA Bright spot Farrum, farra FR Pancake-like structure, or a row of such structures" },
+    "Fluctus": { "meaning": "Flow terrain", "sourceId": "usgs-gazetteer-descriptor-terms", "quote": "Fluctus, fluctūs FL Flow terrain Flumen, flumina FM Channel on Titan that might carry liquid" },
+    "Fossa": { "meaning": "Long, narrow depression", "sourceId": "usgs-gazetteer-descriptor-terms", "quote": "Fossa, fossae FO Long, narrow depression" },
+    "Labyrinthus": { "meaning": "Complex of intersecting valleys or ridges", "sourceId": "usgs-gazetteer-descriptor-terms", "quote": "Labyrinthus, labyrinthi LB Complex of intersecting valleys or ridges." },
+    "Lacus": { "meaning": "Lake", "sourceId": "usgs-gazetteer-descriptor-terms", "quote": "Lacus, lacūs LC \"Lake\" or small plain; on Titan, a \"lake\" or small, dark plain with discrete, sharp boundaries" },
+    "Linea": { "meaning": "A dark or bright elongate marking, may be curved or straight", "sourceId": "usgs-gazetteer-descriptor-terms", "quote": "Linea, lineae LI A dark or bright elongate marking, may be curved or straight" },
+    "Lingula": { "meaning": "Extension of plateau having rounded lobate or tongue-like boundaries", "sourceId": "usgs-gazetteer-descriptor-terms", "quote": "Lingula, lingulae LN Extension of plateau having rounded lobate or tongue-like boundaries" },
+    "Mare": { "meaning": "Sea", "sourceId": "usgs-gazetteer-descriptor-terms", "quote": "Mare, maria ME \"Sea\"; on the Moon, low albedo, relatively smooth plain, generally of large extent; on Mars, dark albedo areas of no known geological significance; on Titan, large expanses of dark materials thought to be liquid hydrocarbons" },
+    "Mensa": { "meaning": "A flat-topped prominence with cliff-like edges", "sourceId": "usgs-gazetteer-descriptor-terms", "quote": "Mensa, mensae MN A flat-topped prominence with cliff-like edges" },
+    "Mons": { "meaning": "Mountain", "sourceId": "usgs-gazetteer-descriptor-terms", "quote": "Mons, montes MO Mountain Oceanus, oceani OC A very large dark area on the moon" },
+    "Oceanus": { "meaning": "A very large dark area on the moon", "sourceId": "usgs-gazetteer-descriptor-terms", "quote": "Oceanus, oceani OC A very large dark area on the moon" },
+    "Palus": { "meaning": "Swamp", "sourceId": "usgs-gazetteer-descriptor-terms", "quote": "Palus, paludes PA \"Swamp\"; small plain" },
+    "Patera": { "meaning": "An irregular crater, or a complex one with scalloped edges", "sourceId": "usgs-gazetteer-descriptor-terms", "quote": "Patera, paterae PE An irregular crater, or a complex one with scalloped edges" },
+    "Planitia": { "meaning": "Low plain", "sourceId": "usgs-gazetteer-descriptor-terms", "quote": "Planitia, planitiae PL Low plain Planum, plana PM Plateau or high plain" },
+    "Planum": { "meaning": "Plateau or high plain", "sourceId": "usgs-gazetteer-descriptor-terms", "quote": "Planum, plana PM Plateau or high plain" },
+    "Regio": { "meaning": "A large area marked by reflectivity or color distinctions from adjacent areas, or a broad geographic region", "sourceId": "usgs-gazetteer-descriptor-terms", "quote": "Regio, regiones RE A large area marked by reflectivity or color distinctions from adjacent areas, or a broad geographic region" },
+    "Rima": { "meaning": "Fissure", "sourceId": "usgs-gazetteer-descriptor-terms", "quote": "Rima, rimae RI Fissure Rupes, rupēs RU Scarp" },
+    "Rupes": { "meaning": "Scarp", "sourceId": "usgs-gazetteer-descriptor-terms", "quote": "Rima, rimae RI Fissure Rupes, rupēs RU Scarp" },
+    "Scopulus": { "meaning": "Lobate or irregular scarp", "sourceId": "usgs-gazetteer-descriptor-terms", "quote": "Scopulus, scopuli SC Lobate or irregular scarp" },
+    "Serpens": { "meaning": "Sinuous feature with segments of positive and negative relief along its length", "sourceId": "usgs-gazetteer-descriptor-terms", "quote": "Serpens, serpentes SE Sinuous feature with segments of positive and negative relief along its length" },
+    "Sinus": { "meaning": "Bay", "sourceId": "usgs-gazetteer-descriptor-terms", "quote": "Sinus, sinūs SI \"Bay\"; small plain; on Titan, bays within seas or lakes of liquid hydrocarbons" },
+    "Sulcus": { "meaning": "Subparallel furrows and ridges", "sourceId": "usgs-gazetteer-descriptor-terms", "quote": "Sulcus, sulci SU Subparallel furrows and ridges" },
+    "Terra": { "meaning": "Extensive land mass", "sourceId": "usgs-gazetteer-descriptor-terms", "quote": "Terra, terrae TA Extensive land mass" },
+    "Tessera": { "meaning": "Tile-like, polygonal terrain", "sourceId": "usgs-gazetteer-descriptor-terms", "quote": "Tessera, tesserae TE Tile-like, polygonal terrain" },
+    "Tholus": { "meaning": "Small domical mountain or hill", "sourceId": "usgs-gazetteer-descriptor-terms", "quote": "Tholus, tholi TH Small domical mountain or hill" },
+    "Unda": { "meaning": "Dunes", "sourceId": "usgs-gazetteer-descriptor-terms", "quote": "Unda, undae UN Dunes Vallis, valles VA Valley" },
+    "Vallis": { "meaning": "Valley", "sourceId": "usgs-gazetteer-descriptor-terms", "quote": "Vallis, valles VA Valley Vastitas, vastitates VS Extensive plain" },
+    "Vastitas": { "meaning": "Extensive plain", "sourceId": "usgs-gazetteer-descriptor-terms", "quote": "Vastitas, vastitates VS Extensive plain Virga, virgae VI A streak or stripe of color" }
+  },
+  "bodies": {
+    "earth": [
+      { "name": "Grand Canyon", "sourceId": "nasa-eo-grand-canyon-geology", "quote": "The Grand Canyon has become a geologic icon—a place where you can almost sense the invisible tectonic forces within the Earth.", "position": {"kind": "names-database", "database": "gnis", "recordId": "23907", "area": "AZ"} },
+      { "name": "Mount Fuji", "sourceId": "nasa-eo-mount-fuji-2009", "quote": "The 3,776-meter-high (12,388 feet) Mount Fuji Volcano, located on the island of Honshu in Japan, is one of the world’s classic examples of a stratovolcano.", "position": {"kind": "names-database", "database": "noaa-volcano", "recordId": "80303", "recordName": "Fujisan"} },
+      { "name": "Mount Kilimanjaro", "sourceId": "nasa-eo-kilimanjaro-closeup", "quote": "Mount Kilimanjaro is a dormant stratovolcano and the highest mountain in Africa.", "position": {"kind": "names-database", "database": "noaa-volcano", "recordId": "20215", "recordName": "Kilimanjaro"} },
+      { "name": "Uluru", "sourceId": "nasa-eo-uluru-ayers-rock", "quote": "Called Uluru, or Ayer's Rock, this giant is a monolith 348 meters (1,142 feet) high, 3.6 kilometers (2.2 miles) long, and 9.4 kilometers (5.8 miles) around.", "position": {"kind": "names-database", "database": "ga-cga", "recordId": "NT_10532", "recordName": "Uluru/Ayers Rock"} },
+      { "name": "Challenger Deep", "sourceId": "usgs-dynamic-earth-plate-motions", "quote": "The Challenger Deep, at the southern end of the Marianas Trench, plunges deeper into the Earth's interior (nearly 11,000 m) than Mount Everest, the world's tallest mountain, rises above sea level (about 8,854 m).", "position": {"kind": "names-database", "database": "gebco", "recordId": "563"} },
+      { "name": "Mississippi River", "sourceId": "nasa-eo-mississippi-delta-winter", "quote": "Originating from Lake Itasca in Minnesota, the Mississippi River flows approximately 3,770 kilometers (2,340 miles) through 10 states before emptying into the gulf.", "position": {"kind": "names-database", "database": "gnis", "recordId": "1629903", "area": "LA"} },
+      { "name": "Mount Etna", "sourceId": "nasa-eo-long-view-of-etna", "quote": "Mount Etna is considered to be the most active volcano on the European continent.", "position": {"kind": "names-database", "database": "noaa-volcano", "recordId": "10106", "recordName": "Etna"} },
+      { "name": "Mount Vesuvius", "sourceId": "nasa-eo-view-of-vesuvius", "quote": "Mount Vesuvius , located 12 kilometers (7.5 miles) southeast of Naples, Italy, is one of the few active volcanoes on Europe’s mainland.", "position": {"kind": "names-database", "database": "noaa-volcano", "recordId": "10102", "recordName": "Vesuvius"} },
+      { "name": "Hudson Bay", "sourceId": "nasa-eo-rebounding-hudson-bay", "quote": "Located in northeastern Canada, just south of the Arctic Circle, Hudson Bay is the world’s second-largest bay and spans 1,230,000 square kilometers (470,000 square miles).", "position": {"kind": "names-database", "database": "nrcan", "recordId": "OAHKV"} },
+      { "name": "Yellowstone Caldera", "sourceId": "usgs-yvo-youngest-supereruption", "quote": "About 631,000 years ago, a massive eruption formed what today is known as Yellowstone Caldera.", "position": {"kind": "names-database", "database": "gnis", "recordId": "2833031", "area": "WY"} },
+      { "name": "Mount Saint Helens", "sourceId": "usgs-volcano-mount-st-helens", "quote": "During the 1980 eruption the upper 400 m (1,300 ft) of the summit was removed by a huge debris avalanche, leaving a 2 x 3.5 km horseshoe-shaped crater now partially filled by a lava dome and a glacier.", "position": {"kind": "names-database", "database": "gnis", "recordId": "1525360", "area": "WA"} },
+      { "name": "Mariana Trench", "sourceId": "nasa-eo-deepest-trench", "quote": "The Mariana Trench stretches 2,500 kilometers (1,500 miles) in an arc that is edged by islands such as Guam and Saipan.", "position": {"kind": "names-database", "database": "gebco", "recordId": "1870"} },
+      { "name": "Krakatau", "sourceId": "nasa-eo-krakatau-indonesia", "quote": "Responsible for one of the largest and most destructive eruptions in Indonesia’s history, Krakatau still erupts frequently.", "position": {"kind": "names-database", "database": "noaa-volcano", "recordId": "60200"} },
+      { "name": "Antarctic Peninsula", "sourceId": "nasa-eo-antarctic-peninsula", "quote": "The ice-covered and mountainous peninsula stretches 1,300 kilometers (800 miles) into the Southern Ocean.", "position": {"kind": "names-database", "database": "gnis", "recordId": "2814404", "area": "Antarctica"} },
+      { "name": "Aoraki/Mount Cook", "sourceId": "nasa-eo-south-island-alps", "quote": "New Zealand's highest peak, Aoraki Mount Cook, reaches 3,724 meters (12,218 feet) above sea level.", "position": {"kind": "names-database", "database": "linz", "recordId": "7297"} },
+      { "name": "Mid-Atlantic Ridge", "sourceId": "usgs-dynamic-earth-plate-motions", "quote": "The rate of spreading along the Mid-Atlantic Ridge averages about 2.5 centimeters per year (cm/yr), or 25 km in a million years.", "position": {"kind": "names-database", "database": "gebco", "recordId": "1990"} },
+      { "name": "Death Valley", "sourceId": "nasa-eo-death-valley", "quote": "At 86 meters (282 feet) below sea level, Death Valley, California, is one of the hottest, driest places on the planet.", "position": {"kind": "names-database", "database": "gnis", "recordId": "270787", "area": "CA"} },
+      { "name": "Kati Thanda-Lake Eyre", "sourceId": "nasa-eo-rare-filling-kati-thanda", "quote": "Modern Kati Thanda-Lake Eyre is a salt-encrusted, mostly dry and barren playa that occupies Australia's lowest natural point, which is 15 meters (49 feet) below sea level.", "position": {"kind": "names-database", "database": "ga-cga", "recordId": "SA_SA0066895", "recordName": "Kati Thanda"} },
+      { "name": "Kīlauea", "sourceId": "usgs-volcano-kilauea", "quote": "Kīlauea ranks among the world's most active volcanoes.", "position": {"kind": "names-database", "database": "gnis", "recordId": "1853032", "area": "HI"} },
+      { "name": "Mount Pinatubo", "sourceId": "nasa-svs-pinatubo-eruption", "quote": "The second-largest volcanic eruption of the 20th century, and by far the largest eruption to affect a densely populated area, occurred at Mount Pinatubo in the Philippines on June 15, 1991.", "position": {"kind": "names-database", "database": "noaa-volcano", "recordId": "703083", "recordName": "Pinatubo"} },
+      { "name": "Eyjafjallajökull", "sourceId": "nasa-eo-ash-plume-north-atlantic", "quote": "Iceland’s Eyjafjallajökull Volcano sent a plume of ash and steam across the North Atlantic in mid-April 2010, prompting authorities in the United Kingdom, Ireland, France, and Scandinavia to close airspace over their countries.", "position": {"kind": "names-database", "database": "noaa-volcano", "recordId": "170202", "recordName": "Eyjafjallajokull"} },
+      { "name": "Ross Ice Shelf", "sourceId": "nasa-eo-ross-ice-shelf", "quote": "Spanning nearly 600 miles in length, and achieving a thickness of 3000 feet in certain areas, the Ross Ice Shelf is the largest ice shelf in the world.", "position": {"kind": "names-database", "database": "gnis", "recordId": "2823644", "area": "Antarctica"} },
+      { "name": "Bay of Fundy", "sourceId": "nasa-eo-bay-of-fundy-tides", "quote": "Under typical conditions, high tide at the head (the most inland part) of the Bay of Fundy is as much as 17 meters (about 56 feet) higher than low tide.", "position": {"kind": "names-database", "database": "nrcan", "recordId": "CANGC"} },
+      { "name": "Lake Superior", "sourceId": "nasa-eo-lake-superior-ice", "quote": "Superior is the world’s largest freshwater lake by area (82,100 square kilometers or 31,700 square miles) and the third largest by volume.", "position": {"kind": "names-database", "database": "gnis", "recordId": "1618946", "area": "MI"} },
+      { "name": "Shark Bay", "sourceId": "nasa-eo-sharks-seagrass-stromatolites", "quote": "Shark Bay contains the largest and richest beds of seagrasses in the world and is also home to some of the oldest lifeforms on Earth.", "position": {"kind": "names-database", "database": "ga-cga", "recordId": "WA_100044292", "recordName": "SHARK BAY"} },
+      { "name": "K'gari", "sourceId": "nasa-eo-fraser-island-blazes", "quote": "Spanning 180,000 hectares (440,000 acres), Fraser Island (also called K'gari) is known for its tropical rainforests, sand dunes, and inland lakes.", "position": {"kind": "names-database", "database": "ga-cga", "recordId": "QLD_52245"} },
+      { "name": "Popocatépetl", "sourceId": "nasa-eo-topography-popocatepetl", "quote": "Popocatépetl is a stratovolcano, the classic symmetrical (in this case cone-shaped) mountain with a circular crater in its summit.", "position": {"kind": "names-database", "database": "noaa-volcano", "recordId": "140109", "recordName": "Popocatepetl"} },
+      { "name": "Mount Tambora", "sourceId": "nasa-eo-tambora", "quote": "On April 10, 1815, the Tambora Volcano produced the largest eruption in recorded history.", "position": {"kind": "names-database", "database": "noaa-volcano", "recordId": "60404", "recordName": "Tambora"} },
+      { "name": "Great Salt Lake", "sourceId": "nasa-eo-great-salt-lake", "quote": "Few other lakes in the United States rival the Great Salt Lake in size and significance.", "position": {"kind": "names-database", "database": "gnis", "recordId": "1441459", "area": "UT"} },
+      { "name": "Mauna Loa", "sourceId": "usgs-volcano-mauna-loa", "quote": "Mauna Loa is Earth's largest active volcano and covers just over half of the Island of Hawaiʻi.", "position": {"kind": "names-database", "database": "gnis", "recordId": "362275", "area": "HI"} },
+      { "name": "Chimborazo", "sourceId": "nasa-apod-2016-02-25-chimborazo", "quote": "Sitting nearly on top of Earth's greatest equatorial bulge, Chimborazo's peak is the farthest point on the planet's surface from the center, over 2,000 meters farther from the center of the Earth than Everest's peak.", "position": {"kind": "names-database", "database": "noaa-volcano", "recordId": "1502071"} },
+      { "name": "Mount Erebus", "sourceId": "nasa-eo-mount-erebus", "quote": "Mount Erebus is thought to be the southernmost active volcano in the world.", "position": {"kind": "names-database", "database": "gnis", "recordId": "2817474", "area": "Antarctica"} },
+      { "name": "Nyiragongo", "sourceId": "nasa-eo-nyiragongo-vents-steam", "quote": "In 1977, Nyiragongo erupted fast-moving lava that flooded twenty square kilometers in about one hour.", "position": {"kind": "names-database", "database": "noaa-volcano", "recordId": "20303"} },
+      { "name": "Chesapeake Bay", "sourceId": "nasa-eo-chesapeake-watershed", "quote": "The Chesapeake Bay is the largest estuary in the United States and third largest in the world.", "position": {"kind": "names-database", "database": "gnis", "recordId": "597227", "area": "MD"} },
+      { "name": "Teide", "sourceId": "nasa-eo-tenerife", "quote": "The summit of the Teide stratovolcano reaches 3,718 meters (12,198 feet) above sea level.", "position": {"kind": "names-database", "database": "noaa-volcano", "recordId": "180303", "recordName": "Tenerife"} },
+      { "name": "Crater Lake", "sourceId": "usgs-volcano-crater-lake", "quote": "Having a maximum depth of 594 m (1,949 ft), Crater Lake is the deepest lake in the United States.", "position": {"kind": "names-database", "database": "gnis", "recordId": "1163669", "area": "OR"} },
+      { "name": "Réservoir Manicouagan", "sourceId": "nasa-eo-manicouagan-lake", "quote": "Manicouagan Crater was formed 214 million years ago, near the end of the Triassic Period, when an asteroid 5 kilometers (3 miles) wide struck what is now Canada.", "position": {"kind": "names-database", "database": "nrcan", "recordId": "EHDCW"} },
+      { "name": "Meteor Crater", "sourceId": "usgs-astrogeology-meteor-crater-samples", "quote": "Meteor Crater, located in northern Arizona, is one of the best preserved and easily accessible impact sites on Earth.", "position": {"kind": "names-database", "database": "gnis", "recordId": "7945", "area": "AZ"}, "size": {"km": 1.2, "sourceId": "nasa-eo-meteor-crater", "quote": "Meteor Crater measures 0.75 miles (1.2 kilometers) across and about 600 feet (180 meters) deep."} },
+      { "name": "Wolfe Creek Crater", "sourceId": "nasa-eo-wolfe-creek-crater", "quote": "Almost circular, Wolfe Creek Crater (also known as Wolf Creek Crater) is considered the second largest crater in the world from which meteorite fragments have been collected.", "position": {"kind": "names-database", "database": "ga-cga", "recordId": "WA_100044096", "recordName": "WOLFE CREEK METEORITE CRATER"} },
+      { "name": "Puerto Rico Trench", "sourceId": "usgs-ofr-2004-1400-puerto-rico-trench", "quote": "The Puerto Rico Trench is a tectonic plate boundary where the North American plate slides by and descends under the Caribbean plate.", "position": {"kind": "names-database", "database": "gebco", "recordId": "2520"} },
+      { "name": "Whakaari / White Island", "sourceId": "usgs-yvo-white-island-2019", "quote": "Whakaari/White Island is the tip of a submarine stratovolcano at the northern end of the Taupo Volcanic Zone and has been active for at least 150,000 years.", "position": {"kind": "names-database", "database": "linz", "recordId": "6961"} },
+      { "name": "Vostok Subglacial Lake", "sourceId": "esa-cryosat-subglacial-lakes", "quote": "The biggest known subglacial lake is Lake Vostok underneath the East Antarctic Ice Sheet, holding an estimated 5000–65 000 cubic km of water beneath 4 km of ice (the water contained in Lake Vostok is enough to fill the Grand Canyon and overflow by at least 25 %).", "position": {"kind": "names-database", "database": "gnis", "recordId": "2827619", "area": "Antarctica"} },
+      { "name": "Mount Rainier", "sourceId": "usgs-volcano-mount-rainier", "quote": "Mount Rainier, the highest peak in the Cascade Range at 4,392m (14,410 ft), forms a dramatic backdrop to the Puget Sound region.", "position": {"kind": "names-database", "database": "gnis", "recordId": "1533614", "area": "WA"} },
+      { "name": "Vinson Massif", "sourceId": "nasa-eo-vinson-massif", "quote": "Vinson Massif is the tallest mountain in Antarctica.", "position": {"kind": "names-database", "database": "gnis", "recordId": "2826005", "area": "Antarctica"} },
+      { "name": "Pingualuit Crater", "sourceId": "nasa-eo-pingualuit-crater", "quote": "With a diameter of 3.44 kilometers (2.14 miles), Pingualuit Crater holds a lake about 267 meters (876 feet) deep.", "position": {"kind": "names-database", "database": "nrcan", "recordId": "EQZQV", "recordName": "Cratère des Pingualuit"}, "size": {"km": 3.44, "sourceId": "nasa-eo-pingualuit-crater", "quote": "With a diameter of 3.44 kilometers (2.14 miles), Pingualuit Crater holds a lake about 267 meters (876 feet) deep."} },
+      { "name": "Gosses Bluff", "sourceId": "nasa-eo-gosses-bluff", "quote": "Gosses Bluff was probably formed by the impact of a large comet or meteorite about 142 million years ago.", "position": {"kind": "names-database", "database": "ga-cga", "recordId": "NT_13237"} },
+      { "name": "McMurdo Dry Valleys", "sourceId": "nasa-image-dry-valleys", "quote": "The McMurdo Dry Valleys are a row of valleys west of McMurdo Sound, Antarctica, so named because of their extremely low humidity and lack of snow and ice cover.", "position": {"kind": "names-database", "database": "gnis", "recordId": "2821383", "area": "Antarctica"} },
+      { "name": "Thwaites Glacier", "sourceId": "nasa-eo-thwaites-transformed", "quote": "Indeed, Thwaites Glacier is one of the largest contributors to global sea level rise from the West Antarctic Ice Sheet.", "position": {"kind": "names-database", "database": "gnis", "recordId": "2825416", "area": "Antarctica"} },
+      { "name": "Larsen Ice Shelf", "sourceId": "nasa-eo-larsen-ice-shelf", "quote": "Larsen is situated along the northeastern coast of the Antarctic Peninsula, one of the fastest-warming places on the planet.", "position": {"kind": "names-database", "database": "gnis", "recordId": "2820459", "area": "Antarctica"} }
+    ],
+    "mercury": [
+      { "name": "Caloris Planitia", "sourceId": "nasa-science-mercury-facts", "quote": "Very large impact basins, including Caloris (960 miles or 1,550 kilometers in diameter) and Rachmaninoff (190 miles, or 306 kilometers in diameter), were created by asteroid impacts on the planet's surface early in the solar system's history." },
+      { "name": "Rachmaninoff", "sourceId": "nasa-photojournal-young-volcanism-mercury", "quote": "Whereas pre-MESSENGER interpretations were that volcanism on Mercury ended early in the planet's history, MESSENGER's images of Rachmaninoff reveal that some volcanism extended well beyond that time, probably into the second half of Solar System history." },
+      { "name": "Borealis Planitia", "sourceId": "esa-mercury-sunlit-north", "quote": "The vast plains surrounding Mendelssohn, called Borealis Planitia, were formed by the widespread eruption of runny lava some 3.7 billion years ago." },
+      { "name": "Caloris Montes", "sourceId": "nasa-photojournal-islands-in-the-stream", "quote": "The floor of the Caloris basin is filled with volcanic plains , while the Caloris Montes , a ring of mountainous peaks, are found along the basin's rim." },
+      { "name": "Enterprise Rupes", "sourceId": "nasa-image-enterprise-rupes", "quote": "Enterprise Rupes, about 1000 km long and with over 3 km of relief, is the largest lobate scarp on Mercury!" },
+      { "name": "Rembrandt", "sourceId": "nasa-photojournal-rembrandt-basin", "quote": "The number per area and size distribution of impact craters superposed on Rembrandt's rim indicates that it is one of the youngest impact basins on Mercury." },
+      { "name": "Beagle Rupes", "sourceId": "nasa-photojournal-beagle-rupes", "quote": "Beagle Rupes and other scarps on Mercury are thought to be the surface expressions of thrust faults that formed from contraction as the planet's interior cooled." },
+      { "name": "Pantheon Fossae", "sourceId": "nasa-photojournal-mercurys-first-fossae", "quote": "The dome of the Pantheon has a series of sunken panels that radiate from a central circular opening at the top of the dome, and Mercury's Pantheon Fossae is reminiscent of this pattern." },
+      { "name": "Mendelssohn", "sourceId": "esa-bepicolombo-sixth-flyby-movie", "quote": "The Mendelssohn crater was flooded with lava after an impact originally created it." },
+      { "name": "Raditladi", "sourceId": "nasa-photojournal-raditladi", "quote": "Raditladi basin is relatively young, with only a few small impact craters on the basin's floor and with well-preserved basin walls and peak-ring structure." },
+      { "name": "Hokusai", "sourceId": "nasa-resource-rays-of-hokusai", "quote": "The crater has an impressive system of rays, which extend as much as a thousand kilometers (more than 600 miles) across the planet and are the longest that have yet been identified on Mercury." },
+      { "name": "Prokofiev", "sourceId": "nasa-photojournal-in-prokofievs-shadow", "quote": "MESSENGER has found evidence that within the cold, dark, permanently shadowed regions of Prokofiev, water ice is exposed on the surface." },
+      { "name": "Kandinsky", "sourceId": "nasa-photojournal-seeing-in-the-dark", "quote": "The floor of Kandinsky is in permanent shadow and never receives direct sunlight, keeping it very cold." },
+      { "name": "Apollodorus", "sourceId": "nasa-photojournal-faults-in-the-caloris-basin", "quote": "The crater Apollodorus near the center of Pantheon Fossae is 41 kilometers (25 miles) in diameter." }
+    ],
+    "venus": [
+      { "name": "Ishtar Terra", "sourceId": "nasa-science-venus-facts", "quote": "Its surface features - most named for both real and mythical women - include Ishtar Terra, a rocky, highland area around the size of Australia near the north pole, and an even larger, South-America-sized region called Aphrodite Terra that stretches across the equator." },
+      { "name": "Aphrodite Terra", "sourceId": "nasa-science-venus-facts", "quote": "Its surface features - most named for both real and mythical women - include Ishtar Terra, a rocky, highland area around the size of Australia near the north pole, and an even larger, South-America-sized region called Aphrodite Terra that stretches across the equator." },
+      { "name": "Ovda Regio", "sourceId": "nasa-photojournal-ovda-regio", "quote": "Ovda Regio is a highland region that rises over 4 kilometers (2.5 miles) above the surrounding plain." },
+      { "name": "Niobe Planitia", "sourceId": "jpl-news-ongoing-venus-volcanism-2024", "quote": "The Niobe Planitia eruption produced about 17 square miles (45 square kilometers) of rock, which would fill 54,000 Olympic swimming pools." },
+      { "name": "Atla Regio", "sourceId": "jpl-news-magellan-venus-volcanism-2023", "quote": "The geological changes Herrick found occurred in Atla Regio, a vast highland region near Venus' equator that hosts two of the planet's largest volcanoes, Ozza Mons and Maat Mons." },
+      { "name": "Artemis Corona", "sourceId": "nasa-photojournal-artemis-corona", "quote": "Its circular shape and size (2100 km or 1302 miles in diameter) make Artemis the largest corona identified to date on the surface of Venus." },
+      { "name": "Lakshmi Planum", "sourceId": "nasa-photojournal-danu-montes-lakshmi", "quote": "Lakshmi Planum is an elevated plateau plain that is bounded on all sides by mountain chains." },
+      { "name": "Alpha Regio", "sourceId": "nasa-photojournal-alpha-regio", "quote": "In 1963 Alpha Regio was the first feature on Venus to be identified from Earth based radar." },
+      { "name": "Maxwell Montes", "sourceId": "nssdc-imgcat-maxwell-montes", "quote": "The Maxwell Montes are the highest mountains on Venus, rising up to 11 km above the mean planetary surface." },
+      { "name": "Maat Mons", "sourceId": "jpl-news-magellan-venus-volcanism-2023", "quote": "A new study found one of Maat Mons' vents became enlarged and changed shape over an eight-month period in 1991, indicating an eruptive event occurred." },
+      { "name": "Gula Mons", "sourceId": "nasa-photojournal-gula-mons", "quote": "Gula Mons, a 3 kilometer (1.9 mile) high volcano, is located at approximately 22 degrees north latitude, 359 degrees east longitude in western Eistla Regio." },
+      { "name": "Mead", "sourceId": "nssdc-imgcat-mead-crater", "quote": "At 280 km diameter, Mead is the largest impact crater on Venus." },
+      { "name": "Sacajawea Patera", "sourceId": "nasa-photojournal-sacajawea-caldera", "quote": "The formation of Sacajawea is thought to be related to the drainage and collapse of a large magma chamber." },
+      { "name": "Sapas Mons", "sourceId": "nasa-photojournal-sapas-mons", "quote": "Sapas Mons, a volcano 400 kilometers (248 miles) across and 1.5 kilometers (0.9 mile) high is located at approximately 8 degrees north latitude, 188 degrees east longitude, on the western edge of Atla Regio." },
+      { "name": "Cleopatra", "sourceId": "nasa-photojournal-maxwell-cleopatra", "quote": "Cleopatra is a double-ring impact basin about 100 kilometers (62 miles) in diameter and 2.5 kilometers (1.5 miles) deep." }
+    ],
+    "moon": [
+      { "name": "Tycho", "sourceId": "nasa-photojournal-floor-of-tycho", "quote": "Tycho crater is an one of the most prominent craters on the Moon -- it appears as a bright spot in the southern highlands with rays of bright material that stretch across much of the nearside." },
+      { "name": "Clavius", "sourceId": "nasa-apod-2021-08-05-tycho-clavius", "quote": "One of the oldest and largest craters on the Moon's near side, 225 kilometer diameter Clavius is due south (above) of Tycho." },
+      { "name": "Oceanus Procellarum", "sourceId": "nasa-svs-procellarum-rifts", "quote": "Oceanus Procellarum, or the Ocean of Storms, is the largest of the dark maria visible to the naked eye on the near side of the Moon." },
+      { "name": "Mare Imbrium", "sourceId": "esa-smart1-tribute-to-cassini", "quote": "Mare Imbrium is the second largest basin on the visible side of the Moon, with a diameter of 1250 km, and is one of the youngest of the lunar maria (the youngest is Mare Orientale) at between 3700 and 3900 million years old." },
+      { "name": "Mare Tranquillitatis", "sourceId": "nasa-apod-2026-07-25-tranquility-serenity", "quote": "The Seas of Tranquility and Serenity are calm today. They're calm most every day though, since they are actually lunar maria , ancient lava flows filling in large impact basins on the Moon" },
+      { "name": "Mare Serenitatis", "sourceId": "esa-smart1-mare-serenitatis", "quote": "Mare Serenitatis is one of the lunar maria, that are vast lava plains on the lunar surface. It formed between 3.9 and 3.8 thousand million years ago, a period in which the Moon was heavily bombarded by asteroids and the major impact basins on the Moon were formed." },
+      { "name": "Mare Crisium", "sourceId": "nasa-resource-wrinkle-ridge-mare-crisium", "quote": "Mare Crisium is a large, dark, basaltic plain on the Moon that filled an ancient asteroid impact." },
+      { "name": "Mare Humorum", "sourceId": "esa-smart1-mare-humorum", "quote": "Mare Humorum, or 'Sea of Moisture', is a small circular mare on the lunar nearside, about 825 kilometres across." },
+      { "name": "Mare Orientale", "sourceId": "nasa-apod-2011-03-12-mare-orientale", "quote": "Shaped like a target ring bull's-eye, the Mare Orientale is one of the most striking large scale lunar features." },
+      { "name": "Vallis Schroteri", "sourceId": "nasa-photojournal-aristarchus-mosaic", "quote": "It includes the densest concentration of lunar sinuous rilles, including the largest known, Vallis Schroteri, which is about 160 km long, up to 11 km wide, and 1 km deep." },
+      { "name": "Rima Hadley", "sourceId": "esa-smart1-hadley-rille", "quote": "Hadley Rille is thought to have been carved by an ancient lava flow, dating back just over 3 billion years to soon after the Moon formed." },
+      { "name": "Plato", "sourceId": "nasa-resource-plato-volcanic-vent", "quote": "A dark floor makes 63-mile-wide (101-kilometer-wide) Plato crater stand out against a light-colored lunar highlands background." },
+      { "name": "Copernicus", "sourceId": "nasa-resource-copernicus-lunar-orbiter", "quote": "Copernicus is 93 km wide and is located within the Mare Imbrium Basin, northern nearside of the Moon (10 degrees N. 20 degrees W.)." },
+      { "name": "Aristarchus", "sourceId": "nasa-3d-moon-aristarchus-region", "quote": "Aristarchus Crater is the largest impact on the plateau and is one of the highest reflectance (blindingly bright in a telescope) features on the moon." },
+      { "name": "Taurus Littrow Valley", "sourceId": "nasa-svs-apollo-17-landing-site", "quote": "The Lunar Module Challenger landed in the Taurus-Littrow valley on December 11, 1972 and remained there for 75 hours. The landing site is a relatively flat spot among low mountains at the southeastern edge of Mare Serenitatis." },
+      { "name": "Shackleton", "sourceId": "nasa-image-faces-of-shackleton", "quote": "Because of its location, most of Shackleton's interior lies in permanent shadow." }
+    ],
+    "mars": [
+      { "name": "Valles Marineris", "sourceId": "nasa-science-mars-facts", "quote": "A vast canyon system called Valles Marineris is long enough to stretch from California to New York" },
+      { "name": "Olympus Mons", "sourceId": "nasa-science-mars-facts", "quote": "Olympus Mons stands more than 25 miles (that's more than 132,000 feet, or 40 kilometers) tall from base to summit, with the base covering an area as large as the state of Arizona." },
+      { "name": "Elysium Planitia", "sourceId": "nasa-eo-flood-basalts-mars-iceland", "quote": "Just north of the divide lies the Central Elysium Planitia -one of two large volcanic regions on Mars and the location of the youngest volcanic rocks (about two million years old) on the planet." },
+      { "name": "Hellas Planitia", "sourceId": "nasa-photojournal-to-great-depths", "quote": "Hellas is an ancient impact structure and is the deepest and broadest enclosed basin on Mars. It measures about 2,300 kilometers across and the floor of the basin, Hellas Planitia, contains the lowest elevations on Mars." },
+      { "name": "Tharsis Montes", "sourceId": "nasa-photojournal-tharsis", "quote": "Each Tharsis Montes volcano is 350-400 km in diameter and about 17 km above the surrounding plain." },
+      { "name": "Ares Vallis", "sourceId": "nssdca-mars-pathfinder", "quote": "The Ares Vallis region of Mars is a large outwash plain near Chryse Planitia." },
+      { "name": "Cerberus Fossae", "sourceId": "nasa-insight-deep-interior", "quote": "One surprise is that all of InSight's most significant quakes appear to have come from one area, Cerberus Fossae , a region volcanically active enough that lava may have flowed there within the last few million years." },
+      { "name": "Syrtis Major Planum", "sourceId": "nasa-photojournal-syrtis-major-3", "quote": "Syrtis Major is one of the darkest regions on Mars and it is as dark as fresh basalt flows or dunes are on Earth." },
+      { "name": "Noctis Labyrinthus", "sourceId": "nasa-photojournal-noctis-labyrinthus", "quote": "Noctis Labyrinthus is notable for its unusual pattern of intersecting valleys, which give the region a maze-like appearance when viewed from above." },
+      { "name": "Meridiani Planum", "sourceId": "nasa-mission-mer", "quote": "Opportunity landed at Meridiani Planum, a place where mineral deposits suggested that Mars had a wet history." },
+      { "name": "Arsia Mons", "sourceId": "nasa-photojournal-arsia-mons-themis", "quote": "The southernmost of the three Tharsis volcanoes, Arsia Mons is 270 miles (450 kilometers) in diameter and almost 12 miles (20 kilometers) high." },
+      { "name": "Elysium Mons", "sourceId": "nasa-photojournal-elysium", "quote": "Elysium Mons, whose summit elevation is 16,000 m above the Martian datum, is at the crest of a regional topographic rise that emerges steeply and abruptly from the surrounding plains." },
+      { "name": "Planum Boreum", "sourceId": "esa-mars-express-north-pole-dunes", "quote": "The terrain surrounding Mars's north pole, known as Planum Boreum , is fascinating. The pole itself is covered in layers and layers of fine dust and water ice; these stack several kilometres thick and stretch out for around 1000 km (approximately the width of France)." },
+      { "name": "Gusev", "sourceId": "nssdca-spirit", "quote": "Gusev Crater was chosen as a landing site because it has the appearance of a crater lakebed." },
+      { "name": "Gale", "sourceId": "nssdca-curiosity", "quote": "The landing site in Gale Crater was chosen for its potential as a former or current habitat for life." },
+      { "name": "Aeolis Mons", "sourceId": "jpl-mount-sharp-panorama", "quote": "Mount Sharp, also called Aeolis Mons, is a layered mound in the center of Mars' Gale Crater, rising more than 3 miles (5 kilometers) above the crater floor, where Curiosity has been working since the rover's landing in August 2012." },
+      { "name": "Jezero", "sourceId": "nasa-mission-mars-2020", "quote": "Jezero Crater tells a story of the on-again, off-again nature of the wet past of Mars." }
+    ]
+  }
+}

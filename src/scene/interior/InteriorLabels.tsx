@@ -82,7 +82,7 @@ const RULER_VALUE_LEFT = 12;
 const RING_TOP_SAMPLES = [-50, -40, -30, -20, -10, 0, 10, 20, 30, 40, 50].map((d) => (d * Math.PI) / 180);
 
 /** Rects the labels must keep clear of: every overlay part marked `data-explore-reserved`, relative to the label root. */
-function reservedRects(root: HTMLElement): Rect[] {
+export function reservedRects(root: HTMLElement): Rect[] {
   const origin = root.getBoundingClientRect();
   return [...document.querySelectorAll<HTMLElement>('[data-explore-reserved]')].map((el) => {
     const r = el.getBoundingClientRect();

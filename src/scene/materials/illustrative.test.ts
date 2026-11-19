@@ -65,3 +65,26 @@ describe('Moon look constants (illustrative, M2b.2)', () => {
     expect(receivesEarthshine({ ...moon, parentId: 'mars' })).toBe(false);
   });
 });
+
+describe('feature light (illustrative, M2b.4a)', () => {
+  it('fades in and out over fadeSeconds and stays within 0 and 1', async () => {
+    const { advanceSpot, FEATURE_SPOT } = await import('./illustrative');
+    expect(advanceSpot(0, true, FEATURE_SPOT.fadeSeconds / 2, false)).toBeCloseTo(0.5, 6);
+    expect(advanceSpot(0.9, true, 1, false)).toBe(1);
+    expect(advanceSpot(1, false, FEATURE_SPOT.fadeSeconds / 4, false)).toBeCloseTo(0.75, 6);
+    expect(advanceSpot(0.1, false, 1, false)).toBe(0);
+    expect(advanceSpot(0.3, true, -1, false)).toBe(0.3);
+  });
+  it('cuts to the target under reduced motion', async () => {
+    const { advanceSpot } = await import('./illustrative');
+    expect(advanceSpot(0, true, 0.001, true)).toBe(1);
+    expect(advanceSpot(1, false, 0.001, true)).toBe(0);
+  });
+  it('is a pool narrower than a hemisphere and dimmer than daylight', async () => {
+    const { FEATURE_SPOT } = await import('./illustrative');
+    expect(FEATURE_SPOT.innerDeg).toBeLessThan(FEATURE_SPOT.outerDeg);
+    expect(FEATURE_SPOT.outerDeg).toBeLessThan(90);
+    expect(FEATURE_SPOT.level).toBeGreaterThan(0);
+    expect(FEATURE_SPOT.level).toBeLessThan(1);
+  });
+});

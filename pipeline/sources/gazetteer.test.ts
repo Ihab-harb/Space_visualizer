@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { FeaturesSchema } from '../../src/core/details/schema';
-import { GAZETTEER_TARGETS, gazetteerSpec, gazetteerUrl, selectFeatures } from './gazetteer';
+import { GAZETTEER_TARGETS, dedupeRows, gazetteerSpec, gazetteerUrl, findFeature, selectFeatures } from './gazetteer';
 
 const row = (o: Record<string, string>): Record<string, string> => ({
   name: 'X', clean_name: 'X', approvaldt: '1973/01/01 00:00:00', origin: 'o', diameter: '1',
@@ -36,6 +36,7 @@ describe('selectFeatures', () => {
     expect(f.items[0]).toEqual({
       name: 'Olympus Mons', type: 'Mons', latDeg: 18.65, lonDegE: 226.2, diameterKm: 648.9,
       origin: 'Classical albedo feature', approvedYear: 1973,
+      id: 'olympus-mons',
     });
     expect(f.items[1].lonDegE).toBe(0);
     expect(f.items[1].approvedYear).toBeNull();
@@ -54,6 +55,41 @@ describe('selectFeatures', () => {
   it('breaks diameter ties by name', () => {
     const t = selectFeatures([row({ clean_name: 'B', diameter: '5' }), row({ clean_name: 'A', diameter: '5' })], 's');
     expect(t.items.map((i) => i.name)).toEqual(['A', 'B']);
+  });
+});
+
+describe('one row per feature', () => {
+  const link = (n: number) => `http://planetarynames.wr.usgs.gov/Feature/${n}`;
+  it('keeps one row per feature and refills to the limit', () => {
+    const pair = [
+      row({ clean_name: 'Dup', diameter: '241.449999999999989', link: link(1) }),
+      row({ clean_name: 'Dup', diameter: '241.000000000000000', link: link(1) }),
+    ];
+    const rs = [...pair, row({ clean_name: 'B', diameter: '50', link: link(2) }), row({ clean_name: 'C', diameter: '40', link: link(3) }), row({ clean_name: 'D', diameter: '30', link: link(4) })];
+    const f = selectFeatures(rs, 's', 3);
+    expect(f.items.map((i) => i.name)).toEqual(['Dup', 'B', 'C']);
+    expect(f.items[0]!.diameterKm).toBe(241.45);
+    expect(new Set(f.items.map((i) => i.id)).size).toBe(3);
+    expect(f.totalApproved.value).toBe(4);
+  });
+  it('keeps the first row when the diameters have equally many decimals', () => {
+    const kept = dedupeRows([row({ clean_name: 'T', link: link(5), center_lon: '1' }), row({ clean_name: 'T', link: link(5), center_lon: '2' })]);
+    expect(kept).toHaveLength(1);
+    expect(kept[0]!.center_lon).toBe('1');
+  });
+  it('gives two features that share a name distinct ids', () => {
+    const f = selectFeatures([
+      row({ clean_name: 'X', diameter: '9', type: 'Crater, craters', link: link(6) }),
+      row({ clean_name: 'X', diameter: '8', type: 'Mons, montes', link: link(7) }),
+    ], 's');
+    expect(f.items.map((i) => i.id)).toEqual(['x', 'x-mons']);
+    expect(f.totalApproved.value).toBe(2);
+  });
+  it('finds a feature below the size cut by exact name', () => {
+    const rs = [row({ clean_name: 'Tycho', diameter: '85.294', link: link(8) }), row({ clean_name: 'Big', diameter: '500', link: link(9) })];
+    expect(findFeature(rs, 'Tycho')?.diameterKm).toBeCloseTo(85.294, 3);
+    expect(findFeature(rs, 'Tycho')?.id).toBe('tycho');
+    expect(findFeature(rs, 'tycho')).toBeNull();
   });
 });
 

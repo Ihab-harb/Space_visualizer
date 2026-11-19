@@ -1,6 +1,7 @@
 import { DEG } from '../core/math/angles';
 import type { Vec3 } from '../core/math/vec3';
 import type { InputDeltas } from './types';
+import { litAzimuth } from './tour';
 
 /**
  * Explore framing (spec §3.3, Task 6). On entry the camera keeps its direction, moves to FRAME_RADII body radii (the whole
@@ -63,4 +64,69 @@ export function reframeDistanceKm(distanceKm: number, radiusKm: number, fovRad: 
   const need = exploreFrameRadii(fovRad, aspect);
   if (need <= exploreFrameRadii(fovRad, prevAspect) + 1e-9) return distanceKm;
   return Math.max(distanceKm, radiusKm * need);
+}
+
+/** Seconds the view takes to turn to a selected surface feature. */
+export const FEATURE_TURN_SECONDS = 0.8;
+/** A polar feature is viewed from 70 degrees, not from straight above (the orbit's up is ecliptic north). */
+export const FEATURE_MAX_ELEVATION_RAD = (70 * Math.PI) / 180;
+
+interface OrbitAngles {
+  azimuthRad: number;
+  elevationRad: number;
+}
+
+/** Entry azimuth: the sunlit side (the tour's lit azimuth), or the current one for the Sun itself or with no Sun. */
+export function exploreEntryAzimuth(bodyId: string, sunId: string | null, bodyKm: Vec3, sunKm: Vec3, currentAzimuthRad: number): number {
+  if (sunId === null || bodyId === sunId) return currentAzimuthRad;
+  return litAzimuth(bodyKm, sunKm);
+}
+
+/** The camera angles that look straight at a point on the body, given its unit direction in world axes. */
+export function featureView(directionWorld: Vec3): OrbitAngles {
+  const elevation = Math.asin(Math.min(1, Math.max(-1, directionWorld[2])));
+  return {
+    azimuthRad: Math.atan2(directionWorld[1], directionWorld[0]),
+    elevationRad: Math.min(FEATURE_MAX_ELEVATION_RAD, Math.max(-FEATURE_MAX_ELEVATION_RAD, elevation)),
+  };
+}
+
+/** The view at eased progress t (0..1); the azimuth takes the short way round. Exactly `to` at t >= 1. */
+export function turnStep(from: OrbitAngles, to: OrbitAngles, t: number): OrbitAngles {
+  if (t >= 1) return { azimuthRad: to.azimuthRad, elevationRad: to.elevationRad };
+  const u = Math.max(0, t);
+  const e = u * u * (3 - 2 * u);
+  const TAU = 2 * Math.PI;
+  let d = (to.azimuthRad - from.azimuthRad) % TAU;
+  if (d > Math.PI) d -= TAU;
+  else if (d < -Math.PI) d += TAU;
+  return { azimuthRad: from.azimuthRad + d * e, elevationRad: from.elevationRad + (to.elevationRad - from.elevationRad) * e };
+}
+
+export interface FeatureTurn {
+  from: OrbitAngles;
+  to: OrbitAngles;
+  startedAt: number;
+  seq: number;
+}
+
+/**
+ * What the camera does about the feature turn this frame: 'cancel' on any tab but Surface (a turn in progress ends),
+ * 'request' to start one for a selection not yet turned to, else 'keep' (an unfinished turn runs on, none is started).
+ */
+export function featureTurnPlan(view: 'whole' | 'exploded' | 'section', selectedFeatureId: string | null, featureSeq: number, lastFeatureSeq: number): 'cancel' | 'request' | 'keep' {
+  if (view !== 'whole') return 'cancel';
+  return selectedFeatureId !== null && featureSeq !== lastFeatureSeq ? 'request' : 'keep';
+}
+
+/**
+ * One frame of the turn: the next turn (null when done or cancelled) and the view to apply (null for no change).
+ * Input cancels the turn and leaves the view to the user; reduced motion cuts to the target.
+ */
+export function advanceTurn(turn: FeatureTurn | null, nowSeconds: number, hasInput: boolean, reducedMotion: boolean): { turn: FeatureTurn | null; view: OrbitAngles | null } {
+  if (!turn || hasInput) return { turn: null, view: null };
+  if (reducedMotion) return { turn: null, view: turnStep(turn.from, turn.to, 1) };
+  const t = (nowSeconds - turn.startedAt) / FEATURE_TURN_SECONDS;
+  if (t >= 1) return { turn: null, view: turnStep(turn.from, turn.to, 1) };
+  return { turn, view: turnStep(turn.from, turn.to, t) };
 }

@@ -265,7 +265,7 @@ function checkPaperSource(s: CuratedSource, errors: string[]): void {
   }
 }
 
-function checkSources(sources: CuratedSource[], errors: string[]): void {
+export function checkSources(sources: CuratedSource[], errors: string[]): void {
   const seen = new Set<string>();
   for (const s of sources) {
     if (seen.has(s.id)) errors.push(`duplicate source id ${s.id}`);
@@ -282,13 +282,13 @@ function checkSources(sources: CuratedSource[], errors: string[]): void {
   }
 }
 
-function checkQuote(quote: string, page: string, sourceId: string, where: string, errors: string[]): void {
+export function checkQuote(quote: string, page: string, sourceId: string, where: string, errors: string[]): void {
   if (!quoteOnPage(quote, page)) errors.push(`${where}: quote not on page of ${sourceId}: "${quote}"`);
   const words = normaliseQuote(quote).split(' ').filter(Boolean).length;
   if (words < MIN_QUOTE_WORDS) errors.push(`${where}: quote too short (${words} words): "${quote}"`);
 }
 
-function pageFor(pages: Map<string, string>, sources: CuratedSource[], sourceId: string, where: string, errors: string[]): string | null {
+export function pageFor(pages: Map<string, string>, sources: CuratedSource[], sourceId: string, where: string, errors: string[]): string | null {
   if (!sources.some((s) => s.id === sourceId)) { errors.push(`${where}: source ${sourceId} is not registered`); return null; }
   const page = pages.get(sourceId);
   if (page === undefined) { errors.push(`${where}: no page text for source ${sourceId}`); return null; }

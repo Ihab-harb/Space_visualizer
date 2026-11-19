@@ -5,6 +5,7 @@ import type { Body } from '../core/catalog/schema';
 import { cross, dot, length, sub } from '../core/math/vec3';
 import { PRESETS } from '../render/quality';
 import { useRenderStore } from '../state/renderStore';
+import { clearFeatureOnEmptyClick } from '../state/exploreStore';
 import { useSelectionStore } from '../state/selectionStore';
 import { useViewStore } from '../state/viewStore';
 import { BodyLabel } from './BodyLabel';
@@ -94,6 +95,8 @@ export function BodyMesh({ body, bodies }: { body: Body; bodies: readonly Body[]
   const onClick = (e: ThreeEvent<MouseEvent>) => {
     e.stopPropagation();
     if (e.delta > CLICK_DRAG_TOLERANCE_PX) return; // this was a camera drag, not a click
+    // In Explore only the explored body takes clicks: a click on it, off the pins, clears the selected feature.
+    clearFeatureOnEmptyClick();
     select(body.id);
   };
 

@@ -1,12 +1,19 @@
 import { useFrame } from '@react-three/fiber';
+import { useRef } from 'react';
 import type { ShaderMaterial } from 'three';
 import type { Body } from '../../core/catalog/schema';
+import type { BodyDetails } from '../../core/details/schema';
+import { surfaceDirection } from '../../core/frames/surfacePoint';
 import { add, length, scale, sub, type Vec3 } from '../../core/math/vec3';
 import { J2000_JD } from '../../core/units';
 import { useFrameState } from '../FrameStateContext';
 import { useRenderStore } from '../../state/renderStore';
 import { computeBodyFrameUniforms } from './bodyUniforms';
-import { CINEMATIC_FILL, receivesEarthshine } from './illustrative';
+import { advanceSpot, CINEMATIC_FILL, receivesEarthshine } from './illustrative';
+import { useDetailsStore } from '../../state/detailsStore';
+import { useExploreStore } from '../../state/exploreStore';
+import { featureLightShown, useFeatureLightStore } from '../../state/featureLightStore';
+import { featureEntry } from '../../ui/explore/featureModel';
 import { NO_CLIP } from './createBodyMaterial';
 import { exploreShellUniforms } from '../interior/exploreFrame';
 
@@ -21,12 +28,45 @@ export function pickOccluders(bodyId: string, bodies: readonly Body[], positions
     .slice(0, max);
 }
 
+const prefersReducedMotion = () => typeof window !== 'undefined' && window.matchMedia?.('(prefers-reduced-motion: reduce)').matches === true;
+
+/**
+ * The feature the feature light should fall on: the selected feature of the explored body, on the Surface tab, once its
+ * details are ready. Null otherwise (another body, the Interior tab, nothing selected, an unknown id).
+ */
+export function spotFeature(bodyId: string, explore: { active: boolean; bodyId: string | null; view: string; selectedFeatureId: string | null }, details: BodyDetails | null): { id: string; dir: Vec3 } | null {
+  if (!explore.active || explore.bodyId !== bodyId || explore.view !== 'whole' || !explore.selectedFeatureId || !details) return null;
+  const f = featureEntry(details, explore.selectedFeatureId);
+  return f ? { id: f.id, dir: surfaceDirection(f.latDeg, f.lonDegE) } : null;
+}
+
 /** Writes object-space lighting uniforms into the given materials every frame (after BodyMesh positions, before render). */
 export function useBodyUniforms(body: Body, materials: Array<ShaderMaterial | null>, bodies: readonly Body[]): void {
   const frame = useFrameState();
   const sun = bodies.find((b) => b.category === 'star');
   const earthshineFrom = receivesEarthshine(body) ? body.parentId : null;
-  useFrame((state) => {
+  // Feature light: the last feature lit (kept so the light fades out where it was) and its strength.
+  const spot = useRef<{ id: string | null; dir: Vec3; strength: number }>({ id: null, dir: [0, 0, 1], strength: 0 });
+  useFrame((state, delta) => {
+    const ex = useExploreStore.getState();
+    const sp = spot.current;
+    let spotOn = false;
+    if (ex.active && ex.bodyId === body.id && ex.view === 'whole' && ex.selectedFeatureId) {
+      // Looked up when the selection changes (and each frame only while the details are still loading), not every frame.
+      if (sp.id !== ex.selectedFeatureId) {
+        const entry = useDetailsStore.getState().entries[body.id];
+        const target = spotFeature(body.id, ex, entry?.status === 'ready' ? entry.details : null);
+        if (target) {
+          sp.id = target.id;
+          sp.dir = target.dir;
+        }
+      }
+      spotOn = sp.id === ex.selectedFeatureId;
+    }
+    if (spotOn || sp.strength > 0) sp.strength = advanceSpot(sp.strength, spotOn, delta, prefersReducedMotion());
+    const wasLit = sp.id !== null;
+    if (!spotOn && sp.strength === 0) sp.id = null;
+    if (wasLit && sp.id === null && useFeatureLightStore.getState().shown) useFeatureLightStore.setState({ shown: false });
     const centre = frame.bodyPositionsKm.get(body.id);
     const renderRadiusKm = frame.bodyRenderRadiusKm.get(body.id);
     if (!centre || !renderRadiusKm) return;
@@ -45,6 +85,11 @@ export function useBodyUniforms(body: Body, materials: Array<ShaderMaterial | nu
       occluders: body.category === 'star' ? [] : pickOccluders(body.id, bodies, frame.bodyPositionsKm),
       ...(earthshineFrom && frame.bodyPositionsKm.has(earthshineFrom) ? { earthPosKm: frame.bodyPositionsKm.get(earthshineFrom)! } : {}),
     });
+    // The overlay labels the light while it shows. Only the body that is lit, or was just lit, reports.
+    if (sp.id !== null || sp.strength > 0) {
+      const shown = featureLightShown(sp.strength, sp.dir, u.sunDirObj);
+      if (useFeatureLightStore.getState().shown !== shown) useFeatureLightStore.setState({ shown });
+    }
     const effects = useRenderStore.getState().effects;
     for (const m of materials) {
       if (!m) continue;
@@ -69,6 +114,7 @@ export function useBodyUniforms(body: Body, materials: Array<ShaderMaterial | nu
         else un.uClip.value.w = NO_CLIP;
       }
       if (un.uDim) un.uDim.value = shell.dim;
+      if (un.uSpot) un.uSpot.value.set(sp.dir[0], sp.dir[1], sp.dir[2], sp.strength);
     }
   }, -0.4);
 }

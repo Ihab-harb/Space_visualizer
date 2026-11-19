@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "bodyId": "earth",
-  "generatedAt": "2026-11-14T12:43:12.320Z",
+  "generatedAt": "2026-11-19T18:57:32.415Z",
   "interior": {
     "radiusKm": {
       "value": 6371,
@@ -279,5 +279,988 @@
     }
   ],
   "discovery": null,
-  "features": null
+  "features": null,
+  "landmarks": [
+    {
+      "id": "grand-canyon",
+      "name": "Grand Canyon",
+      "type": "Valley",
+      "latDeg": 36.112764,
+      "lonDegE": 246.0039304,
+      "diameterKm": null,
+      "origin": null,
+      "approvedYear": null,
+      "position": {
+        "kind": "names-database",
+        "sourceId": "usgs-gnis",
+        "text": "36.112764, -113.9960696"
+      },
+      "sizeSourceId": null,
+      "quote": {
+        "text": "The Grand Canyon has become a geologic icon—a place where you can almost sense the invisible tectonic forces within the Earth.",
+        "sourceId": "nasa-eo-grand-canyon-geology"
+      }
+    },
+    {
+      "id": "mount-fuji",
+      "name": "Mount Fuji",
+      "type": "Stratovolcano",
+      "latDeg": 35.361,
+      "lonDegE": 138.728,
+      "diameterKm": null,
+      "origin": null,
+      "approvedYear": null,
+      "position": {
+        "kind": "names-database",
+        "sourceId": "noaa-ncei-volcano-locations",
+        "text": "35.361, 138.728 (NOAA NCEI name: Fujisan)"
+      },
+      "sizeSourceId": null,
+      "quote": {
+        "text": "The 3,776-meter-high (12,388 feet) Mount Fuji Volcano, located on the island of Honshu in Japan, is one of the world’s classic examples of a stratovolcano.",
+        "sourceId": "nasa-eo-mount-fuji-2009"
+      }
+    },
+    {
+      "id": "mount-kilimanjaro",
+      "name": "Mount Kilimanjaro",
+      "type": "Stratovolcano",
+      "latDeg": -3.07,
+      "lonDegE": 37.35,
+      "diameterKm": null,
+      "origin": null,
+      "approvedYear": null,
+      "position": {
+        "kind": "names-database",
+        "sourceId": "noaa-ncei-volcano-locations",
+        "text": "-3.07, 37.35 (NOAA NCEI name: Kilimanjaro)"
+      },
+      "sizeSourceId": null,
+      "quote": {
+        "text": "Mount Kilimanjaro is a dormant stratovolcano and the highest mountain in Africa.",
+        "sourceId": "nasa-eo-kilimanjaro-closeup"
+      }
+    },
+    {
+      "id": "uluru",
+      "name": "Uluru",
+      "type": "Mountain",
+      "latDeg": -25.3415,
+      "lonDegE": 131.0354,
+      "diameterKm": null,
+      "origin": null,
+      "approvedYear": null,
+      "position": {
+        "kind": "names-database",
+        "sourceId": "ga-composite-gazetteer",
+        "text": "-25.3415, 131.0354 (CGA name: Uluru/Ayers Rock)"
+      },
+      "sizeSourceId": null,
+      "quote": {
+        "text": "Called Uluru, or Ayer's Rock, this giant is a monolith 348 meters (1,142 feet) high, 3.6 kilometers (2.2 miles) long, and 9.4 kilometers (5.8 miles) around.",
+        "sourceId": "nasa-eo-uluru-ayers-rock"
+      }
+    },
+    {
+      "id": "challenger-deep",
+      "name": "Challenger Deep",
+      "type": "Deep",
+      "latDeg": 11.373333,
+      "lonDegE": 142.591667,
+      "diameterKm": null,
+      "origin": null,
+      "approvedYear": null,
+      "position": {
+        "kind": "names-database",
+        "sourceId": "gebco-undersea-feature-names",
+        "text": "11.373333, 142.591667"
+      },
+      "sizeSourceId": null,
+      "quote": {
+        "text": "The Challenger Deep, at the southern end of the Marianas Trench, plunges deeper into the Earth's interior (nearly 11,000 m) than Mount Everest, the world's tallest mountain, rises above sea level (about 8,854 m).",
+        "sourceId": "usgs-dynamic-earth-plate-motions"
+      }
+    },
+    {
+      "id": "mississippi-river",
+      "name": "Mississippi River",
+      "type": "Stream",
+      "latDeg": 29.1510582,
+      "lonDegE": 270.7466158,
+      "diameterKm": null,
+      "origin": null,
+      "approvedYear": null,
+      "position": {
+        "kind": "names-database",
+        "sourceId": "usgs-gnis",
+        "text": "29.1510582, -89.2533842"
+      },
+      "sizeSourceId": null,
+      "quote": {
+        "text": "Originating from Lake Itasca in Minnesota, the Mississippi River flows approximately 3,770 kilometers (2,340 miles) through 10 states before emptying into the gulf.",
+        "sourceId": "nasa-eo-mississippi-delta-winter"
+      }
+    },
+    {
+      "id": "mount-etna",
+      "name": "Mount Etna",
+      "type": "Stratovolcano",
+      "latDeg": 37.748,
+      "lonDegE": 14.999,
+      "diameterKm": null,
+      "origin": null,
+      "approvedYear": null,
+      "position": {
+        "kind": "names-database",
+        "sourceId": "noaa-ncei-volcano-locations",
+        "text": "37.748, 14.999 (NOAA NCEI name: Etna)"
+      },
+      "sizeSourceId": null,
+      "quote": {
+        "text": "Mount Etna is considered to be the most active volcano on the European continent.",
+        "sourceId": "nasa-eo-long-view-of-etna"
+      }
+    },
+    {
+      "id": "mount-vesuvius",
+      "name": "Mount Vesuvius",
+      "type": "Complex volcano",
+      "latDeg": 40.821,
+      "lonDegE": 14.426,
+      "diameterKm": null,
+      "origin": null,
+      "approvedYear": null,
+      "position": {
+        "kind": "names-database",
+        "sourceId": "noaa-ncei-volcano-locations",
+        "text": "40.821, 14.426 (NOAA NCEI name: Vesuvius)"
+      },
+      "sizeSourceId": null,
+      "quote": {
+        "text": "Mount Vesuvius , located 12 kilometers (7.5 miles) southeast of Naples, Italy, is one of the few active volcanoes on Europe’s mainland.",
+        "sourceId": "nasa-eo-view-of-vesuvius"
+      }
+    },
+    {
+      "id": "hudson-bay",
+      "name": "Hudson Bay",
+      "type": "Bay",
+      "latDeg": 60,
+      "lonDegE": 274,
+      "diameterKm": null,
+      "origin": null,
+      "approvedYear": null,
+      "position": {
+        "kind": "names-database",
+        "sourceId": "nrcan-cgndb",
+        "text": "60.0, -86.0"
+      },
+      "sizeSourceId": null,
+      "quote": {
+        "text": "Located in northeastern Canada, just south of the Arctic Circle, Hudson Bay is the world’s second-largest bay and spans 1,230,000 square kilometers (470,000 square miles).",
+        "sourceId": "nasa-eo-rebounding-hudson-bay"
+      }
+    },
+    {
+      "id": "yellowstone-caldera",
+      "name": "Yellowstone Caldera",
+      "type": "Crater",
+      "latDeg": 44.445301,
+      "lonDegE": 249.67475,
+      "diameterKm": null,
+      "origin": null,
+      "approvedYear": null,
+      "position": {
+        "kind": "names-database",
+        "sourceId": "usgs-gnis",
+        "text": "44.445301, -110.32525"
+      },
+      "sizeSourceId": null,
+      "quote": {
+        "text": "About 631,000 years ago, a massive eruption formed what today is known as Yellowstone Caldera.",
+        "sourceId": "usgs-yvo-youngest-supereruption"
+      }
+    },
+    {
+      "id": "mount-saint-helens",
+      "name": "Mount Saint Helens",
+      "type": "Summit",
+      "latDeg": 46.1911944,
+      "lonDegE": 237.8056145,
+      "diameterKm": null,
+      "origin": null,
+      "approvedYear": null,
+      "position": {
+        "kind": "names-database",
+        "sourceId": "usgs-gnis",
+        "text": "46.1911944, -122.1943855"
+      },
+      "sizeSourceId": null,
+      "quote": {
+        "text": "During the 1980 eruption the upper 400 m (1,300 ft) of the summit was removed by a huge debris avalanche, leaving a 2 x 3.5 km horseshoe-shaped crater now partially filled by a lava dome and a glacier.",
+        "sourceId": "usgs-volcano-mount-st-helens"
+      }
+    },
+    {
+      "id": "mariana-trench",
+      "name": "Mariana Trench",
+      "type": "Trench",
+      "latDeg": 16.9797,
+      "lonDegE": 147.8342,
+      "diameterKm": null,
+      "origin": null,
+      "approvedYear": null,
+      "position": {
+        "kind": "names-database",
+        "sourceId": "gebco-undersea-feature-names",
+        "text": "16.9797, 147.8342"
+      },
+      "sizeSourceId": null,
+      "quote": {
+        "text": "The Mariana Trench stretches 2,500 kilometers (1,500 miles) in an arc that is edged by islands such as Guam and Saipan.",
+        "sourceId": "nasa-eo-deepest-trench"
+      }
+    },
+    {
+      "id": "krakatau",
+      "name": "Krakatau",
+      "type": "Caldera",
+      "latDeg": -6.101,
+      "lonDegE": 105.423,
+      "diameterKm": null,
+      "origin": null,
+      "approvedYear": null,
+      "position": {
+        "kind": "names-database",
+        "sourceId": "noaa-ncei-volcano-locations",
+        "text": "-6.101, 105.423"
+      },
+      "sizeSourceId": null,
+      "quote": {
+        "text": "Responsible for one of the largest and most destructive eruptions in Indonesia’s history, Krakatau still erupts frequently.",
+        "sourceId": "nasa-eo-krakatau-indonesia"
+      }
+    },
+    {
+      "id": "antarctic-peninsula",
+      "name": "Antarctic Peninsula",
+      "type": "Cape",
+      "latDeg": -69.5,
+      "lonDegE": 295,
+      "diameterKm": null,
+      "origin": null,
+      "approvedYear": null,
+      "position": {
+        "kind": "names-database",
+        "sourceId": "usgs-gnis",
+        "text": "-69.5, -65.0"
+      },
+      "sizeSourceId": null,
+      "quote": {
+        "text": "The ice-covered and mountainous peninsula stretches 1,300 kilometers (800 miles) into the Southern Ocean.",
+        "sourceId": "nasa-eo-antarctic-peninsula"
+      }
+    },
+    {
+      "id": "aoraki-mount-cook",
+      "name": "Aoraki/Mount Cook",
+      "type": "Hill",
+      "latDeg": -43.595348,
+      "lonDegE": 170.141926,
+      "diameterKm": null,
+      "origin": null,
+      "approvedYear": null,
+      "position": {
+        "kind": "names-database",
+        "sourceId": "linz-nz-gazetteer",
+        "text": "-43.595348, 170.141926"
+      },
+      "sizeSourceId": null,
+      "quote": {
+        "text": "New Zealand's highest peak, Aoraki Mount Cook, reaches 3,724 meters (12,218 feet) above sea level.",
+        "sourceId": "nasa-eo-south-island-alps"
+      }
+    },
+    {
+      "id": "mid-atlantic-ridge",
+      "name": "Mid-Atlantic Ridge",
+      "type": "Ridge",
+      "latDeg": -0.3194,
+      "lonDegE": 338.52628,
+      "diameterKm": null,
+      "origin": null,
+      "approvedYear": null,
+      "position": {
+        "kind": "names-database",
+        "sourceId": "gebco-undersea-feature-names",
+        "text": "-0.3194, -21.47372"
+      },
+      "sizeSourceId": null,
+      "quote": {
+        "text": "The rate of spreading along the Mid-Atlantic Ridge averages about 2.5 centimeters per year (cm/yr), or 25 km in a million years.",
+        "sourceId": "usgs-dynamic-earth-plate-motions"
+      }
+    },
+    {
+      "id": "death-valley",
+      "name": "Death Valley",
+      "type": "Basin",
+      "latDeg": 36.246618,
+      "lonDegE": 243.1830045,
+      "diameterKm": null,
+      "origin": null,
+      "approvedYear": null,
+      "position": {
+        "kind": "names-database",
+        "sourceId": "usgs-gnis",
+        "text": "36.246618, -116.8169955"
+      },
+      "sizeSourceId": null,
+      "quote": {
+        "text": "At 86 meters (282 feet) below sea level, Death Valley, California, is one of the hottest, driest places on the planet.",
+        "sourceId": "nasa-eo-death-valley"
+      }
+    },
+    {
+      "id": "kati-thanda-lake-eyre",
+      "name": "Kati Thanda-Lake Eyre",
+      "type": "Lake",
+      "latDeg": -28.41781,
+      "lonDegE": 137.28097,
+      "diameterKm": null,
+      "origin": null,
+      "approvedYear": null,
+      "position": {
+        "kind": "names-database",
+        "sourceId": "ga-composite-gazetteer",
+        "text": "-28.41781, 137.28097 (CGA name: Kati Thanda)"
+      },
+      "sizeSourceId": null,
+      "quote": {
+        "text": "Modern Kati Thanda-Lake Eyre is a salt-encrusted, mostly dry and barren playa that occupies Australia's lowest natural point, which is 15 meters (49 feet) below sea level.",
+        "sourceId": "nasa-eo-rare-filling-kati-thanda"
+      }
+    },
+    {
+      "id": "kilauea",
+      "name": "Kīlauea",
+      "type": "Summit",
+      "latDeg": 19.4209429,
+      "lonDegE": 204.7125828,
+      "diameterKm": null,
+      "origin": null,
+      "approvedYear": null,
+      "position": {
+        "kind": "names-database",
+        "sourceId": "usgs-gnis",
+        "text": "19.4209429, -155.2874172"
+      },
+      "sizeSourceId": null,
+      "quote": {
+        "text": "Kīlauea ranks among the world's most active volcanoes.",
+        "sourceId": "usgs-volcano-kilauea"
+      }
+    },
+    {
+      "id": "mount-pinatubo",
+      "name": "Mount Pinatubo",
+      "type": "Stratovolcano",
+      "latDeg": 15.13,
+      "lonDegE": 120.35,
+      "diameterKm": null,
+      "origin": null,
+      "approvedYear": null,
+      "position": {
+        "kind": "names-database",
+        "sourceId": "noaa-ncei-volcano-locations",
+        "text": "15.13, 120.35 (NOAA NCEI name: Pinatubo)"
+      },
+      "sizeSourceId": null,
+      "quote": {
+        "text": "The second-largest volcanic eruption of the 20th century, and by far the largest eruption to affect a densely populated area, occurred at Mount Pinatubo in the Philippines on June 15, 1991.",
+        "sourceId": "nasa-svs-pinatubo-eruption"
+      }
+    },
+    {
+      "id": "eyjafjallajokull",
+      "name": "Eyjafjallajökull",
+      "type": "Stratovolcano",
+      "latDeg": 63.633,
+      "lonDegE": 340.367,
+      "diameterKm": null,
+      "origin": null,
+      "approvedYear": null,
+      "position": {
+        "kind": "names-database",
+        "sourceId": "noaa-ncei-volcano-locations",
+        "text": "63.633, -19.633 (NOAA NCEI name: Eyjafjallajokull)"
+      },
+      "sizeSourceId": null,
+      "quote": {
+        "text": "Iceland’s Eyjafjallajökull Volcano sent a plume of ash and steam across the North Atlantic in mid-April 2010, prompting authorities in the United Kingdom, Ireland, France, and Scandinavia to close airspace over their countries.",
+        "sourceId": "nasa-eo-ash-plume-north-atlantic"
+      }
+    },
+    {
+      "id": "ross-ice-shelf",
+      "name": "Ross Ice Shelf",
+      "type": "Glacier",
+      "latDeg": -81.5,
+      "lonDegE": 185,
+      "diameterKm": null,
+      "origin": null,
+      "approvedYear": null,
+      "position": {
+        "kind": "names-database",
+        "sourceId": "usgs-gnis",
+        "text": "-81.5, -175.0"
+      },
+      "sizeSourceId": null,
+      "quote": {
+        "text": "Spanning nearly 600 miles in length, and achieving a thickness of 3000 feet in certain areas, the Ross Ice Shelf is the largest ice shelf in the world.",
+        "sourceId": "nasa-eo-ross-ice-shelf"
+      }
+    },
+    {
+      "id": "bay-of-fundy",
+      "name": "Bay of Fundy",
+      "type": "Bay",
+      "latDeg": 44.945579,
+      "lonDegE": 294.613374,
+      "diameterKm": null,
+      "origin": null,
+      "approvedYear": null,
+      "position": {
+        "kind": "names-database",
+        "sourceId": "nrcan-cgndb",
+        "text": "44.945579, -65.386626"
+      },
+      "sizeSourceId": null,
+      "quote": {
+        "text": "Under typical conditions, high tide at the head (the most inland part) of the Bay of Fundy is as much as 17 meters (about 56 feet) higher than low tide.",
+        "sourceId": "nasa-eo-bay-of-fundy-tides"
+      }
+    },
+    {
+      "id": "lake-superior",
+      "name": "Lake Superior",
+      "type": "Lake",
+      "latDeg": 47.5288158,
+      "lonDegE": 272.2399784,
+      "diameterKm": null,
+      "origin": null,
+      "approvedYear": null,
+      "position": {
+        "kind": "names-database",
+        "sourceId": "usgs-gnis",
+        "text": "47.5288158, -87.7600216"
+      },
+      "sizeSourceId": null,
+      "quote": {
+        "text": "Superior is the world’s largest freshwater lake by area (82,100 square kilometers or 31,700 square miles) and the third largest by volume.",
+        "sourceId": "nasa-eo-lake-superior-ice"
+      }
+    },
+    {
+      "id": "shark-bay",
+      "name": "Shark Bay",
+      "type": "Bay",
+      "latDeg": -25.47444444,
+      "lonDegE": 113.48777778,
+      "diameterKm": null,
+      "origin": null,
+      "approvedYear": null,
+      "position": {
+        "kind": "names-database",
+        "sourceId": "ga-composite-gazetteer",
+        "text": "-25.47444444, 113.48777778 (CGA name: SHARK BAY)"
+      },
+      "sizeSourceId": null,
+      "quote": {
+        "text": "Shark Bay contains the largest and richest beds of seagrasses in the world and is also home to some of the oldest lifeforms on Earth.",
+        "sourceId": "nasa-eo-sharks-seagrass-stromatolites"
+      }
+    },
+    {
+      "id": "k-gari",
+      "name": "K'gari",
+      "type": "Island",
+      "latDeg": -25.24807256,
+      "lonDegE": 153.1444337,
+      "diameterKm": null,
+      "origin": null,
+      "approvedYear": null,
+      "position": {
+        "kind": "names-database",
+        "sourceId": "ga-composite-gazetteer",
+        "text": "-25.24807256, 153.1444337"
+      },
+      "sizeSourceId": null,
+      "quote": {
+        "text": "Spanning 180,000 hectares (440,000 acres), Fraser Island (also called K'gari) is known for its tropical rainforests, sand dunes, and inland lakes.",
+        "sourceId": "nasa-eo-fraser-island-blazes"
+      }
+    },
+    {
+      "id": "popocatepetl",
+      "name": "Popocatépetl",
+      "type": "Stratovolcano",
+      "latDeg": 19.023,
+      "lonDegE": 261.378,
+      "diameterKm": null,
+      "origin": null,
+      "approvedYear": null,
+      "position": {
+        "kind": "names-database",
+        "sourceId": "noaa-ncei-volcano-locations",
+        "text": "19.023, -98.622 (NOAA NCEI name: Popocatepetl)"
+      },
+      "sizeSourceId": null,
+      "quote": {
+        "text": "Popocatépetl is a stratovolcano, the classic symmetrical (in this case cone-shaped) mountain with a circular crater in its summit.",
+        "sourceId": "nasa-eo-topography-popocatepetl"
+      }
+    },
+    {
+      "id": "mount-tambora",
+      "name": "Mount Tambora",
+      "type": "Stratovolcano",
+      "latDeg": -8.25,
+      "lonDegE": 118,
+      "diameterKm": null,
+      "origin": null,
+      "approvedYear": null,
+      "position": {
+        "kind": "names-database",
+        "sourceId": "noaa-ncei-volcano-locations",
+        "text": "-8.25, 118 (NOAA NCEI name: Tambora)"
+      },
+      "sizeSourceId": null,
+      "quote": {
+        "text": "On April 10, 1815, the Tambora Volcano produced the largest eruption in recorded history.",
+        "sourceId": "nasa-eo-tambora"
+      }
+    },
+    {
+      "id": "great-salt-lake",
+      "name": "Great Salt Lake",
+      "type": "Lake",
+      "latDeg": 41.1628677,
+      "lonDegE": 247.4646344,
+      "diameterKm": null,
+      "origin": null,
+      "approvedYear": null,
+      "position": {
+        "kind": "names-database",
+        "sourceId": "usgs-gnis",
+        "text": "41.1628677, -112.5353656"
+      },
+      "sizeSourceId": null,
+      "quote": {
+        "text": "Few other lakes in the United States rival the Great Salt Lake in size and significance.",
+        "sourceId": "nasa-eo-great-salt-lake"
+      }
+    },
+    {
+      "id": "mauna-loa",
+      "name": "Mauna Loa",
+      "type": "Summit",
+      "latDeg": 19.4753891,
+      "lonDegE": 204.394212,
+      "diameterKm": null,
+      "origin": null,
+      "approvedYear": null,
+      "position": {
+        "kind": "names-database",
+        "sourceId": "usgs-gnis",
+        "text": "19.4753891, -155.605788"
+      },
+      "sizeSourceId": null,
+      "quote": {
+        "text": "Mauna Loa is Earth's largest active volcano and covers just over half of the Island of Hawaiʻi.",
+        "sourceId": "usgs-volcano-mauna-loa"
+      }
+    },
+    {
+      "id": "chimborazo",
+      "name": "Chimborazo",
+      "type": "Stratovolcano",
+      "latDeg": -1.469,
+      "lonDegE": 281.183,
+      "diameterKm": null,
+      "origin": null,
+      "approvedYear": null,
+      "position": {
+        "kind": "names-database",
+        "sourceId": "noaa-ncei-volcano-locations",
+        "text": "-1.469, -78.817"
+      },
+      "sizeSourceId": null,
+      "quote": {
+        "text": "Sitting nearly on top of Earth's greatest equatorial bulge, Chimborazo's peak is the farthest point on the planet's surface from the center, over 2,000 meters farther from the center of the Earth than Everest's peak.",
+        "sourceId": "nasa-apod-2016-02-25-chimborazo"
+      }
+    },
+    {
+      "id": "mount-erebus",
+      "name": "Mount Erebus",
+      "type": "Summit",
+      "latDeg": -77.529622,
+      "lonDegE": 167.153231,
+      "diameterKm": null,
+      "origin": null,
+      "approvedYear": null,
+      "position": {
+        "kind": "names-database",
+        "sourceId": "usgs-gnis",
+        "text": "-77.529622, 167.153231"
+      },
+      "sizeSourceId": null,
+      "quote": {
+        "text": "Mount Erebus is thought to be the southernmost active volcano in the world.",
+        "sourceId": "nasa-eo-mount-erebus"
+      }
+    },
+    {
+      "id": "nyiragongo",
+      "name": "Nyiragongo",
+      "type": "Stratovolcano",
+      "latDeg": -1.52,
+      "lonDegE": 29.25,
+      "diameterKm": null,
+      "origin": null,
+      "approvedYear": null,
+      "position": {
+        "kind": "names-database",
+        "sourceId": "noaa-ncei-volcano-locations",
+        "text": "-1.52, 29.25"
+      },
+      "sizeSourceId": null,
+      "quote": {
+        "text": "In 1977, Nyiragongo erupted fast-moving lava that flooded twenty square kilometers in about one hour.",
+        "sourceId": "nasa-eo-nyiragongo-vents-steam"
+      }
+    },
+    {
+      "id": "chesapeake-bay",
+      "name": "Chesapeake Bay",
+      "type": "Bay",
+      "latDeg": 38.0284347,
+      "lonDegE": 283.8243519,
+      "diameterKm": null,
+      "origin": null,
+      "approvedYear": null,
+      "position": {
+        "kind": "names-database",
+        "sourceId": "usgs-gnis",
+        "text": "38.0284347, -76.1756481"
+      },
+      "sizeSourceId": null,
+      "quote": {
+        "text": "The Chesapeake Bay is the largest estuary in the United States and third largest in the world.",
+        "sourceId": "nasa-eo-chesapeake-watershed"
+      }
+    },
+    {
+      "id": "teide",
+      "name": "Teide",
+      "type": "Stratovolcano",
+      "latDeg": 28.271,
+      "lonDegE": 343.359,
+      "diameterKm": null,
+      "origin": null,
+      "approvedYear": null,
+      "position": {
+        "kind": "names-database",
+        "sourceId": "noaa-ncei-volcano-locations",
+        "text": "28.271, -16.641 (NOAA NCEI name: Tenerife)"
+      },
+      "sizeSourceId": null,
+      "quote": {
+        "text": "The summit of the Teide stratovolcano reaches 3,718 meters (12,198 feet) above sea level.",
+        "sourceId": "nasa-eo-tenerife"
+      }
+    },
+    {
+      "id": "crater-lake",
+      "name": "Crater Lake",
+      "type": "Lake",
+      "latDeg": 42.9420125,
+      "lonDegE": 237.8936105,
+      "diameterKm": null,
+      "origin": null,
+      "approvedYear": null,
+      "position": {
+        "kind": "names-database",
+        "sourceId": "usgs-gnis",
+        "text": "42.9420125, -122.1063895"
+      },
+      "sizeSourceId": null,
+      "quote": {
+        "text": "Having a maximum depth of 594 m (1,949 ft), Crater Lake is the deepest lake in the United States.",
+        "sourceId": "usgs-volcano-crater-lake"
+      }
+    },
+    {
+      "id": "reservoir-manicouagan",
+      "name": "Réservoir Manicouagan",
+      "type": "Lake",
+      "latDeg": 51.381357,
+      "lonDegE": 291.701223,
+      "diameterKm": null,
+      "origin": null,
+      "approvedYear": null,
+      "position": {
+        "kind": "names-database",
+        "sourceId": "nrcan-cgndb",
+        "text": "51.381357, -68.298777"
+      },
+      "sizeSourceId": null,
+      "quote": {
+        "text": "Manicouagan Crater was formed 214 million years ago, near the end of the Triassic Period, when an asteroid 5 kilometers (3 miles) wide struck what is now Canada.",
+        "sourceId": "nasa-eo-manicouagan-lake"
+      }
+    },
+    {
+      "id": "meteor-crater",
+      "name": "Meteor Crater",
+      "type": "Crater",
+      "latDeg": 35.0280715,
+      "lonDegE": 248.9768035,
+      "diameterKm": 1.2,
+      "origin": null,
+      "approvedYear": null,
+      "position": {
+        "kind": "names-database",
+        "sourceId": "usgs-gnis",
+        "text": "35.0280715, -111.0231965"
+      },
+      "sizeSourceId": "nasa-eo-meteor-crater",
+      "quote": {
+        "text": "Meteor Crater, located in northern Arizona, is one of the best preserved and easily accessible impact sites on Earth.",
+        "sourceId": "usgs-astrogeology-meteor-crater-samples"
+      }
+    },
+    {
+      "id": "wolfe-creek-crater",
+      "name": "Wolfe Creek Crater",
+      "type": "Crater",
+      "latDeg": -19.17222222,
+      "lonDegE": 127.79527778,
+      "diameterKm": null,
+      "origin": null,
+      "approvedYear": null,
+      "position": {
+        "kind": "names-database",
+        "sourceId": "ga-composite-gazetteer",
+        "text": "-19.17222222, 127.79527778 (CGA name: WOLFE CREEK METEORITE CRATER)"
+      },
+      "sizeSourceId": null,
+      "quote": {
+        "text": "Almost circular, Wolfe Creek Crater (also known as Wolf Creek Crater) is considered the second largest crater in the world from which meteorite fragments have been collected.",
+        "sourceId": "nasa-eo-wolfe-creek-crater"
+      }
+    },
+    {
+      "id": "puerto-rico-trench",
+      "name": "Puerto Rico Trench",
+      "type": "Trench",
+      "latDeg": 19.9214,
+      "lonDegE": 294.6067,
+      "diameterKm": null,
+      "origin": null,
+      "approvedYear": null,
+      "position": {
+        "kind": "names-database",
+        "sourceId": "gebco-undersea-feature-names",
+        "text": "19.9214, -65.3933"
+      },
+      "sizeSourceId": null,
+      "quote": {
+        "text": "The Puerto Rico Trench is a tectonic plate boundary where the North American plate slides by and descends under the Caribbean plate.",
+        "sourceId": "usgs-ofr-2004-1400-puerto-rico-trench"
+      }
+    },
+    {
+      "id": "whakaari-white-island",
+      "name": "Whakaari / White Island",
+      "type": "Island",
+      "latDeg": -37.520974,
+      "lonDegE": 177.183931,
+      "diameterKm": null,
+      "origin": null,
+      "approvedYear": null,
+      "position": {
+        "kind": "names-database",
+        "sourceId": "linz-nz-gazetteer",
+        "text": "-37.520974, 177.183931"
+      },
+      "sizeSourceId": null,
+      "quote": {
+        "text": "Whakaari/White Island is the tip of a submarine stratovolcano at the northern end of the Taupo Volcanic Zone and has been active for at least 150,000 years.",
+        "sourceId": "usgs-yvo-white-island-2019"
+      }
+    },
+    {
+      "id": "vostok-subglacial-lake",
+      "name": "Vostok Subglacial Lake",
+      "type": "Lake",
+      "latDeg": -77.5,
+      "lonDegE": 106,
+      "diameterKm": null,
+      "origin": null,
+      "approvedYear": null,
+      "position": {
+        "kind": "names-database",
+        "sourceId": "usgs-gnis",
+        "text": "-77.5, 106.0"
+      },
+      "sizeSourceId": null,
+      "quote": {
+        "text": "The biggest known subglacial lake is Lake Vostok underneath the East Antarctic Ice Sheet, holding an estimated 5000–65 000 cubic km of water beneath 4 km of ice (the water contained in Lake Vostok is enough to fill the Grand Canyon and overflow by at least 25 %).",
+        "sourceId": "esa-cryosat-subglacial-lakes"
+      }
+    },
+    {
+      "id": "mount-rainier",
+      "name": "Mount Rainier",
+      "type": "Summit",
+      "latDeg": 46.8528267,
+      "lonDegE": 238.2395592,
+      "diameterKm": null,
+      "origin": null,
+      "approvedYear": null,
+      "position": {
+        "kind": "names-database",
+        "sourceId": "usgs-gnis",
+        "text": "46.8528267, -121.7604408"
+      },
+      "sizeSourceId": null,
+      "quote": {
+        "text": "Mount Rainier, the highest peak in the Cascade Range at 4,392m (14,410 ft), forms a dramatic backdrop to the Puget Sound region.",
+        "sourceId": "usgs-volcano-mount-rainier"
+      }
+    },
+    {
+      "id": "vinson-massif",
+      "name": "Vinson Massif",
+      "type": "Range",
+      "latDeg": -78.5709642,
+      "lonDegE": 274.4317968,
+      "diameterKm": null,
+      "origin": null,
+      "approvedYear": null,
+      "position": {
+        "kind": "names-database",
+        "sourceId": "usgs-gnis",
+        "text": "-78.5709642, -85.5682032"
+      },
+      "sizeSourceId": null,
+      "quote": {
+        "text": "Vinson Massif is the tallest mountain in Antarctica.",
+        "sourceId": "nasa-eo-vinson-massif"
+      }
+    },
+    {
+      "id": "pingualuit-crater",
+      "name": "Pingualuit Crater",
+      "type": "Crater",
+      "latDeg": 61.2775,
+      "lonDegE": 286.3363889,
+      "diameterKm": 3.44,
+      "origin": null,
+      "approvedYear": null,
+      "position": {
+        "kind": "names-database",
+        "sourceId": "nrcan-cgndb",
+        "text": "61.2775, -73.6636111 (CGNDB name: Cratère des Pingualuit)"
+      },
+      "sizeSourceId": "nasa-eo-pingualuit-crater",
+      "quote": {
+        "text": "With a diameter of 3.44 kilometers (2.14 miles), Pingualuit Crater holds a lake about 267 meters (876 feet) deep.",
+        "sourceId": "nasa-eo-pingualuit-crater"
+      }
+    },
+    {
+      "id": "gosses-bluff",
+      "name": "Gosses Bluff",
+      "type": "Cliff",
+      "latDeg": -23.8,
+      "lonDegE": 132.3167,
+      "diameterKm": null,
+      "origin": null,
+      "approvedYear": null,
+      "position": {
+        "kind": "names-database",
+        "sourceId": "ga-composite-gazetteer",
+        "text": "-23.8, 132.3167"
+      },
+      "sizeSourceId": null,
+      "quote": {
+        "text": "Gosses Bluff was probably formed by the impact of a large comet or meteorite about 142 million years ago.",
+        "sourceId": "nasa-eo-gosses-bluff"
+      }
+    },
+    {
+      "id": "mcmurdo-dry-valleys",
+      "name": "McMurdo Dry Valleys",
+      "type": "Valley",
+      "latDeg": -77.5,
+      "lonDegE": 162,
+      "diameterKm": null,
+      "origin": null,
+      "approvedYear": null,
+      "position": {
+        "kind": "names-database",
+        "sourceId": "usgs-gnis",
+        "text": "-77.5, 162.0"
+      },
+      "sizeSourceId": null,
+      "quote": {
+        "text": "The McMurdo Dry Valleys are a row of valleys west of McMurdo Sound, Antarctica, so named because of their extremely low humidity and lack of snow and ice cover.",
+        "sourceId": "nasa-image-dry-valleys"
+      }
+    },
+    {
+      "id": "thwaites-glacier",
+      "name": "Thwaites Glacier",
+      "type": "Glacier",
+      "latDeg": -75.5,
+      "lonDegE": 253.25,
+      "diameterKm": null,
+      "origin": null,
+      "approvedYear": null,
+      "position": {
+        "kind": "names-database",
+        "sourceId": "usgs-gnis",
+        "text": "-75.5, -106.75"
+      },
+      "sizeSourceId": null,
+      "quote": {
+        "text": "Indeed, Thwaites Glacier is one of the largest contributors to global sea level rise from the West Antarctic Ice Sheet.",
+        "sourceId": "nasa-eo-thwaites-transformed"
+      }
+    },
+    {
+      "id": "larsen-ice-shelf",
+      "name": "Larsen Ice Shelf",
+      "type": "Glacier",
+      "latDeg": -67.5,
+      "lonDegE": 297.5,
+      "diameterKm": null,
+      "origin": null,
+      "approvedYear": null,
+      "position": {
+        "kind": "names-database",
+        "sourceId": "usgs-gnis",
+        "text": "-67.5, -62.5"
+      },
+      "sizeSourceId": null,
+      "quote": {
+        "text": "Larsen is situated along the northeastern coast of the Antarctic Peninsula, one of the fastest-warming places on the planet.",
+        "sourceId": "nasa-eo-larsen-ice-shelf"
+      }
+    }
+  ],
+  "featureTypes": {}
 }

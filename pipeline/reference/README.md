@@ -9,6 +9,8 @@ Types and checks live in `pipeline/sources/quotedReference.ts`.
 - `interiors.json` is an `InteriorsFile`: `sources` plus `bodies[bodyId].layers`. A body may also carry `magneticField: { sourceId, quote, text }` (used for the Moon, whose Planetary Fact Sheet row says only "No"): a sentence from a registered page, shown in the Magnetic field section. The build checks the quote like any other; without it the field comes from the catalogue fact or the fact sheet. An empty `layers` array means no interior is shown.
 - `missions.json` is a `MissionsFile`: `sources` plus `bodies[bodyId] = { discovery, missions }`.
 
+- `landmarks.json` is a `LandmarksFile`: `sources`, `types` and `bodies[bodyId]` (see Landmarks).
+
 Each `sources` entry is `{ id, title, publisher, url, license }` (a paper adds more; see Research papers). Every `sourceId` used in the file must be registered there.
 
 ## Rules
@@ -50,6 +52,53 @@ Where no official source gives a number (the interiors of Venus and the giant pl
 
 Shah et al. 2022 (Venus core): the quoted sentence says "core size 2930-4350 km", not "core radius". The paper's body, Fig. 8 and its "Core radius" table use the same values as a radius, and a diameter that large is impossible for Venus (mean radius 6,051.8 km), so the layer records it as a radius.
 
+## Landmarks
+
+`landmarks.json` curates the well-known named surface features that Explore draws as pins. Types and checks live in `pipeline/sources/landmarks.ts`. The general rules above apply (official hosts, exact sentences of at least 6 words, kilometres).
+
+```
+{ "sources": [ ... ],
+  "types":  { "<Gazetteer type>": { "meaning", "sourceId", "quote" } },
+  "bodies": { "<bodyId>": [ landmark, ... ] } }          // rank order: the order is the order shown
+```
+
+- A Gazetteer body (Mercury, Venus, the Moon, Mars) lists `{ name, sourceId, quote }`. The name must be an approved Gazetteer feature (exact, case-sensitive, the Gazetteer's clean name). Position, size, type, origin and approval year all come from the Gazetteer row, whatever its size (the 200-feature cut does not apply). The build fails on a name that is not there.
+- Any other body (Earth) lists `{ name, sourceId, quote, position, size? }`, plus `type` only for a quoted position. `position` is a names-database record (`{ kind: "names-database", database, recordId }`, plus `area` for GNIS only; read by the build from the fetched record) or numbers stated in a sentence (`{ kind: "quoted", latDeg, lonDegE, sourceId, quote }`). An optional `size` is `{ km, sourceId, quote }` and the km figure must be in the quote. A names-database landmark carries no `type`: the build takes it from the record's own class (GNIS `feature_class`, for example "Valley"; see the table below) and cites it to the names database; an empty class is a build error, and a `type` on such an entry fails the check. A quoted-position landmark has a curated plain-word `type` ("Volcano"), shown without a source number. Earth types get no entry in `types`.
+- `types` give the meaning of a Gazetteer feature type, from the Gazetteer's descriptor-terms page. The quote must contain the type and the meaning. A body's details carry only the meanings of the types it uses.
+
+Rules:
+
+1. Two things per landmark: a sentence worth showing (an official page that says something about the feature) and an official position. The sentence never supplies the position unless it states it as numbers.
+2. Positions are never read off a map or typed from memory. Each one is the Gazetteer's, a names-database record's, or numbers stated in a quoted sentence. For a quoted position the build runs `parseStatedPosition` on the quote (two numbers, each with a hemisphere letter or word, or a sign after the word latitude or longitude; degrees with optional minutes) and the stored latitude and longitude must equal what it reads. Longitudes are stored 0 to 360 east, so 112.1 W is 247.9.
+3. No research papers. A `kind: "paper"` source fails the check ("papers are not allowed for landmarks"). The names databases (below) are position sources only and are never quoted.
+4. A landmark name is unique within its body.
+
+### Earth positions from a names database
+
+Decision: `Space_visualizer/Decisions/0010-names-databases-for-earth-positions.md` (the second decision, 2026-11-16, allows other official sources). Code: the registry `NAMES_SOURCES` in `pipeline/sources/namesDatabase.ts`, one entry per database. Details, licences and examples: `Space_visualizer/Data Sources/Earth names databases (GNIS, GNS).md`.
+
+| `database` | Source | Use it for | `recordId` | Type field | Fetched into `pipeline/raw/` |
+|---|---|---|---|---|---|
+| `gnis` | USGS GNIS | United States, Antarctica | Feature ID, plus `area` | `feature_class` | `names-gnis-<area>.zip` |
+| `noaa-volcano` | NOAA NCEI Volcano Locations | volcanoes anywhere | volcano `id` | `morphology` | `names-noaa-volcano-<id>.json` |
+| `gebco` | IHO-IOC GEBCO undersea names | undersea features anywhere | `featureId` | `genericTerm` | `names-gebco-<id>.json` |
+| `nrcan` | NRCan Canadian Geographical Names | Canada only | the five-letter key | concise code term | `names-nrcan-<key>.csv`, `names-nrcan-concise.json` |
+| `linz` | LINZ New Zealand Gazetteer | New Zealand only | `name_id` | `feat_type` | `names-linz-gaz.csv` (the whole file) |
+| `ga-cga` | Geoscience Australia, Composite Gazetteer of Australia | Australia only | `id` (`NT_10532`) | `feature`, in sentence case | `names-ga-cga-<id>.json` |
+| `gns` | NGA GEOnet Names Server | not in use | | | |
+
+1. Prefer a names-database record; use a quoted position only when no record exists. A position stated for an image (its centre, frame or "Location:" line) is not a position for the place.
+2. GNIS: `area` names the staged file that holds the record, the two-letter state or territory code (`AZ`, `HI`) or `Antarctica`. The build fetches `DomesticNames_<area>_Text.zip` (or the Antarctica zip), finds the record by id, and uses its primary point (`prim_lat_dec`, `prim_long_dec`). Only GNIS takes an `area`; on any other database it fails the check.
+3. The landmark name must be the record's name, or a name the record lists. Otherwise the build fails with `earth/<name>: record <id> is named <other>`. Only the GNIS Antarctica file lists other names; a GEBCO name is its specific and generic terms together ("Challenger Deep"), with the specific term alone as a listed name. When the landmark matched a listed name, the position text adds `(<database> name: <record name>)`. Names are the database's own: NOAA writes "Fujisan" and "Popocatepetl", NRCan writes Quebec names in French, the Composite Gazetteer writes Western Australian names in capitals ("SHARK BAY").
+4. To find a record, search the source by name and check the class and the place (many places share a name: there are dozens of "Crater Lake" records in GNIS; NRCan has a town and a bay called Hudson Bay). For a GNIS stream or valley the primary point is the mouth.
+5. A national database is used only for its own country, checked on the record's own territory: an NRCan record needs a province or territory code (72 "Undersea Feature" and 73 "International Waters" fail), a LINZ record needs a New Zealand land district (Ross Dependency and undersea records have none), a Composite Gazetteer record needs a state or mainland territory authority (NSW, VIC, QLD, SA, WA, TAS, NT, ACT; the Antarctic `AAD` and hydrographic `AHO` records fail). Message: `earth/<name>: record <id> is outside <country> (territory "<code>"); a national names database is used only for its own country`.
+6. The record's cited source must be on its own database's host (`usgs.gov`, `noaa.gov`, `gebco.net`, `natural-resources.canada.ca`, `linz.govt.nz`, `ga.gov.au`). `POSITION_HOSTS` is the official hosts plus these; the extra hosts are never accepted for a quoted sentence.
+7. The point is stored with the record's own digits as `text` (`60.0, -86.0`); the card shows it with degree signs and hemisphere letters.
+8. The NGA GEOnet Names Server (`database: "gns"`) is not in use: it could not be reached when Earth's landmarks were built, so a `gns` position fails the check. An unknown `database` fails the check too.
+9. Adding a source: an entry in `NAMES_SOURCES` (its `SourceSpec`, host, coverage, `country` if national, `files`, `read`), a fetched record as a fixture in `pipeline/fixtures/`, tests that read it, and a section in the data-source note. The source must meet the rule in decision 0010 (an official agency or intergovernmental body, fetchable with no key, licence allowing use with attribution).
+
+The build checks a landmark's quote like any other, and `npm run data:offline` fails on any problem. The check is `verifyLandmarks`; its messages look like `mars/Olympus Mons: quote not on page of <sourceId>: "..."`.
+
 ## Adding an entry
 
 1. Find the NASA page. Add it to the file's `sources` if it is not there (stable URL, publisher, license).
@@ -72,3 +121,6 @@ An empty list means every quote is on its page and every number and date is in i
 ## Time zones in mission dates
 
 Mission dates follow the cited page's own convention, which is US local time on some NASA pages and UT on others. Prefer the UT date only when the page states the UT date with its year in a form the date check accepts; otherwise record the page's main date (often US local time) and keep the quote that states it. Example of the otherwise case: the Mariner 4 page gives the flyby as July 14, 1965 (EDT) and the UT form only as "[01:00:57 UT July 15]", without a year, so the arrival is recorded as 1965-07-14 (UT was July 15). Do not convert dates yourself: the recorded date must appear in the quote.
+
+### A common name for a names-database landmark
+A landmark may be shown under the name its quoted page uses, when the names database writes the name another way ("Mount Fuji" against "Fujisan"). Put the common name in `"name"` and the record's own name in the position's `"recordName"`. The build fails unless `recordName` is exactly the fetched record's name and the common name is on the quoted page. The card shows both names.

@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "bodyId": "venus",
-  "generatedAt": "2026-11-14T12:43:12.320Z",
+  "generatedAt": "2026-11-19T18:57:32.415Z",
   "interior": {
     "radiusKm": {
       "value": 6051.8,
@@ -194,7 +194,7 @@
       "arrivalDate": null,
       "endDate": null,
       "outcome": "success",
-      "sourceId": "nssdca-planetary-chronology"
+      "sourceId": "nssdca-venus-chronology"
     },
     {
       "id": "venera-13",
@@ -205,7 +205,7 @@
       "arrivalDate": null,
       "endDate": null,
       "outcome": "success",
-      "sourceId": "nssdca-planetary-chronology"
+      "sourceId": "nssdca-venus-chronology"
     },
     {
       "id": "magellan",
@@ -254,6 +254,7 @@
     "sourceId": "usgs-gazetteer-venus",
     "items": [
       {
+        "id": "parga-chasmata",
         "name": "Parga Chasmata",
         "type": "Chasma",
         "latDeg": -20,
@@ -263,6 +264,7 @@
         "approvedYear": 1982
       },
       {
+        "id": "aphrodite-terra",
         "name": "Aphrodite Terra",
         "type": "Terra",
         "latDeg": -5.8,
@@ -272,6 +274,7 @@
         "approvedYear": 1979
       },
       {
+        "id": "lada-terra",
         "name": "Lada Terra",
         "type": "Terra",
         "latDeg": -62.5,
@@ -281,6 +284,7 @@
         "approvedYear": 1982
       },
       {
+        "id": "eistla-regio",
         "name": "Eistla Regio",
         "type": "Regio",
         "latDeg": 10.5,
@@ -290,6 +294,7 @@
         "approvedYear": 1982
       },
       {
+        "id": "guinevere-planitia",
         "name": "Guinevere Planitia",
         "type": "Planitia",
         "latDeg": 21.9,
@@ -299,6 +304,7 @@
         "approvedYear": 1982
       },
       {
+        "id": "baltis-vallis",
         "name": "Baltis Vallis",
         "type": "Vallis",
         "latDeg": 37.3,
@@ -308,6 +314,7 @@
         "approvedYear": 1994
       },
       {
+        "id": "ishtar-terra",
         "name": "Ishtar Terra",
         "type": "Terra",
         "latDeg": 70.4,
@@ -317,6 +324,7 @@
         "approvedYear": 1979
       },
       {
+        "id": "ovda-regio",
         "name": "Ovda Regio",
         "type": "Regio",
         "latDeg": -2.8,
@@ -326,6 +334,7 @@
         "approvedYear": 1982
       },
       {
+        "id": "ganiki-planitia",
         "name": "Ganiki Planitia",
         "type": "Planitia",
         "latDeg": 40,
@@ -335,6 +344,7 @@
         "approvedYear": 1985
       },
       {
+        "id": "niobe-planitia",
         "name": "Niobe Planitia",
         "type": "Planitia",
         "latDeg": 21,
@@ -344,6 +354,7 @@
         "approvedYear": 1982
       },
       {
+        "id": "aino-planitia",
         "name": "Aino Planitia",
         "type": "Planitia",
         "latDeg": -40.5,
@@ -353,6 +364,7 @@
         "approvedYear": 1982
       },
       {
+        "id": "helen-planitia",
         "name": "Helen Planitia",
         "type": "Planitia",
         "latDeg": -51.7,
@@ -362,6 +374,7 @@
         "approvedYear": 1982
       },
       {
+        "id": "sudenitsa-tesserae",
         "name": "Sudenitsa Tesserae",
         "type": "Tessera",
         "latDeg": 33,
@@ -371,6 +384,7 @@
         "approvedYear": 1997
       },
       {
+        "id": "ulfrun-regio",
         "name": "Ulfrun Regio",
         "type": "Regio",
         "latDeg": 27,
@@ -380,6 +394,7 @@
         "approvedYear": 1982
       },
       {
+        "id": "kawelu-planitia",
         "name": "Kawelu Planitia",
         "type": "Planitia",
         "latDeg": 32.8,
@@ -389,6 +404,7 @@
         "approvedYear": 1985
       },
       {
+        "id": "bereghinya-planitia",
         "name": "Bereghinya Planitia",
         "type": "Planitia",
         "latDeg": 28.6,
@@ -398,6 +414,7 @@
         "approvedYear": 1985
       },
       {
+        "id": "manatum-tessera",
         "name": "Manatum Tessera",
         "type": "Tessera",
         "latDeg": -4,
@@ -407,6 +424,7 @@
         "approvedYear": 1997
       },
       {
+        "id": "ganis-chasma",
         "name": "Ganis Chasma",
         "type": "Chasma",
         "latDeg": 18,
@@ -416,6 +434,7 @@
         "approvedYear": 1982
       },
       {
+        "id": "hinemoa-planitia",
         "name": "Hinemoa Planitia",
         "type": "Planitia",
         "latDeg": 5,
@@ -425,6 +444,7 @@
         "approvedYear": 1997
       },
       {
+        "id": "rusalka-planitia",
         "name": "Rusalka Planitia",
         "type": "Planitia",
         "latDeg": 3,
@@ -434,6 +454,7 @@
         "approvedYear": 1982
       },
       {
+        "id": "sedna-planitia",
         "name": "Sedna Planitia",
         "type": "Planitia",
         "latDeg": 42.7,
@@ -443,6 +464,7 @@
         "approvedYear": 1982
       },
       {
+        "id": "vedma-dorsa",
         "name": "Vedma Dorsa",
         "type": "Dorsum",
         "latDeg": 42,
@@ -452,6 +474,7 @@
         "approvedYear": 1985
       },
       {
+        "id": "atla-regio",
         "name": "Atla Regio",
         "type": "Regio",
         "latDeg": 9.2,
@@ -461,6 +484,7 @@
         "approvedYear": 1982
       },
       {
+        "id": "morrigan-linea",
         "name": "Morrigan Linea",
         "type": "Linea",
         "latDeg": -54.5,
@@ -470,6 +494,7 @@
         "approvedYear": 1991
       },
       {
+        "id": "citlalpul-vallis",
         "name": "Citlalpul Vallis",
         "type": "Vallis",
         "latDeg": -51.8,
@@ -479,6 +504,7 @@
         "approvedYear": 1994
       },
       {
+        "id": "hecate-chasma",
         "name": "Hecate Chasma",
         "type": "Chasma",
         "latDeg": 18.2,
@@ -488,6 +514,7 @@
         "approvedYear": 1982
       },
       {
+        "id": "artemis-chasma",
         "name": "Artemis Chasma",
         "type": "Chasma",
         "latDeg": -41.2,
@@ -497,6 +524,7 @@
         "approvedYear": 1982
       },
       {
+        "id": "fonueha-planitia",
         "name": "Fonueha Planitia",
         "type": "Planitia",
         "latDeg": -44,
@@ -506,6 +534,7 @@
         "approvedYear": 1997
       },
       {
+        "id": "tahmina-planitia",
         "name": "Tahmina Planitia",
         "type": "Planitia",
         "latDeg": -23,
@@ -515,6 +544,7 @@
         "approvedYear": 1997
       },
       {
+        "id": "leda-planitia",
         "name": "Leda Planitia",
         "type": "Planitia",
         "latDeg": 44,
@@ -524,6 +554,7 @@
         "approvedYear": 1982
       },
       {
+        "id": "beta-regio",
         "name": "Beta Regio",
         "type": "Regio",
         "latDeg": 25.3,
@@ -533,6 +564,7 @@
         "approvedYear": 1979
       },
       {
+        "id": "phoebe-regio",
         "name": "Phoebe Regio",
         "type": "Regio",
         "latDeg": -6,
@@ -542,6 +574,7 @@
         "approvedYear": 1982
       },
       {
+        "id": "lavinia-planitia",
         "name": "Lavinia Planitia",
         "type": "Planitia",
         "latDeg": -47.3,
@@ -551,6 +584,7 @@
         "approvedYear": 1982
       },
       {
+        "id": "fortuna-tessera",
         "name": "Fortuna Tessera",
         "type": "Tessera",
         "latDeg": 69.9,
@@ -560,6 +594,7 @@
         "approvedYear": 1985
       },
       {
+        "id": "thetis-regio",
         "name": "Thetis Regio",
         "type": "Regio",
         "latDeg": -11.4,
@@ -569,6 +604,7 @@
         "approvedYear": 1982
       },
       {
+        "id": "dzerassa-planitia",
         "name": "Dzerassa Planitia",
         "type": "Planitia",
         "latDeg": -15,
@@ -578,6 +614,7 @@
         "approvedYear": 1997
       },
       {
+        "id": "undine-planitia",
         "name": "Undine Planitia",
         "type": "Planitia",
         "latDeg": 13,
@@ -587,6 +624,7 @@
         "approvedYear": 1997
       },
       {
+        "id": "snegurochka-planitia",
         "name": "Snegurochka Planitia",
         "type": "Planitia",
         "latDeg": 86.6,
@@ -596,6 +634,7 @@
         "approvedYear": 1985
       },
       {
+        "id": "akhtamar-planitia",
         "name": "Akhtamar Planitia",
         "type": "Planitia",
         "latDeg": 27,
@@ -605,6 +644,7 @@
         "approvedYear": 1997
       },
       {
+        "id": "laidamlulum-vallis",
         "name": "Laidamlulum Vallis",
         "type": "Vallis",
         "latDeg": -73,
@@ -614,6 +654,7 @@
         "approvedYear": 2000
       },
       {
+        "id": "lowana-planitia",
         "name": "Lowana Planitia",
         "type": "Planitia",
         "latDeg": 43,
@@ -623,6 +664,7 @@
         "approvedYear": 1997
       },
       {
+        "id": "artemis-corona",
         "name": "Artemis Corona",
         "type": "Corona",
         "latDeg": -35,
@@ -632,6 +674,7 @@
         "approvedYear": 1994
       },
       {
+        "id": "haasttse-baad-tessera",
         "name": "Haasttse baad Tessera",
         "type": "Tessera",
         "latDeg": 6,
@@ -641,6 +684,7 @@
         "approvedYear": 1997
       },
       {
+        "id": "llorona-planitia",
         "name": "Llorona Planitia",
         "type": "Planitia",
         "latDeg": 18,
@@ -650,6 +694,7 @@
         "approvedYear": 1997
       },
       {
+        "id": "unelanuhi-dorsa",
         "name": "Unelanuhi Dorsa",
         "type": "Dorsum",
         "latDeg": 12,
@@ -659,6 +704,7 @@
         "approvedYear": 1997
       },
       {
+        "id": "wawalag-planitia",
         "name": "Wawalag Planitia",
         "type": "Planitia",
         "latDeg": -30,
@@ -668,6 +714,7 @@
         "approvedYear": 1997
       },
       {
+        "id": "tinatin-planitia",
         "name": "Tinatin Planitia",
         "type": "Planitia",
         "latDeg": -2,
@@ -677,6 +724,7 @@
         "approvedYear": 1994
       },
       {
+        "id": "louhi-planitia",
         "name": "Louhi Planitia",
         "type": "Planitia",
         "latDeg": 80.5,
@@ -686,6 +734,7 @@
         "approvedYear": 1985
       },
       {
+        "id": "kalaipahoa-linea",
         "name": "Kalaipahoa Linea",
         "type": "Linea",
         "latDeg": -60.5,
@@ -695,6 +744,7 @@
         "approvedYear": 1991
       },
       {
+        "id": "lakshmi-planum",
         "name": "Lakshmi Planum",
         "type": "Planum",
         "latDeg": 68.6,
@@ -704,6 +754,7 @@
         "approvedYear": 1979
       },
       {
+        "id": "tellus-tessera",
         "name": "Tellus Tessera",
         "type": "Tessera",
         "latDeg": 42.6,
@@ -713,6 +764,7 @@
         "approvedYear": 1982
       },
       {
+        "id": "agrona-linea",
         "name": "Agrona Linea",
         "type": "Linea",
         "latDeg": 40,
@@ -722,6 +774,7 @@
         "approvedYear": 2006
       },
       {
+        "id": "dione-regio",
         "name": "Dione Regio",
         "type": "Regio",
         "latDeg": -31.5,
@@ -731,6 +784,7 @@
         "approvedYear": 1991
       },
       {
+        "id": "hyndla-regio",
         "name": "Hyndla Regio",
         "type": "Regio",
         "latDeg": 22.5,
@@ -740,6 +794,7 @@
         "approvedYear": 1991
       },
       {
+        "id": "tilli-hanum-planitia",
         "name": "Tilli Hanum Planitia",
         "type": "Planitia",
         "latDeg": 54,
@@ -749,6 +804,7 @@
         "approvedYear": 1997
       },
       {
+        "id": "jokwa-linea",
         "name": "Jokwa Linea",
         "type": "Linea",
         "latDeg": -17,
@@ -758,6 +814,7 @@
         "approvedYear": 2003
       },
       {
+        "id": "nuvakchin-dorsa",
         "name": "Nuvakchin Dorsa",
         "type": "Dorsum",
         "latDeg": -53,
@@ -767,6 +824,7 @@
         "approvedYear": 1997
       },
       {
+        "id": "rokapi-dorsa",
         "name": "Rokapi Dorsa",
         "type": "Dorsum",
         "latDeg": -55,
@@ -776,6 +834,7 @@
         "approvedYear": 1997
       },
       {
+        "id": "vellamo-planitia",
         "name": "Vellamo Planitia",
         "type": "Planitia",
         "latDeg": 45.4,
@@ -785,6 +844,7 @@
         "approvedYear": 1985
       },
       {
+        "id": "imapinua-planitia",
         "name": "Imapinua Planitia",
         "type": "Planitia",
         "latDeg": -60,
@@ -794,6 +854,7 @@
         "approvedYear": 1997
       },
       {
+        "id": "kanykey-planitia",
         "name": "Kanykey Planitia",
         "type": "Planitia",
         "latDeg": -10,
@@ -803,6 +864,7 @@
         "approvedYear": 1997
       },
       {
+        "id": "laufey-regio",
         "name": "Laufey Regio",
         "type": "Regio",
         "latDeg": 7,
@@ -812,6 +874,7 @@
         "approvedYear": 2000
       },
       {
+        "id": "navka-planitia",
         "name": "Navka Planitia",
         "type": "Planitia",
         "latDeg": -8.1,
@@ -821,6 +884,7 @@
         "approvedYear": 1982
       },
       {
+        "id": "nsomeka-planitia",
         "name": "Nsomeka Planitia",
         "type": "Planitia",
         "latDeg": -53,
@@ -830,6 +894,7 @@
         "approvedYear": 1994
       },
       {
+        "id": "dali-chasma",
         "name": "Dali Chasma",
         "type": "Chasma",
         "latDeg": -17.6,
@@ -839,6 +904,7 @@
         "approvedYear": 1982
       },
       {
+        "id": "atalanta-planitia",
         "name": "Atalanta Planitia",
         "type": "Planitia",
         "latDeg": 45.6,
@@ -848,6 +914,7 @@
         "approvedYear": 1982
       },
       {
+        "id": "iris-dorsa",
         "name": "Iris Dorsa",
         "type": "Dorsum",
         "latDeg": 52.7,
@@ -857,6 +924,7 @@
         "approvedYear": 1985
       },
       {
+        "id": "astkhik-planum",
         "name": "Astkhik Planum",
         "type": "Planum",
         "latDeg": -45,
@@ -866,6 +934,7 @@
         "approvedYear": 1997
       },
       {
+        "id": "devana-chasma",
         "name": "Devana Chasma",
         "type": "Chasma",
         "latDeg": 22,
@@ -875,6 +944,7 @@
         "approvedYear": 1982
       },
       {
+        "id": "lemkechen-dorsa",
         "name": "Lemkechen Dorsa",
         "type": "Dorsum",
         "latDeg": 18.5,
@@ -884,6 +954,7 @@
         "approvedYear": 1997
       },
       {
+        "id": "vaidilute-rupes",
         "name": "Vaidilute Rupes",
         "type": "Rupes",
         "latDeg": -43.5,
@@ -893,6 +964,7 @@
         "approvedYear": 1997
       },
       {
+        "id": "zhibek-planitia",
         "name": "Zhibek Planitia",
         "type": "Planitia",
         "latDeg": -40,
@@ -902,6 +974,7 @@
         "approvedYear": 1997
       },
       {
+        "id": "nephele-dorsa",
         "name": "Nephele Dorsa",
         "type": "Dorsum",
         "latDeg": 39.7,
@@ -911,6 +984,7 @@
         "approvedYear": 1985
       },
       {
+        "id": "audra-planitia",
         "name": "Audra Planitia",
         "type": "Planitia",
         "latDeg": 61,
@@ -920,6 +994,7 @@
         "approvedYear": 1991
       },
       {
+        "id": "kotsmanyako-dorsa",
         "name": "Kotsmanyako Dorsa",
         "type": "Dorsum",
         "latDeg": -76,
@@ -929,6 +1004,7 @@
         "approvedYear": 1997
       },
       {
+        "id": "alpha-regio",
         "name": "Alpha Regio",
         "type": "Regio",
         "latDeg": -25.5,
@@ -938,6 +1014,7 @@
         "approvedYear": 1979
       },
       {
+        "id": "themis-regio",
         "name": "Themis Regio",
         "type": "Regio",
         "latDeg": -37.4,
@@ -947,6 +1024,7 @@
         "approvedYear": 1982
       },
       {
+        "id": "athena-tessera",
         "name": "Athena Tessera",
         "type": "Tessera",
         "latDeg": 35,
@@ -956,6 +1034,7 @@
         "approvedYear": 1997
       },
       {
+        "id": "brynhild-fossae",
         "name": "Brynhild Fossae",
         "type": "Fossa",
         "latDeg": -26,
@@ -965,6 +1044,7 @@
         "approvedYear": 1997
       },
       {
+        "id": "hanwi-chasma",
         "name": "Hanwi Chasma",
         "type": "Chasma",
         "latDeg": 10.5,
@@ -974,6 +1054,7 @@
         "approvedYear": 2006
       },
       {
+        "id": "karra-mahte-fossae",
         "name": "Karra mahte Fossae",
         "type": "Fossa",
         "latDeg": 28,
@@ -983,6 +1064,7 @@
         "approvedYear": 1997
       },
       {
+        "id": "khosedem-fossae",
         "name": "Khosedem Fossae",
         "type": "Fossa",
         "latDeg": -13,
@@ -992,6 +1074,7 @@
         "approvedYear": 1997
       },
       {
+        "id": "laimdota-planitia",
         "name": "Laimdota Planitia",
         "type": "Planitia",
         "latDeg": -58,
@@ -1001,6 +1084,7 @@
         "approvedYear": 1997
       },
       {
+        "id": "sinanevt-dorsa",
         "name": "Sinanevt Dorsa",
         "type": "Dorsum",
         "latDeg": 66.5,
@@ -1010,6 +1094,7 @@
         "approvedYear": 1997
       },
       {
+        "id": "bell-regio",
         "name": "Bell Regio",
         "type": "Regio",
         "latDeg": 32.8,
@@ -1019,6 +1104,7 @@
         "approvedYear": 1982
       },
       {
+        "id": "badb-linea",
         "name": "Badb Linea",
         "type": "Linea",
         "latDeg": 14,
@@ -1028,6 +1114,7 @@
         "approvedYear": 1997
       },
       {
+        "id": "ahsonnutli-dorsa",
         "name": "Ahsonnutli Dorsa",
         "type": "Dorsum",
         "latDeg": 47.9,
@@ -1037,6 +1124,7 @@
         "approvedYear": 1985
       },
       {
+        "id": "ikhwezi-vallis",
         "name": "Ikhwezi Vallis",
         "type": "Vallis",
         "latDeg": 16,
@@ -1046,6 +1134,7 @@
         "approvedYear": 1997
       },
       {
+        "id": "penthesilea-fossa",
         "name": "Penthesilea Fossa",
         "type": "Fossa",
         "latDeg": -12,
@@ -1055,6 +1144,7 @@
         "approvedYear": 1997
       },
       {
+        "id": "vir-ava-chasma",
         "name": "Vir ava Chasma",
         "type": "Chasma",
         "latDeg": -16.5,
@@ -1064,6 +1154,7 @@
         "approvedYear": 1982
       },
       {
+        "id": "vinmara-planitia",
         "name": "Vinmara Planitia",
         "type": "Planitia",
         "latDeg": 53.8,
@@ -1073,6 +1164,7 @@
         "approvedYear": 1985
       },
       {
+        "id": "imdr-regio",
         "name": "Imdr Regio",
         "type": "Regio",
         "latDeg": -43,
@@ -1082,6 +1174,7 @@
         "approvedYear": 1982
       },
       {
+        "id": "cocomama-tessera",
         "name": "Cocomama Tessera",
         "type": "Tessera",
         "latDeg": -62,
@@ -1091,6 +1184,7 @@
         "approvedYear": 1997
       },
       {
+        "id": "gegute-tessera",
         "name": "Gegute Tessera",
         "type": "Tessera",
         "latDeg": 17,
@@ -1100,6 +1194,7 @@
         "approvedYear": 1997
       },
       {
+        "id": "sogolon-planitia",
         "name": "Sogolon Planitia",
         "type": "Planitia",
         "latDeg": 8,
@@ -1109,6 +1204,7 @@
         "approvedYear": 1997
       },
       {
+        "id": "vejas-mate-dorsa",
         "name": "Vejas mate Dorsa",
         "type": "Dorsum",
         "latDeg": -70.5,
@@ -1118,6 +1214,7 @@
         "approvedYear": 1997
       },
       {
+        "id": "lukelong-dorsa",
         "name": "Lukelong Dorsa",
         "type": "Dorsum",
         "latDeg": 73.3,
@@ -1127,6 +1224,7 @@
         "approvedYear": 1985
       },
       {
+        "id": "rona-chasma",
         "name": "Rona Chasma",
         "type": "Chasma",
         "latDeg": 2.5,
@@ -1136,6 +1234,7 @@
         "approvedYear": 2012
       },
       {
+        "id": "lauma-dorsa",
         "name": "Lauma Dorsa",
         "type": "Dorsum",
         "latDeg": 64.8,
@@ -1145,6 +1244,7 @@
         "approvedYear": 1985
       },
       {
+        "id": "alma-merghen-planitia",
         "name": "Alma Merghen Planitia",
         "type": "Planitia",
         "latDeg": -76,
@@ -1154,6 +1254,7 @@
         "approvedYear": 1997
       },
       {
+        "id": "chimon-mana-tessera",
         "name": "Chimon mana Tessera",
         "type": "Tessera",
         "latDeg": -3,
@@ -1163,6 +1264,7 @@
         "approvedYear": 1997
       },
       {
+        "id": "dsonkwa-regio",
         "name": "Dsonkwa Regio",
         "type": "Regio",
         "latDeg": -53,
@@ -1172,6 +1274,7 @@
         "approvedYear": 1997
       },
       {
+        "id": "kicheda-chasma",
         "name": "Kicheda Chasma",
         "type": "Chasma",
         "latDeg": -2.5,
@@ -1181,6 +1284,7 @@
         "approvedYear": 2003
       },
       {
+        "id": "mugazo-planitia",
         "name": "Mugazo Planitia",
         "type": "Planitia",
         "latDeg": -69,
@@ -1190,6 +1294,7 @@
         "approvedYear": 1997
       },
       {
+        "id": "poludnitsa-dorsa",
         "name": "Poludnitsa Dorsa",
         "type": "Dorsum",
         "latDeg": 5,
@@ -1199,6 +1304,7 @@
         "approvedYear": 1997
       },
       {
+        "id": "tinianavyt-dorsa",
         "name": "Tinianavyt Dorsa",
         "type": "Dorsum",
         "latDeg": -51,
@@ -1208,6 +1314,7 @@
         "approvedYear": 1997
       },
       {
+        "id": "bathkol-tessera",
         "name": "Bathkol Tessera",
         "type": "Tessera",
         "latDeg": 61,
@@ -1217,6 +1324,7 @@
         "approvedYear": 1997
       },
       {
+        "id": "etain-dorsa",
         "name": "Etain Dorsa",
         "type": "Dorsum",
         "latDeg": -45,
@@ -1226,6 +1334,7 @@
         "approvedYear": 1997
       },
       {
+        "id": "senectus-tesserae",
         "name": "Senectus Tesserae",
         "type": "Tessera",
         "latDeg": 50,
@@ -1235,6 +1344,7 @@
         "approvedYear": 1997
       },
       {
+        "id": "tushita-tesserae",
         "name": "Tushita Tesserae",
         "type": "Tessera",
         "latDeg": -42,
@@ -1244,6 +1354,7 @@
         "approvedYear": 2000
       },
       {
+        "id": "saule-dorsa",
         "name": "Saule Dorsa",
         "type": "Dorsum",
         "latDeg": -58,
@@ -1253,6 +1364,7 @@
         "approvedYear": 1994
       },
       {
+        "id": "dekla-tessera",
         "name": "Dekla Tessera",
         "type": "Tessera",
         "latDeg": 57.4,
@@ -1262,6 +1374,7 @@
         "approvedYear": 1985
       },
       {
+        "id": "manzan-gurme-tesserae",
         "name": "Manzan Gurme Tesserae",
         "type": "Tessera",
         "latDeg": 39,
@@ -1271,6 +1384,7 @@
         "approvedYear": 1985
       },
       {
+        "id": "veleda-linea",
         "name": "Veleda Linea",
         "type": "Linea",
         "latDeg": -10,
@@ -1280,6 +1394,7 @@
         "approvedYear": 2003
       },
       {
+        "id": "dziwica-chasma",
         "name": "Dziwica Chasma",
         "type": "Chasma",
         "latDeg": -16.5,
@@ -1289,6 +1404,7 @@
         "approvedYear": 2003
       },
       {
+        "id": "lahevhev-tesserae",
         "name": "Lahevhev Tesserae",
         "type": "Tessera",
         "latDeg": 29,
@@ -1298,6 +1414,7 @@
         "approvedYear": 1997
       },
       {
+        "id": "metelitsa-dorsa",
         "name": "Metelitsa Dorsa",
         "type": "Dorsum",
         "latDeg": 16,
@@ -1307,6 +1424,7 @@
         "approvedYear": 1997
       },
       {
+        "id": "minu-anni-tessera",
         "name": "Minu Anni Tessera",
         "type": "Tessera",
         "latDeg": -20,
@@ -1316,6 +1434,7 @@
         "approvedYear": 1997
       },
       {
+        "id": "perunitsa-fossae",
         "name": "Perunitsa Fossae",
         "type": "Fossa",
         "latDeg": -10,
@@ -1325,6 +1444,7 @@
         "approvedYear": 1997
       },
       {
+        "id": "vut-ami-fluctus",
         "name": "Vut Ami Fluctus",
         "type": "Fluctus",
         "latDeg": -38,
@@ -1334,6 +1454,7 @@
         "approvedYear": 2000
       },
       {
+        "id": "xaratanga-chasma",
         "name": "Xaratanga Chasma",
         "type": "Chasma",
         "latDeg": -54,
@@ -1343,6 +1464,7 @@
         "approvedYear": 1997
       },
       {
+        "id": "xi-wang-mu-tessera",
         "name": "Xi Wang mu Tessera",
         "type": "Tessera",
         "latDeg": -30,
@@ -1352,6 +1474,7 @@
         "approvedYear": 1997
       },
       {
+        "id": "zverine-chasma",
         "name": "Zverine Chasma",
         "type": "Chasma",
         "latDeg": 18.5,
@@ -1361,6 +1484,7 @@
         "approvedYear": 1997
       },
       {
+        "id": "shimti-tessera",
         "name": "Shimti Tessera",
         "type": "Tessera",
         "latDeg": 31.9,
@@ -1370,6 +1494,7 @@
         "approvedYear": 1985
       },
       {
+        "id": "pandrosos-dorsa",
         "name": "Pandrosos Dorsa",
         "type": "Dorsum",
         "latDeg": 58.2,
@@ -1379,6 +1504,7 @@
         "approvedYear": 1985
       },
       {
+        "id": "jyestha-tesserae",
         "name": "Jyestha Tesserae",
         "type": "Tessera",
         "latDeg": 65.05,
@@ -1388,6 +1514,7 @@
         "approvedYear": 2019
       },
       {
+        "id": "mortim-ekva-fluctus",
         "name": "Mortim Ekva Fluctus",
         "type": "Fluctus",
         "latDeg": 1,
@@ -1397,6 +1524,7 @@
         "approvedYear": 2000
       },
       {
+        "id": "mylitta-fluctus",
         "name": "Mylitta Fluctus",
         "type": "Fluctus",
         "latDeg": -54,
@@ -1406,6 +1534,7 @@
         "approvedYear": 1991
       },
       {
+        "id": "aditi-dorsa",
         "name": "Aditi Dorsa",
         "type": "Dorsum",
         "latDeg": -30,
@@ -1415,6 +1544,7 @@
         "approvedYear": 1997
       },
       {
+        "id": "aibarchin-planitia",
         "name": "Aibarchin Planitia",
         "type": "Planitia",
         "latDeg": -73,
@@ -1424,6 +1554,7 @@
         "approvedYear": 1997
       },
       {
+        "id": "barbale-dorsa",
         "name": "Barbale Dorsa",
         "type": "Dorsum",
         "latDeg": 15,
@@ -1433,6 +1564,7 @@
         "approvedYear": 1997
       },
       {
+        "id": "gunda-planitia",
         "name": "Gunda Planitia",
         "type": "Planitia",
         "latDeg": -16,
@@ -1442,6 +1574,7 @@
         "approvedYear": 1997
       },
       {
+        "id": "kaiwan-fluctus",
         "name": "Kaiwan Fluctus",
         "type": "Fluctus",
         "latDeg": -45.5,
@@ -1451,6 +1584,7 @@
         "approvedYear": 1991
       },
       {
+        "id": "kastiatsi-dorsa",
         "name": "Kastiatsi Dorsa",
         "type": "Dorsum",
         "latDeg": -53,
@@ -1460,6 +1594,7 @@
         "approvedYear": 1997
       },
       {
+        "id": "libuse-planitia",
         "name": "Libuse Planitia",
         "type": "Planitia",
         "latDeg": 60,
@@ -1469,6 +1604,7 @@
         "approvedYear": 1997
       },
       {
+        "id": "likho-tesserae",
         "name": "Likho Tesserae",
         "type": "Tessera",
         "latDeg": 40,
@@ -1478,6 +1614,7 @@
         "approvedYear": 1997
       },
       {
+        "id": "nedolya-tesserae",
         "name": "Nedolya Tesserae",
         "type": "Tessera",
         "latDeg": 5,
@@ -1487,6 +1624,7 @@
         "approvedYear": 1997
       },
       {
+        "id": "nuptadi-planitia",
         "name": "Nuptadi Planitia",
         "type": "Planitia",
         "latDeg": -73,
@@ -1496,6 +1634,7 @@
         "approvedYear": 1997
       },
       {
+        "id": "okipeta-dorsa",
         "name": "Okipeta Dorsa",
         "type": "Dorsum",
         "latDeg": 67.5,
@@ -1505,6 +1644,7 @@
         "approvedYear": 1985
       },
       {
+        "id": "pasom-mana-tesserae",
         "name": "Pasom mana Tesserae",
         "type": "Tessera",
         "latDeg": -33,
@@ -1514,6 +1654,7 @@
         "approvedYear": 1997
       },
       {
+        "id": "vako-nana-tesserae",
         "name": "Vako nana Tesserae",
         "type": "Tessera",
         "latDeg": 27,
@@ -1523,6 +1664,7 @@
         "approvedYear": 1997
       },
       {
+        "id": "vasilisa-regio",
         "name": "Vasilisa Regio",
         "type": "Regio",
         "latDeg": -11,
@@ -1532,6 +1674,7 @@
         "approvedYear": 1997
       },
       {
+        "id": "viriplaca-planum",
         "name": "Viriplaca Planum",
         "type": "Planum",
         "latDeg": -20,
@@ -1541,6 +1684,7 @@
         "approvedYear": 2003
       },
       {
+        "id": "yalyane-dorsa",
         "name": "Yalyane Dorsa",
         "type": "Dorsum",
         "latDeg": 7,
@@ -1550,6 +1694,7 @@
         "approvedYear": 1997
       },
       {
+        "id": "yuki-onne-tessera",
         "name": "Yuki Onne Tessera",
         "type": "Tessera",
         "latDeg": 39,
@@ -1559,6 +1704,7 @@
         "approvedYear": 1997
       },
       {
+        "id": "asteria-regio",
         "name": "Asteria Regio",
         "type": "Regio",
         "latDeg": 21.6,
@@ -1568,6 +1714,7 @@
         "approvedYear": 1982
       },
       {
+        "id": "nambi-dorsum",
         "name": "Nambi Dorsum",
         "type": "Dorsum",
         "latDeg": -72.5,
@@ -1577,6 +1724,7 @@
         "approvedYear": 1994
       },
       {
+        "id": "bolotnitsa-fluctus",
         "name": "Bolotnitsa Fluctus",
         "type": "Fluctus",
         "latDeg": 50,
@@ -1586,6 +1734,7 @@
         "approvedYear": 1997
       },
       {
+        "id": "dolya-tessera",
         "name": "Dolya Tessera",
         "type": "Tessera",
         "latDeg": -8,
@@ -1595,6 +1744,7 @@
         "approvedYear": 1997
       },
       {
+        "id": "hanghepiwi-chasma",
         "name": "Hanghepiwi Chasma",
         "type": "Chasma",
         "latDeg": -48.5,
@@ -1604,6 +1754,7 @@
         "approvedYear": 1997
       },
       {
+        "id": "husbishag-tesserae",
         "name": "Husbishag Tesserae",
         "type": "Tessera",
         "latDeg": -28,
@@ -1613,6 +1764,7 @@
         "approvedYear": 1997
       },
       {
+        "id": "kuldurok-dorsa",
         "name": "Kuldurok Dorsa",
         "type": "Dorsum",
         "latDeg": -50.4,
@@ -1622,6 +1774,7 @@
         "approvedYear": 1997
       },
       {
+        "id": "laverna-dorsa",
         "name": "Laverna Dorsa",
         "type": "Dorsum",
         "latDeg": -50,
@@ -1631,6 +1784,7 @@
         "approvedYear": 1997
       },
       {
+        "id": "neringa-regio",
         "name": "Neringa Regio",
         "type": "Regio",
         "latDeg": -65,
@@ -1640,6 +1794,7 @@
         "approvedYear": 1997
       },
       {
+        "id": "tkashi-mapa-chasma",
         "name": "Tkashi mapa Chasma",
         "type": "Chasma",
         "latDeg": 13,
@@ -1649,6 +1804,7 @@
         "approvedYear": 1997
       },
       {
+        "id": "tsovinar-dorsa",
         "name": "Tsovinar Dorsa",
         "type": "Dorsum",
         "latDeg": -46,
@@ -1658,6 +1814,7 @@
         "approvedYear": 1997
       },
       {
+        "id": "uottakh-sulus-valles",
         "name": "Uottakh sulus Valles",
         "type": "Vallis",
         "latDeg": 12.5,
@@ -1667,6 +1824,7 @@
         "approvedYear": 1997
       },
       {
+        "id": "zaryanitsa-dorsa",
         "name": "Zaryanitsa Dorsa",
         "type": "Dorsum",
         "latDeg": 0,
@@ -1676,6 +1834,7 @@
         "approvedYear": 1997
       },
       {
+        "id": "yumyn-udyr-dorsa",
         "name": "Yumyn Udyr Dorsa",
         "type": "Dorsum",
         "latDeg": 81.4,
@@ -1685,6 +1844,7 @@
         "approvedYear": 1985
       },
       {
+        "id": "tezan-lineae",
         "name": "Tezan Lineae",
         "type": "Linea",
         "latDeg": 81.4,
@@ -1694,6 +1854,7 @@
         "approvedYear": 1985
       },
       {
+        "id": "ananke-tessera",
         "name": "Ananke Tessera",
         "type": "Tessera",
         "latDeg": 53.3,
@@ -1703,6 +1864,7 @@
         "approvedYear": 1985
       },
       {
+        "id": "heng-o-corona",
         "name": "Heng o Corona",
         "type": "Corona",
         "latDeg": 2,
@@ -1712,6 +1874,7 @@
         "approvedYear": 1994
       },
       {
+        "id": "akkruva-colles",
         "name": "Akkruva Colles",
         "type": "Collis",
         "latDeg": 46.1,
@@ -1721,6 +1884,7 @@
         "approvedYear": 1985
       },
       {
+        "id": "meskhent-tessera",
         "name": "Meskhent Tessera",
         "type": "Tessera",
         "latDeg": 65.8,
@@ -1730,6 +1894,7 @@
         "approvedYear": 1985
       },
       {
+        "id": "zorile-dorsa",
         "name": "Zorile Dorsa",
         "type": "Dorsum",
         "latDeg": 39.9,
@@ -1739,6 +1904,7 @@
         "approvedYear": 1985
       },
       {
+        "id": "achek-dorsa",
         "name": "Achek Dorsa",
         "type": "Dorsum",
         "latDeg": -37.2,
@@ -1748,6 +1914,7 @@
         "approvedYear": 1997
       },
       {
+        "id": "atanua-mons",
         "name": "Atanua Mons",
         "type": "Mons",
         "latDeg": 9.5,
@@ -1757,6 +1924,7 @@
         "approvedYear": 1997
       },
       {
+        "id": "britomartis-chasma",
         "name": "Britomartis Chasma",
         "type": "Chasma",
         "latDeg": -33,
@@ -1766,6 +1934,7 @@
         "approvedYear": 1994
       },
       {
+        "id": "chernava-colles",
         "name": "Chernava Colles",
         "type": "Collis",
         "latDeg": -10.5,
@@ -1775,6 +1944,7 @@
         "approvedYear": 1997
       },
       {
+        "id": "chondi-chasma",
         "name": "Chondi Chasma",
         "type": "Chasma",
         "latDeg": -18.5,
@@ -1784,6 +1954,7 @@
         "approvedYear": 2003
       },
       {
+        "id": "dewi-ratih-chasma",
         "name": "Dewi Ratih Chasma",
         "type": "Chasma",
         "latDeg": -6.5,
@@ -1793,6 +1964,7 @@
         "approvedYear": 2000
       },
       {
+        "id": "ishkus-regio",
         "name": "Ishkus Regio",
         "type": "Regio",
         "latDeg": -61,
@@ -1802,6 +1974,7 @@
         "approvedYear": 1997
       },
       {
+        "id": "kokomikeis-chasma",
         "name": "Kokomikeis Chasma",
         "type": "Chasma",
         "latDeg": 0,
@@ -1811,6 +1984,7 @@
         "approvedYear": 1997
       },
       {
+        "id": "kruchina-tesserae",
         "name": "Kruchina Tesserae",
         "type": "Tessera",
         "latDeg": 36,
@@ -1820,6 +1994,7 @@
         "approvedYear": 1997
       },
       {
+        "id": "nuahine-tessera",
         "name": "Nuahine Tessera",
         "type": "Tessera",
         "latDeg": -9,
@@ -1829,6 +2004,7 @@
         "approvedYear": 1997
       },
       {
+        "id": "snotra-tesserae",
         "name": "Snotra Tesserae",
         "type": "Tessera",
         "latDeg": 24,
@@ -1838,6 +2014,7 @@
         "approvedYear": 1997
       },
       {
+        "id": "tikoiwuti-dorsa",
         "name": "Tikoiwuti Dorsa",
         "type": "Dorsum",
         "latDeg": 56,
@@ -1847,6 +2024,7 @@
         "approvedYear": 1997
       },
       {
+        "id": "tukwunag-dorsa",
         "name": "Tukwunag Dorsa",
         "type": "Dorsum",
         "latDeg": -69,
@@ -1856,6 +2034,7 @@
         "approvedYear": 1997
       },
       {
+        "id": "var-mons",
         "name": "Var Mons",
         "type": "Mons",
         "latDeg": 1.2,
@@ -1865,6 +2044,7 @@
         "approvedYear": 1997
       },
       {
+        "id": "surupa-dorsa",
         "name": "Surupa Dorsa",
         "type": "Dorsum",
         "latDeg": 71.7,
@@ -1874,6 +2054,7 @@
         "approvedYear": 1997
       },
       {
+        "id": "dudumitsa-dorsa",
         "name": "Dudumitsa Dorsa",
         "type": "Dorsum",
         "latDeg": -13.5,
@@ -1883,6 +2064,7 @@
         "approvedYear": 2000
       },
       {
+        "id": "penardun-linea",
         "name": "Penardun Linea",
         "type": "Linea",
         "latDeg": -54,
@@ -1892,6 +2074,7 @@
         "approvedYear": 1991
       },
       {
+        "id": "szel-anya-lineae",
         "name": "Szel-anya Lineae",
         "type": "Linea",
         "latDeg": 79.4,
@@ -1901,6 +2084,7 @@
         "approvedYear": 1985
       },
       {
+        "id": "quilla-chasma",
         "name": "Quilla Chasma",
         "type": "Chasma",
         "latDeg": -23.7,
@@ -1910,6 +2094,7 @@
         "approvedYear": 1982
       },
       {
+        "id": "laima-tessera",
         "name": "Laima Tessera",
         "type": "Tessera",
         "latDeg": 55,
@@ -1919,6 +2104,7 @@
         "approvedYear": 1985
       },
       {
+        "id": "jutrzenka-vallis",
         "name": "Jutrzenka Vallis",
         "type": "Vallis",
         "latDeg": 27,
@@ -1928,6 +2114,7 @@
         "approvedYear": 1997
       },
       {
+        "id": "ningyo-fluctus",
         "name": "Ningyo Fluctus",
         "type": "Fluctus",
         "latDeg": -5.5,
@@ -1937,6 +2124,7 @@
         "approvedYear": 1994
       },
       {
+        "id": "sigrun-fossae",
         "name": "Sigrun Fossae",
         "type": "Fossa",
         "latDeg": 50.5,
@@ -1946,6 +2134,7 @@
         "approvedYear": 1985
       },
       {
+        "id": "tomem-dorsa",
         "name": "Tomem Dorsa",
         "type": "Dorsum",
         "latDeg": 31.2,
@@ -1955,6 +2144,7 @@
         "approvedYear": 1985
       },
       {
+        "id": "argimpasa-fluctus",
         "name": "Argimpasa Fluctus",
         "type": "Fluctus",
         "latDeg": 0,
@@ -1964,6 +2154,7 @@
         "approvedYear": 1997
       },
       {
+        "id": "naatse-elit-dorsa",
         "name": "Naatse elit Dorsa",
         "type": "Dorsum",
         "latDeg": -66,
@@ -1973,6 +2164,7 @@
         "approvedYear": 1997
       },
       {
+        "id": "ney-anki-fluctus",
         "name": "Ney Anki Fluctus",
         "type": "Fluctus",
         "latDeg": -37,
@@ -1982,6 +2174,7 @@
         "approvedYear": 2000
       },
       {
+        "id": "rabie-chasma",
         "name": "Rabie Chasma",
         "type": "Chasma",
         "latDeg": -10.5,
@@ -1991,6 +2184,7 @@
         "approvedYear": 2000
       },
       {
+        "id": "ragana-dorsa",
         "name": "Ragana Dorsa",
         "type": "Dorsum",
         "latDeg": -69,
@@ -2000,6 +2194,7 @@
         "approvedYear": 1997
       },
       {
+        "id": "spidola-dorsa",
         "name": "Spidola Dorsa",
         "type": "Dorsum",
         "latDeg": -73.5,
@@ -2009,6 +2204,7 @@
         "approvedYear": 1997
       },
       {
+        "id": "t-ien-hu-colles",
         "name": "T ien Hu Colles",
         "type": "Collis",
         "latDeg": 30.7,
@@ -2018,6 +2214,7 @@
         "approvedYear": 1991
       },
       {
+        "id": "diana-chasma",
         "name": "Diana Chasma",
         "type": "Chasma",
         "latDeg": -14.8,
@@ -2027,6 +2224,7 @@
         "approvedYear": 1982
       },
       {
+        "id": "metis-mons",
         "name": "Metis Mons",
         "type": "Mons",
         "latDeg": 71,
@@ -2036,6 +2234,7 @@
         "approvedYear": 2009
       },
       {
+        "id": "juno-chasma",
         "name": "Juno Chasma",
         "type": "Chasma",
         "latDeg": -30.5,
@@ -2045,6 +2244,7 @@
         "approvedYear": 1982
       },
       {
+        "id": "mardezh-ava-dorsa",
         "name": "Mardezh Ava Dorsa",
         "type": "Dorsum",
         "latDeg": 32.4,
@@ -2054,5 +2254,373 @@
         "approvedYear": 1985
       }
     ]
+  },
+  "landmarks": [
+    {
+      "id": "ishtar-terra",
+      "name": "Ishtar Terra",
+      "type": "Terra",
+      "latDeg": 70.4,
+      "lonDegE": 27.5,
+      "diameterKm": 5610,
+      "origin": "Babylonian goddess of love.",
+      "approvedYear": 1979,
+      "position": {
+        "kind": "gazetteer",
+        "sourceId": "usgs-gazetteer-venus",
+        "text": null
+      },
+      "sizeSourceId": "usgs-gazetteer-venus",
+      "quote": {
+        "text": "Its surface features - most named for both real and mythical women - include Ishtar Terra, a rocky, highland area around the size of Australia near the north pole, and an even larger, South-America-sized region called Aphrodite Terra that stretches across the equator.",
+        "sourceId": "nasa-science-venus-facts"
+      }
+    },
+    {
+      "id": "aphrodite-terra",
+      "name": "Aphrodite Terra",
+      "type": "Terra",
+      "latDeg": -5.8,
+      "lonDegE": 104.8,
+      "diameterKm": 10000,
+      "origin": "Greek goddess of love.",
+      "approvedYear": 1979,
+      "position": {
+        "kind": "gazetteer",
+        "sourceId": "usgs-gazetteer-venus",
+        "text": null
+      },
+      "sizeSourceId": "usgs-gazetteer-venus",
+      "quote": {
+        "text": "Its surface features - most named for both real and mythical women - include Ishtar Terra, a rocky, highland area around the size of Australia near the north pole, and an even larger, South-America-sized region called Aphrodite Terra that stretches across the equator.",
+        "sourceId": "nasa-science-venus-facts"
+      }
+    },
+    {
+      "id": "ovda-regio",
+      "name": "Ovda Regio",
+      "type": "Regio",
+      "latDeg": -2.8,
+      "lonDegE": 85.6,
+      "diameterKm": 5280,
+      "origin": "Marijian; Titaness having supernatural power.",
+      "approvedYear": 1982,
+      "position": {
+        "kind": "gazetteer",
+        "sourceId": "usgs-gazetteer-venus",
+        "text": null
+      },
+      "sizeSourceId": "usgs-gazetteer-venus",
+      "quote": {
+        "text": "Ovda Regio is a highland region that rises over 4 kilometers (2.5 miles) above the surrounding plain.",
+        "sourceId": "nasa-photojournal-ovda-regio"
+      }
+    },
+    {
+      "id": "niobe-planitia",
+      "name": "Niobe Planitia",
+      "type": "Planitia",
+      "latDeg": 21,
+      "lonDegE": 112.3,
+      "diameterKm": 5008,
+      "origin": "Greek; her 12 children killed by Artemis and Apollo.",
+      "approvedYear": 1982,
+      "position": {
+        "kind": "gazetteer",
+        "sourceId": "usgs-gazetteer-venus",
+        "text": null
+      },
+      "sizeSourceId": "usgs-gazetteer-venus",
+      "quote": {
+        "text": "The Niobe Planitia eruption produced about 17 square miles (45 square kilometers) of rock, which would fill 54,000 Olympic swimming pools.",
+        "sourceId": "jpl-news-ongoing-venus-volcanism-2024"
+      }
+    },
+    {
+      "id": "atla-regio",
+      "name": "Atla Regio",
+      "type": "Regio",
+      "latDeg": 9.2,
+      "lonDegE": 200.1,
+      "diameterKm": 3200,
+      "origin": "Norse giantess, mother of Heimdall.",
+      "approvedYear": 1982,
+      "position": {
+        "kind": "gazetteer",
+        "sourceId": "usgs-gazetteer-venus",
+        "text": null
+      },
+      "sizeSourceId": "usgs-gazetteer-venus",
+      "quote": {
+        "text": "The geological changes Herrick found occurred in Atla Regio, a vast highland region near Venus' equator that hosts two of the planet's largest volcanoes, Ozza Mons and Maat Mons.",
+        "sourceId": "jpl-news-magellan-venus-volcanism-2023"
+      }
+    },
+    {
+      "id": "artemis-corona",
+      "name": "Artemis Corona",
+      "type": "Corona",
+      "latDeg": -35,
+      "lonDegE": 135,
+      "diameterKm": 2600,
+      "origin": "Named from associated chasma.",
+      "approvedYear": 1994,
+      "position": {
+        "kind": "gazetteer",
+        "sourceId": "usgs-gazetteer-venus",
+        "text": null
+      },
+      "sizeSourceId": "usgs-gazetteer-venus",
+      "quote": {
+        "text": "Its circular shape and size (2100 km or 1302 miles in diameter) make Artemis the largest corona identified to date on the surface of Venus.",
+        "sourceId": "nasa-photojournal-artemis-corona"
+      }
+    },
+    {
+      "id": "lakshmi-planum",
+      "name": "Lakshmi Planum",
+      "type": "Planum",
+      "latDeg": 68.6,
+      "lonDegE": 339.3,
+      "diameterKm": 2345,
+      "origin": "Indian goddess of love and war.",
+      "approvedYear": 1979,
+      "position": {
+        "kind": "gazetteer",
+        "sourceId": "usgs-gazetteer-venus",
+        "text": null
+      },
+      "sizeSourceId": "usgs-gazetteer-venus",
+      "quote": {
+        "text": "Lakshmi Planum is an elevated plateau plain that is bounded on all sides by mountain chains.",
+        "sourceId": "nasa-photojournal-danu-montes-lakshmi"
+      }
+    },
+    {
+      "id": "alpha-regio",
+      "name": "Alpha Regio",
+      "type": "Regio",
+      "latDeg": -25.5,
+      "lonDegE": 0.3,
+      "diameterKm": 1897,
+      "origin": "First letter in Greek alphabet.",
+      "approvedYear": 1979,
+      "position": {
+        "kind": "gazetteer",
+        "sourceId": "usgs-gazetteer-venus",
+        "text": null
+      },
+      "sizeSourceId": "usgs-gazetteer-venus",
+      "quote": {
+        "text": "In 1963 Alpha Regio was the first feature on Venus to be identified from Earth based radar.",
+        "sourceId": "nasa-photojournal-alpha-regio"
+      }
+    },
+    {
+      "id": "maxwell-montes",
+      "name": "Maxwell Montes",
+      "type": "Mons",
+      "latDeg": 65.2,
+      "lonDegE": 3.3,
+      "diameterKm": 797,
+      "origin": "James C.; British physicist (1831-1879).",
+      "approvedYear": 1979,
+      "position": {
+        "kind": "gazetteer",
+        "sourceId": "usgs-gazetteer-venus",
+        "text": null
+      },
+      "sizeSourceId": "usgs-gazetteer-venus",
+      "quote": {
+        "text": "The Maxwell Montes are the highest mountains on Venus, rising up to 11 km above the mean planetary surface.",
+        "sourceId": "nssdc-imgcat-maxwell-montes"
+      }
+    },
+    {
+      "id": "maat-mons",
+      "name": "Maat Mons",
+      "type": "Mons",
+      "latDeg": 0.5,
+      "lonDegE": 194.6,
+      "diameterKm": 395,
+      "origin": "Ancient Egyptian goddess of truth and justice.",
+      "approvedYear": 1982,
+      "position": {
+        "kind": "gazetteer",
+        "sourceId": "usgs-gazetteer-venus",
+        "text": null
+      },
+      "sizeSourceId": "usgs-gazetteer-venus",
+      "quote": {
+        "text": "A new study found one of Maat Mons' vents became enlarged and changed shape over an eight-month period in 1991, indicating an eruptive event occurred.",
+        "sourceId": "jpl-news-magellan-venus-volcanism-2023"
+      }
+    },
+    {
+      "id": "gula-mons",
+      "name": "Gula Mons",
+      "type": "Mons",
+      "latDeg": 21.9,
+      "lonDegE": 359.1,
+      "diameterKm": 276,
+      "origin": "Babylonian earth mother, creative force.",
+      "approvedYear": 1982,
+      "position": {
+        "kind": "gazetteer",
+        "sourceId": "usgs-gazetteer-venus",
+        "text": null
+      },
+      "sizeSourceId": "usgs-gazetteer-venus",
+      "quote": {
+        "text": "Gula Mons, a 3 kilometer (1.9 mile) high volcano, is located at approximately 22 degrees north latitude, 359 degrees east longitude in western Eistla Regio.",
+        "sourceId": "nasa-photojournal-gula-mons"
+      }
+    },
+    {
+      "id": "mead",
+      "name": "Mead",
+      "type": "Crater",
+      "latDeg": 12.5,
+      "lonDegE": 57.2,
+      "diameterKm": 270,
+      "origin": "Margaret; American anthropologist (1901-1978).",
+      "approvedYear": 1991,
+      "position": {
+        "kind": "gazetteer",
+        "sourceId": "usgs-gazetteer-venus",
+        "text": null
+      },
+      "sizeSourceId": "usgs-gazetteer-venus",
+      "quote": {
+        "text": "At 280 km diameter, Mead is the largest impact crater on Venus.",
+        "sourceId": "nssdc-imgcat-mead-crater"
+      }
+    },
+    {
+      "id": "sacajawea-patera",
+      "name": "Sacajawea Patera",
+      "type": "Patera",
+      "latDeg": 64.3,
+      "lonDegE": 335.4,
+      "diameterKm": 233,
+      "origin": "Shoshoni Indian woman who served as an interpreter for the Lewis & Clark expedition to the Pacific Northwest (1786-1812).",
+      "approvedYear": 1982,
+      "position": {
+        "kind": "gazetteer",
+        "sourceId": "usgs-gazetteer-venus",
+        "text": null
+      },
+      "sizeSourceId": "usgs-gazetteer-venus",
+      "quote": {
+        "text": "The formation of Sacajawea is thought to be related to the drainage and collapse of a large magma chamber.",
+        "sourceId": "nasa-photojournal-sacajawea-caldera"
+      }
+    },
+    {
+      "id": "sapas-mons",
+      "name": "Sapas Mons",
+      "type": "Mons",
+      "latDeg": 8.5,
+      "lonDegE": 188.3,
+      "diameterKm": 217,
+      "origin": "Phoenician commerce, travel, and messenger goddess.",
+      "approvedYear": 1982,
+      "position": {
+        "kind": "gazetteer",
+        "sourceId": "usgs-gazetteer-venus",
+        "text": null
+      },
+      "sizeSourceId": "usgs-gazetteer-venus",
+      "quote": {
+        "text": "Sapas Mons, a volcano 400 kilometers (248 miles) across and 1.5 kilometers (0.9 mile) high is located at approximately 8 degrees north latitude, 188 degrees east longitude, on the western edge of Atla Regio.",
+        "sourceId": "nasa-photojournal-sapas-mons"
+      }
+    },
+    {
+      "id": "cleopatra",
+      "name": "Cleopatra",
+      "type": "Crater",
+      "latDeg": 65.8,
+      "lonDegE": 7.1,
+      "diameterKm": 105,
+      "origin": "Egyptian queen, notable for love affairs with Julius Caesar and Mark Anthony (69-30 B.C.).",
+      "approvedYear": 1982,
+      "position": {
+        "kind": "gazetteer",
+        "sourceId": "usgs-gazetteer-venus",
+        "text": null
+      },
+      "sizeSourceId": "usgs-gazetteer-venus",
+      "quote": {
+        "text": "Cleopatra is a double-ring impact basin about 100 kilometers (62 miles) in diameter and 2.5 kilometers (1.5 miles) deep.",
+        "sourceId": "nasa-photojournal-maxwell-cleopatra"
+      }
+    }
+  ],
+  "featureTypes": {
+    "Chasma": {
+      "meaning": "A deep, elongated, steep-sided depression",
+      "sourceId": "usgs-gazetteer-descriptor-terms"
+    },
+    "Terra": {
+      "meaning": "Extensive land mass",
+      "sourceId": "usgs-gazetteer-descriptor-terms"
+    },
+    "Regio": {
+      "meaning": "A large area marked by reflectivity or color distinctions from adjacent areas, or a broad geographic region",
+      "sourceId": "usgs-gazetteer-descriptor-terms"
+    },
+    "Planitia": {
+      "meaning": "Low plain",
+      "sourceId": "usgs-gazetteer-descriptor-terms"
+    },
+    "Vallis": {
+      "meaning": "Valley",
+      "sourceId": "usgs-gazetteer-descriptor-terms"
+    },
+    "Tessera": {
+      "meaning": "Tile-like, polygonal terrain",
+      "sourceId": "usgs-gazetteer-descriptor-terms"
+    },
+    "Dorsum": {
+      "meaning": "Ridge",
+      "sourceId": "usgs-gazetteer-descriptor-terms"
+    },
+    "Linea": {
+      "meaning": "A dark or bright elongate marking, may be curved or straight",
+      "sourceId": "usgs-gazetteer-descriptor-terms"
+    },
+    "Corona": {
+      "meaning": "Ovoid-shaped feature",
+      "sourceId": "usgs-gazetteer-descriptor-terms"
+    },
+    "Planum": {
+      "meaning": "Plateau or high plain",
+      "sourceId": "usgs-gazetteer-descriptor-terms"
+    },
+    "Rupes": {
+      "meaning": "Scarp",
+      "sourceId": "usgs-gazetteer-descriptor-terms"
+    },
+    "Fossa": {
+      "meaning": "Long, narrow depression",
+      "sourceId": "usgs-gazetteer-descriptor-terms"
+    },
+    "Fluctus": {
+      "meaning": "Flow terrain",
+      "sourceId": "usgs-gazetteer-descriptor-terms"
+    },
+    "Collis": {
+      "meaning": "Small hills or knobs",
+      "sourceId": "usgs-gazetteer-descriptor-terms"
+    },
+    "Mons": {
+      "meaning": "Mountain",
+      "sourceId": "usgs-gazetteer-descriptor-terms"
+    },
+    "Patera": {
+      "meaning": "An irregular crater, or a complex one with scalloped edges",
+      "sourceId": "usgs-gazetteer-descriptor-terms"
+    }
   }
 }

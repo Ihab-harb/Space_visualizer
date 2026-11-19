@@ -33,7 +33,7 @@ void main() {
   float muE = max(dot(nb, uEarthshineDir), 0.0);
   float earthBrdf = mix(muE * step(0.0, geoMuE), lommelSeeliger(muE, mu, geoMuE), uLommelSeeliger);
   vec3 earthshine = ${glslVec3(EARTHSHINE.color)} * uEarthshine * earthBrdf;
-  vec3 color = albedo * (brdf * eclipseLight(s) + earthshine) * uSunIntensity + cinematicFill(albedo, n, v);
+  vec3 color = albedo * (brdf * eclipseLight(s) + earthshine) * uSunIntensity + cinematicFill(albedo, n, v) + featureLight(albedo, vUnit, nb, geoMu0);
   gl_FragColor = vec4(color, 1.0);
   ${FRAG_OUTRO}
 }`;

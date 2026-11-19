@@ -1,0 +1,507 @@
+{
+"links": {
+   "self": { "href": "https://geogratis.gc.ca/services/geoname/en/codes/concise" }
+},
+"definitions":[
+
+{
+    "links": {
+        "self": { "href": "https://geogratis.gc.ca/services/geoname/en/codes/concise/PROV" }
+    },
+    "code": "PROV",
+    
+    "term": "PROV-Province",
+    "description": "The main administrative division of Canada. It is a legally-defined territory, as established by Articles of Confederation or by constitutional amendments (province)"
+    
+},
+{
+    "links": {
+        "self": { "href": "https://geogratis.gc.ca/services/geoname/en/codes/concise/TERR" }
+    },
+    "code": "TERR",
+    
+    "term": "TERR-Territory",
+    "description": "Administrative division of Canada, not yet admitted to the full rights of a province (territory, territoire)"
+    
+},
+{
+    "links": {
+        "self": { "href": "https://geogratis.gc.ca/services/geoname/en/codes/concise/CITY" }
+    },
+    "code": "CITY",
+    
+    "term": "CITY-City",
+    "description": "Populated place with legally defined boundaries, usually incorporated under a provincial or territorial Municipal Act and being the highest level of municipal incorporation (city, cité, ville)"
+    
+},
+{
+    "links": {
+        "self": { "href": "https://geogratis.gc.ca/services/geoname/en/codes/concise/TOWN" }
+    },
+    "code": "TOWN",
+    
+    "term": "TOWN-Town",
+    "description": "Populated place with legally-defined boundaries, usually incorporated under a provincial Municipal Act, of lesser status than a city (town, borough, separated town, municipality, municipalité de village)"
+    
+},
+{
+    "links": {
+        "self": { "href": "https://geogratis.gc.ca/services/geoname/en/codes/concise/VILG" }
+    },
+    "code": "VILG",
+    
+    "term": "VILG-Village",
+    "description": "Populated place with legally-defined boundaries, usually incorporated under the Municipal Act of the province or territory in which it is found, of lesser status than a town (village, community, summer village, municipalité, resort municipality, resort village, northern village, urban community, municipalité de canton, municipalité de canton unis, municipalité de paroisse, municipalité de village cri, municipalité de village naskapi, municipalité de village nordique)"
+    
+},
+{
+    "links": {
+        "self": { "href": "https://geogratis.gc.ca/services/geoname/en/codes/concise/HAM" }
+    },
+    "code": "HAM",
+    
+    "term": "HAM-Hamlet",
+    "description": "Populated place with legally-defined boundaries, usually incorporated under a provincial or territorial Municipal Act, of lesser status than a town (hamlet, organized hamlet, northern hamlet, northern settlement, charter community)"
+    
+},
+{
+    "links": {
+        "self": { "href": "https://geogratis.gc.ca/services/geoname/en/codes/concise/UTM" }
+    },
+    "code": "UTM",
+    
+    "term": "UTM-Upper Tier Municipality",
+    "description": "Incorporated municipality at the upper level of a two tier municipal structure within Ontario"
+    
+},
+{
+    "links": {
+        "self": { "href": "https://geogratis.gc.ca/services/geoname/en/codes/concise/LTM" }
+    },
+    "code": "LTM",
+    
+    "term": "LTM-Lower Tier Municipality",
+    "description": "An incorporated municipality at the lower level of a two tier municipal structure in Ontario"
+    
+},
+{
+    "links": {
+        "self": { "href": "https://geogratis.gc.ca/services/geoname/en/codes/concise/STM" }
+    },
+    "code": "STM",
+    
+    "term": "STM-Single Tier Municipality",
+    "description": "Incorporated municipality which is not part of a two tier municipal structure in Ontario"
+    
+},
+{
+    "links": {
+        "self": { "href": "https://geogratis.gc.ca/services/geoname/en/codes/concise/MUN1" }
+    },
+    "code": "MUN1",
+    
+    "term": "MUN1-Other Municipal-District Area-Major Agglom.",
+    "description": "Legally-defined land area, larger in area than a city, town, or village, usually an upper tier administrative division of a province (metropolitan municipality, municipal district, district municipality, regional district, county, region, county municipality, restructured county, communauté urbaine, municipalité régionale de comté, municipal county, région administrative)"
+    
+},
+{
+    "links": {
+        "self": { "href": "https://geogratis.gc.ca/services/geoname/en/codes/concise/MUN2" }
+    },
+    "code": "MUN2",
+    
+    "term": "MUN2-Other Municipal-District Area-Miscellaneous",
+    "description": "Legally-defined land area forming an administrative division of a province (local government district, township municipality, rural municipality, improvement district, territoire non organisé, Indian government district)"
+    
+},
+{
+    "links": {
+        "self": { "href": "https://geogratis.gc.ca/services/geoname/en/codes/concise/UNP" }
+    },
+    "code": "UNP",
+    
+    "term": "UNP-Unincorporated place",
+    "description": "An unincorporated place, sometimes with a semi-official status (hamlet, police village, rural village, settlement, compact rural community, resort, locality, lieu-dit, railway point, station, post office, landing, abandoned locality, community, dispersed rural community, hameau, northern community, unincorporated village district, vacated or seasonal settlement, station de chemin de fer, établissement amérindien, neighbourhood, suburban community, metropolitan area, secteur, local service district)"
+    
+},
+{
+    "links": {
+        "self": { "href": "https://geogratis.gc.ca/services/geoname/en/codes/concise/IR" }
+    },
+    "code": "IR",
+    
+    "term": "IR-Indian Reserve",
+    "description": "Tract of land set apart for the use and benefit of a particular Indian band (Indian reserve, réserve indienne)"
+    
+},
+{
+    "links": {
+        "self": { "href": "https://geogratis.gc.ca/services/geoname/en/codes/concise/GEOG" }
+    },
+    "code": "GEOG",
+    
+    "term": "GEOG-Geographical Area",
+    "description": "Legally-designated land subdivision of a province or territory (county, comté, parish, paroisse, geographic district, district, royalty, settlement, territoire, geographic county, region)"
+    
+},
+{
+    "links": {
+        "self": { "href": "https://geogratis.gc.ca/services/geoname/en/codes/concise/PARK" }
+    },
+    "code": "PARK",
+    
+    "term": "PARK-Conservation Area",
+    "description": "Property, whether a natural or man-made site, that is of interest for its architectural, historical, cultural, environmental, aesthetic, or scientific value (réserve de la biosphère, world heritage site, site du patrimoine mondial, national historic site, lieu historique national, national park, provincial park, parc de conservation, parc de récréation, international park, parc international, réserve écologique, parc national, réserve faunique, provincial historic site, national park reserve, réserve de parc national, waterway, voie navigable, canal, marine protected area, zone de protection marine)"
+    
+},
+{
+    "links": {
+        "self": { "href": "https://geogratis.gc.ca/services/geoname/en/codes/concise/MIL" }
+    },
+    "code": "MIL",
+    
+    "term": "MIL-Military Area",
+    "description": "Base or station established for the armed forces operations (Canadian Forces Base, Base des Forces canadiennes, Canadian Forces Station, Station des Forces canadiennes)"
+    
+},
+{
+    "links": {
+        "self": { "href": "https://geogratis.gc.ca/services/geoname/en/codes/concise/RIV" }
+    },
+    "code": "RIV",
+    
+    "term": "RIV-River",
+    "description": "Watercourse of varying size which flows into another body of water (river, brook, creek, fleuve, branch, millstream, ruisseau, stream, rivière, fork, channel)"
+    
+},
+{
+    "links": {
+        "self": { "href": "https://geogratis.gc.ca/services/geoname/en/codes/concise/RIVF" }
+    },
+    "code": "RIVF",
+    
+    "term": "RIVF-River Feature",
+    "description": "Part of a watercourse (bend, reach, stillwater, courant, stretch)"
+    
+},
+{
+    "links": {
+        "self": { "href": "https://geogratis.gc.ca/services/geoname/en/codes/concise/FALL" }
+    },
+    "code": "FALL",
+    
+    "term": "FALL-Falls",
+    "description": "Perpendicular or steep descent of water that may be confined within steep walls and that flows quickly (falls, chute, chutes)"
+    
+},
+{
+    "links": {
+        "self": { "href": "https://geogratis.gc.ca/services/geoname/en/codes/concise/LAKE" }
+    },
+    "code": "LAKE",
+    
+    "term": "LAKE-Lake",
+    "description": "Inland body of standing water or expansion of a river, or body of water separated from a lake, river, or sea by a narrow land barrier (lake, pond, reservoir, lagoon, barasway, flowage, loch, mal bay, lac, lagune, réservoir)"
+    
+},
+{
+    "links": {
+        "self": { "href": "https://geogratis.gc.ca/services/geoname/en/codes/concise/SPRG" }
+    },
+    "code": "SPRG",
+    
+    "term": "SPRG-Spring",
+    "description": "Natural orifice through which groundwater or volcanic vapors are released from the ground"
+    
+},
+{
+    "links": {
+        "self": { "href": "https://geogratis.gc.ca/services/geoname/en/codes/concise/SEA" }
+    },
+    "code": "SEA",
+    
+    "term": "SEA-Sea",
+    "description": "Large body of salt water (ocean, sea, mer, océan)"
+    
+},
+{
+    "links": {
+        "self": { "href": "https://geogratis.gc.ca/services/geoname/en/codes/concise/SEAF" }
+    },
+    "code": "SEAF",
+    
+    "term": "SEAF-Sea Feature",
+    "description": "Maritime feature created or affected by the rise and fall of the tide"
+    
+},
+{
+    "links": {
+        "self": { "href": "https://geogratis.gc.ca/services/geoname/en/codes/concise/SEAU" }
+    },
+    "code": "SEAU",
+    
+    "term": "SEAU-Undersea Feature",
+    "description": "Part of the ocean floor or seabed that has measurable relief or is delimited by relief, and is submerged at low tide (abyssal plain, plaine, bank, banc, basin, bassin, canyon, continental margin, marge continentale, escarpment, talus, fan, cône, pingos, fracture zone, zone de fractures, gap, passage, guyot, knoll, dôme, marginal trough, cuvette marginale, median valley, vallée axiale, pass, seamount chain, chaîne de monts, seamounts, monts sous-marins, ridge, dorsale, rise, massif, saddle, col, shoal, haut-fond, sill, seuil, shelf, plate-forme continentale, slope, pente, spur, éperon, terrace, terrasse, trough, cuvette, valley, vallée)"
+    
+},
+{
+    "links": {
+        "self": { "href": "https://geogratis.gc.ca/services/geoname/en/codes/concise/CHAN" }
+    },
+    "code": "CHAN",
+    
+    "term": "CHAN-Channel",
+    "description": "Narrow stretch of water forming an inlet or a connection between two bodies of water (channel, chenal, pass, passage, narrows, strait, détroit, basin)"
+    
+},
+{
+    "links": {
+        "self": { "href": "https://geogratis.gc.ca/services/geoname/en/codes/concise/RAP" }
+    },
+    "code": "RAP",
+    
+    "term": "RAP-Rapids",
+    "description": "Fast-flowing section of a watercourse, usually with turbulent water or exposed rocks (rapids, rapides, rapide, run)"
+    
+},
+{
+    "links": {
+        "self": { "href": "https://geogratis.gc.ca/services/geoname/en/codes/concise/BAY" }
+    },
+    "code": "BAY",
+    
+    "term": "BAY-Bay",
+    "description": "Water area in an indentation of the shoreline of a sea, lake, or river (bay, cove, estuaire, fjord, gulf, havre, sound)"
+    
+},
+{
+    "links": {
+        "self": { "href": "https://geogratis.gc.ca/services/geoname/en/codes/concise/CAPE" }
+    },
+    "code": "CAPE",
+    
+    "term": "CAPE-Cape",
+    "description": "Elevated projection of land extending into a body of water (cape, head, peninsula, côte, presqu'île, cap, promontoire, foreland, spit, point)"
+    
+},
+{
+    "links": {
+        "self": { "href": "https://geogratis.gc.ca/services/geoname/en/codes/concise/BCH" }
+    },
+    "code": "BCH",
+    
+    "term": "BCH-Beach",
+    "description": "Gently sloping shore of unconsolidated material along the margin of a sea, lake, or river (beach, bar, dune)"
+    
+},
+{
+    "links": {
+        "self": { "href": "https://geogratis.gc.ca/services/geoname/en/codes/concise/SHL" }
+    },
+    "code": "SHL",
+    
+    "term": "SHL-Shoal",
+    "description": "Elevation of the bed of a body of water composed of unconsolidated material and posing a hazard to surface navigation (ledge, rock, récifs)"
+    
+},
+{
+    "links": {
+        "self": { "href": "https://geogratis.gc.ca/services/geoname/en/codes/concise/ISL" }
+    },
+    "code": "ISL",
+    
+    "term": "ISL-Island",
+    "description": "Land area surrounded by water or marsh (island, isle, archipelago, group, île, archipel, rocher)"
+    
+},
+{
+    "links": {
+        "self": { "href": "https://geogratis.gc.ca/services/geoname/en/codes/concise/CLF" }
+    },
+    "code": "CLF",
+    
+    "term": "CLF-Cliff",
+    "description": "High steep face of rock and/or unconsolidated material (bluff, falaise, escarpement, cliffs, escarpment, coteau)"
+    
+},
+{
+    "links": {
+        "self": { "href": "https://geogratis.gc.ca/services/geoname/en/codes/concise/MTN" }
+    },
+    "code": "MTN",
+    
+    "term": "MTN-Mountain",
+    "description": "Mass of land prominently elevated above the surrounding terrain, bounded by steep slopes and rising to a summit and/or peaks. Its plural form may refer to a whole region including peaks, mountains, and intervening valleys (range, mountain, peak, hill, ridge, bluff, dune, butte, pinnacles, mount, mont, foothills, dome, tower, colline, sommet, sand hills, montagnes, massif, chaîne, paroi)"
+    
+},
+{
+    "links": {
+        "self": { "href": "https://geogratis.gc.ca/services/geoname/en/codes/concise/VALL" }
+    },
+    "code": "VALL",
+    
+    "term": "VALL-Valley",
+    "description": "Long relatively narrow depression, commonly containing a watercourse or other water features (valley, canyon, pass, trench, vallée, coulee)"
+    
+},
+{
+    "links": {
+        "self": { "href": "https://geogratis.gc.ca/services/geoname/en/codes/concise/PLN" }
+    },
+    "code": "PLN",
+    
+    "term": "PLN-Plain",
+    "description": "Area of flat or gently rolling terrain (plateau, plain, uplands)"
+    
+},
+{
+    "links": {
+        "self": { "href": "https://geogratis.gc.ca/services/geoname/en/codes/concise/CAVE" }
+    },
+    "code": "CAVE",
+    
+    "term": "CAVE-Cave",
+    "description": "Natural subterranean chamber open to the surface. It may be inland or in coastal cliffs (grotte)"
+    
+},
+{
+    "links": {
+        "self": { "href": "https://geogratis.gc.ca/services/geoname/en/codes/concise/CRAT" }
+    },
+    "code": "CRAT",
+    
+    "term": "CRAT-Crater",
+    "description": "A bowl-shaped depression resulting from volcanic activity or impact from a meteorite"
+    
+},
+{
+    "links": {
+        "self": { "href": "https://geogratis.gc.ca/services/geoname/en/codes/concise/GLAC" }
+    },
+    "code": "GLAC",
+    
+    "term": "GLAC-Glacier",
+    "description": "Mass of permanent snow and ice (glacier, icefield, ice cap)"
+    
+},
+{
+    "links": {
+        "self": { "href": "https://geogratis.gc.ca/services/geoname/en/codes/concise/FOR" }
+    },
+    "code": "FOR",
+    
+    "term": "FOR-Forest",
+    "description": "A wooded area, or expanse of tree-covered terrain, either naturally occurring, or managed for resource extraction or scientific research"
+    
+},
+{
+    "links": {
+        "self": { "href": "https://geogratis.gc.ca/services/geoname/en/codes/concise/VEGL" }
+    },
+    "code": "VEGL",
+    
+    "term": "VEGL-Low Vegetation",
+    "description": "Flat area of low-lying land, flooded (regularly or seasonally), and usually characterized by grass and/or reeds (meadow, marsh)"
+    
+},
+{
+    "links": {
+        "self": { "href": "https://geogratis.gc.ca/services/geoname/en/codes/concise/MISC" }
+    },
+    "code": "MISC",
+    
+    "term": "MISC-Miscellaneous",
+    "description": "Man-made feature used in navigation, agriculture, resource development, or flood control (centrale hydroélectrique, port, dam, drain, barrage, canal de dérivation, floodway, canal)"
+    
+},
+{
+    "links": {
+        "self": { "href": "https://geogratis.gc.ca/services/geoname/en/codes/concise/RAIL" }
+    },
+    "code": "RAIL",
+    
+    "term": "RAIL-Railway Feature",
+    "description": "Man-made feature associated with the management of rail transport"
+    
+},
+{
+    "links": {
+        "self": { "href": "https://geogratis.gc.ca/services/geoname/en/codes/concise/ROAD" }
+    },
+    "code": "ROAD",
+    
+    "term": "ROAD-Road Feature",
+    "description": "A road, trail, or man-made feature along or near a travelled route"
+    
+},
+{
+    "links": {
+        "self": { "href": "https://geogratis.gc.ca/services/geoname/en/codes/concise/AIR" }
+    },
+    "code": "AIR",
+    
+    "term": "AIR-Air Navigation Feature",
+    "description": "Natural or constructed area on land or water used for takeoff and landing of aircrafts"
+    
+},
+{
+    "links": {
+        "self": { "href": "https://geogratis.gc.ca/services/geoname/en/codes/concise/MAR" }
+    },
+    "code": "MAR",
+    
+    "term": "MAR-Marine Navigation Feature",
+    "description": "Man-made feature associated with navigation on the water"
+    
+},
+{
+    "links": {
+        "self": { "href": "https://geogratis.gc.ca/services/geoname/en/codes/concise/HYDR" }
+    },
+    "code": "HYDR",
+    
+    "term": "HYDR-Hydraulic Construction",
+    "description": "Constructed feature or site associated with the control, management and use of water"
+    
+},
+{
+    "links": {
+        "self": { "href": "https://geogratis.gc.ca/services/geoname/en/codes/concise/RECR" }
+    },
+    "code": "RECR",
+    
+    "term": "RECR-Recreational Site",
+    "description": "Natural or man-made site associated with recreational or cultural activities"
+    
+},
+{
+    "links": {
+        "self": { "href": "https://geogratis.gc.ca/services/geoname/en/codes/concise/RES" }
+    },
+    "code": "RES",
+    
+    "term": "RES-Natural Resources Site",
+    "description": "Site associated with extraction or management of natural resources"
+    
+},
+{
+    "links": {
+        "self": { "href": "https://geogratis.gc.ca/services/geoname/en/codes/concise/CAMP" }
+    },
+    "code": "CAMP",
+    
+    "term": "CAMP-Miscellaneous Campsite",
+    "description": "Natural or constructed site providing accommodation for individuals or groups during recreational or work activities"
+    
+},
+{
+    "links": {
+        "self": { "href": "https://geogratis.gc.ca/services/geoname/en/codes/concise/SITE" }
+    },
+    "code": "SITE",
+    
+    "term": "SITE-Miscellaneous Site",
+    "description": "Natural or man-made site associated with human activity in the area"
+    
+}]
+}

@@ -57,6 +57,24 @@ describe('citationModel with details', () => {
     expect(detailsSourceOrder(makeJupiterDetails())).toEqual(['nssdca-planetary-fact-sheet', 'nasa-science-jupiter']);
     expect(detailsSourceOrder(null)).toEqual([]);
   });
+  it('appends landmark sources after every existing details source', () => {
+    const base = makeMarsDetails();
+    const before = detailsSourceOrder(base);
+    const withLandmarks = {
+      ...base,
+      landmarks: [{
+        id: 'a', name: 'A', type: 'Mons', latDeg: 1, lonDegE: 2, diameterKm: 3, origin: null, approvedYear: null,
+        position: { kind: 'quoted' as const, sourceId: 'pos-page', text: '1 N, 2 E' }, sizeSourceId: 'size-page', quote: { text: 'A sentence of at least six words here', sourceId: 'quote-page' },
+      }],
+      featureTypes: { Mons: { meaning: 'Mountain', sourceId: 'type-page' } },
+    };
+    const after = detailsSourceOrder(withLandmarks);
+    expect(after.slice(0, before.length)).toEqual(before);
+    expect(after.slice(before.length)).toEqual(['quote-page', 'pos-page', 'size-page', 'type-page']);
+    // A landmark that cites an existing source adds nothing new, and moves nothing.
+    const reuse = { ...withLandmarks.landmarks[0]!, quote: { text: 'x', sourceId: before[0]! } };
+    expect(detailsSourceOrder({ ...base, landmarks: [reuse] }).slice(0, before.length)).toEqual(before);
+  });
   it('lists a layer state source right after the layer bounds', () => {
     const d = makeMarsDetails();
     d.interior!.layers[2]!.stateSourceId = 'insight-page';

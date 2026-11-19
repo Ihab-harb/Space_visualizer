@@ -19,10 +19,13 @@ function setWidth(narrow: boolean) {
   })) as unknown as typeof window.matchMedia;
 }
 
-function explore(bodyId: string) {
+function explore(bodyId: string, tab: 'surface' | 'interior' = 'surface') {
   useDetailsStore.setState({ entries: { [bodyId]: { status: 'ready', details: realDetails(bodyId) } } });
   useSelectionStore.setState({ selectedId: bodyId });
-  act(() => useExploreStore.getState().enter(bodyId));
+  act(() => {
+    useExploreStore.getState().enter(bodyId);
+    useExploreStore.getState().setTab(tab);
+  });
 }
 
 describe('ExploreOverlay', () => {
@@ -40,17 +43,200 @@ describe('ExploreOverlay', () => {
   it('shows the kind, the body name, the view switch and the leave button', () => {
     explore('earth');
     render(<ExploreOverlay catalog={catalog} />);
-    expect(screen.getByText('Explore · Interior')).toBeInTheDocument();
+    expect(screen.getByText('Explore · Surface')).toBeInTheDocument();
     expect(screen.getByRole('heading', { level: 1, name: 'Earth' })).toBeInTheDocument();
-    const group = screen.getByRole('radiogroup', { name: 'Interior view' });
-    expect(within(group).getAllByRole('radio').map((r) => r.textContent)).toEqual(['Whole', 'Exploded', 'Half-section']);
-    expect(screen.getByRole('radio', { name: 'Whole' })).toHaveAttribute('aria-checked', 'true');
     expect(screen.getByRole('button', { name: 'Leave Explore' })).toBeInTheDocument();
   });
 
-  it('switches the view from the radios and with the arrow keys', async () => {
+  it('shows Surface and Interior, Surface checked on entry', () => {
     explore('earth');
     render(<ExploreOverlay catalog={catalog} />);
+    const group = screen.getByRole('radiogroup', { name: 'Explore section' });
+    expect(within(group).getAllByRole('radio').map((r) => r.textContent)).toEqual(['Surface', 'Interior']);
+    expect(within(group).getByRole('radio', { name: 'Surface' })).toHaveAttribute('aria-checked', 'true');
+    expect(within(group).getByRole('radio', { name: 'Interior' })).toHaveAttribute('aria-checked', 'false');
+  });
+
+  it('gives each tab a key hint', () => {
+    explore('earth');
+    render(<ExploreOverlay catalog={catalog} />);
+    expect(screen.getByRole('radio', { name: 'Surface' })).toHaveAttribute('title', 'Surface (key 1)');
+    expect(screen.getByRole('radio', { name: 'Interior' })).toHaveAttribute('title', 'Interior (keys 2, 3)');
+  });
+
+  it('keeps focus in the overlay when a key leaves Interior while the sub-switch has focus', () => {
+    explore('earth', 'interior');
+    render(<ExploreOverlay catalog={catalog} />);
+    screen.getByRole('radio', { name: 'Half-section' }).focus();
+    expect(document.activeElement).toBe(screen.getByRole('radio', { name: 'Half-section' }));
+    act(() => useExploreStore.getState().setTab('surface')); // what key 1 does
+    expect(document.activeElement).toBe(screen.getByRole('radio', { name: 'Surface', checked: true }));
+  });
+
+  it('keeps focus in the overlay when a key leaves Interior while Retry has focus', () => {
+    useDetailsStore.setState({ entries: { earth: { status: 'error', message: 'x' } }, retry: vi.fn() });
+    useSelectionStore.setState({ selectedId: 'earth' });
+    act(() => {
+      useExploreStore.getState().enter('earth');
+      useExploreStore.getState().setTab('interior');
+    });
+    render(<ExploreOverlay catalog={catalog} />);
+    screen.getByRole('button', { name: 'Retry' }).focus();
+    act(() => useExploreStore.getState().setTab('surface'));
+    expect(document.activeElement).toBe(screen.getByRole('radio', { name: 'Surface', checked: true }));
+  });
+
+  it('shows Exploded and Half-section only on Interior', async () => {
+    explore('earth');
+    render(<ExploreOverlay catalog={catalog} />);
+    expect(screen.queryByRole('radiogroup', { name: 'Interior view' })).toBeNull();
+    await userEvent.click(screen.getByRole('radio', { name: 'Interior' }));
+    const sub = screen.getByRole('radiogroup', { name: 'Interior view' });
+    expect(within(sub).getAllByRole('radio').map((r) => r.textContent)).toEqual(['Exploded', 'Half-section']);
+    expect(within(sub).getByRole('radio', { name: 'Exploded' })).toHaveAttribute('aria-checked', 'true');
+    await userEvent.click(screen.getByRole('radio', { name: 'Surface' }));
+    expect(screen.queryByRole('radiogroup', { name: 'Interior view' })).toBeNull();
+  });
+
+  it('names the kicker after the tab', async () => {
+    explore('earth');
+    render(<ExploreOverlay catalog={catalog} />);
+    expect(screen.getByText('Explore · Surface')).toBeInTheDocument();
+    await userEvent.click(screen.getByRole('radio', { name: 'Interior' }));
+    expect(screen.getByText('Explore · Interior')).toBeInTheDocument();
+  });
+
+  it('keeps the composition strip on both tabs', async () => {
+    explore('earth');
+    render(<ExploreOverlay catalog={catalog} />);
+    expect(screen.getByRole('region', { name: 'Composition' })).toBeInTheDocument();
+    await userEvent.click(screen.getByRole('radio', { name: 'Interior' }));
+    expect(screen.getByRole('region', { name: 'Composition' })).toBeInTheDocument();
+  });
+
+  it('shows the interior notes on Interior only', async () => {
+    explore('jupiter');
+    render(<ExploreOverlay catalog={catalog} />);
+    expect(screen.queryByText('Estimate', { selector: '.tag' })).toBeNull();
+    expect(screen.queryByRole('button', { name: 'Illustrative colours' })).toBeNull();
+    await userEvent.click(screen.getByRole('radio', { name: 'Interior' }));
+    expect(screen.getByText('Estimate', { selector: '.tag' })).toBeInTheDocument();
+  });
+
+  it('shows "No named surface features" on Surface for Jupiter', async () => {
+    explore('jupiter');
+    render(<ExploreOverlay catalog={catalog} />);
+    expect(screen.getByText('No named surface features')).toBeInTheDocument();
+    await userEvent.click(screen.getByRole('radio', { name: 'Interior' }));
+    expect(screen.queryByText('No named surface features')).toBeNull();
+  });
+
+  it('does not say "No named surface features" for a body that has some (Mars)', () => {
+    explore('mars');
+    render(<ExploreOverlay catalog={catalog} />);
+    expect(screen.queryByText('No named surface features')).toBeNull();
+  });
+
+  it('labels the feature light as illustrative while it shows, on Surface with a feature selected', async () => {
+    const { FEATURE_LIGHT_LABEL, useFeatureLightStore } = await import('../../state/featureLightStore');
+    explore('mars');
+    render(<ExploreOverlay catalog={catalog} />);
+    expect(screen.queryByText(FEATURE_LIGHT_LABEL)).toBeNull();
+    act(() => {
+      useExploreStore.getState().selectFeature('hellas-planitia');
+      useFeatureLightStore.setState({ shown: true });
+    });
+    expect(screen.getByText(FEATURE_LIGHT_LABEL)).toBeInTheDocument();
+    // Not on Interior, and not once the light is off.
+    await userEvent.click(screen.getByRole('radio', { name: 'Interior' }));
+    expect(screen.queryByText(FEATURE_LIGHT_LABEL)).toBeNull();
+    act(() => useFeatureLightStore.setState({ shown: false }));
+    await userEvent.click(screen.getByRole('radio', { name: 'Surface' }));
+    expect(screen.queryByText(FEATURE_LIGHT_LABEL)).toBeNull();
+  });
+
+  it('shows the radar tag on Surface for Venus and not on Interior', async () => {
+    explore('venus');
+    render(<ExploreOverlay catalog={catalog} />);
+    expect(screen.getByText('Radar view · not visible light')).toBeInTheDocument();
+    await userEvent.click(screen.getByRole('radio', { name: 'Interior' }));
+    expect(screen.queryByText('Radar view · not visible light')).toBeNull();
+  });
+
+  describe('Surface while the details are not ready', () => {
+    const enterSurface = (entry: { status: 'loading' } | { status: 'error'; message: string }, retry = vi.fn().mockResolvedValue(undefined)) => {
+      useDetailsStore.setState({ entries: { venus: entry }, retry });
+      useSelectionStore.setState({ selectedId: 'venus' });
+      act(() => useExploreStore.getState().enter('venus'));
+      render(<ExploreOverlay catalog={catalog} />);
+      return retry;
+    };
+
+    it('while loading: a status line in the notes row, and no surface notes', () => {
+      enterSurface({ status: 'loading' });
+      expect(screen.getByRole('radiogroup', { name: 'Explore section' })).toBeInTheDocument();
+      expect(screen.getByRole('status')).toHaveTextContent('Loading surface features…');
+      expect(screen.getByRole('status')).toHaveAttribute('data-explore-reserved', 'notes');
+      expect(screen.queryByText('No named surface features')).toBeNull();
+      expect(screen.queryByText('Radar view · not visible light')).toBeNull();
+    });
+
+    it('after a failed load: a message and Retry, which loads again', async () => {
+      const retry = enterSurface({ status: 'error', message: 'x' });
+      const alert = screen.getByRole('alert');
+      expect(alert).toHaveTextContent('Could not load the surface features.');
+      expect(alert).toHaveAttribute('data-explore-reserved', 'notes');
+      expect(screen.queryByText('No named surface features')).toBeNull();
+      await userEvent.click(within(alert).getByRole('button', { name: 'Retry' }));
+      expect(retry).toHaveBeenCalledWith('venus');
+    });
+
+    it('keeps focus in the overlay when Retry goes away once the data has loaded', async () => {
+      enterSurface({ status: 'error', message: 'x' });
+      await userEvent.click(screen.getByRole('button', { name: 'Retry' }));
+      act(() => useDetailsStore.setState({ entries: { venus: { status: 'ready', details: realDetails('venus') } } }));
+      expect(screen.queryByRole('alert')).toBeNull();
+      expect(document.activeElement).toBe(screen.getByRole('radio', { name: 'Surface', checked: true }));
+    });
+  });
+
+  describe('an unknown selected feature', () => {
+    it('is kept while the details load, and cleared once they are ready without it', () => {
+      useDetailsStore.setState({ entries: { mars: { status: 'loading' } } });
+      useSelectionStore.setState({ selectedId: 'mars' });
+      act(() => {
+        useExploreStore.getState().enter('mars');
+        useExploreStore.getState().selectFeature('nope');
+      });
+      render(<ExploreOverlay catalog={catalog} />);
+      expect(useExploreStore.getState().selectedFeatureId).toBe('nope');
+      act(() => useDetailsStore.setState({ entries: { mars: { status: 'ready', details: realDetails('mars') } } }));
+      expect(useExploreStore.getState().selectedFeatureId).toBeNull();
+      expect(screen.queryByRole('region', { name: 'Nope' })).toBeNull();
+    });
+
+    it('keeps a known id once the details arrive', () => {
+      useDetailsStore.setState({ entries: { mars: { status: 'loading' } } });
+      useSelectionStore.setState({ selectedId: 'mars' });
+      act(() => {
+        useExploreStore.getState().enter('mars');
+        useExploreStore.getState().selectFeature('olympus-mons');
+      });
+      render(<ExploreOverlay catalog={catalog} />);
+      act(() => useDetailsStore.setState({ entries: { mars: { status: 'ready', details: realDetails('mars') } } }));
+      expect(useExploreStore.getState().selectedFeatureId).toBe('olympus-mons');
+    });
+  });
+
+  it('switches the tab and the interior view from the radios and with the arrow keys', async () => {
+    explore('earth');
+    render(<ExploreOverlay catalog={catalog} />);
+    fireEvent.keyDown(screen.getByRole('radio', { name: 'Surface' }), { key: 'ArrowRight' });
+    expect(useExploreStore.getState().view).toBe('exploded');
+    expect(document.activeElement).toBe(screen.getByRole('radio', { name: 'Interior' }));
+    fireEvent.keyDown(screen.getByRole('radio', { name: 'Interior' }), { key: 'ArrowLeft' });
+    expect(useExploreStore.getState().view).toBe('whole');
+    await userEvent.click(screen.getByRole('radio', { name: 'Interior' }));
     await userEvent.click(screen.getByRole('radio', { name: 'Half-section' }));
     expect(useExploreStore.getState().view).toBe('section');
     expect(screen.getByRole('radio', { name: 'Half-section' })).toHaveAttribute('aria-checked', 'true');
@@ -69,28 +255,28 @@ describe('ExploreOverlay', () => {
   it('moves focus into the overlay on entry (the checked view)', () => {
     explore('earth');
     render(<ExploreOverlay catalog={catalog} />);
-    expect(document.activeElement).toBe(screen.getByRole('radio', { name: 'Whole' }));
+    expect(document.activeElement).toBe(screen.getByRole('radio', { name: 'Surface' }));
   });
 
   it('shows the Estimate tag only when a layer is an estimate', () => {
-    explore('jupiter');
+    explore('jupiter', 'interior');
     const { unmount } = render(<ExploreOverlay catalog={catalog} />);
     expect(screen.getByText('Estimate', { selector: '.tag' })).toBeInTheDocument();
     unmount();
     act(() => useExploreStore.getState().leave());
-    explore('earth');
+    explore('earth', 'interior');
     render(<ExploreOverlay catalog={catalog} />);
     expect(screen.queryByText('Estimate', { selector: '.tag' })).toBeNull();
   });
 
   it('says the layer sizes are not to scale for an all-illustrative interior (Uranus)', () => {
-    explore('uranus');
+    explore('uranus', 'interior');
     render(<ExploreOverlay catalog={catalog} />);
     expect(screen.getByText('Layer sizes are not to scale')).toBeInTheDocument();
   });
 
   it('the "Illustrative colours" note link opens the card on its note', async () => {
-    explore('earth');
+    explore('earth', 'interior');
     render(<ExploreOverlay catalog={catalog} />);
     await userEvent.click(screen.getByRole('button', { name: 'Illustrative colours' }));
     expect(useExploreStore.getState().selectedLayerId).toBe('crust');
@@ -98,7 +284,7 @@ describe('ExploreOverlay', () => {
   });
 
   it('shows the layer card for the selected layer and clears it with the card ✕', async () => {
-    explore('earth');
+    explore('earth', 'interior');
     render(<ExploreOverlay catalog={catalog} />);
     expect(screen.queryByRole('region', { name: 'Mantle' })).toBeNull();
     act(() => useExploreStore.getState().selectLayer('mantle'));
@@ -132,13 +318,18 @@ describe('ExploreOverlay', () => {
     expect(strip.textContent!.length).toBeGreaterThan(10);
   });
 
-  it('shows "No interior data yet" in place of the switch when the body has no interior', () => {
+  it('shows "No interior data yet" on Interior for a body without an interior, and Surface still works', async () => {
     useDetailsStore.setState({ entries: { earth: { status: 'ready', details: { ...realDetails('earth'), interior: null } } } });
     useSelectionStore.setState({ selectedId: 'earth' });
     act(() => useExploreStore.getState().enter('earth'));
     render(<ExploreOverlay catalog={catalog} />);
-    expect(screen.queryByRole('radiogroup')).toBeNull();
+    expect(screen.getByRole('radiogroup', { name: 'Explore section' })).toBeInTheDocument();
+    expect(screen.queryByText('No interior data yet')).toBeNull();
+    await userEvent.click(screen.getByRole('radio', { name: 'Interior' }));
+    expect(screen.queryByRole('radiogroup', { name: 'Interior view' })).toBeNull();
     expect(screen.getByText('No interior data yet')).toBeInTheDocument();
+    await userEvent.click(screen.getByRole('radio', { name: 'Surface' }));
+    expect(useExploreStore.getState().view).toBe('whole');
   });
 
   it('every [n] in Explore has somewhere to go: a tooltip naming the source, and a Sources list in the chart panel', async () => {
@@ -169,21 +360,25 @@ describe('ExploreOverlay', () => {
     const enterWith = (entry: Partial<ReturnType<typeof useDetailsStore.getState>>) => {
       useDetailsStore.setState(entry);
       useSelectionStore.setState({ selectedId: 'earth' });
-      act(() => useExploreStore.getState().enter('earth'));
+      act(() => {
+        useExploreStore.getState().enter('earth');
+        useExploreStore.getState().setTab('interior');
+      });
       render(<ExploreOverlay catalog={catalog} />);
     };
 
-    it('while loading: a short hint and no live view switch', () => {
+    it('while loading: a short hint in place of the interior switch; the tabs stay', () => {
       enterWith({ entries: { earth: { status: 'loading' } } });
       expect(screen.getByRole('status')).toHaveTextContent('Loading the interior…');
-      expect(screen.queryByRole('radiogroup')).toBeNull();
+      expect(screen.getByRole('radiogroup', { name: 'Explore section' })).toBeInTheDocument();
+      expect(screen.queryByRole('radiogroup', { name: 'Interior view' })).toBeNull();
       expect(screen.queryByRole('region', { name: 'Composition' })).toBeNull();
     });
 
-    it('when the body has no details file: "No interior data yet" and no switch', () => {
+    it('when the body has no details file: "No interior data yet" and no interior switch', () => {
       enterWith({ entries: { earth: { status: 'missing' } } });
       expect(screen.getByText('No interior data yet')).toBeInTheDocument();
-      expect(screen.queryByRole('radiogroup')).toBeNull();
+      expect(screen.queryByRole('radiogroup', { name: 'Interior view' })).toBeNull();
     });
 
     it('when loading failed: a short message and Retry, which loads again', async () => {
@@ -191,7 +386,7 @@ describe('ExploreOverlay', () => {
       enterWith({ entries: { earth: { status: 'error', message: 'Could not load details for earth (HTTP 500).' } }, retry });
       const alert = screen.getByRole('alert');
       expect(alert).toHaveTextContent('Could not load the interior.');
-      expect(screen.queryByRole('radiogroup')).toBeNull();
+      expect(screen.queryByRole('radiogroup', { name: 'Interior view' })).toBeNull();
       await userEvent.click(within(alert).getByRole('button', { name: 'Retry' }));
       expect(retry).toHaveBeenCalledWith('earth');
     });
@@ -200,12 +395,12 @@ describe('ExploreOverlay', () => {
       enterWith({ entries: { earth: { status: 'error', message: 'x' } }, retry: vi.fn().mockResolvedValue(undefined) });
       await userEvent.click(screen.getByRole('button', { name: 'Retry' }));
       act(() => useDetailsStore.setState({ entries: { earth: { status: 'ready', details: realDetails('earth') } } }));
-      expect(document.activeElement).toBe(screen.getByRole('radio', { checked: true }));
+      expect(document.activeElement).toBe(screen.getByRole('radio', { name: 'Interior', checked: true }));
     });
 
-    it('focuses the leave button when there is no switch', () => {
+    it('focuses the checked section radio on entry even when there is no interior', () => {
       enterWith({ entries: { earth: { status: 'missing' } } });
-      expect(document.activeElement).toBe(screen.getByRole('button', { name: 'Leave Explore' }));
+      expect(document.activeElement).toBe(screen.getByRole('radio', { name: 'Interior', checked: true }));
     });
   });
 
@@ -213,7 +408,7 @@ describe('ExploreOverlay', () => {
     beforeEach(() => setWidth(true));
 
     it('lists the layers, numbered like the dots, behind a tap-to-open button', async () => {
-      explore('earth');
+      explore('earth', 'interior');
       render(<ExploreOverlay catalog={catalog} />);
       const toggle = screen.getByRole('button', { name: /Layers/ });
       expect(toggle).toHaveAttribute('aria-expanded', 'false');

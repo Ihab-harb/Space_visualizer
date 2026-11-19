@@ -1,7 +1,7 @@
 import { mkdir, readFile, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 import { ChebyshevFileSchema, ImageryFileSchema } from '../src/core/catalog/schema';
-import { buildDetails, type DetailsInputs } from './build/buildDetails';
+import { buildDetails, type DetailsInputs, type EarthRecord } from './build/buildDetails';
 import { buildSolarSystem } from './build/buildSolarSystem';
 import { validateDetails, validateOutput } from './build/validate';
 import { fetchCached, type FetchedText, type FetchOptions } from './lib/fetchCached';
@@ -10,6 +10,8 @@ import { DESCRIPTION_PAGES } from './sources/nasaScience';
 import { readDbf } from './lib/dbf';
 import { readZipEntry } from './lib/zip';
 import { GAZETTEER_TARGETS, gazetteerUrl } from './sources/gazetteer';
+import { hasOwnPosition, namesRecordKey, type LandmarksFile } from './sources/landmarks';
+import { namesSource, type NamesFile } from './sources/namesDatabase';
 import { PLANET_SHEET_IDS } from './sources/nssdcPlanetSheet';
 import { quotePageUrl, type InteriorsFile, type MissionsFile } from './sources/quotedReference';
 import { planetSheetUrl, SOURCE_SPECS } from './sources/registry';
@@ -58,12 +60,50 @@ try {
   }
   const interiors = JSON.parse(await readFile('pipeline/reference/interiors.json', 'utf8')) as InteriorsFile;
   const missions = JSON.parse(await readFile('pipeline/reference/missions.json', 'utf8')) as MissionsFile;
+  const landmarks = JSON.parse(await readFile('pipeline/reference/landmarks.json', 'utf8')) as LandmarksFile;
   const curatedPages = new Map<string, FetchedText>();
-  for (const s of [...interiors.sources, ...missions.sources]) {
+  for (const s of [...interiors.sources, ...missions.sources, ...landmarks.sources]) {
     if (!curatedPages.has(s.id)) curatedPages.set(s.id, await fetchCached(quotePageUrl(s), `ref-${s.id}.html`, options));
   }
+  // Earth positions: each record is read from the files its names database names (a GNIS area's staged zip, one NOAA, GEBCO or
+  // NRCan record, the whole LINZ gazetteer), each fetched once into pipeline/raw. A database not in use, a bad id or area, or a
+  // record not found leaves the record out, and the build then reports it; nothing is skipped silently.
+  const earthPositions = new Map<string, EarthRecord>();
+  const namesTexts = new Map<string, { texts: string[]; retrievedAt: string }>();
+  const loadNamesFile = async (f: NamesFile) => {
+    const cached = namesTexts.get(f.cacheName);
+    if (cached) return cached;
+    let loaded: { texts: string[]; retrievedAt: string };
+    if (f.zipEntries) {
+      const zip = await fetchBinaryCached(f.url, f.cacheName, options);
+      const buf = await readFile(zip.path);
+      loaded = { texts: f.zipEntries.map((e) => readZipEntry(buf, e).toString('utf8')), retrievedAt: zip.retrievedAt };
+    } else {
+      const page = await fetchCached(f.url, f.cacheName, options);
+      loaded = { texts: [page.text], retrievedAt: page.retrievedAt };
+    }
+    namesTexts.set(f.cacheName, loaded);
+    return loaded;
+  };
+  for (const l of Object.values(landmarks.bodies).flat()) {
+    if (!hasOwnPosition(l) || l.position.kind !== 'names-database') continue;
+    const p = l.position;
+    const source = namesSource(p.database);
+    if (!source?.spec || source.notInUse) continue;
+    let files: NamesFile[];
+    try { files = source.files(p.recordId, p.area); } catch { continue; }
+    const texts: string[] = [];
+    let retrievedAt = '';
+    for (const f of files) {
+      const loaded = await loadNamesFile(f);
+      texts.push(...loaded.texts);
+      if (loaded.retrievedAt > retrievedAt) retrievedAt = loaded.retrievedAt;
+    }
+    const rec = source.read(texts, p.recordId);
+    if (rec) earthPositions.set(namesRecordKey(p), { ...rec, source: source.spec, retrievedAt });
+  }
   const built = buildDetails(
-    { bodies: output.bodies.bodies, existingSourceIds: new Set(output.sources.sources.map((s) => s.id)), existingSourceUrls: new Map(output.sources.sources.map((s) => [s.url, s.id])), planetSheets, sunSheet, moonSheet, gazetteer, interiors, missions, curatedPages },
+    { bodies: output.bodies.bodies, existingSourceIds: new Set(output.sources.sources.map((s) => s.id)), existingSourceUrls: new Map(output.sources.sources.map((s) => [s.url, s.id])), planetSheets, sunSheet, moonSheet, gazetteer, interiors, missions, curatedPages, landmarks, earthPositions },
     generatedAt,
   );
   output.sources.sources.push(...built.sources);

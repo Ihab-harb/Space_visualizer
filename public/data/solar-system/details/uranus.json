@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "bodyId": "uranus",
-  "generatedAt": "2026-11-14T12:43:12.320Z",
+  "generatedAt": "2026-11-19T18:57:32.415Z",
   "interior": {
     "radiusKm": {
       "value": 25362,
@@ -139,5 +139,7 @@
     "method": "telescopic observation",
     "sourceId": "nssdca-uranus-fact-sheet"
   },
-  "features": null
+  "features": null,
+  "landmarks": [],
+  "featureTypes": {}
 }

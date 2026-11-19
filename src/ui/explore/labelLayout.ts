@@ -2,7 +2,7 @@
  * Floating layer labels in Explore (spec §3.3): each label sits beside the body on its anchor's side, joined to the
  * anchor by a leader line. Labels never overlap each other, the reserved rects (top bar, strip, card, chart) or the
  * viewport edge. On conflict a lower-priority label first moves a little up or down, then collapses to its name, then
- * tries the other side, and is hidden as a last resort. The selected layer goes first, so it always keeps its full label
+ * tries the other side (not with `sameSideOnly`), and is hidden as a last resort. The selected layer goes first, so it always keeps its full label
  * when anything fits. Pure: positions in CSS pixels, origin at the top left of the scene.
  */
 
@@ -58,6 +58,11 @@ export interface LayoutOptions {
   lead?: number;
   /** Furthest a label moves up or down from its anchor, as a fraction of the viewport height. */
   maxShiftFraction?: number;
+  /**
+   * A label that does not fit on its anchor's side is hidden instead of moved to the other side (the surface pins). The
+   * selected label is exempt: it keeps its name whenever it fits anywhere.
+   */
+  sameSideOnly?: boolean;
 }
 
 const STEP_PX = 4;
@@ -111,8 +116,13 @@ export function labelLayout(anchors: readonly LabelAnchor[], viewport: Size, res
     const attempts: Array<[Exclude<LabelMode, 'hidden'>, Side]> = [
       ['full', a.side],
       ['collapsed', a.side],
-      ['full', other],
-      ['collapsed', other],
+      // The selected label still crosses over rather than lose its name.
+      ...(opts.sameSideOnly && a.id !== opts.selectedId
+        ? []
+        : ([
+            ['full', other],
+            ['collapsed', other],
+          ] as Array<[Exclude<LabelMode, 'hidden'>, Side]>)),
     ];
     let placed: PlacedLabel | null = null;
     if (Number.isFinite(a.x) && Number.isFinite(a.y)) {

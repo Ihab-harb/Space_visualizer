@@ -41,7 +41,7 @@ Back to [[Home]]
 - BepiColombo (NASA Science mission page) (NASA Science): https://science.nasa.gov/mission/bepicolombo/ (`nasa-mission-bepicolombo`)
 - All About Venus (NASA Space Place) (NASA Space Place): https://spaceplace.nasa.gov/all-about-venus/en/ (`nasa-spaceplace-venus`)
 - Mariner 2 (NASA Science mission page) (NASA Science): https://science.nasa.gov/mission/mariner-2/ (`nasa-mission-mariner-2`)
-- Chronology of Lunar and Planetary Exploration (NSSDCA) (NASA NSSDCA): https://nssdc.gsfc.nasa.gov/planetary/chronology.html (`nssdca-planetary-chronology`)
+- Venus Exploration Timeline (NSSDCA) (NASA NSSDCA): https://nssdc.gsfc.nasa.gov/planetary/chronology_venus.html (`nssdca-venus-chronology`). It replaced the Chronology of Lunar and Planetary Exploration (`nssdca-planetary-chronology`) on 2026-11-19, when that page became a script-loaded app and the Venera 7 and 13 quotes left its HTML.
 - Magellan (NASA Science mission page) (NASA Science): https://science.nasa.gov/mission/magellan/ (`nasa-mission-magellan`)
 - Venus Express (NASA Science mission page) (NASA Science): https://science.nasa.gov/mission/venus-express/ (`nasa-mission-venus-express`)
 - Akatsuki (NASA Science mission page) (NASA Science): https://science.nasa.gov/mission/akatsuki/ (`nasa-mission-akatsuki`)
