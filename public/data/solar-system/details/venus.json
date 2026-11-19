@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "bodyId": "venus",
-  "generatedAt": "2026-11-19T16:14:39.368Z",
+  "generatedAt": "2026-11-19T18:57:32.415Z",
   "interior": {
     "radiusKm": {
       "value": 6051.8,
@@ -194,7 +194,7 @@
       "arrivalDate": null,
       "endDate": null,
       "outcome": "success",
-      "sourceId": "nssdca-planetary-chronology"
+      "sourceId": "nssdca-venus-chronology"
     },
     {
       "id": "venera-13",
@@ -205,7 +205,7 @@
       "arrivalDate": null,
       "endDate": null,
       "outcome": "success",
-      "sourceId": "nssdca-planetary-chronology"
+      "sourceId": "nssdca-venus-chronology"
     },
     {
       "id": "magellan",

@@ -28,6 +28,26 @@ describe('fetchCached', () => {
     expect(log).toHaveBeenCalledWith(expect.stringContaining('using cached copy'));
   });
 
+  it('gives up on a request that never answers, and uses the cached copy', async () => {
+    const rawDir = await tempDir();
+    await fetchCached('https://example.org/slow', 'slow.html', { offline: false, rawDir, fetchImpl: okFetch('cached'), now });
+    // A server that accepts the request and never answers: only the abort signal ends it.
+    const hang = ((_url: string, init?: RequestInit) =>
+      new Promise((_resolve, reject) => init?.signal?.addEventListener('abort', () => reject(init.signal!.reason)))) as unknown as typeof fetch;
+    const log = vi.fn();
+    const result = await fetchCached('https://example.org/slow', 'slow.html', { offline: false, rawDir, fetchImpl: hang, log, timeoutMs: 20 });
+    expect(result).toEqual({ text: 'cached', retrievedAt: '2026-10-04', fromCache: true });
+    expect(log).toHaveBeenCalledWith(expect.stringContaining('using cached copy'));
+  });
+
+  it('treats an empty page as a failure and keeps the cached copy', async () => {
+    const rawDir = await tempDir();
+    await fetchCached('https://example.org/e', 'e.html', { offline: false, rawDir, fetchImpl: okFetch('good page'), now });
+    const result = await fetchCached('https://example.org/e', 'e.html', { offline: false, rawDir, fetchImpl: okFetch(' \t\n '), log: vi.fn() });
+    expect(result.text).toBe('good page');
+    expect(await readFile(path.join(rawDir, 'e.html'), 'utf8')).toBe('good page');
+  });
+
   it('throws when the network fails and nothing is cached', async () => {
     await expect(fetchCached('https://example.org/b', 'b.html', { offline: false, rawDir: await tempDir(), fetchImpl: failFetch })).rejects.toThrow(/no cached copy/);
   });

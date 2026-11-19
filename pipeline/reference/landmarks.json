@@ -155,6 +155,13 @@
       "license": "NASA public domain (NASA media usage guidelines)"
     },
     {
+      "id": "nasa-photojournal-faults-in-the-caloris-basin",
+      "title": "Faults in the Caloris Basin, NASA Photojournal",
+      "publisher": "NASA Science",
+      "url": "https://science.nasa.gov/photojournal/faults-in-the-caloris-basin/",
+      "license": "NASA public domain (NASA media usage guidelines)"
+    },
+    {
       "id": "nasa-photojournal-mercurys-first-fossae",
       "title": "Mercury's First Fossae, NASA Photojournal",
       "publisher": "NASA Science",
@@ -860,7 +867,7 @@
       { "name": "Hokusai", "sourceId": "nasa-resource-rays-of-hokusai", "quote": "The crater has an impressive system of rays, which extend as much as a thousand kilometers (more than 600 miles) across the planet and are the longest that have yet been identified on Mercury." },
       { "name": "Prokofiev", "sourceId": "nasa-photojournal-in-prokofievs-shadow", "quote": "MESSENGER has found evidence that within the cold, dark, permanently shadowed regions of Prokofiev, water ice is exposed on the surface." },
       { "name": "Kandinsky", "sourceId": "nasa-photojournal-seeing-in-the-dark", "quote": "The floor of Kandinsky is in permanent shadow and never receives direct sunlight, keeping it very cold." },
-      { "name": "Apollodorus", "sourceId": "nasa-photojournal-mercurys-first-fossae", "quote": "MESSENGER scientists are debating whether Apollodorus played a role in the formation of Pantheon Fossae or whether the crater is simply from a later impact that occurred close to the center of the radial pattern." }
+      { "name": "Apollodorus", "sourceId": "nasa-photojournal-faults-in-the-caloris-basin", "quote": "The crater Apollodorus near the center of Pantheon Fossae is 41 kilometers (25 miles) in diameter." }
     ],
     "venus": [
       { "name": "Ishtar Terra", "sourceId": "nasa-science-venus-facts", "quote": "Its surface features - most named for both real and mythical women - include Ishtar Terra, a rocky, highland area around the size of Australia near the north pole, and an even larger, South-America-sized region called Aphrodite Terra that stretches across the equator." },
