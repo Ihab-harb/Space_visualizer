@@ -832,3 +832,65 @@ Checks for this round, run by the controller: 1,242 unit tests in 123 files, typ
 - **Label (the user: "label it").** `src/state/featureLightStore.ts`: the scene reports whether the light adds anything at the feature (`featureLightShown`: some strength, and the feature is not in full daylight); the overlay shows `FEATURE_LIGHT_LABEL` in the Surface notes row.
 - Checks: 1,247 unit tests in 124 files, typecheck clean, `npm run data:offline` clean, end-to-end `features` 12 of 12.
 
+### Task 13 (2026-11-16): Australia and the weak sentences
+**Why:** the user, 2026-11-16: "keep australia" and "fix the weak scentences". The controller read the first as: accept Geoscience Australia's site licence for the Composite Gazetteer of Australia ([[0010-names-databases-for-earth-positions]], third decision). Built 2026-11-19.
+
+**Australia: the source.** The map service layer `https://services.ga.gov.au/gis/rest/services/Composite_Gazetteer_of_Australia/MapServer/0` answers a single-record query by `id` with no key (`.../query?where=id%3D%27NT_10532%27&outFields=*&returnGeometry=false&f=json`). Fields: `objectid, id, auth_id, name, feature, category, theme, latitude, longitude, authority, supply_date`. Ten authorities: the eight states and mainland territories, `AAD` (Antarctic, 2,628 records) and `AHO` (hydrographic, 1,273). The catalogue record on ecat.ga.gov.au, 403 on 2026-11-16, answered on 2026-11-19: its use constraint is "license" with only "© Commonwealth of Australia (Geoscience Australia) 2025". Registry entry `ga-cga`, source `ga-composite-gazetteer`, cited to that catalogue record. Details: [[Earth names databases (GNIS, GNS)]].
+
+**Australia: the landmarks (6; Earth now 49).** Quotes cut from the fetched page text by their first and last words.
+
+| Name shown | Record (id, name, feature) | Position text | Sentence | Page |
+|---|---|---|---|---|
+| Uluru | NT_10532, Uluru/Ayers Rock, MOUNTAIN | -25.3415, 131.0354 | "Called Uluru, or Ayer's Rock, this giant is a monolith 348 meters (1,142 feet) high, 3.6 kilometers (2.2 miles) long, and 9.4 kilometers (5.8 miles) around." | EO Uluru (Ayers Rock) (5304) |
+| Kati Thanda-Lake Eyre | SA_SA0066895, Kati Thanda, LAKE | -28.41781, 137.28097 | "Modern Kati Thanda-Lake Eyre is a salt-encrusted, mostly dry and barren playa that occupies Australia's lowest natural point, which is 15 meters (49 feet) below sea level." | EO Rare Filling of Kati Thanda-Lake Eyre (145076) |
+| Shark Bay | WA_100044292, SHARK BAY, BAY | -25.47444444, 113.48777778 | "Shark Bay contains the largest and richest beds of seagrasses in the world and is also home to some of the oldest lifeforms on Earth." | EO Sharks, Seagrass, and Stromatolites (147395) |
+| K'gari | QLD_52245, K'gari, ISLAND | -25.24807256, 153.1444337 | "Spanning 180,000 hectares (440,000 acres), Fraser Island (also called K'gari) is known for its tropical rainforests, sand dunes, and inland lakes." | EO Fraser Island Blazes (147638) |
+| Wolfe Creek Crater | WA_100044096, WOLFE CREEK METEORITE CRATER, CRATER | -19.17222222, 127.79527778 | "Almost circular, Wolfe Creek Crater (also known as Wolf Creek Crater) is considered the second largest crater in the world from which meteorite fragments have been collected." | EO Wolfe Creek Crater (8488) |
+| Gosses Bluff | NT_13237, Gosses Bluff, CLIFF | -23.8, 132.3167 | "Gosses Bluff was probably formed by the impact of a large comet or meteorite about 142 million years ago." | EO Gosses Bluff, Northern Territory, Australia (4853) |
+
+Not added: the Bungle Bungle Range (WA_100141555; the EO page has only a naming sentence and a history sentence), the Great Barrier Reef (no record), the Great Dividing Range (three records, one per state), Mount Kosciuszko, the Nullarbor Plain and the Great Sandy Desert (records exist; no NASA, USGS or ESA sentence was searched for far enough, as the web search hit its weekly limit for a while). Merged into the Earth list by how well known they are: Uluru after Mount Kilimanjaro, Kati Thanda-Lake Eyre after Death Valley, Shark Bay after Lake Superior, K'gari after Shark Bay, Wolfe Creek Crater after Meteor Crater, Gosses Bluff after Pingualuit Crater.
+
+**The weak sentences.**
+
+| Landmark | Old sentence (start) | Outcome | New sentence | Page |
+|---|---|---|---|---|
+| Kandinsky (Mercury) | "The rims of craters Prokofiev, Kandinsky, Tolkien and Gordimer…" | replaced | "The floor of Kandinsky is in permanent shadow and never receives direct sunlight, keeping it very cold." | Photojournal Seeing in the Dark |
+| Apollodorus | "Although Apollodorus of Damascus (the namesake of the crater)…" | replaced | "MESSENGER scientists are debating whether Apollodorus played a role in the formation of Pantheon Fossae or whether the crater is simply from a later impact that occurred close to the center of the radial pattern." | Photojournal Mercury's First Fossae (already registered) |
+| Mendelssohn | "Prominently visible is the Mendelssohn crater…" | replaced | "The Mendelssohn crater was flooded with lava after an impact originally created it." | ESA BepiColombo's sixth Mercury flyby: the movie |
+| Nathair Facula | "The bright patch near the planet's upper edge in this image is…" | dropped | none: the only other ESA sentence is mission-led ("…a major target for several BepiColombo instruments…"); no NASA page names it | |
+| Fonteyn | "Also visible is the relatively young Fonteyn crater…" | dropped | none: the sixth-flyby page says "And to the left lies…"; NASA's Fonteyn pages say "Her namesake crater…" or "Fonteyn is also interesting…" | |
+| Sif Mons (Venus) | "They also estimate that the Sif Mons eruption…" | dropped | none: Photojournal PIA00108 says "…appears in the upper half of the image"; the JPL article's other lines are about two places or start "This … shows" | |
+| Gula Mons | coordinates | kept | no other sentence: PIA00234, PIA00233 and the NSSDC captions give the same coordinates sentence or viewpoints | |
+| Sapas Mons | coordinates | kept | PIA00203 and PIA00099 have only "This false-color image shows…", the size alone, or the flanks | |
+| Mare Imbrium (Moon) | "…(the youngest is Mare Orientale)…" | kept | no other official sentence found (PIA13504 is about ejecta; Copernicus and Plato pages mention it in passing) | |
+| Elysium Planitia (Mars) | "InSight landed near Mars' equator…" | replaced | "Just north of the divide lies the Central Elysium Planitia -one of two large volcanic regions on Mars and the location of the youngest volcanic rocks (about two million years old) on the planet." | EO Flood Basalts on Mars and Iceland (92858) |
+| Meridiani Planum | "Opportunity landed at Meridiani Planum, a place where mineral deposits suggested…" | kept | the Photojournal hematite pages are about the landing site and the rover | |
+| Syrtis Major Planum | "Syrtis Major is one of the darkest regions on Mars…" | kept | a good sentence; it names the planum "Syrtis Major", as the page does | |
+| Meteor Crater (Earth) | "Even at 50,000 years old, the crater…" | replaced | "Meteor Crater, located in northern Arizona, is one of the best preserved and easily accessible impact sites on Earth." | USGS Astrogeology, Meteor Crater Drill Hole Sample Collection (the size sentence stays on the EO page) |
+| Yellowstone Caldera | "Yellowstone is presently the site of one of the world's largest hydrothermal systems…" | replaced | "About 631,000 years ago, a massive eruption formed what today is known as Yellowstone Caldera." | USGS YVO, Exciting insights into Yellowstone's youngest supereruption |
+| Teide | "The summit of the Teide stratovolcano reaches 3,718 meters…" | kept (checked) | | |
+| Aoraki/Mount Cook | "The highest peak in the mountain range, known as Aoraki Mount Cook…" | replaced | "New Zealand's highest peak, Aoraki Mount Cook, reaches 3,724 meters (12,218 feet) above sea level." | EO South Island Alps (148290) |
+| Mount Pinatubo | "Pinatubo injected about 15 million tons of sulfur dioxide…" | replaced | "The second-largest volcanic eruption of the 20th century, and by far the largest eruption to affect a densely populated area, occurred at Mount Pinatubo in the Philippines on June 15, 1991." | NASA SVS 2183 (the USGS fact sheet's sentence says "of this century" and was not used, as in Task 12) |
+| Whakaari / White Island | "The partially submerged volcano … is called Whakaari/White Island ." | replaced | "Whakaari/White Island is the tip of a submarine stratovolcano at the northern end of the Taupo Volcanic Zone and has been active for at least 150,000 years." | USGS YVO, The December 2019 hydrothermal explosion at White Island (Whakaari) |
+| Nyiragongo | "In 1977, Nyiragongo erupted fast-moving lava…" | kept (checked) | the page's other lines start "When … however" or "Nyiragongo lavas are different" | |
+| Mid-Atlantic Ridge | "The rate of spreading along the Mid-Atlantic Ridge averages…" | kept (checked) | "Perhaps the best known of the divergent boundaries is the Mid-Atlantic Ridge." is not clearly better | |
+
+Sources removed (nothing uses them any more): `nasa-mission-insight`, `esa-bepicolombo-sixth-flyby`, `esa-lava-and-debris-mercury`, `nasa-resource-architect-and-temple`, `usgs-volcano-yellowstone`, `nasa-eo-global-effects-pinatubo`, `nasa-eo-spine-of-south-island`, `nasa-eo-another-puff-from-whakaari`. Fourteen added (six for Australia, eight for the sentences).
+
+**Rulings (each with its cost if wrong):**
+1. **"Inside Australia" is the record's `authority`: one of the eight state and mainland territory authorities.** `AAD` and `AHO` fail, so Heard Island, the Antarctic Territory and offshore names are out. Cost if wrong: an offshore place an `AHO` record names (a reef) cannot be used; none is wanted now.
+2. **The type is `feature`, in sentence case.** `category` is a group ("LANDFORM"). Only the letter case changes. Cost if wrong: types read "Mountain" for a record that says "MOUNTAIN"; the words are the record's.
+3. **The cited page is the catalogue record on ecat.ga.gov.au,** the dataset's own documentation, not the map service. Cost if wrong: one URL in sources.
+4. **Kept, not dropped: Gula Mons, Sapas Mons, Mare Imbrium, Meridiani Planum.** Each sentence still says what the place is (a volcano with its size; a basin with its size and age; a site whose minerals point to water). No better official sentence was found. Cost if wrong: four cards stay weaker than the rest; dropping any is a one-line change.
+5. **Elysium Planitia's new sentence starts "Just north of the divide".** It refers to the dichotomy named in the sentence before, but all it says about the plain stands alone. Cost if wrong: one card begins with a reference the reader cannot place.
+6. **Uluru's sentence keeps "Ayer's Rock"** (the page's spelling) and "this giant". Cost if wrong: a dated spelling on one card.
+7. **Nathair Facula is dropped as a landmark but stays a Mercury placement guard,** because it is in the Gazetteer's 200 largest features. Cost if wrong: none.
+
+**Placement guard:** Uluru (land). Measured water share in the 0.4° disc: true 0.00, mirrored 1.00 (131.0° W, the open South Pacific), half-turned 0.00 (49.0° W, the coast of southern Brazil). It catches the mirror only. The other Australian landmarks: Kati Thanda-Lake Eyre 0.00 / 1.00 / 1.00 (a spare that catches both, but a lake that can fill), Wolfe Creek Crater and Gosses Bluff 0.00 / 1.00 / 0.00, Shark Bay 0.50 and K'gari 0.80 (coastal; not usable).
+
+**Found on the way, not fixed:** the network `npm run data` failed on two mission quotes, not on landmarks. NSSDCA's chronology page (`nssdca-planetary-chronology`) is now a script-loaded app with its records in `chronology.xml`, so the Venera 7 and Venera 13 launch quotes are not on the fetched page. The network run had overwritten the cached page; it was restored from the Internet Archive's raw copy of 2026-10-07 of the same URL (both quotes are on it), and its meta says so. The source now shows retrieved 2026-10-07. Every landmark quote passed on the pages fetched on 2026-11-19. NRCan's service (geogratis.gc.ca) and the LINZ file did not answer; their cached copies of 2026-11-16 were used.
+
+**Screenshots looked at:** `Assets/m2b4a/8d-earth-australia.png` (Earth on Surface, `jd=2461317.67`): the six Australian dots sit on the continent's red interior and coasts in the right order: Shark Bay on the west coast, Wolfe Creek Crater in the north-west, Uluru and Gosses Bluff together in the centre, Kati Thanda-Lake Eyre to the south-east of them, K'gari on the east coast. A card for Uluru (`feature=uluru`) shows "Mountain", the quote, and "25.3415° S, 131.0354° E (CGA name: Uluru/Ayers Rock)" with both citations; its dot sits in the red centre.
+
+**Checks:** 1,251 unit tests in 124 files, typecheck clean; `npm run data` (network) failed only on the two Venera quotes above; `npm run data:offline` clean (216 sources). End-to-end `features` and `golden` 46 of 46 in one run (16.2 min). The Earth golden `Assets/m2b4a/8c-earth-surface.png` was re-shot ("Landmarks (49)", "Popocatépetl" with its accent).
+

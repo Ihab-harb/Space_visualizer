@@ -182,3 +182,8 @@ Back to [[Home]]
 - A test proves that dragging turns the globe in Explore. The opening view is unchanged.
 - Left for later by the user: closing the list on pick; Tab reaching the pins.
 - Earth landmarks show their common name, with the database's name beside the position (ten cards). The feature light is labelled "Feature light · illustrative" while it shows.
+
+## 2026-11-19 — M2b.4a Task 13: Australia and better landmark sentences
+- The user: "keep australia", "fix the weak scentences". Australian positions now come from Geoscience Australia's Composite Gazetteer of Australia, under Geoscience Australia's site licence (CC BY 4.0; the dataset states none). Only records of a state or mainland territory count. Decision [[0010-names-databases-for-earth-positions]] (third decision); source note [[Earth names databases (GNIS, GNS)]].
+- **Earth has 49 landmarks:** Uluru, Kati Thanda-Lake Eyre, Shark Bay, K'gari, Wolfe Creek Crater and Gosses Bluff added. Uluru is a new placement guard.
+- **Better sentences** for Kandinsky, Apollodorus, Mendelssohn, Elysium Planitia, Meteor Crater, Yellowstone Caldera, Aoraki/Mount Cook, Mount Pinatubo and Whakaari / White Island. Dropped for want of a good official sentence: Nathair Facula, Fonteyn (Mercury, now 14), Sif Mons (Venus, now 15). Kept for the user: Gula Mons, Sapas Mons, Mare Imbrium, Meridiani Planum.

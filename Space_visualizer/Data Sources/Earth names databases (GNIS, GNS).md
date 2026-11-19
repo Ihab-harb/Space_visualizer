@@ -1,14 +1,14 @@
 ---
-title: Earth names databases (GNIS, GNS, NOAA, GEBCO, NRCan, LINZ)
-publisher: U.S. Geological Survey / U.S. Board on Geographic Names (GNIS); NOAA NCEI (volcanoes); IHO-IOC GEBCO (undersea features); Natural Resources Canada (CGNDB); Toitū Te Whenua LINZ (New Zealand Gazetteer); National Geospatial-Intelligence Agency (GNS, not in use)
+title: Earth names databases (GNIS, GNS, NOAA, GEBCO, NRCan, LINZ, CGA)
+publisher: U.S. Geological Survey / U.S. Board on Geographic Names (GNIS); NOAA NCEI (volcanoes); IHO-IOC GEBCO (undersea features); Natural Resources Canada (CGNDB); Toitū Te Whenua LINZ (New Zealand Gazetteer); Geoscience Australia (Composite Gazetteer of Australia); National Geospatial-Intelligence Agency (GNS, not in use)
 url: https://www.usgs.gov/us-board-on-geographic-names/download-gnis-data
 used-for: [positions of Earth landmarks]
 tags: [data-source]
 ---
 
-# Earth names databases (GNIS, GNS, NOAA, GEBCO, NRCan, LINZ)
+# Earth names databases (GNIS, GNS, NOAA, GEBCO, NRCan, LINZ, CGA)
 
-Back to [[Home]] · Rules: [[0010-names-databases-for-earth-positions]] · Built in [[2026-11-15-m2b4a-feature-pins]] Tasks 5 and 12
+Back to [[Home]] · Rules: [[0010-names-databases-for-earth-positions]] · Built in [[2026-11-15-m2b4a-feature-pins]] Tasks 5, 12 and 13
 
 The note keeps its first file name, so links to it still work. Every source below gives a position only: the sentence on a card always comes from NASA, USGS or ESA. Code: the registry `NAMES_SOURCES` in `pipeline/sources/namesDatabase.ts` (one entry per source: its cited source, its host, where it holds places, how to fetch a record, how to read it). Checks: `verifyLandmarks` in `pipeline/sources/landmarks.ts`. Fetched files are cached in `pipeline/raw/names-*`, so `npm run data:offline` rebuilds from the cache.
 
@@ -19,6 +19,7 @@ The note keeps its first file name, so links to it still work. Every source belo
 | GEBCO undersea names | undersea features anywhere | 4 | `gebco-undersea-feature-names` |
 | NRCan CGNDB | Canada only | 4 | `nrcan-cgndb` |
 | LINZ NZ Gazetteer | New Zealand only | 2 | `linz-nz-gazetteer` |
+| Composite Gazetteer of Australia | Australia only | 6 | `ga-composite-gazetteer` |
 | GNS | (not in use) | 0 | none |
 
 ## GNIS (in use)
@@ -73,13 +74,23 @@ The note keeps its first file name, so links to it still work. Every source belo
 - **Caveats:** the class can read oddly: Aoraki/Mount Cook is a "Hill".
 - **Fixture:** `pipeline/fixtures/names-linz-gaz.csv` (the header and three whole rows cut from the file: Aoraki/Mount Cook, Whakaari / White Island, and the Ross Dependency's Mount Erebus).
 
+## Composite Gazetteer of Australia, Geoscience Australia (in use, Australia only)
+- **Publisher:** Geoscience Australia, which hosts the gazetteer for the data providers: each state and mainland territory naming authority, the Australian Hydrographic Office (undersea names) and the Australian Antarctic Division (Antarctic names). Documentation: the catalogue record https://ecat.ga.gov.au/geonetwork/srv/api/records/f91a52b3-26f6-4f2c-bb8e-520f40864d5b ("The Composite Gazetteer of Australia (CGA) is the national repository of Australia’s approved place names, drawing together data from each state, territory, and relevant Commonwealth authorities."). The map service layer description says the same.
+- **Fetch:** one record by its `id`, JSON, from the ArcGIS REST map service: `https://services.ga.gov.au/gis/rest/services/Composite_Gazetteer_of_Australia/MapServer/0/query?where=id%3D%27<id>%27&outFields=*&returnGeometry=false&f=json`. No key, login or cookie. The answer holds `features` with one record; an unknown id gives `"features":[]`. The id is the authority code, an underscore and the authority's own id (`NT_10532`, `SA_SA0066895`, `WA_100044292`). The build checks the id against `^[A-Z]{2,3}_[A-Za-z0-9]+$`, which keeps the query's `where` clause safe. A name search for research: `where=UPPER(name) LIKE 'ULURU%'` on the same layer.
+- **Fields used:** `id`, `name`, `feature` (the type: "MOUNTAIN", "LAKE", "CRATER"), `authority` (the territory check), `latitude`, `longitude` (GDA94, read as written in the JSON). Also present: `objectid`, `auth_id`, `category` (a broader group: "LANDFORM", "WATERBODY"), `theme`, `supply_date`. The type is `feature`, not `category`: `feature` names the kind of place, `category` only its group. It is shown in sentence case ("Mountain").
+- **Country check:** the record's `authority` must be NSW, VIC, QLD, SA, WA, TAS, NT or ACT. On 2026-11-19 the layer held ten authorities: those eight plus `AAD` (2,628 records: the Australian Antarctic Territory and Heard Island) and `AHO` (1,273 offshore and undersea names). An `AAD` or `AHO` record fails the build. Tested with `AAD_2012` (Mount Clarke, Antarctica) and `AHO_28995` (Brampton Roads, an anchorage off Queensland) on the outside, `NT_10532` and `WA_100044292` on the inside.
+- **Licence:** CC BY 4.0, by the user's decision of 2026-11-16 ("keep australia"; [[0010-names-databases-for-earth-positions]], third decision). Where it is stated: Geoscience Australia's site licence, https://www.ga.gov.au/copyright: "All material on this website is licensed under the Creative Commons Attribution 4.0 International Licence", except among others "content the copyright in which belongs to third parties". The dataset itself states none: its catalogue record gives the use constraint "license" with only "© Commonwealth of Australia (Geoscience Australia) 2025"; data.gov.au lists it as "notspecified"; the WFS says "Fees: None" and "AccessConstraints: Geoscience Australia". The catalogue record answered 403 on 2026-11-16 and 200 on 2026-11-19.
+- **Example** (fetched 2026-11-19): `{"objectid":238439,"id":"NT_10532","auth_id":"10532","name":"Uluru/Ayers Rock","feature":"MOUNTAIN","category":"LANDFORM","theme":"TERRAIN","latitude":-25.3415,"longitude":131.0354,"authority":"NT","supply_date":1709257902000}` → Uluru/Ayers Rock, Mountain, `-25.3415, 131.0354`, NT.
+- **Caveats:** Western Australia writes its names in capitals ("SHARK BAY", "WOLFE CREEK METEORITE CRATER"), so those landmarks show the common name with the record's name beside the position. Precision varies by authority: Gosses Bluff (NT) is given as `-23.8, 132.3167`. Lake Eyre has two records at one point, "Kati Thanda" and "Lake Eyre"; the landmark uses "Kati Thanda". The Great Barrier Reef has no record. A wide range can have one record per state (the Great Dividing Range has three).
+- **Fixtures:** `pipeline/fixtures/names-ga-cga-NT_10532.json`, `names-ga-cga-WA_100044292.json`, `names-ga-cga-AAD_2012.json`, `names-ga-cga-AHO_28995.json` (the responses as fetched).
+
 ## GNS (not in use)
 - **Publisher:** National Geospatial-Intelligence Agency (NGA), for the U.S. Board on Geographic Names. Coverage: the world outside the United States and Antarctica.
 - **Status:** could not be reached. `geonames.nga.mil` timed out (TCP connect) on every try on 2026-11-15, from this machine and from the web fetch tool, from 09:55 to 10:30 UTC. `www.nga.mil` answered normally. The ArcGIS query form seen in search results was `https://geonames.nga.mil/geon-ags/rest/services/RESEARCH/GIS_OUTPUT/MapServer/0/query?where=ufi+%3D+<UFI>&outFields=*&f=json`; it could not be fetched, so its fields and its licence are not confirmed.
 - **Effect:** a `gns` position fails the check. Its registry entry is kept, with its reason, so it can be switched on later.
 
 ## Looked at and not used (2026-11-16)
-- **Australia, Composite Gazetteer of Australia** (Geoscience Australia with the state naming authorities): the map service `https://services.ga.gov.au/gis/rest/services/Composite_Gazetteer_of_Australia/MapServer/0` works and has `name`, `feature`, `latitude`, `longitude` fields (GDA94), but no licence is stated: data.gov.au lists the dataset and its services as "notspecified", the service's copyright text is "Geoscience Australia" and its WFS says only "Fees: None", "AccessConstraints: Geoscience Australia". Geoscience Australia's site licence (CC BY 4.0) excludes "content the copyright in which belongs to third parties", and the names belong to the state authorities. The catalogue record (ecat.ga.gov.au) answered 403. Not used; open for the user. The search site placenames.fsdf.org.au is a browser app.
+- **Australia:** was here until 2026-11-16 (no licence stated); now in use, above. The search site placenames.fsdf.org.au is a browser app and is not used.
 - **UNESCO World Heritage list:** a Cloudflare challenge (HTTP 403) for the controller; not tried again.
 - **NOAA's old gazetteer address:** the GEBCO gazetteer now answers there (above).
 - **Commercial or volunteer copies** (GeoNames.org, OpenStreetMap, Wikidata, ArcGIS Online copies): not used, by the rule.
@@ -90,4 +101,5 @@ Before Task 12, NASA pages were the only way to a position outside the United St
 - Mount Fuji: "The image is centered at 35.3 degrees north latitude, 138.7 degrees east longitude." (ASTER view). **Now in, as Fujisan, from NOAA.**
 - Mount Etna: "Location: 38 degrees North latitude, 15.5 degrees East longitude" (ASTER perspective view, looking south). **Now in, from NOAA.**
 - Richat Structure: "Location: 21.2 degrees North latitude, 11.7 degrees West longitude" (SRTM view toward west-northwest). Still out: no official point record reachable.
-- Still out, with no reachable official point record or no licence: Mount Everest and the Himalaya, the Sahara, the Amazon, the Nile, the Great Barrier Reef, Uluru, Lake Eyre (Australia: no licence stated), Milford Sound (in the LINZ gazetteer, but no NASA, USGS or ESA sentence was found), Mount Logan (in NRCan, but the only NASA sentence names it in passing), the East Pacific Rise and the Emperor Seamounts (in GEBCO, but no sentence that reads on its own), Erta Ale and Cotopaxi (in NOAA, but no sentence that reads on its own).
+- Uluru and Lake Eyre: **now in, from the Composite Gazetteer of Australia** (Task 13).
+- Still out, with no reachable official point record: Mount Everest and the Himalaya, the Sahara, the Amazon, the Nile, the Great Barrier Reef (no Composite Gazetteer record), Milford Sound (in the LINZ gazetteer, but no NASA, USGS or ESA sentence was found), Mount Logan (in NRCan, but the only NASA sentence names it in passing), the East Pacific Rise and the Emperor Seamounts (in GEBCO, but no sentence that reads on its own), Erta Ale and Cotopaxi (in NOAA, but no sentence that reads on its own).
