@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "bodyId": "mars",
-  "generatedAt": "2026-11-16T20:24:31.989Z",
+  "generatedAt": "2026-11-19T16:14:39.368Z",
   "interior": {
     "radiusKm": {
       "value": 3389.5,
@@ -2379,8 +2379,8 @@
       },
       "sizeSourceId": "usgs-gazetteer-mars",
       "quote": {
-        "text": "InSight landed near Mars' equator on the western side of a flat, smooth plain called Elysium Planitia.",
-        "sourceId": "nasa-mission-insight"
+        "text": "Just north of the divide lies the Central Elysium Planitia -one of two large volcanic regions on Mars and the location of the youngest volcanic rocks (about two million years old) on the planet.",
+        "sourceId": "nasa-eo-flood-basalts-mars-iceland"
       }
     },
     {

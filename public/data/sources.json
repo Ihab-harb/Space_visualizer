@@ -7,7 +7,7 @@
       "publisher": "NASA/JPL Navigation and Ancillary Information Facility (NAIF)",
       "url": "https://naif.jpl.nasa.gov/pub/naif/generic_kernels/pck/gm_de440.tpc",
       "license": "NASA public domain (NASA media usage guidelines)",
-      "retrievedAt": "2026-11-16"
+      "retrievedAt": "2026-11-19"
     },
     {
       "id": "jpl-sats-elem",
@@ -15,7 +15,7 @@
       "publisher": "NASA/JPL Solar System Dynamics",
       "url": "https://ssd.jpl.nasa.gov/sats/elem/",
       "license": "NASA/JPL public web content (JPL Image Use Policy, https://www.jpl.nasa.gov/jpl-image-use-policy)",
-      "retrievedAt": "2026-11-16"
+      "retrievedAt": "2026-11-19"
     },
     {
       "id": "nssdca-moon-fact-sheet",
@@ -23,7 +23,7 @@
       "publisher": "NASA Goddard Space Flight Center, NSSDCA",
       "url": "https://nssdc.gsfc.nasa.gov/planetary/factsheet/moonfact.html",
       "license": "NASA public domain (NASA media usage guidelines)",
-      "retrievedAt": "2026-11-16"
+      "retrievedAt": "2026-11-19"
     },
     {
       "id": "nasa-science-moon",
@@ -31,7 +31,7 @@
       "publisher": "NASA",
       "url": "https://science.nasa.gov/moon/",
       "license": "NASA public domain (NASA media usage guidelines)",
-      "retrievedAt": "2026-11-16"
+      "retrievedAt": "2026-11-19"
     },
     {
       "id": "jpl-approx-pos",
@@ -39,7 +39,7 @@
       "publisher": "NASA/JPL Solar System Dynamics",
       "url": "https://ssd.jpl.nasa.gov/planets/approx_pos.html",
       "license": "NASA/JPL public web content (JPL Image Use Policy, https://www.jpl.nasa.gov/jpl-image-use-policy)",
-      "retrievedAt": "2026-11-16"
+      "retrievedAt": "2026-11-19"
     },
     {
       "id": "jpl-horizons",
@@ -55,7 +55,7 @@
       "publisher": "NASA Goddard Space Flight Center, NSSDCA",
       "url": "https://nssdc.gsfc.nasa.gov/planetary/factsheet/",
       "license": "NASA public domain (NASA media usage guidelines)",
-      "retrievedAt": "2026-11-16"
+      "retrievedAt": "2026-11-19"
     },
     {
       "id": "nssdca-sun-fact-sheet",
@@ -63,7 +63,7 @@
       "publisher": "NASA Goddard Space Flight Center, NSSDCA",
       "url": "https://nssdc.gsfc.nasa.gov/planetary/factsheet/sunfact.html",
       "license": "NASA public domain (NASA media usage guidelines)",
-      "retrievedAt": "2026-11-16"
+      "retrievedAt": "2026-11-19"
     },
     {
       "id": "naif-pck00011",
@@ -71,7 +71,7 @@
       "publisher": "NASA/JPL Navigation and Ancillary Information Facility (NAIF)",
       "url": "https://naif.jpl.nasa.gov/pub/naif/generic_kernels/pck/pck00011.tpc",
       "license": "NASA public domain (NASA media usage guidelines)",
-      "retrievedAt": "2026-11-16"
+      "retrievedAt": "2026-11-19"
     },
     {
       "id": "nasa-science-sun",
@@ -79,7 +79,7 @@
       "publisher": "NASA",
       "url": "https://science.nasa.gov/sun/",
       "license": "NASA public domain (NASA media usage guidelines)",
-      "retrievedAt": "2026-11-16"
+      "retrievedAt": "2026-11-19"
     },
     {
       "id": "nasa-science-mercury",
@@ -87,7 +87,7 @@
       "publisher": "NASA",
       "url": "https://science.nasa.gov/mercury/",
       "license": "NASA public domain (NASA media usage guidelines)",
-      "retrievedAt": "2026-11-16"
+      "retrievedAt": "2026-11-19"
     },
     {
       "id": "nasa-science-venus",
@@ -95,7 +95,7 @@
       "publisher": "NASA",
       "url": "https://science.nasa.gov/venus/",
       "license": "NASA public domain (NASA media usage guidelines)",
-      "retrievedAt": "2026-11-16"
+      "retrievedAt": "2026-11-19"
     },
     {
       "id": "nasa-science-earth",
@@ -103,7 +103,7 @@
       "publisher": "NASA",
       "url": "https://science.nasa.gov/earth/facts/",
       "license": "NASA public domain (NASA media usage guidelines)",
-      "retrievedAt": "2026-11-16"
+      "retrievedAt": "2026-11-19"
     },
     {
       "id": "nasa-science-mars",
@@ -111,7 +111,7 @@
       "publisher": "NASA",
       "url": "https://science.nasa.gov/mars/",
       "license": "NASA public domain (NASA media usage guidelines)",
-      "retrievedAt": "2026-11-16"
+      "retrievedAt": "2026-11-19"
     },
     {
       "id": "nasa-science-jupiter",
@@ -119,7 +119,7 @@
       "publisher": "NASA",
       "url": "https://science.nasa.gov/jupiter/",
       "license": "NASA public domain (NASA media usage guidelines)",
-      "retrievedAt": "2026-11-16"
+      "retrievedAt": "2026-11-19"
     },
     {
       "id": "nasa-science-saturn",
@@ -127,7 +127,7 @@
       "publisher": "NASA",
       "url": "https://science.nasa.gov/saturn/",
       "license": "NASA public domain (NASA media usage guidelines)",
-      "retrievedAt": "2026-11-16"
+      "retrievedAt": "2026-11-19"
     },
     {
       "id": "nasa-science-uranus",
@@ -135,7 +135,7 @@
       "publisher": "NASA",
       "url": "https://science.nasa.gov/uranus/",
       "license": "NASA public domain (NASA media usage guidelines)",
-      "retrievedAt": "2026-11-16"
+      "retrievedAt": "2026-11-19"
     },
     {
       "id": "nasa-science-neptune",
@@ -143,7 +143,7 @@
       "publisher": "NASA",
       "url": "https://science.nasa.gov/neptune/",
       "license": "NASA public domain (NASA media usage guidelines)",
-      "retrievedAt": "2026-11-16"
+      "retrievedAt": "2026-11-19"
     },
     {
       "id": "nasa-blue-marble-ng",
@@ -271,7 +271,7 @@
       "publisher": "NASA Goddard Space Flight Center, NSSDCA",
       "url": "https://nssdc.gsfc.nasa.gov/planetary/factsheet/mercuryfact.html",
       "license": "NASA public domain (NASA media usage guidelines)",
-      "retrievedAt": "2026-11-16"
+      "retrievedAt": "2026-11-19"
     },
     {
       "id": "usgs-gazetteer-mercury",
@@ -287,7 +287,7 @@
       "publisher": "NASA Goddard Space Flight Center, NSSDCA",
       "url": "https://nssdc.gsfc.nasa.gov/planetary/factsheet/venusfact.html",
       "license": "NASA public domain (NASA media usage guidelines)",
-      "retrievedAt": "2026-11-16"
+      "retrievedAt": "2026-11-19"
     },
     {
       "id": "usgs-gazetteer-venus",
@@ -303,7 +303,7 @@
       "publisher": "NASA Goddard Space Flight Center, NSSDCA",
       "url": "https://nssdc.gsfc.nasa.gov/planetary/factsheet/earthfact.html",
       "license": "NASA public domain (NASA media usage guidelines)",
-      "retrievedAt": "2026-11-16"
+      "retrievedAt": "2026-11-19"
     },
     {
       "id": "usgs-gnis",
@@ -319,7 +319,15 @@
       "publisher": "NOAA National Centers for Environmental Information (NCEI)",
       "url": "https://www.ncei.noaa.gov/products/natural-hazards/tsunamis-earthquakes-volcanoes/volcanoes",
       "license": "U.S. Government data (NOAA); dataset metadata: \"Access to this dataset is unrestricted.\"; cite as doi:10.7289/V5JW8BSH",
-      "retrievedAt": "2026-11-16"
+      "retrievedAt": "2026-11-19"
+    },
+    {
+      "id": "ga-composite-gazetteer",
+      "title": "Composite Gazetteer of Australia (map service layer 0, place names points)",
+      "publisher": "Geoscience Australia, with the state and territory naming authorities",
+      "url": "https://ecat.ga.gov.au/geonetwork/srv/api/records/f91a52b3-26f6-4f2c-bb8e-520f40864d5b",
+      "license": "CC BY 4.0 under Geoscience Australia's site licence (https://www.ga.gov.au/copyright: \"All material on this website is licensed under the Creative Commons Attribution 4.0 International Licence\"), as accepted by the user on 2026-11-16; the dataset's own entries state no licence (catalogue: \"© Commonwealth of Australia (Geoscience Australia) 2025\"; data.gov.au: \"notspecified\")",
+      "retrievedAt": "2026-11-19"
     },
     {
       "id": "gebco-undersea-feature-names",
@@ -327,7 +335,7 @@
       "publisher": "IHO-IOC GEBCO Sub-Committee on Undersea Feature Names; hosted by the IHO Data Centre for Digital Bathymetry at NOAA NCEI",
       "url": "https://www.gebco.net/data-products/undersea-feature-names",
       "license": "Use with citation: \"IHO-IOC GEBCO Gazetteer of Undersea Feature Names, www.gebco.net\" (GEBCO and NCEI)",
-      "retrievedAt": "2026-11-16"
+      "retrievedAt": "2026-11-19"
     },
     {
       "id": "nrcan-cgndb",
@@ -359,7 +367,7 @@
       "publisher": "NASA Goddard Space Flight Center, NSSDCA",
       "url": "https://nssdc.gsfc.nasa.gov/planetary/factsheet/marsfact.html",
       "license": "NASA public domain (NASA media usage guidelines)",
-      "retrievedAt": "2026-11-16"
+      "retrievedAt": "2026-11-19"
     },
     {
       "id": "usgs-gazetteer-mars",
@@ -375,7 +383,7 @@
       "publisher": "NASA Goddard Space Flight Center, NSSDCA",
       "url": "https://nssdc.gsfc.nasa.gov/planetary/factsheet/jupiterfact.html",
       "license": "NASA public domain (NASA media usage guidelines)",
-      "retrievedAt": "2026-11-16"
+      "retrievedAt": "2026-11-19"
     },
     {
       "id": "nssdca-saturn-fact-sheet",
@@ -383,7 +391,7 @@
       "publisher": "NASA Goddard Space Flight Center, NSSDCA",
       "url": "https://nssdc.gsfc.nasa.gov/planetary/factsheet/saturnfact.html",
       "license": "NASA public domain (NASA media usage guidelines)",
-      "retrievedAt": "2026-11-16"
+      "retrievedAt": "2026-11-19"
     },
     {
       "id": "nssdca-uranus-fact-sheet",
@@ -391,7 +399,7 @@
       "publisher": "NASA Goddard Space Flight Center, NSSDCA",
       "url": "https://nssdc.gsfc.nasa.gov/planetary/factsheet/uranusfact.html",
       "license": "NASA public domain (NASA media usage guidelines)",
-      "retrievedAt": "2026-11-16"
+      "retrievedAt": "2026-11-19"
     },
     {
       "id": "nssdca-neptune-fact-sheet",
@@ -399,7 +407,7 @@
       "publisher": "NASA Goddard Space Flight Center, NSSDCA",
       "url": "https://nssdc.gsfc.nasa.gov/planetary/factsheet/neptunefact.html",
       "license": "NASA public domain (NASA media usage guidelines)",
-      "retrievedAt": "2026-11-16"
+      "retrievedAt": "2026-11-19"
     },
     {
       "id": "nasa-msfc-solar-interior",
@@ -407,7 +415,7 @@
       "publisher": "NASA Marshall Space Flight Center",
       "url": "https://solarscience.msfc.nasa.gov/interior.shtml",
       "license": "NASA public domain (NASA media usage guidelines)",
-      "retrievedAt": "2026-10-30"
+      "retrievedAt": "2026-11-19"
     },
     {
       "id": "nasa-gsfc-sun-structure",
@@ -415,7 +423,7 @@
       "publisher": "NASA Goddard Space Flight Center",
       "url": "https://pwg.gsfc.nasa.gov/istp/outreach/workshop/thompson/sundiag.html",
       "license": "NASA public domain (NASA media usage guidelines)",
-      "retrievedAt": "2026-11-16"
+      "retrievedAt": "2026-11-19"
     },
     {
       "id": "nasa-science-mercury-facts",
@@ -423,7 +431,7 @@
       "publisher": "NASA Science",
       "url": "https://science.nasa.gov/mercury/facts/",
       "license": "NASA public domain (NASA media usage guidelines)",
-      "retrievedAt": "2026-11-16"
+      "retrievedAt": "2026-11-19"
     },
     {
       "id": "nasa-science-mars-facts",
@@ -431,7 +439,7 @@
       "publisher": "NASA Science",
       "url": "https://science.nasa.gov/mars/facts/",
       "license": "NASA public domain (NASA media usage guidelines)",
-      "retrievedAt": "2026-11-16"
+      "retrievedAt": "2026-11-19"
     },
     {
       "id": "nasa-insight-deep-interior",
@@ -439,7 +447,7 @@
       "publisher": "NASA / JPL",
       "url": "https://www.nasa.gov/centers-and-facilities/jpl/nasas-insight-reveals-the-deep-interior-of-mars/",
       "license": "NASA public domain (NASA media usage guidelines)",
-      "retrievedAt": "2026-11-16"
+      "retrievedAt": "2026-11-19"
     },
     {
       "id": "nasa-science-moon-composition",
@@ -447,7 +455,7 @@
       "publisher": "NASA Science",
       "url": "https://science.nasa.gov/moon/composition/",
       "license": "NASA public domain (NASA media usage guidelines)",
-      "retrievedAt": "2026-11-16"
+      "retrievedAt": "2026-11-19"
     },
     {
       "id": "nasa-science-moon-facts",
@@ -455,7 +463,7 @@
       "publisher": "NASA Science",
       "url": "https://science.nasa.gov/moon/facts/",
       "license": "NASA public domain (NASA media usage guidelines)",
-      "retrievedAt": "2026-11-16"
+      "retrievedAt": "2026-11-19"
     },
     {
       "id": "nasa-science-venus-facts",
@@ -463,7 +471,7 @@
       "publisher": "NASA Science",
       "url": "https://science.nasa.gov/venus/facts/",
       "license": "NASA public domain (NASA media usage guidelines)",
-      "retrievedAt": "2026-11-16"
+      "retrievedAt": "2026-11-19"
     },
     {
       "id": "nasa-science-jupiter-facts",
@@ -471,7 +479,7 @@
       "publisher": "NASA Science",
       "url": "https://science.nasa.gov/jupiter/facts/",
       "license": "NASA public domain (NASA media usage guidelines)",
-      "retrievedAt": "2026-11-16"
+      "retrievedAt": "2026-11-19"
     },
     {
       "id": "nasa-science-saturn-facts",
@@ -479,7 +487,7 @@
       "publisher": "NASA Science",
       "url": "https://science.nasa.gov/saturn/facts/",
       "license": "NASA public domain (NASA media usage guidelines)",
-      "retrievedAt": "2026-11-16"
+      "retrievedAt": "2026-11-19"
     },
     {
       "id": "nasa-science-uranus-facts",
@@ -487,7 +495,7 @@
       "publisher": "NASA Science",
       "url": "https://science.nasa.gov/uranus/facts/",
       "license": "NASA public domain (NASA media usage guidelines)",
-      "retrievedAt": "2026-11-16"
+      "retrievedAt": "2026-11-19"
     },
     {
       "id": "nasa-science-neptune-facts",
@@ -495,7 +503,7 @@
       "publisher": "NASA Science",
       "url": "https://science.nasa.gov/neptune/facts/",
       "license": "NASA public domain (NASA media usage guidelines)",
-      "retrievedAt": "2026-11-16"
+      "retrievedAt": "2026-11-19"
     },
     {
       "id": "paper-maia-wieczorek-2022-venus-plateaus",
@@ -503,7 +511,7 @@
       "publisher": "Journal of Geophysical Research: Planets",
       "url": "https://doi.org/10.1029/2021JE007004",
       "license": "Peer-reviewed article; quoted under fair use",
-      "retrievedAt": "2026-11-16"
+      "retrievedAt": "2026-11-19"
     },
     {
       "id": "paper-shah-2022-venus-interior",
@@ -511,7 +519,7 @@
       "publisher": "The Astrophysical Journal",
       "url": "https://doi.org/10.3847/1538-4357/ac410d",
       "license": "Peer-reviewed article; quoted under fair use",
-      "retrievedAt": "2026-11-16"
+      "retrievedAt": "2026-11-19"
     },
     {
       "id": "paper-militzer-2022-jupiter-dilute-core",
@@ -519,7 +527,7 @@
       "publisher": "The Planetary Science Journal",
       "url": "https://doi.org/10.3847/PSJ/ac7ec8",
       "license": "Peer-reviewed article; quoted under fair use",
-      "retrievedAt": "2026-11-16"
+      "retrievedAt": "2026-11-19"
     },
     {
       "id": "paper-mankovich-fuller-2021-saturn-core",
@@ -527,7 +535,7 @@
       "publisher": "Nature Astronomy",
       "url": "https://doi.org/10.1038/s41550-021-01448-3",
       "license": "Peer-reviewed article; quoted under fair use",
-      "retrievedAt": "2026-11-16"
+      "retrievedAt": "2026-11-19"
     },
     {
       "id": "nasa-spaceplace-mercury",
@@ -535,7 +543,7 @@
       "publisher": "NASA Space Place",
       "url": "https://spaceplace.nasa.gov/all-about-mercury/en/",
       "license": "NASA public domain (NASA media usage guidelines)",
-      "retrievedAt": "2026-11-16"
+      "retrievedAt": "2026-11-19"
     },
     {
       "id": "nssdca-mariner-10",
@@ -543,7 +551,7 @@
       "publisher": "NASA NSSDCA",
       "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1973-085A",
       "license": "NASA public domain (NASA media usage guidelines)",
-      "retrievedAt": "2026-11-16"
+      "retrievedAt": "2026-11-19"
     },
     {
       "id": "nssdca-messenger",
@@ -551,7 +559,7 @@
       "publisher": "NASA NSSDCA",
       "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=2004-030A",
       "license": "NASA public domain (NASA media usage guidelines)",
-      "retrievedAt": "2026-11-16"
+      "retrievedAt": "2026-11-19"
     },
     {
       "id": "nasa-mission-bepicolombo",
@@ -559,7 +567,7 @@
       "publisher": "NASA Science",
       "url": "https://science.nasa.gov/mission/bepicolombo/",
       "license": "NASA public domain (NASA media usage guidelines)",
-      "retrievedAt": "2026-11-16"
+      "retrievedAt": "2026-11-19"
     },
     {
       "id": "nasa-spaceplace-venus",
@@ -567,7 +575,7 @@
       "publisher": "NASA Space Place",
       "url": "https://spaceplace.nasa.gov/all-about-venus/en/",
       "license": "NASA public domain (NASA media usage guidelines)",
-      "retrievedAt": "2026-11-16"
+      "retrievedAt": "2026-11-19"
     },
     {
       "id": "nasa-mission-mariner-2",
@@ -575,7 +583,7 @@
       "publisher": "NASA Science",
       "url": "https://science.nasa.gov/mission/mariner-2/",
       "license": "NASA public domain (NASA media usage guidelines)",
-      "retrievedAt": "2026-11-16"
+      "retrievedAt": "2026-11-19"
     },
     {
       "id": "nssdca-planetary-chronology",
@@ -583,7 +591,7 @@
       "publisher": "NASA NSSDCA",
       "url": "https://nssdc.gsfc.nasa.gov/planetary/chronology.html",
       "license": "NASA public domain (NASA media usage guidelines)",
-      "retrievedAt": "2026-11-16"
+      "retrievedAt": "2026-10-07"
     },
     {
       "id": "nasa-mission-magellan",
@@ -591,7 +599,7 @@
       "publisher": "NASA Science",
       "url": "https://science.nasa.gov/mission/magellan/",
       "license": "NASA public domain (NASA media usage guidelines)",
-      "retrievedAt": "2026-11-16"
+      "retrievedAt": "2026-11-19"
     },
     {
       "id": "nasa-mission-venus-express",
@@ -599,7 +607,7 @@
       "publisher": "NASA Science",
       "url": "https://science.nasa.gov/mission/venus-express/",
       "license": "NASA public domain (NASA media usage guidelines)",
-      "retrievedAt": "2026-11-16"
+      "retrievedAt": "2026-11-19"
     },
     {
       "id": "nasa-mission-akatsuki",
@@ -607,7 +615,7 @@
       "publisher": "NASA Science",
       "url": "https://science.nasa.gov/mission/akatsuki/",
       "license": "NASA public domain (NASA media usage guidelines)",
-      "retrievedAt": "2026-11-16"
+      "retrievedAt": "2026-11-19"
     },
     {
       "id": "nasa-sputnik-1",
@@ -615,7 +623,7 @@
       "publisher": "NASA",
       "url": "https://www.nasa.gov/image-article/sputnik-1/",
       "license": "NASA public domain (NASA media usage guidelines)",
-      "retrievedAt": "2026-11-16"
+      "retrievedAt": "2026-11-19"
     },
     {
       "id": "nasa-mission-explorer-1",
@@ -623,7 +631,7 @@
       "publisher": "NASA Science",
       "url": "https://science.nasa.gov/mission/explorer-1/",
       "license": "NASA public domain (NASA media usage guidelines)",
-      "retrievedAt": "2026-11-16"
+      "retrievedAt": "2026-11-19"
     },
     {
       "id": "nssdca-tiros-1",
@@ -631,7 +639,7 @@
       "publisher": "NASA NSSDCA",
       "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1960-002B",
       "license": "NASA public domain (NASA media usage guidelines)",
-      "retrievedAt": "2026-11-16"
+      "retrievedAt": "2026-11-19"
     },
     {
       "id": "nasa-mission-landsat-1",
@@ -639,7 +647,7 @@
       "publisher": "NASA Science",
       "url": "https://science.nasa.gov/mission/landsat-1/",
       "license": "NASA public domain (NASA media usage guidelines)",
-      "retrievedAt": "2026-11-16"
+      "retrievedAt": "2026-11-19"
     },
     {
       "id": "nasa-mission-landsat-9",
@@ -647,7 +655,7 @@
       "publisher": "NASA Science",
       "url": "https://science.nasa.gov/mission/landsat-9/",
       "license": "NASA public domain (NASA media usage guidelines)",
-      "retrievedAt": "2026-11-16"
+      "retrievedAt": "2026-11-19"
     },
     {
       "id": "nasa-spaceplace-mars",
@@ -655,7 +663,7 @@
       "publisher": "NASA Space Place",
       "url": "https://spaceplace.nasa.gov/all-about-mars/en/",
       "license": "NASA public domain (NASA media usage guidelines)",
-      "retrievedAt": "2026-11-16"
+      "retrievedAt": "2026-11-19"
     },
     {
       "id": "nasa-mission-mariner-4",
@@ -663,7 +671,7 @@
       "publisher": "NASA Science",
       "url": "https://science.nasa.gov/mission/mariner-4/",
       "license": "NASA public domain (NASA media usage guidelines)",
-      "retrievedAt": "2026-11-16"
+      "retrievedAt": "2026-11-19"
     },
     {
       "id": "nasa-mission-mariner-9",
@@ -671,7 +679,7 @@
       "publisher": "NASA Science",
       "url": "https://science.nasa.gov/mission/mariner-9/",
       "license": "NASA public domain (NASA media usage guidelines)",
-      "retrievedAt": "2026-11-16"
+      "retrievedAt": "2026-11-19"
     },
     {
       "id": "nasa-mission-viking-1",
@@ -679,7 +687,7 @@
       "publisher": "NASA Science",
       "url": "https://science.nasa.gov/mission/viking-1/",
       "license": "NASA public domain (NASA media usage guidelines)",
-      "retrievedAt": "2026-11-16"
+      "retrievedAt": "2026-11-19"
     },
     {
       "id": "nasa-mission-mars-pathfinder",
@@ -687,7 +695,7 @@
       "publisher": "NASA Science",
       "url": "https://science.nasa.gov/mission/mars-pathfinder/",
       "license": "NASA public domain (NASA media usage guidelines)",
-      "retrievedAt": "2026-11-16"
+      "retrievedAt": "2026-11-19"
     },
     {
       "id": "nasa-mission-mars-global-surveyor",
@@ -695,7 +703,7 @@
       "publisher": "NASA Science",
       "url": "https://science.nasa.gov/mission/mars-global-surveyor/",
       "license": "NASA public domain (NASA media usage guidelines)",
-      "retrievedAt": "2026-11-16"
+      "retrievedAt": "2026-11-19"
     },
     {
       "id": "nssdca-spirit",
@@ -703,7 +711,7 @@
       "publisher": "NASA NSSDCA",
       "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=2003-027A",
       "license": "NASA public domain (NASA media usage guidelines)",
-      "retrievedAt": "2026-11-16"
+      "retrievedAt": "2026-11-19"
     },
     {
       "id": "nssdca-opportunity",
@@ -711,7 +719,7 @@
       "publisher": "NASA NSSDCA",
       "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=2003-032A",
       "license": "NASA public domain (NASA media usage guidelines)",
-      "retrievedAt": "2026-11-16"
+      "retrievedAt": "2026-11-19"
     },
     {
       "id": "nasa-mission-msl-curiosity",
@@ -719,7 +727,7 @@
       "publisher": "NASA Science",
       "url": "https://science.nasa.gov/mission/msl-curiosity/",
       "license": "NASA public domain (NASA media usage guidelines)",
-      "retrievedAt": "2026-11-16"
+      "retrievedAt": "2026-11-19"
     },
     {
       "id": "nasa-mission-insight",
@@ -727,7 +735,7 @@
       "publisher": "NASA Science",
       "url": "https://science.nasa.gov/mission/insight/",
       "license": "NASA public domain (NASA media usage guidelines)",
-      "retrievedAt": "2026-11-16"
+      "retrievedAt": "2026-11-19"
     },
     {
       "id": "nssdca-perseverance",
@@ -735,7 +743,7 @@
       "publisher": "NASA NSSDCA",
       "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=2020-052A",
       "license": "NASA public domain (NASA media usage guidelines)",
-      "retrievedAt": "2026-11-16"
+      "retrievedAt": "2026-11-19"
     },
     {
       "id": "nasa-spaceplace-jupiter",
@@ -743,7 +751,7 @@
       "publisher": "NASA Space Place",
       "url": "https://spaceplace.nasa.gov/all-about-jupiter/en/",
       "license": "NASA public domain (NASA media usage guidelines)",
-      "retrievedAt": "2026-11-16"
+      "retrievedAt": "2026-11-19"
     },
     {
       "id": "nasa-mission-pioneer-10",
@@ -751,7 +759,7 @@
       "publisher": "NASA Science",
       "url": "https://science.nasa.gov/mission/pioneer-10/",
       "license": "NASA public domain (NASA media usage guidelines)",
-      "retrievedAt": "2026-11-16"
+      "retrievedAt": "2026-11-19"
     },
     {
       "id": "nasa-mission-voyager-1",
@@ -759,7 +767,7 @@
       "publisher": "NASA Science",
       "url": "https://science.nasa.gov/mission/voyager-1/",
       "license": "NASA public domain (NASA media usage guidelines)",
-      "retrievedAt": "2026-11-16"
+      "retrievedAt": "2026-11-19"
     },
     {
       "id": "nasa-mission-voyager-2",
@@ -767,7 +775,7 @@
       "publisher": "NASA Science",
       "url": "https://science.nasa.gov/mission/voyager-2/",
       "license": "NASA public domain (NASA media usage guidelines)",
-      "retrievedAt": "2026-11-16"
+      "retrievedAt": "2026-11-19"
     },
     {
       "id": "nasa-mission-galileo",
@@ -775,7 +783,7 @@
       "publisher": "NASA Science",
       "url": "https://science.nasa.gov/mission/galileo/",
       "license": "NASA public domain (NASA media usage guidelines)",
-      "retrievedAt": "2026-11-16"
+      "retrievedAt": "2026-11-19"
     },
     {
       "id": "nasa-mission-juno",
@@ -783,7 +791,7 @@
       "publisher": "NASA Science",
       "url": "https://science.nasa.gov/mission/juno/",
       "license": "NASA public domain (NASA media usage guidelines)",
-      "retrievedAt": "2026-11-16"
+      "retrievedAt": "2026-11-19"
     },
     {
       "id": "nasa-mission-juice",
@@ -791,7 +799,7 @@
       "publisher": "NASA Science",
       "url": "https://science.nasa.gov/mission/juice/",
       "license": "NASA public domain (NASA media usage guidelines)",
-      "retrievedAt": "2026-11-16"
+      "retrievedAt": "2026-11-19"
     },
     {
       "id": "nasa-mission-europa-clipper",
@@ -799,7 +807,7 @@
       "publisher": "NASA Science",
       "url": "https://science.nasa.gov/mission/europa-clipper/",
       "license": "NASA public domain (NASA media usage guidelines)",
-      "retrievedAt": "2026-11-16"
+      "retrievedAt": "2026-11-19"
     },
     {
       "id": "nasa-mission-pioneer-11",
@@ -807,7 +815,7 @@
       "publisher": "NASA Science",
       "url": "https://science.nasa.gov/mission/pioneer-11/",
       "license": "NASA public domain (NASA media usage guidelines)",
-      "retrievedAt": "2026-11-16"
+      "retrievedAt": "2026-11-19"
     },
     {
       "id": "nasa-jpl-cassini",
@@ -815,7 +823,7 @@
       "publisher": "NASA Jet Propulsion Laboratory",
       "url": "https://www.jpl.nasa.gov/missions/cassini-huygens/",
       "license": "NASA public domain (NASA media usage guidelines)",
-      "retrievedAt": "2026-11-16"
+      "retrievedAt": "2026-11-19"
     },
     {
       "id": "nasa-mission-helios-1",
@@ -823,7 +831,7 @@
       "publisher": "NASA Science",
       "url": "https://science.nasa.gov/mission/helios-1/",
       "license": "NASA public domain (NASA media usage guidelines)",
-      "retrievedAt": "2026-11-16"
+      "retrievedAt": "2026-11-19"
     },
     {
       "id": "nasa-mission-ulysses",
@@ -831,7 +839,7 @@
       "publisher": "NASA Science",
       "url": "https://science.nasa.gov/mission/ulysses/",
       "license": "NASA public domain (NASA media usage guidelines)",
-      "retrievedAt": "2026-11-16"
+      "retrievedAt": "2026-11-19"
     },
     {
       "id": "nasa-mission-soho",
@@ -839,7 +847,7 @@
       "publisher": "NASA Science",
       "url": "https://science.nasa.gov/mission/soho/",
       "license": "NASA public domain (NASA media usage guidelines)",
-      "retrievedAt": "2026-11-16"
+      "retrievedAt": "2026-11-19"
     },
     {
       "id": "nasa-mission-sdo",
@@ -847,7 +855,7 @@
       "publisher": "NASA Science",
       "url": "https://science.nasa.gov/mission/sdo/",
       "license": "NASA public domain (NASA media usage guidelines)",
-      "retrievedAt": "2026-11-16"
+      "retrievedAt": "2026-11-19"
     },
     {
       "id": "nasa-mission-parker-solar-probe",
@@ -855,7 +863,7 @@
       "publisher": "NASA Science",
       "url": "https://science.nasa.gov/mission/parker-solar-probe/",
       "license": "NASA public domain (NASA media usage guidelines)",
-      "retrievedAt": "2026-11-16"
+      "retrievedAt": "2026-11-19"
     },
     {
       "id": "nasa-mission-solar-orbiter",
@@ -863,7 +871,7 @@
       "publisher": "NASA Science",
       "url": "https://science.nasa.gov/mission/solar-orbiter/",
       "license": "NASA public domain (NASA media usage guidelines)",
-      "retrievedAt": "2026-11-16"
+      "retrievedAt": "2026-11-19"
     },
     {
       "id": "nssdca-lunar-timeline",
@@ -871,7 +879,7 @@
       "publisher": "NASA Goddard Space Flight Center, NSSDCA",
       "url": "https://nssdc.gsfc.nasa.gov/planetary/lunar/lunartimeline.html",
       "license": "NASA public domain (NASA media usage guidelines)",
-      "retrievedAt": "2026-11-16"
+      "retrievedAt": "2026-11-19"
     },
     {
       "id": "nasa-mission-apollo-8",
@@ -879,7 +887,7 @@
       "publisher": "NASA",
       "url": "https://www.nasa.gov/mission/apollo-8/",
       "license": "NASA public domain (NASA media usage guidelines)",
-      "retrievedAt": "2026-11-16"
+      "retrievedAt": "2026-11-19"
     },
     {
       "id": "nssdca-apollo-11",
@@ -887,7 +895,7 @@
       "publisher": "NASA NSSDCA",
       "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1969-059A",
       "license": "NASA public domain (NASA media usage guidelines)",
-      "retrievedAt": "2026-11-16"
+      "retrievedAt": "2026-11-19"
     },
     {
       "id": "nasa-mission-lro",
@@ -895,7 +903,7 @@
       "publisher": "NASA Science",
       "url": "https://science.nasa.gov/mission/lro/",
       "license": "NASA public domain (NASA media usage guidelines)",
-      "retrievedAt": "2026-11-16"
+      "retrievedAt": "2026-11-19"
     },
     {
       "id": "usgs-gazetteer-descriptor-terms",
@@ -903,7 +911,7 @@
       "publisher": "USGS Astrogeology Science Center / IAU Working Group for Planetary System Nomenclature",
       "url": "https://planetarynames.wr.usgs.gov/DescriptorTerms",
       "license": "Public domain (USGS)",
-      "retrievedAt": "2026-11-16"
+      "retrievedAt": "2026-11-19"
     },
     {
       "id": "nasa-photojournal-to-great-depths",
@@ -911,7 +919,7 @@
       "publisher": "NASA Science",
       "url": "https://science.nasa.gov/photojournal/to-great-depths/",
       "license": "NASA public domain (NASA media usage guidelines)",
-      "retrievedAt": "2026-11-16"
+      "retrievedAt": "2026-11-19"
     },
     {
       "id": "nasa-photojournal-tharsis",
@@ -919,7 +927,7 @@
       "publisher": "NASA Science",
       "url": "https://science.nasa.gov/photojournal/tharsis/",
       "license": "NASA public domain (NASA media usage guidelines)",
-      "retrievedAt": "2026-11-16"
+      "retrievedAt": "2026-11-19"
     },
     {
       "id": "nssdca-mars-pathfinder",
@@ -927,7 +935,7 @@
       "publisher": "NASA NSSDCA",
       "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1996-068A",
       "license": "NASA public domain (NASA media usage guidelines)",
-      "retrievedAt": "2026-11-16"
+      "retrievedAt": "2026-11-19"
     },
     {
       "id": "nasa-photojournal-syrtis-major-3",
@@ -935,7 +943,7 @@
       "publisher": "NASA Science",
       "url": "https://science.nasa.gov/photojournal/syrtis-major-3/",
       "license": "NASA public domain (NASA media usage guidelines)",
-      "retrievedAt": "2026-11-16"
+      "retrievedAt": "2026-11-19"
     },
     {
       "id": "nasa-photojournal-noctis-labyrinthus",
@@ -943,7 +951,7 @@
       "publisher": "NASA Science",
       "url": "https://science.nasa.gov/photojournal/pj-noctis-labyrinthus-3/",
       "license": "NASA public domain (NASA media usage guidelines)",
-      "retrievedAt": "2026-11-16"
+      "retrievedAt": "2026-11-19"
     },
     {
       "id": "nasa-mission-mer",
@@ -951,7 +959,7 @@
       "publisher": "NASA Science",
       "url": "https://science.nasa.gov/mission/mars-exploration-rovers-spirit-and-opportunity/",
       "license": "NASA public domain (NASA media usage guidelines)",
-      "retrievedAt": "2026-11-16"
+      "retrievedAt": "2026-11-19"
     },
     {
       "id": "nasa-photojournal-arsia-mons-themis",
@@ -959,7 +967,7 @@
       "publisher": "NASA Science",
       "url": "https://science.nasa.gov/photojournal/themis-views-mars-arsia-mons-volcano/",
       "license": "NASA public domain (NASA media usage guidelines)",
-      "retrievedAt": "2026-11-16"
+      "retrievedAt": "2026-11-19"
     },
     {
       "id": "nasa-photojournal-elysium",
@@ -967,7 +975,7 @@
       "publisher": "NASA Science",
       "url": "https://science.nasa.gov/photojournal/elysium/",
       "license": "NASA public domain (NASA media usage guidelines)",
-      "retrievedAt": "2026-11-16"
+      "retrievedAt": "2026-11-19"
     },
     {
       "id": "esa-mars-express-north-pole-dunes",
@@ -975,7 +983,7 @@
       "publisher": "ESA",
       "url": "https://www.esa.int/articles/about-us/directorates/science/mars-express/sand-dunes-meet-stacked-ice-at-mars-s-north-pole",
       "license": "ESA; text quoted with attribution (ESA terms of use)",
-      "retrievedAt": "2026-11-16"
+      "retrievedAt": "2026-11-19"
     },
     {
       "id": "nssdca-curiosity",
@@ -983,7 +991,7 @@
       "publisher": "NASA NSSDCA",
       "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=2011-070A",
       "license": "NASA public domain (NASA media usage guidelines)",
-      "retrievedAt": "2026-11-16"
+      "retrievedAt": "2026-11-19"
     },
     {
       "id": "jpl-mount-sharp-panorama",
@@ -991,7 +999,7 @@
       "publisher": "NASA Jet Propulsion Laboratory",
       "url": "https://www.jpl.nasa.gov/images/pia16769-mount-sharp-panorama-in-raw-colors/",
       "license": "NASA public domain (NASA media usage guidelines)",
-      "retrievedAt": "2026-11-16"
+      "retrievedAt": "2026-11-19"
     },
     {
       "id": "nasa-mission-mars-2020",
@@ -999,7 +1007,7 @@
       "publisher": "NASA Science",
       "url": "https://science.nasa.gov/mission/mars-2020-perseverance/",
       "license": "NASA public domain (NASA media usage guidelines)",
-      "retrievedAt": "2026-11-16"
+      "retrievedAt": "2026-11-19"
     },
     {
       "id": "nasa-photojournal-young-volcanism-mercury",
@@ -1007,15 +1015,7 @@
       "publisher": "NASA Science",
       "url": "https://science.nasa.gov/photojournal/young-volcanism-on-mercury/",
       "license": "NASA public domain (NASA media usage guidelines)",
-      "retrievedAt": "2026-11-16"
-    },
-    {
-      "id": "esa-bepicolombo-sixth-flyby",
-      "title": "Top three images from BepiColombo's sixth Mercury flyby",
-      "publisher": "ESA",
-      "url": "https://www.esa.int/articles/about-us/directorates/science/bepicolombo/top-three-images-from-bepicolombo-s-sixth-mercury-flyby",
-      "license": "ESA; text quoted with attribution (ESA terms of use)",
-      "retrievedAt": "2026-11-16"
+      "retrievedAt": "2026-11-19"
     },
     {
       "id": "nasa-photojournal-islands-in-the-stream",
@@ -1023,7 +1023,7 @@
       "publisher": "NASA Science",
       "url": "https://science.nasa.gov/photojournal/islands-in-the-stream/",
       "license": "NASA public domain (NASA media usage guidelines)",
-      "retrievedAt": "2026-11-16"
+      "retrievedAt": "2026-11-19"
     },
     {
       "id": "nasa-image-enterprise-rupes",
@@ -1031,7 +1031,7 @@
       "publisher": "NASA",
       "url": "https://www.nasa.gov/image-article/enterprise-rupes/",
       "license": "NASA public domain (NASA media usage guidelines)",
-      "retrievedAt": "2026-11-16"
+      "retrievedAt": "2026-11-19"
     },
     {
       "id": "nasa-photojournal-rembrandt-basin",
@@ -1039,7 +1039,7 @@
       "publisher": "NASA Science",
       "url": "https://science.nasa.gov/photojournal/the-newly-discovered-rembrandt-impact-basin/",
       "license": "NASA public domain (NASA media usage guidelines)",
-      "retrievedAt": "2026-11-16"
+      "retrievedAt": "2026-11-19"
     },
     {
       "id": "nasa-photojournal-beagle-rupes",
@@ -1047,7 +1047,7 @@
       "publisher": "NASA Science",
       "url": "https://science.nasa.gov/photojournal/beagle-rupes/",
       "license": "NASA public domain (NASA media usage guidelines)",
-      "retrievedAt": "2026-11-16"
+      "retrievedAt": "2026-11-19"
     },
     {
       "id": "nasa-photojournal-mercurys-first-fossae",
@@ -1055,15 +1055,7 @@
       "publisher": "NASA Science",
       "url": "https://science.nasa.gov/photojournal/mercurys-first-fossae/",
       "license": "NASA public domain (NASA media usage guidelines)",
-      "retrievedAt": "2026-11-16"
-    },
-    {
-      "id": "esa-lava-and-debris-mercury",
-      "title": "Lava and debris brighten Mercury's surface",
-      "publisher": "ESA",
-      "url": "https://www.esa.int/media/lava-and-debris-brighten-mercury-s-surface",
-      "license": "ESA; text quoted with attribution (ESA terms of use)",
-      "retrievedAt": "2026-11-16"
+      "retrievedAt": "2026-11-19"
     },
     {
       "id": "nasa-photojournal-raditladi",
@@ -1071,7 +1063,7 @@
       "publisher": "NASA Science",
       "url": "https://science.nasa.gov/photojournal/the-curious-case-of-raditladi-basin/",
       "license": "NASA public domain (NASA media usage guidelines)",
-      "retrievedAt": "2026-11-16"
+      "retrievedAt": "2026-11-19"
     },
     {
       "id": "nasa-resource-rays-of-hokusai",
@@ -1079,15 +1071,7 @@
       "publisher": "NASA Science",
       "url": "https://science.nasa.gov/resource/the-impressive-rays-of-hokusai/",
       "license": "NASA public domain (NASA media usage guidelines)",
-      "retrievedAt": "2026-11-16"
-    },
-    {
-      "id": "nasa-resource-architect-and-temple",
-      "title": "The Architect and His Temple",
-      "publisher": "NASA Science",
-      "url": "https://science.nasa.gov/resource/the-architect-and-his-temple/",
-      "license": "NASA public domain (NASA media usage guidelines)",
-      "retrievedAt": "2026-11-16"
+      "retrievedAt": "2026-11-19"
     },
     {
       "id": "nasa-photojournal-ovda-regio",
@@ -1095,7 +1079,7 @@
       "publisher": "NASA Science",
       "url": "https://science.nasa.gov/photojournal/venus-ovda-regio/",
       "license": "NASA public domain (NASA media usage guidelines)",
-      "retrievedAt": "2026-11-16"
+      "retrievedAt": "2026-11-19"
     },
     {
       "id": "jpl-news-ongoing-venus-volcanism-2024",
@@ -1103,7 +1087,7 @@
       "publisher": "NASA Jet Propulsion Laboratory",
       "url": "https://www.jpl.nasa.gov/news/ongoing-venus-volcanic-activity-discovered-with-nasas-magellan-data/",
       "license": "NASA public domain (NASA media usage guidelines)",
-      "retrievedAt": "2026-11-16"
+      "retrievedAt": "2026-11-19"
     },
     {
       "id": "jpl-news-magellan-venus-volcanism-2023",
@@ -1111,7 +1095,7 @@
       "publisher": "NASA Jet Propulsion Laboratory",
       "url": "https://www.jpl.nasa.gov/news/nasas-magellan-data-reveals-volcanic-activity-on-venus/",
       "license": "NASA public domain (NASA media usage guidelines)",
-      "retrievedAt": "2026-11-16"
+      "retrievedAt": "2026-11-19"
     },
     {
       "id": "nasa-photojournal-artemis-corona",
@@ -1119,7 +1103,7 @@
       "publisher": "NASA Science",
       "url": "https://science.nasa.gov/photojournal/artemis-corona-c2-midr/",
       "license": "NASA public domain (NASA media usage guidelines)",
-      "retrievedAt": "2026-11-16"
+      "retrievedAt": "2026-11-19"
     },
     {
       "id": "nasa-photojournal-danu-montes-lakshmi",
@@ -1127,7 +1111,7 @@
       "publisher": "NASA Science",
       "url": "https://science.nasa.gov/photojournal/venus-danu-montes-and-lakshmi-planum/",
       "license": "NASA public domain (NASA media usage guidelines)",
-      "retrievedAt": "2026-11-16"
+      "retrievedAt": "2026-11-19"
     },
     {
       "id": "nasa-photojournal-alpha-regio",
@@ -1135,7 +1119,7 @@
       "publisher": "NASA Science",
       "url": "https://science.nasa.gov/photojournal/venus-false-color-image-of-alpha-regio/",
       "license": "NASA public domain (NASA media usage guidelines)",
-      "retrievedAt": "2026-11-16"
+      "retrievedAt": "2026-11-19"
     },
     {
       "id": "nssdc-imgcat-maxwell-montes",
@@ -1143,7 +1127,7 @@
       "publisher": "NASA NSSDCA",
       "url": "https://nssdc.gsfc.nasa.gov/imgcat/html/object_page/mgn_c260n033_2.html",
       "license": "NASA public domain (NASA media usage guidelines)",
-      "retrievedAt": "2026-11-16"
+      "retrievedAt": "2026-11-19"
     },
     {
       "id": "nasa-photojournal-gula-mons",
@@ -1151,7 +1135,7 @@
       "publisher": "NASA Science",
       "url": "https://science.nasa.gov/photojournal/venus-3-d-perspective-view-of-gula-mons/",
       "license": "NASA public domain (NASA media usage guidelines)",
-      "retrievedAt": "2026-11-16"
+      "retrievedAt": "2026-11-19"
     },
     {
       "id": "nssdc-imgcat-mead-crater",
@@ -1159,7 +1143,7 @@
       "publisher": "NASA NSSDCA",
       "url": "https://nssdc.gsfc.nasa.gov/imgcat/html/object_page/mgn_c115n060_1.html",
       "license": "NASA public domain (NASA media usage guidelines)",
-      "retrievedAt": "2026-11-16"
+      "retrievedAt": "2026-11-19"
     },
     {
       "id": "nasa-photojournal-sapas-mons",
@@ -1167,7 +1151,7 @@
       "publisher": "NASA Science",
       "url": "https://science.nasa.gov/photojournal/venus-3-d-perspective-view-of-sapas-mons/",
       "license": "NASA public domain (NASA media usage guidelines)",
-      "retrievedAt": "2026-11-16"
+      "retrievedAt": "2026-11-19"
     },
     {
       "id": "nasa-photojournal-maxwell-cleopatra",
@@ -1175,7 +1159,7 @@
       "publisher": "NASA Science",
       "url": "https://science.nasa.gov/photojournal/venus-maxwell-montes-and-cleopatra-crater/",
       "license": "NASA public domain (NASA media usage guidelines)",
-      "retrievedAt": "2026-11-16"
+      "retrievedAt": "2026-11-19"
     },
     {
       "id": "nasa-photojournal-floor-of-tycho",
@@ -1183,7 +1167,7 @@
       "publisher": "NASA Science",
       "url": "https://science.nasa.gov/photojournal/the-floor-of-tycho/",
       "license": "NASA public domain (NASA media usage guidelines)",
-      "retrievedAt": "2026-11-16"
+      "retrievedAt": "2026-11-19"
     },
     {
       "id": "nasa-apod-2021-08-05-tycho-clavius",
@@ -1191,7 +1175,7 @@
       "publisher": "NASA Science (Astronomy Picture of the Day)",
       "url": "https://science.nasa.gov/image-article/apod-2021-august-5-tycho-and-clavius/",
       "license": "NASA Science page; text quoted with attribution",
-      "retrievedAt": "2026-11-16"
+      "retrievedAt": "2026-11-19"
     },
     {
       "id": "nasa-svs-procellarum-rifts",
@@ -1199,7 +1183,7 @@
       "publisher": "NASA Scientific Visualization Studio",
       "url": "https://svs.gsfc.nasa.gov/4218",
       "license": "NASA public domain (NASA media usage guidelines)",
-      "retrievedAt": "2026-11-16"
+      "retrievedAt": "2026-11-19"
     },
     {
       "id": "esa-smart1-tribute-to-cassini",
@@ -1207,7 +1191,7 @@
       "publisher": "ESA",
       "url": "https://www.esa.int/articles/about-us/directorates/science/smart-1/smart-1-s-tribute-to-cassini",
       "license": "ESA; text quoted with attribution (ESA terms of use)",
-      "retrievedAt": "2026-11-16"
+      "retrievedAt": "2026-11-19"
     },
     {
       "id": "esa-smart1-mare-serenitatis",
@@ -1215,7 +1199,7 @@
       "publisher": "ESA Science & Technology",
       "url": "https://sci.esa.int/web/smart-1/-/39788-mare-serenitatis",
       "license": "ESA; text quoted with attribution (ESA terms of use)",
-      "retrievedAt": "2026-11-16"
+      "retrievedAt": "2026-11-19"
     },
     {
       "id": "nasa-resource-wrinkle-ridge-mare-crisium",
@@ -1223,7 +1207,7 @@
       "publisher": "NASA Science",
       "url": "https://science.nasa.gov/resource/wrinkle-ridge-in-mare-crisium/",
       "license": "NASA public domain (NASA media usage guidelines)",
-      "retrievedAt": "2026-11-16"
+      "retrievedAt": "2026-11-19"
     },
     {
       "id": "esa-smart1-mare-humorum",
@@ -1231,7 +1215,7 @@
       "publisher": "ESA",
       "url": "https://www.esa.int/articles/about-us/directorates/science/smart-1/mare-humorum-where-craters-tell-the-story-of-basalt",
       "license": "ESA; text quoted with attribution (ESA terms of use)",
-      "retrievedAt": "2026-11-16"
+      "retrievedAt": "2026-11-19"
     },
     {
       "id": "nasa-apod-2011-03-12-mare-orientale",
@@ -1239,7 +1223,7 @@
       "publisher": "NASA Science (Astronomy Picture of the Day)",
       "url": "https://science.nasa.gov/image-article/apod-2011-march-12-mare-orientale/",
       "license": "NASA Science page; text quoted with attribution",
-      "retrievedAt": "2026-11-16"
+      "retrievedAt": "2026-11-19"
     },
     {
       "id": "nasa-photojournal-aristarchus-mosaic",
@@ -1247,7 +1231,7 @@
       "publisher": "NASA Science",
       "url": "https://science.nasa.gov/photojournal/multispectral-mosaic-of-the-aristarchus-crater-and-plateau/",
       "license": "NASA public domain (NASA media usage guidelines)",
-      "retrievedAt": "2026-11-16"
+      "retrievedAt": "2026-11-19"
     },
     {
       "id": "nasa-resource-copernicus-lunar-orbiter",
@@ -1255,7 +1239,7 @@
       "publisher": "NASA Science",
       "url": "https://science.nasa.gov/resource/copernicus-from-lunar-orbiter/",
       "license": "NASA public domain (NASA media usage guidelines)",
-      "retrievedAt": "2026-11-16"
+      "retrievedAt": "2026-11-19"
     },
     {
       "id": "nasa-3d-moon-aristarchus-region",
@@ -1263,7 +1247,7 @@
       "publisher": "NASA Science",
       "url": "https://science.nasa.gov/3d-resources/moon-aristarchus-region/",
       "license": "NASA public domain (NASA media usage guidelines)",
-      "retrievedAt": "2026-11-16"
+      "retrievedAt": "2026-11-19"
     },
     {
       "id": "nasa-svs-apollo-17-landing-site",
@@ -1271,7 +1255,7 @@
       "publisher": "NASA Scientific Visualization Studio",
       "url": "https://svs.gsfc.nasa.gov/4302",
       "license": "NASA public domain (NASA media usage guidelines)",
-      "retrievedAt": "2026-11-16"
+      "retrievedAt": "2026-11-19"
     },
     {
       "id": "nasa-image-faces-of-shackleton",
@@ -1279,7 +1263,7 @@
       "publisher": "NASA Science",
       "url": "https://science.nasa.gov/image-detail/faces-of-shackleton/",
       "license": "NASA public domain (NASA media usage guidelines)",
-      "retrievedAt": "2026-11-16"
+      "retrievedAt": "2026-11-19"
     },
     {
       "id": "esa-mercury-sunlit-north",
@@ -1287,7 +1271,7 @@
       "publisher": "ESA",
       "url": "https://www.esa.int/media/mercury-s-sunlit-north-viewed-by-m-cam-1",
       "license": "ESA; text quoted with attribution (ESA terms of use)",
-      "retrievedAt": "2026-11-16"
+      "retrievedAt": "2026-11-19"
     },
     {
       "id": "nasa-photojournal-in-prokofievs-shadow",
@@ -1295,7 +1279,7 @@
       "publisher": "NASA Science",
       "url": "https://science.nasa.gov/photojournal/in-prokofievs-shadow/",
       "license": "NASA public domain (NASA media usage guidelines)",
-      "retrievedAt": "2026-11-16"
+      "retrievedAt": "2026-11-19"
     },
     {
       "id": "nasa-photojournal-sacajawea-caldera",
@@ -1303,7 +1287,7 @@
       "publisher": "NASA Science",
       "url": "https://science.nasa.gov/photojournal/venus-a-large-elongated-caldera-sacajawea-patera/",
       "license": "NASA public domain (NASA media usage guidelines)",
-      "retrievedAt": "2026-11-16"
+      "retrievedAt": "2026-11-19"
     },
     {
       "id": "nasa-apod-2026-07-25-tranquility-serenity",
@@ -1311,7 +1295,7 @@
       "publisher": "NASA Science (Astronomy Picture of the Day)",
       "url": "https://science.nasa.gov/image-article/apod/apod-2026-july-25-tranquility-and-serenity",
       "license": "NASA Science page; text quoted with attribution",
-      "retrievedAt": "2026-11-16"
+      "retrievedAt": "2026-11-19"
     },
     {
       "id": "esa-smart1-hadley-rille",
@@ -1319,7 +1303,7 @@
       "publisher": "ESA",
       "url": "https://www.esa.int/media/hadley-rille-on-the-moon-seen-by-smart-1",
       "license": "ESA; text quoted with attribution (ESA terms of use)",
-      "retrievedAt": "2026-11-16"
+      "retrievedAt": "2026-11-19"
     },
     {
       "id": "nasa-resource-plato-volcanic-vent",
@@ -1327,7 +1311,7 @@
       "publisher": "NASA Science",
       "url": "https://science.nasa.gov/resource/ancient-volcanic-vent-near-the-moons-plato-crater/",
       "license": "NASA public domain (NASA media usage guidelines)",
-      "retrievedAt": "2026-11-16"
+      "retrievedAt": "2026-11-19"
     },
     {
       "id": "nasa-eo-grand-canyon-geology",
@@ -1335,7 +1319,7 @@
       "publisher": "NASA Earth Observatory",
       "url": "https://science.nasa.gov/earth/earth-observatory/grand-canyon-geology-lessons-on-view-83495/",
       "license": "NASA public domain (NASA media usage guidelines)",
-      "retrievedAt": "2026-11-16"
+      "retrievedAt": "2026-11-19"
     },
     {
       "id": "nasa-eo-antarctic-peninsula",
@@ -1343,7 +1327,7 @@
       "publisher": "NASA Earth Observatory",
       "url": "https://science.nasa.gov/earth/earth-observatory/the-most-studied-peninsula-on-antarctica-89717/",
       "license": "NASA public domain (NASA media usage guidelines)",
-      "retrievedAt": "2026-11-16"
+      "retrievedAt": "2026-11-19"
     },
     {
       "id": "usgs-volcano-mount-st-helens",
@@ -1351,7 +1335,7 @@
       "publisher": "USGS",
       "url": "https://www.usgs.gov/volcanoes/mount-st.-helens",
       "license": "Public domain (USGS)",
-      "retrievedAt": "2026-11-16"
+      "retrievedAt": "2026-11-19"
     },
     {
       "id": "usgs-volcano-kilauea",
@@ -1359,15 +1343,7 @@
       "publisher": "USGS",
       "url": "https://www.usgs.gov/volcanoes/kilauea",
       "license": "Public domain (USGS)",
-      "retrievedAt": "2026-11-16"
-    },
-    {
-      "id": "usgs-volcano-yellowstone",
-      "title": "Yellowstone (USGS Volcano Hazards Program)",
-      "publisher": "USGS",
-      "url": "https://www.usgs.gov/volcanoes/yellowstone",
-      "license": "Public domain (USGS)",
-      "retrievedAt": "2026-11-16"
+      "retrievedAt": "2026-11-19"
     },
     {
       "id": "nasa-eo-mississippi-delta-winter",
@@ -1375,7 +1351,7 @@
       "publisher": "NASA Earth Observatory",
       "url": "https://science.nasa.gov/earth/earth-observatory/winter-transforms-the-mississippi-river-delta-154838/",
       "license": "NASA public domain (NASA media usage guidelines)",
-      "retrievedAt": "2026-11-16"
+      "retrievedAt": "2026-11-19"
     },
     {
       "id": "nasa-eo-ross-ice-shelf",
@@ -1383,7 +1359,7 @@
       "publisher": "NASA Earth Observatory",
       "url": "https://science.nasa.gov/earth/earth-observatory/victoria-land-and-ross-ice-shelf-antarctica-1931/",
       "license": "NASA public domain (NASA media usage guidelines)",
-      "retrievedAt": "2026-11-16"
+      "retrievedAt": "2026-11-19"
     },
     {
       "id": "nasa-eo-death-valley",
@@ -1391,7 +1367,7 @@
       "publisher": "NASA Earth Observatory",
       "url": "https://science.nasa.gov/earth/earth-observatory/death-valley-national-park-6470/",
       "license": "NASA public domain (NASA media usage guidelines)",
-      "retrievedAt": "2026-11-16"
+      "retrievedAt": "2026-11-19"
     },
     {
       "id": "nasa-eo-lake-superior-ice",
@@ -1399,7 +1375,7 @@
       "publisher": "NASA Earth Observatory",
       "url": "https://science.nasa.gov/earth/earth-observatory/persistent-ice-on-lake-superior-83541/",
       "license": "NASA public domain (NASA media usage guidelines)",
-      "retrievedAt": "2026-11-16"
+      "retrievedAt": "2026-11-19"
     },
     {
       "id": "usgs-volcano-mauna-loa",
@@ -1407,7 +1383,7 @@
       "publisher": "USGS",
       "url": "https://www.usgs.gov/volcanoes/mauna-loa",
       "license": "Public domain (USGS)",
-      "retrievedAt": "2026-11-16"
+      "retrievedAt": "2026-11-19"
     },
     {
       "id": "nasa-eo-great-salt-lake",
@@ -1415,7 +1391,7 @@
       "publisher": "NASA Earth Observatory",
       "url": "https://science.nasa.gov/earth/earth-observatory/the-great-shrinking-lake-150187/",
       "license": "NASA public domain (NASA media usage guidelines)",
-      "retrievedAt": "2026-11-16"
+      "retrievedAt": "2026-11-19"
     },
     {
       "id": "nasa-eo-mount-erebus",
@@ -1423,7 +1399,7 @@
       "publisher": "NASA Earth Observatory",
       "url": "https://science.nasa.gov/earth/earth-observatory/mount-erebus-antarctica-87444/",
       "license": "NASA public domain (NASA media usage guidelines)",
-      "retrievedAt": "2026-11-16"
+      "retrievedAt": "2026-11-19"
     },
     {
       "id": "esa-cryosat-subglacial-lakes",
@@ -1431,7 +1407,7 @@
       "publisher": "ESA",
       "url": "https://www.esa.int/articles/about-us/directorates/earth-observation-programmes/futureeo/cryosat/85-new-subglacial-lakes-detected-below-antarctica",
       "license": "ESA; text quoted with attribution (ESA terms of use)",
-      "retrievedAt": "2026-11-16"
+      "retrievedAt": "2026-11-19"
     },
     {
       "id": "usgs-volcano-crater-lake",
@@ -1439,7 +1415,7 @@
       "publisher": "USGS",
       "url": "https://www.usgs.gov/volcanoes/crater-lake",
       "license": "Public domain (USGS)",
-      "retrievedAt": "2026-11-16"
+      "retrievedAt": "2026-11-19"
     },
     {
       "id": "nasa-eo-meteor-crater",
@@ -1447,7 +1423,7 @@
       "publisher": "NASA Earth Observatory",
       "url": "https://science.nasa.gov/earth/earth-observatory/blast-from-the-past-arizonas-meteor-crater-154497/",
       "license": "NASA public domain (NASA media usage guidelines)",
-      "retrievedAt": "2026-11-16"
+      "retrievedAt": "2026-11-19"
     },
     {
       "id": "nasa-eo-chesapeake-watershed",
@@ -1455,7 +1431,7 @@
       "publisher": "NASA Earth Observatory",
       "url": "https://science.nasa.gov/earth/earth-observatory/the-chesapeake-watershed-86815/",
       "license": "NASA public domain (NASA media usage guidelines)",
-      "retrievedAt": "2026-11-16"
+      "retrievedAt": "2026-11-19"
     },
     {
       "id": "usgs-volcano-mount-rainier",
@@ -1463,7 +1439,7 @@
       "publisher": "USGS",
       "url": "https://www.usgs.gov/volcanoes/mount-rainier",
       "license": "Public domain (USGS)",
-      "retrievedAt": "2026-11-16"
+      "retrievedAt": "2026-11-19"
     },
     {
       "id": "nasa-eo-vinson-massif",
@@ -1471,7 +1447,7 @@
       "publisher": "NASA Earth Observatory",
       "url": "https://science.nasa.gov/earth/earth-observatory/vinson-massif-3643/",
       "license": "NASA public domain (NASA media usage guidelines)",
-      "retrievedAt": "2026-11-16"
+      "retrievedAt": "2026-11-19"
     },
     {
       "id": "nasa-image-dry-valleys",
@@ -1479,7 +1455,7 @@
       "publisher": "NASA",
       "url": "https://www.nasa.gov/image-article/dry-valleys-antarctica/",
       "license": "NASA public domain (NASA media usage guidelines)",
-      "retrievedAt": "2026-11-16"
+      "retrievedAt": "2026-11-19"
     },
     {
       "id": "nasa-eo-thwaites-transformed",
@@ -1487,7 +1463,7 @@
       "publisher": "NASA Earth Observatory",
       "url": "https://science.nasa.gov/earth/earth-observatory/thwaites-glacier-transformed-146247/",
       "license": "NASA public domain (NASA media usage guidelines)",
-      "retrievedAt": "2026-11-16"
+      "retrievedAt": "2026-11-19"
     },
     {
       "id": "nasa-eo-larsen-ice-shelf",
@@ -1495,7 +1471,7 @@
       "publisher": "NASA Earth Observatory",
       "url": "https://science.nasa.gov/earth/earth-observatory/antarcticas-changing-larsen-ice-shelf-89588/",
       "license": "NASA public domain (NASA media usage guidelines)",
-      "retrievedAt": "2026-11-16"
+      "retrievedAt": "2026-11-19"
     },
     {
       "id": "nasa-eo-long-view-of-etna",
@@ -1503,7 +1479,7 @@
       "publisher": "NASA Earth Observatory",
       "url": "https://science.nasa.gov/earth/earth-observatory/a-long-view-of-mount-etna-151977/",
       "license": "NASA public domain (NASA media usage guidelines)",
-      "retrievedAt": "2026-11-16"
+      "retrievedAt": "2026-11-19"
     },
     {
       "id": "nasa-eo-kilimanjaro-closeup",
@@ -1511,7 +1487,7 @@
       "publisher": "NASA Earth Observatory",
       "url": "https://science.nasa.gov/earth/earth-observatory/mount-kilimanjaro-closeup-4708/",
       "license": "NASA public domain (NASA media usage guidelines)",
-      "retrievedAt": "2026-11-16"
+      "retrievedAt": "2026-11-19"
     },
     {
       "id": "nasa-eo-mount-fuji-2009",
@@ -1519,7 +1495,7 @@
       "publisher": "NASA Earth Observatory",
       "url": "https://science.nasa.gov/earth/earth-observatory/mount-fuji-japan-39099/",
       "license": "NASA public domain (NASA media usage guidelines)",
-      "retrievedAt": "2026-11-16"
+      "retrievedAt": "2026-11-19"
     },
     {
       "id": "nasa-eo-view-of-vesuvius",
@@ -1527,7 +1503,7 @@
       "publisher": "NASA Earth Observatory",
       "url": "https://science.nasa.gov/earth/earth-observatory/a-view-of-vesuvius-149298/",
       "license": "NASA public domain (NASA media usage guidelines)",
-      "retrievedAt": "2026-11-16"
+      "retrievedAt": "2026-11-19"
     },
     {
       "id": "nasa-eo-krakatau-indonesia",
@@ -1535,15 +1511,7 @@
       "publisher": "NASA Earth Observatory",
       "url": "https://science.nasa.gov/earth/earth-observatory/krakatau-indonesia-47143/",
       "license": "NASA public domain (NASA media usage guidelines)",
-      "retrievedAt": "2026-11-16"
-    },
-    {
-      "id": "nasa-eo-global-effects-pinatubo",
-      "title": "Global Effects of Mount Pinatubo (NASA Earth Observatory)",
-      "publisher": "NASA Earth Observatory",
-      "url": "https://science.nasa.gov/earth/earth-observatory/global-effects-of-mount-pinatubo-1510/",
-      "license": "NASA public domain (NASA media usage guidelines)",
-      "retrievedAt": "2026-11-16"
+      "retrievedAt": "2026-11-19"
     },
     {
       "id": "nasa-eo-ash-plume-north-atlantic",
@@ -1551,7 +1519,7 @@
       "publisher": "NASA Earth Observatory",
       "url": "https://science.nasa.gov/earth/earth-observatory/ash-plume-across-the-north-atlantic-43670/",
       "license": "NASA public domain (NASA media usage guidelines)",
-      "retrievedAt": "2026-11-16"
+      "retrievedAt": "2026-11-19"
     },
     {
       "id": "nasa-eo-topography-popocatepetl",
@@ -1559,7 +1527,7 @@
       "publisher": "NASA Earth Observatory",
       "url": "https://science.nasa.gov/earth/earth-observatory/topography-of-popocatepetl-6073/",
       "license": "NASA public domain (NASA media usage guidelines)",
-      "retrievedAt": "2026-11-16"
+      "retrievedAt": "2026-11-19"
     },
     {
       "id": "nasa-apod-2016-02-25-chimborazo",
@@ -1567,7 +1535,7 @@
       "publisher": "NASA (Astronomy Picture of the Day)",
       "url": "https://science.nasa.gov/image-article/apod-2016-february-25-highest-tallest-and-closest-to-the-stars/",
       "license": "NASA public domain (NASA media usage guidelines); text only, the image is credited on the page",
-      "retrievedAt": "2026-11-16"
+      "retrievedAt": "2026-11-19"
     },
     {
       "id": "nasa-eo-nyiragongo-vents-steam",
@@ -1575,7 +1543,7 @@
       "publisher": "NASA Earth Observatory",
       "url": "https://science.nasa.gov/earth/earth-observatory/nyiragongo-vents-steam-7659/",
       "license": "NASA public domain (NASA media usage guidelines)",
-      "retrievedAt": "2026-11-16"
+      "retrievedAt": "2026-11-19"
     },
     {
       "id": "nasa-eo-tambora",
@@ -1583,7 +1551,7 @@
       "publisher": "NASA Earth Observatory",
       "url": "https://science.nasa.gov/earth/earth-observatory/mount-tambora-volcano-sumbawa-island-indonesia-39412/",
       "license": "NASA public domain (NASA media usage guidelines)",
-      "retrievedAt": "2026-11-16"
+      "retrievedAt": "2026-11-19"
     },
     {
       "id": "nasa-eo-tenerife",
@@ -1591,7 +1559,7 @@
       "publisher": "NASA Earth Observatory",
       "url": "https://science.nasa.gov/earth/earth-observatory/tenerife-canary-islands-88659/",
       "license": "NASA public domain (NASA media usage guidelines)",
-      "retrievedAt": "2026-11-16"
+      "retrievedAt": "2026-11-19"
     },
     {
       "id": "usgs-dynamic-earth-plate-motions",
@@ -1599,7 +1567,7 @@
       "publisher": "USGS",
       "url": "https://pubs.usgs.gov/gip/dynamic/understanding.html",
       "license": "Public domain (USGS)",
-      "retrievedAt": "2026-11-16"
+      "retrievedAt": "2026-11-19"
     },
     {
       "id": "nasa-eo-deepest-trench",
@@ -1607,7 +1575,7 @@
       "publisher": "NASA Earth Observatory",
       "url": "https://science.nasa.gov/earth/earth-observatory/new-view-of-the-deepest-trench-77640/",
       "license": "NASA public domain (NASA media usage guidelines)",
-      "retrievedAt": "2026-11-16"
+      "retrievedAt": "2026-11-19"
     },
     {
       "id": "usgs-ofr-2004-1400-puerto-rico-trench",
@@ -1615,7 +1583,7 @@
       "publisher": "USGS",
       "url": "https://pubs.usgs.gov/of/2004/1400/htmldocs/intro.htm",
       "license": "Public domain (USGS)",
-      "retrievedAt": "2026-11-16"
+      "retrievedAt": "2026-11-19"
     },
     {
       "id": "nasa-eo-rebounding-hudson-bay",
@@ -1623,7 +1591,7 @@
       "publisher": "NASA Earth Observatory",
       "url": "https://science.nasa.gov/earth/earth-observatory/rebounding-in-hudson-bay-147405/",
       "license": "NASA public domain (NASA media usage guidelines)",
-      "retrievedAt": "2026-11-16"
+      "retrievedAt": "2026-11-19"
     },
     {
       "id": "nasa-eo-bay-of-fundy-tides",
@@ -1631,7 +1599,7 @@
       "publisher": "NASA Earth Observatory",
       "url": "https://science.nasa.gov/earth/earth-observatory/high-and-low-tides-in-bay-of-fundy-6650/",
       "license": "NASA public domain (NASA media usage guidelines)",
-      "retrievedAt": "2026-11-16"
+      "retrievedAt": "2026-11-19"
     },
     {
       "id": "nasa-eo-manicouagan-lake",
@@ -1639,7 +1607,7 @@
       "publisher": "NASA Earth Observatory",
       "url": "https://science.nasa.gov/earth/earth-observatory/a-modern-lake-in-an-ancient-crater-149414/",
       "license": "NASA public domain (NASA media usage guidelines)",
-      "retrievedAt": "2026-11-16"
+      "retrievedAt": "2026-11-19"
     },
     {
       "id": "nasa-eo-pingualuit-crater",
@@ -1647,23 +1615,119 @@
       "publisher": "NASA Earth Observatory",
       "url": "https://science.nasa.gov/earth/earth-observatory/pingualuit-crater-canada-8472/",
       "license": "NASA public domain (NASA media usage guidelines)",
-      "retrievedAt": "2026-11-16"
+      "retrievedAt": "2026-11-19"
     },
     {
-      "id": "nasa-eo-spine-of-south-island",
-      "title": "The Spine of South Island (NASA Earth Observatory)",
+      "id": "nasa-eo-uluru-ayers-rock",
+      "title": "Uluru (Ayers Rock) (NASA Earth Observatory)",
       "publisher": "NASA Earth Observatory",
-      "url": "https://science.nasa.gov/earth/earth-observatory/the-spine-of-south-island-149512/",
+      "url": "https://science.nasa.gov/earth/earth-observatory/uluru-ayers-rock-5304/",
       "license": "NASA public domain (NASA media usage guidelines)",
-      "retrievedAt": "2026-11-16"
+      "retrievedAt": "2026-11-19"
     },
     {
-      "id": "nasa-eo-another-puff-from-whakaari",
-      "title": "Another Puff from Whakaari (NASA Earth Observatory)",
+      "id": "nasa-eo-rare-filling-kati-thanda",
+      "title": "Rare Filling of Kati Thanda-Lake Eyre (NASA Earth Observatory)",
       "publisher": "NASA Earth Observatory",
-      "url": "https://science.nasa.gov/earth/earth-observatory/another-puff-from-whakaari-153818/",
+      "url": "https://science.nasa.gov/earth/earth-observatory/rare-filling-of-kati-thanda-lake-eyre-145076/",
       "license": "NASA public domain (NASA media usage guidelines)",
-      "retrievedAt": "2026-11-16"
+      "retrievedAt": "2026-11-19"
+    },
+    {
+      "id": "nasa-eo-sharks-seagrass-stromatolites",
+      "title": "Sharks, Seagrass, and Stromatolites (NASA Earth Observatory)",
+      "publisher": "NASA Earth Observatory",
+      "url": "https://science.nasa.gov/earth/earth-observatory/sharks-seagrass-and-stromatolites-147395/",
+      "license": "NASA public domain (NASA media usage guidelines)",
+      "retrievedAt": "2026-11-19"
+    },
+    {
+      "id": "nasa-eo-wolfe-creek-crater",
+      "title": "Wolfe Creek Crater (NASA Earth Observatory)",
+      "publisher": "NASA Earth Observatory",
+      "url": "https://science.nasa.gov/earth/earth-observatory/wolfe-creek-crater-8488/",
+      "license": "NASA public domain (NASA media usage guidelines)",
+      "retrievedAt": "2026-11-19"
+    },
+    {
+      "id": "nasa-eo-gosses-bluff",
+      "title": "Gosses Bluff, Northern Territory, Australia (NASA Earth Observatory)",
+      "publisher": "NASA Earth Observatory",
+      "url": "https://science.nasa.gov/earth/earth-observatory/gosses-bluff-northern-territory-australia-4853/",
+      "license": "NASA public domain (NASA media usage guidelines)",
+      "retrievedAt": "2026-11-19"
+    },
+    {
+      "id": "nasa-photojournal-seeing-in-the-dark",
+      "title": "Seeing in the Dark (Kandinsky crater), NASA Photojournal",
+      "publisher": "NASA Science",
+      "url": "https://science.nasa.gov/photojournal/pj-seeing-in-the-dark/",
+      "license": "NASA public domain (NASA media usage guidelines)",
+      "retrievedAt": "2026-11-19"
+    },
+    {
+      "id": "esa-bepicolombo-sixth-flyby-movie",
+      "title": "BepiColombo's sixth Mercury flyby: the movie",
+      "publisher": "ESA",
+      "url": "https://www.esa.int/media/bepicolombo-s-sixth-mercury-flyby-the-movie",
+      "license": "ESA; text quoted with attribution (ESA terms of use)",
+      "retrievedAt": "2026-11-19"
+    },
+    {
+      "id": "nasa-eo-flood-basalts-mars-iceland",
+      "title": "Flood Basalts on Mars and Iceland (NASA Earth Observatory)",
+      "publisher": "NASA Earth Observatory",
+      "url": "https://science.nasa.gov/earth/earth-observatory/flood-basalts-on-mars-and-iceland-92858/",
+      "license": "NASA public domain (NASA media usage guidelines)",
+      "retrievedAt": "2026-11-19"
+    },
+    {
+      "id": "usgs-astrogeology-meteor-crater-samples",
+      "title": "Meteor Crater Drill Hole Sample Collection (USGS Astrogeology Science Center)",
+      "publisher": "USGS",
+      "url": "https://www.usgs.gov/centers/astrogeology-science-center/meteor-crater-drill-hole-sample-collection",
+      "license": "Public domain (USGS)",
+      "retrievedAt": "2026-11-19"
+    },
+    {
+      "id": "usgs-yvo-youngest-supereruption",
+      "title": "Exciting insights into Yellowstone's youngest supereruption (USGS Yellowstone Volcano Observatory)",
+      "publisher": "USGS",
+      "url": "https://www.usgs.gov/observatories/yvo/news/exciting-insights-yellowstones-youngest-supereruption",
+      "license": "Public domain (USGS)",
+      "retrievedAt": "2026-11-19"
+    },
+    {
+      "id": "nasa-eo-south-island-alps",
+      "title": "South Island Alps (NASA Earth Observatory)",
+      "publisher": "NASA Earth Observatory",
+      "url": "https://science.nasa.gov/earth/earth-observatory/south-island-alps-148290/",
+      "license": "NASA public domain (NASA media usage guidelines)",
+      "retrievedAt": "2026-11-19"
+    },
+    {
+      "id": "nasa-svs-pinatubo-eruption",
+      "title": "Mt. Pinatubo Eruption on June 15, 1991 (SVS 2183)",
+      "publisher": "NASA Scientific Visualization Studio",
+      "url": "https://svs.gsfc.nasa.gov/2183",
+      "license": "NASA public domain (NASA media usage guidelines)",
+      "retrievedAt": "2026-11-19"
+    },
+    {
+      "id": "usgs-yvo-white-island-2019",
+      "title": "The December 2019 hydrothermal explosion at White Island (Whakaari), New Zealand, and its lessons for Yellowstone (USGS)",
+      "publisher": "USGS",
+      "url": "https://www.usgs.gov/news/december-2019-hydrothermal-explosion-white-island-whakaari-new-zealand-and-its-lessons",
+      "license": "Public domain (USGS)",
+      "retrievedAt": "2026-11-19"
+    },
+    {
+      "id": "nasa-eo-fraser-island-blazes",
+      "title": "Fraser Island Blazes (NASA Earth Observatory)",
+      "publisher": "NASA Earth Observatory",
+      "url": "https://science.nasa.gov/earth/earth-observatory/fraser-island-blazes-147638/",
+      "license": "NASA public domain (NASA media usage guidelines)",
+      "retrievedAt": "2026-11-19"
     }
   ]
 }

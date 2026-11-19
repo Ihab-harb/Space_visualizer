@@ -4,7 +4,7 @@ import { OFFICIAL_HOSTS } from './quotedReference';
 
 describe('POSITION_HOSTS', () => {
   it('is the official hosts plus the hosts of the names databases in the registry, for positions only', () => {
-    expect(POSITION_HOSTS).toEqual([...OFFICIAL_HOSTS, 'nga.mil', 'noaa.gov', 'gebco.net', 'natural-resources.canada.ca', 'linz.govt.nz']);
+    expect(POSITION_HOSTS).toEqual([...OFFICIAL_HOSTS, 'nga.mil', 'noaa.gov', 'gebco.net', 'natural-resources.canada.ca', 'linz.govt.nz', 'ga.gov.au']);
   });
 });
 import { pageText } from './quotedReference';
@@ -104,7 +104,7 @@ describe('verifyLandmarks', () => {
     it('never accepts a POSITION_HOSTS-only host for a quoted sentence', () => {
       const official = new Set<string>(OFFICIAL_HOSTS);
       const positionOnly = POSITION_HOSTS.filter((h) => !official.has(h));
-      expect(positionOnly.length).toBe(5);
+      expect(positionOnly.length).toBe(6);
       for (const h of positionOnly) {
         const src = { ...SRC, url: `https://www.${h}/page` };
         expect(verifyLandmarks(file({ sources: [src] }), pages).join()).toContain(`is not on an official host: www.${h}`);
@@ -147,6 +147,11 @@ describe('verifyLandmarks', () => {
       const linz = { kind: 'names-database', database: 'linz', recordId: '12865' };
       const nz = new Map([['linz:12865', { name: 'Meteor Crater', variants: [], sourceUrl: 'https://www.linz.govt.nz/x', territory: '' }]]);
       expect(verifyLandmarks(earth(linz), pages, nz).join()).toContain('record 12865 is outside New Zealand (territory "")');
+      // A Composite Gazetteer of Australia record must come from a state or mainland territory authority.
+      const cga = { kind: 'names-database', database: 'ga-cga', recordId: 'AAD_2012' };
+      const au = (territory: string) => new Map([['ga-cga:AAD_2012', { name: 'Meteor Crater', variants: [], sourceUrl: 'https://ecat.ga.gov.au/x', territory }]]);
+      expect(verifyLandmarks(earth(cga), pages, au('NT'))).toEqual([]);
+      expect(verifyLandmarks(earth(cga), pages, au('AAD')).join()).toContain('record AAD_2012 is outside Australia (territory "AAD")');
       // A national record that carries no territory at all fails too (the check fails closed).
       const bare = new Map([['nrcan:MABQB', { name: 'Meteor Crater', variants: [], sourceUrl: 'https://natural-resources.canada.ca/x' }]]);
       expect(verifyLandmarks(earth(nrcan), pages, bare).join()).toContain('record MABQB is outside Canada (territory "")');

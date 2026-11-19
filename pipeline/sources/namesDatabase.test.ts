@@ -17,6 +17,11 @@ const hudsonBay = fixture('names-nrcan-OAHKV.csv');
 const flemishCap = fixture('names-nrcan-MABQB.csv');
 const conciseCodes = fixture('names-nrcan-concise.json');
 const linz = fixture('names-linz-gaz.csv');
+// Composite Gazetteer of Australia: single-record query responses, saved as fetched.
+const uluru = fixture('names-ga-cga-NT_10532.json');
+const sharkBay = fixture('names-ga-cga-WA_100044292.json');
+const mountClarke = fixture('names-ga-cga-AAD_2012.json');
+const bramptonRoads = fixture('names-ga-cga-AHO_28995.json');
 
 describe('parseNamesRecord', () => {
   it('reads a GNIS domestic record: name, primary point, west longitude as east', () => {
@@ -132,6 +137,40 @@ describe('New Zealand Gazetteer (LINZ)', () => {
   });
   it('is null for an id that is not in the file', () => {
     expect(nz.read([linz], '729')).toBeNull();
+  });
+});
+
+describe('Composite Gazetteer of Australia (Geoscience Australia)', () => {
+  const cga = NAMES_SOURCES['ga-cga'];
+  it('reads a record: feature as the class in sentence case, the authority as where it is, a south latitude kept as written', () => {
+    // id NT_10532: name Uluru/Ayers Rock, feature MOUNTAIN, authority NT, latitude -25.3415, longitude 131.0354.
+    expect(cga.read([uluru], 'NT_10532')).toEqual({
+      id: 'NT_10532', name: 'Uluru/Ayers Rock', variants: [], featureClass: 'Mountain', latDeg: -25.3415, lonDegE: 131.0354, text: '-25.3415, 131.0354', territory: 'NT',
+    });
+    // id WA_100044292: WA writes its names in capitals ("SHARK BAY"); the digits stay as written.
+    expect(cga.read([sharkBay], 'WA_100044292')).toMatchObject({ name: 'SHARK BAY', featureClass: 'Bay', latDeg: -25.47444444, lonDegE: 113.48777778, text: '-25.47444444, 113.48777778', territory: 'WA' });
+  });
+  it('holds only the states and mainland territories: Antarctic (AAD) and hydrographic (AHO) records are outside Australia', () => {
+    const antarctic = cga.read([mountClarke], 'AAD_2012')!;
+    expect(antarctic).toMatchObject({ name: 'Mount Clarke', featureClass: 'Peak', latDeg: -68.1213, territory: 'AAD' });
+    expect(cga.country!.holds(antarctic.territory!)).toBe(false);
+    const offshore = cga.read([bramptonRoads], 'AHO_28995')!;
+    expect(offshore).toMatchObject({ name: 'Brampton Roads', featureClass: 'Anchorage', territory: 'AHO' });
+    expect(cga.country!.holds(offshore.territory!)).toBe(false);
+    for (const state of ['NSW', 'VIC', 'QLD', 'SA', 'WA', 'TAS', 'NT', 'ACT']) expect(cga.country!.holds(state)).toBe(true);
+    expect(cga.country!.holds('')).toBe(false);
+  });
+  it('is null for another id or an empty answer', () => {
+    expect(cga.read([uluru], 'NT_1053')).toBeNull();
+    expect(cga.read(['{"features":[]}'], 'NT_10532')).toBeNull();
+  });
+  it('fetches one record by its id from the map service, and refuses an id that could change the query', () => {
+    expect(cga.files('NT_10532')).toEqual([{
+      url: "https://services.ga.gov.au/gis/rest/services/Composite_Gazetteer_of_Australia/MapServer/0/query?where=id%3D%27NT_10532%27&outFields=*&returnGeometry=false&f=json",
+      cacheName: 'names-ga-cga-NT_10532.json',
+    }]);
+    expect(() => cga.files("NT_1' OR '1'='1")).toThrow('record id');
+    expect(() => cga.files('10532')).toThrow('record id');
   });
 });
 

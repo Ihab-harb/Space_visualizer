@@ -33,9 +33,11 @@ describe('featureEntries', () => {
 
   it('handles a body with landmarks and no features (Earth)', () => {
     const e = featureEntries(realDetails('earth'));
-    expect(e).toHaveLength(43);
+    expect(e).toHaveLength(49);
     expect(e[0]).toMatchObject({ id: 'grand-canyon', positionKind: 'names-database', positionSourceId: 'usgs-gnis', positionText: '36.112764° N, 113.9960696° W', diameterKm: null, typeMeaning: null });
     expect(e.find((x) => x.id === 'hudson-bay')).toMatchObject({ type: 'Bay', positionSourceId: 'nrcan-cgndb', positionText: '60.0° N, 86.0° W' });
+    // Australia (Task 13): a Composite Gazetteer record, shown under its common name with the record's own name beside it.
+    expect(e.find((x) => x.id === 'uluru')).toMatchObject({ type: 'Mountain', positionSourceId: 'ga-composite-gazetteer', positionText: '25.3415° S, 131.0354° E (CGA name: Uluru/Ayers Rock)' });
   });
 
   it('returns [] for a body with neither', () => {

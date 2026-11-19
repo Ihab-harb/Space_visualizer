@@ -15,13 +15,6 @@
       "license": "Public domain (USGS)"
     },
     {
-      "id": "nasa-mission-insight",
-      "title": "InSight (NASA Science mission page)",
-      "publisher": "NASA Science",
-      "url": "https://science.nasa.gov/mission/insight/",
-      "license": "NASA public domain (NASA media usage guidelines)"
-    },
-    {
       "id": "nasa-photojournal-to-great-depths",
       "title": "To Great Depths (PIA21570), NASA Photojournal",
       "publisher": "NASA Science",
@@ -134,13 +127,6 @@
       "license": "NASA public domain (NASA media usage guidelines)"
     },
     {
-      "id": "esa-bepicolombo-sixth-flyby",
-      "title": "Top three images from BepiColombo's sixth Mercury flyby",
-      "publisher": "ESA",
-      "url": "https://www.esa.int/articles/about-us/directorates/science/bepicolombo/top-three-images-from-bepicolombo-s-sixth-mercury-flyby",
-      "license": "ESA; text quoted with attribution (ESA terms of use)"
-    },
-    {
       "id": "nasa-photojournal-islands-in-the-stream",
       "title": "Islands in the Stream (PIA15065), NASA Photojournal",
       "publisher": "NASA Science",
@@ -176,13 +162,6 @@
       "license": "NASA public domain (NASA media usage guidelines)"
     },
     {
-      "id": "esa-lava-and-debris-mercury",
-      "title": "Lava and debris brighten Mercury's surface",
-      "publisher": "ESA",
-      "url": "https://www.esa.int/media/lava-and-debris-brighten-mercury-s-surface",
-      "license": "ESA; text quoted with attribution (ESA terms of use)"
-    },
-    {
       "id": "nasa-photojournal-raditladi",
       "title": "The Curious Case of Raditladi Basin (PIA12042), NASA Photojournal",
       "publisher": "NASA Science",
@@ -194,13 +173,6 @@
       "title": "The Impressive Rays of Hokusai (PIA13508)",
       "publisher": "NASA Science",
       "url": "https://science.nasa.gov/resource/the-impressive-rays-of-hokusai/",
-      "license": "NASA public domain (NASA media usage guidelines)"
-    },
-    {
-      "id": "nasa-resource-architect-and-temple",
-      "title": "The Architect and His Temple",
-      "publisher": "NASA Science",
-      "url": "https://science.nasa.gov/resource/the-architect-and-his-temple/",
       "license": "NASA public domain (NASA media usage guidelines)"
     },
     {
@@ -449,13 +421,6 @@
       "license": "Public domain (USGS)"
     },
     {
-      "id": "usgs-volcano-yellowstone",
-      "title": "Yellowstone (USGS Volcano Hazards Program)",
-      "publisher": "USGS",
-      "url": "https://www.usgs.gov/volcanoes/yellowstone",
-      "license": "Public domain (USGS)"
-    },
-    {
       "id": "nasa-eo-mississippi-delta-winter",
       "title": "Winter Transforms the Mississippi River Delta (NASA Earth Observatory)",
       "publisher": "NASA Earth Observatory",
@@ -603,13 +568,6 @@
       "license": "NASA public domain (NASA media usage guidelines)"
     },
     {
-      "id": "nasa-eo-global-effects-pinatubo",
-      "title": "Global Effects of Mount Pinatubo (NASA Earth Observatory)",
-      "publisher": "NASA Earth Observatory",
-      "url": "https://science.nasa.gov/earth/earth-observatory/global-effects-of-mount-pinatubo-1510/",
-      "license": "NASA public domain (NASA media usage guidelines)"
-    },
-    {
       "id": "nasa-eo-ash-plume-north-atlantic",
       "title": "Ash Plume across the North Atlantic (NASA Earth Observatory)",
       "publisher": "NASA Earth Observatory",
@@ -701,17 +659,101 @@
       "license": "NASA public domain (NASA media usage guidelines)"
     },
     {
-      "id": "nasa-eo-spine-of-south-island",
-      "title": "The Spine of South Island (NASA Earth Observatory)",
+      "id": "nasa-eo-uluru-ayers-rock",
+      "title": "Uluru (Ayers Rock) (NASA Earth Observatory)",
       "publisher": "NASA Earth Observatory",
-      "url": "https://science.nasa.gov/earth/earth-observatory/the-spine-of-south-island-149512/",
+      "url": "https://science.nasa.gov/earth/earth-observatory/uluru-ayers-rock-5304/",
       "license": "NASA public domain (NASA media usage guidelines)"
     },
     {
-      "id": "nasa-eo-another-puff-from-whakaari",
-      "title": "Another Puff from Whakaari (NASA Earth Observatory)",
+      "id": "nasa-eo-rare-filling-kati-thanda",
+      "title": "Rare Filling of Kati Thanda-Lake Eyre (NASA Earth Observatory)",
       "publisher": "NASA Earth Observatory",
-      "url": "https://science.nasa.gov/earth/earth-observatory/another-puff-from-whakaari-153818/",
+      "url": "https://science.nasa.gov/earth/earth-observatory/rare-filling-of-kati-thanda-lake-eyre-145076/",
+      "license": "NASA public domain (NASA media usage guidelines)"
+    },
+    {
+      "id": "nasa-eo-sharks-seagrass-stromatolites",
+      "title": "Sharks, Seagrass, and Stromatolites (NASA Earth Observatory)",
+      "publisher": "NASA Earth Observatory",
+      "url": "https://science.nasa.gov/earth/earth-observatory/sharks-seagrass-and-stromatolites-147395/",
+      "license": "NASA public domain (NASA media usage guidelines)"
+    },
+    {
+      "id": "nasa-eo-wolfe-creek-crater",
+      "title": "Wolfe Creek Crater (NASA Earth Observatory)",
+      "publisher": "NASA Earth Observatory",
+      "url": "https://science.nasa.gov/earth/earth-observatory/wolfe-creek-crater-8488/",
+      "license": "NASA public domain (NASA media usage guidelines)"
+    },
+    {
+      "id": "nasa-eo-gosses-bluff",
+      "title": "Gosses Bluff, Northern Territory, Australia (NASA Earth Observatory)",
+      "publisher": "NASA Earth Observatory",
+      "url": "https://science.nasa.gov/earth/earth-observatory/gosses-bluff-northern-territory-australia-4853/",
+      "license": "NASA public domain (NASA media usage guidelines)"
+    },
+    {
+      "id": "nasa-photojournal-seeing-in-the-dark",
+      "title": "Seeing in the Dark (Kandinsky crater), NASA Photojournal",
+      "publisher": "NASA Science",
+      "url": "https://science.nasa.gov/photojournal/pj-seeing-in-the-dark/",
+      "license": "NASA public domain (NASA media usage guidelines)"
+    },
+    {
+      "id": "esa-bepicolombo-sixth-flyby-movie",
+      "title": "BepiColombo's sixth Mercury flyby: the movie",
+      "publisher": "ESA",
+      "url": "https://www.esa.int/media/bepicolombo-s-sixth-mercury-flyby-the-movie",
+      "license": "ESA; text quoted with attribution (ESA terms of use)"
+    },
+    {
+      "id": "nasa-eo-flood-basalts-mars-iceland",
+      "title": "Flood Basalts on Mars and Iceland (NASA Earth Observatory)",
+      "publisher": "NASA Earth Observatory",
+      "url": "https://science.nasa.gov/earth/earth-observatory/flood-basalts-on-mars-and-iceland-92858/",
+      "license": "NASA public domain (NASA media usage guidelines)"
+    },
+    {
+      "id": "usgs-astrogeology-meteor-crater-samples",
+      "title": "Meteor Crater Drill Hole Sample Collection (USGS Astrogeology Science Center)",
+      "publisher": "USGS",
+      "url": "https://www.usgs.gov/centers/astrogeology-science-center/meteor-crater-drill-hole-sample-collection",
+      "license": "Public domain (USGS)"
+    },
+    {
+      "id": "usgs-yvo-youngest-supereruption",
+      "title": "Exciting insights into Yellowstone's youngest supereruption (USGS Yellowstone Volcano Observatory)",
+      "publisher": "USGS",
+      "url": "https://www.usgs.gov/observatories/yvo/news/exciting-insights-yellowstones-youngest-supereruption",
+      "license": "Public domain (USGS)"
+    },
+    {
+      "id": "nasa-eo-south-island-alps",
+      "title": "South Island Alps (NASA Earth Observatory)",
+      "publisher": "NASA Earth Observatory",
+      "url": "https://science.nasa.gov/earth/earth-observatory/south-island-alps-148290/",
+      "license": "NASA public domain (NASA media usage guidelines)"
+    },
+    {
+      "id": "nasa-svs-pinatubo-eruption",
+      "title": "Mt. Pinatubo Eruption on June 15, 1991 (SVS 2183)",
+      "publisher": "NASA Scientific Visualization Studio",
+      "url": "https://svs.gsfc.nasa.gov/2183",
+      "license": "NASA public domain (NASA media usage guidelines)"
+    },
+    {
+      "id": "usgs-yvo-white-island-2019",
+      "title": "The December 2019 hydrothermal explosion at White Island (Whakaari), New Zealand, and its lessons for Yellowstone (USGS)",
+      "publisher": "USGS",
+      "url": "https://www.usgs.gov/news/december-2019-hydrothermal-explosion-white-island-whakaari-new-zealand-and-its-lessons",
+      "license": "Public domain (USGS)"
+    },
+    {
+      "id": "nasa-eo-fraser-island-blazes",
+      "title": "Fraser Island Blazes (NASA Earth Observatory)",
+      "publisher": "NASA Earth Observatory",
+      "url": "https://science.nasa.gov/earth/earth-observatory/fraser-island-blazes-147638/",
       "license": "NASA public domain (NASA media usage guidelines)"
     }
   ],
@@ -757,25 +799,29 @@
       { "name": "Grand Canyon", "sourceId": "nasa-eo-grand-canyon-geology", "quote": "The Grand Canyon has become a geologic icon—a place where you can almost sense the invisible tectonic forces within the Earth.", "position": {"kind": "names-database", "database": "gnis", "recordId": "23907", "area": "AZ"} },
       { "name": "Mount Fuji", "sourceId": "nasa-eo-mount-fuji-2009", "quote": "The 3,776-meter-high (12,388 feet) Mount Fuji Volcano, located on the island of Honshu in Japan, is one of the world’s classic examples of a stratovolcano.", "position": {"kind": "names-database", "database": "noaa-volcano", "recordId": "80303", "recordName": "Fujisan"} },
       { "name": "Mount Kilimanjaro", "sourceId": "nasa-eo-kilimanjaro-closeup", "quote": "Mount Kilimanjaro is a dormant stratovolcano and the highest mountain in Africa.", "position": {"kind": "names-database", "database": "noaa-volcano", "recordId": "20215", "recordName": "Kilimanjaro"} },
+      { "name": "Uluru", "sourceId": "nasa-eo-uluru-ayers-rock", "quote": "Called Uluru, or Ayer's Rock, this giant is a monolith 348 meters (1,142 feet) high, 3.6 kilometers (2.2 miles) long, and 9.4 kilometers (5.8 miles) around.", "position": {"kind": "names-database", "database": "ga-cga", "recordId": "NT_10532", "recordName": "Uluru/Ayers Rock"} },
       { "name": "Challenger Deep", "sourceId": "usgs-dynamic-earth-plate-motions", "quote": "The Challenger Deep, at the southern end of the Marianas Trench, plunges deeper into the Earth's interior (nearly 11,000 m) than Mount Everest, the world's tallest mountain, rises above sea level (about 8,854 m).", "position": {"kind": "names-database", "database": "gebco", "recordId": "563"} },
       { "name": "Mississippi River", "sourceId": "nasa-eo-mississippi-delta-winter", "quote": "Originating from Lake Itasca in Minnesota, the Mississippi River flows approximately 3,770 kilometers (2,340 miles) through 10 states before emptying into the gulf.", "position": {"kind": "names-database", "database": "gnis", "recordId": "1629903", "area": "LA"} },
       { "name": "Mount Etna", "sourceId": "nasa-eo-long-view-of-etna", "quote": "Mount Etna is considered to be the most active volcano on the European continent.", "position": {"kind": "names-database", "database": "noaa-volcano", "recordId": "10106", "recordName": "Etna"} },
       { "name": "Mount Vesuvius", "sourceId": "nasa-eo-view-of-vesuvius", "quote": "Mount Vesuvius , located 12 kilometers (7.5 miles) southeast of Naples, Italy, is one of the few active volcanoes on Europe’s mainland.", "position": {"kind": "names-database", "database": "noaa-volcano", "recordId": "10102", "recordName": "Vesuvius"} },
       { "name": "Hudson Bay", "sourceId": "nasa-eo-rebounding-hudson-bay", "quote": "Located in northeastern Canada, just south of the Arctic Circle, Hudson Bay is the world’s second-largest bay and spans 1,230,000 square kilometers (470,000 square miles).", "position": {"kind": "names-database", "database": "nrcan", "recordId": "OAHKV"} },
-      { "name": "Yellowstone Caldera", "sourceId": "usgs-volcano-yellowstone", "quote": "Yellowstone is presently the site of one of the world's largest hydrothermal systems including Earth's largest concentration of geysers.", "position": {"kind": "names-database", "database": "gnis", "recordId": "2833031", "area": "WY"} },
+      { "name": "Yellowstone Caldera", "sourceId": "usgs-yvo-youngest-supereruption", "quote": "About 631,000 years ago, a massive eruption formed what today is known as Yellowstone Caldera.", "position": {"kind": "names-database", "database": "gnis", "recordId": "2833031", "area": "WY"} },
       { "name": "Mount Saint Helens", "sourceId": "usgs-volcano-mount-st-helens", "quote": "During the 1980 eruption the upper 400 m (1,300 ft) of the summit was removed by a huge debris avalanche, leaving a 2 x 3.5 km horseshoe-shaped crater now partially filled by a lava dome and a glacier.", "position": {"kind": "names-database", "database": "gnis", "recordId": "1525360", "area": "WA"} },
       { "name": "Mariana Trench", "sourceId": "nasa-eo-deepest-trench", "quote": "The Mariana Trench stretches 2,500 kilometers (1,500 miles) in an arc that is edged by islands such as Guam and Saipan.", "position": {"kind": "names-database", "database": "gebco", "recordId": "1870"} },
       { "name": "Krakatau", "sourceId": "nasa-eo-krakatau-indonesia", "quote": "Responsible for one of the largest and most destructive eruptions in Indonesia’s history, Krakatau still erupts frequently.", "position": {"kind": "names-database", "database": "noaa-volcano", "recordId": "60200"} },
       { "name": "Antarctic Peninsula", "sourceId": "nasa-eo-antarctic-peninsula", "quote": "The ice-covered and mountainous peninsula stretches 1,300 kilometers (800 miles) into the Southern Ocean.", "position": {"kind": "names-database", "database": "gnis", "recordId": "2814404", "area": "Antarctica"} },
-      { "name": "Aoraki/Mount Cook", "sourceId": "nasa-eo-spine-of-south-island", "quote": "The highest peak in the mountain range, known as Aoraki Mount Cook, rises approximately 3,750 meters (12,300 feet) above sea level.", "position": {"kind": "names-database", "database": "linz", "recordId": "7297"} },
+      { "name": "Aoraki/Mount Cook", "sourceId": "nasa-eo-south-island-alps", "quote": "New Zealand's highest peak, Aoraki Mount Cook, reaches 3,724 meters (12,218 feet) above sea level.", "position": {"kind": "names-database", "database": "linz", "recordId": "7297"} },
       { "name": "Mid-Atlantic Ridge", "sourceId": "usgs-dynamic-earth-plate-motions", "quote": "The rate of spreading along the Mid-Atlantic Ridge averages about 2.5 centimeters per year (cm/yr), or 25 km in a million years.", "position": {"kind": "names-database", "database": "gebco", "recordId": "1990"} },
       { "name": "Death Valley", "sourceId": "nasa-eo-death-valley", "quote": "At 86 meters (282 feet) below sea level, Death Valley, California, is one of the hottest, driest places on the planet.", "position": {"kind": "names-database", "database": "gnis", "recordId": "270787", "area": "CA"} },
+      { "name": "Kati Thanda-Lake Eyre", "sourceId": "nasa-eo-rare-filling-kati-thanda", "quote": "Modern Kati Thanda-Lake Eyre is a salt-encrusted, mostly dry and barren playa that occupies Australia's lowest natural point, which is 15 meters (49 feet) below sea level.", "position": {"kind": "names-database", "database": "ga-cga", "recordId": "SA_SA0066895", "recordName": "Kati Thanda"} },
       { "name": "Kīlauea", "sourceId": "usgs-volcano-kilauea", "quote": "Kīlauea ranks among the world's most active volcanoes.", "position": {"kind": "names-database", "database": "gnis", "recordId": "1853032", "area": "HI"} },
-      { "name": "Mount Pinatubo", "sourceId": "nasa-eo-global-effects-pinatubo", "quote": "Pinatubo injected about 15 million tons of sulfur dioxide into the stratosphere, where it reacted with water to form a hazy layer of aerosol particles composed primarily of sulfuric acid droplets.", "position": {"kind": "names-database", "database": "noaa-volcano", "recordId": "703083", "recordName": "Pinatubo"} },
+      { "name": "Mount Pinatubo", "sourceId": "nasa-svs-pinatubo-eruption", "quote": "The second-largest volcanic eruption of the 20th century, and by far the largest eruption to affect a densely populated area, occurred at Mount Pinatubo in the Philippines on June 15, 1991.", "position": {"kind": "names-database", "database": "noaa-volcano", "recordId": "703083", "recordName": "Pinatubo"} },
       { "name": "Eyjafjallajökull", "sourceId": "nasa-eo-ash-plume-north-atlantic", "quote": "Iceland’s Eyjafjallajökull Volcano sent a plume of ash and steam across the North Atlantic in mid-April 2010, prompting authorities in the United Kingdom, Ireland, France, and Scandinavia to close airspace over their countries.", "position": {"kind": "names-database", "database": "noaa-volcano", "recordId": "170202", "recordName": "Eyjafjallajokull"} },
       { "name": "Ross Ice Shelf", "sourceId": "nasa-eo-ross-ice-shelf", "quote": "Spanning nearly 600 miles in length, and achieving a thickness of 3000 feet in certain areas, the Ross Ice Shelf is the largest ice shelf in the world.", "position": {"kind": "names-database", "database": "gnis", "recordId": "2823644", "area": "Antarctica"} },
       { "name": "Bay of Fundy", "sourceId": "nasa-eo-bay-of-fundy-tides", "quote": "Under typical conditions, high tide at the head (the most inland part) of the Bay of Fundy is as much as 17 meters (about 56 feet) higher than low tide.", "position": {"kind": "names-database", "database": "nrcan", "recordId": "CANGC"} },
       { "name": "Lake Superior", "sourceId": "nasa-eo-lake-superior-ice", "quote": "Superior is the world’s largest freshwater lake by area (82,100 square kilometers or 31,700 square miles) and the third largest by volume.", "position": {"kind": "names-database", "database": "gnis", "recordId": "1618946", "area": "MI"} },
+      { "name": "Shark Bay", "sourceId": "nasa-eo-sharks-seagrass-stromatolites", "quote": "Shark Bay contains the largest and richest beds of seagrasses in the world and is also home to some of the oldest lifeforms on Earth.", "position": {"kind": "names-database", "database": "ga-cga", "recordId": "WA_100044292", "recordName": "SHARK BAY"} },
+      { "name": "K'gari", "sourceId": "nasa-eo-fraser-island-blazes", "quote": "Spanning 180,000 hectares (440,000 acres), Fraser Island (also called K'gari) is known for its tropical rainforests, sand dunes, and inland lakes.", "position": {"kind": "names-database", "database": "ga-cga", "recordId": "QLD_52245"} },
       { "name": "Popocatépetl", "sourceId": "nasa-eo-topography-popocatepetl", "quote": "Popocatépetl is a stratovolcano, the classic symmetrical (in this case cone-shaped) mountain with a circular crater in its summit.", "position": {"kind": "names-database", "database": "noaa-volcano", "recordId": "140109", "recordName": "Popocatepetl"} },
       { "name": "Mount Tambora", "sourceId": "nasa-eo-tambora", "quote": "On April 10, 1815, the Tambora Volcano produced the largest eruption in recorded history.", "position": {"kind": "names-database", "database": "noaa-volcano", "recordId": "60404", "recordName": "Tambora"} },
       { "name": "Great Salt Lake", "sourceId": "nasa-eo-great-salt-lake", "quote": "Few other lakes in the United States rival the Great Salt Lake in size and significance.", "position": {"kind": "names-database", "database": "gnis", "recordId": "1441459", "area": "UT"} },
@@ -787,13 +833,15 @@
       { "name": "Teide", "sourceId": "nasa-eo-tenerife", "quote": "The summit of the Teide stratovolcano reaches 3,718 meters (12,198 feet) above sea level.", "position": {"kind": "names-database", "database": "noaa-volcano", "recordId": "180303", "recordName": "Tenerife"} },
       { "name": "Crater Lake", "sourceId": "usgs-volcano-crater-lake", "quote": "Having a maximum depth of 594 m (1,949 ft), Crater Lake is the deepest lake in the United States.", "position": {"kind": "names-database", "database": "gnis", "recordId": "1163669", "area": "OR"} },
       { "name": "Réservoir Manicouagan", "sourceId": "nasa-eo-manicouagan-lake", "quote": "Manicouagan Crater was formed 214 million years ago, near the end of the Triassic Period, when an asteroid 5 kilometers (3 miles) wide struck what is now Canada.", "position": {"kind": "names-database", "database": "nrcan", "recordId": "EHDCW"} },
-      { "name": "Meteor Crater", "sourceId": "nasa-eo-meteor-crater", "quote": "Even at 50,000 years old, the crater is relatively young and remarkably well-preserved compared to other craters.", "position": {"kind": "names-database", "database": "gnis", "recordId": "7945", "area": "AZ"}, "size": {"km": 1.2, "sourceId": "nasa-eo-meteor-crater", "quote": "Meteor Crater measures 0.75 miles (1.2 kilometers) across and about 600 feet (180 meters) deep."} },
+      { "name": "Meteor Crater", "sourceId": "usgs-astrogeology-meteor-crater-samples", "quote": "Meteor Crater, located in northern Arizona, is one of the best preserved and easily accessible impact sites on Earth.", "position": {"kind": "names-database", "database": "gnis", "recordId": "7945", "area": "AZ"}, "size": {"km": 1.2, "sourceId": "nasa-eo-meteor-crater", "quote": "Meteor Crater measures 0.75 miles (1.2 kilometers) across and about 600 feet (180 meters) deep."} },
+      { "name": "Wolfe Creek Crater", "sourceId": "nasa-eo-wolfe-creek-crater", "quote": "Almost circular, Wolfe Creek Crater (also known as Wolf Creek Crater) is considered the second largest crater in the world from which meteorite fragments have been collected.", "position": {"kind": "names-database", "database": "ga-cga", "recordId": "WA_100044096", "recordName": "WOLFE CREEK METEORITE CRATER"} },
       { "name": "Puerto Rico Trench", "sourceId": "usgs-ofr-2004-1400-puerto-rico-trench", "quote": "The Puerto Rico Trench is a tectonic plate boundary where the North American plate slides by and descends under the Caribbean plate.", "position": {"kind": "names-database", "database": "gebco", "recordId": "2520"} },
-      { "name": "Whakaari / White Island", "sourceId": "nasa-eo-another-puff-from-whakaari", "quote": "The partially submerged volcano in New Zealand’s Bay of Plenty is called Whakaari/White Island .", "position": {"kind": "names-database", "database": "linz", "recordId": "6961"} },
+      { "name": "Whakaari / White Island", "sourceId": "usgs-yvo-white-island-2019", "quote": "Whakaari/White Island is the tip of a submarine stratovolcano at the northern end of the Taupo Volcanic Zone and has been active for at least 150,000 years.", "position": {"kind": "names-database", "database": "linz", "recordId": "6961"} },
       { "name": "Vostok Subglacial Lake", "sourceId": "esa-cryosat-subglacial-lakes", "quote": "The biggest known subglacial lake is Lake Vostok underneath the East Antarctic Ice Sheet, holding an estimated 5000–65 000 cubic km of water beneath 4 km of ice (the water contained in Lake Vostok is enough to fill the Grand Canyon and overflow by at least 25 %).", "position": {"kind": "names-database", "database": "gnis", "recordId": "2827619", "area": "Antarctica"} },
       { "name": "Mount Rainier", "sourceId": "usgs-volcano-mount-rainier", "quote": "Mount Rainier, the highest peak in the Cascade Range at 4,392m (14,410 ft), forms a dramatic backdrop to the Puget Sound region.", "position": {"kind": "names-database", "database": "gnis", "recordId": "1533614", "area": "WA"} },
       { "name": "Vinson Massif", "sourceId": "nasa-eo-vinson-massif", "quote": "Vinson Massif is the tallest mountain in Antarctica.", "position": {"kind": "names-database", "database": "gnis", "recordId": "2826005", "area": "Antarctica"} },
       { "name": "Pingualuit Crater", "sourceId": "nasa-eo-pingualuit-crater", "quote": "With a diameter of 3.44 kilometers (2.14 miles), Pingualuit Crater holds a lake about 267 meters (876 feet) deep.", "position": {"kind": "names-database", "database": "nrcan", "recordId": "EQZQV", "recordName": "Cratère des Pingualuit"}, "size": {"km": 3.44, "sourceId": "nasa-eo-pingualuit-crater", "quote": "With a diameter of 3.44 kilometers (2.14 miles), Pingualuit Crater holds a lake about 267 meters (876 feet) deep."} },
+      { "name": "Gosses Bluff", "sourceId": "nasa-eo-gosses-bluff", "quote": "Gosses Bluff was probably formed by the impact of a large comet or meteorite about 142 million years ago.", "position": {"kind": "names-database", "database": "ga-cga", "recordId": "NT_13237"} },
       { "name": "McMurdo Dry Valleys", "sourceId": "nasa-image-dry-valleys", "quote": "The McMurdo Dry Valleys are a row of valleys west of McMurdo Sound, Antarctica, so named because of their extremely low humidity and lack of snow and ice cover.", "position": {"kind": "names-database", "database": "gnis", "recordId": "2821383", "area": "Antarctica"} },
       { "name": "Thwaites Glacier", "sourceId": "nasa-eo-thwaites-transformed", "quote": "Indeed, Thwaites Glacier is one of the largest contributors to global sea level rise from the West Antarctic Ice Sheet.", "position": {"kind": "names-database", "database": "gnis", "recordId": "2825416", "area": "Antarctica"} },
       { "name": "Larsen Ice Shelf", "sourceId": "nasa-eo-larsen-ice-shelf", "quote": "Larsen is situated along the northeastern coast of the Antarctic Peninsula, one of the fastest-warming places on the planet.", "position": {"kind": "names-database", "database": "gnis", "recordId": "2820459", "area": "Antarctica"} }
@@ -807,14 +855,12 @@
       { "name": "Rembrandt", "sourceId": "nasa-photojournal-rembrandt-basin", "quote": "The number per area and size distribution of impact craters superposed on Rembrandt's rim indicates that it is one of the youngest impact basins on Mercury." },
       { "name": "Beagle Rupes", "sourceId": "nasa-photojournal-beagle-rupes", "quote": "Beagle Rupes and other scarps on Mercury are thought to be the surface expressions of thrust faults that formed from contraction as the planet's interior cooled." },
       { "name": "Pantheon Fossae", "sourceId": "nasa-photojournal-mercurys-first-fossae", "quote": "The dome of the Pantheon has a series of sunken panels that radiate from a central circular opening at the top of the dome, and Mercury's Pantheon Fossae is reminiscent of this pattern." },
-      { "name": "Mendelssohn", "sourceId": "esa-bepicolombo-sixth-flyby", "quote": "Prominently visible is the Mendelssohn crater, whose outer rim is barely visible above its flooded interior." },
-      { "name": "Nathair Facula", "sourceId": "esa-lava-and-debris-mercury", "quote": "The bright patch near the planet's upper edge in this image is the Nathair Facula, the aftermath of the largest volcanic explosion on Mercury." },
+      { "name": "Mendelssohn", "sourceId": "esa-bepicolombo-sixth-flyby-movie", "quote": "The Mendelssohn crater was flooded with lava after an impact originally created it." },
       { "name": "Raditladi", "sourceId": "nasa-photojournal-raditladi", "quote": "Raditladi basin is relatively young, with only a few small impact craters on the basin's floor and with well-preserved basin walls and peak-ring structure." },
       { "name": "Hokusai", "sourceId": "nasa-resource-rays-of-hokusai", "quote": "The crater has an impressive system of rays, which extend as much as a thousand kilometers (more than 600 miles) across the planet and are the longest that have yet been identified on Mercury." },
       { "name": "Prokofiev", "sourceId": "nasa-photojournal-in-prokofievs-shadow", "quote": "MESSENGER has found evidence that within the cold, dark, permanently shadowed regions of Prokofiev, water ice is exposed on the surface." },
-      { "name": "Kandinsky", "sourceId": "esa-bepicolombo-sixth-flyby", "quote": "The rims of craters Prokofiev, Kandinsky, Tolkien and Gordimer cast permanent shadows on their floors." },
-      { "name": "Apollodorus", "sourceId": "nasa-resource-architect-and-temple", "quote": "Although Apollodorus of Damascus (the namesake of the crater) is thought to be the architect of the Pantheon in Rome (the namesake of the fossae), the crater Apollodorus is thought to be unrelated to the creation of Pantheon Fossae." },
-      { "name": "Fonteyn", "sourceId": "esa-lava-and-debris-mercury", "quote": "Also visible is the relatively young Fonteyn crater, which formed a 'mere' 300 million years ago." }
+      { "name": "Kandinsky", "sourceId": "nasa-photojournal-seeing-in-the-dark", "quote": "The floor of Kandinsky is in permanent shadow and never receives direct sunlight, keeping it very cold." },
+      { "name": "Apollodorus", "sourceId": "nasa-photojournal-mercurys-first-fossae", "quote": "MESSENGER scientists are debating whether Apollodorus played a role in the formation of Pantheon Fossae or whether the crater is simply from a later impact that occurred close to the center of the radial pattern." }
     ],
     "venus": [
       { "name": "Ishtar Terra", "sourceId": "nasa-science-venus-facts", "quote": "Its surface features - most named for both real and mythical women - include Ishtar Terra, a rocky, highland area around the size of Australia near the north pole, and an even larger, South-America-sized region called Aphrodite Terra that stretches across the equator." },
@@ -831,7 +877,6 @@
       { "name": "Mead", "sourceId": "nssdc-imgcat-mead-crater", "quote": "At 280 km diameter, Mead is the largest impact crater on Venus." },
       { "name": "Sacajawea Patera", "sourceId": "nasa-photojournal-sacajawea-caldera", "quote": "The formation of Sacajawea is thought to be related to the drainage and collapse of a large magma chamber." },
       { "name": "Sapas Mons", "sourceId": "nasa-photojournal-sapas-mons", "quote": "Sapas Mons, a volcano 400 kilometers (248 miles) across and 1.5 kilometers (0.9 mile) high is located at approximately 8 degrees north latitude, 188 degrees east longitude, on the western edge of Atla Regio." },
-      { "name": "Sif Mons", "sourceId": "jpl-news-ongoing-venus-volcanism-2024", "quote": "They also estimate that the Sif Mons eruption produced about 12 square miles (30 square kilometers) of rock - enough to fill at least 36,000 Olympic-size swimming pools." },
       { "name": "Cleopatra", "sourceId": "nasa-photojournal-maxwell-cleopatra", "quote": "Cleopatra is a double-ring impact basin about 100 kilometers (62 miles) in diameter and 2.5 kilometers (1.5 miles) deep." }
     ],
     "moon": [
@@ -855,7 +900,7 @@
     "mars": [
       { "name": "Valles Marineris", "sourceId": "nasa-science-mars-facts", "quote": "A vast canyon system called Valles Marineris is long enough to stretch from California to New York" },
       { "name": "Olympus Mons", "sourceId": "nasa-science-mars-facts", "quote": "Olympus Mons stands more than 25 miles (that's more than 132,000 feet, or 40 kilometers) tall from base to summit, with the base covering an area as large as the state of Arizona." },
-      { "name": "Elysium Planitia", "sourceId": "nasa-mission-insight", "quote": "InSight landed near Mars' equator on the western side of a flat, smooth plain called Elysium Planitia." },
+      { "name": "Elysium Planitia", "sourceId": "nasa-eo-flood-basalts-mars-iceland", "quote": "Just north of the divide lies the Central Elysium Planitia -one of two large volcanic regions on Mars and the location of the youngest volcanic rocks (about two million years old) on the planet." },
       { "name": "Hellas Planitia", "sourceId": "nasa-photojournal-to-great-depths", "quote": "Hellas is an ancient impact structure and is the deepest and broadest enclosed basin on Mars. It measures about 2,300 kilometers across and the floor of the basin, Hellas Planitia, contains the lowest elevations on Mars." },
       { "name": "Tharsis Montes", "sourceId": "nasa-photojournal-tharsis", "quote": "Each Tharsis Montes volcano is 350-400 km in diameter and about 17 km above the surrounding plain." },
       { "name": "Ares Vallis", "sourceId": "nssdca-mars-pathfinder", "quote": "The Ares Vallis region of Mars is a large outwash plain near Chryse Planitia." },

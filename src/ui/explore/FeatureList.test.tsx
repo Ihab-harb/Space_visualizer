@@ -48,9 +48,9 @@ describe('FeatureList', () => {
 
   it('is titled "Landmarks (N)" for Earth, which has landmarks and no Gazetteer list', async () => {
     show('earth');
-    const button = screen.getByRole('button', { name: 'Landmarks (43)' });
+    const button = screen.getByRole('button', { name: 'Landmarks (49)' });
     await userEvent.click(button);
-    expect(within(screen.getByRole('list', { name: 'Features' })).getAllByRole('listitem')).toHaveLength(43);
+    expect(within(screen.getByRole('list', { name: 'Features' })).getAllByRole('listitem')).toHaveLength(49);
   });
 
   it('has a search box only for more than ten entries', async () => {

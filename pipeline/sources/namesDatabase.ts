@@ -10,9 +10,10 @@ import type { SourceSpec } from './registry';
  * - `gebco`: IHO-IOC GEBCO Gazetteer of Undersea Feature Names, worldwide undersea features (served by NOAA NCEI).
  * - `nrcan`: Canadian Geographical Names Database (Natural Resources Canada), Canada only.
  * - `linz`: New Zealand Gazetteer (Toitū Te Whenua LINZ), New Zealand only.
+ * - `ga-cga`: Composite Gazetteer of Australia (Geoscience Australia), Australia only (the states and mainland territories).
  * - `gns`: the NGA GEOnet Names Server; defined but not in use (it could not be reached on 2026-11-15).
  */
-export type NamesDatabase = 'gnis' | 'gns' | 'noaa-volcano' | 'gebco' | 'nrcan' | 'linz';
+export type NamesDatabase = 'gnis' | 'gns' | 'noaa-volcano' | 'gebco' | 'nrcan' | 'linz' | 'ga-cga';
 
 /** One record: its official name, the other names the database lists for it, and its point. `text` is the point as the record writes it. */
 export interface NamesRecord {
@@ -245,6 +246,36 @@ function readLinzRecord(texts: readonly string[], recordId: string): NamesRecord
   return toRecord(recordId, field('name'), [], field('feat_type'), field('crd_latitude'), field('crd_longitude'), field('land_district'));
 }
 
+/**
+ * Geoscience Australia's map service for the Composite Gazetteer of Australia: one record by its `id` (the authority code, an
+ * underscore and the authority's own id, for example `NT_10532`), JSON. The id pattern below keeps the query's where clause safe.
+ */
+const GA_CGA_QUERY = 'https://services.ga.gov.au/gis/rest/services/Composite_Gazetteer_of_Australia/MapServer/0/query';
+/**
+ * The naming authorities of the six states and the two mainland territories. The gazetteer also holds the Australian Antarctic
+ * Division's names (`AAD`: the Australian Antarctic Territory, Heard Island) and the Australian Hydrographic Office's offshore and
+ * undersea names (`AHO`); those are not Australia proper and fail the country check.
+ */
+const GA_CGA_STATES = new Set(['NSW', 'VIC', 'QLD', 'SA', 'WA', 'TAS', 'NT', 'ACT']);
+
+/** "MOUNTAIN" or "NATIONAL PARK" as "Mountain", "National park": the record's own words, in sentence case. */
+const sentenceCase = (s: string): string => (s === '' ? '' : s[0]!.toUpperCase() + s.slice(1).toLowerCase());
+
+/**
+ * A CGA record: the class is its `feature` ("MOUNTAIN", "LAKE", "CRATER"; `category` is a broader group such as "LANDFORM"),
+ * in sentence case; the point is `latitude`, `longitude` as written in the JSON (GDA94); `territory` is its `authority`.
+ */
+function readGaCgaRecord(texts: readonly string[], recordId: string): NamesRecord | null {
+  const json = texts[0] ?? '';
+  const r = parseJson(json) as { features?: Array<{ attributes?: { id?: unknown; name?: unknown; feature?: unknown; authority?: unknown } }> } | null;
+  const features = r?.features ?? [];
+  const a = features[0]?.attributes;
+  if (features.length !== 1 || !a || a.id !== recordId || typeof a.name !== 'string') return null;
+  const featureClass = typeof a.feature === 'string' ? sentenceCase(a.feature.trim()) : '';
+  const authority = typeof a.authority === 'string' ? a.authority.trim() : '';
+  return toRecord(recordId, a.name.trim(), [], featureClass, jsonNumber(json, 'latitude'), jsonNumber(json, 'longitude'), authority);
+}
+
 const recordId = (pattern: RegExp, label: string) => (id: string): string => {
   if (!pattern.test(id)) throw new Error(`${label} record id must match ${pattern}, not "${id}"`);
   return id;
@@ -253,6 +284,7 @@ const noaaId = recordId(/^\d+$/, 'NOAA volcano');
 const gebcoId = recordId(/^\d+$/, 'GEBCO');
 const nrcanId = recordId(/^[A-Z]{5}$/, 'NRCan');
 const linzId = recordId(/^\d+$/, 'LINZ');
+const gaCgaId = recordId(/^[A-Z]{2,3}_[A-Za-z0-9]+$/, 'CGA');
 
 export const NAMES_SOURCES: Record<NamesDatabase, NamesSource> = {
   gnis: {
@@ -350,6 +382,25 @@ export const NAMES_SOURCES: Record<NamesDatabase, NamesSource> = {
     country: { name: 'New Zealand', holds: (district) => district !== '' },
     files: (id) => { linzId(id); return [{ url: LINZ_GAZETTEER, cacheName: 'names-linz-gaz.csv' }]; },
     read: readLinzRecord,
+  },
+  'ga-cga': {
+    database: 'ga-cga',
+    label: 'CGA',
+    spec: {
+      id: 'ga-composite-gazetteer',
+      title: 'Composite Gazetteer of Australia (map service layer 0, place names points)',
+      publisher: 'Geoscience Australia, with the state and territory naming authorities',
+      url: 'https://ecat.ga.gov.au/geonetwork/srv/api/records/f91a52b3-26f6-4f2c-bb8e-520f40864d5b',
+      license: 'CC BY 4.0 under Geoscience Australia\'s site licence (https://www.ga.gov.au/copyright: "All material on this website is licensed under the Creative Commons Attribution 4.0 International Licence"), as accepted by the user on 2026-11-16; the dataset\'s own entries state no licence (catalogue: "© Commonwealth of Australia (Geoscience Australia) 2025"; data.gov.au: "notspecified")',
+    },
+    host: 'ga.gov.au',
+    coverage: 'Australia (the states and mainland territories)',
+    country: { name: 'Australia', holds: (authority) => GA_CGA_STATES.has(authority) },
+    files: (id) => [{
+      url: `${GA_CGA_QUERY}?where=id%3D%27${gaCgaId(id)}%27&outFields=*&returnGeometry=false&f=json`,
+      cacheName: `names-ga-cga-${id}.json`,
+    }],
+    read: readGaCgaRecord,
   },
 };
 

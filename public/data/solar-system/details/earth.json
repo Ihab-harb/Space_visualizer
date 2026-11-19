@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "bodyId": "earth",
-  "generatedAt": "2026-11-16T20:24:31.989Z",
+  "generatedAt": "2026-11-19T16:14:39.368Z",
   "interior": {
     "radiusKm": {
       "value": 6371,
@@ -342,6 +342,26 @@
       }
     },
     {
+      "id": "uluru",
+      "name": "Uluru",
+      "type": "Mountain",
+      "latDeg": -25.3415,
+      "lonDegE": 131.0354,
+      "diameterKm": null,
+      "origin": null,
+      "approvedYear": null,
+      "position": {
+        "kind": "names-database",
+        "sourceId": "ga-composite-gazetteer",
+        "text": "-25.3415, 131.0354 (CGA name: Uluru/Ayers Rock)"
+      },
+      "sizeSourceId": null,
+      "quote": {
+        "text": "Called Uluru, or Ayer's Rock, this giant is a monolith 348 meters (1,142 feet) high, 3.6 kilometers (2.2 miles) long, and 9.4 kilometers (5.8 miles) around.",
+        "sourceId": "nasa-eo-uluru-ayers-rock"
+      }
+    },
+    {
       "id": "challenger-deep",
       "name": "Challenger Deep",
       "type": "Deep",
@@ -457,8 +477,8 @@
       },
       "sizeSourceId": null,
       "quote": {
-        "text": "Yellowstone is presently the site of one of the world's largest hydrothermal systems including Earth's largest concentration of geysers.",
-        "sourceId": "usgs-volcano-yellowstone"
+        "text": "About 631,000 years ago, a massive eruption formed what today is known as Yellowstone Caldera.",
+        "sourceId": "usgs-yvo-youngest-supereruption"
       }
     },
     {
@@ -557,8 +577,8 @@
       },
       "sizeSourceId": null,
       "quote": {
-        "text": "The highest peak in the mountain range, known as Aoraki Mount Cook, rises approximately 3,750 meters (12,300 feet) above sea level.",
-        "sourceId": "nasa-eo-spine-of-south-island"
+        "text": "New Zealand's highest peak, Aoraki Mount Cook, reaches 3,724 meters (12,218 feet) above sea level.",
+        "sourceId": "nasa-eo-south-island-alps"
       }
     },
     {
@@ -602,6 +622,26 @@
       }
     },
     {
+      "id": "kati-thanda-lake-eyre",
+      "name": "Kati Thanda-Lake Eyre",
+      "type": "Lake",
+      "latDeg": -28.41781,
+      "lonDegE": 137.28097,
+      "diameterKm": null,
+      "origin": null,
+      "approvedYear": null,
+      "position": {
+        "kind": "names-database",
+        "sourceId": "ga-composite-gazetteer",
+        "text": "-28.41781, 137.28097 (CGA name: Kati Thanda)"
+      },
+      "sizeSourceId": null,
+      "quote": {
+        "text": "Modern Kati Thanda-Lake Eyre is a salt-encrusted, mostly dry and barren playa that occupies Australia's lowest natural point, which is 15 meters (49 feet) below sea level.",
+        "sourceId": "nasa-eo-rare-filling-kati-thanda"
+      }
+    },
+    {
       "id": "kilauea",
       "name": "Kīlauea",
       "type": "Summit",
@@ -637,8 +677,8 @@
       },
       "sizeSourceId": null,
       "quote": {
-        "text": "Pinatubo injected about 15 million tons of sulfur dioxide into the stratosphere, where it reacted with water to form a hazy layer of aerosol particles composed primarily of sulfuric acid droplets.",
-        "sourceId": "nasa-eo-global-effects-pinatubo"
+        "text": "The second-largest volcanic eruption of the 20th century, and by far the largest eruption to affect a densely populated area, occurred at Mount Pinatubo in the Philippines on June 15, 1991.",
+        "sourceId": "nasa-svs-pinatubo-eruption"
       }
     },
     {
@@ -719,6 +759,46 @@
       "quote": {
         "text": "Superior is the world’s largest freshwater lake by area (82,100 square kilometers or 31,700 square miles) and the third largest by volume.",
         "sourceId": "nasa-eo-lake-superior-ice"
+      }
+    },
+    {
+      "id": "shark-bay",
+      "name": "Shark Bay",
+      "type": "Bay",
+      "latDeg": -25.47444444,
+      "lonDegE": 113.48777778,
+      "diameterKm": null,
+      "origin": null,
+      "approvedYear": null,
+      "position": {
+        "kind": "names-database",
+        "sourceId": "ga-composite-gazetteer",
+        "text": "-25.47444444, 113.48777778 (CGA name: SHARK BAY)"
+      },
+      "sizeSourceId": null,
+      "quote": {
+        "text": "Shark Bay contains the largest and richest beds of seagrasses in the world and is also home to some of the oldest lifeforms on Earth.",
+        "sourceId": "nasa-eo-sharks-seagrass-stromatolites"
+      }
+    },
+    {
+      "id": "k-gari",
+      "name": "K'gari",
+      "type": "Island",
+      "latDeg": -25.24807256,
+      "lonDegE": 153.1444337,
+      "diameterKm": null,
+      "origin": null,
+      "approvedYear": null,
+      "position": {
+        "kind": "names-database",
+        "sourceId": "ga-composite-gazetteer",
+        "text": "-25.24807256, 153.1444337"
+      },
+      "sizeSourceId": null,
+      "quote": {
+        "text": "Spanning 180,000 hectares (440,000 acres), Fraser Island (also called K'gari) is known for its tropical rainforests, sand dunes, and inland lakes.",
+        "sourceId": "nasa-eo-fraser-island-blazes"
       }
     },
     {
@@ -957,8 +1037,28 @@
       },
       "sizeSourceId": "nasa-eo-meteor-crater",
       "quote": {
-        "text": "Even at 50,000 years old, the crater is relatively young and remarkably well-preserved compared to other craters.",
-        "sourceId": "nasa-eo-meteor-crater"
+        "text": "Meteor Crater, located in northern Arizona, is one of the best preserved and easily accessible impact sites on Earth.",
+        "sourceId": "usgs-astrogeology-meteor-crater-samples"
+      }
+    },
+    {
+      "id": "wolfe-creek-crater",
+      "name": "Wolfe Creek Crater",
+      "type": "Crater",
+      "latDeg": -19.17222222,
+      "lonDegE": 127.79527778,
+      "diameterKm": null,
+      "origin": null,
+      "approvedYear": null,
+      "position": {
+        "kind": "names-database",
+        "sourceId": "ga-composite-gazetteer",
+        "text": "-19.17222222, 127.79527778 (CGA name: WOLFE CREEK METEORITE CRATER)"
+      },
+      "sizeSourceId": null,
+      "quote": {
+        "text": "Almost circular, Wolfe Creek Crater (also known as Wolf Creek Crater) is considered the second largest crater in the world from which meteorite fragments have been collected.",
+        "sourceId": "nasa-eo-wolfe-creek-crater"
       }
     },
     {
@@ -997,8 +1097,8 @@
       },
       "sizeSourceId": null,
       "quote": {
-        "text": "The partially submerged volcano in New Zealand’s Bay of Plenty is called Whakaari/White Island .",
-        "sourceId": "nasa-eo-another-puff-from-whakaari"
+        "text": "Whakaari/White Island is the tip of a submarine stratovolcano at the northern end of the Taupo Volcanic Zone and has been active for at least 150,000 years.",
+        "sourceId": "usgs-yvo-white-island-2019"
       }
     },
     {
@@ -1079,6 +1179,26 @@
       "quote": {
         "text": "With a diameter of 3.44 kilometers (2.14 miles), Pingualuit Crater holds a lake about 267 meters (876 feet) deep.",
         "sourceId": "nasa-eo-pingualuit-crater"
+      }
+    },
+    {
+      "id": "gosses-bluff",
+      "name": "Gosses Bluff",
+      "type": "Cliff",
+      "latDeg": -23.8,
+      "lonDegE": 132.3167,
+      "diameterKm": null,
+      "origin": null,
+      "approvedYear": null,
+      "position": {
+        "kind": "names-database",
+        "sourceId": "ga-composite-gazetteer",
+        "text": "-23.8, 132.3167"
+      },
+      "sizeSourceId": null,
+      "quote": {
+        "text": "Gosses Bluff was probably formed by the impact of a large comet or meteorite about 142 million years ago.",
+        "sourceId": "nasa-eo-gosses-bluff"
       }
     },
     {

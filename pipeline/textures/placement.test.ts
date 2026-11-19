@@ -155,7 +155,9 @@ beforeAll(async () => {
  * states where the landmark is and what lies at its mirrored and half-turned longitudes. Measured (radius 0.4 degrees):
  * none of the United States or Antarctic landmarks has water at its half-turned longitude, so at first the half-turn was
  * caught by Lake Superior alone. With landmarks worldwide (Task 12), Hudson Bay (water, land at both transforms) and
- * Mount Fuji (land, open ocean at both transforms) catch the mirror and the half-turn as well.
+ * Mount Fuji (land, open ocean at both transforms) catch the mirror and the half-turn as well. Task 13 added Uluru (land
+ * 0.00 water; mirrored 1.00; half-turned 0.00), one more guard on the mirror, with its
+ * mirrored point in the open South Pacific.
  */
 const EARTH_MAP = 'public/textures/earth/color_1k.webp';
 /** Disc radius in degrees (about 45 km): inside the Island of Hawaiʻi and inside Lake Superior. */
@@ -171,6 +173,7 @@ const EARTH_GUARDS: EarthGuard[] = [
   { name: 'Mauna Loa', expect: 'land', prior: 'a volcano covering half the Island of Hawaiʻi; its mirrored longitude (155.6° E at 19.5° N) is open Pacific; its half-turn is the Sahara' },
   { name: 'Hudson Bay', expect: 'water', prior: 'an inland sea of more than 1.2 million square kilometres; its mirrored (86° E) and half-turned (94° E) longitudes at 60° N are central Siberia, dry land' },
   { name: 'Mount Fuji', expect: 'land', prior: 'a volcano on Honshu, about 110 km west-southwest of Tokyo; its mirrored longitude (138.7° W at 35.4° N) is the open North Pacific and its half-turn (41.3° W) the open North Atlantic' },
+  { name: 'Uluru', expect: 'land', prior: 'a rock in the dry centre of the Australian continent, far from any coast; its mirrored longitude (131.0° W at 25.3° S) is the open South Pacific; its half-turn (49.0° W) is the coast of southern Brazil, land, so it catches the mirror only' },
 ];
 let earthImage: Gray;
 let earthLandmarks: Feature[];

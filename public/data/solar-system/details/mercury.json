@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "bodyId": "mercury",
-  "generatedAt": "2026-11-16T20:24:31.989Z",
+  "generatedAt": "2026-11-19T16:14:39.368Z",
   "interior": {
     "radiusKm": {
       "value": 2439.7,
@@ -2322,28 +2322,8 @@
       },
       "sizeSourceId": "usgs-gazetteer-mercury",
       "quote": {
-        "text": "Prominently visible is the Mendelssohn crater, whose outer rim is barely visible above its flooded interior.",
-        "sourceId": "esa-bepicolombo-sixth-flyby"
-      }
-    },
-    {
-      "id": "nathair-facula",
-      "name": "Nathair Facula",
-      "type": "Facula",
-      "latDeg": 36,
-      "lonDegE": 64.5,
-      "diameterKm": 270,
-      "origin": "Irish word for snake.",
-      "approvedYear": 2018,
-      "position": {
-        "kind": "gazetteer",
-        "sourceId": "usgs-gazetteer-mercury",
-        "text": null
-      },
-      "sizeSourceId": "usgs-gazetteer-mercury",
-      "quote": {
-        "text": "The bright patch near the planet's upper edge in this image is the Nathair Facula, the aftermath of the largest volcanic explosion on Mercury.",
-        "sourceId": "esa-lava-and-debris-mercury"
+        "text": "The Mendelssohn crater was flooded with lava after an impact originally created it.",
+        "sourceId": "esa-bepicolombo-sixth-flyby-movie"
       }
     },
     {
@@ -2422,8 +2402,8 @@
       },
       "sizeSourceId": "usgs-gazetteer-mercury",
       "quote": {
-        "text": "The rims of craters Prokofiev, Kandinsky, Tolkien and Gordimer cast permanent shadows on their floors.",
-        "sourceId": "esa-bepicolombo-sixth-flyby"
+        "text": "The floor of Kandinsky is in permanent shadow and never receives direct sunlight, keeping it very cold.",
+        "sourceId": "nasa-photojournal-seeing-in-the-dark"
       }
     },
     {
@@ -2442,28 +2422,8 @@
       },
       "sizeSourceId": "usgs-gazetteer-mercury",
       "quote": {
-        "text": "Although Apollodorus of Damascus (the namesake of the crater) is thought to be the architect of the Pantheon in Rome (the namesake of the fossae), the crater Apollodorus is thought to be unrelated to the creation of Pantheon Fossae.",
-        "sourceId": "nasa-resource-architect-and-temple"
-      }
-    },
-    {
-      "id": "fonteyn",
-      "name": "Fonteyn",
-      "type": "Crater",
-      "latDeg": 32.8217,
-      "lonDegE": 95.5132,
-      "diameterKm": 29,
-      "origin": "Margot; English ballet dancer (1919-1991).",
-      "approvedYear": 2012,
-      "position": {
-        "kind": "gazetteer",
-        "sourceId": "usgs-gazetteer-mercury",
-        "text": null
-      },
-      "sizeSourceId": "usgs-gazetteer-mercury",
-      "quote": {
-        "text": "Also visible is the relatively young Fonteyn crater, which formed a 'mere' 300 million years ago.",
-        "sourceId": "esa-lava-and-debris-mercury"
+        "text": "MESSENGER scientists are debating whether Apollodorus played a role in the formation of Pantheon Fossae or whether the crater is simply from a later impact that occurred close to the center of the radial pattern.",
+        "sourceId": "nasa-photojournal-mercurys-first-fossae"
       }
     }
   ],

@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "bodyId": "venus",
-  "generatedAt": "2026-11-16T20:24:31.989Z",
+  "generatedAt": "2026-11-19T16:14:39.368Z",
   "interior": {
     "radiusKm": {
       "value": 6051.8,
@@ -2534,26 +2534,6 @@
       "quote": {
         "text": "Sapas Mons, a volcano 400 kilometers (248 miles) across and 1.5 kilometers (0.9 mile) high is located at approximately 8 degrees north latitude, 188 degrees east longitude, on the western edge of Atla Regio.",
         "sourceId": "nasa-photojournal-sapas-mons"
-      }
-    },
-    {
-      "id": "sif-mons",
-      "name": "Sif Mons",
-      "type": "Mons",
-      "latDeg": 22,
-      "lonDegE": 352.4,
-      "diameterKm": 200,
-      "origin": "Teutonic goddess; Thor's wife.",
-      "approvedYear": 1982,
-      "position": {
-        "kind": "gazetteer",
-        "sourceId": "usgs-gazetteer-venus",
-        "text": null
-      },
-      "sizeSourceId": "usgs-gazetteer-venus",
-      "quote": {
-        "text": "They also estimate that the Sif Mons eruption produced about 12 square miles (30 square kilometers) of rock - enough to fill at least 36,000 Olympic-size swimming pools.",
-        "sourceId": "jpl-news-ongoing-venus-volcanism-2024"
       }
     },
     {
